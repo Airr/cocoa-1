@@ -12,7 +12,17 @@
 
 - (void)sayHello
 {
-    NSLog(@"Hello, World!");
+    [self saySomething:@"Hello, World from XYZPerson!"];
+}
+
+- (void)saySomething:(NSString*)greeting
+{
+    NSLog(@"Thru saySomething: %@", greeting);
+}
+
++ (id)person
+{
+    return [[self alloc] init];
 }
 
 @end

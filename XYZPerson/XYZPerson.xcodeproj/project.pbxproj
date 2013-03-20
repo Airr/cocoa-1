@@ -11,6 +11,7 @@
 		D0335DBD16FA751A00F857C2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D0335DBC16FA751A00F857C2 /* main.m */; };
 		D0335DC116FA751A00F857C2 /* XYZPerson.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = D0335DC016FA751A00F857C2 /* XYZPerson.1 */; };
 		D0335DC916FA758C00F857C2 /* XYZPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = D0335DC816FA758C00F857C2 /* XYZPerson.m */; };
+		D0335DCC16FA7E6400F857C2 /* XYZShoutingPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = D0335DCB16FA7E6400F857C2 /* XYZShoutingPerson.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -34,6 +35,8 @@
 		D0335DC016FA751A00F857C2 /* XYZPerson.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = XYZPerson.1; sourceTree = "<group>"; };
 		D0335DC716FA758C00F857C2 /* XYZPerson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XYZPerson.h; sourceTree = "<group>"; };
 		D0335DC816FA758C00F857C2 /* XYZPerson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XYZPerson.m; sourceTree = "<group>"; };
+		D0335DCA16FA7E6400F857C2 /* XYZShoutingPerson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XYZShoutingPerson.h; sourceTree = "<group>"; };
+		D0335DCB16FA7E6400F857C2 /* XYZShoutingPerson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XYZShoutingPerson.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +82,8 @@
 				D0335DBC16FA751A00F857C2 /* main.m */,
 				D0335DC716FA758C00F857C2 /* XYZPerson.h */,
 				D0335DC816FA758C00F857C2 /* XYZPerson.m */,
+				D0335DCA16FA7E6400F857C2 /* XYZShoutingPerson.h */,
+				D0335DCB16FA7E6400F857C2 /* XYZShoutingPerson.m */,
 				D0335DC016FA751A00F857C2 /* XYZPerson.1 */,
 				D0335DBE16FA751A00F857C2 /* Supporting Files */,
 			);
@@ -146,6 +151,7 @@
 			files = (
 				D0335DBD16FA751A00F857C2 /* main.m in Sources */,
 				D0335DC916FA758C00F857C2 /* XYZPerson.m in Sources */,
+				D0335DCC16FA7E6400F857C2 /* XYZShoutingPerson.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
