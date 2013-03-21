@@ -10,6 +10,28 @@
 
 @implementation XYZPerson
 
+- (id)init {
+    return [self initWithFirstName:@"John" lastName:@"Doe"];
+}
+
+- (id)initWithFirstName:(NSString *)aFirstName lastName:(NSString *)aLastName dateOfBirth:(NSDate *)aDOB
+{
+    self = [super init];
+    if (self)
+    {
+        _firstName = aFirstName;
+        _lastName = aLastName;
+        _dateOfBirth = aDOB;
+    }
+    return self;
+}
+
+- (id)initWithFirstName:(NSString *)aFirstName lastName:(NSString *)aLastName
+{
+    return [self initWithFirstName:aFirstName lastName:aLastName dateOfBirth:nil];
+}
+
+
 - (void)sayHello
 {
     [self saySomething:@"Hello, World from XYZPerson!"];
@@ -17,7 +39,7 @@
 
 - (void)saySomething:(NSString*)greeting
 {
-    NSLog(@"Thru saySomething: %@", greeting);
+    NSLog(@"Thru saySomething: %@ %@ %@", greeting, _firstName, _lastName);
 }
 
 + (id)person

@@ -17,10 +17,16 @@ int main(int argc, const char * argv[])
         
         // insert code here...
         NSLog(@"Hello, World from the main!");
-        XYZPerson* person = [XYZPerson person];
+        XYZPerson* person = [[XYZPerson alloc] initWithFirstName:@"Sang Chul" lastName:@"Choi"];
         [person sayHello];
+        
         XYZShoutingPerson* anotherPerson = [XYZShoutingPerson person];
         [anotherPerson sayHello];
+        
+        XYZPerson* somePerson = nil;
+        if (!somePerson) {
+            NSLog(@"No such somePerson!");
+        }
         
         [anotherPerson release];
         [person release];
