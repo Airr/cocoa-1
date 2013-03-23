@@ -25,7 +25,7 @@ int main(int argc, const char * argv[])
         
         XYZPerson* somePerson = nil;
         if (!somePerson) {
-            NSLog(@"No such somePerson!");
+            NSLog(@"No such somePerson?");
         }
         
         [anotherPerson release];
