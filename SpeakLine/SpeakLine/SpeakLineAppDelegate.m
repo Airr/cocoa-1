@@ -20,13 +20,6 @@
     if (self) {
         _speechSynth = [[NSSpeechSynthesizer alloc] initWithVoice:nil];
     }
-//    if (self)
-//    {
-//        NSLog(@"init");
-//        _speechSynth = [[NSSpeechSynthesizer alloc] initWithVoice:nil];
-//        _speechSynth = [[NSSpeechSynthesizer alloc] initWithVoice:nil];
-//        ￼
-//    }
     return self;
 }
 
