@@ -15,6 +15,7 @@
 		D003B68316FD9C3700221EDF /* RMDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = D003B68116FD9C3700221EDF /* RMDocument.xib */; };
 		D003B68616FD9C3700221EDF /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D003B68416FD9C3700221EDF /* MainMenu.xib */; };
 		D003B68E16FE39D400221EDF /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = D003B68D16FE39D400221EDF /* Person.m */; };
+		D003B69016FECECE00221EDF /* txt.icns in Resources */ = {isa = PBXBuildFile; fileRef = D003B68F16FECECE00221EDF /* txt.icns */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		D003B68516FD9C3700221EDF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		D003B68C16FE39D400221EDF /* Person.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
 		D003B68D16FE39D400221EDF /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
+		D003B68F16FECECE00221EDF /* txt.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = txt.icns; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 		D003B67316FD9C3700221EDF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D003B68F16FECECE00221EDF /* txt.icns */,
 				D003B67416FD9C3700221EDF /* RaiseMan-Info.plist */,
 				D003B67516FD9C3700221EDF /* InfoPlist.strings */,
 				D003B67816FD9C3700221EDF /* main.m */,
@@ -166,6 +169,7 @@
 				D003B67D16FD9C3700221EDF /* Credits.rtf in Resources */,
 				D003B68316FD9C3700221EDF /* RMDocument.xib in Resources */,
 				D003B68616FD9C3700221EDF /* MainMenu.xib in Resources */,
+				D003B69016FECECE00221EDF /* txt.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
