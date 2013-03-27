@@ -84,17 +84,35 @@ static NSString* const CBListViewName = @"CBListView";
     NSInteger segment = self.viewSelectionControl.selectedSegment;
     NSString* targetName = [controller className];
     NSInteger targetIndex = [names indexOfObject:targetName];
-    // update segmented control. if ( segment != targetIndex )
-    [self.viewSelectionControl setSelectedSegment:targetIndex];
-    // remove current view. [self.currentViewController.view removeFromSuperview];
-    // set up new view controller. self.currentViewController = controller;
+    // update segmented control.
+    if ( segment != targetIndex )
+        [self.viewSelectionControl setSelectedSegment:targetIndex];
+    // remove current view.
+    [self.currentViewController.view removeFromSuperview];
+    // set up new view controller.
+    self.currentViewController = controller;
     [[self.window contentView] addSubview:controller.view];
     // adjust for window margin.
     NSWindow* window = self.window;
-    CGFloat padding = [window contentBorderThicknessForEdge:NSMinYEdge]; NSRect frame = [window.contentView frame];
+    CGFloat padding = [window contentBorderThicknessForEdge:NSMinYEdge];
+    NSRect frame = [window.contentView frame];
     frame.size.height -= padding;
     frame.origin.y += padding;
     controller.view.frame = frame;
+}
+
+- (NSViewController*) viewControllerForName: (NSString*)name {
+    // see if this view already exists.
+    NSMutableDictionary* allControllers = self.viewControllers;
+    NSViewController* controller = [allControllers objectForKey:name];
+    if ( controller ) return controller;
+    // create a new instance of the view.
+    Class controllerClass = NSClassFromString( name );
+    controller = [[controllerClass alloc] initWithNibName:name bundle:nil];
+    [allControllers setObject:controller forKey:name];
+    // use key-value coding to avoid compiler warnings.
+    [controller setValue:self forKey:@"mainWindowController"];
+    return [controller autorelease];
 }
 
 - (void) dealloc {

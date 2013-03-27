@@ -15,6 +15,7 @@
 
 @property (retain) CBMainWindow* mainWindowController;
 @property (retain) CBAlbum* selectedAlbum;
+
 - (IBAction) newAlbum: (id)sender;
 
 @property (assign) IBOutlet NSWindow *window;
