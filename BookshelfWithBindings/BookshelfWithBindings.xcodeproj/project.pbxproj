@@ -1,0 +1,322 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D07F1AD71704FA5600284755 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D07F1AD61704FA5600284755 /* Cocoa.framework */; };
+		D07F1AE11704FA5600284755 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D07F1ADF1704FA5600284755 /* InfoPlist.strings */; };
+		D07F1AE31704FA5600284755 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D07F1AE21704FA5600284755 /* main.m */; };
+		D07F1AE71704FA5600284755 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = D07F1AE51704FA5600284755 /* Credits.rtf */; };
+		D07F1AEA1704FA5600284755 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D07F1AE91704FA5600284755 /* AppDelegate.m */; };
+		D07F1AED1704FA5600284755 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D07F1AEB1704FA5600284755 /* MainMenu.xib */; };
+		D07F1AF51704FA8400284755 /* PragBook.m in Sources */ = {isa = PBXBuildFile; fileRef = D07F1AF41704FA8400284755 /* PragBook.m */; };
+		D07F1AF81704FAB400284755 /* Bookshelf.m in Sources */ = {isa = PBXBuildFile; fileRef = D07F1AF71704FAB400284755 /* Bookshelf.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		D07F1AD31704FA5600284755 /* BookshelfWithBindings.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BookshelfWithBindings.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D07F1AD61704FA5600284755 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		D07F1AD91704FA5600284755 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		D07F1ADA1704FA5600284755 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		D07F1ADB1704FA5600284755 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		D07F1ADE1704FA5600284755 /* BookshelfWithBindings-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BookshelfWithBindings-Info.plist"; sourceTree = "<group>"; };
+		D07F1AE01704FA5600284755 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D07F1AE21704FA5600284755 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		D07F1AE41704FA5600284755 /* BookshelfWithBindings-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BookshelfWithBindings-Prefix.pch"; sourceTree = "<group>"; };
+		D07F1AE61704FA5600284755 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		D07F1AE81704FA5600284755 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		D07F1AE91704FA5600284755 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		D07F1AEC1704FA5600284755 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		D07F1AF31704FA8400284755 /* PragBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PragBook.h; sourceTree = "<group>"; };
+		D07F1AF41704FA8400284755 /* PragBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PragBook.m; sourceTree = "<group>"; };
+		D07F1AF61704FAB400284755 /* Bookshelf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bookshelf.h; sourceTree = "<group>"; };
+		D07F1AF71704FAB400284755 /* Bookshelf.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Bookshelf.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D07F1AD01704FA5600284755 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D07F1AD71704FA5600284755 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D07F1ACA1704FA5600284755 = {
+			isa = PBXGroup;
+			children = (
+				D07F1ADC1704FA5600284755 /* BookshelfWithBindings */,
+				D07F1AD51704FA5600284755 /* Frameworks */,
+				D07F1AD41704FA5600284755 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D07F1AD41704FA5600284755 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D07F1AD31704FA5600284755 /* BookshelfWithBindings.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D07F1AD51704FA5600284755 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D07F1AD61704FA5600284755 /* Cocoa.framework */,
+				D07F1AD81704FA5600284755 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D07F1AD81704FA5600284755 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D07F1AD91704FA5600284755 /* AppKit.framework */,
+				D07F1ADA1704FA5600284755 /* CoreData.framework */,
+				D07F1ADB1704FA5600284755 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		D07F1ADC1704FA5600284755 /* BookshelfWithBindings */ = {
+			isa = PBXGroup;
+			children = (
+				D07F1AE81704FA5600284755 /* AppDelegate.h */,
+				D07F1AE91704FA5600284755 /* AppDelegate.m */,
+				D07F1AEB1704FA5600284755 /* MainMenu.xib */,
+				D07F1AF31704FA8400284755 /* PragBook.h */,
+				D07F1AF41704FA8400284755 /* PragBook.m */,
+				D07F1AF61704FAB400284755 /* Bookshelf.h */,
+				D07F1AF71704FAB400284755 /* Bookshelf.m */,
+				D07F1ADD1704FA5600284755 /* Supporting Files */,
+			);
+			path = BookshelfWithBindings;
+			sourceTree = "<group>";
+		};
+		D07F1ADD1704FA5600284755 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D07F1ADE1704FA5600284755 /* BookshelfWithBindings-Info.plist */,
+				D07F1ADF1704FA5600284755 /* InfoPlist.strings */,
+				D07F1AE21704FA5600284755 /* main.m */,
+				D07F1AE41704FA5600284755 /* BookshelfWithBindings-Prefix.pch */,
+				D07F1AE51704FA5600284755 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D07F1AD21704FA5600284755 /* BookshelfWithBindings */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D07F1AF01704FA5600284755 /* Build configuration list for PBXNativeTarget "BookshelfWithBindings" */;
+			buildPhases = (
+				D07F1ACF1704FA5600284755 /* Sources */,
+				D07F1AD01704FA5600284755 /* Frameworks */,
+				D07F1AD11704FA5600284755 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BookshelfWithBindings;
+			productName = BookshelfWithBindings;
+			productReference = D07F1AD31704FA5600284755 /* BookshelfWithBindings.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D07F1ACB1704FA5600284755 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = "Sang Chul Choi";
+			};
+			buildConfigurationList = D07F1ACE1704FA5600284755 /* Build configuration list for PBXProject "BookshelfWithBindings" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = D07F1ACA1704FA5600284755;
+			productRefGroup = D07F1AD41704FA5600284755 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D07F1AD21704FA5600284755 /* BookshelfWithBindings */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D07F1AD11704FA5600284755 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D07F1AE11704FA5600284755 /* InfoPlist.strings in Resources */,
+				D07F1AE71704FA5600284755 /* Credits.rtf in Resources */,
+				D07F1AED1704FA5600284755 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D07F1ACF1704FA5600284755 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D07F1AE31704FA5600284755 /* main.m in Sources */,
+				D07F1AEA1704FA5600284755 /* AppDelegate.m in Sources */,
+				D07F1AF51704FA8400284755 /* PragBook.m in Sources */,
+				D07F1AF81704FAB400284755 /* Bookshelf.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		D07F1ADF1704FA5600284755 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D07F1AE01704FA5600284755 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		D07F1AE51704FA5600284755 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D07F1AE61704FA5600284755 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		D07F1AEB1704FA5600284755 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D07F1AEC1704FA5600284755 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D07F1AEE1704FA5600284755 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		D07F1AEF1704FA5600284755 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		D07F1AF11704FA5600284755 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "BookshelfWithBindings/BookshelfWithBindings-Prefix.pch";
+				INFOPLIST_FILE = "BookshelfWithBindings/BookshelfWithBindings-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		D07F1AF21704FA5600284755 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "BookshelfWithBindings/BookshelfWithBindings-Prefix.pch";
+				INFOPLIST_FILE = "BookshelfWithBindings/BookshelfWithBindings-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D07F1ACE1704FA5600284755 /* Build configuration list for PBXProject "BookshelfWithBindings" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D07F1AEE1704FA5600284755 /* Debug */,
+				D07F1AEF1704FA5600284755 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D07F1AF01704FA5600284755 /* Build configuration list for PBXNativeTarget "BookshelfWithBindings" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D07F1AF11704FA5600284755 /* Debug */,
+				D07F1AF21704FA5600284755 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D07F1ACB1704FA5600284755 /* Project object */;
+}
