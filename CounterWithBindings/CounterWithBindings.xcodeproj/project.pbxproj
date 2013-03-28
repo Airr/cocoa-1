@@ -13,6 +13,7 @@
 		D050B1E71704EE49002CA88D /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = D050B1E51704EE49002CA88D /* Credits.rtf */; };
 		D050B1EA1704EE49002CA88D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D050B1E91704EE49002CA88D /* AppDelegate.m */; };
 		D050B1ED1704EE49002CA88D /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D050B1EB1704EE49002CA88D /* MainMenu.xib */; };
+		D050B1F51704EF3C002CA88D /* Counter.m in Sources */ = {isa = PBXBuildFile; fileRef = D050B1F41704EF3C002CA88D /* Counter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,8 @@
 		D050B1E81704EE49002CA88D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		D050B1E91704EE49002CA88D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		D050B1EC1704EE49002CA88D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		D050B1F31704EF3C002CA88D /* Counter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Counter.h; sourceTree = "<group>"; };
+		D050B1F41704EF3C002CA88D /* Counter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Counter.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +88,8 @@
 				D050B1E81704EE49002CA88D /* AppDelegate.h */,
 				D050B1E91704EE49002CA88D /* AppDelegate.m */,
 				D050B1EB1704EE49002CA88D /* MainMenu.xib */,
+				D050B1F31704EF3C002CA88D /* Counter.h */,
+				D050B1F41704EF3C002CA88D /* Counter.m */,
 				D050B1DD1704EE49002CA88D /* Supporting Files */,
 			);
 			path = CounterWithBindings;
@@ -168,6 +173,7 @@
 			files = (
 				D050B1E31704EE49002CA88D /* main.m in Sources */,
 				D050B1EA1704EE49002CA88D /* AppDelegate.m in Sources */,
+				D050B1F51704EF3C002CA88D /* Counter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
