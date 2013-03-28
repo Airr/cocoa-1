@@ -20,7 +20,7 @@
 
 @synthesize window;
 //@synthesize managedObjectModel;
-//@synthesize persistentStoreCoordinator;
+//@synthesize persistentStoreCoordinator;   
 //@synthesize managedObjectContext;
 
 - (IBAction) newAlbum: (id)sender {

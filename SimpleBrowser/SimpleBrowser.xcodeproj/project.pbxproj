@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D0B62F331703B8BC00A19C0A /* BrowserController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B62F321703B8BC00A19C0A /* BrowserController.m */; };
 		D0C54F1C1702E47F00806490 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0C54F1B1702E47F00806490 /* Cocoa.framework */; };
 		D0C54F261702E47F00806490 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D0C54F241702E47F00806490 /* InfoPlist.strings */; };
 		D0C54F281702E47F00806490 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C54F271702E47F00806490 /* main.m */; };
@@ -17,6 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D0B62F311703B8BC00A19C0A /* BrowserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowserController.h; sourceTree = "<group>"; };
+		D0B62F321703B8BC00A19C0A /* BrowserController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowserController.m; sourceTree = "<group>"; };
 		D0C54F181702E47F00806490 /* SimpleBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0C54F1B1702E47F00806490 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		D0C54F1E1702E47F00806490 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -89,6 +92,8 @@
 				D0C54F2D1702E47F00806490 /* AppDelegate.h */,
 				D0C54F2E1702E47F00806490 /* AppDelegate.m */,
 				D0C54F301702E47F00806490 /* MainMenu.xib */,
+				D0B62F311703B8BC00A19C0A /* BrowserController.h */,
+				D0B62F321703B8BC00A19C0A /* BrowserController.m */,
 				D0C54F221702E47F00806490 /* Supporting Files */,
 			);
 			path = SimpleBrowser;
@@ -172,6 +177,7 @@
 			files = (
 				D0C54F281702E47F00806490 /* main.m in Sources */,
 				D0C54F2F1702E47F00806490 /* AppDelegate.m in Sources */,
+				D0B62F331703B8BC00A19C0A /* BrowserController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,6 +314,7 @@
 				D0C54F371702E47F00806490 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
