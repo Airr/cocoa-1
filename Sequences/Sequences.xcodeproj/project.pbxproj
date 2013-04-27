@@ -14,6 +14,8 @@
 		D01CC711172C5550002FBD37 /* SCDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = D01CC710172C5550002FBD37 /* SCDocument.m */; };
 		D01CC714172C5550002FBD37 /* SCDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = D01CC712172C5550002FBD37 /* SCDocument.xib */; };
 		D01CC717172C5550002FBD37 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D01CC715172C5550002FBD37 /* MainMenu.xib */; };
+		D01CC71E172C570B002FBD37 /* README in Resources */ = {isa = PBXBuildFile; fileRef = D01CC71D172C570B002FBD37 /* README */; };
+		D01CC721172C5C40002FBD37 /* Screenshot_4_27_13_11_18_AM-2.png in Resources */ = {isa = PBXBuildFile; fileRef = D01CC720172C5C40002FBD37 /* Screenshot_4_27_13_11_18_AM-2.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +33,8 @@
 		D01CC710172C5550002FBD37 /* SCDocument.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCDocument.m; sourceTree = "<group>"; };
 		D01CC713172C5550002FBD37 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SCDocument.xib; sourceTree = "<group>"; };
 		D01CC716172C5550002FBD37 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		D01CC71D172C570B002FBD37 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		D01CC720172C5C40002FBD37 /* Screenshot_4_27_13_11_18_AM-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screenshot_4_27_13_11_18_AM-2.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +52,8 @@
 		D01CC6F1172C554F002FBD37 = {
 			isa = PBXGroup;
 			children = (
+				D01CC71D172C570B002FBD37 /* README */,
+				D01CC71F172C5C1A002FBD37 /* Doc */,
 				D01CC703172C5550002FBD37 /* Sequences */,
 				D01CC6FC172C5550002FBD37 /* Frameworks */,
 				D01CC6FB172C5550002FBD37 /* Products */,
@@ -103,6 +109,14 @@
 				D01CC70C172C5550002FBD37 /* Credits.rtf */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D01CC71F172C5C1A002FBD37 /* Doc */ = {
+			isa = PBXGroup;
+			children = (
+				D01CC720172C5C40002FBD37 /* Screenshot_4_27_13_11_18_AM-2.png */,
+			);
+			name = Doc;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -161,6 +175,8 @@
 				D01CC70E172C5550002FBD37 /* Credits.rtf in Resources */,
 				D01CC714172C5550002FBD37 /* SCDocument.xib in Resources */,
 				D01CC717172C5550002FBD37 /* MainMenu.xib in Resources */,
+				D01CC71E172C570B002FBD37 /* README in Resources */,
+				D01CC721172C5C40002FBD37 /* Screenshot_4_27_13_11_18_AM-2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

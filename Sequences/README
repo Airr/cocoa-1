@@ -1,0 +1,9 @@
+Features of Sequences
+=====================
+Sang Chul Choi <goshng@yahoo.co.kr>
+
+FASTQ Files
+-----------
+
+1. Create a FASTQ file that contains short reads that exist in another FASTQ file.
+
