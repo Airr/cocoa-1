@@ -1,0 +1,256 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D0DFB408177AB8AD00E43EF2 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = D0DFB407177AB8AD00E43EF2 /* main.c */; };
+		D0DFB40A177AB8AD00E43EF2 /* tipshuffle.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = D0DFB409177AB8AD00E43EF2 /* tipshuffle.1 */; };
+		D0DFB414177AD0EE00E43EF2 /* rngs.c in Sources */ = {isa = PBXBuildFile; fileRef = D0DFB410177AD0EE00E43EF2 /* rngs.c */; };
+		D0DFB415177AD0EE00E43EF2 /* rvgs.c in Sources */ = {isa = PBXBuildFile; fileRef = D0DFB412177AD0EE00E43EF2 /* rvgs.c */; };
+		D0DFB41B177B62D600E43EF2 /* Newickform.c in Sources */ = {isa = PBXBuildFile; fileRef = D0DFB416177B62D600E43EF2 /* Newickform.c */; };
+		D0DFB41D177B62D600E43EF2 /* seqUtil.c in Sources */ = {isa = PBXBuildFile; fileRef = D0DFB419177B62D600E43EF2 /* seqUtil.c */; };
+		D0DFB423177B7CDA00E43EF2 /* cmdline.c in Sources */ = {isa = PBXBuildFile; fileRef = D0DFB421177B7CDA00E43EF2 /* cmdline.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D0DFB402177AB8AC00E43EF2 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				D0DFB40A177AB8AD00E43EF2 /* tipshuffle.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		D0DFB404177AB8AD00E43EF2 /* tipshuffle */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = tipshuffle; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0DFB407177AB8AD00E43EF2 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		D0DFB409177AB8AD00E43EF2 /* tipshuffle.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = tipshuffle.1; sourceTree = "<group>"; };
+		D0DFB410177AD0EE00E43EF2 /* rngs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rngs.c; sourceTree = "<group>"; };
+		D0DFB411177AD0EE00E43EF2 /* rngs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rngs.h; sourceTree = "<group>"; };
+		D0DFB412177AD0EE00E43EF2 /* rvgs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rvgs.c; sourceTree = "<group>"; };
+		D0DFB413177AD0EE00E43EF2 /* rvgs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rvgs.h; sourceTree = "<group>"; };
+		D0DFB416177B62D600E43EF2 /* Newickform.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Newickform.c; sourceTree = "<group>"; };
+		D0DFB417177B62D600E43EF2 /* Newickform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Newickform.h; sourceTree = "<group>"; };
+		D0DFB419177B62D600E43EF2 /* seqUtil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = seqUtil.c; sourceTree = "<group>"; };
+		D0DFB41A177B62D600E43EF2 /* seqUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = seqUtil.h; sourceTree = "<group>"; };
+		D0DFB41E177B7C0A00E43EF2 /* tipshuffle.ggo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tipshuffle.ggo; sourceTree = "<group>"; };
+		D0DFB420177B7CA500E43EF2 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		D0DFB421177B7CDA00E43EF2 /* cmdline.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cmdline.c; sourceTree = "<group>"; };
+		D0DFB422177B7CDA00E43EF2 /* cmdline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cmdline.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D0DFB401177AB8AC00E43EF2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D0DFB3FB177AB8AC00E43EF2 = {
+			isa = PBXGroup;
+			children = (
+				D0DFB406177AB8AD00E43EF2 /* tipshuffle */,
+				D0DFB405177AB8AD00E43EF2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D0DFB405177AB8AD00E43EF2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D0DFB404177AB8AD00E43EF2 /* tipshuffle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D0DFB406177AB8AD00E43EF2 /* tipshuffle */ = {
+			isa = PBXGroup;
+			children = (
+				D0DFB407177AB8AD00E43EF2 /* main.c */,
+				D0DFB421177B7CDA00E43EF2 /* cmdline.c */,
+				D0DFB422177B7CDA00E43EF2 /* cmdline.h */,
+				D0DFB410177AD0EE00E43EF2 /* rngs.c */,
+				D0DFB411177AD0EE00E43EF2 /* rngs.h */,
+				D0DFB412177AD0EE00E43EF2 /* rvgs.c */,
+				D0DFB413177AD0EE00E43EF2 /* rvgs.h */,
+				D0DFB416177B62D600E43EF2 /* Newickform.c */,
+				D0DFB417177B62D600E43EF2 /* Newickform.h */,
+				D0DFB419177B62D600E43EF2 /* seqUtil.c */,
+				D0DFB41A177B62D600E43EF2 /* seqUtil.h */,
+				D0DFB409177AB8AD00E43EF2 /* tipshuffle.1 */,
+				D0DFB41E177B7C0A00E43EF2 /* tipshuffle.ggo */,
+				D0DFB420177B7CA500E43EF2 /* README */,
+			);
+			path = tipshuffle;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D0DFB403177AB8AC00E43EF2 /* tipshuffle */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D0DFB40D177AB8AD00E43EF2 /* Build configuration list for PBXNativeTarget "tipshuffle" */;
+			buildPhases = (
+				D0DFB400177AB8AC00E43EF2 /* Sources */,
+				D0DFB401177AB8AC00E43EF2 /* Frameworks */,
+				D0DFB402177AB8AC00E43EF2 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = tipshuffle;
+			productName = tipshuffle;
+			productReference = D0DFB404177AB8AD00E43EF2 /* tipshuffle */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D0DFB3FC177AB8AC00E43EF2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = "Sang Chul Choi";
+			};
+			buildConfigurationList = D0DFB3FF177AB8AC00E43EF2 /* Build configuration list for PBXProject "tipshuffle" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = D0DFB3FB177AB8AC00E43EF2;
+			productRefGroup = D0DFB405177AB8AD00E43EF2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D0DFB403177AB8AC00E43EF2 /* tipshuffle */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D0DFB400177AB8AC00E43EF2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0DFB408177AB8AD00E43EF2 /* main.c in Sources */,
+				D0DFB414177AD0EE00E43EF2 /* rngs.c in Sources */,
+				D0DFB415177AD0EE00E43EF2 /* rvgs.c in Sources */,
+				D0DFB41B177B62D600E43EF2 /* Newickform.c in Sources */,
+				D0DFB41D177B62D600E43EF2 /* seqUtil.c in Sources */,
+				D0DFB423177B7CDA00E43EF2 /* cmdline.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		D0DFB40B177AB8AD00E43EF2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		D0DFB40C177AB8AD00E43EF2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		D0DFB40E177AB8AD00E43EF2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D0DFB40F177AB8AD00E43EF2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D0DFB3FF177AB8AC00E43EF2 /* Build configuration list for PBXProject "tipshuffle" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0DFB40B177AB8AD00E43EF2 /* Debug */,
+				D0DFB40C177AB8AD00E43EF2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D0DFB40D177AB8AD00E43EF2 /* Build configuration list for PBXNativeTarget "tipshuffle" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0DFB40E177AB8AD00E43EF2 /* Debug */,
+				D0DFB40F177AB8AD00E43EF2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D0DFB3FC177AB8AC00E43EF2 /* Project object */;
+}

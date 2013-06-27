@@ -23,7 +23,7 @@
 			<string>Editor</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>com.bignerdranch.raiseman-doc</string>
+				<string>edu.uaf.iab.RaiseMan-doc</string>
 			</array>
 			<key>NSDocumentClass</key>
 			<string>RMDocument</string>
@@ -32,7 +32,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
-	<string></string>
+	<string>txt.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>edu.iab.alaska.${PRODUCT_NAME:rfc1034identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -67,7 +67,7 @@
 			<key>UTTypeIconFile</key>
 			<string>txt</string>
 			<key>UTTypeIdentifier</key>
-			<string>com.bignerdranch.raiseman-doc</string>
+			<string>edu.uaf.iab.RaiseMan-doc</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>

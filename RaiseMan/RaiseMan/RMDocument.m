@@ -8,6 +8,7 @@
 
 #import "RMDocument.h"
 #import "Person.h"
+#import "PreferenceController.h"
 
 @implementation RMDocument
 
@@ -42,8 +43,26 @@ static void *RMDocumentKVOContext;
     if (self) {
         // Add your subclass-specific initialization here.
         employees = [[NSMutableArray alloc] init];
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc addObserver:self
+               selector:@selector(handleColorChange:)
+                   name:BNRColorChangedNotification
+                 object:nil];
+        NSLog(@"Registered with notification center");
     }
     return self;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)handleColorChange:(NSNotification *)note
+{
+    NSLog(@"Received notification: %@", note);
+    NSColor *color = [[note userInfo] objectForKey:@"color"];
+    [tableView setBackgroundColor:color];
 }
 
 - (NSString *)windowNibName
@@ -57,6 +76,7 @@ static void *RMDocumentKVOContext;
 {
     [super windowControllerDidLoadNib:aController];
     // Add any code here that needs to be executed once the windowController has loaded the document's window.
+    [tableView setBackgroundColor:[PreferenceController preferenceTableBgColor]];
 }
 
 + (BOOL)autosavesInPlace
@@ -211,5 +231,37 @@ static void *RMDocumentKVOContext;
                       row:row
                 withEvent:nil
                    select:YES];   
+}
+
+- (IBAction)removeEmployee:(id)sender
+{
+    NSArray *selectedPeople = [employeeController selectedObjects];
+    
+    NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"REMOVE_MSG", @"Remove")
+                                     defaultButton:NSLocalizedString(@"REMOVE", @"Remove")
+                                   alternateButton:NSLocalizedString(@"CANCEL", @"Cancel")
+                                       otherButton:nil informativeTextWithFormat:NSLocalizedString(@"REMOVE_INF",@"%d people will be removed."),
+                      [selectedPeople count]];
+
+    NSLog(@"Starting alert sheet");
+    [alert beginSheetModalForWindow:[tableView window]
+                      modalDelegate:self
+                     didEndSelector:@selector(alertEnded:code:context:)
+                        contextInfo:NULL];
+    
+    }
+
+- (void)alertEnded:(NSAlert *)alert
+              code:(NSInteger)choice
+           context:(void *)v
+{
+    NSLog(@"Alert sheet ended");
+    // If the user chose "Remove", tell the array controller to
+    // delete the people
+    if (choice == NSAlertDefaultReturn) {
+        // The argument to remove: is ignored
+        // The array controller will delete the selected objects
+        [employeeController remove:nil];
+    }
 }
 @end

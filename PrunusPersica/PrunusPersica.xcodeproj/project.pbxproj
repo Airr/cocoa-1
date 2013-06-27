@@ -1,0 +1,454 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D046AD901708E248000B0473 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D046AD8F1708E248000B0473 /* Cocoa.framework */; };
+		D046AD9A1708E248000B0473 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D046AD981708E248000B0473 /* InfoPlist.strings */; };
+		D046AD9E1708E248000B0473 /* PrunusPersica.m in Sources */ = {isa = PBXBuildFile; fileRef = D046AD9D1708E248000B0473 /* PrunusPersica.m */; };
+		D046ADA61708E249000B0473 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D046ADA51708E249000B0473 /* SenTestingKit.framework */; };
+		D046ADA71708E249000B0473 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D046AD8F1708E248000B0473 /* Cocoa.framework */; };
+		D046ADAA1708E249000B0473 /* PrunusPersica.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D046AD8C1708E248000B0473 /* PrunusPersica.framework */; };
+		D046ADB01708E249000B0473 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D046ADAE1708E249000B0473 /* InfoPlist.strings */; };
+		D046ADB31708E249000B0473 /* PrunusPersicaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D046ADB21708E249000B0473 /* PrunusPersicaTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D046ADA81708E249000B0473 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D046AD831708E248000B0473 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D046AD8B1708E248000B0473;
+			remoteInfo = PrunusPersica;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		D046AD8C1708E248000B0473 /* PrunusPersica.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PrunusPersica.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D046AD8F1708E248000B0473 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		D046AD921708E248000B0473 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		D046AD931708E248000B0473 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		D046AD941708E248000B0473 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		D046AD971708E248000B0473 /* PrunusPersica-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PrunusPersica-Info.plist"; sourceTree = "<group>"; };
+		D046AD991708E248000B0473 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D046AD9B1708E248000B0473 /* PrunusPersica-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PrunusPersica-Prefix.pch"; sourceTree = "<group>"; };
+		D046AD9C1708E248000B0473 /* PrunusPersica.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrunusPersica.h; sourceTree = "<group>"; };
+		D046AD9D1708E248000B0473 /* PrunusPersica.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PrunusPersica.m; sourceTree = "<group>"; };
+		D046ADA41708E249000B0473 /* PrunusPersicaTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PrunusPersicaTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D046ADA51708E249000B0473 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		D046ADAD1708E249000B0473 /* PrunusPersicaTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PrunusPersicaTests-Info.plist"; sourceTree = "<group>"; };
+		D046ADAF1708E249000B0473 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D046ADB11708E249000B0473 /* PrunusPersicaTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrunusPersicaTests.h; sourceTree = "<group>"; };
+		D046ADB21708E249000B0473 /* PrunusPersicaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PrunusPersicaTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D046AD881708E248000B0473 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D046AD901708E248000B0473 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D046ADA01708E249000B0473 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D046ADA61708E249000B0473 /* SenTestingKit.framework in Frameworks */,
+				D046ADA71708E249000B0473 /* Cocoa.framework in Frameworks */,
+				D046ADAA1708E249000B0473 /* PrunusPersica.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D046AD821708E248000B0473 = {
+			isa = PBXGroup;
+			children = (
+				D046AD951708E248000B0473 /* PrunusPersica */,
+				D046ADAB1708E249000B0473 /* PrunusPersicaTests */,
+				D046AD8E1708E248000B0473 /* Frameworks */,
+				D046AD8D1708E248000B0473 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D046AD8D1708E248000B0473 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D046AD8C1708E248000B0473 /* PrunusPersica.framework */,
+				D046ADA41708E249000B0473 /* PrunusPersicaTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D046AD8E1708E248000B0473 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D046AD8F1708E248000B0473 /* Cocoa.framework */,
+				D046ADA51708E249000B0473 /* SenTestingKit.framework */,
+				D046AD911708E248000B0473 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D046AD911708E248000B0473 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D046AD921708E248000B0473 /* AppKit.framework */,
+				D046AD931708E248000B0473 /* CoreData.framework */,
+				D046AD941708E248000B0473 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		D046AD951708E248000B0473 /* PrunusPersica */ = {
+			isa = PBXGroup;
+			children = (
+				D046AD9C1708E248000B0473 /* PrunusPersica.h */,
+				D046AD9D1708E248000B0473 /* PrunusPersica.m */,
+				D046AD961708E248000B0473 /* Supporting Files */,
+			);
+			path = PrunusPersica;
+			sourceTree = "<group>";
+		};
+		D046AD961708E248000B0473 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D046AD971708E248000B0473 /* PrunusPersica-Info.plist */,
+				D046AD981708E248000B0473 /* InfoPlist.strings */,
+				D046AD9B1708E248000B0473 /* PrunusPersica-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D046ADAB1708E249000B0473 /* PrunusPersicaTests */ = {
+			isa = PBXGroup;
+			children = (
+				D046ADB11708E249000B0473 /* PrunusPersicaTests.h */,
+				D046ADB21708E249000B0473 /* PrunusPersicaTests.m */,
+				D046ADAC1708E249000B0473 /* Supporting Files */,
+			);
+			path = PrunusPersicaTests;
+			sourceTree = "<group>";
+		};
+		D046ADAC1708E249000B0473 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D046ADAD1708E249000B0473 /* PrunusPersicaTests-Info.plist */,
+				D046ADAE1708E249000B0473 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		D046AD891708E248000B0473 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		D046AD8B1708E248000B0473 /* PrunusPersica */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D046ADB61708E249000B0473 /* Build configuration list for PBXNativeTarget "PrunusPersica" */;
+			buildPhases = (
+				D046AD871708E248000B0473 /* Sources */,
+				D046AD881708E248000B0473 /* Frameworks */,
+				D046AD891708E248000B0473 /* Headers */,
+				D046AD8A1708E248000B0473 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PrunusPersica;
+			productName = PrunusPersica;
+			productReference = D046AD8C1708E248000B0473 /* PrunusPersica.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		D046ADA31708E249000B0473 /* PrunusPersicaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D046ADB91708E249000B0473 /* Build configuration list for PBXNativeTarget "PrunusPersicaTests" */;
+			buildPhases = (
+				D046AD9F1708E249000B0473 /* Sources */,
+				D046ADA01708E249000B0473 /* Frameworks */,
+				D046ADA11708E249000B0473 /* Resources */,
+				D046ADA21708E249000B0473 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D046ADA91708E249000B0473 /* PBXTargetDependency */,
+			);
+			name = PrunusPersicaTests;
+			productName = PrunusPersicaTests;
+			productReference = D046ADA41708E249000B0473 /* PrunusPersicaTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D046AD831708E248000B0473 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = "Sang Chul Choi";
+			};
+			buildConfigurationList = D046AD861708E248000B0473 /* Build configuration list for PBXProject "PrunusPersica" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = D046AD821708E248000B0473;
+			productRefGroup = D046AD8D1708E248000B0473 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D046AD8B1708E248000B0473 /* PrunusPersica */,
+				D046ADA31708E249000B0473 /* PrunusPersicaTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D046AD8A1708E248000B0473 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D046AD9A1708E248000B0473 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D046ADA11708E249000B0473 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D046ADB01708E249000B0473 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D046ADA21708E249000B0473 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D046AD871708E248000B0473 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D046AD9E1708E248000B0473 /* PrunusPersica.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D046AD9F1708E249000B0473 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D046ADB31708E249000B0473 /* PrunusPersicaTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D046ADA91708E249000B0473 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D046AD8B1708E248000B0473 /* PrunusPersica */;
+			targetProxy = D046ADA81708E249000B0473 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		D046AD981708E248000B0473 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D046AD991708E248000B0473 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		D046ADAE1708E249000B0473 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D046ADAF1708E249000B0473 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D046ADB41708E249000B0473 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		D046ADB51708E249000B0473 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		D046ADB71708E249000B0473 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PrunusPersica/PrunusPersica-Prefix.pch";
+				INFOPLIST_FILE = "PrunusPersica/PrunusPersica-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		D046ADB81708E249000B0473 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PrunusPersica/PrunusPersica-Prefix.pch";
+				INFOPLIST_FILE = "PrunusPersica/PrunusPersica-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+		D046ADBA1708E249000B0473 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PrunusPersica/PrunusPersica-Prefix.pch";
+				INFOPLIST_FILE = "PrunusPersicaTests/PrunusPersicaTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		D046ADBB1708E249000B0473 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PrunusPersica/PrunusPersica-Prefix.pch";
+				INFOPLIST_FILE = "PrunusPersicaTests/PrunusPersicaTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D046AD861708E248000B0473 /* Build configuration list for PBXProject "PrunusPersica" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D046ADB41708E249000B0473 /* Debug */,
+				D046ADB51708E249000B0473 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D046ADB61708E249000B0473 /* Build configuration list for PBXNativeTarget "PrunusPersica" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D046ADB71708E249000B0473 /* Debug */,
+				D046ADB81708E249000B0473 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		D046ADB91708E249000B0473 /* Build configuration list for PBXNativeTarget "PrunusPersicaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D046ADBA1708E249000B0473 /* Debug */,
+				D046ADBB1708E249000B0473 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D046AD831708E248000B0473 /* Project object */;
+}

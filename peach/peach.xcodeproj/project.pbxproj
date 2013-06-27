@@ -1,0 +1,501 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D046AD491708C146000B0473 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D046AD481708C146000B0473 /* Cocoa.framework */; };
+		D046AD531708C146000B0473 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D046AD511708C146000B0473 /* InfoPlist.strings */; };
+		D046AD551708C146000B0473 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D046AD541708C146000B0473 /* main.m */; };
+		D046AD591708C146000B0473 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = D046AD571708C146000B0473 /* Credits.rtf */; };
+		D046AD5C1708C146000B0473 /* PCHDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = D046AD5B1708C146000B0473 /* PCHDocument.m */; };
+		D046AD5F1708C146000B0473 /* PCHDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = D046AD5D1708C146000B0473 /* PCHDocument.xib */; };
+		D046AD621708C146000B0473 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D046AD601708C146000B0473 /* MainMenu.xib */; };
+		D046AD651708C146000B0473 /* PCHDocument.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D046AD631708C146000B0473 /* PCHDocument.xcdatamodeld */; };
+		D046AD6D1708C146000B0473 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D046AD6C1708C146000B0473 /* SenTestingKit.framework */; };
+		D046AD6E1708C146000B0473 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D046AD481708C146000B0473 /* Cocoa.framework */; };
+		D046AD761708C146000B0473 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D046AD741708C146000B0473 /* InfoPlist.strings */; };
+		D046AD791708C146000B0473 /* peachTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D046AD781708C146000B0473 /* peachTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D046AD6F1708C146000B0473 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D046AD3D1708C146000B0473 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D046AD441708C146000B0473;
+			remoteInfo = peach;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		D046AD451708C146000B0473 /* peach.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = peach.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D046AD481708C146000B0473 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		D046AD4B1708C146000B0473 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		D046AD4C1708C146000B0473 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		D046AD4D1708C146000B0473 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		D046AD501708C146000B0473 /* peach-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "peach-Info.plist"; sourceTree = "<group>"; };
+		D046AD521708C146000B0473 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D046AD541708C146000B0473 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		D046AD561708C146000B0473 /* peach-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "peach-Prefix.pch"; sourceTree = "<group>"; };
+		D046AD581708C146000B0473 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		D046AD5A1708C146000B0473 /* PCHDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PCHDocument.h; sourceTree = "<group>"; };
+		D046AD5B1708C146000B0473 /* PCHDocument.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PCHDocument.m; sourceTree = "<group>"; };
+		D046AD5E1708C146000B0473 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PCHDocument.xib; sourceTree = "<group>"; };
+		D046AD611708C146000B0473 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		D046AD641708C146000B0473 /* PCHDocument.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PCHDocument.xcdatamodel; sourceTree = "<group>"; };
+		D046AD6B1708C146000B0473 /* peachTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = peachTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D046AD6C1708C146000B0473 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		D046AD731708C146000B0473 /* peachTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "peachTests-Info.plist"; sourceTree = "<group>"; };
+		D046AD751708C146000B0473 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D046AD771708C146000B0473 /* peachTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = peachTests.h; sourceTree = "<group>"; };
+		D046AD781708C146000B0473 /* peachTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = peachTests.m; sourceTree = "<group>"; };
+		D046ADBC1708F446000B0473 /* peach.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = peach.entitlements; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D046AD421708C146000B0473 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D046AD491708C146000B0473 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D046AD671708C146000B0473 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D046AD6D1708C146000B0473 /* SenTestingKit.framework in Frameworks */,
+				D046AD6E1708C146000B0473 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D046AD3C1708C146000B0473 = {
+			isa = PBXGroup;
+			children = (
+				D046AD4E1708C146000B0473 /* peach */,
+				D046AD711708C146000B0473 /* peachTests */,
+				D046AD471708C146000B0473 /* Frameworks */,
+				D046AD461708C146000B0473 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D046AD461708C146000B0473 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D046AD451708C146000B0473 /* peach.app */,
+				D046AD6B1708C146000B0473 /* peachTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D046AD471708C146000B0473 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D046AD481708C146000B0473 /* Cocoa.framework */,
+				D046AD6C1708C146000B0473 /* SenTestingKit.framework */,
+				D046AD4A1708C146000B0473 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D046AD4A1708C146000B0473 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D046AD4B1708C146000B0473 /* AppKit.framework */,
+				D046AD4C1708C146000B0473 /* CoreData.framework */,
+				D046AD4D1708C146000B0473 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		D046AD4E1708C146000B0473 /* peach */ = {
+			isa = PBXGroup;
+			children = (
+				D046ADBC1708F446000B0473 /* peach.entitlements */,
+				D046AD5A1708C146000B0473 /* PCHDocument.h */,
+				D046AD5B1708C146000B0473 /* PCHDocument.m */,
+				D046AD5D1708C146000B0473 /* PCHDocument.xib */,
+				D046AD601708C146000B0473 /* MainMenu.xib */,
+				D046AD631708C146000B0473 /* PCHDocument.xcdatamodeld */,
+				D046AD4F1708C146000B0473 /* Supporting Files */,
+			);
+			path = peach;
+			sourceTree = "<group>";
+		};
+		D046AD4F1708C146000B0473 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D046AD501708C146000B0473 /* peach-Info.plist */,
+				D046AD511708C146000B0473 /* InfoPlist.strings */,
+				D046AD541708C146000B0473 /* main.m */,
+				D046AD561708C146000B0473 /* peach-Prefix.pch */,
+				D046AD571708C146000B0473 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D046AD711708C146000B0473 /* peachTests */ = {
+			isa = PBXGroup;
+			children = (
+				D046AD771708C146000B0473 /* peachTests.h */,
+				D046AD781708C146000B0473 /* peachTests.m */,
+				D046AD721708C146000B0473 /* Supporting Files */,
+			);
+			path = peachTests;
+			sourceTree = "<group>";
+		};
+		D046AD721708C146000B0473 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D046AD731708C146000B0473 /* peachTests-Info.plist */,
+				D046AD741708C146000B0473 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D046AD441708C146000B0473 /* peach */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D046AD7C1708C146000B0473 /* Build configuration list for PBXNativeTarget "peach" */;
+			buildPhases = (
+				D046AD411708C146000B0473 /* Sources */,
+				D046AD421708C146000B0473 /* Frameworks */,
+				D046AD431708C146000B0473 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = peach;
+			productName = peach;
+			productReference = D046AD451708C146000B0473 /* peach.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D046AD6A1708C146000B0473 /* peachTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D046AD7F1708C146000B0473 /* Build configuration list for PBXNativeTarget "peachTests" */;
+			buildPhases = (
+				D046AD661708C146000B0473 /* Sources */,
+				D046AD671708C146000B0473 /* Frameworks */,
+				D046AD681708C146000B0473 /* Resources */,
+				D046AD691708C146000B0473 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D046AD701708C146000B0473 /* PBXTargetDependency */,
+			);
+			name = peachTests;
+			productName = peachTests;
+			productReference = D046AD6B1708C146000B0473 /* peachTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D046AD3D1708C146000B0473 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = PCH;
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = "Sang Chul Choi";
+			};
+			buildConfigurationList = D046AD401708C146000B0473 /* Build configuration list for PBXProject "peach" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = D046AD3C1708C146000B0473;
+			productRefGroup = D046AD461708C146000B0473 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D046AD441708C146000B0473 /* peach */,
+				D046AD6A1708C146000B0473 /* peachTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D046AD431708C146000B0473 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D046AD531708C146000B0473 /* InfoPlist.strings in Resources */,
+				D046AD591708C146000B0473 /* Credits.rtf in Resources */,
+				D046AD5F1708C146000B0473 /* PCHDocument.xib in Resources */,
+				D046AD621708C146000B0473 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D046AD681708C146000B0473 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D046AD761708C146000B0473 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D046AD691708C146000B0473 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D046AD411708C146000B0473 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D046AD551708C146000B0473 /* main.m in Sources */,
+				D046AD5C1708C146000B0473 /* PCHDocument.m in Sources */,
+				D046AD651708C146000B0473 /* PCHDocument.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D046AD661708C146000B0473 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D046AD791708C146000B0473 /* peachTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D046AD701708C146000B0473 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D046AD441708C146000B0473 /* peach */;
+			targetProxy = D046AD6F1708C146000B0473 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		D046AD511708C146000B0473 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D046AD521708C146000B0473 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		D046AD571708C146000B0473 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D046AD581708C146000B0473 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		D046AD5D1708C146000B0473 /* PCHDocument.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D046AD5E1708C146000B0473 /* en */,
+			);
+			name = PCHDocument.xib;
+			sourceTree = "<group>";
+		};
+		D046AD601708C146000B0473 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D046AD611708C146000B0473 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		D046AD741708C146000B0473 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D046AD751708C146000B0473 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D046AD7A1708C146000B0473 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		D046AD7B1708C146000B0473 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		D046AD7D1708C146000B0473 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "peach/peach-Prefix.pch";
+				INFOPLIST_FILE = "peach/peach-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		D046AD7E1708C146000B0473 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "peach/peach-Prefix.pch";
+				INFOPLIST_FILE = "peach/peach-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		D046AD801708C146000B0473 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/peach.app/Contents/MacOS/peach";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "peach/peach-Prefix.pch";
+				INFOPLIST_FILE = "peachTests/peachTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		D046AD811708C146000B0473 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/peach.app/Contents/MacOS/peach";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "peach/peach-Prefix.pch";
+				INFOPLIST_FILE = "peachTests/peachTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D046AD401708C146000B0473 /* Build configuration list for PBXProject "peach" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D046AD7A1708C146000B0473 /* Debug */,
+				D046AD7B1708C146000B0473 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D046AD7C1708C146000B0473 /* Build configuration list for PBXNativeTarget "peach" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D046AD7D1708C146000B0473 /* Debug */,
+				D046AD7E1708C146000B0473 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		D046AD7F1708C146000B0473 /* Build configuration list for PBXNativeTarget "peachTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D046AD801708C146000B0473 /* Debug */,
+				D046AD811708C146000B0473 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		D046AD631708C146000B0473 /* PCHDocument.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				D046AD641708C146000B0473 /* PCHDocument.xcdatamodel */,
+			);
+			currentVersion = D046AD641708C146000B0473 /* PCHDocument.xcdatamodel */;
+			path = PCHDocument.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = D046AD3D1708C146000B0473 /* Project object */;
+}

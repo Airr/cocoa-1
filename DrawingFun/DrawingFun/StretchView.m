@@ -52,4 +52,19 @@
     [path stroke];
 }
 
+#pragma mark Events
+- (void)mouseDown:(NSEvent *)event
+{
+    NSLog(@"mouseDown: %ld", [event clickCount]);
+}
+- (void)mouseDragged:(NSEvent *)event
+{
+    NSPoint p = [event locationInWindow];
+    NSLog(@"mouseDragged:%@", NSStringFromPoint(p));
+}
+- (void)mouseUp:(NSEvent *)event
+{
+    NSLog(@"mouseUp:");
+}
+
 @end

@@ -1,0 +1,14 @@
+tipshuffle
+==========
+Sang Chul Choi <goshng@yahoo.co.kr>
+
+Use gengetopt 2.22.4 to generate cmdline.c and cmdline.h files.
+----
+gengetopt < tipshuffle.ggo --file-name=cmdline --unamed-opts --func-name=my_cmdline_parser --include-getopt
+----
+
+Fatal bug: the global variable and local variable have some issues.
+In,
+void shuffleTipOfTree(newick_node *root, size_t *a)
+the passed pointer, a, has the same address as that of globalTipNode. So, I pass some static array in the
+main function. Let me set the size to 10,000.

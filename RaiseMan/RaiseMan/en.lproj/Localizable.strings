@@ -1,0 +1,12 @@
+/* 
+  Localizable.strings
+  RaiseMan
+
+  Created by Sang Chul Choi on 3/30/13.
+  Copyright (c) 2013 Sang Chul Choi. All rights reserved.
+*/
+
+"REMOVE_MSG" = "Do you really want to remove these people?";
+"REMOVE_INF" = "%d people will be removed.";
+"REMOVE" = "Remove";
+"CANCEL" = "Cancel";

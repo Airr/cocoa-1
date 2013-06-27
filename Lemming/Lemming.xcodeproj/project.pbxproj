@@ -1,0 +1,72 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXFileReference section */
+		D0284701170B965D00CBD2C2 /* phyilp-part.pl */ = {isa = PBXFileReference; lastKnownFileType = text.script.perl; name = "phyilp-part.pl"; path = "../../Peach/lemming-analysis/pl/phyilp-part.pl"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		D02846FA170B961D00CBD2C2 = {
+			isa = PBXGroup;
+			children = (
+				D0284701170B965D00CBD2C2 /* phyilp-part.pl */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXProject section */
+		D02846FB170B961D00CBD2C2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+			};
+			buildConfigurationList = D02846FE170B961D00CBD2C2 /* Build configuration list for PBXProject "Lemming" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = D02846FA170B961D00CBD2C2;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		D02846FF170B961D00CBD2C2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		D0284700170B961D00CBD2C2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D02846FE170B961D00CBD2C2 /* Build configuration list for PBXProject "Lemming" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D02846FF170B961D00CBD2C2 /* Debug */,
+				D0284700170B961D00CBD2C2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D02846FB170B961D00CBD2C2 /* Project object */;
+}

@@ -1,0 +1,7 @@
+package "tipshuffle"
+version "1.0"
+purpose "The program tipshuffle shuffles taxa names at the tips of Newick trees
+in a Newick tree file."
+
+# Options
+option  "int-opt"         i "A int option"         int        optional
