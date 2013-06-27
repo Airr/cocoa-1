@@ -30,6 +30,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D074C814177BD0F500898746 /* treedist.R */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.rez; path = treedist.R; sourceTree = "<group>"; };
+		D074C816177BD10D00898746 /* incommand */ = {isa = PBXFileReference; lastKnownFileType = text; path = incommand; sourceTree = "<group>"; };
+		D074C817177BD11C00898746 /* intree.org */ = {isa = PBXFileReference; lastKnownFileType = text; path = intree.org; sourceTree = "<group>"; };
+		D074C818177BD98800898746 /* run */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = run; sourceTree = "<group>"; };
+		D074C819177BD99200898746 /* treedist-summary.R */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.rez; path = "treedist-summary.R"; sourceTree = "<group>"; };
 		D0DFB404177AB8AD00E43EF2 /* tipshuffle */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = tipshuffle; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0DFB407177AB8AD00E43EF2 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		D0DFB409177AB8AD00E43EF2 /* tipshuffle.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = tipshuffle.1; sourceTree = "<group>"; };
@@ -58,9 +63,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D074C813177BD0D500898746 /* batch */ = {
+			isa = PBXGroup;
+			children = (
+				D074C818177BD98800898746 /* run */,
+				D074C814177BD0F500898746 /* treedist.R */,
+				D074C819177BD99200898746 /* treedist-summary.R */,
+				D074C816177BD10D00898746 /* incommand */,
+				D074C817177BD11C00898746 /* intree.org */,
+			);
+			name = batch;
+			sourceTree = "<group>";
+		};
 		D0DFB3FB177AB8AC00E43EF2 = {
 			isa = PBXGroup;
 			children = (
+				D074C813177BD0D500898746 /* batch */,
 				D0DFB406177AB8AD00E43EF2 /* tipshuffle */,
 				D0DFB405177AB8AD00E43EF2 /* Products */,
 			);

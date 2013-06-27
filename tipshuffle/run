@@ -1,0 +1,20 @@
+#!/bin/bash
+
+rm -f treedist.o
+for i in {1..1000}; do
+  ~/tipshuffle -i $i intree.org > intree
+  rm -f outfile
+  treedist < incommand
+  Rscript treedist.R >> treedist.o
+done
+grep ^treedist treedist.o > treedist.t
+rm -f treedist.o
+
+cp intree.org intree
+rm -f outfile
+treedist < incommand
+Rscript treedist.R > treedist.obs.o
+grep ^treedist treedist.obs.o > treedist.obs.t
+
+Rscript treedist-summary.R
+echo Check treedist.pdf
