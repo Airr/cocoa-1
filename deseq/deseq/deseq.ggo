@@ -1,0 +1,7 @@
+package "deseq"
+version "0.1"
+purpose "The program deseq determines differentially expressed genes."
+option "genome" g "genome" string
+option "out" o "output prefix" string
+option "first" f "first samples" string multiple
+option "second" s "second samples" string multiple

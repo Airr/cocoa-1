@@ -1,0 +1,23 @@
+libdivsufsort-lite.zip
+libdivsufsort-2.0.1.tar.gz
+
+http://www.cs.dartmouth.edu/~doug/sarray
+http://www.cs.dartmouth.edu/~doug/sarray/sarray.tar
+http://www.larsson.dogma.net/research.html
+
+Peach Project: sarray
+
+Others:
+http://en.wikipedia.org/wiki/Suffix_array
+http://sary.sourceforge.net/index.html.en
+http://code.google.com/p/libdivsufsort/
+
+
+Questions:
+1. How could we allow gaps in suffix array searching?
+Try answer the following question:
+"Is a substring W similar to parts of A?"
+
+Papers
+------
+http://bioinformatics.oxfordjournals.org/content/25/13/1609.full.pdf

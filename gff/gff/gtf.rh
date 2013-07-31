@@ -1,0 +1,81 @@
+%%{
+    machine gtf;
+
+    # Initialize the mRNAInfo at the start of the line.
+    action e_seqname {
+        mRNAInfo.i = 0;
+        mRNAInfo.start = 0;
+        mRNAInfo.end = 0;
+        mRNAInfo.seqid[0] = '\0';
+        mRNAInfo.geneid[0] = '\0';
+        printf("A: e_seqname %x %c\n", fc, fc);
+    }
+    action t_seqname {
+        mRNAInfo.seqid[mRNAInfo.i++] = fc;
+        printf("A: t_seqname %x %c\n", fc, fc);
+    }
+    action l_seqname {
+        mRNAInfo.seqid[mRNAInfo.i] = '\0';
+        mRNAInfo.i = 0;
+        printf("A: l_seqname %x %c\n", fc, fc);
+    }
+    action t_start {
+        int digit = (int)(fc - '0');
+        mRNAInfo.start = (mRNAInfo.start * 10) + digit;
+        printf("A: t_start %x %c\n", fc, fc);
+    }
+    action l_start {
+        mRNAInfo.i = 0;
+        printf("A: l_start %x %c\n", fc, fc);
+    }
+    action t_end {
+        int digit = (int)(fc - '0');
+        mRNAInfo.end = (mRNAInfo.end * 10) + digit;
+        printf("A: t_end %x %c\n", fc, fc);
+    }
+    action l_end {
+        mRNAInfo.i = 0;
+        printf("A: l_end %x %c\n", fc, fc);
+    }
+    
+    action err_feature {
+        printf("err_feature\n");
+        fhold; fgoto line;
+    }
+
+    seqname = [^\t]* >e_seqname $t_seqname %l_seqname;
+    source  = [^\t]*;
+    feature = ('region'|'gene'|'mRNA'|'exon');
+    start   = digit+ $t_start %l_start;
+    end     = digit+ $t_end %l_end;
+    score   = '.' |
+              [+\-]?
+              (
+                ' '* digit+ ('.' digit*)? |
+                '.' digit+
+              )
+              ([eE] [+\-]? digit+)?;
+    strand  = [+\-.];
+    frame   = [012.];
+    
+    attribute_tag   = alpha [A-Za-z0-9_]*;
+    attribute_value = '"' '"' | '"' [^"\n\r\t]* [^\\] '"' | [^"space]*;
+    attribute       = ' '* attribute_tag ' '+ attribute_value;
+    attributes      = (attribute ' '* ';')* attribute?;
+                                     
+    gtfline = seqname    '\t'
+              source     '\t'
+              feature    '\t'
+              start      '\t'
+              end        '\t'
+              score      '\t'
+              strand     '\t'
+              frame      '\t'
+              attributes '\n';
+
+    line := [^\n]* '\n' @{ fgoto main; };
+    main := gtfline;
+
+    write data;
+}%%
+

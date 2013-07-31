@@ -1,0 +1,236 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D0585ED317A1AB4600D7127B /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = D0585ED217A1AB4600D7127B /* main.c */; };
+		D0585ED517A1AB4600D7127B /* fastaStream.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = D0585ED417A1AB4600D7127B /* fastaStream.1 */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildRule section */
+		D0585EDB17A1AB6D00D7127B /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.rl";
+			fileType = pattern.proxy;
+			isEditable = 1;
+			outputFiles = (
+				"${INPUT_FILE_BASE}.c",
+			);
+			script = "cd \"$INPUT_FILE_DIR\"\n/usr/local/bin/ragel \"$INPUT_FILE_NAME\" -o \"$DERIVED_SOURCES_DIR/$INPUT_FILE_BASE.c\"";
+		};
+/* End PBXBuildRule section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D0585ECD17A1AB4600D7127B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				D0585ED517A1AB4600D7127B /* fastaStream.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		D0585ECF17A1AB4600D7127B /* fastaStream */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = fastaStream; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0585ED217A1AB4600D7127B /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		D0585ED417A1AB4600D7127B /* fastaStream.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = fastaStream.1; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D0585ECC17A1AB4600D7127B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D0585EC617A1AB4600D7127B = {
+			isa = PBXGroup;
+			children = (
+				D0585ED117A1AB4600D7127B /* fastaStream */,
+				D0585ED017A1AB4600D7127B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D0585ED017A1AB4600D7127B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D0585ECF17A1AB4600D7127B /* fastaStream */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D0585ED117A1AB4600D7127B /* fastaStream */ = {
+			isa = PBXGroup;
+			children = (
+				D0585ED217A1AB4600D7127B /* main.c */,
+				D0585ED417A1AB4600D7127B /* fastaStream.1 */,
+			);
+			path = fastaStream;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D0585ECE17A1AB4600D7127B /* fastaStream */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D0585ED817A1AB4600D7127B /* Build configuration list for PBXNativeTarget "fastaStream" */;
+			buildPhases = (
+				D0585ECB17A1AB4600D7127B /* Sources */,
+				D0585ECC17A1AB4600D7127B /* Frameworks */,
+				D0585ECD17A1AB4600D7127B /* CopyFiles */,
+			);
+			buildRules = (
+				D0585EDB17A1AB6D00D7127B /* PBXBuildRule */,
+			);
+			dependencies = (
+			);
+			name = fastaStream;
+			productName = fastaStream;
+			productReference = D0585ECF17A1AB4600D7127B /* fastaStream */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D0585EC717A1AB4600D7127B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = "Sang Chul Choi";
+			};
+			buildConfigurationList = D0585ECA17A1AB4600D7127B /* Build configuration list for PBXProject "fastaStream" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = D0585EC617A1AB4600D7127B;
+			productRefGroup = D0585ED017A1AB4600D7127B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D0585ECE17A1AB4600D7127B /* fastaStream */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D0585ECB17A1AB4600D7127B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0585ED317A1AB4600D7127B /* main.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		D0585ED617A1AB4600D7127B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		D0585ED717A1AB4600D7127B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		D0585ED917A1AB4600D7127B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D0585EDA17A1AB4600D7127B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D0585ECA17A1AB4600D7127B /* Build configuration list for PBXProject "fastaStream" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0585ED617A1AB4600D7127B /* Debug */,
+				D0585ED717A1AB4600D7127B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D0585ED817A1AB4600D7127B /* Build configuration list for PBXNativeTarget "fastaStream" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0585ED917A1AB4600D7127B /* Debug */,
+				D0585EDA17A1AB4600D7127B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D0585EC717A1AB4600D7127B /* Project object */;
+}

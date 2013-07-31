@@ -1,0 +1,31 @@
+
+
+Tutorials
+---------
+http://www.zedshaw.com/essays/ragel_state_charts.html
+https://wincent.com/wiki/Ragel_quickstart_(2007)
+https://wincent.com/wiki/Ragel_quickstart
+http://www.avrfreaks.net/index.php?name=PNphpBB2&file=printview&t=80042&start=0
+https://plus.google.com/109028627294998653069/posts/C6d1YkcY8kW
+
+Ragel Users
+-----------
+https://github.com/petecoup/simplecalc.git
+
+
+Parers
+------
+http://en.wikipedia.org/wiki/Lemon_Parser_Geerator
+
+Others
+------
+http://therealadam.com/2009/02/18/awesome-yak-shaves/
+http://caml.inria.fr/cgi-bin/hump.en.cgi?sort=1&browse=96
+http://www.entropy.ch/software/macosx/docs/ragel-xcode-graphviz/
+http://stackoverflow.com/questions/3331731/how-to-parse-template-languages-in-ragel
+
+Questions
+---------
+* NFA?
+* DFA?
+* epsilon transition?

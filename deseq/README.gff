@@ -1,0 +1,63 @@
+See Projects/cocoa/gff for a gff parser.
+We need to parse files for gene descriptions.
+
+http://www.complang.org/ragel/
+http://www.complang.org/kelbt/
+https://github.com/dcjones/ragel-julia
+https://github.com/dcjones/gtf-parse-off
+http://www.complang.org/ragel/ragel-guide-6.8.pdf
+What is ragel?
+
+ragel -G2 -o gtf-c.c gtf-c.rl
+gcc -o gtf-c gtf-c.c
+I used a gtf file from Ensembl:
+ftp://ftp.ensembl.org/pub/mnt2/release-72/gtf/canis_familiaris/Canis_familiaris.CanFam3.1.72.gtf.gz
+
+See http://www.ensembl.org/info/data/ftp/index.html
+Then, I could use "biomaRt" library to extract descriptions of the Ensembl genes.
+See http://seqanswers.com/forums/showthread.php?t=17980 for a similar question.
+I found a gene.txt at ENSEMBL FTP site.
+ftp://ftp.ensembl.org/pub/mnt2/release-72/mysql/canis_familiaris_core_72_31/gene.txt.gz
+You can find the description of the gene table at the following website:
+http://www.ensembl.org/info/docs/api/core/core_schema.html#gene
+
+Or, we could use gff3 file from NCBI:
+ftp://ftp.ncbi.nih.gov/genomes/Canis_lupus_familiaris/GFF/ref_CanFam3.1_top_level.gff3.gz
+Then, GeneID in the gff3 file can be used to find their descriptions by using NCBI Gene database.
+See the website and FTP site of NCBI Gene database:
+i.e., ftp://ftp.ncbi.nih.gov/gene/ -> GeneID and their descriptions (DATA/gene_info.gz)
+
+Genome annotations
+------------------
+Ensembl gene names:
+http://www.ensembl.org/info/data/ftp/index.html
+
+GTF or GFF formats
+------------------
+http://mblab.wustl.edu/GTF22.html
+http://www.sequenceontology.org/gff3.shtml
+http://cufflinks.cbcb.umd.edu/gff.html
+The GTF (General Transfer Format) is identical to GFF version 2.
+ftp://ftp.geneontology.org/pub/go/doc/GO.xrf_abbs
+ftp://ftp.ncbi.nih.gov/gene/ -> GeneID and their descriptions (DATA/gene_info.gz)
+
+
+How to extract gene descriptions of all gene in a genome
+--------------------------------------------------------
+Go to http://www.ncbi.nlm.nih.gov
+1. By using the genome database
+Search the NCBI genome database for your species, e.g., dog.
+Go to the genome by clicking one in the search result.
+Locate Gene in the "Related information" on the upper-right-hand-side.
+Click it to navigate to a searched result page.
+Download the searched result and parse the result file to suit your need.
+2. By using taxonomy database
+Search the taxonomy database for your species, e.g., dog.
+Go to the species by clicking one in the search result.
+Locate Gene and its count on the right-hand-side.
+Click the count number to navigate to a searched result page.
+Download the searched result, and parse the result file.
+
+Versions
+--------
+GTF2 and GFF3 are the most recent versions.

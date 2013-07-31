@@ -1,0 +1,227 @@
+%%{
+    machine gtf;
+
+    action e_a {
+        printf("A: e_a %x %c\n", fc, fc);
+    }
+    action f_a {
+        printf("A: f_a %x %c\n", fc, fc);
+    }
+    action t_a {
+        printf("A: t_a %x %c\n", fc, fc);
+    }
+    action l_a {
+        printf("A: l_a %x %c\n", fc, fc);
+    }
+
+    action e_b {
+        printf("A: e_b %x %c\n", fc, fc);
+    }
+    action f_b {
+        printf("A: f_b %x %c\n", fc, fc);
+    }
+    action t_b {
+        printf("A: t_b %x %c\n", fc, fc);
+    }
+    action l_b {
+        printf("A: l_b %x %c\n", fc, fc);
+    }
+    
+    action e_c {
+        printf("A: e_c %x %c\n", fc, fc);
+    }
+    action f_c {
+        printf("A: f_c %x %c\n", fc, fc);
+    }
+    action t_c {
+        printf("A: t_c %x %c\n", fc, fc);
+    }
+    action l_c {
+        printf("A: l_c %x %c\n", fc, fc);
+    }
+
+    action e_s {
+        printf("A: e_s %x %c\n", fc, fc);
+    }
+    action f_s {
+        printf("A: f_s %x %c\n", fc, fc);
+    }
+    action t_s {
+        printf("A: t_s %x %c\n", fc, fc);
+    }
+    action l_s {
+        printf("A: l_s %x %c\n", fc, fc);
+    }
+
+    action to_a_s {
+        printf("S_a: to_s %x %c\n", fc, fc);
+    }
+    action to_a_S {
+        printf("S_a: to_S %x %c\n", fc, fc);
+    }
+    action to_a_a {
+        printf("S_a: to_a %x %c\n", fc, fc);
+    }
+    action to_a_f {
+        printf("S_a: to_f %x %c\n", fc, fc);
+    }
+    action to_a_F {
+        printf("S_a: to_F %x %c\n", fc, fc);
+    }
+    action to_a_SF {
+        printf("S_a: to_SF %x %c\n", fc, fc);
+    }
+
+
+    action to_b_s {
+        printf("S_b: to_s %x %c\n", fc, fc);
+    }
+    action to_b_S {
+        printf("S_b: to_S %x %c\n", fc, fc);
+    }
+    action to_b_a {
+        printf("S_b: to_a %x %c\n", fc, fc);
+    }
+    action to_b_f {
+        printf("S_b: to_f %x %c\n", fc, fc);
+    }
+    action to_b_F {
+        printf("S_b: to_F %x %c\n", fc, fc);
+    }
+    action to_b_SF {
+        printf("S_b: to_SF %x %c\n", fc, fc);
+    }
+
+    action to_c_s {
+        printf("S_c: to_s %x %c\n", fc, fc);
+    }
+    action to_c_S {
+        printf("S_c: to_S %x %c\n", fc, fc);
+    }
+    action to_c_a {
+        printf("S_c: to_a %x %c\n", fc, fc);
+    }
+    action to_c_f {
+        printf("S_c: to_f %x %c\n", fc, fc);
+    }
+    action to_c_F {
+        printf("S_c: to_F %x %c\n", fc, fc);
+    }
+    action to_c_SF {
+        printf("S_c: to_SF %x %c\n", fc, fc);
+    }
+
+    action to_st_s {
+        printf("S_st: to_st %x %c\n", fc, fc);
+    }
+    action to_st_S {
+        printf("S_st: to_S %x %c\n", fc, fc);
+    }
+    action to_st_a {
+        printf("S_st: to_a %x %c\n", fc, fc);
+    }
+    action to_st_f {
+        printf("S_st: to_f %x %c\n", fc, fc);
+    }
+    action to_st_F {
+        printf("S_st: to_F %x %c\n", fc, fc);
+    }
+    action to_st_SF {
+        printf("S_st: to_SF %x %c\n", fc, fc);
+    }
+
+    action from_a_s {
+        printf("S_a: from_s %x %c\n", fc, fc);
+    }
+    action from_a_S {
+        printf("S_a: from_S %x %c\n", fc, fc);
+    }
+    action from_a_a {
+        printf("S_a: from_a %x %c\n", fc, fc);
+    }
+    action from_a_f {
+        printf("S_a: from_f %x %c\n", fc, fc);
+    }
+    action from_a_F {
+        printf("S_a: from_F %x %c\n", fc, fc);
+    }
+    action from_a_SF {
+        printf("S_a: from_SF %x %c\n", fc, fc);
+    }
+
+
+    action from_b_s {
+        printf("S_b: from_s %x %c\n", fc, fc);
+    }
+    action from_b_S {
+        printf("S_b: from_S %x %c\n", fc, fc);
+    }
+    action from_b_a {
+        printf("S_b: from_a %x %c\n", fc, fc);
+    }
+    action from_b_f {
+        printf("S_b: from_f %x %c\n", fc, fc);
+    }
+    action from_b_F {
+        printf("S_b: from_F %x %c\n", fc, fc);
+    }
+    action from_b_SF {
+        printf("S_b: from_SF %x %c\n", fc, fc);
+    }
+
+    action from_c_s {
+        printf("S_c: from_s %x %c\n", fc, fc);
+    }
+    action from_c_S {
+        printf("S_c: from_S %x %c\n", fc, fc);
+    }
+    action from_c_a {
+        printf("S_c: from_a %x %c\n", fc, fc);
+    }
+    action from_c_f {
+        printf("S_c: from_f %x %c\n", fc, fc);
+    }
+    action from_c_F {
+        printf("S_c: from_F %x %c\n", fc, fc);
+    }
+    action from_c_SF {
+        printf("S_c: from_SF %x %c\n", fc, fc);
+    }
+
+    action from_st_s {
+        printf("S_st: from_s %x %c\n", fc, fc);
+    }
+    action from_st_S {
+        printf("S_st: from_S %x %c\n", fc, fc);
+    }
+    action from_st_a {
+        printf("S_st: from_a %x %c\n", fc, fc);
+    }
+    action from_st_f {
+        printf("S_st: from_f %x %c\n", fc, fc);
+    }
+    action from_st_F {
+        printf("S_st: from_F %x %c\n", fc, fc);
+    }
+    action from_st_SF {
+        printf("S_st: from_SF %x %c\n", fc, fc);
+    }
+
+
+    state_a = 'a'+ $t_a @f_a %l_a >e_a >~to_a_s <~to_a_S $~to_a_a %~to_a_f @~to_a_F <>~to_a_SF
+      >*from_a_s <*from_a_S $*from_a_a %*from_a_f @*from_a_F <>*from_a_SF;
+    state_b = 'b'+ >e_b @f_b $t_b %l_b >~to_b_s <~to_b_S $~to_b_a %~to_b_f @~to_b_F <>~to_b_SF
+      >*from_b_s <*from_b_S $*from_b_a %*from_b_f @*from_b_F <>*from_b_SF;
+    state_c = 'c'+ >e_c @f_c $t_c %l_c >~to_c_s <~to_c_S $~to_c_a %~to_c_f @~to_c_F <>~to_c_SF
+      >*from_c_s <*from_c_S $*from_c_a %*from_c_f @*from_c_F <>*from_c_SF;
+
+   
+    start = state_a state_b state_c;
+
+    main := start >e_s $t_s @f_s %l_s >~to_st_s <~to_st_S $~to_st_a %~to_st_f @~to_st_F <>~to_st_SF
+      >*from_st_s <*from_st_S $*from_st_a %*from_st_f @*from_st_F <>*from_st_SF;
+
+
+    write data;
+}%%
+

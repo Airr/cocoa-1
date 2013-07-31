@@ -1,0 +1,131 @@
+
+Let's inspect DESeq2
+--------------------
+
+$/Users/goshng/Downloads/DESeq2/R
+[1:core.R][2:deseq2.R][4:AllClasses.R][5:methods.R][6:unexported.R][7:DESeq2.cpp]*
+
+About fitBeta
+-------------
+
+http://digitalcommons.unl.edu/cgi/viewcontent.cgi?article=1141&context=usdeptcommercepub
+http://data.princeton.edu/wws509/notes/a2.pdf
+http://ce.esalq.usp.br/arquivos/aulas/2012/LCE5868/OverdispersionBook.pdf
+Dirichlet distribution for expression levels.
+
+Let's use just a list of values.
+
+R call inspect
+--------------
+http://hosho.ees.hokudai.ac.jp/~kubo/Rdoc/library/RUnit/html/inspect.html
+
+DESeq2 script
+-------------
+library(DESeq2)
+library("pasilla")
+data("pasillaGenes")
+countData <- counts(pasillaGenes)
+colData <- pData(pasillaGenes)[,c("condition","type")]
+dds <- DESeqDataSetFromMatrix(countData = countData,
+                              colData = colData,
+                              design = ~ condition)
+colData(dds)$condition <- factor(colData(dds)$condition, levels=c("untreated","treated"))
+detach(package:pasilla)
+detach(package:DESeq)
+dds <- DESeq(dds)
+res <- results(dds)
+res <- res[order(res$padj),]
+head(res)
+
+Results
+-------
+results(dds)
+
+Plots
+-----
+plotMA(dds)
+
+Exporting result
+----------------
+write.csv(as.data.frame(res), file="condition_treated_results.csv")
+
+Multi-factor designs
+--------------------
+colData(dds)
+design(dds) <- formula(~ type + condition)
+dds <- DESeq(dds)
+res <- results(dds)
+head(res)
+
+resultsNames(dds)
+resType <- results(dds, "type_single.read_vs_paired.end")
+head(resType)
+mcols(resType)
+
+Filtering by overall count
+--------------------------
+
+Diagnostic plots for multiple testing
+-------------------------------------
+
+Count data transformations
+￼--------------------------
+
+Regularized log transformation
+------------------------------
+
+Variance stabilizing transformation
+-----------------------------------
+
+Effects of transformations on the variance
+------------------------------------------
+
+Data quality assessment by sample clustering and visualization
+--------------------------------------------------------------
+
+Heatmap of the count table
+--------------------------
+
+Heatmap of the sample-to-sample distances
+-----------------------------------------
+
+Principal component plot of the samples
+---------------------------------------
+
+Changes compared to the DESeq package
+-------------------------------------
+
+Generalized linear model
+------------------------
+
+Wald test individual steps
+--------------------------
+dds <- estimateSizeFactors(dds)
+dds <- estimateDispersions(dds)
+dds <- nbinomWaldTest(dds)
+
+Likelihood ratio test
+---------------------
+
+Dispersion plot and fitting alternatives
+----------------------------------------
+
+Local dispersion fit
+--------------------
+
+Mean dispersion
+---------------
+
+Supply a custom dispersion fit
+------------------------------
+
+Count outlier detection
+-----------------------
+
+Access to all calculated values
+-------------------------------
+
+Sample-/gene-dependent normalization factors
+--------------------------------------------
+
+

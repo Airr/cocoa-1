@@ -1,0 +1,68 @@
+I need to use some key functions in R without importing R packages with only R 
+scripts. I want to use R packages with only C, C++, or Fortran. This means that 
+I need to make a tiny version of R without R scripting functionality. rmini 
+needs the following features.
+
+1. I need to call C functions in R packages.
+2. I want to use dynamic libraries built by R.
+3. I need to replace R-export C source code with C-export C source code.
+
+Then, I could simply compile R packages to get dynamic libraries, and could call
+C/C++ functions. The remaining R scripts in R packages can be converted to C/C++
+functions manually.  
+
+After reading R manuals a little bit, I fathomed R's C function call framework,
+which was not purly C code in the C function, but R's internal functions
+involved. This would be natural choice of R's C function call framework because 
+R needs to know variables that C function created. I learned three features of
+R's internals: firstly, R's variable of type SEXP and others are internally 
+encoded so that R can decode variables (R has no typed variable; any variable 
+can be integer, real, characters, and others), secondly variables for R inside 
+C functions are manipulated by R's internal functions (especially memory
+allocation, and others related R's internal functions), and thirdly a few 
+different version of C function calls in R's internal such as .C, .Call, 
+.External, and .External2. 
+
+We need to test basic functions in R's internal in order to wisely use them. 
+Before embarking on this taks, we need to know about dynamic library in Mac OSX 
+and Linux.
+
+Mac Dynamic Library Programming
+-------------------------------
+Functions: dlopen, dlsym, dladdr, dlclose, and dlerror
+
+R's memory management
+---------------------
+How are the memory of SEXP managed in R? I need to figure this out.
+Where is Rf_allocVector?
+Where is Rf_allocArray?
+Where is Rf_allocSExp?
+  We have those above ones without Rf_ in src/main/memory.c.
+What is SEXPTYPE?
+  It is enum in src/include/Rinternal.h.
+
+Other slides:
+http://www.slideshare.net/userprimary/native-interfaces
+
+R's error message
+-----------------
+http://stackoverflow.com/questions/1056411/how-to-pass-variable-number-of-arguments-to-printf-sprintf
+
+To print a list of symbols exported from a dynamic library
+----------------------------------------------------------
+nm -g your.dylib
+
+ksmooth
+-------
+Let's implement ksmooth using R's internal.
+
+SEXP ksmooth(SEXP x, SEXP y, SEXP xp, SEXP skrn, SEXP sbw)
+
+Web
+---
+http://stackoverflow.com/questions/7032617/storing-c-objects-in-r
+
+Memory allocation functions
+---------------------------
+allocSExp
+allocVector

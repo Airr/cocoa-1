@@ -1,0 +1,148 @@
+%%{
+    machine gff;
+
+    # Initialize the mRNAInfo at the start of the line.
+    action e_seqname {
+        mRNAInfo.i = 0;
+        mRNAInfo.start = 0;
+        mRNAInfo.end = 0;
+        mRNAInfo.seqid[0] = '\0';
+        mRNAInfo.feature[0] = '\0';
+        strcpy(mRNAInfo.name, "unknown");
+        strcpy(mRNAInfo.geneid, "unknown");
+        printf("A: e_seqname %x %c\n", fc, fc);
+    }
+    action t_seqname {
+        mRNAInfo.seqid[mRNAInfo.i++] = fc;
+        printf("A: t_seqname %x %c\n", fc, fc);
+    }
+    action l_seqname {
+        mRNAInfo.seqid[mRNAInfo.i] = '\0';
+        mRNAInfo.i = 0;
+        printf("A: l_seqname %x %c\n", fc, fc);
+    }
+    action t_feature {
+        mRNAInfo.feature[mRNAInfo.i++] = fc;
+        printf("A: t_feature %x %c\n", fc, fc);
+    }
+    action l_feature {
+        mRNAInfo.feature[mRNAInfo.i] = '\0';
+        mRNAInfo.i = 0;
+        printf("A: l_feature %x %c\n", fc, fc);
+    }
+    
+    action t_start {
+        int digit = (int)(fc - '0');
+        mRNAInfo.start = (mRNAInfo.start * 10) + digit;
+        printf("A: t_start %x %c\n", fc, fc);
+    }
+    action l_start {
+        mRNAInfo.i = 0;
+        printf("A: l_start %x %c\n", fc, fc);
+    }
+    action t_end {
+        int digit = (int)(fc - '0');
+        mRNAInfo.end = (mRNAInfo.end * 10) + digit;
+        printf("A: t_end %x %c\n", fc, fc);
+    }
+    action l_end {
+        mRNAInfo.i = 0;
+        printf("A: l_end %x %c\n", fc, fc);
+    }
+
+    action e_attribute_tag {
+        mRNAInfo.i = 0;
+        printf("A: e_attribute_tag %x %c\n", fc, fc);
+    }
+    action t_attribute_tag {
+        mRNAInfo.attribute_tag[mRNAInfo.i++] = fc;
+        printf("A: t_attribute_tag %x %c\n", fc, fc);
+    }
+    action l_attribute_tag {
+        mRNAInfo.attribute_tag[mRNAInfo.i] = '\0';
+        mRNAInfo.i = 0;
+        printf("A: l_attribute_tag %x %c\n", fc, fc);
+    }
+
+    action e_attribute_value {
+        mRNAInfo.i = 0;
+        printf("A: e_attribute_value %x %c\n", fc, fc);
+    }
+    action t_attribute_value {
+        mRNAInfo.attribute_value[mRNAInfo.i++] = fc;
+        printf("A: t_attribute_value %x %c\n", fc, fc);
+    }
+    action l_attribute_value {
+        char *pDBWord;
+        char *pDBTag;
+        char *pDBValue;
+        char *pDBColon;
+
+        mRNAInfo.attribute_value[mRNAInfo.i] = '\0';
+        mRNAInfo.i = 0;
+        printf("A: l_attribute_value %x %c\n", fc, fc);
+        printf("X: %s = %s\n", mRNAInfo.attribute_tag, mRNAInfo.attribute_value);
+        // Search the value for Name, DBxref.
+        if (strcmp(mRNAInfo.attribute_tag,"Name") == 0)
+        {
+            strcpy(mRNAInfo.name, mRNAInfo.attribute_value);
+        } 
+        else if (strcmp(mRNAInfo.attribute_tag,"Dbxref") == 0)
+        {
+            pDBWord = strtok(mRNAInfo.attribute_value, ",");
+            while (pDBWord != NULL)
+            {
+                pDBTag = strstr(pDBWord, "GeneID");
+                if (pDBTag != NULL)
+                {
+                    pDBColon = strstr(pDBWord, ":");
+                    strcpy(mRNAInfo.geneid, pDBColon + 1);
+                }
+                pDBWord = strtok(NULL, ",");
+            }
+        }
+    }
+
+    action err_feature {
+        printf("err_feature\n");
+        fhold; fgoto line;
+    }
+    
+
+    seqname = [^\t]* >e_seqname $t_seqname %l_seqname;
+    source  = [^\t]*;
+    feature = ('region'|'gene'|'mRNA'|'exon') $t_feature %l_feature;
+    start   = digit+ $t_start %l_start;
+    end     = digit+ $t_end %l_end;
+    score   = '.' |
+              [+\-]?
+              (
+                ' '* digit+ ('.' digit*)? |
+                '.' digit+
+              )
+              ([eE] [+\-]? digit+)?;
+    strand  = [+\-.];
+    frame   = [012.];
+    
+    attribute_tag   = (alpha [A-Za-z0-9_\-]*) >e_attribute_tag $t_attribute_tag %l_attribute_tag;    
+    attribute_value = ([^=\t\r\n;]+) >e_attribute_value $t_attribute_value %l_attribute_value;
+
+    attribute       = attribute_tag '=' attribute_value;
+    attributes      = (attribute ';')* attribute?;
+                                     
+    gtfline = seqname    '\t'
+              source     '\t'
+              feature    '\t'
+              start      '\t'
+              end        '\t'
+              score      '\t'
+              strand     '\t'
+              frame      '\t'
+              attributes '\n';
+
+    line := [^\n]* '\n' @{ fgoto main; };
+    main := gtfline;
+
+    write data;
+}%%
+

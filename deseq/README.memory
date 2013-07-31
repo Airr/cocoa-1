@@ -1,0 +1,19 @@
+Learn memory allocation
+-----------------------
+
+The C dynamic memory allocation functions are defined in stdlib.h header.
+
+Memory allocation functions
+---------------------------
+malloc
+realloc
+calloc
+free
+
+Web resource
+------------
+https://en.wikipedia.org/wiki/C_dynamic_memory_allocation
+
+stackoverflow's
+---------------
+http://stackoverflow.com/questions/5105504/allocating-memory-for-a-string-inside-a-struct

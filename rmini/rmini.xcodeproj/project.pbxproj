@@ -1,0 +1,442 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D06636C917A7A09B00303F30 /* memory.c in Sources */ = {isa = PBXBuildFile; fileRef = D06636C817A7A09B00303F30 /* memory.c */; };
+		D06636CE17A7AC2A00303F30 /* coerce.c in Sources */ = {isa = PBXBuildFile; fileRef = D06636CD17A7AC2A00303F30 /* coerce.c */; };
+		D06636D217A84AB200303F30 /* errors.c in Sources */ = {isa = PBXBuildFile; fileRef = D06636D117A84AB200303F30 /* errors.c */; };
+		D0B249AF17A8801500DEC5FE /* envir.c in Sources */ = {isa = PBXBuildFile; fileRef = D0B249AE17A8801500DEC5FE /* envir.c */; };
+		D0B249BB17A88F7E00DEC5FE /* names.c in Sources */ = {isa = PBXBuildFile; fileRef = D0B249BA17A88F7D00DEC5FE /* names.c */; };
+		D0B249C117A897A100DEC5FE /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = D0B249C017A897A100DEC5FE /* util.c */; };
+		D0CABE5C17A453C900B224FF /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CABE5B17A453C900B224FF /* main.c */; };
+		D0CABE5E17A453C900B224FF /* rmini.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = D0CABE5D17A453C900B224FF /* rmini.1 */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D0CABE5617A453C900B224FF /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				D0CABE5E17A453C900B224FF /* rmini.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		D06636B717A7977F00303F30 /* copy-main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "copy-main.c"; sourceTree = "<group>"; };
+		D06636B817A79A4F00303F30 /* R.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = R.h; sourceTree = "<group>"; };
+		D06636BA17A79B2900303F30 /* Boolean.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Boolean.h; path = R_ext/Boolean.h; sourceTree = "<group>"; };
+		D06636BC17A79C8F00303F30 /* Complex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Complex.h; path = R_ext/Complex.h; sourceTree = "<group>"; };
+		D06636BD17A79CC800303F30 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = R_ext/Constants.h; sourceTree = "<group>"; };
+		D06636BF17A79D4200303F30 /* Memory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Memory.h; path = R_ext/Memory.h; sourceTree = "<group>"; };
+		D06636C017A79D7E00303F30 /* Print.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Print.h; path = R_ext/Print.h; sourceTree = "<group>"; };
+		D06636C117A79DBB00303F30 /* Random.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Random.h; path = R_ext/Random.h; sourceTree = "<group>"; };
+		D06636C217A79DFF00303F30 /* Utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Utils.h; path = R_ext/Utils.h; sourceTree = "<group>"; };
+		D06636C317A79E5400303F30 /* RS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RS.h; path = R_ext/RS.h; sourceTree = "<group>"; };
+		D06636C417A79ED600303F30 /* Error.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Error.h; path = R_ext/Error.h; sourceTree = "<group>"; };
+		D06636C617A7A03A00303F30 /* memory.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = memory.c; path = copy/memory.c; sourceTree = "<group>"; };
+		D06636C717A7A06D00303F30 /* coerce.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = coerce.c; path = copy/coerce.c; sourceTree = "<group>"; };
+		D06636C817A7A09B00303F30 /* memory.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = memory.c; sourceTree = "<group>"; };
+		D06636CA17A7A18600303F30 /* Rinternals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Rinternals.h; sourceTree = "<group>"; };
+		D06636CB17A7A2F600303F30 /* Rconfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Rconfig.h; sourceTree = "<group>"; };
+		D06636CC17A7A53800303F30 /* libextern.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = libextern.h; path = R_ext/libextern.h; sourceTree = "<group>"; };
+		D06636CD17A7AC2A00303F30 /* coerce.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = coerce.c; sourceTree = "<group>"; };
+		D06636CF17A7AD5A00303F30 /* Rmath.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Rmath.h; sourceTree = "<group>"; };
+		D06636D017A8306800303F30 /* Defn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Defn.h; sourceTree = "<group>"; };
+		D06636D117A84AB200303F30 /* errors.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = errors.c; sourceTree = "<group>"; };
+		D06636D317A8513600303F30 /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
+		D06636D417A852C300303F30 /* Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Internal.h; sourceTree = "<group>"; };
+		D06636D517A8532A00303F30 /* Rdynload.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Rdynload.h; path = R_ext/Rdynload.h; sourceTree = "<group>"; };
+		D06636D717A8537F00303F30 /* GraphicsEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GraphicsEngine.h; path = R_ext/GraphicsEngine.h; sourceTree = "<group>"; };
+		D06636D817A873B300303F30 /* Rinlinedfuns.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Rinlinedfuns.h; sourceTree = "<group>"; };
+		D06636D917A873D700303F30 /* Errormsg.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Errormsg.h; sourceTree = "<group>"; };
+		D06636DA17A8742A00303F30 /* Arith.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Arith.h; path = R_ext/Arith.h; sourceTree = "<group>"; };
+		D06636DB17A8749B00303F30 /* errors.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = errors.c; path = copy/errors.c; sourceTree = "<group>"; };
+		D06636DC17A8753000303F30 /* Connections.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Connections.h; path = R_ext/Connections.h; sourceTree = "<group>"; };
+		D06636DD17A8754800303F30 /* RConnections.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RConnections.h; sourceTree = "<group>"; };
+		D06636DE17A875AE00303F30 /* libintl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libintl.h; sourceTree = "<group>"; };
+		D06636DF17A875EF00303F30 /* GraphicsDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GraphicsDevice.h; path = R_ext/GraphicsDevice.h; sourceTree = "<group>"; };
+		D06636E017A8763600303F30 /* Startup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Startup.h; sourceTree = "<group>"; };
+		D0B249AC17A8766A00DEC5FE /* RStartup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RStartup.h; path = R_ext/RStartup.h; sourceTree = "<group>"; };
+		D0B249AD17A876A600DEC5FE /* Rinterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Rinterface.h; sourceTree = "<group>"; };
+		D0B249AE17A8801500DEC5FE /* envir.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = envir.c; sourceTree = "<group>"; };
+		D0B249B017A8804400DEC5FE /* envir.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = envir.c; path = copy/envir.c; sourceTree = "<group>"; };
+		D0B249B117A8853D00DEC5FE /* printutils.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = printutils.c; path = copy/printutils.c; sourceTree = "<group>"; };
+		D0B249B217A8854C00DEC5FE /* printutils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = printutils.c; sourceTree = "<group>"; };
+		D0B249B417A887C800DEC5FE /* Print.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Print.h; sourceTree = "<group>"; };
+		D0B249B517A8881400DEC5FE /* RBufferUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RBufferUtils.h; sourceTree = "<group>"; };
+		D0B249B617A8884300DEC5FE /* PrtUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PrtUtil.h; path = R_ext/PrtUtil.h; sourceTree = "<group>"; };
+		D0B249B717A8887200DEC5FE /* rlocale.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rlocale.h; sourceTree = "<group>"; };
+		D0B249B817A88D4000DEC5FE /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = main.c; path = copy/main.c; sourceTree = "<group>"; };
+		D0B249B917A88F6D00DEC5FE /* names.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = names.c; path = copy/names.c; sourceTree = "<group>"; };
+		D0B249BA17A88F7D00DEC5FE /* names.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = names.c; sourceTree = "<group>"; };
+		D0B249BC17A88FFF00DEC5FE /* arithmetic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = arithmetic.h; sourceTree = "<group>"; };
+		D0B249BD17A8900E00DEC5FE /* arithmetic.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = arithmetic.c; sourceTree = "<group>"; };
+		D0B249BF17A8978D00DEC5FE /* util.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = util.c; path = copy/util.c; sourceTree = "<group>"; };
+		D0B249C017A897A100DEC5FE /* util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = util.c; sourceTree = "<group>"; };
+		D0CABE5817A453C900B224FF /* rmini */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = rmini; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0CABE5B17A453C900B224FF /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		D0CABE5D17A453C900B224FF /* rmini.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = rmini.1; sourceTree = "<group>"; };
+		D0CABE6417A453DD00B224FF /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D0CABE5517A453C900B224FF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D06636B917A79A8300303F30 /* R_ext */ = {
+			isa = PBXGroup;
+			children = (
+				D06636DA17A8742A00303F30 /* Arith.h */,
+				D06636BA17A79B2900303F30 /* Boolean.h */,
+				D06636BC17A79C8F00303F30 /* Complex.h */,
+				D06636BD17A79CC800303F30 /* Constants.h */,
+				D06636DC17A8753000303F30 /* Connections.h */,
+				D06636C417A79ED600303F30 /* Error.h */,
+				D06636BF17A79D4200303F30 /* Memory.h */,
+				D06636C017A79D7E00303F30 /* Print.h */,
+				D06636C117A79DBB00303F30 /* Random.h */,
+				D06636C217A79DFF00303F30 /* Utils.h */,
+				D06636C317A79E5400303F30 /* RS.h */,
+				D06636CC17A7A53800303F30 /* libextern.h */,
+				D06636D517A8532A00303F30 /* Rdynload.h */,
+				D06636D717A8537F00303F30 /* GraphicsEngine.h */,
+				D06636DF17A875EF00303F30 /* GraphicsDevice.h */,
+				D0B249AC17A8766A00DEC5FE /* RStartup.h */,
+				D0B249B617A8884300DEC5FE /* PrtUtil.h */,
+			);
+			name = R_ext;
+			sourceTree = "<group>";
+		};
+		D06636C517A79FB400303F30 /* copy */ = {
+			isa = PBXGroup;
+			children = (
+				D06636B717A7977F00303F30 /* copy-main.c */,
+				D06636C617A7A03A00303F30 /* memory.c */,
+				D06636C717A7A06D00303F30 /* coerce.c */,
+				D06636DB17A8749B00303F30 /* errors.c */,
+				D0B249B017A8804400DEC5FE /* envir.c */,
+				D0B249B117A8853D00DEC5FE /* printutils.c */,
+				D0B249B817A88D4000DEC5FE /* main.c */,
+				D0B249B917A88F6D00DEC5FE /* names.c */,
+				D0B249BF17A8978D00DEC5FE /* util.c */,
+			);
+			name = copy;
+			sourceTree = "<group>";
+		};
+		D0CABE4F17A453C900B224FF = {
+			isa = PBXGroup;
+			children = (
+				D0CABE5A17A453C900B224FF /* rmini */,
+				D0CABE5917A453C900B224FF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D0CABE5917A453C900B224FF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D0CABE5817A453C900B224FF /* rmini */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D0CABE5A17A453C900B224FF /* rmini */ = {
+			isa = PBXGroup;
+			children = (
+				D06636C517A79FB400303F30 /* copy */,
+				D0CABE6417A453DD00B224FF /* README */,
+				D0CABE5B17A453C900B224FF /* main.c */,
+				D0CABE5D17A453C900B224FF /* rmini.1 */,
+				D06636C817A7A09B00303F30 /* memory.c */,
+				D06636D117A84AB200303F30 /* errors.c */,
+				D06636CD17A7AC2A00303F30 /* coerce.c */,
+				D0B249AE17A8801500DEC5FE /* envir.c */,
+				D0B249BA17A88F7D00DEC5FE /* names.c */,
+				D0B249C017A897A100DEC5FE /* util.c */,
+				D0B249BC17A88FFF00DEC5FE /* arithmetic.h */,
+				D0B249BD17A8900E00DEC5FE /* arithmetic.c */,
+				D0B249B217A8854C00DEC5FE /* printutils.c */,
+				D06636D317A8513600303F30 /* config.h */,
+				D06636CB17A7A2F600303F30 /* Rconfig.h */,
+				D06636B817A79A4F00303F30 /* R.h */,
+				D06636CA17A7A18600303F30 /* Rinternals.h */,
+				D06636CF17A7AD5A00303F30 /* Rmath.h */,
+				D06636D017A8306800303F30 /* Defn.h */,
+				D06636D417A852C300303F30 /* Internal.h */,
+				D06636D817A873B300303F30 /* Rinlinedfuns.h */,
+				D06636D917A873D700303F30 /* Errormsg.h */,
+				D06636DD17A8754800303F30 /* RConnections.h */,
+				D06636DE17A875AE00303F30 /* libintl.h */,
+				D06636E017A8763600303F30 /* Startup.h */,
+				D0B249AD17A876A600DEC5FE /* Rinterface.h */,
+				D0B249B417A887C800DEC5FE /* Print.h */,
+				D0B249B517A8881400DEC5FE /* RBufferUtils.h */,
+				D0B249B717A8887200DEC5FE /* rlocale.h */,
+				D06636B917A79A8300303F30 /* R_ext */,
+			);
+			path = rmini;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D0CABE5717A453C900B224FF /* rmini */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D0CABE6117A453C900B224FF /* Build configuration list for PBXNativeTarget "rmini" */;
+			buildPhases = (
+				D0CABE5417A453C900B224FF /* Sources */,
+				D0CABE5517A453C900B224FF /* Frameworks */,
+				D0CABE5617A453C900B224FF /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = rmini;
+			productName = rmini;
+			productReference = D0CABE5817A453C900B224FF /* rmini */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D0CABE5017A453C900B224FF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = "Sang Chul Choi";
+			};
+			buildConfigurationList = D0CABE5317A453C900B224FF /* Build configuration list for PBXProject "rmini" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = D0CABE4F17A453C900B224FF;
+			productRefGroup = D0CABE5917A453C900B224FF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D0CABE5717A453C900B224FF /* rmini */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D0CABE5417A453C900B224FF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0CABE5C17A453C900B224FF /* main.c in Sources */,
+				D06636C917A7A09B00303F30 /* memory.c in Sources */,
+				D06636CE17A7AC2A00303F30 /* coerce.c in Sources */,
+				D06636D217A84AB200303F30 /* errors.c in Sources */,
+				D0B249AF17A8801500DEC5FE /* envir.c in Sources */,
+				D0B249BB17A88F7E00DEC5FE /* names.c in Sources */,
+				D0B249C117A897A100DEC5FE /* util.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		D0CABE5F17A453C900B224FF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_OPENMP_SUPPORT = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/rmini";
+				LIBRARY_SEARCH_PATHS = (
+					"/Users/goshng/Downloads/R-3.0.1/b/lib",
+					"/usr/local/Cellar/gfortran/4.8.1/gfortran/lib/gcc/x86_64-apple-darwin12.3.0/4.8.1",
+					/usr/local/Cellar/gfortran/4.8.1/gfortran/lib,
+					"/Users/goshng/Downloads/R-3.0.1/b/src/nmath/standalone",
+					/usr/local/Cellar/gettext/0.18.3/lib,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = (
+					"-DNVALGRIND",
+					"-DUSE_RINTERNALS",
+					"-DHAVE_CONFIG_H",
+				);
+				OTHER_LDFLAGS = (
+					"-lRlapack",
+					"-lRblas",
+					"-lgfortran",
+					"-lquadmath",
+					"-lm",
+					"-lRmath",
+					"-lintl",
+				);
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		D0CABE6017A453C900B224FF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_OPENMP_SUPPORT = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/rmini";
+				LIBRARY_SEARCH_PATHS = (
+					"/Users/goshng/Downloads/R-3.0.1/b/lib",
+					"/usr/local/Cellar/gfortran/4.8.1/gfortran/lib/gcc/x86_64-apple-darwin12.3.0/4.8.1",
+					/usr/local/Cellar/gfortran/4.8.1/gfortran/lib,
+					"/Users/goshng/Downloads/R-3.0.1/b/src/nmath/standalone",
+					/usr/local/Cellar/gettext/0.18.3/lib,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				OTHER_CFLAGS = (
+					"-DNVALGRIND",
+					"-DUSE_RINTERNALS",
+					"-DHAVE_CONFIG_H",
+				);
+				OTHER_LDFLAGS = (
+					"-lRlapack",
+					"-lRblas",
+					"-lgfortran",
+					"-lquadmath",
+					"-lm",
+					"-lRmath",
+					"-lintl",
+				);
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		D0CABE6217A453C900B224FF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				GCC_VERSION = "";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/rmini";
+				LIBRARY_SEARCH_PATHS = (
+					"/Users/goshng/Downloads/R-3.0.1/b/lib",
+					"/usr/local/Cellar/gfortran/4.8.1/gfortran/lib/gcc/x86_64-apple-darwin12.3.0/4.8.1",
+					/usr/local/Cellar/gfortran/4.8.1/gfortran/lib,
+					"/Users/goshng/Downloads/R-3.0.1/b/src/nmath/standalone",
+					/usr/local/Cellar/gettext/0.18.3/lib,
+				);
+				OTHER_LDFLAGS = (
+					"-lRlapack",
+					"-lRblas",
+					"-lgfortran",
+					"-lquadmath",
+					"-lm",
+					"-lRmath",
+					"-lintl",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
+			};
+			name = Debug;
+		};
+		D0CABE6317A453C900B224FF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				GCC_VERSION = "";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/rmini";
+				LIBRARY_SEARCH_PATHS = (
+					"/Users/goshng/Downloads/R-3.0.1/b/lib",
+					"/usr/local/Cellar/gfortran/4.8.1/gfortran/lib/gcc/x86_64-apple-darwin12.3.0/4.8.1",
+					/usr/local/Cellar/gfortran/4.8.1/gfortran/lib,
+					"/Users/goshng/Downloads/R-3.0.1/b/src/nmath/standalone",
+					/usr/local/Cellar/gettext/0.18.3/lib,
+				);
+				OTHER_LDFLAGS = (
+					"-lRlapack",
+					"-lRblas",
+					"-lgfortran",
+					"-lquadmath",
+					"-lm",
+					"-lRmath",
+					"-lintl",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D0CABE5317A453C900B224FF /* Build configuration list for PBXProject "rmini" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0CABE5F17A453C900B224FF /* Debug */,
+				D0CABE6017A453C900B224FF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D0CABE6117A453C900B224FF /* Build configuration list for PBXNativeTarget "rmini" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0CABE6217A453C900B224FF /* Debug */,
+				D0CABE6317A453C900B224FF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D0CABE5017A453C900B224FF /* Project object */;
+}

@@ -1,0 +1,80 @@
+
+
+1. Read two sets of fastq files.
+2. Genome names.
+3. Download the genome, and annotation of the genome.
+
+3. Genome annotations.
+
+Procedure:
+
+1. preprocessing of the reads: cut the 5'-end and 3'-end bases
+2. alignment of the reads: align the reads
+3. count the reads on the genome
+4. deseq procedure
+5. output of figures for publication
+
+Documentation
+-------------
+1. Library documentation
+2. Program documentation
+3. Graphical User Interface documentation
+
+-g --genome mm10
+-f --fastq 1.fq.gz,2.fq.gz
+-o --out out
+
+Features
+--------
+
+
+Methods
+-------
+1.
+
+Implementations
+---------------
+wget
+cutadapter
+prinseq
+bwa
+samtools
+DESeq/DEXSeq
+
+Source of Genomes and Annotations
+---------------------------------
+Human
+ftp://ftp.ensembl.org/pub/mnt2/release-72/fasta/homo_sapiens/dna/README
+
+
+Source of implementation
+------------------------
+curl-7.31.0.tar.gz (http://ftp.gnu.org/gnu/wget/wget-1.14.tar.gz)
+samtools-0.1.19.tar.bz2
+bwa-0.7.5a.tar.bz2
+prinseq-lite-0.20.3.tar.gz
+Peach/kseq - FASQT Parser
+gengetopt
+ftp://wuarchive.wustl.edu/mirrors/gnu/gzip/gzip-1.2.4.tar
+http://code.google.com/p/rna-star/
+http://www.cs.dartmouth.edu/~doug/sarray/ (for Manber and Myers's suffix array implementation)
+
+Useful Web Resource
+-------------------
+http://curl.haxx.se/libcurl/c/example.html
+
+Keep this in mind
+-----------------
+Do not use codes unless you understand it. You'd better write your own codes.
+There is no point of using it without knowing what it does.
+
+
+Use gengetopt 2.22.6 to generate cmdline.c and cmdline.h files.
+
+----
+$ gengetopt < deseq.ggo --file-name=cmdline --unamed-opts --func-name=my_cmdline_parser --include-getopt
+----
+
+Other sequence tools
+--------------------
+http://code.google.com/p/biopieces/

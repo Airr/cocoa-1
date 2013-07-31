@@ -1,0 +1,55 @@
+FASTQ specification
+-------------------
+http://en.wikipedia.org/wiki/FASTQ_format
+
+Format
+------
+@EAS139:136:FC706VJ:2:2104:15343:197393 1:Y:18:ATCACG
+GGGTGATGGCCGCTGCCGATGGCGTCAAATCCCACC
++
+IIIIIIIIIIIIIIIIIIIIIIIIIIIIII9IG9IC
+
+Preprocessors of FASTQ files
+----------------------------
+prinseq
+cutadapt
+
+How to generate FASTQ files
+---------------------------
+
+Genome file format
+------------------
+2bit (http://genome.ucsc.edu/FAQ/FAQformat.html#format7)
+nib
+agp (http://www.ncbi.nlm.nih.gov/projects/genome/assembly/agp/AGP_Specification.shtml)
+fasta
+
+
+
+
+Kent source for genome file manipulation
+----------------------------------------
+See http://genomewiki.ucsc.edu/index.php/Kent_source_utilities
+twoBitToFa
+nibFrag
+faToTwoBit
+twoBitInfo
+faFrag
+faOneRecord
+faSomeRecords
+faToNib
+
+Sequencing company
+------------------
+http://support.illumina.com/sequencing/documentation.ilmn
+
+Others
+------
+http://onetipperday.blogspot.com/2013/01/quick-ways-to-extract-mrnatranscript.html
+http://contig.wordpress.com/2011/09/01/newbler-input-iii-a-quick-fix-for-the-new-illumina-fastq-header/
+
+Papers
+------
+http://bioinformatics.oxfordjournals.org/content/25/13/1609.full.pdf
+This is relevant to MMP search.
+

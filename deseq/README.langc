@@ -1,0 +1,22 @@
+Language C
+==========
+
+Structure
+---------
+http://stackoverflow.com/questions/1675351/typedef-struct-vs-struct-definitions
+
+Constant
+--------
+http://stackoverflow.com/questions/1674032/static-const-vs-define-in-c
+
+String
+------
+strstr - string.h
+
+Literal
+-------
+http://c.comsci.us/etymology/literals.html
+
+Enum
+----
+http://www.cs.utah.edu/~germain/PPS/Topics/C_Language/enumerated_types.html

@@ -1,0 +1,8 @@
+
+Xcode and GSL
+-------------
+http://blog.cogneurostats.com/?p=68
+
+Header and library paths
+------------------------
+gsl-config --cflags --libs-without-cblas

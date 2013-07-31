@@ -1,0 +1,33 @@
+
+.Create a random directory under /tmp
+
+0. progress bar using ncurses
+1. libcurl progress bar
+2. preprocessing
+3. single-end and paired-end alignment on the genome of multiple FASTA
+4. DESeq and DEXSeq code
+
+
+
+///////////////////////////////////////////////////////////
+// -lncurses
+///////////////////////////////////////////////////////////
+#include <curses.h>
+#include <unistd.h>
+
+void spinner(int spin_seconds) {
+    static char const spin_chars[] = "/-\\|";
+    unsigned long i, num_iterations = (spin_seconds * 10);
+    for (i=0; i<num_iterations; ++i) {
+        mvaddch(0, 0, spin_chars[i & 3]);
+        refresh();
+        usleep(100000);
+    }
+}
+
+int main() {
+    initscr();    /* initializes curses */
+    spinner(10);  /* spin for 10 seconds */
+    endwin();     /* cleanup curses */
+    return 0;
+}
