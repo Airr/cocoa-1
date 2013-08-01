@@ -154,6 +154,7 @@ static R_INLINE SEXP CHK(SEXP x)
     if (x != NULL && TYPEOF(x) == FREESXP)
         error("unprotected object (%p) encountered (was %s)",
               x, sexptype2char(OLDTYPE(x)));
+    assert(0);
     return x;
 }
 #else
@@ -237,15 +238,17 @@ static void R_ReportAllocation(R_size_t);
 static void R_ReportNewPage();
 #endif
 
-#define GC_PROT(X) do { \
-int __wait__ = gc_force_wait; \
-int __gap__ = gc_force_gap;			   \
-Rboolean __release__ = gc_inhibit_release;	   \
-X;						   \
-gc_force_wait = __wait__;			   \
-gc_force_gap = __gap__;			   \
-gc_inhibit_release = __release__;		   \
-}  while(0)
+#define GC_PROT(X) (X)
+
+//#define GC_PROT(X) do { \
+//int __wait__ = gc_force_wait; \
+//int __gap__ = gc_force_gap;			   \
+//Rboolean __release__ = gc_inhibit_release;	   \
+//X;						   \
+//gc_force_wait = __wait__;			   \
+//gc_force_gap = __gap__;			   \
+//gc_inhibit_release = __release__;		   \
+//}  while(0)
 
 static void R_gc_internal(R_size_t size_needed);
 static void R_gc_full(R_size_t size_needed);
@@ -409,12 +412,11 @@ SET_PREV_NODE(sn__n__, prev); \
 /* Node Allocation. */
 
 #define CLASS_GET_FREE_NODE(c,s) do { \
-(s) = malloc ( sizeof(SEXPREC) ); \
+(s) = malloc ( NodeClassSize[(c)] + sizeof(VECTOR_SEXPREC) ); \
 } while ( 0 )
 
 #define NO_FREE_NODES() (R_NodesInUse >= R_NSize)
 #define GET_FREE_NODE(s) CLASS_GET_FREE_NODE(0,s)
-
 
 static void old_to_new(SEXP x, SEXP y)
 {
@@ -431,17 +433,20 @@ if (NODE_IS_OLDER(CHK(x), CHK(y))) old_to_new(x,y);  } while (0)
 
 static void mem_err_heap(R_size_t size)
 {
+    assert(0);
     errorcall(R_NilValue, _("vector memory exhausted (limit reached?)"));
 }
 
 
 static void mem_err_cons(void)
 {
+    assert(0);
     errorcall(R_NilValue, _("cons memory exhausted (limit reached?)"));
 }
 
 static void mem_err_malloc(R_size_t size)
 {
+    assert(0);
     errorcall(R_NilValue, _("memory exhausted (limit reached?)"));
 }
 
@@ -453,6 +458,9 @@ static int R_StandardPPStackSize, R_RealPPStackSize;
 
 void attribute_hidden InitMemory()
 {
+    UNMARK_NODE(&UnmarkedNodeTemplate);
+    SET_NODE_CLASS(&UnmarkedNodeTemplate, 0);
+
     /* R_NilValue */
     /* THIS MUST BE THE FIRST CONS CELL ALLOCATED */
     /* OR ARMAGEDDON HAPPENS. */
@@ -468,6 +476,26 @@ void attribute_hidden InitMemory()
     ATTRIB(R_NilValue) = R_NilValue;
 
     return;
+}
+
+void attribute_hidden FinalizeMemory()
+{
+    freeVector(R_NilValue);
+}
+
+void attribute_hidden freeVector(SEXP s)
+{
+    R_xlen_t length;
+#ifdef LONG_VECTOR_SUPPORT
+    if (IS_LONG_VEC(s))
+    {
+        length = LONG_VEC_LENGTH(s);
+        if (length > R_SHORT_LEN_MAX) {
+            s -= sizeof(R_long_vec_hdr_t);
+        }
+    }
+#endif
+    free(s);
 }
 
 /* "allocSExp" allocate a SEXPREC */
@@ -789,6 +817,7 @@ SEXP allocVector(SEXPTYPE type, R_xlen_t length)
                     /* If we are near the address space limit, we
                      might be short of address space.  So return
                      all unused objects to malloc and try again. */
+                    // WE MUST EXIT THE PROGRAM!
                     R_gc_full(alloc_size);
                     mem = malloc(hdrsize + size * sizeof(VECREC));
                 }
@@ -816,6 +845,7 @@ SEXP allocVector(SEXPTYPE type, R_xlen_t length)
 #endif
             } else s = NULL; /* suppress warning */
             if (! success) {
+                assert(0);
                 double dsize = (double)size * sizeof(VECREC)/1024.0;
                 /* reset the vector heap limit */
                 R_VSize = old_R_VSize;
@@ -835,9 +865,9 @@ SEXP allocVector(SEXPTYPE type, R_xlen_t length)
             s->sxpinfo = UnmarkedNodeTemplate.sxpinfo;
             SET_NODE_CLASS(s, LARGE_NODE_CLASS);
             R_LargeVallocSize += size;
-            R_GenHeap[LARGE_NODE_CLASS].AllocCount++;
-            R_NodesInUse++;
-            SNAP_NODE(s, R_GenHeap[LARGE_NODE_CLASS].New);
+//            R_GenHeap[LARGE_NODE_CLASS].AllocCount++;
+//            R_NodesInUse++;
+//            SNAP_NODE(s, R_GenHeap[LARGE_NODE_CLASS].New);
         }
         ATTRIB(s) = R_NilValue;
         TYPEOF(s) = type;
@@ -916,11 +946,13 @@ void R_gc(void)
 
 static void R_gc_full(R_size_t size_needed)
 {
+    assert(0);
     return;
 }
 
 static void R_gc_internal(R_size_t size_needed)
 {
+    assert(0);
     return;
 }
 
@@ -953,11 +985,11 @@ void (SET_TYPEOF)(SEXP x, int v) { SET_TYPEOF(CHK(x), v); }
 void (SET_NAMED)(SEXP x, int v) { SET_NAMED(CHK(x), v); }
 void (SET_RTRACE)(SEXP x, int v) { SET_RTRACE(CHK(x), v); }
 int (SETLEVELS)(SEXP x, int v) { return SETLEVELS(CHK(x), v); }
-//void DUPLICATE_ATTRIB(SEXP to, SEXP from) {
-//    SET_ATTRIB(CHK(to), duplicate(CHK(ATTRIB(CHK(from)))));
-//    SET_OBJECT(CHK(to), OBJECT(from));
-//    IS_S4_OBJECT(from) ?  SET_S4_OBJECT(to) : UNSET_S4_OBJECT(to);
-//}
+void DUPLICATE_ATTRIB(SEXP to, SEXP from) {
+    SET_ATTRIB(CHK(to), duplicate(CHK(ATTRIB(CHK(from)))));
+    SET_OBJECT(CHK(to), OBJECT(from));
+    IS_S4_OBJECT(from) ?  SET_S4_OBJECT(to) : UNSET_S4_OBJECT(to);
+}
 
 /* S4 object testing */
 int (IS_S4_OBJECT)(SEXP x){ return IS_S4_OBJECT(CHK(x)); }

@@ -75,3 +75,13 @@ void attribute_hidden InitNames()
 //    
 //    R_initialize_bcode();
 }
+
+void attribute_hidden FinalizeNames()
+{
+    freeVector(R_UnboundValue);
+    freeVector(R_MissingArg);
+    freeVector(R_RestartToken);
+    freeVector(NA_STRING);
+    freeVector(R_BlankString);
+}
+

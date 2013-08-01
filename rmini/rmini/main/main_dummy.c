@@ -1,8 +1,8 @@
 //
-//  main.c
+//  main_dummy.c
 //  rmini
 //
-//  Created by Sang Chul Choi on 7/27/13.
+//  Created by Sang Chul Choi on 7/31/13.
 //  Copyright (c) 2013 Sang Chul Choi. All rights reserved.
 //
 
@@ -16,24 +16,16 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <assert.h>
 
 #define __MAIN__
 #define R_USE_SIGNALS 1
 #include "Defn.h"
 #include <Internal.h>
 #include "Rinterface.h"
-//#include <R.h>
-//#include <Rinternals.h>
 
-int main(int argc, const char * argv[])
+void attribute_hidden BindDomain(char *R_Home)
 {
-    int skrn = 1;
-    
-    
-    return skrn;
-}
-
-void setup_Rmainloop(void)
-{
-    InitNames();
+    assert(0);
+    return;
 }

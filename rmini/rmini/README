@@ -1,4 +1,22 @@
-I need to use some key functions in R without importing R packages with only R 
+#include <stdio.h>
+#include <stdarg.h>
+// See http://stackoverflow.com/questions/1056411/how-to-pass-variable-number-of-arguments-to-printf-sprintf
+void NORET errorcall(SEXP call, const char *format,...)
+{
+    va_list argptr;
+    va_start(argptr, format);
+    vfprintf(stderr, format, argptr);
+    va_end(argptr);
+}
+
+
+
+
+
+
+
+
+I need to use some key functions in R without importing R packages with only R
 scripts. I want to use R packages with only C, C++, or Fortran. This means that 
 I need to make a tiny version of R without R scripting functionality. rmini 
 needs the following features.
@@ -26,6 +44,7 @@ different version of C function calls in R's internal such as .C, .Call,
 We need to test basic functions in R's internal in order to wisely use them. 
 Before embarking on this taks, we need to know about dynamic library in Mac OSX 
 and Linux.
+
 
 Mac Dynamic Library Programming
 -------------------------------

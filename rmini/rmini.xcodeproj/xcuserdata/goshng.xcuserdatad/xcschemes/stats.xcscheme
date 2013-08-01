@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D0CABE5717A453C900B224FF"
-               BuildableName = "rmini"
-               BlueprintName = "rmini"
+               BlueprintIdentifier = "D0B249CD17A9BD6700DEC5FE"
+               BuildableName = "libstats.dylib"
+               BlueprintName = "stats"
                ReferencedContainer = "container:rmini.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -29,15 +29,6 @@
       buildConfiguration = "Debug">
       <Testables>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D0CABE5717A453C900B224FF"
-            BuildableName = "rmini"
-            BlueprintName = "rmini"
-            ReferencedContainer = "container:rmini.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </TestAction>
    <LaunchAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
@@ -48,22 +39,6 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D0CABE5717A453C900B224FF"
-            BuildableName = "rmini"
-            BlueprintName = "rmini"
-            ReferencedContainer = "container:rmini.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
-      <EnvironmentVariables>
-         <EnvironmentVariable
-            key = "DYLD_LIBRARY_PATH"
-            value = "/Users/goshng/Downloads/R-3.0.1/b/lib:/Users/goshng/Downloads/R-3.0.1/b/src/nmath/standalone"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-      </EnvironmentVariables>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -73,15 +48,6 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D0CABE5717A453C900B224FF"
-            BuildableName = "rmini"
-            BlueprintName = "rmini"
-            ReferencedContainer = "container:rmini.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
