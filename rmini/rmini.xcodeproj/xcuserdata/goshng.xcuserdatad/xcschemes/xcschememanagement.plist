@@ -4,6 +4,16 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Rblas.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>9</integer>
+		</dict>
+		<key>Rlapack.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>10</integer>
+		</dict>
 		<key>appl.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -25,6 +35,11 @@
 			<integer>6</integer>
 		</dict>
 		<key>rmini.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>8</integer>
+		</dict>
+		<key>rminicmd.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
@@ -73,6 +88,21 @@
 			<true/>
 		</dict>
 		<key>D09FB50F17AA4EE8001DAE8E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D09FB54817AAD38F001DAE8E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D09FB55517AAD6C2001DAE8E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D09FB56717AAE10E001DAE8E</key>
 		<dict>
 			<key>primary</key>
 			<true/>

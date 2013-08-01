@@ -29,24 +29,11 @@
 
 SEXP sumvector(SEXP x, SEXP y)
 {
-    int krn = asInteger(skrn);
-    double bw = asReal(sbw);
-    
-    
-    x = PROTECT(coerceVector(x, REALSXP));
-    y = PROTECT(coerceVector(y, REALSXP));
-    xp = PROTECT(coerceVector(xp, REALSXP));
-    R_xlen_t nx = XLENGTH(x), np = XLENGTH(xp);
-    SEXP yp = PROTECT(allocVector(REALSXP, np));
-    
-    BDRksmooth(REAL(x), REAL(y), nx, REAL(xp), REAL(yp), np, krn, bw);
-    SEXP ans = PROTECT(allocVector(VECSXP, 2));
-    SET_VECTOR_ELT(ans, 0, xp);
-    SET_VECTOR_ELT(ans, 1, yp);
-    SEXP nm = allocVector(STRSXP, 2);
-    setAttrib(ans, R_NamesSymbol, nm);
-    SET_STRING_ELT(nm, 0, mkChar("x"));
-    SET_STRING_ELT(nm, 1, mkChar("y"));
-    UNPROTECT(5);
-    return ans;
+    int xi = asInteger(x);
+    int yi = asInteger(y);
+    int zi = xi + yi;
+    SEXP z = PROTECT(allocVector(INTSXP, 1));
+    INTEGER(z)[0] = zi;
+    UNPROTECT(1);
+    return z;
 }

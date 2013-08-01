@@ -283,6 +283,20 @@
 		D09FB54017AA55E0001DAE8E /* localecharset.c in Sources */ = {isa = PBXBuildFile; fileRef = D09FB53F17AA55DE001DAE8E /* localecharset.c */; };
 		D09FB54217AA573A001DAE8E /* Renviron.c in Sources */ = {isa = PBXBuildFile; fileRef = D09FB54117AA5739001DAE8E /* Renviron.c */; };
 		D09FB54417AA5D19001DAE8E /* complex.c in Sources */ = {isa = PBXBuildFile; fileRef = D09FB54317AA5D18001DAE8E /* complex.c */; };
+		D09FB54D17AAD3B0001DAE8E /* libappl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D066797F17AA22180099A5FC /* libappl.a */; };
+		D09FB54E17AAD3B0001DAE8E /* libbz2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D09FB35117AA2F08001DAE8E /* libbz2.a */; };
+		D09FB54F17AAD3B0001DAE8E /* libreadline.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D09FB4CE17AA4E70001DAE8E /* libreadline.a */; };
+		D09FB55017AAD3B0001DAE8E /* libtre.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D066792D17AA0D770099A5FC /* libtre.a */; };
+		D09FB55117AAD3B0001DAE8E /* libz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D09FB49717AA4B8C001DAE8E /* libz.a */; };
+		D09FB55D17AAD6D5001DAE8E /* blas.f in Sources */ = {isa = PBXBuildFile; fileRef = D09FB55B17AAD6D5001DAE8E /* blas.f */; };
+		D09FB55E17AAD6D5001DAE8E /* cmplxblas.f in Sources */ = {isa = PBXBuildFile; fileRef = D09FB55C17AAD6D5001DAE8E /* cmplxblas.f */; };
+		D09FB56117AADD25001DAE8E /* xerbla.c in Sources */ = {isa = PBXBuildFile; fileRef = D09FB56017AADD25001DAE8E /* xerbla.c */; };
+		D09FB57317AAE145001DAE8E /* cmplx.f in Sources */ = {isa = PBXBuildFile; fileRef = D09FB56D17AAE145001DAE8E /* cmplx.f */; };
+		D09FB57417AAE145001DAE8E /* dlamch.f in Sources */ = {isa = PBXBuildFile; fileRef = D09FB56E17AAE145001DAE8E /* dlamch.f */; };
+		D09FB57517AAE145001DAE8E /* dlapack.f in Sources */ = {isa = PBXBuildFile; fileRef = D09FB56F17AAE145001DAE8E /* dlapack.f */; };
+		D09FB57617AAE145001DAE8E /* Lapack.c in Sources */ = {isa = PBXBuildFile; fileRef = D09FB57017AAE145001DAE8E /* Lapack.c */; };
+		D09FB57717AAE145001DAE8E /* Lapack.h in Headers */ = {isa = PBXBuildFile; fileRef = D09FB57117AAE145001DAE8E /* Lapack.h */; };
+		D09FB57917AAE1DF001DAE8E /* libRblas.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D09FB55617AAD6C2001DAE8E /* libRblas.dylib */; };
 		D0B249AF17A8801500DEC5FE /* envir.c in Sources */ = {isa = PBXBuildFile; fileRef = D0B249AE17A8801500DEC5FE /* envir.c */; };
 		D0B249BB17A88F7E00DEC5FE /* names.c in Sources */ = {isa = PBXBuildFile; fileRef = D0B249BA17A88F7D00DEC5FE /* names.c */; };
 		D0B249C117A897A100DEC5FE /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = D0B249C017A897A100DEC5FE /* util.c */; };
@@ -310,6 +324,26 @@
 				"${OBJECT_FILE_DIR_normal}/${NATIVE_ARCH}/${INPUT_FILE_BASE}.o",
 			);
 			script = "/usr/local/bin/gfortran -fopenmp -fPIC -g -O2 -c ${PROJECT_DIR}/appl/${INPUT_FILE_NAME} -o ${OBJECT_FILE_DIR_normal}/${NATIVE_ARCH}/${INPUT_FILE_BASE}.o";
+		};
+		D09FB55F17AAD7C6001DAE8E /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			fileType = sourcecode.fortran;
+			isEditable = 1;
+			outputFiles = (
+				"${OBJECT_FILE_DIR_normal}/${NATIVE_ARCH}/${INPUT_FILE_BASE}.o",
+			);
+			script = "/usr/local/bin/gfortran -fopenmp -fPIC -g -O2 -c ${PROJECT_DIR}/extra/blas/${INPUT_FILE_NAME} -o ${OBJECT_FILE_DIR_normal}/${NATIVE_ARCH}/${INPUT_FILE_BASE}.o";
+		};
+		D09FB57817AAE1A5001DAE8E /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			fileType = sourcecode.fortran;
+			isEditable = 1;
+			outputFiles = (
+				"${OBJECT_FILE_DIR_normal}/${NATIVE_ARCH}/${INPUT_FILE_BASE}.o",
+			);
+			script = "/usr/local/bin/gfortran -fopenmp -fPIC -g -O2 -c ${PROJECT_DIR}/modules/lapack/${INPUT_FILE_NAME} -o ${OBJECT_FILE_DIR_normal}/${NATIVE_ARCH}/${INPUT_FILE_BASE}.o";
 		};
 /* End PBXBuildRule section */
 
@@ -676,6 +710,19 @@
 		D09FB53F17AA55DE001DAE8E /* localecharset.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = localecharset.c; sourceTree = "<group>"; };
 		D09FB54117AA5739001DAE8E /* Renviron.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Renviron.c; sourceTree = "<group>"; };
 		D09FB54317AA5D18001DAE8E /* complex.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = complex.c; sourceTree = "<group>"; };
+		D09FB54917AAD38F001DAE8E /* librmini.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = librmini.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		D09FB55617AAD6C2001DAE8E /* libRblas.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libRblas.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		D09FB55B17AAD6D5001DAE8E /* blas.f */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.fortran; path = blas.f; sourceTree = "<group>"; };
+		D09FB55C17AAD6D5001DAE8E /* cmplxblas.f */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.fortran; path = cmplxblas.f; sourceTree = "<group>"; };
+		D09FB56017AADD25001DAE8E /* xerbla.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xerbla.c; sourceTree = "<group>"; };
+		D09FB56217AADF59001DAE8E /* Lapack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Lapack.h; sourceTree = "<group>"; };
+		D09FB56817AAE10E001DAE8E /* libRlapack.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libRlapack.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		D09FB56D17AAE145001DAE8E /* cmplx.f */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.fortran; path = cmplx.f; sourceTree = "<group>"; };
+		D09FB56E17AAE145001DAE8E /* dlamch.f */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.fortran; path = dlamch.f; sourceTree = "<group>"; };
+		D09FB56F17AAE145001DAE8E /* dlapack.f */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.fortran; path = dlapack.f; sourceTree = "<group>"; };
+		D09FB57017AAE145001DAE8E /* Lapack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Lapack.c; sourceTree = "<group>"; };
+		D09FB57117AAE145001DAE8E /* Lapack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lapack.h; sourceTree = "<group>"; };
+		D09FB57217AAE145001DAE8E /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		D0B249AC17A8766A00DEC5FE /* RStartup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RStartup.h; sourceTree = "<group>"; };
 		D0B249AD17A876A600DEC5FE /* Rinterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Rinterface.h; sourceTree = "<group>"; };
 		D0B249AE17A8801500DEC5FE /* envir.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = envir.c; sourceTree = "<group>"; };
@@ -714,7 +761,7 @@
 		D0B249F017A9D25300DEC5FE /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = main.c; path = rmini/main/main.c; sourceTree = SOURCE_ROOT; };
 		D0B249F217A9D33300DEC5FE /* startup.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = startup.c; sourceTree = "<group>"; };
 		D0B249F517A9E71E00DEC5FE /* dummyc.pl */ = {isa = PBXFileReference; lastKnownFileType = text.script.perl; path = dummyc.pl; sourceTree = "<group>"; };
-		D0CABE5817A453C900B224FF /* rmini */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = rmini; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0CABE5817A453C900B224FF /* rminicmd */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = rminicmd; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0CABE5B17A453C900B224FF /* rminimain.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = rminimain.c; path = rmini/main/rminimain.c; sourceTree = SOURCE_ROOT; };
 		D0CABE5D17A453C900B224FF /* rmini.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = rmini.1; sourceTree = "<group>"; };
 		D0CABE6417A453DD00B224FF /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
@@ -760,6 +807,33 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D09FB54617AAD38F001DAE8E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D09FB54D17AAD3B0001DAE8E /* libappl.a in Frameworks */,
+				D09FB54E17AAD3B0001DAE8E /* libbz2.a in Frameworks */,
+				D09FB54F17AAD3B0001DAE8E /* libreadline.a in Frameworks */,
+				D09FB55017AAD3B0001DAE8E /* libtre.a in Frameworks */,
+				D09FB55117AAD3B0001DAE8E /* libz.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D09FB55317AAD6C2001DAE8E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D09FB56517AAE10E001DAE8E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D09FB57917AAE1DF001DAE8E /* libRblas.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -828,8 +902,7 @@
 				D066794717AA0D900099A5FC /* xmalloc.c */,
 				D066794817AA0D900099A5FC /* xmalloc.h */,
 			);
-			name = tre;
-			path = ../tre;
+			path = tre;
 			sourceTree = "<group>";
 		};
 		D066798317AA23260099A5FC /* appl */ = {
@@ -865,6 +938,7 @@
 		D09FB34C17AA2EAC001DAE8E /* extra */ = {
 			isa = PBXGroup;
 			children = (
+				D09FB55A17AAD6D4001DAE8E /* blas */,
 				D09FB4D217AA4EC6001DAE8E /* readline */,
 				D09FB49B17AA4BC7001DAE8E /* zlib */,
 				D0B249F417A9E71E00DEC5FE /* pl */,
@@ -1128,6 +1202,37 @@
 			path = readline;
 			sourceTree = "<group>";
 		};
+		D09FB55A17AAD6D4001DAE8E /* blas */ = {
+			isa = PBXGroup;
+			children = (
+				D09FB56017AADD25001DAE8E /* xerbla.c */,
+				D09FB55B17AAD6D5001DAE8E /* blas.f */,
+				D09FB55C17AAD6D5001DAE8E /* cmplxblas.f */,
+			);
+			path = blas;
+			sourceTree = "<group>";
+		};
+		D09FB56317AAE002001DAE8E /* modules */ = {
+			isa = PBXGroup;
+			children = (
+				D09FB56C17AAE145001DAE8E /* lapack */,
+			);
+			path = modules;
+			sourceTree = "<group>";
+		};
+		D09FB56C17AAE145001DAE8E /* lapack */ = {
+			isa = PBXGroup;
+			children = (
+				D09FB56D17AAE145001DAE8E /* cmplx.f */,
+				D09FB56E17AAE145001DAE8E /* dlamch.f */,
+				D09FB56F17AAE145001DAE8E /* dlapack.f */,
+				D09FB57017AAE145001DAE8E /* Lapack.c */,
+				D09FB57117AAE145001DAE8E /* Lapack.h */,
+				D09FB57217AAE145001DAE8E /* README */,
+			);
+			path = lapack;
+			sourceTree = "<group>";
+		};
 		D0B249C817A9BC5000DEC5FE /* package */ = {
 			isa = PBXGroup;
 			children = (
@@ -1171,32 +1276,32 @@
 		D0B249F617AA033C00DEC5FE /* include */ = {
 			isa = PBXGroup;
 			children = (
-				D09FB36D17AA30B0001DAE8E /* Rmodules */,
-				D0B249F717AA033D00DEC5FE /* R_ext */,
-				D066796817AA16710099A5FC /* Parse.h */,
-				D09FB37F17AA3CF4001DAE8E /* Rgraphics.h */,
+				D06636D317A8513600303F30 /* config.h */,
+				D06636D017A8306800303F30 /* Defn.h */,
+				D06636D917A873D700303F30 /* Errormsg.h */,
+				D0B249EE17A9D0CC00DEC5FE /* Fileio.h */,
 				D09FB37D17AA3CD9001DAE8E /* Graphics.h */,
 				D09FB37E17AA3CDA001DAE8E /* GraphicsBase.h */,
-				D09FB34717AA2CB4001DAE8E /* S.h */,
-				D066796717AA16580099A5FC /* IOStuff.h */,
-				D06636D817A873B300303F30 /* Rinlinedfuns.h */,
-				D06636D317A8513600303F30 /* config.h */,
-				D06636CB17A7A2F600303F30 /* Rconfig.h */,
-				D06636B817A79A4F00303F30 /* R.h */,
-				D06636CA17A7A18600303F30 /* Rinternals.h */,
-				D06636CF17A7AD5A00303F30 /* Rmath.h */,
-				D06636D017A8306800303F30 /* Defn.h */,
 				D06636D417A852C300303F30 /* Internal.h */,
-				D06636D917A873D700303F30 /* Errormsg.h */,
-				D06636DD17A8754800303F30 /* RConnections.h */,
+				D066796717AA16580099A5FC /* IOStuff.h */,
 				D06636DE17A875AE00303F30 /* libintl.h */,
-				D06636E017A8763600303F30 /* Startup.h */,
-				D0B249AD17A876A600DEC5FE /* Rinterface.h */,
+				D066796817AA16710099A5FC /* Parse.h */,
 				D0B249B417A887C800DEC5FE /* Print.h */,
+				D06636B817A79A4F00303F30 /* R.h */,
+				D0B249F717AA033D00DEC5FE /* R_ext */,
 				D0B249B517A8881400DEC5FE /* RBufferUtils.h */,
-				D0B249B717A8887200DEC5FE /* rlocale.h */,
+				D06636CB17A7A2F600303F30 /* Rconfig.h */,
+				D06636DD17A8754800303F30 /* RConnections.h */,
 				D0B249ED17A9D0A100DEC5FE /* Rdynpriv.h */,
-				D0B249EE17A9D0CC00DEC5FE /* Fileio.h */,
+				D09FB37F17AA3CF4001DAE8E /* Rgraphics.h */,
+				D06636D817A873B300303F30 /* Rinlinedfuns.h */,
+				D0B249AD17A876A600DEC5FE /* Rinterface.h */,
+				D06636CA17A7A18600303F30 /* Rinternals.h */,
+				D0B249B717A8887200DEC5FE /* rlocale.h */,
+				D06636CF17A7AD5A00303F30 /* Rmath.h */,
+				D09FB36D17AA30B0001DAE8E /* Rmodules */,
+				D09FB34717AA2CB4001DAE8E /* S.h */,
+				D06636E017A8763600303F30 /* Startup.h */,
 			);
 			path = include;
 			sourceTree = "<group>";
@@ -1204,31 +1309,32 @@
 		D0B249F717AA033D00DEC5FE /* R_ext */ = {
 			isa = PBXGroup;
 			children = (
-				D09FB34A17AA2D87001DAE8E /* R-ftp-http.h */,
-				D066797917AA20E80099A5FC /* Linpack.h */,
-				D066796117AA139F0099A5FC /* Callbacks.h */,
-				D0B249EF17A9D13400DEC5FE /* Parse.h */,
-				D0B249EC17A9D01500DEC5FE /* eventloop.h */,
-				D06636DA17A8742A00303F30 /* Arith.h */,
-				D06636BA17A79B2900303F30 /* Boolean.h */,
-				D06636BC17A79C8F00303F30 /* Complex.h */,
-				D06636BD17A79CC800303F30 /* Constants.h */,
-				D06636DC17A8753000303F30 /* Connections.h */,
-				D06636C417A79ED600303F30 /* Error.h */,
-				D06636BF17A79D4200303F30 /* Memory.h */,
-				D06636C017A79D7E00303F30 /* Print.h */,
-				D06636C117A79DBB00303F30 /* Random.h */,
-				D06636C217A79DFF00303F30 /* Utils.h */,
-				D06636CC17A7A53800303F30 /* libextern.h */,
-				D06636C317A79E5400303F30 /* RS.h */,
-				D06636D517A8532A00303F30 /* Rdynload.h */,
-				D06636D717A8537F00303F30 /* GraphicsEngine.h */,
-				D06636DF17A875EF00303F30 /* GraphicsDevice.h */,
-				D0B249AC17A8766A00DEC5FE /* RStartup.h */,
-				D0B249B617A8884300DEC5FE /* PrtUtil.h */,
-				D0B249D417A9C58F00DEC5FE /* Riconv.h */,
 				D0B249D617A9C7E200DEC5FE /* Applic.h */,
+				D06636DA17A8742A00303F30 /* Arith.h */,
 				D0B249D717A9C84A00DEC5FE /* BLAS.h */,
+				D06636BA17A79B2900303F30 /* Boolean.h */,
+				D066796117AA139F0099A5FC /* Callbacks.h */,
+				D06636BC17A79C8F00303F30 /* Complex.h */,
+				D06636DC17A8753000303F30 /* Connections.h */,
+				D06636BD17A79CC800303F30 /* Constants.h */,
+				D06636C417A79ED600303F30 /* Error.h */,
+				D0B249EC17A9D01500DEC5FE /* eventloop.h */,
+				D06636DF17A875EF00303F30 /* GraphicsDevice.h */,
+				D06636D717A8537F00303F30 /* GraphicsEngine.h */,
+				D09FB56217AADF59001DAE8E /* Lapack.h */,
+				D06636CC17A7A53800303F30 /* libextern.h */,
+				D066797917AA20E80099A5FC /* Linpack.h */,
+				D06636BF17A79D4200303F30 /* Memory.h */,
+				D0B249EF17A9D13400DEC5FE /* Parse.h */,
+				D06636C017A79D7E00303F30 /* Print.h */,
+				D0B249B617A8884300DEC5FE /* PrtUtil.h */,
+				D09FB34A17AA2D87001DAE8E /* R-ftp-http.h */,
+				D06636C117A79DBB00303F30 /* Random.h */,
+				D06636D517A8532A00303F30 /* Rdynload.h */,
+				D0B249D417A9C58F00DEC5FE /* Riconv.h */,
+				D06636C317A79E5400303F30 /* RS.h */,
+				D0B249AC17A8766A00DEC5FE /* RStartup.h */,
+				D06636C217A79DFF00303F30 /* Utils.h */,
 			);
 			path = R_ext;
 			sourceTree = "<group>";
@@ -1236,57 +1342,57 @@
 		D0B249F817AA034F00DEC5FE /* main */ = {
 			isa = PBXGroup;
 			children = (
-				D09FB54317AA5D18001DAE8E /* complex.c */,
-				D09FB54117AA5739001DAE8E /* Renviron.c */,
-				D09FB53F17AA55DE001DAE8E /* localecharset.c */,
-				D09FB49217AA49E8001DAE8E /* Rstrptime.h */,
-				D09FB49017AA49C4001DAE8E /* datetime.c */,
-				D09FB48E17AA48E3001DAE8E /* RNG.c */,
-				D09FB48B17AA4894001DAE8E /* rlocale_data.h */,
-				D09FB48C17AA4894001DAE8E /* rlocale.c */,
-				D09FB48917AA47AD001DAE8E /* dstruct.c */,
-				D09FB48717AA46FF001DAE8E /* match.c */,
-				D09FB48517AA4623001DAE8E /* format.c */,
-				D09FB38617AA43F3001DAE8E /* deparse.c */,
-				D09FB38417AA43A3001DAE8E /* context.c */,
-				D09FB38217AA4370001DAE8E /* builtin.c */,
-				D09FB38017AA42E5001DAE8E /* inlined.c */,
-				D09FB37B17AA3CB6001DAE8E /* devices.c */,
-				D09FB37917AA3C46001DAE8E /* bind.c */,
-				D09FB37717AA3BFF001DAE8E /* options.c */,
-				D09FB37517AA31D6001DAE8E /* edit.c */,
-				D09FB37417AA3162001DAE8E /* unzip.h */,
-				D09FB37217AA3137001DAE8E /* dounzip.c */,
-				D09FB36B17AA308F001DAE8E /* internet.c */,
-				D09FB34B17AA2DD6001DAE8E /* gzio.h */,
-				D09FB34817AA2D5A001DAE8E /* connections.c */,
-				D09FB34517AA2C85001DAE8E /* print.c */,
-				D066797A17AA21190099A5FC /* basedecl.h */,
-				D066797717AA20C60099A5FC /* registration.c */,
-				D066797517AA20890099A5FC /* Rdynload.c */,
-				D066797317AA1FFF0099A5FC /* gram-ex.c */,
-				D066797117AA1F220099A5FC /* attrib.c */,
-				D066796F17AA1E7F0099A5FC /* CommandLineArgs.c */,
-				D066796D17AA1CAE0099A5FC /* saveload.c */,
-				D066796B17AA18CF0099A5FC /* eval.c */,
-				D066796917AA184F0099A5FC /* iosupport.c */,
-				D066796517AA15A20099A5FC /* gram.c */,
-				D066796217AA14170099A5FC /* sysutils.c */,
-				D066792717AA0AC60099A5FC /* platform.c */,
-				D0B249D517A9C62300DEC5FE /* valid_utf8.h */,
-				D0CABE5B17A453C900B224FF /* rminimain.c */,
-				D0B249F017A9D25300DEC5FE /* main.c */,
-				D0B249F217A9D33300DEC5FE /* startup.c */,
-				D06636C817A7A09B00303F30 /* memory.c */,
-				D06636D117A84AB200303F30 /* errors.c */,
-				D06636CD17A7AC2A00303F30 /* coerce.c */,
-				D0B249AE17A8801500DEC5FE /* envir.c */,
-				D0B249BA17A88F7D00DEC5FE /* names.c */,
-				D0B249C017A897A100DEC5FE /* util.c */,
-				D0B249D817A9C89200DEC5FE /* duplicate.c */,
-				D0B249BC17A88FFF00DEC5FE /* arithmetic.h */,
 				D0B249BD17A8900E00DEC5FE /* arithmetic.c */,
+				D0B249BC17A88FFF00DEC5FE /* arithmetic.h */,
+				D066797117AA1F220099A5FC /* attrib.c */,
+				D066797A17AA21190099A5FC /* basedecl.h */,
+				D09FB37917AA3C46001DAE8E /* bind.c */,
+				D09FB38217AA4370001DAE8E /* builtin.c */,
+				D06636CD17A7AC2A00303F30 /* coerce.c */,
+				D066796F17AA1E7F0099A5FC /* CommandLineArgs.c */,
+				D09FB54317AA5D18001DAE8E /* complex.c */,
+				D09FB34817AA2D5A001DAE8E /* connections.c */,
+				D09FB38417AA43A3001DAE8E /* context.c */,
+				D09FB49017AA49C4001DAE8E /* datetime.c */,
+				D09FB38617AA43F3001DAE8E /* deparse.c */,
+				D09FB37B17AA3CB6001DAE8E /* devices.c */,
+				D09FB37217AA3137001DAE8E /* dounzip.c */,
+				D09FB48917AA47AD001DAE8E /* dstruct.c */,
+				D0B249D817A9C89200DEC5FE /* duplicate.c */,
+				D09FB37517AA31D6001DAE8E /* edit.c */,
+				D0B249AE17A8801500DEC5FE /* envir.c */,
+				D06636D117A84AB200303F30 /* errors.c */,
+				D066796B17AA18CF0099A5FC /* eval.c */,
+				D09FB48517AA4623001DAE8E /* format.c */,
+				D066797317AA1FFF0099A5FC /* gram-ex.c */,
+				D066796517AA15A20099A5FC /* gram.c */,
+				D09FB34B17AA2DD6001DAE8E /* gzio.h */,
+				D09FB38017AA42E5001DAE8E /* inlined.c */,
+				D09FB36B17AA308F001DAE8E /* internet.c */,
+				D066796917AA184F0099A5FC /* iosupport.c */,
+				D09FB53F17AA55DE001DAE8E /* localecharset.c */,
+				D0B249F017A9D25300DEC5FE /* main.c */,
+				D09FB48717AA46FF001DAE8E /* match.c */,
+				D06636C817A7A09B00303F30 /* memory.c */,
+				D0B249BA17A88F7D00DEC5FE /* names.c */,
+				D09FB37717AA3BFF001DAE8E /* options.c */,
+				D066792717AA0AC60099A5FC /* platform.c */,
+				D09FB34517AA2C85001DAE8E /* print.c */,
 				D0B249B217A8854C00DEC5FE /* printutils.c */,
+				D066797517AA20890099A5FC /* Rdynload.c */,
+				D066797717AA20C60099A5FC /* registration.c */,
+				D09FB54117AA5739001DAE8E /* Renviron.c */,
+				D09FB48C17AA4894001DAE8E /* rlocale.c */,
+				D09FB48B17AA4894001DAE8E /* rlocale_data.h */,
+				D0CABE5B17A453C900B224FF /* rminimain.c */,
+				D09FB48E17AA48E3001DAE8E /* RNG.c */,
+				D09FB49217AA49E8001DAE8E /* Rstrptime.h */,
+				D066796D17AA1CAE0099A5FC /* saveload.c */,
+				D0B249F217A9D33300DEC5FE /* startup.c */,
+				D066796217AA14170099A5FC /* sysutils.c */,
+				D09FB37417AA3162001DAE8E /* unzip.h */,
+				D0B249C017A897A100DEC5FE /* util.c */,
+				D0B249D517A9C62300DEC5FE /* valid_utf8.h */,
 			);
 			path = main;
 			sourceTree = "<group>";
@@ -1294,6 +1400,7 @@
 		D0CABE4F17A453C900B224FF = {
 			isa = PBXGroup;
 			children = (
+				D09FB56317AAE002001DAE8E /* modules */,
 				D09FB34C17AA2EAC001DAE8E /* extra */,
 				D0B249C817A9BC5000DEC5FE /* package */,
 				D0CABE5A17A453C900B224FF /* rmini */,
@@ -1304,7 +1411,7 @@
 		D0CABE5917A453C900B224FF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D0CABE5817A453C900B224FF /* rmini */,
+				D0CABE5817A453C900B224FF /* rminicmd */,
 				D0B249CE17A9BD6700DEC5FE /* libstats.dylib */,
 				D066792D17AA0D770099A5FC /* libtre.a */,
 				D066797F17AA22180099A5FC /* libappl.a */,
@@ -1312,6 +1419,9 @@
 				D09FB49717AA4B8C001DAE8E /* libz.a */,
 				D09FB4CE17AA4E70001DAE8E /* libreadline.a */,
 				D09FB51017AA4EE8001DAE8E /* libhistory.a */,
+				D09FB54917AAD38F001DAE8E /* librmini.dylib */,
+				D09FB55617AAD6C2001DAE8E /* libRblas.dylib */,
+				D09FB56817AAE10E001DAE8E /* libRlapack.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1395,6 +1505,28 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D09FB54717AAD38F001DAE8E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D09FB55417AAD6C2001DAE8E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D09FB56617AAE10E001DAE8E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D09FB57717AAE145001DAE8E /* Lapack.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1511,6 +1643,59 @@
 			productReference = D09FB51017AA4EE8001DAE8E /* libhistory.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		D09FB54817AAD38F001DAE8E /* rmini */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D09FB54A17AAD38F001DAE8E /* Build configuration list for PBXNativeTarget "rmini" */;
+			buildPhases = (
+				D09FB54517AAD38F001DAE8E /* Sources */,
+				D09FB54617AAD38F001DAE8E /* Frameworks */,
+				D09FB54717AAD38F001DAE8E /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = rmini;
+			productName = rmini;
+			productReference = D09FB54917AAD38F001DAE8E /* librmini.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+		D09FB55517AAD6C2001DAE8E /* Rblas */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D09FB55717AAD6C2001DAE8E /* Build configuration list for PBXNativeTarget "Rblas" */;
+			buildPhases = (
+				D09FB55217AAD6C2001DAE8E /* Sources */,
+				D09FB55317AAD6C2001DAE8E /* Frameworks */,
+				D09FB55417AAD6C2001DAE8E /* Headers */,
+			);
+			buildRules = (
+				D09FB55F17AAD7C6001DAE8E /* PBXBuildRule */,
+			);
+			dependencies = (
+			);
+			name = Rblas;
+			productName = Rblas;
+			productReference = D09FB55617AAD6C2001DAE8E /* libRblas.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+		D09FB56717AAE10E001DAE8E /* Rlapack */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D09FB56917AAE10E001DAE8E /* Build configuration list for PBXNativeTarget "Rlapack" */;
+			buildPhases = (
+				D09FB56417AAE10E001DAE8E /* Sources */,
+				D09FB56517AAE10E001DAE8E /* Frameworks */,
+				D09FB56617AAE10E001DAE8E /* Headers */,
+			);
+			buildRules = (
+				D09FB57817AAE1A5001DAE8E /* PBXBuildRule */,
+			);
+			dependencies = (
+			);
+			name = Rlapack;
+			productName = Rlapack;
+			productReference = D09FB56817AAE10E001DAE8E /* libRlapack.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
 		D0B249CD17A9BD6700DEC5FE /* stats */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D0B249CF17A9BD6700DEC5FE /* Build configuration list for PBXNativeTarget "stats" */;
@@ -1528,9 +1713,9 @@
 			productReference = D0B249CE17A9BD6700DEC5FE /* libstats.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
-		D0CABE5717A453C900B224FF /* rmini */ = {
+		D0CABE5717A453C900B224FF /* rminicmd */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D0CABE6117A453C900B224FF /* Build configuration list for PBXNativeTarget "rmini" */;
+			buildConfigurationList = D0CABE6117A453C900B224FF /* Build configuration list for PBXNativeTarget "rminicmd" */;
 			buildPhases = (
 				D0CABE5417A453C900B224FF /* Sources */,
 				D0CABE5517A453C900B224FF /* Frameworks */,
@@ -1540,9 +1725,9 @@
 			);
 			dependencies = (
 			);
-			name = rmini;
+			name = rminicmd;
 			productName = rmini;
-			productReference = D0CABE5817A453C900B224FF /* rmini */;
+			productReference = D0CABE5817A453C900B224FF /* rminicmd */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -1566,7 +1751,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D0CABE5717A453C900B224FF /* rmini */,
+				D0CABE5717A453C900B224FF /* rminicmd */,
 				D0B249CD17A9BD6700DEC5FE /* stats */,
 				D066792C17AA0D770099A5FC /* tre */,
 				D066797E17AA22180099A5FC /* appl */,
@@ -1574,6 +1759,9 @@
 				D09FB49617AA4B8C001DAE8E /* z */,
 				D09FB4CD17AA4E70001DAE8E /* readline */,
 				D09FB50F17AA4EE8001DAE8E /* history */,
+				D09FB54817AAD38F001DAE8E /* rmini */,
+				D09FB55517AAD6C2001DAE8E /* Rblas */,
+				D09FB56717AAE10E001DAE8E /* Rlapack */,
 			);
 		};
 /* End PBXProject section */
@@ -1710,6 +1898,34 @@
 				D09FB51917AA4F6E001DAE8E /* mbutil.c in Sources */,
 				D09FB51A17AA4F76001DAE8E /* xfree.c in Sources */,
 				D09FB51B17AA4F76001DAE8E /* xmalloc.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D09FB54517AAD38F001DAE8E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D09FB55217AAD6C2001DAE8E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D09FB55D17AAD6D5001DAE8E /* blas.f in Sources */,
+				D09FB55E17AAD6D5001DAE8E /* cmplxblas.f in Sources */,
+				D09FB56117AADD25001DAE8E /* xerbla.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D09FB56417AAE10E001DAE8E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D09FB57317AAE145001DAE8E /* cmplx.f in Sources */,
+				D09FB57417AAE145001DAE8E /* dlamch.f in Sources */,
+				D09FB57517AAE145001DAE8E /* dlapack.f in Sources */,
+				D09FB57617AAE145001DAE8E /* Lapack.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2032,6 +2248,90 @@
 			};
 			name = Release;
 		};
+		D09FB54B17AAD38F001DAE8E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D09FB54C17AAD38F001DAE8E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		D09FB55817AAD6C2001DAE8E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/rmini/include";
+				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/gfortran/4.8.1/gfortran/lib;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-lgfortran",
+					"-lquadmath",
+					"-lm",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D09FB55917AAD6C2001DAE8E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/rmini/include";
+				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/gfortran/4.8.1/gfortran/lib;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-lgfortran",
+					"-lquadmath",
+					"-lm",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		D09FB56A17AAE10E001DAE8E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/Cellar/gfortran/4.8.1/gfortran/lib,
+					/usr/local/Cellar/gettext/0.18.3/lib,
+					/usr/local/lib,
+				);
+				OTHER_LDFLAGS = (
+					"-lgfortran",
+					"-lquadmath",
+					"-lm",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D09FB56B17AAE10E001DAE8E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/Cellar/gfortran/4.8.1/gfortran/lib,
+					/usr/local/Cellar/gettext/0.18.3/lib,
+					/usr/local/lib,
+				);
+				OTHER_LDFLAGS = (
+					"-lgfortran",
+					"-lquadmath",
+					"-lm",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		D0B249D017A9BD6700DEC5FE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2169,6 +2469,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/rmini/include",
 					/usr/local/include,
+					"$(SRCROOT)/extra",
 					"$(SRCROOT)",
 				);
 				LIBRARY_SEARCH_PATHS = (
@@ -2201,6 +2502,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/rmini/include",
 					/usr/local/include,
+					"$(SRCROOT)/extra",
 					"$(SRCROOT)",
 				);
 				LIBRARY_SEARCH_PATHS = (
@@ -2278,6 +2580,30 @@
 			);
 			defaultConfigurationIsVisible = 0;
 		};
+		D09FB54A17AAD38F001DAE8E /* Build configuration list for PBXNativeTarget "rmini" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D09FB54B17AAD38F001DAE8E /* Debug */,
+				D09FB54C17AAD38F001DAE8E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		D09FB55717AAD6C2001DAE8E /* Build configuration list for PBXNativeTarget "Rblas" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D09FB55817AAD6C2001DAE8E /* Debug */,
+				D09FB55917AAD6C2001DAE8E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		D09FB56917AAE10E001DAE8E /* Build configuration list for PBXNativeTarget "Rlapack" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D09FB56A17AAE10E001DAE8E /* Debug */,
+				D09FB56B17AAE10E001DAE8E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		D0B249CF17A9BD6700DEC5FE /* Build configuration list for PBXNativeTarget "stats" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -2296,7 +2622,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D0CABE6117A453C900B224FF /* Build configuration list for PBXNativeTarget "rmini" */ = {
+		D0CABE6117A453C900B224FF /* Build configuration list for PBXNativeTarget "rminicmd" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D0CABE6217A453C900B224FF /* Debug */,

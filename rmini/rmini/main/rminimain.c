@@ -52,7 +52,7 @@ int main(int argc, const char * argv[])
     
     
     
-    freeVector(sexpInt);
+//    freeVector(sexpInt);
 //    freeVector(sexpStr);
     
     finalize_Rmainloop();
