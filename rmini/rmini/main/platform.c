@@ -285,46 +285,9 @@ list_files(const char *dnp, const char *stem, int *count, SEXP *pans,
 	   Rboolean allfiles, Rboolean recursive,
 	   const regex_t *reg, int *countmax, PROTECT_INDEX idx,
 	   Rboolean idirs, Rboolean allowdots)
-#define IF_MATCH_ADD_TO_ANS						\
-				if (!reg || tre_regexec(reg, de->d_name, 0, NULL, 0) == 0) { \
-				    if (*count == *countmax - 1) {	\
-					*countmax *= 2;			\
-					REPROTECT(*pans = lengthgets(*pans, *countmax), idx); \
-				    }					\
-				    SET_STRING_ELT(*pans, (*count)++,	\
-						   filename(stem, de->d_name));	\
-				}
-				IF_MATCH_ADD_TO_ANS
-			    }
-			    if (stem) {
-#ifdef Win32
-				if(strlen(stem) == 2 && stem[1] == ':')
-				    snprintf(stem2, PATH_MAX, "%s%s", stem,
-					     de->d_name);
-				else
-#endif
-				    snprintf(stem2, PATH_MAX, "%s%s%s", stem,
-					     R_FileSep, de->d_name);
-			    } else
-				strcpy(stem2, de->d_name);
-
-			    list_files(p, stem2, count, pans, allfiles,
-				       recursive, reg, countmax, idx, idirs,
-				       allowdots);
-			}
-			continue;
-		    }
-		} // end if(recursive)
-
-		if (not_dot || allowdots)
-		    IF_MATCH_ADD_TO_ANS
-	    }
-
-        } // end while()
-	closedir(dir);
-    }
+{
+    return;
 }
-#undef IF_MATCH_ADD_TO_ANS
 
 SEXP attribute_hidden do_listfiles(SEXP call, SEXP op, SEXP args, SEXP rho)
 {
@@ -506,16 +469,6 @@ SEXP attribute_hidden do_capabilitiesX11(SEXP call, SEXP op, SEXP args, SEXP rho
 }
 
 SEXP attribute_hidden do_capabilities(SEXP call, SEXP op, SEXP args, SEXP rho)
-{
-  return 0;
-}
-#else
-    LOGICAL(ans)[i++] = FALSE;
-#endif
-
-    setAttrib(ans, R_NamesSymbol, ansnames);
-    UNPROTECT(2);
-    return ans;
 {
   return 0;
 }
@@ -756,5 +709,4 @@ machar(int *ibeta, int *it, int *irnd, int *ngrd, int *machep, int *negep,
        int *iexp, int *minexp, int *maxexp, double *eps,
        double *epsneg, double *xmin, double *xmax)
 {
-  return 0;
 }

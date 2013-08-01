@@ -11,6 +11,35 @@
 		D06636CE17A7AC2A00303F30 /* coerce.c in Sources */ = {isa = PBXBuildFile; fileRef = D06636CD17A7AC2A00303F30 /* coerce.c */; };
 		D06636D217A84AB200303F30 /* errors.c in Sources */ = {isa = PBXBuildFile; fileRef = D06636D117A84AB200303F30 /* errors.c */; };
 		D066792817AA0AC60099A5FC /* platform.c in Sources */ = {isa = PBXBuildFile; fileRef = D066792717AA0AC60099A5FC /* platform.c */; };
+		D066794917AA0D900099A5FC /* regcomp.c in Sources */ = {isa = PBXBuildFile; fileRef = D066793317AA0D900099A5FC /* regcomp.c */; };
+		D066794A17AA0D900099A5FC /* regerror.c in Sources */ = {isa = PBXBuildFile; fileRef = D066793417AA0D900099A5FC /* regerror.c */; };
+		D066794B17AA0D900099A5FC /* regexec.c in Sources */ = {isa = PBXBuildFile; fileRef = D066793517AA0D900099A5FC /* regexec.c */; };
+		D066794C17AA0D900099A5FC /* tre-ast.c in Sources */ = {isa = PBXBuildFile; fileRef = D066793617AA0D900099A5FC /* tre-ast.c */; };
+		D066794D17AA0D900099A5FC /* tre-ast.h in Headers */ = {isa = PBXBuildFile; fileRef = D066793717AA0D900099A5FC /* tre-ast.h */; };
+		D066794E17AA0D900099A5FC /* tre-compile.c in Sources */ = {isa = PBXBuildFile; fileRef = D066793817AA0D900099A5FC /* tre-compile.c */; };
+		D066794F17AA0D900099A5FC /* tre-compile.h in Headers */ = {isa = PBXBuildFile; fileRef = D066793917AA0D900099A5FC /* tre-compile.h */; };
+		D066795017AA0D900099A5FC /* tre-config.h in Headers */ = {isa = PBXBuildFile; fileRef = D066793A17AA0D900099A5FC /* tre-config.h */; };
+		D066795117AA0D900099A5FC /* tre-internal.h in Headers */ = {isa = PBXBuildFile; fileRef = D066793B17AA0D900099A5FC /* tre-internal.h */; };
+		D066795217AA0D900099A5FC /* tre-match-approx.c in Sources */ = {isa = PBXBuildFile; fileRef = D066793C17AA0D900099A5FC /* tre-match-approx.c */; };
+		D066795317AA0D900099A5FC /* tre-match-backtrack.c in Sources */ = {isa = PBXBuildFile; fileRef = D066793D17AA0D900099A5FC /* tre-match-backtrack.c */; };
+		D066795417AA0D900099A5FC /* tre-match-parallel.c in Sources */ = {isa = PBXBuildFile; fileRef = D066793E17AA0D900099A5FC /* tre-match-parallel.c */; };
+		D066795517AA0D900099A5FC /* tre-match-utils.h in Headers */ = {isa = PBXBuildFile; fileRef = D066793F17AA0D900099A5FC /* tre-match-utils.h */; };
+		D066795617AA0D900099A5FC /* tre-mem.c in Sources */ = {isa = PBXBuildFile; fileRef = D066794017AA0D900099A5FC /* tre-mem.c */; };
+		D066795717AA0D900099A5FC /* tre-mem.h in Headers */ = {isa = PBXBuildFile; fileRef = D066794117AA0D900099A5FC /* tre-mem.h */; };
+		D066795817AA0D900099A5FC /* tre-parse.c in Sources */ = {isa = PBXBuildFile; fileRef = D066794217AA0D900099A5FC /* tre-parse.c */; };
+		D066795917AA0D900099A5FC /* tre-parse.h in Headers */ = {isa = PBXBuildFile; fileRef = D066794317AA0D900099A5FC /* tre-parse.h */; };
+		D066795A17AA0D900099A5FC /* tre-stack.c in Sources */ = {isa = PBXBuildFile; fileRef = D066794417AA0D900099A5FC /* tre-stack.c */; };
+		D066795B17AA0D900099A5FC /* tre-stack.h in Headers */ = {isa = PBXBuildFile; fileRef = D066794517AA0D900099A5FC /* tre-stack.h */; };
+		D066795C17AA0D900099A5FC /* tre.h in Headers */ = {isa = PBXBuildFile; fileRef = D066794617AA0D900099A5FC /* tre.h */; };
+		D066795D17AA0D900099A5FC /* xmalloc.c in Sources */ = {isa = PBXBuildFile; fileRef = D066794717AA0D900099A5FC /* xmalloc.c */; };
+		D066795E17AA0D900099A5FC /* xmalloc.h in Headers */ = {isa = PBXBuildFile; fileRef = D066794817AA0D900099A5FC /* xmalloc.h */; };
+		D066795F17AA104C0099A5FC /* libtre.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D066792D17AA0D770099A5FC /* libtre.a */; };
+		D066796017AA12970099A5FC /* printutils.c in Sources */ = {isa = PBXBuildFile; fileRef = D0B249B217A8854C00DEC5FE /* printutils.c */; };
+		D066796317AA14170099A5FC /* sysutils.c in Sources */ = {isa = PBXBuildFile; fileRef = D066796217AA14170099A5FC /* sysutils.c */; };
+		D066796417AA14E20099A5FC /* arithmetic.c in Sources */ = {isa = PBXBuildFile; fileRef = D0B249BD17A8900E00DEC5FE /* arithmetic.c */; };
+		D066796617AA15A20099A5FC /* gram.c in Sources */ = {isa = PBXBuildFile; fileRef = D066796517AA15A20099A5FC /* gram.c */; };
+		D066796A17AA184F0099A5FC /* iosupport.c in Sources */ = {isa = PBXBuildFile; fileRef = D066796917AA184F0099A5FC /* iosupport.c */; };
+		D066796C17AA18CF0099A5FC /* eval.c in Sources */ = {isa = PBXBuildFile; fileRef = D066796B17AA18CF0099A5FC /* eval.c */; };
 		D0B249AF17A8801500DEC5FE /* envir.c in Sources */ = {isa = PBXBuildFile; fileRef = D0B249AE17A8801500DEC5FE /* envir.c */; };
 		D0B249BB17A88F7E00DEC5FE /* names.c in Sources */ = {isa = PBXBuildFile; fileRef = D0B249BA17A88F7D00DEC5FE /* names.c */; };
 		D0B249C117A897A100DEC5FE /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = D0B249C017A897A100DEC5FE /* util.c */; };
@@ -77,6 +106,37 @@
 		D06636DF17A875EF00303F30 /* GraphicsDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GraphicsDevice.h; sourceTree = "<group>"; };
 		D06636E017A8763600303F30 /* Startup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Startup.h; sourceTree = "<group>"; };
 		D066792717AA0AC60099A5FC /* platform.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = platform.c; sourceTree = "<group>"; };
+		D066792D17AA0D770099A5FC /* libtre.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libtre.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D066793217AA0D900099A5FC /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		D066793317AA0D900099A5FC /* regcomp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = regcomp.c; sourceTree = "<group>"; };
+		D066793417AA0D900099A5FC /* regerror.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = regerror.c; sourceTree = "<group>"; };
+		D066793517AA0D900099A5FC /* regexec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = regexec.c; sourceTree = "<group>"; };
+		D066793617AA0D900099A5FC /* tre-ast.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "tre-ast.c"; sourceTree = "<group>"; };
+		D066793717AA0D900099A5FC /* tre-ast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "tre-ast.h"; sourceTree = "<group>"; };
+		D066793817AA0D900099A5FC /* tre-compile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "tre-compile.c"; sourceTree = "<group>"; };
+		D066793917AA0D900099A5FC /* tre-compile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "tre-compile.h"; sourceTree = "<group>"; };
+		D066793A17AA0D900099A5FC /* tre-config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "tre-config.h"; sourceTree = "<group>"; };
+		D066793B17AA0D900099A5FC /* tre-internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "tre-internal.h"; sourceTree = "<group>"; };
+		D066793C17AA0D900099A5FC /* tre-match-approx.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "tre-match-approx.c"; sourceTree = "<group>"; };
+		D066793D17AA0D900099A5FC /* tre-match-backtrack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "tre-match-backtrack.c"; sourceTree = "<group>"; };
+		D066793E17AA0D900099A5FC /* tre-match-parallel.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "tre-match-parallel.c"; sourceTree = "<group>"; };
+		D066793F17AA0D900099A5FC /* tre-match-utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "tre-match-utils.h"; sourceTree = "<group>"; };
+		D066794017AA0D900099A5FC /* tre-mem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "tre-mem.c"; sourceTree = "<group>"; };
+		D066794117AA0D900099A5FC /* tre-mem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "tre-mem.h"; sourceTree = "<group>"; };
+		D066794217AA0D900099A5FC /* tre-parse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "tre-parse.c"; sourceTree = "<group>"; };
+		D066794317AA0D900099A5FC /* tre-parse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "tre-parse.h"; sourceTree = "<group>"; };
+		D066794417AA0D900099A5FC /* tre-stack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "tre-stack.c"; sourceTree = "<group>"; };
+		D066794517AA0D900099A5FC /* tre-stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "tre-stack.h"; sourceTree = "<group>"; };
+		D066794617AA0D900099A5FC /* tre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tre.h; sourceTree = "<group>"; };
+		D066794717AA0D900099A5FC /* xmalloc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmalloc.c; sourceTree = "<group>"; };
+		D066794817AA0D900099A5FC /* xmalloc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmalloc.h; sourceTree = "<group>"; };
+		D066796117AA139F0099A5FC /* Callbacks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Callbacks.h; sourceTree = "<group>"; };
+		D066796217AA14170099A5FC /* sysutils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sysutils.c; sourceTree = "<group>"; };
+		D066796517AA15A20099A5FC /* gram.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gram.c; sourceTree = "<group>"; };
+		D066796717AA16580099A5FC /* IOStuff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOStuff.h; sourceTree = "<group>"; };
+		D066796817AA16710099A5FC /* Parse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Parse.h; sourceTree = "<group>"; };
+		D066796917AA184F0099A5FC /* iosupport.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = iosupport.c; sourceTree = "<group>"; };
+		D066796B17AA18CF0099A5FC /* eval.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = eval.c; sourceTree = "<group>"; };
 		D0B249AC17A8766A00DEC5FE /* RStartup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RStartup.h; sourceTree = "<group>"; };
 		D0B249AD17A876A600DEC5FE /* Rinterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Rinterface.h; sourceTree = "<group>"; };
 		D0B249AE17A8801500DEC5FE /* envir.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = envir.c; sourceTree = "<group>"; };
@@ -122,6 +182,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		D066792A17AA0D770099A5FC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D0B249CB17A9BD6700DEC5FE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -133,6 +200,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D066795F17AA104C0099A5FC /* libtre.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -153,6 +221,36 @@
 				D0B249BF17A8978D00DEC5FE /* util.c */,
 			);
 			name = copy;
+			sourceTree = "<group>";
+		};
+		D066793117AA0D900099A5FC /* tre */ = {
+			isa = PBXGroup;
+			children = (
+				D066793217AA0D900099A5FC /* LICENSE */,
+				D066793317AA0D900099A5FC /* regcomp.c */,
+				D066793417AA0D900099A5FC /* regerror.c */,
+				D066793517AA0D900099A5FC /* regexec.c */,
+				D066793617AA0D900099A5FC /* tre-ast.c */,
+				D066793717AA0D900099A5FC /* tre-ast.h */,
+				D066793817AA0D900099A5FC /* tre-compile.c */,
+				D066793917AA0D900099A5FC /* tre-compile.h */,
+				D066793A17AA0D900099A5FC /* tre-config.h */,
+				D066793B17AA0D900099A5FC /* tre-internal.h */,
+				D066793C17AA0D900099A5FC /* tre-match-approx.c */,
+				D066793D17AA0D900099A5FC /* tre-match-backtrack.c */,
+				D066793E17AA0D900099A5FC /* tre-match-parallel.c */,
+				D066793F17AA0D900099A5FC /* tre-match-utils.h */,
+				D066794017AA0D900099A5FC /* tre-mem.c */,
+				D066794117AA0D900099A5FC /* tre-mem.h */,
+				D066794217AA0D900099A5FC /* tre-parse.c */,
+				D066794317AA0D900099A5FC /* tre-parse.h */,
+				D066794417AA0D900099A5FC /* tre-stack.c */,
+				D066794517AA0D900099A5FC /* tre-stack.h */,
+				D066794617AA0D900099A5FC /* tre.h */,
+				D066794717AA0D900099A5FC /* xmalloc.c */,
+				D066794817AA0D900099A5FC /* xmalloc.h */,
+			);
+			path = tre;
 			sourceTree = "<group>";
 		};
 		D0B249C817A9BC5000DEC5FE /* package */ = {
@@ -198,6 +296,8 @@
 		D0B249F617AA033C00DEC5FE /* include */ = {
 			isa = PBXGroup;
 			children = (
+				D066796817AA16710099A5FC /* Parse.h */,
+				D066796717AA16580099A5FC /* IOStuff.h */,
 				D06636D817A873B300303F30 /* Rinlinedfuns.h */,
 				D06636D317A8513600303F30 /* config.h */,
 				D06636CB17A7A2F600303F30 /* Rconfig.h */,
@@ -224,6 +324,7 @@
 		D0B249F717AA033D00DEC5FE /* R_ext */ = {
 			isa = PBXGroup;
 			children = (
+				D066796117AA139F0099A5FC /* Callbacks.h */,
 				D0B249EF17A9D13400DEC5FE /* Parse.h */,
 				D0B249EC17A9D01500DEC5FE /* eventloop.h */,
 				D06636DA17A8742A00303F30 /* Arith.h */,
@@ -253,6 +354,10 @@
 		D0B249F817AA034F00DEC5FE /* main */ = {
 			isa = PBXGroup;
 			children = (
+				D066796B17AA18CF0099A5FC /* eval.c */,
+				D066796917AA184F0099A5FC /* iosupport.c */,
+				D066796517AA15A20099A5FC /* gram.c */,
+				D066796217AA14170099A5FC /* sysutils.c */,
 				D066792717AA0AC60099A5FC /* platform.c */,
 				D0B249D517A9C62300DEC5FE /* valid_utf8.h */,
 				D0CABE5B17A453C900B224FF /* main.c */,
@@ -275,6 +380,7 @@
 		D0CABE4F17A453C900B224FF = {
 			isa = PBXGroup;
 			children = (
+				D066793117AA0D900099A5FC /* tre */,
 				D0B249F417A9E71E00DEC5FE /* pl */,
 				D0B249C817A9BC5000DEC5FE /* package */,
 				D0CABE5A17A453C900B224FF /* rmini */,
@@ -287,6 +393,7 @@
 			children = (
 				D0CABE5817A453C900B224FF /* rmini */,
 				D0B249CE17A9BD6700DEC5FE /* libstats.dylib */,
+				D066792D17AA0D770099A5FC /* libtre.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -294,10 +401,10 @@
 		D0CABE5A17A453C900B224FF /* rmini */ = {
 			isa = PBXGroup;
 			children = (
+				D06636C517A79FB400303F30 /* copy */,
 				D0B249F817AA034F00DEC5FE /* main */,
 				D0B249F617AA033C00DEC5FE /* include */,
 				D0B249DA17A9CBFE00DEC5FE /* unix */,
-				D06636C517A79FB400303F30 /* copy */,
 				D0CABE6417A453DD00B224FF /* README */,
 				D0CABE5D17A453C900B224FF /* rmini.1 */,
 			);
@@ -307,6 +414,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		D066792B17AA0D770099A5FC /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D066794D17AA0D900099A5FC /* tre-ast.h in Headers */,
+				D066794F17AA0D900099A5FC /* tre-compile.h in Headers */,
+				D066795017AA0D900099A5FC /* tre-config.h in Headers */,
+				D066795117AA0D900099A5FC /* tre-internal.h in Headers */,
+				D066795517AA0D900099A5FC /* tre-match-utils.h in Headers */,
+				D066795717AA0D900099A5FC /* tre-mem.h in Headers */,
+				D066795917AA0D900099A5FC /* tre-parse.h in Headers */,
+				D066795B17AA0D900099A5FC /* tre-stack.h in Headers */,
+				D066795C17AA0D900099A5FC /* tre.h in Headers */,
+				D066795E17AA0D900099A5FC /* xmalloc.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D0B249CC17A9BD6700DEC5FE /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -317,6 +441,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		D066792C17AA0D770099A5FC /* tre */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D066792E17AA0D770099A5FC /* Build configuration list for PBXNativeTarget "tre" */;
+			buildPhases = (
+				D066792917AA0D770099A5FC /* Sources */,
+				D066792A17AA0D770099A5FC /* Frameworks */,
+				D066792B17AA0D770099A5FC /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = tre;
+			productName = tre;
+			productReference = D066792D17AA0D770099A5FC /* libtre.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		D0B249CD17A9BD6700DEC5FE /* stats */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D0B249CF17A9BD6700DEC5FE /* Build configuration list for PBXNativeTarget "stats" */;
@@ -374,11 +515,31 @@
 			targets = (
 				D0CABE5717A453C900B224FF /* rmini */,
 				D0B249CD17A9BD6700DEC5FE /* stats */,
+				D066792C17AA0D770099A5FC /* tre */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		D066792917AA0D770099A5FC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D066794917AA0D900099A5FC /* regcomp.c in Sources */,
+				D066794A17AA0D900099A5FC /* regerror.c in Sources */,
+				D066794B17AA0D900099A5FC /* regexec.c in Sources */,
+				D066794C17AA0D900099A5FC /* tre-ast.c in Sources */,
+				D066794E17AA0D900099A5FC /* tre-compile.c in Sources */,
+				D066795217AA0D900099A5FC /* tre-match-approx.c in Sources */,
+				D066795317AA0D900099A5FC /* tre-match-backtrack.c in Sources */,
+				D066795417AA0D900099A5FC /* tre-match-parallel.c in Sources */,
+				D066795617AA0D900099A5FC /* tre-mem.c in Sources */,
+				D066795817AA0D900099A5FC /* tre-parse.c in Sources */,
+				D066795A17AA0D900099A5FC /* tre-stack.c in Sources */,
+				D066795D17AA0D900099A5FC /* xmalloc.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D0B249CA17A9BD6700DEC5FE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -408,12 +569,40 @@
 				D0B249F117A9D25400DEC5FE /* main_dummy.c in Sources */,
 				D0B249F317A9D33400DEC5FE /* startup.c in Sources */,
 				D066792817AA0AC60099A5FC /* platform.c in Sources */,
+				D066796017AA12970099A5FC /* printutils.c in Sources */,
+				D066796317AA14170099A5FC /* sysutils.c in Sources */,
+				D066796417AA14E20099A5FC /* arithmetic.c in Sources */,
+				D066796617AA15A20099A5FC /* gram.c in Sources */,
+				D066796A17AA184F0099A5FC /* iosupport.c in Sources */,
+				D066796C17AA18CF0099A5FC /* eval.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		D066792F17AA0D770099A5FC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_CFLAGS = "-DHAVE_CONFIG_H";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D066793017AA0D770099A5FC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_CFLAGS = "-DHAVE_CONFIG_H";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		D0B249D017A9BD6700DEC5FE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -547,6 +736,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/rmini/include",
 					/usr/local/include,
+					"$(SRCROOT)",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"/Users/goshng/Downloads/R-3.0.1/b/lib",
@@ -576,6 +766,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/rmini/include",
 					/usr/local/include,
+					"$(SRCROOT)",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"/Users/goshng/Downloads/R-3.0.1/b/lib",
@@ -600,6 +791,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		D066792E17AA0D770099A5FC /* Build configuration list for PBXNativeTarget "tre" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D066792F17AA0D770099A5FC /* Debug */,
+				D066793017AA0D770099A5FC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		D0B249CF17A9BD6700DEC5FE /* Build configuration list for PBXNativeTarget "stats" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
