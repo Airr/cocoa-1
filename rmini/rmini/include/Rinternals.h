@@ -548,7 +548,7 @@ __x__->sxpinfo.gp = __other_flags__ | __v__; \
 //#define UNPROTECT(n)	Rf_unprotect(n)
 //#define UNPROTECT_PTR(s)	Rf_unprotect_ptr(s)
 #define PROTECT(s)	((s))
-#define UNPROTECT(n)	((n))
+#define UNPROTECT(n)
 #define UNPROTECT_PTR(s)	((s))
     
     /* We sometimes need to coerce a protected value and place the new

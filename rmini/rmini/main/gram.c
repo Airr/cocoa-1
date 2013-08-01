@@ -95,7 +95,7 @@
 
 #include "IOStuff.h"		/*-> Defn.h */
 #include "Fileio.h"
-#include "Parse.h"
+#include <Parse.h>
 #include <R_ext/Print.h>
 
 #if !defined(__STDC_ISO_10646__) && (defined(__APPLE__) || defined(__FreeBSD__))

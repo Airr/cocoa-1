@@ -260,6 +260,131 @@ static SEXPREC UnmarkedNodeTemplate;
 #define MARK_NODE(s) (MARK(s)=1)
 #define UNMARK_NODE(s) (MARK(s)=0)
 
+
+/* Tuning Constants. Most of these could be made settable from R,
+ within some reasonable constraints at least.  Since there are quite
+ a lot of constants it would probably make sense to put together
+ several "packages" representing different space/speed tradeoffs
+ (e.g. very aggressive freeing and small increments to conserve
+ memory; much less frequent releasing and larger increments to
+ increase speed). */
+
+/* There are three levels of collections.  Level 0 collects only the
+ youngest generation, level 1 collects the two youngest generations,
+ and level 2 collects all generations.  Higher level collections
+ occur at least after specified numbers of lower level ones.  After
+ LEVEL_0_FREQ level zero collections a level 1 collection is done;
+ after every LEVEL_1_FREQ level 1 collections a level 2 collection
+ occurs.  Thus, roughly, every LEVEL_0_FREQ-th collection is a level
+ 1 collection and every (LEVEL_0_FREQ * LEVEL_1_FREQ)-th collection
+ is a level 2 collection.  */
+#define LEVEL_0_FREQ 20
+#define LEVEL_1_FREQ 5
+static int collect_counts_max[] = { LEVEL_0_FREQ, LEVEL_1_FREQ };
+
+/* When a level N collection fails to produce at least MinFreeFrac *
+ R_NSize free nodes and MinFreeFrac * R_VSize free vector space, the
+ next collection will be a level N + 1 collection.
+ 
+ This constant is also used in heap size adjustment as a minimal
+ fraction of the minimal heap size levels that should be available
+ for allocation. */
+static double R_MinFreeFrac = 0.2;
+
+/* When pages are released, a number of free nodes equal to
+ R_MaxKeepFrac times the number of allocated nodes for each class is
+ retained.  Pages not needed to meet this requirement are released.
+ An attempt to release pages is made every R_PageReleaseFreq level 1
+ or level 2 collections. */
+static double R_MaxKeepFrac = 0.5;
+static int R_PageReleaseFreq = 1;
+
+/* The heap size constants R_NSize and R_VSize are used for triggering
+ collections.  The initial values set by defaults or command line
+ arguments are used as minimal values.  After full collections these
+ levels are adjusted up or down, though not below the minimal values
+ or above the maximum values, towards maintain heap occupancy within
+ a specified range.  When the number of nodes in use reaches
+ R_NGrowFrac * R_NSize, the value of R_NSize is incremented by
+ R_NGrowIncrMin + R_NGrowIncrFrac * R_NSize.  When the number of
+ nodes in use falls below R_NShrinkFrac, R_NSize is decremented by
+ R_NShrinkIncrMin + R_NShrinkFrac * R_NSize.  Analogous adjustments
+ are made to R_VSize.
+ 
+ This mechanism for adjusting the heap size constants is very
+ primitive but hopefully adequate for now.  Some modeling and
+ experimentation would be useful.  We want the heap sizes to get set
+ at levels adequate for the current computations.  The present
+ mechanism uses only the size of the current live heap to provide
+ information about the current needs; since the current live heap
+ size can be very volatile, the adjustment mechanism only makes
+ gradual adjustments.  A more sophisticated strategy would use more
+ of the live heap history.
+ 
+ Some of the settings can now be adjusted by environment variables.
+ */
+static double R_NGrowFrac = 0.70;
+static double R_NShrinkFrac = 0.30;
+
+static double R_VGrowFrac = 0.70;
+static double R_VShrinkFrac = 0.30;
+
+#ifdef SMALL_MEMORY
+/* On machines with only 32M of memory (or on a classic Mac OS port)
+ it might be a good idea to use settings like these that are more
+ aggressive at keeping memory usage down. */
+static double R_NGrowIncrFrac = 0.0, R_NShrinkIncrFrac = 0.2;
+static int R_NGrowIncrMin = 50000, R_NShrinkIncrMin = 0;
+static double R_VGrowIncrFrac = 0.0, R_VShrinkIncrFrac = 0.2;
+static int R_VGrowIncrMin = 100000, R_VShrinkIncrMin = 0;
+#else
+static double R_NGrowIncrFrac = 0.05, R_NShrinkIncrFrac = 0.2;
+static int R_NGrowIncrMin = 40000, R_NShrinkIncrMin = 0;
+static double R_VGrowIncrFrac = 0.05, R_VShrinkIncrFrac = 0.2;
+static int R_VGrowIncrMin = 80000, R_VShrinkIncrMin = 0;
+#endif
+
+static void init_gc_grow_settings()
+{
+    return;
+}
+
+/* Maximal Heap Limits.  These variables contain upper limits on the
+ heap sizes.  They could be made adjustable from the R level,
+ perhaps by a handler for a recoverable error.
+ 
+ Access to these values is provided with reader and writer
+ functions; the writer function insures that the maximal values are
+ never set below the current ones. */
+static R_size_t R_MaxVSize = R_SIZE_T_MAX;
+static R_size_t R_MaxNSize = R_SIZE_T_MAX;
+static int vsfac = 1; /* current units for vsize: changes at initialization */
+
+R_size_t attribute_hidden R_GetMaxVSize(void)
+{
+    return 0;
+}
+
+void attribute_hidden R_SetMaxVSize(R_size_t size)
+{
+    return;
+}
+
+R_size_t attribute_hidden R_GetMaxNSize(void)
+{
+    return 0;
+}
+
+void attribute_hidden R_SetMaxNSize(R_size_t size)
+{
+    return;
+}
+
+void attribute_hidden R_SetPPSize(R_size_t size)
+{
+    return;
+}
+
 /* Miscellaneous Globals. */
 
 static SEXP R_VStack = NULL;		/* R_alloc stack pointer */
@@ -409,6 +534,132 @@ SET_NEXT_NODE(prev, sn__n__); \
 SET_PREV_NODE(sn__n__, prev); \
 } while (0)
 
+/* move all nodes on from_peg to to_peg */
+#define BULK_MOVE(from_peg,to_peg) do { \
+SEXP __from__ = (from_peg); \
+SEXP __to__ = (to_peg); \
+SEXP first_old = NEXT_NODE(__from__); \
+SEXP last_old = PREV_NODE(__from__); \
+SEXP first_new = NEXT_NODE(__to__); \
+SET_PREV_NODE(first_old, __to__); \
+SET_NEXT_NODE(__to__, first_old); \
+SET_PREV_NODE(first_new, last_old); \
+SET_NEXT_NODE(last_old, first_new); \
+SET_NEXT_NODE(__from__, __from__); \
+SET_PREV_NODE(__from__, __from__); \
+} while (0);
+
+
+/* Processing Node Children */
+
+/* This macro calls dc__action__ for each child of __n__, passing
+ dc__extra__ as a second argument for each call. */
+/* When the CHARSXP hash chains are maintained through the ATTRIB
+ field it is important that we NOT trace those fields otherwise too
+ many CHARSXPs will be kept alive artificially. As a safety we don't
+ ignore all non-NULL ATTRIB values for CHARSXPs but only those that
+ are themselves CHARSXPs, which is what they will be if they are
+ part of a hash chain.  Theoretically, for CHARSXPs the ATTRIB field
+ should always be either R_NilValue or a CHARSXP. */
+#ifdef PROTECTCHECK
+# define HAS_GENUINE_ATTRIB(x) \
+(TYPEOF(x) != FREESXP && ATTRIB(x) != R_NilValue && \
+(TYPEOF(x) != CHARSXP || TYPEOF(ATTRIB(x)) != CHARSXP))
+#else
+# define HAS_GENUINE_ATTRIB(x) \
+(ATTRIB(x) != R_NilValue && \
+(TYPEOF(x) != CHARSXP || TYPEOF(ATTRIB(x)) != CHARSXP))
+#endif
+
+#ifdef PROTECTCHECK
+#define FREE_FORWARD_CASE case FREESXP: if (gc_inhibit_release) break;
+#else
+#define FREE_FORWARD_CASE
+#endif
+#define DO_CHILDREN(__n__,dc__action__,dc__extra__) do { \
+if (HAS_GENUINE_ATTRIB(__n__)) \
+dc__action__(ATTRIB(__n__), dc__extra__); \
+switch (TYPEOF(__n__)) { \
+case NILSXP: \
+case BUILTINSXP: \
+case SPECIALSXP: \
+case CHARSXP: \
+case LGLSXP: \
+case INTSXP: \
+case REALSXP: \
+case CPLXSXP: \
+case WEAKREFSXP: \
+case RAWSXP: \
+case S4SXP: \
+break; \
+case STRSXP: \
+case EXPRSXP: \
+case VECSXP: \
+{ \
+int i; \
+for (i = 0; i < LENGTH(__n__); i++) \
+dc__action__(STRING_ELT(__n__, i), dc__extra__); \
+} \
+break; \
+case ENVSXP: \
+dc__action__(FRAME(__n__), dc__extra__); \
+dc__action__(ENCLOS(__n__), dc__extra__); \
+dc__action__(HASHTAB(__n__), dc__extra__); \
+break; \
+case CLOSXP: \
+case PROMSXP: \
+case LISTSXP: \
+case LANGSXP: \
+case DOTSXP: \
+case SYMSXP: \
+case BCODESXP: \
+dc__action__(TAG(__n__), dc__extra__); \
+dc__action__(CAR(__n__), dc__extra__); \
+dc__action__(CDR(__n__), dc__extra__); \
+break; \
+case EXTPTRSXP: \
+dc__action__(EXTPTR_PROT(__n__), dc__extra__); \
+dc__action__(EXTPTR_TAG(__n__), dc__extra__); \
+break; \
+FREE_FORWARD_CASE \
+default: \
+register_bad_sexp_type(__n__, __LINE__);		\
+} \
+} while(0)
+
+
+/* Forwarding Nodes.  These macros mark nodes or children of nodes and
+ place them on the forwarding list.  The forwarding list is assumed
+ to be in a local variable of the caller named named
+ forwarded_nodes. */
+
+#define FORWARD_NODE(s) do { \
+SEXP fn__n__ = (s); \
+if (fn__n__ && ! NODE_IS_MARKED(fn__n__)) { \
+CHECK_FOR_FREE_NODE(fn__n__) \
+MARK_NODE(fn__n__); \
+UNSNAP_NODE(fn__n__); \
+SET_NEXT_NODE(fn__n__, forwarded_nodes); \
+forwarded_nodes = fn__n__; \
+} \
+} while (0)
+
+#define FC_FORWARD_NODE(__n__,__dummy__) FORWARD_NODE(__n__)
+#define FORWARD_CHILDREN(__n__) DO_CHILDREN(__n__,FC_FORWARD_NODE, 0)
+
+/* This macro should help localize where a FREESXP node is encountered
+ in the GC */
+#ifdef PROTECTCHECK
+#define CHECK_FOR_FREE_NODE(s) { \
+SEXP cf__n__ = (s); \
+if (TYPEOF(cf__n__) == FREESXP && ! gc_inhibit_release) \
+register_bad_sexp_type(cf__n__, __LINE__); \
+}
+#else
+#define CHECK_FOR_FREE_NODE(s)
+#endif
+
+
 /* Node Allocation. */
 
 #define CLASS_GET_FREE_NODE(c,s) do { \
@@ -417,6 +668,107 @@ SET_PREV_NODE(sn__n__, prev); \
 
 #define NO_FREE_NODES() (R_NodesInUse >= R_NSize)
 #define GET_FREE_NODE(s) CLASS_GET_FREE_NODE(0,s)
+
+
+/* Debugging Routines. */
+
+#ifdef DEBUG_GC
+static void CheckNodeGeneration(SEXP x, int g)
+{
+    return;
+}
+
+static void DEBUG_CHECK_NODE_COUNTS(char *where)
+{
+    return;
+}
+
+static void DEBUG_GC_SUMMARY(int full_gc)
+{
+    return;
+}
+#else
+#define DEBUG_CHECK_NODE_COUNTS(s)
+#define DEBUG_GC_SUMMARY(x)
+#endif /* DEBUG_GC */
+
+#ifdef DEBUG_ADJUST_HEAP
+static void DEBUG_ADJUST_HEAP_PRINT(double node_occup, double vect_occup)
+{
+    return;
+}
+#else
+#define DEBUG_ADJUST_HEAP_PRINT(node_occup, vect_occup)
+#endif /* DEBUG_ADJUST_HEAP */
+
+#ifdef DEBUG_RELEASE_MEM
+static void DEBUG_RELEASE_PRINT(int rel_pages, int maxrel_pages, int i)
+{
+    return;
+}
+#else
+#define DEBUG_RELEASE_PRINT(rel_pages, maxrel_pages, i)
+#endif /* DEBUG_RELEASE_MEM */
+
+
+/* Page Allocation and Release. */
+
+static void GetNewPage(int node_class)
+{
+    return;
+}
+
+static void ReleasePage(PAGE_HEADER *page, int node_class)
+{
+    return;
+}
+
+static void TryToReleasePages(void)
+{
+    return;
+}
+
+/* compute size in VEC units so result will fit in LENGTH field for FREESXPs */
+static R_INLINE R_size_t getVecSizeInVEC(SEXP s)
+{
+    return 0;
+}
+
+static void ReleaseLargeFreeVectors(void)
+{
+    return;
+}
+
+
+/* Heap Size Adjustment. */
+
+static void AdjustHeapSize(R_size_t size_needed)
+{
+    return;
+}
+
+
+/* Managing Old-to-New References. */
+
+#define AGE_NODE(s,g) do { \
+SEXP an__n__ = (s); \
+int an__g__ = (g); \
+if (an__n__ && NODE_GEN_IS_YOUNGER(an__n__, an__g__)) { \
+if (NODE_IS_MARKED(an__n__)) \
+R_GenHeap[NODE_CLASS(an__n__)].OldCount[NODE_GENERATION(an__n__)]--; \
+else \
+MARK_NODE(an__n__); \
+SET_NODE_GENERATION(an__n__, an__g__); \
+UNSNAP_NODE(an__n__); \
+SET_NEXT_NODE(an__n__, forwarded_nodes); \
+forwarded_nodes = an__n__; \
+} \
+} while (0)
+
+static void AgeNodeAndChildren(SEXP s, int gen)
+{
+    return;
+}
 
 static void old_to_new(SEXP x, SEXP y)
 {
@@ -430,6 +782,208 @@ if (NODE_IS_OLDER(CHK(x), CHK(y))) old_to_new(x,y);  } while (0)
 /*******************************************************************************
  * MEMORY ALLOCATION FUNCTIONS
  ******************************************************************************/
+/* Node Sorting.  SortNodes attempts to improve locality of reference
+ by rearranging the free list to place nodes on the same place page
+ together and order nodes within pages.  This involves a sweep of the
+ heap, so it should not be done too often, but doing it at least
+ occasionally does seem essential.  Sorting on each full colllection is
+ probably sufficient.
+ */
+
+#define SORT_NODES
+#ifdef SORT_NODES
+static void SortNodes(void)
+{
+    return;
+}
+#endif
+
+
+/* Finalization and Weak References */
+
+/* The design of this mechanism is very close to the one described in
+ "Stretching the storage manager: weak pointers and stable names in
+ Haskell" by Peyton Jones, Marlow, and Elliott (at
+ www.research.microsoft.com/Users/simonpj/papers/weak.ps.gz). --LT */
+
+static SEXP R_weak_refs = NULL;
+
+#define READY_TO_FINALIZE_MASK 1
+
+#define SET_READY_TO_FINALIZE(s) ((s)->sxpinfo.gp |= READY_TO_FINALIZE_MASK)
+#define CLEAR_READY_TO_FINALIZE(s) ((s)->sxpinfo.gp &= ~READY_TO_FINALIZE_MASK)
+#define IS_READY_TO_FINALIZE(s) ((s)->sxpinfo.gp & READY_TO_FINALIZE_MASK)
+
+#define FINALIZE_ON_EXIT_MASK 2
+
+#define SET_FINALIZE_ON_EXIT(s) ((s)->sxpinfo.gp |= FINALIZE_ON_EXIT_MASK)
+#define CLEAR_FINALIZE_ON_EXIT(s) ((s)->sxpinfo.gp &= ~FINALIZE_ON_EXIT_MASK)
+#define FINALIZE_ON_EXIT(s) ((s)->sxpinfo.gp & FINALIZE_ON_EXIT_MASK)
+
+#define WEAKREF_SIZE 4
+#define WEAKREF_KEY(w) VECTOR_ELT(w, 0)
+#define SET_WEAKREF_KEY(w, k) SET_VECTOR_ELT(w, 0, k)
+#define WEAKREF_VALUE(w) VECTOR_ELT(w, 1)
+#define SET_WEAKREF_VALUE(w, v) SET_VECTOR_ELT(w, 1, v)
+#define WEAKREF_FINALIZER(w) VECTOR_ELT(w, 2)
+#define SET_WEAKREF_FINALIZER(w, f) SET_VECTOR_ELT(w, 2, f)
+#define WEAKREF_NEXT(w) VECTOR_ELT(w, 3)
+#define SET_WEAKREF_NEXT(w, n) SET_VECTOR_ELT(w, 3, n)
+
+static SEXP MakeCFinalizer(R_CFinalizer_t cfun);
+
+static SEXP NewWeakRef(SEXP key, SEXP val, SEXP fin, Rboolean onexit)
+{
+    return 0;
+}
+
+SEXP R_MakeWeakRef(SEXP key, SEXP val, SEXP fin, Rboolean onexit)
+{
+    return 0;
+}
+
+SEXP R_MakeWeakRefC(SEXP key, SEXP val, R_CFinalizer_t fin, Rboolean onexit)
+{
+    return 0;
+}
+
+static void CheckFinalizers(void)
+{
+    return;
+}
+
+/* C finalizers are stored in a CHARSXP.  It would be nice if we could
+ use EXTPTRSXP's but these only hold a void *, and function pointers
+ are not guaranteed to be compatible with a void *.  There should be
+ a cleaner way of doing this, but this will do for now. --LT */
+/* Changed to RAWSXP in 2.8.0 */
+static Rboolean isCFinalizer(SEXP fun)
+{
+    return 0;
+}
+
+static SEXP MakeCFinalizer(R_CFinalizer_t cfun)
+{
+    return 0;
+}
+
+static R_CFinalizer_t GetCFinalizer(SEXP fun)
+{
+    return 0;
+}
+
+SEXP R_WeakRefKey(SEXP w)
+{
+    return 0;
+}
+
+SEXP R_WeakRefValue(SEXP w)
+{
+    return 0;
+}
+
+void R_RunWeakRefFinalizer(SEXP w)
+{
+    return;
+}
+
+static Rboolean RunFinalizers(void)
+{
+    return 0;
+}
+
+void R_RunExitFinalizers(void)
+{
+    return;
+}
+
+void R_RegisterFinalizerEx(SEXP s, SEXP fun, Rboolean onexit)
+{
+    return;
+}
+
+void R_RegisterFinalizer(SEXP s, SEXP fun)
+{
+    return;
+}
+
+void R_RegisterCFinalizerEx(SEXP s, R_CFinalizer_t fun, Rboolean onexit)
+{
+    return;
+}
+
+void R_RegisterCFinalizer(SEXP s, R_CFinalizer_t fun)
+{
+    return;
+}
+
+/* R interface function */
+
+SEXP attribute_hidden do_regFinaliz(SEXP call, SEXP op, SEXP args, SEXP rho)
+{
+    return 0;
+}
+
+
+/* The Generational Collector. */
+
+#define PROCESS_NODES() do { \
+while (forwarded_nodes != NULL) { \
+s = forwarded_nodes; \
+forwarded_nodes = NEXT_NODE(forwarded_nodes); \
+SNAP_NODE(s, R_GenHeap[NODE_CLASS(s)].Old[NODE_GENERATION(s)]); \
+R_GenHeap[NODE_CLASS(s)].OldCount[NODE_GENERATION(s)]++; \
+FORWARD_CHILDREN(s); \
+} \
+} while (0)
+
+static void RunGenCollect(R_size_t size_needed)
+{
+    return;
+}
+
+/* public interface for controlling GC torture settings */
+/* maybe, but in no header */
+void R_gc_torture(int gap, int wait, Rboolean inhibit)
+{
+    return;
+}
+
+SEXP attribute_hidden do_gctorture(SEXP call, SEXP op, SEXP args, SEXP rho)
+{
+    return 0;
+}
+
+SEXP attribute_hidden do_gctorture2(SEXP call, SEXP op, SEXP args, SEXP rho)
+{
+    return 0;
+}
+
+/* initialize gctorture settings from environment variables */
+static void init_gctorture(void)
+{
+    return;
+}
+
+SEXP attribute_hidden do_gcinfo(SEXP call, SEXP op, SEXP args, SEXP rho)
+{
+    return 0;
+}
+
+/* reports memory use to profiler in eval.c */
+
+void attribute_hidden get_current_mem(unsigned long *smallvsize,
+                                      unsigned long *largevsize,
+                                      unsigned long *nodes)
+{
+    return;
+}
+
+SEXP attribute_hidden do_gc(SEXP call, SEXP op, SEXP args, SEXP rho)
+{
+    return 0;
+}
+
 
 static void mem_err_heap(R_size_t size)
 {
@@ -460,7 +1014,7 @@ void attribute_hidden InitMemory()
 {
     UNMARK_NODE(&UnmarkedNodeTemplate);
     SET_NODE_CLASS(&UnmarkedNodeTemplate, 0);
-
+    
     /* R_NilValue */
     /* THIS MUST BE THE FIRST CONS CELL ALLOCATED */
     /* OR ARMAGEDDON HAPPENS. */
@@ -474,7 +1028,7 @@ void attribute_hidden InitMemory()
     CDR(R_NilValue) = R_NilValue;
     TAG(R_NilValue) = R_NilValue;
     ATTRIB(R_NilValue) = R_NilValue;
-
+    
     return;
 }
 
@@ -496,6 +1050,41 @@ void attribute_hidden freeVector(SEXP s)
     }
 #endif
     free(s);
+    return;
+}
+
+/* Since memory allocated from the heap is non-moving, R_alloc just
+ allocates off the heap as RAWSXP/REALSXP and maintains the stack of
+ allocations through the ATTRIB pointer.  The stack pointer R_VStack
+ is traced by the collector. */
+void *vmaxget(void)
+{
+    return 0;
+}
+
+void vmaxset(const void *ovmax)
+{
+    return;
+}
+
+char *R_alloc(size_t nelem, int eltsize)
+{
+    return 0;
+}
+
+
+
+/* S COMPATIBILITY */
+
+char *S_alloc(long nelem, int eltsize)
+{
+    return 0;
+}
+
+
+char *S_realloc(char *p, long new, long old, int size)
+{
+    return 0;
 }
 
 /* "allocSExp" allocate a SEXPREC */
@@ -591,14 +1180,17 @@ SEXP cons(SEXP car, SEXP cdr)
  The valuelist is destructively modified and used as the
  environment's frame.
  */
-// BLANK
+SEXP NewEnvironment(SEXP namelist, SEXP valuelist, SEXP rho)
+{
+    return 0;
+}
 
-
-
-
-
-
-
+/* mkPROMISE is defined directly do avoid the need to protect its arguments
+ unless a GC will actually occur. */
+SEXP attribute_hidden mkPROMISE(SEXP expr, SEXP rho)
+{
+    return 0;
+}
 
 /* All vector objects must be a multiple of sizeof(SEXPREC_ALIGN)
  bytes so that alignment is preserved for all objects */
@@ -865,9 +1457,9 @@ SEXP allocVector(SEXPTYPE type, R_xlen_t length)
             s->sxpinfo = UnmarkedNodeTemplate.sxpinfo;
             SET_NODE_CLASS(s, LARGE_NODE_CLASS);
             R_LargeVallocSize += size;
-//            R_GenHeap[LARGE_NODE_CLASS].AllocCount++;
-//            R_NodesInUse++;
-//            SNAP_NODE(s, R_GenHeap[LARGE_NODE_CLASS].New);
+            //            R_GenHeap[LARGE_NODE_CLASS].AllocCount++;
+            //            R_NodesInUse++;
+            //            SNAP_NODE(s, R_GenHeap[LARGE_NODE_CLASS].New);
         }
         ATTRIB(s) = R_NilValue;
         TYPEOF(s) = type;
@@ -926,6 +1518,7 @@ SEXP attribute_hidden allocCharsxp(R_len_t len)
     return allocVector(intCHARSXP, len);
 }
 
+
 SEXP allocList(int n)
 {
     int i;
@@ -934,6 +1527,11 @@ SEXP allocList(int n)
     for (i = 0; i < n; i++)
         result = CONS(R_NilValue, result);
     return result;
+}
+
+SEXP allocS4Object(void)
+{
+    return 0;
 }
 
 
@@ -950,12 +1548,214 @@ static void R_gc_full(R_size_t size_needed)
     return;
 }
 
+extern double R_getClockIncrement(void);
+extern void R_getProcTime(double *data);
+
+static double gctimes[5], gcstarttimes[5];
+static Rboolean gctime_enabled = FALSE;
+
+/* this is primitive */
+SEXP attribute_hidden do_gctime(SEXP call, SEXP op, SEXP args, SEXP env)
+{
+    return 0;
+}
+
+static void gc_start_timing(void)
+{
+    return;
+}
+
+static void gc_end_timing(void)
+{
+    return;
+}
+
+#define R_MAX(a,b) (a) < (b) ? (b) : (a)
+
 static void R_gc_internal(R_size_t size_needed)
 {
     assert(0);
     return;
 }
 
+SEXP attribute_hidden do_memlimits(SEXP call, SEXP op, SEXP args, SEXP env)
+{
+    return 0;
+}
+
+SEXP attribute_hidden do_memoryprofile(SEXP call, SEXP op, SEXP args, SEXP env)
+{
+    return 0;
+}
+
+/* "protect" push a single argument onto R_PPStack */
+
+/* In handling a stack overflow we have to be careful not to use
+ PROTECT. error("protect(): stack overflow") would call deparse1,
+ which uses PROTECT and segfaults.*/
+
+/* However, the traceback creation in the normal error handler also
+ does a PROTECT, as does the jumping code, at least if there are
+ cleanup expressions to handle on the way out.  So for the moment
+ we'll allocate a slightly larger PP stack and only enable the added
+ red zone during handling of a stack overflow error.  LT */
+
+static void reset_pp_stack(void *data)
+{
+    return;
+}
+
+SEXP protect(SEXP s)
+{
+    return 0;
+}
+
+
+/* "unprotect" pop argument list from top of R_PPStack */
+
+void unprotect(int l)
+{
+    return;
+}
+
+
+/* "unprotect_ptr" remove pointer from somewhere in R_PPStack */
+
+void unprotect_ptr(SEXP s)
+{
+    return;
+}
+
+/* Debugging function:  is s protected? */
+
+int Rf_isProtected(SEXP s)
+{
+    return 0;
+}
+
+
+void R_ProtectWithIndex(SEXP s, PROTECT_INDEX *pi)
+{
+    return;
+}
+
+void R_Reprotect(SEXP s, PROTECT_INDEX i)
+{
+    return;
+}
+
+#ifdef UNUSED
+/* remove all objects from the protection stack from index i upwards
+ and return them in a vector. The order in the vector is from new
+ to old. */
+SEXP R_CollectFromIndex(PROTECT_INDEX i)
+{
+    return 0;
+}
+#endif
+
+/* "initStack" initialize environment stack */
+attribute_hidden
+void initStack(void)
+{
+    return;
+}
+
+
+/* S-like wrappers for calloc, realloc and free that check for error
+ conditions */
+
+void *R_chk_calloc(size_t nelem, size_t elsize)
+{
+    return 0;
+}
+
+void *R_chk_realloc(void *ptr, size_t size)
+{
+    return 0;
+}
+
+void R_chk_free(void *ptr)
+{
+    return;
+}
+
+/* This code keeps a list of objects which are not assigned to variables
+ but which are required to persist across garbage collections.  The
+ objects are registered with R_PreserveObject and deregistered with
+ R_ReleaseObject. */
+
+void R_PreserveObject(SEXP object)
+{
+    return;
+}
+
+static SEXP RecursiveRelease(SEXP object, SEXP list)
+{
+    return 0;
+}
+
+void R_ReleaseObject(SEXP object)
+{
+    return;
+}
+
+
+/* External Pointer Objects */
+SEXP R_MakeExternalPtr(void *p, SEXP tag, SEXP prot)
+{
+    return 0;
+}
+
+void *R_ExternalPtrAddr(SEXP s)
+{
+    return 0;
+}
+
+SEXP R_ExternalPtrTag(SEXP s)
+{
+    return 0;
+}
+
+SEXP R_ExternalPtrProtected(SEXP s)
+{
+    return 0;
+}
+
+void R_ClearExternalPtr(SEXP s)
+{
+    return;
+}
+
+void R_SetExternalPtrAddr(SEXP s, void *p)
+{
+    return;
+}
+
+void R_SetExternalPtrTag(SEXP s, SEXP tag)
+{
+    return;
+}
+
+void R_SetExternalPtrProtected(SEXP s, SEXP p)
+{
+    return;
+}
+
+/* Work around casting issues: works where it is needed */
+typedef union {void *p; DL_FUNC fn;} fn_ptr;
+
+/* used in package methods */
+SEXP R_MakeExternalPtrFn(DL_FUNC p, SEXP tag, SEXP prot)
+{
+    return 0;
+}
+
+attribute_hidden
+DL_FUNC R_ExternalPtrAddrFn(SEXP s)
+{
+    return 0;
+}
 
 
 
@@ -1312,7 +2112,77 @@ int  (ENC_KNOWN)(SEXP x) { return ENC_KNOWN(x); }
 void attribute_hidden (SET_CACHED)(SEXP x) { SET_CACHED(x); }
 int  (IS_CACHED)(SEXP x) { return IS_CACHED(x); }
 
+/*******************************************/
+/* Non-sampling memory use profiler
+ reports all large vector heap
+ allocations and all calls to GetNewPage */
+/*******************************************/
 
+#ifndef R_MEMORY_PROFILING
+
+SEXP do_Rprofmem(SEXP args)
+{
+    return 0;
+}
+
+#else
+static int R_IsMemReporting;  /* Rboolean more appropriate? */
+static FILE *R_MemReportingOutfile;
+static R_size_t R_MemReportingThreshold;
+
+static void R_OutputStackTrace(FILE *file)
+{
+    return;
+}
+
+static void R_ReportAllocation(R_size_t size)
+{
+    return;
+}
+
+static void R_ReportNewPage(void)
+{
+    return;
+}
+
+static void R_EndMemReporting()
+{
+    return;
+}
+
+static void R_InitMemReporting(SEXP filename, int append,
+                               R_size_t threshold)
+{
+    return;
+}
+
+SEXP do_Rprofmem(SEXP args)
+{
+    return 0;
+}
+
+#endif /* R_MEMORY_PROFILING */
+
+/* RBufferUtils, moved from deparse.c */
+
+#include "RBufferUtils.h"
+
+void *R_AllocStringBuffer(size_t blen, R_StringBuffer *buf)
+{
+    return 0;
+}
+
+void
+R_FreeStringBuffer(R_StringBuffer *buf)
+{
+    return;
+}
+
+void attribute_hidden
+R_FreeStringBufferL(R_StringBuffer *buf)
+{
+    return;
+}
 
 /* ======== This needs direct access to gp field for efficiency ======== */
 
@@ -1331,10 +2201,10 @@ int Seql(SEXP a, SEXP b)
     else {
         assert(0);
         return 0;
-//    	SEXP vmax = R_VStack;
-//    	int result = !strcmp(translateCharUTF8(a), translateCharUTF8(b));
-//    	R_VStack = vmax; /* discard any memory used by translateCharUTF8 */
-//    	return result;
+        //    	SEXP vmax = R_VStack;
+        //    	int result = !strcmp(translateCharUTF8(a), translateCharUTF8(b));
+        //    	R_VStack = vmax; /* discard any memory used by translateCharUTF8 */
+        //    	return result;
     }
 }
 

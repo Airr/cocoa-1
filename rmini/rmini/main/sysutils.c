@@ -266,6 +266,7 @@ cetype_t getCharCE(SEXP x)
 
 void * Riconv_open (const char* tocode, const char* fromcode)
 {
+    return 0;
 }
 
 /* Should be defined in config.h, but prior to 2.13.0 was only checked
