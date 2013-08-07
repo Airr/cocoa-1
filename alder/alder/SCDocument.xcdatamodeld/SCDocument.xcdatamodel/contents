@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="12E55" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="SCAnalysis" representedClassName="SCAnalysis" syncable="YES">
+        <attribute name="name" attributeType="String" defaultValueString="preprocessing" syncable="YES"/>
+        <attribute name="options" attributeType="String" defaultValueString="options" syncable="YES"/>
+        <attribute name="program" attributeType="String" defaultValueString="program" syncable="YES"/>
+        <relationship name="fastq" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SCFastq" inverseName="analysis" inverseEntity="SCFastq" syncable="YES"/>
+    </entity>
+    <entity name="SCFastq" representedClassName="SCFastq" syncable="YES">
+        <attribute name="created" attributeType="Date" defaultDateTimeInterval="397512000" defaultValueString="TODAY" syncable="YES"/>
+        <attribute name="id" attributeType="Integer 16" defaultValueString="1" syncable="YES"/>
+        <attribute name="name" attributeType="String" defaultValueString="fastq" syncable="YES"/>
+        <attribute name="path" attributeType="String" defaultValueString="/tmp" syncable="YES"/>
+        <relationship name="analysis" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="SCAnalysis" inverseName="fastq" inverseEntity="SCAnalysis" syncable="YES"/>
+    </entity>
+    <entity name="SCMenu" syncable="YES">
+        <attribute name="name" attributeType="String" defaultValueString="menu" syncable="YES"/>
+        <attribute name="on" attributeType="Integer 16" minValueString="0" maxValueString="1" defaultValueString="0" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="SCAnalysis" positionX="160" positionY="206" width="128" height="105"/>
+        <element name="SCFastq" positionX="414" positionY="161" width="128" height="120"/>
+        <element name="SCMenu" positionX="160" positionY="192" width="128" height="75"/>
+    </elements>
+</model>

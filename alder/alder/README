@@ -1,0 +1,55 @@
+Features of alder
+-----------------
+1. Allow a single project only.
+2. Load fastq files.
+3. Specify factors such as condition and type.
+4. Specify a reference genome.
+5. Specify one of the genome annotations available for the reference genome.
+6. Select a short read aligner.
+7. Choose options of the aligner.
+8. Select a differential expression statistical tool.
+9. Choose options of the statistical tool.
+10. Choose options of computing resources (CR).
+11. Provide CR: a single machine, machines shared with, cloud, and other HPC.
+12. Provide preprocessing of fastq files.
+13. Preprocessing includes cleaning adapters, quality score distribution, etc.
+
+Sketch of Graphical User Interface
+----------------------------------
+1. A single simple window with navigation of swiping back and forth.
+2. Summary of analysis settings, and modification of settings.
+3. Summary of the analysis.
+4. Progress of the analysis.
+5. Like the window interface of a software step-by-step installation.
+6. A welcome window and a startup window.
+
+Alder Files
+-----------
+I need to keep several files with information necessary to save and load an 
+alder (ald) project file. This file contains:
+1. FASTQ files
+2. Preprocessing options.
+3. Alignment options.
+4. DE options.
+5. Reference genome and its annotation link.
+6. Differential expression results.
+7. Summary of preprocessing result.
+8. Summary of alignment result.
+The file size should be reasonably small (less than 10MB).
+
+Key implementation
+------------------
+.Document-based core data application
+.NSWindowController (App Delegation?)
+.xcode-like GUI (toolbar, splitview)
+.menus on the left view of the splitview
+.configuration (Fastq and Analysis)
+
+Cool GUI
+--------
+BWToolkit 
+- http://brandonwalkin.com/bwtoolkit/
+Xcode-like Toolbar 
+- http://stackoverflow.com/questions/5951196/itunes-or-xcode-style-information-box-at-top-of-window
+System provided icon or image for buttons
+- https://developer.apple.com/library/mac/#documentation/userexperience/conceptual/applehiguidelines/SystemProvidedIcons/SystemProvidedIcons.html

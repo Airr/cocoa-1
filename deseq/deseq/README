@@ -1,10 +1,16 @@
-
+Related projects
+----------------
+rgc: R test.
+rmini: R test from scratch.
+rnaseq: a previous GUI for RNA-seq and DESeq.
 
 1. Read two sets of fastq files.
 2. Genome names.
 3. Download the genome, and annotation of the genome.
 
 3. Genome annotations.
+
+
 
 Procedure:
 
