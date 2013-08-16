@@ -1,0 +1,34 @@
+Use simple_print_alignment_default to get the pairwise alignment of your two
+sequences.
+
+Changes to Rate Matrix
+----------------------
+See functions read_scr_matrix_from_code() and read_scr_matrix().
+
+Manual of Dialign
+-----------------
+Anchor: http://dialign.gobics.de/anchor/manual
+
+To specify a set of anchor points, a file with the coordinates of these anchor points is needed. Since each anchor point corresponds to a equal-length segment pair involving two of the input sequences, coordinates for anchor points are defined as follows: (1) first sequence involved (2) second sequence involved, (3) start of anchor in first sequence (4) start of anchor in second sequence (5) length of anchor. (6) In addition, a sixth coordinate is necessary that specifies a score of an anchor point. This score is necessary to prioritize anchor point in case they are inconsistent with each other, i.e. if not all of them can be used simultaneously for the same alignment. the above coordinates (in the above given order). Thus, the above two anchor points are specified as follows:
+
+   1  2  4   6  6  4.5
+   2  3  6  11  8  1.3
+   
+>seq1
+WKKNADAPKRAMTSFMKAAY
+   ^^^^^^
+>seq2
+WNLDTNSPEEKQAYIQLAKDDRIRYD
+     ^^^^^^
+>seq3 
+WRMDSNQKNPDSNNPKAAYNKGDANAPK
+
+>seq1
+WKKNADAPKRAMTSFMKAAY
+>seq2
+WNLDTNSPEEKQAYIQLAKDDRIRYD
+     ^^^^^^^^
+>seq3
+WRMDSNQKNPDSNNPKAAYNKGDANAPK
+          ^^^^^^^^
+          

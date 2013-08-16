@@ -1,0 +1,227 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D00516C217B414AD00F3EC62 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = D00516C117B414AD00F3EC62 /* main.c */; };
+		D00516C417B414AD00F3EC62 /* openmp.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = D00516C317B414AD00F3EC62 /* openmp.1 */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D00516BC17B414AD00F3EC62 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				D00516C417B414AD00F3EC62 /* openmp.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		D00516BE17B414AD00F3EC62 /* openmp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = openmp; sourceTree = BUILT_PRODUCTS_DIR; };
+		D00516C117B414AD00F3EC62 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		D00516C317B414AD00F3EC62 /* openmp.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = openmp.1; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D00516BB17B414AD00F3EC62 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D00516B517B414AD00F3EC62 = {
+			isa = PBXGroup;
+			children = (
+				D00516C017B414AD00F3EC62 /* openmp */,
+				D00516BF17B414AD00F3EC62 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D00516BF17B414AD00F3EC62 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D00516BE17B414AD00F3EC62 /* openmp */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D00516C017B414AD00F3EC62 /* openmp */ = {
+			isa = PBXGroup;
+			children = (
+				D00516C117B414AD00F3EC62 /* main.c */,
+				D00516C317B414AD00F3EC62 /* openmp.1 */,
+			);
+			path = openmp;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D00516BD17B414AD00F3EC62 /* openmp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D00516C717B414AD00F3EC62 /* Build configuration list for PBXNativeTarget "openmp" */;
+			buildPhases = (
+				D00516BA17B414AD00F3EC62 /* Sources */,
+				D00516BB17B414AD00F3EC62 /* Frameworks */,
+				D00516BC17B414AD00F3EC62 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = openmp;
+			productName = openmp;
+			productReference = D00516BE17B414AD00F3EC62 /* openmp */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D00516B617B414AD00F3EC62 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = "Sang Chul Choi";
+			};
+			buildConfigurationList = D00516B917B414AD00F3EC62 /* Build configuration list for PBXProject "openmp" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = D00516B517B414AD00F3EC62;
+			productRefGroup = D00516BF17B414AD00F3EC62 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D00516BD17B414AD00F3EC62 /* openmp */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D00516BA17B414AD00F3EC62 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D00516C217B414AD00F3EC62 /* main.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		D00516C517B414AD00F3EC62 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_OPENMP_SUPPORT = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		D00516C617B414AD00F3EC62 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_OPENMP_SUPPORT = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		D00516C817B414AD00F3EC62 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_OPENMP_SUPPORT = YES;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D00516C917B414AD00F3EC62 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_OPENMP_SUPPORT = YES;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D00516B917B414AD00F3EC62 /* Build configuration list for PBXProject "openmp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D00516C517B414AD00F3EC62 /* Debug */,
+				D00516C617B414AD00F3EC62 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D00516C717B414AD00F3EC62 /* Build configuration list for PBXNativeTarget "openmp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D00516C817B414AD00F3EC62 /* Debug */,
+				D00516C917B414AD00F3EC62 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D00516B617B414AD00F3EC62 /* Project object */;
+}

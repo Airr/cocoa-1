@@ -100,6 +100,7 @@
 		D0585EDE17A1F43600D7127B /* deseq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = deseq.h; sourceTree = "<group>"; };
 		D0585EDF17A1F44300D7127B /* deseq.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = deseq.c; sourceTree = "<group>"; };
 		D0585EFA17A251E900D7127B /* README.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; path = README.r; sourceTree = "<group>"; };
+		D0F9E4B617BC423400896FAD /* README.mem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.mem; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +189,7 @@
 				D0585C1317A0A25C00D7127B /* README.fastq */,
 				D0585EDD17A1F11A00D7127B /* README.gsl */,
 				D0585EFA17A251E900D7127B /* README.r */,
+				D0F9E4B617BC423400896FAD /* README.mem */,
 			);
 			name = README;
 			sourceTree = "<group>";

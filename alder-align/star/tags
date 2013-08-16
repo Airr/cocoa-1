@@ -1,0 +1,664 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+BLOCKS_OVERLAP_DEF	blocksOverlap.h	/^#define BLOCKS_OVERLAP_DEF$/;"	d
+BUFFER_INtoOUT_RATIO	Parameters.cpp	/^    #define BUFFER_INtoOUT_RATIO /;"	d	file:
+CCFLAGS	Makefile	/^STAR : CCFLAGS=$(CCFLAGS_MAIN)$/;"	m
+CCFLAGS	Makefile	/^STARforMac : CCFLAGS=-D'COMPILE_FOR_MAC' -I .\/Mac_Include\/ $(CCFLAGS_MAIN)$/;"	m
+CCFLAGS	Makefile	/^STARforMacGDB : CCFLAGS=-D'COMPILE_FOR_MAC' -I .\/Mac_Include\/ $(CCFLAGS_GDB)$/;"	m
+CCFLAGS	Makefile	/^STARlong : CCFLAGS=-D'COMPILE_FOR_LONG_READS' $(CCFLAGS_MAIN)$/;"	m
+CCFLAGS	Makefile	/^STARstatic : CCFLAGS=$(CCFLAGS_MAIN)$/;"	m
+CCFLAGS	Makefile	/^debug : CCFLAGS=-O3 -DDEBUG $(SVNDEF) $(COMPTIMEPLACE)$/;"	m
+CCFLAGS	Makefile	/^gdb : CCFLAGS= $(CCFLAGS_GDB)$/;"	m
+CCFLAGS	Makefile	/^gdb-long : CCFLAGS= -D'COMPILE_FOR_LONG_READS' $(CCFLAGS_GDB)$/;"	m
+CCFLAGS	Makefile	/^prof : CCFLAGS=-pg $(SVNDEF) $(COMPTIMEPLACE)$/;"	m
+CCFLAGS_GDB	Makefile	/^CCFLAGS_GDB := -g -O0 -Wall -Wextra -fopenmp $(SVNDEF) $(COMPTIMEPLACE) $/;"	m
+CCFLAGS_MAIN	Makefile	/^CCFLAGS_MAIN := -O3 -Wall -Wextra -fopenmp $(SVNDEF) $(COMPTIMEPLACE) $(OPTIMFLAGS) $(OPTIMFLAGS1)$/;"	m
+COMPTIMEPLACE	Makefile	/^COMPTIMEPLACE := -D'COMPILATION_TIME_PLACE="$(shell echo `date` $(HOSTNAME):`pwd`)"'$/;"	m
+Chr	Transcript.h	/^        uint Chr,Str,roStr; \/\/chromosome and strand and original read Strand$/;"	m	class:Transcript
+DEBUG_Nread	IncludeDefine.h	/^    #define DEBUG_Nread /;"	d
+DEBUG_NreadStart	IncludeDefine.h	/^    #define DEBUG_NreadStart /;"	d
+DEBUG_extend	IncludeDefine.h	/^    #define DEBUG_extend$/;"	d
+DEBUG_stitch	IncludeDefine.h	/^    #define DEBUG_stitch$/;"	d
+DEF_STATS	ErrorWarning.h	/^#define DEF_STATS$/;"	d
+DEF_SjdbClass	SjdbClass.h	/^#define DEF_SjdbClass$/;"	d
+DEF_loadGTF	loadGTF.h	/^#define DEF_loadGTF$/;"	d
+DEF_serviceFuns	serviceFuns.cpp	/^#define DEF_serviceFuns$/;"	d	file:
+DEF_streamFuns	streamFuns.h	/^#define DEF_streamFuns$/;"	d
+EXIT_CODE_BUG	IncludeDefine.h	/^#define EXIT_CODE_BUG /;"	d
+EXIT_CODE_GENOME_FILES	IncludeDefine.h	/^#define EXIT_CODE_GENOME_FILES /;"	d
+EXIT_CODE_GenomeLoadingWaitedTooLong	IncludeDefine.h	/^#define EXIT_CODE_GenomeLoadingWaitedTooLong /;"	d
+EXIT_CODE_INPUT_FILES	IncludeDefine.h	/^#define EXIT_CODE_INPUT_FILES /;"	d
+EXIT_CODE_MemoryAllocation	IncludeDefine.h	/^#define EXIT_CODE_MemoryAllocation /;"	d
+EXIT_CODE_PARAMETER	IncludeDefine.h	/^#define EXIT_CODE_PARAMETER /;"	d
+EXIT_CODE_RUNTIME	IncludeDefine.h	/^#define EXIT_CODE_RUNTIME /;"	d
+EXIT_CODE_SHM	IncludeDefine.h	/^#define EXIT_CODE_SHM /;"	d
+EXIT_createExtendWindowsWithAlign_TOO_MANY_WINDOWS	IncludeDefine.h	/^#define EXIT_createExtendWindowsWithAlign_TOO_MANY_WINDOWS /;"	d
+EXTEND_ORDER	IncludeDefine.h	/^#define EXTEND_ORDER /;"	d
+EX_G	IncludeDefine.h	/^#define EX_G /;"	d
+EX_L	IncludeDefine.h	/^#define EX_L /;"	d
+EX_R	IncludeDefine.h	/^#define EX_R /;"	d
+EX_SIZE	IncludeDefine.h	/^#define EX_SIZE /;"	d
+EX_iFrag	IncludeDefine.h	/^#define EX_iFrag /;"	d
+EX_sjA	IncludeDefine.h	/^#define EX_sjA /;"	d
+G	Genome.h	/^        char *G, *sigG;$/;"	m	class:Genome
+G1	Genome.h	/^        char *G1; \/\/pointer -200 of G$/;"	m	class:Genome
+GENOME_DEF	Genome.h	/^#define GENOME_DEF$/;"	d
+GLOBAL_VARIABLES_DEF	GlobalVariables.h	/^#define GLOBAL_VARIABLES_DEF$/;"	d
+GTF_exonEnd	loadGTF.cpp	/^#define GTF_exonEnd(/;"	d	file:
+GTF_exonLoci_size	loadGTF.cpp	/^#define GTF_exonLoci_size /;"	d	file:
+GTF_exonStart	loadGTF.cpp	/^#define GTF_exonStart(/;"	d	file:
+GTF_exonTrID	loadGTF.cpp	/^#define GTF_exonTrID(/;"	d	file:
+Genome	Genome.h	/^class Genome {$/;"	c
+GstrandBit	Parameters.h	/^    unsigned char GstrandBit, SAiMarkNbit, SAiMarkAbsentBit; \/\/SA index bit for strand information$/;"	m	class:Parameters
+GstrandMask	Parameters.h	/^    uint GstrandMask, SAiMarkAbsentMask, SAiMarkAbsentMaskC, SAiMarkNmask, SAiMarkNmaskC;\/\/maske to remove strand bit from SA index, to remove mark from SAi index$/;"	m	class:Parameters
+HDEF_binarySearch2	binarySearch2.h	/^#define HDEF_binarySearch2$/;"	d
+INCLUDEDEFINE_DEF	IncludeDefine.h	/^#define INCLUDEDEFINE_DEF$/;"	d
+INOUTSTREAMS_DEF	InOutStreams.h	/^#define INOUTSTREAMS_DEF$/;"	d
+InOutStreams	InOutStreams.cpp	/^InOutStreams::InOutStreams() {$/;"	f	class:InOutStreams
+InOutStreams	InOutStreams.h	/^class InOutStreams {$/;"	c
+Junction	OutSJ.h	/^class Junction {\/\/one junction$/;"	c
+LDFLAGS	Makefile	/^LDFLAGS := -pthread$/;"	m
+LDFLAGS_GDB	Makefile	/^LDFLAGS_GDB := -pthread$/;"	m
+LDFLAGS_static	Makefile	/^LDFLAGS_static := -static -static-libgcc -pthread$/;"	m
+Lread	Parameters.h	/^    uint Lread;$/;"	m	class:Parameters
+Lread	ReadAlign.h	/^        uint Lread, readLength[MAX_N_MATES], readLengthOriginal[MAX_N_MATES], readLengthPair, readLengthPairOriginal;$/;"	m	class:ReadAlign
+Lread	Transcript.h	/^        uint Lread, readLengthPairOriginal;$/;"	m	class:Transcript
+MARKER_ALL_PIECES_EXCEEDED_winAnchorMultimapNmax	IncludeDefine.h	/^#define MARKER_ALL_PIECES_EXCEEDED_winAnchorMultimapNmax /;"	d
+MARKER_ALL_PIECES_EXCEED_seedMultimapNmax	IncludeDefine.h	/^#define MARKER_ALL_PIECES_EXCEED_seedMultimapNmax /;"	d
+MARKER_FULL_LENGTH_MULTIMAPPER_EXCEEDED_alignWindowsPerReadNmax	IncludeDefine.h	/^#define MARKER_FULL_LENGTH_MULTIMAPPER_EXCEEDED_alignWindowsPerReadNmax /;"	d
+MARKER_MAX_N_MULT_EXCEEDED	IncludeDefine.h	/^#define MARKER_MAX_N_MULT_EXCEEDED /;"	d
+MARKER_NO_GOOD_PIECES	IncludeDefine.h	/^#define MARKER_NO_GOOD_PIECES /;"	d
+MARKER_NO_GOOD_WINDOW	IncludeDefine.h	/^#define MARKER_NO_GOOD_WINDOW /;"	d
+MARKER_NO_UNIQUE_PIECES	IncludeDefine.h	/^#define MARKER_NO_UNIQUE_PIECES /;"	d
+MARKER_READ_TOO_SHORT	IncludeDefine.h	/^#define MARKER_READ_TOO_SHORT /;"	d
+MARKER_TOO_MANY_ANCHORS_PER_WINDOW	IncludeDefine.h	/^#define MARKER_TOO_MANY_ANCHORS_PER_WINDOW /;"	d
+MARKER_TOO_MANY_CHIMERAS	IncludeDefine.h	/^#define MARKER_TOO_MANY_CHIMERAS /;"	d
+MARK_FRAG_SPACER_BASE	IncludeDefine.h	/^#define MARK_FRAG_SPACER_BASE /;"	d
+MAX_N_CHIMERAS	IncludeDefine.h	/^#define MAX_N_CHIMERAS /;"	d
+MAX_N_EXONS	IncludeDefine.h	/^    #define MAX_N_EXONS /;"	d
+MAX_N_FRAG	IncludeDefine.h	/^#define MAX_N_FRAG /;"	d
+MAX_N_MATES	IncludeDefine.h	/^#define MAX_N_MATES /;"	d
+MAX_N_MULTMAP	IncludeDefine.h	/^#define MAX_N_MULTMAP /;"	d
+MAX_OUTPUT_FLAG	IncludeDefine.h	/^#define MAX_OUTPUT_FLAG /;"	d
+MAX_QS_VALUE	IncludeDefine.h	/^#define MAX_QS_VALUE /;"	d
+MAX_READ_LENGTH	IncludeDefine.h	/^#define MAX_READ_LENGTH /;"	d
+MAX_READ_NAME_LENGTH	IncludeDefine.h	/^#define MAX_READ_NAME_LENGTH /;"	d
+MAX_SJ_REPEAT_SEARCH	IncludeDefine.h	/^#define MAX_SJ_REPEAT_SEARCH /;"	d
+MT_PE	IncludeDefine.h	/^#define MT_PE /;"	d
+MT_SIZE	IncludeDefine.h	/^#define MT_SIZE /;"	d
+N	OutSJ.h	/^    uint N; \/\/number of junctions stored$/;"	m	class:OutSJ
+Nsplit	ReadAlign.h	/^        uint Nsplit;$/;"	m	class:ReadAlign
+OBJECTS	Makefile	/^OBJECTS = PackedArray.o SuffixArrayFuns.o STAR.o Parameters.o InOutStreams.o SequenceFuns.o Genome.o Transcript.o Stats.o \\$/;"	m
+OUTPUTSJ_DEF	outputSJ.h	/^#define OUTPUTSJ_DEF$/;"	d
+OUT_SJ_DEF	OutSJ.h	/^#define OUT_SJ_DEF$/;"	d
+OutSJ	OutSJ.cpp	/^OutSJ::OutSJ (uint nSJmax, Parameters *inP) {\/\/do I need P?$/;"	f	class:OutSJ
+OutSJ	OutSJ.h	/^class OutSJ {$/;"	c
+P	OutSJ.h	/^    Parameters *P;$/;"	m	class:OutSJ
+P	ReadAlign.h	/^        Parameters* P; \/\/pointer to the parameters, will be initialized on construction$/;"	m	class:ReadAlign
+P	ReadAlignChunk.h	/^    Parameters* P;$/;"	m	class:ReadAlignChunk
+PACKEDARRAY_DEF	PackedArray.h	/^#define PACKEDARRAY_DEF$/;"	d
+PARAMETERSINFO_DEF	ParameterInfo.h	/^#define PARAMETERSINFO_DEF$/;"	d
+PARAMETERS_DEF	Parameters.h	/^#define PARAMETERS_DEF$/;"	d
+PAR_NAME_PRINT_WIDTH	Parameters.cpp	/^#define PAR_NAME_PRINT_WIDTH /;"	d	file:
+PC	ReadAlign.h	/^        uiPC *PC; \/\/pieces coordinates$/;"	m	class:ReadAlign
+PC_Dir	IncludeDefine.h	/^#define PC_Dir /;"	d
+PC_Length	IncludeDefine.h	/^#define PC_Length /;"	d
+PC_Nrep	IncludeDefine.h	/^#define PC_Nrep /;"	d
+PC_SAend	IncludeDefine.h	/^#define PC_SAend /;"	d
+PC_SAstart	IncludeDefine.h	/^#define PC_SAstart /;"	d
+PC_SIZE	IncludeDefine.h	/^#define PC_SIZE /;"	d
+PC_Str	IncludeDefine.h	/^#define PC_Str /;"	d
+PC_iFrag	IncludeDefine.h	/^#define PC_iFrag /;"	d
+PC_rStart	IncludeDefine.h	/^#define PC_rStart /;"	d
+PEMARKER_CHIMERIC_PAIRS	IncludeDefine.h	/^#define PEMARKER_CHIMERIC_PAIRS /;"	d
+PEMARKER_CHIMERIC_SJ_READ1	IncludeDefine.h	/^#define PEMARKER_CHIMERIC_SJ_READ1 /;"	d
+PEMARKER_CHIMERIC_SJ_READ1and2	IncludeDefine.h	/^#define PEMARKER_CHIMERIC_SJ_READ1and2 /;"	d
+PEMARKER_CHIMERIC_SJ_READ2	IncludeDefine.h	/^#define PEMARKER_CHIMERIC_SJ_READ2 /;"	d
+PEMARKER_ONE_END	IncludeDefine.h	/^#define PEMARKER_ONE_END /;"	d
+PEMARKER_PAIR	IncludeDefine.h	/^#define PEMARKER_PAIR /;"	d
+PEMARKER_SINGLE_END	IncludeDefine.h	/^#define PEMARKER_SINGLE_END /;"	d
+PEMARKER_SINGLE_END_NOTMAPPED	IncludeDefine.h	/^#define PEMARKER_SINGLE_END_NOTMAPPED /;"	d
+PEMARKER_TOO_MANY_PAIRS	IncludeDefine.h	/^#define PEMARKER_TOO_MANY_PAIRS /;"	d
+PacBio	ReadAlign_stitchPieces.cpp	/^#define PacBio /;"	d	file:
+PackedArray	PackedArray.h	/^class PackedArray {$/;"	c
+ParameterInfoBase	ParameterInfo.h	/^class ParameterInfoBase {$/;"	c
+ParameterInfoScalar	ParameterInfo.h	/^    ParameterInfoScalar(int inputLevelIn, int inputLevelAllowedIn, string nameStringIn, parameterType* valueIn) {$/;"	f	class:ParameterInfoScalar
+ParameterInfoScalar	ParameterInfo.h	/^class ParameterInfoScalar : public ParameterInfoBase {   $/;"	c
+ParameterInfoVector	ParameterInfo.h	/^    ParameterInfoVector(int inputLevelIn, int inputLevelAllowedIn, string nameStringIn, vector <parameterType> *valueIn) {$/;"	f	class:ParameterInfoVector
+ParameterInfoVector	ParameterInfo.h	/^class ParameterInfoVector : public ParameterInfoBase {   $/;"	c
+Parameters	Parameters.cpp	/^Parameters::Parameters() {\/\/initalize parameters info$/;"	f	class:Parameters
+Parameters	Parameters.h	/^class Parameters {$/;"	c
+Qsplit	Parameters.h	/^        char Qsplit;$/;"	m	class:Parameters
+Qual0	ReadAlign.h	/^        char** Qual0;$/;"	m	class:ReadAlign
+Qual1	ReadAlign.h	/^        char** Qual1; \/\/modified QSs for scoring$/;"	m	class:ReadAlign
+RA	ReadAlignChunk.h	/^    ReadAlign* RA;$/;"	m	class:ReadAlignChunk
+READALIGN_DEF	ReadAlign.h	/^#define READALIGN_DEF$/;"	d
+READLOAD_DEF	readLoad.h	/^#define READLOAD_DEF$/;"	d
+READ_ALIGN_CHUNK_DEF	ReadAlignChunk.h	/^#define READ_ALIGN_CHUNK_DEF$/;"	d
+Read0	ReadAlign.h	/^        char** Read0;$/;"	m	class:ReadAlign
+Read1	ReadAlign.h	/^        char** Read1;$/;"	m	class:ReadAlign
+ReadAlign	ReadAlign.cpp	/^ReadAlign::ReadAlign (Parameters* Pin, Genome &genomeIn) : P(Pin) {\/\/allocate arrays$/;"	f	class:ReadAlign
+ReadAlign	ReadAlign.h	/^class ReadAlign : public Genome {$/;"	c
+ReadAlignChunk	ReadAlignChunk.cpp	/^ReadAlignChunk::ReadAlignChunk(Parameters* Pin, Genome &genomeIn, int iChunk) : P(Pin) {\/\/initialize chunk$/;"	f	class:ReadAlignChunk
+ReadAlignChunk	ReadAlignChunk.h	/^class ReadAlignChunk {\/\/chunk of reads and alignments$/;"	c
+SA	Genome.h	/^        PackedArray SA;$/;"	m	class:Genome
+SA_CHUNK_BLOCK_SIZE	genomeGenerate.cpp	/^        #define SA_CHUNK_BLOCK_SIZE /;"	d	file:
+SAi	Genome.h	/^        PackedArray SAi;$/;"	m	class:Genome
+SAiMarkAbsentBit	Parameters.h	/^    unsigned char GstrandBit, SAiMarkNbit, SAiMarkAbsentBit; \/\/SA index bit for strand information$/;"	m	class:Parameters
+SAiMarkAbsentMask	Parameters.h	/^    uint GstrandMask, SAiMarkAbsentMask, SAiMarkAbsentMaskC, SAiMarkNmask, SAiMarkNmaskC;\/\/maske to remove strand bit from SA index, to remove mark from SAi index$/;"	m	class:Parameters
+SAiMarkAbsentMaskC	Parameters.h	/^    uint GstrandMask, SAiMarkAbsentMask, SAiMarkAbsentMaskC, SAiMarkNmask, SAiMarkNmaskC;\/\/maske to remove strand bit from SA index, to remove mark from SAi index$/;"	m	class:Parameters
+SAiMarkNbit	Parameters.h	/^    unsigned char GstrandBit, SAiMarkNbit, SAiMarkAbsentBit; \/\/SA index bit for strand information$/;"	m	class:Parameters
+SAiMarkNmask	Parameters.h	/^    uint GstrandMask, SAiMarkAbsentMask, SAiMarkAbsentMaskC, SAiMarkNmask, SAiMarkNmaskC;\/\/maske to remove strand bit from SA index, to remove mark from SAi index$/;"	m	class:Parameters
+SAiMarkNmaskC	Parameters.h	/^    uint GstrandMask, SAiMarkAbsentMask, SAiMarkAbsentMaskC, SAiMarkNmask, SAiMarkNmaskC;\/\/maske to remove strand bit from SA index, to remove mark from SAi index$/;"	m	class:Parameters
+SEQUENCEFUNS_DEF	SequenceFuns.h	/^#define SEQUENCEFUNS_DEF$/;"	d
+SETW1	Stats.cpp	/^#define SETW1 /;"	d	file:
+SETW2	Stats.cpp	/^#define SETW2 /;"	d	file:
+SETW3	Stats.cpp	/^#define SETW3 /;"	d	file:
+SHM_NORESERVE	IncludeDefine.h	/^  #define SHM_NORESERVE /;"	d
+SHM_projectID	Genome.cpp	/^#define SHM_projectID /;"	d	file:
+SHM_sizeG	Genome.cpp	/^#define SHM_sizeG /;"	d	file:
+SHM_sizeSA	Genome.cpp	/^#define SHM_sizeSA /;"	d	file:
+SHM_startG	Genome.cpp	/^#define SHM_startG /;"	d	file:
+SJ_MOTIF_SIZE	IncludeDefine.h	/^#define SJ_MOTIF_SIZE /;"	d
+SJ_SAM_AnnotatedMotifShift	IncludeDefine.h	/^#define SJ_SAM_AnnotatedMotifShift /;"	d
+SOURCES	Makefile	/^SOURCES=$(wildcard *.cpp)$/;"	m
+STATS_DEF	Stats.h	/^#define STATS_DEF$/;"	d
+SUFFIXARRAYSFUNS_DEF	SuffixArraysFuns.h	/^#define SUFFIXARRAYSFUNS_DEF$/;"	d
+SVNDEF	Makefile	/^SVNDEF := -D'SVN_VERSION_COMPILED="STAR_2.3.0e_r291"'$/;"	m
+SjdbClass	SjdbClass.h	/^class SjdbClass {$/;"	c
+Stats	Stats.cpp	/^Stats::Stats() {\/\/constructor$/;"	f	class:Stats
+Stats	Stats.h	/^class Stats {$/;"	c
+Str	Transcript.h	/^        uint Chr,Str,roStr; \/\/chromosome and strand and original read Strand$/;"	m	class:Transcript
+THREAD_CONTROL_DEF	ThreadControl.h	/^#define THREAD_CONTROL_DEF$/;"	d
+TIME_FUNCTIONS_DEF	TimeFunctions.h	/^#define TIME_FUNCTIONS_DEF$/;"	d
+TRANSCRIPT_DEF	Transcript.h	/^#define TRANSCRIPT_DEF$/;"	d
+ThreadControl	ThreadControl.h	/^class ThreadControl {$/;"	c
+Transcript	Transcript.cpp	/^Transcript::Transcript() {$/;"	f	class:Transcript
+Transcript	Transcript.h	/^class Transcript {$/;"	c
+WA	ReadAlign.h	/^        uiWA **WA; \/\/aligments per window$/;"	m	class:ReadAlign
+WALrec	ReadAlign.h	/^        uint *nWA, *nWAP, *WALrec, *WlastAnchor; \/\/number of alignments per window, per window per piece, min recordable length per window$/;"	m	class:ReadAlign
+WA_Anchor	IncludeDefine.h	/^#define WA_Anchor /;"	d
+WA_Length	IncludeDefine.h	/^#define WA_Length /;"	d
+WA_Nrep	IncludeDefine.h	/^#define WA_Nrep /;"	d
+WA_SIZE	IncludeDefine.h	/^#define WA_SIZE /;"	d
+WA_gStart	IncludeDefine.h	/^#define WA_gStart /;"	d
+WA_iFrag	IncludeDefine.h	/^#define WA_iFrag /;"	d
+WA_rStart	IncludeDefine.h	/^#define WA_rStart /;"	d
+WA_sjA	IncludeDefine.h	/^#define WA_sjA /;"	d
+WAincl	ReadAlign.h	/^        bool *WAincl; \/\/alginment inclusion mask$/;"	m	class:ReadAlign
+WC	ReadAlign.h	/^        uiWC *WC; \/\/windows coordinates        $/;"	m	class:ReadAlign
+WC_Chr	IncludeDefine.h	/^#define WC_Chr /;"	d
+WC_SIZE	IncludeDefine.h	/^#define WC_SIZE /;"	d
+WC_Str	IncludeDefine.h	/^#define WC_Str /;"	d
+WC_gEnd	IncludeDefine.h	/^#define WC_gEnd /;"	d
+WC_gStart	IncludeDefine.h	/^#define WC_gStart /;"	d
+WlastAnchor	ReadAlign.h	/^        uint *nWA, *nWAP, *WALrec, *WlastAnchor; \/\/number of alignments per window, per window per piece, min recordable length per window$/;"	m	class:ReadAlign
+add	Transcript.cpp	/^void Transcript::add(Transcript *trIn) {$/;"	f	class:Transcript
+addStats	Stats.cpp	/^void Stats::addStats(Stats &S) {\/\/add S to Stats$/;"	f	class:Stats
+alignC	ReadAlign.h	/^        Transcript *alignC, *extendC, *polyAtailC; \/\/alignment rules\/conditions$/;"	m	class:ReadAlign
+alignIntronMax	Parameters.h	/^        uint alignIntronMax;\/\/max length to call $/;"	m	class:Parameters
+alignIntronMin	Parameters.h	/^        uint alignIntronMin;\/\/min length to call a gap an intron$/;"	m	class:Parameters
+alignMatesGapMax	Parameters.h	/^        uint alignMatesGapMax;\/\/max gap between the mates (if paired-end)$/;"	m	class:Parameters
+alignSJDBoverhangMin	Parameters.h	/^        uint alignSJoverhangMin,alignSJDBoverhangMin,alignSplicedMateMapLmin; \/\/min SJ donor\/acceptor length$/;"	m	class:Parameters
+alignSJoverhangMin	Parameters.h	/^        uint alignSJoverhangMin,alignSJDBoverhangMin,alignSplicedMateMapLmin; \/\/min SJ donor\/acceptor length$/;"	m	class:Parameters
+alignSmithWaterman	alignSmithWaterman.cpp	/^intSWscore alignSmithWaterman(char *R, uint rL, char *G, uint gL, \\$/;"	f
+alignSplicedMateMapLmin	Parameters.h	/^        uint alignSJoverhangMin,alignSJDBoverhangMin,alignSplicedMateMapLmin; \/\/min SJ donor\/acceptor length$/;"	m	class:Parameters
+alignSplicedMateMapLminOverLmate	Parameters.h	/^        double alignSplicedMateMapLminOverLmate;$/;"	m	class:Parameters
+alignTranscriptsPerReadNmax	Parameters.h	/^        uint alignTranscriptsPerReadNmax;   \/\/max number of alignments per read     $/;"	m	class:Parameters
+alignTranscriptsPerWindowNmax	Parameters.h	/^        uint alignTranscriptsPerWindowNmax; \/\/maximum number of transcripts recorded per window$/;"	m	class:Parameters
+alignWindowsPerReadNmax	Parameters.h	/^        uint alignWindowsPerReadNmax; \/\/max number of alignment windows per read$/;"	m	class:Parameters
+allocateArray	PackedArray.cpp	/^void PackedArray::allocateArray() {$/;"	f	class:PackedArray
+allowedValues	ParameterInfo.h	/^    vector <parameterType> allowedValues;$/;"	m	class:ParameterInfoScalar
+allowedValues	ParameterInfo.h	/^    vector <parameterType> allowedValues;$/;"	m	class:ParameterInfoVector
+annot	OutSJ.h	/^    char *strand, *motif, *annot;$/;"	m	class:Junction
+annotP	OutSJ.h	/^    const static uint annotP=motifP+sizeof(char);     $/;"	m	class:Junction
+annotScoreScale	Parameters.h	/^        int annotScoreScale;\/\/overall multiplication factor for the annotation$/;"	m	class:Parameters
+annotSignalFile	Parameters.h	/^        string annotSignalFile;\/\/binary file with annotation signal$/;"	m	class:Parameters
+assignAlignToWindow	ReadAlign_assignAlignToWindow.cpp	/^void ReadAlign::assignAlignToWindow(uint a1, uint aLength, uint aStr, uint aNrep, uint aFrag, uint aRstart, bool aAnchor, uint sjA) {$/;"	f	class:ReadAlign
+binarySearch2	binarySearch2.cpp	/^int binarySearch2(uint x, uint y, uint *X, uint *Y, uint N) {$/;"	f
+bitRecMask	PackedArray.h	/^        uint bitRecMask, wordCompLength;    $/;"	m	class:PackedArray
+blocksOverlap	blocksOverlap.cpp	/^uint blocksOverlap(Transcript &t1, Transcript &t2) {\/\/calculate overlap between blocak of two transcripts$/;"	f
+cStart	Transcript.h	/^        uint rStart, roStart, rLength, gStart, gLength, cStart; \/\/read, original read, and genomic start\/length, chromosome start$/;"	m	class:Transcript
+canonSJ	Transcript.h	/^        int canonSJ[MAX_N_EXONS]; \/\/canonicity of each junction$/;"	m	class:Transcript
+charArray	PackedArray.h	/^        char* charArray;$/;"	m	class:PackedArray
+chimJunctionOverhangMin	Parameters.h	/^        uint chimSegmentMin, chimJunctionOverhangMin; \/\/min chimeric donor\/acceptor length$/;"	m	class:Parameters
+chimMotif	ReadAlign.h	/^        uint chimN, chimRepeat, chimStr, chimMotif;$/;"	m	class:ReadAlign
+chimN	ReadAlign.h	/^        uint chimN, chimRepeat, chimStr, chimMotif;$/;"	m	class:ReadAlign
+chimRepeat	ReadAlign.h	/^        uint chimN, chimRepeat, chimStr, chimMotif;$/;"	m	class:ReadAlign
+chimScoreDropMax	Parameters.h	/^        int chimScoreMin,chimScoreDropMax,chimScoreSeparation, chimScoreJunctionNonGTAG; \/\/min chimeric score$/;"	m	class:Parameters
+chimScoreJunctionNonGTAG	Parameters.h	/^        int chimScoreMin,chimScoreDropMax,chimScoreSeparation, chimScoreJunctionNonGTAG; \/\/min chimeric score$/;"	m	class:Parameters
+chimScoreMin	Parameters.h	/^        int chimScoreMin,chimScoreDropMax,chimScoreSeparation, chimScoreJunctionNonGTAG; \/\/min chimeric score$/;"	m	class:Parameters
+chimScoreSeparation	Parameters.h	/^        int chimScoreMin,chimScoreDropMax,chimScoreSeparation, chimScoreJunctionNonGTAG; \/\/min chimeric score$/;"	m	class:Parameters
+chimSegmentMin	Parameters.h	/^        uint chimSegmentMin, chimJunctionOverhangMin; \/\/min chimeric donor\/acceptor length$/;"	m	class:Parameters
+chimStr	ReadAlign.h	/^        uint chimN, chimRepeat, chimStr, chimMotif;$/;"	m	class:ReadAlign
+chr	SjdbClass.h	/^    vector <string> chr;$/;"	m	class:SjdbClass
+chrBin	Parameters.h	/^        uint genomeChrBinNbits, genomeChrBinNbases, chrBinN, *chrBin;$/;"	m	class:Parameters
+chrBinFill	Parameters.cpp	/^void Parameters::chrBinFill() {$/;"	f	class:Parameters
+chrBinN	Parameters.h	/^        uint genomeChrBinNbits, genomeChrBinNbases, chrBinN, *chrBin;$/;"	m	class:Parameters
+chrFind	SequenceFuns.cpp	/^uint chrFind(uint Start, uint i2, uint* chrStart) {\/\/ find chromosome from global locus$/;"	f
+chrInfoLoad	Parameters.cpp	/^void Parameters::chrInfoLoad() {\/\/find chrStart,Length,nChr from Genome G$/;"	f	class:Parameters
+chrLength	Parameters.h	/^        vector <uint> chrStart, chrLength;$/;"	m	class:Parameters
+chrName	Parameters.h	/^    vector <string> chrName;$/;"	m	class:Parameters
+chrNameIndex	Parameters.h	/^    map <string,uint> chrNameIndex;$/;"	m	class:Parameters
+chrStart	Parameters.h	/^        vector <uint> chrStart, chrLength;$/;"	m	class:Parameters
+chunkFstreamCat	ReadAlignChunk.cpp	/^void ReadAlignChunk::chunkFstreamCat (fstream &chunkOut, ofstream &allOut, bool mutexFlag, pthread_mutex_t &mutexVal){$/;"	f	class:ReadAlignChunk
+chunkFstreamOpen	ReadAlignChunk.cpp	/^void ReadAlignChunk::chunkFstreamOpen(string filePrefix, int iChunk, fstream &fstreamOut) {\/\/open fstreams for chunks$/;"	f	class:ReadAlignChunk
+chunkIn	ReadAlignChunk.h	/^    char** chunkIn; \/\/space for the chunk of input reads$/;"	m	class:ReadAlignChunk
+chunkInSizeBytes	Parameters.h	/^        uint chunkInSizeBytes,chunkInSizeBytesArray,chunkOutSAMsizeBytes, chunkOutSJsize;$/;"	m	class:Parameters
+chunkInSizeBytesArray	Parameters.h	/^        uint chunkInSizeBytes,chunkInSizeBytesArray,chunkOutSAMsizeBytes, chunkOutSJsize;$/;"	m	class:Parameters
+chunkOutChimJunction	ReadAlign.h	/^        fstream chunkOutChimSAM, chunkOutChimJunction, chunkOutUnmappedReadsStream[MAX_N_MATES], chunkOutFilterBySJoutFiles[MAX_N_MATES];$/;"	m	class:ReadAlign
+chunkOutChimSAM	ReadAlign.h	/^        fstream chunkOutChimSAM, chunkOutChimJunction, chunkOutUnmappedReadsStream[MAX_N_MATES], chunkOutFilterBySJoutFiles[MAX_N_MATES];$/;"	m	class:ReadAlign
+chunkOutFilterBySJoutFiles	ReadAlign.h	/^        fstream chunkOutChimSAM, chunkOutChimJunction, chunkOutUnmappedReadsStream[MAX_N_MATES], chunkOutFilterBySJoutFiles[MAX_N_MATES];$/;"	m	class:ReadAlign
+chunkOutSAM	ReadAlignChunk.h	/^    char*  chunkOutSAM;\/\/space for the chunk of output SAM$/;"	m	class:ReadAlignChunk
+chunkOutSAMsizeBytes	Parameters.h	/^        uint chunkInSizeBytes,chunkInSizeBytesArray,chunkOutSAMsizeBytes, chunkOutSJsize;$/;"	m	class:Parameters
+chunkOutSAMstream	ReadAlignChunk.h	/^    ostringstream*  chunkOutSAMstream;$/;"	m	class:ReadAlignChunk
+chunkOutSJ	ReadAlign.h	/^        OutSJ *chunkOutSJ, *chunkOutSJ1;$/;"	m	class:ReadAlign
+chunkOutSJ	ReadAlignChunk.h	/^    OutSJ *chunkOutSJ, *chunkOutSJ1;$/;"	m	class:ReadAlignChunk
+chunkOutSJ1	ReadAlign.h	/^        OutSJ *chunkOutSJ, *chunkOutSJ1;$/;"	m	class:ReadAlign
+chunkOutSJ1	ReadAlignChunk.h	/^    OutSJ *chunkOutSJ, *chunkOutSJ1;$/;"	m	class:ReadAlignChunk
+chunkOutSJsize	Parameters.h	/^        uint chunkInSizeBytes,chunkInSizeBytesArray,chunkOutSAMsizeBytes, chunkOutSJsize;$/;"	m	class:Parameters
+chunkOutUnmappedReadsStream	ReadAlign.h	/^        fstream chunkOutChimSAM, chunkOutChimJunction, chunkOutUnmappedReadsStream[MAX_N_MATES], chunkOutFilterBySJoutFiles[MAX_N_MATES];$/;"	m	class:ReadAlign
+clip3pAdapterMMp	Parameters.h	/^        vector <double> clip3pAdapterMMp;$/;"	m	class:Parameters
+clip3pAdapterN	ReadAlign.h	/^        uint clip3pNtotal[MAX_N_MATES], clip5pNtotal[MAX_N_MATES], clip3pAdapterN[MAX_N_MATES]; \/\/total number of trimmed bases from 5p,3p$/;"	m	class:ReadAlign
+clip3pAdapterSeq	Parameters.h	/^        vector <string> clip3pAdapterSeq;$/;"	m	class:Parameters
+clip3pAdapterSeqNum	Parameters.h	/^        char *clip3pAdapterSeqNum[MAX_N_MATES];\/\/adapter sequence - numerical$/;"	m	class:Parameters
+clip3pAfterAdapterNbases	Parameters.h	/^        vector <uint> clip5pNbases, clip3pNbases, clip3pAfterAdapterNbases;    $/;"	m	class:Parameters
+clip3pNbases	Parameters.h	/^        vector <uint> clip5pNbases, clip3pNbases, clip3pAfterAdapterNbases;    $/;"	m	class:Parameters
+clip3pNtotal	ReadAlign.h	/^        uint clip3pNtotal[MAX_N_MATES], clip5pNtotal[MAX_N_MATES], clip3pAdapterN[MAX_N_MATES]; \/\/total number of trimmed bases from 5p,3p$/;"	m	class:ReadAlign
+clip5pNbases	Parameters.h	/^        vector <uint> clip5pNbases, clip3pNbases, clip3pAfterAdapterNbases;    $/;"	m	class:Parameters
+clip5pNtotal	ReadAlign.h	/^        uint clip3pNtotal[MAX_N_MATES], clip5pNtotal[MAX_N_MATES], clip3pAdapterN[MAX_N_MATES]; \/\/total number of trimmed bases from 5p,3p$/;"	m	class:ReadAlign
+collapseOneSJ	OutSJ.cpp	/^void Junction::collapseOneSJ(char* isj1P, char* isjP, Parameters* P) {\/\/collapse isj junction into isj1: increase counts in isj1. choose max overhangs, motif, annot$/;"	f	class:Junction
+collapseSJ	OutSJ.cpp	/^void OutSJ::collapseSJ() {\/\/collapse junctions. Simple version now: re-sort everything$/;"	f	class:OutSJ
+commandLine	Parameters.h	/^        string commandLine, commandLineFull;$/;"	m	class:Parameters
+commandLineFull	Parameters.h	/^        string commandLine, commandLineFull;$/;"	m	class:Parameters
+compareSJ	OutSJ.cpp	/^int compareSJ(const void* i1, const void* i2) {\/\/compare SJs from the data structure$/;"	f
+compareSeqToGenome	SuffixArrayFuns.cpp	/^uint compareSeqToGenome(char** s2, uint S, uint N, uint L, char* g, PackedArray& SA, uint iSA, bool dirR, bool& comparRes, Parameters* P) {$/;"	f
+compareUint	outputSJ.cpp	/^int compareUint(const void* i1, const void* i2) {\/\/compare uint arrays$/;"	f
+complementSeqNumbers	SequenceFuns.cpp	/^void complementSeqNumbers(char* ReadsIn, char* ReadsOut, uint Lread) {\/\/complement the numeric sequences$/;"	f
+convertNucleotidesToNumbers	SequenceFuns.cpp	/^void convertNucleotidesToNumbers(const char* R0, char* R1, uint Lread) {\/\/transform sequence  from ACGT into 0-1-2-3 code    $/;"	f
+countMultiple	OutSJ.h	/^    uint32 *countUnique, *countMultiple;$/;"	m	class:Junction
+countMultipleP	OutSJ.h	/^    const static uint countMultipleP=countUniqueP+sizeof(uint32);     $/;"	m	class:Junction
+countUnique	OutSJ.h	/^    uint32 *countUnique, *countMultiple;$/;"	m	class:Junction
+countUniqueP	OutSJ.h	/^    const static uint countUniqueP=annotP+sizeof(char);     $/;"	m	class:Junction
+createExtendWindowsWithAlign	ReadAlign_createExtendWindowsWithAlign.cpp	/^int ReadAlign::createExtendWindowsWithAlign(uint a1, uint aStr) {$/;"	f	class:ReadAlign
+data	OutSJ.h	/^    char* data; \/\/sj array[Njunctions][dataSize]$/;"	m	class:OutSJ
+dataSize	OutSJ.h	/^    const static uint dataSize=overhangRightP+sizeof(uint16);$/;"	m	class:Junction
+defineBits	PackedArray.cpp	/^void PackedArray::defineBits(uint Nbits, uint lengthIn){$/;"	f	class:PackedArray
+dummyChar	ReadAlign.h	/^        char dummyChar[4096];$/;"	m	class:ReadAlign
+end	SjdbClass.h	/^    vector <uint> start,end;    $/;"	m	class:SjdbClass
+exitWithError	ErrorWarning.cpp	/^void exitWithError(string messageOut, ostream &streamOut1, ostream &streamOut2, int errorInt, Parameters &P) {$/;"	f
+exons	Transcript.h	/^        uint exons[MAX_N_EXONS][EX_SIZE]; \/\/coordinates of all exons: r-start, g-start, length$/;"	m	class:Transcript
+extendAlign	extendAlign.cpp	/^bool extendAlign( char* R, char* Q, char* G, uint rStart, uint gStart, int dR, int dG, uint L, uint Lprev, uint nMMprev, uint nMMmax, double pMMmax, Transcript* trA ) {$/;"	f
+extendC	ReadAlign.h	/^        Transcript *alignC, *extendC, *polyAtailC; \/\/alignment rules\/conditions$/;"	m	class:ReadAlign
+extendL	Transcript.h	/^        uint extendL; \/\/extension length        $/;"	m	class:Transcript
+findMultRange	SuffixArrayFuns.cpp	/^uint findMultRange(uint i3, uint L3, uint i1, uint L1, uint i1a, uint L1a, uint i1b, uint L1b, char** s, char* g, PackedArray& SA, bool dirR, uint S, Parameters* P) {$/;"	f
+fstreamReadBig	streamFuns.cpp	/^unsigned long long fstreamReadBig(std::ifstream &S, char* A, unsigned long long N) {$/;"	f
+fstreamWriteBig	streamFuns.cpp	/^void fstreamWriteBig(std::ofstream &S, char* A, unsigned long long N) {$/;"	f
+fstream_Chunk_Max	streamFuns.cpp	/^#define fstream_Chunk_Max /;"	d	file:
+funCompareSuffixes	genomeGenerate.cpp	/^inline int funCompareSuffixes ( const void *a, const void *b){$/;"	f
+funCompareSuffixesBool	genomeGenerate.cpp	/^inline bool funCompareSuffixesBool ( const void *a, const void *b) $/;"	f
+funCompareUint2	serviceFuns.cpp	/^inline int funCompareUint2 (const void *a, const void *b) {$/;"	f
+funG2strLocus	genomeGenerate.cpp	/^inline uint funG2strLocus (uint SAstr, uint const N, char const GstrandBit, uint const GstrandMask) {$/;"	f
+gLength	Transcript.h	/^        uint rStart, roStart, rLength, gStart, gLength, cStart; \/\/read, original read, and genomic start\/length, chromosome start$/;"	m	class:Transcript
+gStart	Transcript.h	/^        uint rStart, roStart, rLength, gStart, gLength, cStart; \/\/read, original read, and genomic start\/length, chromosome start$/;"	m	class:Transcript
+g_statsAll	GlobalVariables.cpp	/^Stats g_statsAll;\/\/global mapping statistics$/;"	v
+g_threadChunks	GlobalVariables.cpp	/^ThreadControl g_threadChunks;$/;"	v
+gap	OutSJ.h	/^    uint32 *gap;$/;"	m	class:Junction
+gapP	OutSJ.h	/^    const static uint gapP=startP+sizeof(uint);$/;"	m	class:Junction
+genomeChrBinNbases	Parameters.h	/^        uint genomeChrBinNbits, genomeChrBinNbases, chrBinN, *chrBin;$/;"	m	class:Parameters
+genomeChrBinNbits	Parameters.h	/^        uint genomeChrBinNbits, genomeChrBinNbases, chrBinN, *chrBin;$/;"	m	class:Parameters
+genomeDir	Parameters.h	/^        string genomeDir,genomeLoad;$/;"	m	class:Parameters
+genomeFastaFiles	Parameters.h	/^        vector <string> genomeFastaFiles; $/;"	m	class:Parameters
+genomeGenerate	genomeGenerate.cpp	/^void genomeGenerate(Parameters *P) {$/;"	f
+genomeLoad	Genome.cpp	/^void Genome::genomeLoad(Parameters* P){\/\/allocate and load Genome$/;"	f	class:Genome
+genomeLoad	Parameters.h	/^        string genomeDir,genomeLoad;$/;"	m	class:Parameters
+genomeSAindexNbases	Parameters.h	/^        uint genomeSAindexNbases; \/\/length of the SA pre-index strings$/;"	m	class:Parameters
+genomeSAindexStart	Parameters.h	/^        uint *genomeSAindexStart;\/\/starts of the L-mer indices in the SAindex, 1<=L<=genomeSAindexNbases$/;"	m	class:Parameters
+genomeSAsparseD	Parameters.h	/^        uint genomeSAsparseD;\/\/sparsity=distance between indices$/;"	m	class:Parameters
+genomeScanFastaFiles	genomeGenerate.cpp	/^uint genomeScanFastaFiles (Parameters *P, char* G, bool flagRun) {\/\/scans fasta files. flagRun=false: check and find full size, flaRun=true: collect all the data$/;"	f
+globalG	genomeGenerate.cpp	/^char* globalG;$/;"	v
+globalL	genomeGenerate.cpp	/^uint globalL;$/;"	v
+iFrag	Transcript.h	/^        int iFrag; \/\/frag number of the transcript, if the the transcript contains only one frag$/;"	m	class:Transcript
+iMate	ReadAlign.h	/^        uint iRead, iMate;$/;"	m	class:ReadAlign
+iRead	ReadAlign.h	/^        uint iRead, iMate;$/;"	m	class:ReadAlign
+iRead	Transcript.h	/^        uint iRead; \/\/read identifier$/;"	m	class:Transcript
+inOut	Parameters.h	/^    InOutStreams *inOut; \/\/main input output streams$/;"	m	class:Parameters
+inputLevel	ParameterInfo.h	/^    int inputLevel; \/\/where the parameter was defined$/;"	m	class:ParameterInfoBase
+inputLevelAllowed	ParameterInfo.h	/^    int inputLevelAllowed; \/\/at which inpurt level parameter definition is allowed$/;"	m	class:ParameterInfoBase
+inputParameters	Parameters.cpp	/^void Parameters::inputParameters (int argInN, char* argIn[]) {\/\/input parameters: default, from files, from command line$/;"	f	class:Parameters
+inputValues	ParameterInfo.h	/^    void inputValues(istringstream &streamIn) {$/;"	f	class:ParameterInfoScalar
+inputValues	ParameterInfo.h	/^    void inputValues(istringstream &streamIn) {$/;"	f	class:ParameterInfoVector
+int32	IncludeDefine.h	/^#define int32 /;"	d
+int64	IncludeDefine.h	/^#define int64 /;"	d
+int8	IncludeDefine.h	/^typedef int8_t int8;$/;"	t
+intSWscore	IncludeDefine.h	/^#define intSWscore /;"	d
+intScore	IncludeDefine.h	/^#define intScore /;"	d
+intronMotifs	Transcript.h	/^        uint intronMotifs[3];$/;"	m	class:Transcript
+junctionPointer	OutSJ.cpp	/^void Junction::junctionPointer(char* sjPoint, uint isj) {\/\/$/;"	f	class:Junction
+lDel	Transcript.h	/^        uint lDel; \/\/total genomic deletion length$/;"	m	class:Transcript
+lGap	Transcript.h	/^        uint nGap, lGap; \/\/number of genomic gaps (>alignIntronMin) and their total length$/;"	m	class:Transcript
+lIns	Transcript.h	/^        uint lIns; \/\/total genomic insertion length$/;"	m	class:Transcript
+length	PackedArray.h	/^        uint wordLength, length, lengthByte;$/;"	m	class:PackedArray
+lengthByte	PackedArray.h	/^        uint wordLength, length, lengthByte;$/;"	m	class:PackedArray
+limitGenomeGenerateRAM	Parameters.h	/^        uint limitGenomeGenerateRAM;$/;"	m	class:Parameters
+limitIObufferSize	Parameters.h	/^        uint limitIObufferSize; \/\/max size of the in\/out buffer, bytes$/;"	m	class:Parameters
+loadGTF	loadGTF.cpp	/^uint loadGTF(SjdbClass &sjdbLoci, Parameters *P) {\/\/load gtf file, add junctions to P->sjdb$/;"	f
+localSearch	SequenceFuns.cpp	/^uint localSearch(const char *x, uint nx, const char *y, uint ny, double pMM){$/;"	f
+logFinal	InOutStreams.h	/^    ofstream outChimSAM, outChimJunction, logMain, logProgress, logFinal, outUnmappedReadsStream[MAX_N_MATES];$/;"	m	class:InOutStreams
+logMain	InOutStreams.h	/^    ofstream outChimSAM, outChimJunction, logMain, logProgress, logFinal, outUnmappedReadsStream[MAX_N_MATES];$/;"	m	class:InOutStreams
+logProgress	InOutStreams.h	/^    ofstream outChimSAM, outChimJunction, logMain, logProgress, logFinal, outUnmappedReadsStream[MAX_N_MATES];$/;"	m	class:InOutStreams
+logStdOut	InOutStreams.h	/^    ostream *logStdOut, *outSAM;$/;"	m	class:InOutStreams
+logStdOutFile	InOutStreams.h	/^    ofstream logStdOutFile, outSAMfile;$/;"	m	class:InOutStreams
+main	STAR.cpp	/^int main(int argInN, char* argIn[]) {$/;"	f
+mapChunk	ReadAlignChunk_mapChunk.cpp	/^void ReadAlignChunk::mapChunk() {\/\/map one chunk. Input reads stream has to be setup in RA->readInStream[ii]$/;"	f	class:ReadAlignChunk
+mapMarker	ReadAlign.h	/^        uint mapMarker; \/\/alignment marker (typically, if there is something wrong)$/;"	m	class:ReadAlign
+mapOneRead	ReadAlign_mapOneRead.cpp	/^int ReadAlign::mapOneRead() {   $/;"	f	class:ReadAlign
+mappedBases	Stats.h	/^        uint mappedBases, mappedMismatchesN, mappedInsN, mappedDelN, mappedInsL, mappedDelL;$/;"	m	class:Stats
+mappedDelL	Stats.h	/^        uint mappedBases, mappedMismatchesN, mappedInsN, mappedDelN, mappedInsL, mappedDelL;$/;"	m	class:Stats
+mappedDelN	Stats.h	/^        uint mappedBases, mappedMismatchesN, mappedInsN, mappedDelN, mappedInsL, mappedDelL;$/;"	m	class:Stats
+mappedInsL	Stats.h	/^        uint mappedBases, mappedMismatchesN, mappedInsN, mappedDelN, mappedInsL, mappedDelL;$/;"	m	class:Stats
+mappedInsN	Stats.h	/^        uint mappedBases, mappedMismatchesN, mappedInsN, mappedDelN, mappedInsL, mappedDelL;$/;"	m	class:Stats
+mappedLength	Transcript.h	/^        uint mappedLength; \/\/total mapped length, sum of lengths of all blocks(exons)$/;"	m	class:Transcript
+mappedMismatchesN	Stats.h	/^        uint mappedBases, mappedMismatchesN, mappedInsN, mappedDelN, mappedInsL, mappedDelL;$/;"	m	class:Stats
+mappedPortion	Stats.h	/^        double mappedPortion; \/\/portion of the read length that has been mapped$/;"	m	class:Stats
+mappedReadsM	Stats.h	/^        uint mappedReadsU, mappedReadsM;$/;"	m	class:Stats
+mappedReadsU	Stats.h	/^        uint mappedReadsU, mappedReadsM;$/;"	m	class:Stats
+maxChimReadGap	Parameters.h	/^        uint maxChimReadGap; \/\/max read gap for stitching chimeric windows$/;"	m	class:Parameters
+maxMappableLength	SuffixArrayFuns.cpp	/^uint maxMappableLength(char** s, uint S, uint N, char* g, PackedArray& SA, uint i1, uint i2, bool dirR, uint& L, uint* indStartEnd, Parameters* P) {$/;"	f
+maxMappableLength2strands	ReadAlign_maxMappableLength2strands.cpp	/^uint ReadAlign::maxMappableLength2strands(uint pieceStartIn, uint pieceLengthIn, uint iDir, uint iSA1, uint iSA2, uint& maxLbest, uint iFrag) {$/;"	f	class:ReadAlign
+maxNsplit	Parameters.h	/^        uint maxNsplit, minLsplit, minLmap;$/;"	m	class:Parameters
+maxScore	ReadAlign.h	/^        intScore maxScore, nextWinScore;\/\/maximum alignment score, next best score$/;"	m	class:ReadAlign
+maxScore	Transcript.h	/^        intScore maxScore; \/\/maximum Score$/;"	m	class:Transcript
+maxScoreMate	ReadAlign.h	/^        intScore maxScoreMate[MAX_N_MATES];$/;"	m	class:ReadAlign
+medianUint2	SuffixArrayFuns.cpp	/^inline uint medianUint2(uint a, uint b) {$/;"	f
+minLmap	Parameters.h	/^        uint maxNsplit, minLsplit, minLmap;$/;"	m	class:Parameters
+minLsplit	Parameters.h	/^        uint maxNsplit, minLsplit, minLmap;$/;"	m	class:Parameters
+motif	OutSJ.h	/^    char *strand, *motif, *annot;$/;"	m	class:Junction
+motifP	OutSJ.h	/^    const static uint motifP=strandP+sizeof(char);$/;"	m	class:Junction
+multLmax	ReadAlign.h	/^        uint storedLmin, uniqLmax, uniqLmaxInd, multLmax, multLmaxN, multNmin, multNminL, multNmax, multNmaxL;$/;"	m	class:ReadAlign
+multLmaxN	ReadAlign.h	/^        uint storedLmin, uniqLmax, uniqLmaxInd, multLmax, multLmaxN, multNmin, multNminL, multNmax, multNmaxL;$/;"	m	class:ReadAlign
+multMapSelect	ReadAlign_multMapSelect.cpp	/^void ReadAlign::multMapSelect() {\/\/select multiple mappers from all transcripts of all windows$/;"	f	class:ReadAlign
+multNmax	ReadAlign.h	/^        uint storedLmin, uniqLmax, uniqLmaxInd, multLmax, multLmaxN, multNmin, multNminL, multNmax, multNmaxL;$/;"	m	class:ReadAlign
+multNmaxL	ReadAlign.h	/^        uint storedLmin, uniqLmax, uniqLmaxInd, multLmax, multLmaxN, multNmin, multNminL, multNmax, multNmaxL;$/;"	m	class:ReadAlign
+multNmin	ReadAlign.h	/^        uint storedLmin, uniqLmax, uniqLmaxInd, multLmax, multLmaxN, multNmin, multNminL, multNmax, multNmaxL;$/;"	m	class:ReadAlign
+multNminL	ReadAlign.h	/^        uint storedLmin, uniqLmax, uniqLmaxInd, multLmax, multLmaxN, multNmin, multNminL, multNmax, multNmaxL;$/;"	m	class:ReadAlign
+mutexInRead	ThreadControl.h	/^    pthread_mutex_t mutexInRead, mutexOutSAM, mutexOutChimSAM, mutexOutChimJunction, mutexOutUnmappedFastx, mutexOutFilterBySJout, mutexStats;$/;"	m	class:ThreadControl
+mutexOutChimJunction	ThreadControl.h	/^    pthread_mutex_t mutexInRead, mutexOutSAM, mutexOutChimSAM, mutexOutChimJunction, mutexOutUnmappedFastx, mutexOutFilterBySJout, mutexStats;$/;"	m	class:ThreadControl
+mutexOutChimSAM	ThreadControl.h	/^    pthread_mutex_t mutexInRead, mutexOutSAM, mutexOutChimSAM, mutexOutChimJunction, mutexOutUnmappedFastx, mutexOutFilterBySJout, mutexStats;$/;"	m	class:ThreadControl
+mutexOutFilterBySJout	ThreadControl.h	/^    pthread_mutex_t mutexInRead, mutexOutSAM, mutexOutChimSAM, mutexOutChimJunction, mutexOutUnmappedFastx, mutexOutFilterBySJout, mutexStats;$/;"	m	class:ThreadControl
+mutexOutSAM	ThreadControl.h	/^    pthread_mutex_t mutexInRead, mutexOutSAM, mutexOutChimSAM, mutexOutChimJunction, mutexOutUnmappedFastx, mutexOutFilterBySJout, mutexStats;$/;"	m	class:ThreadControl
+mutexOutUnmappedFastx	ThreadControl.h	/^    pthread_mutex_t mutexInRead, mutexOutSAM, mutexOutChimSAM, mutexOutChimJunction, mutexOutUnmappedFastx, mutexOutFilterBySJout, mutexStats;$/;"	m	class:ThreadControl
+mutexStats	ThreadControl.h	/^    pthread_mutex_t mutexInRead, mutexOutSAM, mutexOutChimSAM, mutexOutChimJunction, mutexOutUnmappedFastx, mutexOutFilterBySJout, mutexStats;$/;"	m	class:ThreadControl
+nA	ReadAlign.h	/^        uint nA, nP, nW, nWall, nUM[2]; \/\/number of all alignments,  pieces, windows, U\/M, $/;"	m	class:ReadAlign
+nAnchor	Transcript.h	/^        uint nUnique, nAnchor; \/\/number of unique pieces in the alignment, number of anchor pieces in the alignment   $/;"	m	class:Transcript
+nChrReal	Parameters.h	/^    uint nGenome, nSA, nSAbyte, nChrReal;\/\/genome length, SA length, # of chromosomes, vector of chromosome start loci$/;"	m	class:Parameters
+nDel	Transcript.h	/^        uint nDel; \/\/number of genomic deletions (ie genomic gaps)$/;"	m	class:Transcript
+nExons	Transcript.h	/^        uint nExons; \/\/number of exons in the read transcript$/;"	m	class:Transcript
+nGap	Transcript.h	/^        uint nGap, lGap; \/\/number of genomic gaps (>alignIntronMin) and their total length$/;"	m	class:Transcript
+nGenome	Parameters.h	/^    uint nGenome, nSA, nSAbyte, nChrReal;\/\/genome length, SA length, # of chromosomes, vector of chromosome start loci$/;"	m	class:Parameters
+nIns	Transcript.h	/^        uint nIns; \/\/number of (ie read gaps)        $/;"	m	class:Transcript
+nMM	Transcript.h	/^        uint nMM;\/\/max number of mismatches        $/;"	m	class:Transcript
+nMatch	Transcript.h	/^        uint nMatch;\/\/min number of matches    $/;"	m	class:Transcript
+nP	ReadAlign.h	/^        uint nA, nP, nW, nWall, nUM[2]; \/\/number of all alignments,  pieces, windows, U\/M, $/;"	m	class:ReadAlign
+nSA	Parameters.h	/^    uint nGenome, nSA, nSAbyte, nChrReal;\/\/genome length, SA length, # of chromosomes, vector of chromosome start loci$/;"	m	class:Parameters
+nSAbyte	Parameters.h	/^    uint nGenome, nSA, nSAbyte, nChrReal;\/\/genome length, SA length, # of chromosomes, vector of chromosome start loci$/;"	m	class:Parameters
+nSAi	Parameters.h	/^    uint nSAi; \/\/size of the SAindex$/;"	m	class:Parameters
+nTr	ReadAlign.h	/^        uint nTr, nTrMate; \/\/ number of transcripts called$/;"	m	class:ReadAlign
+nTrMate	ReadAlign.h	/^        uint nTr, nTrMate; \/\/ number of transcripts called$/;"	m	class:ReadAlign
+nUM	ReadAlign.h	/^        uint nA, nP, nW, nWall, nUM[2]; \/\/number of all alignments,  pieces, windows, U\/M, $/;"	m	class:ReadAlign
+nUnique	Transcript.h	/^        uint nUnique, nAnchor; \/\/number of unique pieces in the alignment, number of anchor pieces in the alignment   $/;"	m	class:Transcript
+nW	ReadAlign.h	/^        uint nA, nP, nW, nWall, nUM[2]; \/\/number of all alignments,  pieces, windows, U\/M, $/;"	m	class:ReadAlign
+nWA	ReadAlign.h	/^        uint *nWA, *nWAP, *WALrec, *WlastAnchor; \/\/number of alignments per window, per window per piece, min recordable length per window$/;"	m	class:ReadAlign
+nWAP	ReadAlign.h	/^        uint *nWA, *nWAP, *WALrec, *WlastAnchor; \/\/number of alignments per window, per window per piece, min recordable length per window$/;"	m	class:ReadAlign
+nWAmax	Transcript.h	/^        uint nWAmax; \/\/number of genes, max number of alignments per gene, total number of alignments for this reads$/;"	m	class:Transcript
+nWall	ReadAlign.h	/^        uint nA, nP, nW, nWall, nUM[2]; \/\/number of all alignments,  pieces, windows, U\/M, $/;"	m	class:ReadAlign
+nWinTr	ReadAlign.h	/^        uint *nWinTr; \/\/number of recorded transcripts per window$/;"	m	class:ReadAlign
+nameString	ParameterInfo.h	/^    string nameString; \/\/string that identifies parameter$/;"	m	class:ParameterInfoBase
+nextTrScore	Transcript.h	/^        intScore nextTrScore; \/\/next after maximum Tr Score$/;"	m	class:Transcript
+nextWinScore	ReadAlign.h	/^        intScore maxScore, nextWinScore;\/\/maximum alignment score, next best score$/;"	m	class:ReadAlign
+noReadsLeft	ReadAlignChunk.h	/^    bool noReadsLeft;$/;"	m	class:ReadAlignChunk
+oneRead	ReadAlign_oneRead.cpp	/^int ReadAlign::oneRead() {\/\/process one read: load, map, write$/;"	f	class:ReadAlign
+oneSJ	OutSJ.h	/^    Junction oneSJ;$/;"	m	class:OutSJ
+operator <<	ParameterInfo.h	/^inline std::ostream& operator<< (std::ostream& o, ParameterInfoBase const& b) {$/;"	f
+operator []	PackedArray.h	/^inline uint PackedArray::operator [] (uint ii) {$/;"	f	class:PackedArray
+outChimJunction	InOutStreams.h	/^    ofstream outChimSAM, outChimJunction, logMain, logProgress, logFinal, outUnmappedReadsStream[MAX_N_MATES];$/;"	m	class:InOutStreams
+outChimSAM	InOutStreams.h	/^    ofstream outChimSAM, outChimJunction, logMain, logProgress, logFinal, outUnmappedReadsStream[MAX_N_MATES];$/;"	m	class:InOutStreams
+outFileNamePrefix	Parameters.h	/^        string outFileNamePrefix, outStd;$/;"	m	class:Parameters
+outFileTmp	Parameters.h	/^        string outFileTmp;$/;"	m	class:Parameters
+outFilterBySJoutStage	Parameters.h	/^        int outFilterBySJoutStage; \/\/indicates the stage of filtering by SJout $/;"	m	class:Parameters
+outFilterIntronMotifs	Parameters.h	/^        string outFilterIntronMotifs;$/;"	m	class:Parameters
+outFilterMatchNmin	Parameters.h	/^        uint outFilterMatchNmin,outFilterMismatchNmax,outFilterMultimapNmax;\/\/min number of matches$/;"	m	class:Parameters
+outFilterMatchNminOverLread	Parameters.h	/^        double outFilterScoreMinOverLread, outFilterMatchNminOverLread;\/\/normalzied to read length$/;"	m	class:Parameters
+outFilterMismatchNmax	Parameters.h	/^        uint outFilterMatchNmin,outFilterMismatchNmax,outFilterMultimapNmax;\/\/min number of matches$/;"	m	class:Parameters
+outFilterMismatchNoverLmax	Parameters.h	/^        double outFilterMismatchNoverLmax; \/\/max proportion of all MM within all bases$/;"	m	class:Parameters
+outFilterMultimapNmax	Parameters.h	/^        uint outFilterMatchNmin,outFilterMismatchNmax,outFilterMultimapNmax;\/\/min number of matches$/;"	m	class:Parameters
+outFilterMultimapScoreRange	Parameters.h	/^        intScore outFilterScoreMin,outFilterMultimapScoreRange;\/\/min score to output$/;"	m	class:Parameters
+outFilterScoreMin	Parameters.h	/^        intScore outFilterScoreMin,outFilterMultimapScoreRange;\/\/min score to output$/;"	m	class:Parameters
+outFilterScoreMinOverLread	Parameters.h	/^        double outFilterScoreMinOverLread, outFilterMatchNminOverLread;\/\/normalzied to read length$/;"	m	class:Parameters
+outFilterType	Parameters.h	/^        string outFilterType; \/\/type of filtering $/;"	m	class:Parameters
+outQSconversionAdd	Parameters.h	/^        int outQSconversionAdd;$/;"	m	class:Parameters
+outReadsUnmapped	Parameters.h	/^        string outReadsUnmapped;$/;"	m	class:Parameters
+outSAM	InOutStreams.h	/^    ostream *logStdOut, *outSAM;$/;"	m	class:InOutStreams
+outSAMattributes	Parameters.h	/^        string outSAMmode, outSAMstrandField, outSAMattributes, outSAMunmapped;$/;"	m	class:Parameters
+outSAMfile	InOutStreams.h	/^    ofstream logStdOutFile, outSAMfile;$/;"	m	class:InOutStreams
+outSAMmode	Parameters.h	/^        string outSAMmode, outSAMstrandField, outSAMattributes, outSAMunmapped;$/;"	m	class:Parameters
+outSAMstrandField	Parameters.h	/^        string outSAMmode, outSAMstrandField, outSAMattributes, outSAMunmapped;$/;"	m	class:Parameters
+outSAMstream	ReadAlign.h	/^        ostream* outSAMstream;$/;"	m	class:ReadAlign
+outSAMunmapped	Parameters.h	/^        string outSAMmode, outSAMstrandField, outSAMattributes, outSAMunmapped;$/;"	m	class:Parameters
+outSJfilterCountTotalMin	Parameters.h	/^        vector <int32> outSJfilterCountUniqueMin, outSJfilterCountTotalMin;$/;"	m	class:Parameters
+outSJfilterCountUniqueMin	Parameters.h	/^        vector <int32> outSJfilterCountUniqueMin, outSJfilterCountTotalMin;$/;"	m	class:Parameters
+outSJfilterDistToOtherSJmin	Parameters.h	/^        vector <int32> outSJfilterDistToOtherSJmin; \/\/min allowed distance to other SJ's donor\/acceptor$/;"	m	class:Parameters
+outSJfilterIntronMaxVsReadN	Parameters.h	/^        vector <int32> outSJfilterIntronMaxVsReadN;$/;"	m	class:Parameters
+outSJfilterOverhangMin	Parameters.h	/^        vector <int32> outSJfilterOverhangMin;$/;"	m	class:Parameters
+outSJfilterReads	Parameters.h	/^        string outSJfilterReads;$/;"	m	class:Parameters
+outStd	Parameters.h	/^        string outFileNamePrefix, outStd;$/;"	m	class:Parameters
+outTxtMain	ReadAlign.cpp	/^void ReadAlign::outTxtMain(ofstream* outTxt, Transcript& t) {$/;"	f	class:ReadAlign
+outUnmappedReadsStream	InOutStreams.h	/^    ofstream outChimSAM, outChimJunction, logMain, logProgress, logFinal, outUnmappedReadsStream[MAX_N_MATES];$/;"	m	class:InOutStreams
+outputAlignments	ReadAlign_outputAlignments.cpp	/^void ReadAlign::outputAlignments() {$/;"	f	class:ReadAlign
+outputBED	Parameters.h	/^        char outputBED[MAX_OUTPUT_FLAG]; \/\/output flags$/;"	m	class:Parameters
+outputSJ	outputSJ.cpp	/^void outputSJ(ReadAlignChunk** RAchunk, Parameters* P) {\/\/collapses junctions from all therads\/chunks; outputs junctions to file$/;"	f
+outputStream	OutSJ.cpp	/^void Junction::outputStream(ostream &outStream, Parameters* P) {$/;"	f	class:Junction
+outputTranscriptCIGARp	ReadAlign_outputTranscriptCIGARp.cpp	/^string ReadAlign::outputTranscriptCIGARp(Transcript const &trOut) {\/\/generates CIGARp string for the transcript$/;"	f	class:ReadAlign
+outputTranscriptSAM	ReadAlign_outputTranscriptSAM.cpp	/^void ReadAlign::outputTranscriptSAM(Transcript const &trOut, uint nTrOut, uint iTrOut, uint mateChr, uint mateStart, char mateStrand, ostream *outStream) {$/;"	f	class:ReadAlign
+outputTranscriptSJ	ReadAlign_outputTranscriptSJ.cpp	/^void ReadAlign::outputTranscriptSJ(Transcript const &trOut, uint nTrOut, OutSJ *chunkOutSJ, uint sjReadStartN ) {\/\/record junctions in chunkOutSJ array$/;"	f	class:ReadAlign
+overhangLeft	OutSJ.h	/^    uint16 *overhangLeft, *overhangRight;$/;"	m	class:Junction
+overhangLeftP	OutSJ.h	/^    const static uint overhangLeftP=countMultipleP+sizeof(uint32);     $/;"	m	class:Junction
+overhangRight	OutSJ.h	/^    uint16 *overhangLeft, *overhangRight;$/;"	m	class:Junction
+overhangRightP	OutSJ.h	/^    const static uint overhangRightP=overhangLeftP+sizeof(uint16);     $/;"	m	class:Junction
+parArray	Parameters.h	/^        vector <ParameterInfoBase*> parArray, parArrayInitial;$/;"	m	class:Parameters
+parArrayInitial	Parameters.h	/^        vector <ParameterInfoBase*> parArray, parArrayInitial;$/;"	m	class:Parameters
+parameterInputName	Parameters.h	/^        vector <string> parameterInputName;$/;"	m	class:Parameters
+parametersFiles	Parameters.h	/^        vector <string> parametersFiles;$/;"	m	class:Parameters
+pointArray	PackedArray.cpp	/^void PackedArray::pointArray(char* pointerCharIn) {$/;"	f	class:PackedArray
+polyAtailC	ReadAlign.h	/^        Transcript *alignC, *extendC, *polyAtailC; \/\/alignment rules\/conditions$/;"	m	class:ReadAlign
+primaryFlag	Transcript.h	/^        bool primaryFlag;$/;"	m	class:Transcript
+printValues	ParameterInfo.h	/^   virtual void printValues(std::ostream& o) const {$/;"	f	class:ParameterInfoScalar
+printValues	ParameterInfo.h	/^   virtual void printValues(std::ostream& o) const {$/;"	f	class:ParameterInfoVector
+processChunks	ReadAlignChunk_processChunks.cpp	/^void ReadAlignChunk::processChunks() {\/\/read-map-write chunks  $/;"	f	class:ReadAlignChunk
+progressReport	Stats.cpp	/^void Stats::progressReport(ofstream &progressStream) {$/;"	f	class:Stats
+progressReportHeader	Stats.cpp	/^void Stats::progressReportHeader(ofstream &progressStream) {$/;"	f	class:Stats
+qualitySplit	SequenceFuns.cpp	/^uint qualitySplit(char* r, char* q, uint L, char Qsplit, uint maxNsplit, uint  minLsplit, uint** splitR) {$/;"	f
+rLength	Transcript.h	/^        uint rStart, roStart, rLength, gStart, gLength, cStart; \/\/read, original read, and genomic start\/length, chromosome start$/;"	m	class:Transcript
+rStart	Transcript.h	/^        uint rStart, roStart, rLength, gStart, gLength, cStart; \/\/read, original read, and genomic start\/length, chromosome start$/;"	m	class:Transcript
+radixPass	genomeGenerate.cpp	/^void radixPass(PackedArray &SA, char* G, uint N, uint K, uint shiftG, uint* groupStart, uint* SAtemp, uint* c, uint* cc) $/;"	f
+readBases	Stats.h	/^        uint readBases;\/\/number of input bases$/;"	m	class:Stats
+readFileType	ReadAlign.h	/^        int readFileType; \/\/file type: 1=fasta; 2=fastq$/;"	m	class:ReadAlign
+readFilesCommand	Parameters.h	/^        vector <string> readFilesCommand;$/;"	m	class:Parameters
+readFilesIn	Parameters.h	/^        vector <string> readFilesIn, readFilesInTmp;$/;"	m	class:Parameters
+readFilesInTmp	Parameters.h	/^        vector <string> readFilesIn, readFilesInTmp;$/;"	m	class:Parameters
+readIn	InOutStreams.h	/^    ifstream readIn[MAX_N_MATES];$/;"	m	class:InOutStreams
+readInStream	ReadAlign.h	/^        istream* readInStream[MAX_N_MATES];$/;"	m	class:ReadAlign
+readInStream	ReadAlignChunk.h	/^    istringstream** readInStream;$/;"	m	class:ReadAlignChunk
+readLength	ReadAlign.h	/^        uint Lread, readLength[MAX_N_MATES], readLengthOriginal[MAX_N_MATES], readLengthPair, readLengthPairOriginal;$/;"	m	class:ReadAlign
+readLengthOriginal	ReadAlign.h	/^        uint Lread, readLength[MAX_N_MATES], readLengthOriginal[MAX_N_MATES], readLengthPair, readLengthPairOriginal;$/;"	m	class:ReadAlign
+readLengthPair	ReadAlign.h	/^        uint Lread, readLength[MAX_N_MATES], readLengthOriginal[MAX_N_MATES], readLengthPair, readLengthPairOriginal;$/;"	m	class:ReadAlign
+readLengthPairOriginal	ReadAlign.h	/^        uint Lread, readLength[MAX_N_MATES], readLengthOriginal[MAX_N_MATES], readLengthPair, readLengthPairOriginal;$/;"	m	class:ReadAlign
+readLengthPairOriginal	Transcript.h	/^        uint Lread, readLengthPairOriginal;$/;"	m	class:Transcript
+readLoad	readLoad.cpp	/^int readLoad(istream& readInStream, Parameters* P, uint iMate, uint& Lread, uint& LreadOriginal, char* readName, char* Seq, char* SeqNum, char* Qual, char* QualNum, uint &clip3pNtotal, uint &clip5pNtotal, uint &clip3pAdapterN){$/;"	f
+readMatesEqualLengths	Parameters.h	/^        bool readMatesEqualLengths; \/\/whether or not the read mates have the same length, true if onyl one mate$/;"	m	class:Parameters
+readMatesLengthsIn	Parameters.h	/^        string readMatesLengthsIn;$/;"	m	class:Parameters
+readN	Stats.h	/^        uint readN;\/\/number of reads from the file$/;"	m	class:Stats
+readName	ReadAlign.h	/^        char* readName;$/;"	m	class:ReadAlign
+readNameMates	ReadAlign.h	/^        char** readNameMates;$/;"	m	class:ReadAlign
+readNmates	Parameters.h	/^        uint readNmates;$/;"	m	class:Parameters
+reportFinal	Stats.cpp	/^void Stats::reportFinal(ofstream &streamOut, Parameters *P) {    $/;"	f	class:Stats
+reset	Transcript.cpp	/^void Transcript::reset() {$/;"	f	class:Transcript
+resetN	ReadAlign.cpp	/^void ReadAlign::resetN () {\/\/reset resets the counters to 0 for a new read$/;"	f	class:ReadAlign
+resetN	Stats.cpp	/^void Stats::resetN() {\/\/zero all counters$/;"	f	class:Stats
+revComplementNucleotides	SequenceFuns.cpp	/^void revComplementNucleotides(char* ReadsIn, char* ReadsOut, uint Lread) {\/\/complement the numeric sequences$/;"	f
+revertStrand	ReadAlign.h	/^        bool revertStrand; \/\/what to do with the strand, according to strandType and iMate$/;"	m	class:ReadAlign
+roStart	Transcript.h	/^        uint rStart, roStart, rLength, gStart, gLength, cStart; \/\/read, original read, and genomic start\/length, chromosome start$/;"	m	class:Transcript
+roStr	Transcript.h	/^        uint Chr,Str,roStr; \/\/chromosome and strand and original read Strand$/;"	m	class:Transcript
+runMode	Parameters.h	/^        string runMode;$/;"	m	class:Parameters
+runThreadN	Parameters.h	/^        int   runThreadN;$/;"	m	class:Parameters
+samStreamCIGAR	ReadAlign.h	/^        ostringstream samStreamCIGAR, samStreamSJmotif, samStreamSJintron,samStreamSJannot;$/;"	m	class:ReadAlign
+samStreamSJannot	ReadAlign.h	/^        ostringstream samStreamCIGAR, samStreamSJmotif, samStreamSJintron,samStreamSJannot;$/;"	m	class:ReadAlign
+samStreamSJintron	ReadAlign.h	/^        ostringstream samStreamCIGAR, samStreamSJmotif, samStreamSJintron,samStreamSJannot;$/;"	m	class:ReadAlign
+samStreamSJmotif	ReadAlign.h	/^        ostringstream samStreamCIGAR, samStreamSJmotif, samStreamSJintron,samStreamSJannot;$/;"	m	class:ReadAlign
+scanAllLines	Parameters.cpp	/^void Parameters::scanAllLines (istream &streamIn, int inputLevel,  int inputLevelRequested) {\/\/scan$/;"	f	class:Parameters
+scanOneLine	Parameters.cpp	/^int Parameters::scanOneLine (string &lineIn, int inputLevel, int inputLevelRequested) {\/\/scan one line and load the parameters, $/;"	f	class:Parameters
+scoreDelBase	Parameters.h	/^        intScore scoreGap, scoreGapNoncan, scoreGapGCAG, scoreGapATAC, scoreDelBase, scoreDelOpen, scoreInsBase, scoreInsOpen; $/;"	m	class:Parameters
+scoreDelOpen	Parameters.h	/^        intScore scoreGap, scoreGapNoncan, scoreGapGCAG, scoreGapATAC, scoreDelBase, scoreDelOpen, scoreInsBase, scoreInsOpen; $/;"	m	class:Parameters
+scoreGap	Parameters.h	/^        intScore scoreGap, scoreGapNoncan, scoreGapGCAG, scoreGapATAC, scoreDelBase, scoreDelOpen, scoreInsBase, scoreInsOpen; $/;"	m	class:Parameters
+scoreGapATAC	Parameters.h	/^        intScore scoreGap, scoreGapNoncan, scoreGapGCAG, scoreGapATAC, scoreDelBase, scoreDelOpen, scoreInsBase, scoreInsOpen; $/;"	m	class:Parameters
+scoreGapGCAG	Parameters.h	/^        intScore scoreGap, scoreGapNoncan, scoreGapGCAG, scoreGapATAC, scoreDelBase, scoreDelOpen, scoreInsBase, scoreInsOpen; $/;"	m	class:Parameters
+scoreGapNoncan	Parameters.h	/^        intScore scoreGap, scoreGapNoncan, scoreGapGCAG, scoreGapATAC, scoreDelBase, scoreDelOpen, scoreInsBase, scoreInsOpen; $/;"	m	class:Parameters
+scoreGenomicLengthLog2scale	Parameters.h	/^        double scoreGenomicLengthLog2scale;        $/;"	m	class:Parameters
+scoreInsBase	Parameters.h	/^        intScore scoreGap, scoreGapNoncan, scoreGapGCAG, scoreGapATAC, scoreDelBase, scoreDelOpen, scoreInsBase, scoreInsOpen; $/;"	m	class:Parameters
+scoreInsOpen	Parameters.h	/^        intScore scoreGap, scoreGapNoncan, scoreGapGCAG, scoreGapATAC, scoreDelBase, scoreDelOpen, scoreInsBase, scoreInsOpen; $/;"	m	class:Parameters
+scoreSeedBest	ReadAlign.h	/^        intScore *scoreSeedToSeed, *scoreSeedBest;$/;"	m	class:ReadAlign
+scoreSeedBestInd	ReadAlign.h	/^        uint *scoreSeedBestInd, *seedChain, *scoreSeedBestMM;$/;"	m	class:ReadAlign
+scoreSeedBestMM	ReadAlign.h	/^        uint *scoreSeedBestInd, *seedChain, *scoreSeedBestMM;$/;"	m	class:ReadAlign
+scoreSeedToSeed	ReadAlign.h	/^        intScore *scoreSeedToSeed, *scoreSeedBest;$/;"	m	class:ReadAlign
+scoreStitchSJshift	Parameters.h	/^        intScore scoreStitchSJshift;\/\/Max negative score when$/;"	m	class:Parameters
+seedChain	ReadAlign.h	/^        uint *scoreSeedBestInd, *seedChain, *scoreSeedBestMM;$/;"	m	class:ReadAlign
+seedMultimapNmax	Parameters.h	/^        uint seedMultimapNmax; \/\/max number of multiple alignments per piece          $/;"	m	class:Parameters
+seedNoneLociPerWindow	Parameters.h	/^        uint seedNoneLociPerWindow; \/\/max number of aligns from one piece per window$/;"	m	class:Parameters
+seedPerReadNmax	Parameters.h	/^        uint seedPerReadNmax; \/\/max number of pieces per Read$/;"	m	class:Parameters
+seedPerWindowNmax	Parameters.h	/^        uint seedPerWindowNmax; \/\/max number of aligns per window$/;"	m	class:Parameters
+seedSearchLmax	Parameters.h	/^        uint seedSearchLmax; \/\/max length of the seed$/;"	m	class:Parameters
+seedSearchStartLmax	Parameters.h	/^        uint seedSearchStartLmax;$/;"	m	class:Parameters
+seedSearchStartLmaxOverLread	Parameters.h	/^        double seedSearchStartLmaxOverLread; \/\/length of split start points$/;"	m	class:Parameters
+shiftSJ	Transcript.h	/^        uint shiftSJ[MAX_N_EXONS][2]; \/\/shift of the SJ coordinates due to genomic micro-repeats$/;"	m	class:Transcript
+sigG	Genome.h	/^        char *G, *sigG;$/;"	m	class:Genome
+sint	IncludeDefine.h	/^#define sint /;"	d
+sjAlignSplit	sjSplitAlign.cpp	/^bool sjAlignSplit(uint a1,uint aLength,Parameters* P, uint &a1D, uint &aLengthD, uint &a1A, uint &aLengthA, uint &isj) {$/;"	f
+sjAnnot	Transcript.h	/^        uint8 sjAnnot[MAX_N_EXONS]; \/\/anotated or not$/;"	m	class:Transcript
+sjAstart	Parameters.h	/^        uint *sjDstart,*sjAstart,*sjStr, *sjdbStart, *sjdbEnd; \/\/sjdb loci$/;"	m	class:Parameters
+sjChrStart	Parameters.h	/^        uint sjChrStart,sjdbN; \/\/first sj-db chr$/;"	m	class:Parameters
+sjDstart	Parameters.h	/^        uint *sjDstart,*sjAstart,*sjStr, *sjdbStart, *sjdbEnd; \/\/sjdb loci$/;"	m	class:Parameters
+sjGstart	Parameters.h	/^        uint sjGstart; \/\/start of the sj-db genome sequence$/;"	m	class:Parameters
+sjMotifStrand	Transcript.h	/^        uint8 sjMotifStrand;$/;"	m	class:Transcript
+sjNovelEnd	Parameters.h	/^        uint sjNovelN, *sjNovelStart, *sjNovelEnd; \/\/novel junctions collapased and filtered$/;"	m	class:Parameters
+sjNovelN	Parameters.h	/^        uint sjNovelN, *sjNovelStart, *sjNovelEnd; \/\/novel junctions collapased and filtered$/;"	m	class:Parameters
+sjNovelStart	Parameters.h	/^        uint sjNovelN, *sjNovelStart, *sjNovelEnd; \/\/novel junctions collapased and filtered$/;"	m	class:Parameters
+sjStr	Parameters.h	/^        uint *sjDstart,*sjAstart,*sjStr, *sjdbStart, *sjdbEnd; \/\/sjdb loci$/;"	m	class:Parameters
+sjStr	Transcript.h	/^        uint8 sjStr[MAX_N_EXONS]; \/\/anotated or not$/;"	m	class:Transcript
+sjdbEnd	Parameters.h	/^        uint *sjDstart,*sjAstart,*sjStr, *sjdbStart, *sjdbEnd; \/\/sjdb loci$/;"	m	class:Parameters
+sjdbFileChrStartEnd	Parameters.h	/^        string sjdbFileChrStartEnd;$/;"	m	class:Parameters
+sjdbGTFchrPrefix	Parameters.h	/^        string sjdbGTFfile, sjdbGTFchrPrefix, sjdbGTFfeatureExon, sjdbGTFtagExonParentTranscript;$/;"	m	class:Parameters
+sjdbGTFfeatureExon	Parameters.h	/^        string sjdbGTFfile, sjdbGTFchrPrefix, sjdbGTFfeatureExon, sjdbGTFtagExonParentTranscript;$/;"	m	class:Parameters
+sjdbGTFfile	Parameters.h	/^        string sjdbGTFfile, sjdbGTFchrPrefix, sjdbGTFfeatureExon, sjdbGTFtagExonParentTranscript;$/;"	m	class:Parameters
+sjdbGTFtagExonParentTranscript	Parameters.h	/^        string sjdbGTFfile, sjdbGTFchrPrefix, sjdbGTFfeatureExon, sjdbGTFtagExonParentTranscript;$/;"	m	class:Parameters
+sjdbLength	Parameters.h	/^        uint sjdbOverhang,sjdbLength; \/\/length of the donor\/acceptor, length of the sj "chromosome" =2*sjdbOverhang+1 including spacer$/;"	m	class:Parameters
+sjdbMotif	Parameters.h	/^        uint8 *sjdbMotif; \/\/motifs of annotated junctions$/;"	m	class:Parameters
+sjdbN	Parameters.h	/^        uint sjChrStart,sjdbN; \/\/first sj-db chr$/;"	m	class:Parameters
+sjdbOverhang	Parameters.h	/^        uint sjdbOverhang,sjdbLength; \/\/length of the donor\/acceptor, length of the sj "chromosome" =2*sjdbOverhang+1 including spacer$/;"	m	class:Parameters
+sjdbScore	Parameters.h	/^        int sjdbScore;        $/;"	m	class:Parameters
+sjdbShiftLeft	Parameters.h	/^        uint8 *sjdbShiftLeft, *sjdbShiftRight; \/\/shifts of junctions$/;"	m	class:Parameters
+sjdbShiftRight	Parameters.h	/^        uint8 *sjdbShiftLeft, *sjdbShiftRight; \/\/shifts of junctions$/;"	m	class:Parameters
+sjdbStart	Parameters.h	/^        uint *sjDstart,*sjAstart,*sjStr, *sjdbStart, *sjdbEnd; \/\/sjdb loci$/;"	m	class:Parameters
+sjdbStrand	Parameters.h	/^        uint8 *sjdbStrand; \/\/junctions strand, not used yet$/;"	m	class:Parameters
+splicesN	Stats.h	/^        uint splicesN[SJ_MOTIF_SIZE];\/\/non-can,3*can,annotated$/;"	m	class:Stats
+splicesNsjdb	Stats.h	/^        uint splicesNsjdb;$/;"	m	class:Stats
+splitR	ReadAlign.h	/^        uint** splitR;$/;"	m	class:ReadAlign
+start	OutSJ.h	/^    uint *start;$/;"	m	class:Junction
+start	SjdbClass.h	/^    vector <uint> start,end;    $/;"	m	class:SjdbClass
+startP	OutSJ.h	/^    const static uint startP=0;$/;"	m	class:Junction
+statsRA	ReadAlign.h	/^        Stats statsRA;$/;"	m	class:ReadAlign
+stitchAlignToTranscript	stitchAlignToTranscript.cpp	/^intScore stitchAlignToTranscript(uint rAend, uint gAend, uint rBstart, uint gBstart, uint L, uint iFragB, uint sjAB, Parameters* P, char* R, char* Q, char* G,  Transcript *trA) {$/;"	f
+stitchGapIndel	stitchGapIndel.cpp	/^int stitchGapIndel (uint rAend, uint gAend, uint rBstart, uint gBstart, uint L, uint gapStart, uint gapEnd, char* R, char* G, Parameters* P,\\$/;"	f
+stitchPieces	ReadAlign_stitchPieces.cpp	/^void ReadAlign::stitchPieces(char **R, char **Q, char *G, PackedArray& SA, uint Lread) {$/;"	f	class:ReadAlign
+stitchWindowAligns	stitchWindowAligns.cpp	/^void stitchWindowAligns(uint iA, uint nA, int Score, bool WAincl[], uint tR2, uint tG2, Transcript trA, \\$/;"	f
+stitchWindowSeeds	ReadAlign_stitchWindowSeeds.cpp	/^void ReadAlign::stitchWindowSeeds (uint iW, uint iWrec, char* R, char* Q, char* G) {\/\/stitches all seeds in one window: iW$/;"	f	class:ReadAlign
+storeAligns	ReadAlign_storeAligns.cpp	/^void ReadAlign::storeAligns (uint iDir, uint Shift, uint Nrep, uint L, uint indStartEnd[2], uint iFrag) {\/\/fill in alignment data$/;"	f	class:ReadAlign
+storedLmin	ReadAlign.h	/^        uint storedLmin, uniqLmax, uniqLmaxInd, multLmax, multLmaxN, multNmin, multNminL, multNmax, multNmaxL;$/;"	m	class:ReadAlign
+str	SjdbClass.h	/^    vector <char> str;$/;"	m	class:SjdbClass
+strand	OutSJ.h	/^    char *strand, *motif, *annot;$/;"	m	class:Junction
+strandP	OutSJ.h	/^    const static uint strandP=gapP+sizeof(uint32);$/;"	m	class:Junction
+sum1D	serviceFuns.cpp	/^    T sum1D(T* a, uint N) {$/;"	f
+swHsize	Parameters.h	/^        uint swHsize;        $/;"	m	class:Parameters
+swMode	Parameters.h	/^        uint swMode, swWinCoverageMinP;$/;"	m	class:Parameters
+swPenGapExtend	Parameters.h	/^        uint swPeoutFilterMatchNmin, swPenMismatch, swPenGapOpen, swPenGapExtend;$/;"	m	class:Parameters
+swPenGapOpen	Parameters.h	/^        uint swPeoutFilterMatchNmin, swPenMismatch, swPenGapOpen, swPenGapExtend;$/;"	m	class:Parameters
+swPenMismatch	Parameters.h	/^        uint swPeoutFilterMatchNmin, swPenMismatch, swPenGapOpen, swPenGapExtend;$/;"	m	class:Parameters
+swPeoutFilterMatchNmin	Parameters.h	/^        uint swPeoutFilterMatchNmin, swPenMismatch, swPenGapOpen, swPenGapExtend;$/;"	m	class:Parameters
+swT	ReadAlign.h	/^        char *swT;$/;"	m	class:ReadAlign
+swWinCov	ReadAlign.h	/^        uint *swWinCov, *swWinGleft, *swWinGright, *swWinRleft, *swWinRright; \/\/read coverage per window$/;"	m	class:ReadAlign
+swWinCoverageMinP	Parameters.h	/^        uint swMode, swWinCoverageMinP;$/;"	m	class:Parameters
+swWinGleft	ReadAlign.h	/^        uint *swWinCov, *swWinGleft, *swWinGright, *swWinRleft, *swWinRright; \/\/read coverage per window$/;"	m	class:ReadAlign
+swWinGright	ReadAlign.h	/^        uint *swWinCov, *swWinGleft, *swWinGright, *swWinRleft, *swWinRright; \/\/read coverage per window$/;"	m	class:ReadAlign
+swWinRleft	ReadAlign.h	/^        uint *swWinCov, *swWinGleft, *swWinGright, *swWinRleft, *swWinRright; \/\/read coverage per window$/;"	m	class:ReadAlign
+swWinRright	ReadAlign.h	/^        uint *swWinCov, *swWinGleft, *swWinGright, *swWinRleft, *swWinRright; \/\/read coverage per window$/;"	m	class:ReadAlign
+threadArray	ThreadControl.h	/^    pthread_t *threadArray;$/;"	m	class:ThreadControl
+threadRAprocessChunks	ThreadControl.h	/^    static void* threadRAprocessChunks(void *RAchunk) {$/;"	f	class:ThreadControl
+timeFinish	ReadAlign.h	/^        time_t timeStart, timeFinish;$/;"	m	class:ReadAlign
+timeFinish	Stats.h	/^        time_t timeStart, timeStartMap, timeLastReport, timeFinish;     $/;"	m	class:Stats
+timeLastReport	Stats.h	/^        time_t timeStart, timeStartMap, timeLastReport, timeFinish;     $/;"	m	class:Stats
+timeMonthDayTime	TimeFunctions.cpp	/^std::string timeMonthDayTime() {$/;"	f
+timeMonthDayTime	TimeFunctions.cpp	/^std::string timeMonthDayTime(time_t &rawTime) {$/;"	f
+timeStart	ReadAlign.h	/^        time_t timeStart, timeFinish;$/;"	m	class:ReadAlign
+timeStart	Stats.h	/^        time_t timeStart, timeStartMap, timeLastReport, timeFinish;     $/;"	m	class:Stats
+timeStartMap	Stats.h	/^        time_t timeStart, timeStartMap, timeLastReport, timeFinish;     $/;"	m	class:Stats
+trA	ReadAlign.h	/^        Transcript trA, trA1, *trBest, *trNext, *trInit; \/\/transcript, best tr, next best tr, initialized tr$/;"	m	class:ReadAlign
+trA1	ReadAlign.h	/^        Transcript trA, trA1, *trBest, *trNext, *trInit; \/\/transcript, best tr, next best tr, initialized tr$/;"	m	class:ReadAlign
+trAll	ReadAlign.h	/^        Transcript ***trAll; \/\/all transcripts for all windows$/;"	m	class:ReadAlign
+trArray	ReadAlign.h	/^        Transcript* trArray; \/\/linear array of transcripts to store all of them from all windows$/;"	m	class:ReadAlign
+trArrayPointer	ReadAlign.h	/^        Transcript** trArrayPointer; \/\/linear array of transcripts to store all of them from all windows            $/;"	m	class:ReadAlign
+trBest	ReadAlign.h	/^        Transcript trA, trA1, *trBest, *trNext, *trInit; \/\/transcript, best tr, next best tr, initialized tr$/;"	m	class:ReadAlign
+trChim	ReadAlign.h	/^        Transcript trChim[MAX_N_CHIMERAS];$/;"	m	class:ReadAlign
+trInit	ReadAlign.h	/^        Transcript trA, trA1, *trBest, *trNext, *trInit; \/\/transcript, best tr, next best tr, initialized tr$/;"	m	class:ReadAlign
+trMult	ReadAlign.h	/^        Transcript* trMult[MAX_N_MULTMAP];\/\/multimapping transcripts$/;"	m	class:ReadAlign
+trMultScores	ReadAlign.h	/^        intScore trMultScores[MAX_N_MULTMAP];\/\/scores for the multiple mappers$/;"	m	class:ReadAlign
+trNext	ReadAlign.h	/^        Transcript trA, trA1, *trBest, *trNext, *trInit; \/\/transcript, best tr, next best tr, initialized tr$/;"	m	class:ReadAlign
+transcriptStats	Stats.cpp	/^void Stats::transcriptStats(Transcript &T, uint Lread) {$/;"	f	class:Stats
+uchar	IncludeDefine.h	/^#define uchar /;"	d
+uiPC	IncludeDefine.h	/^typedef uint uiPC[PC_SIZE];$/;"	t
+uiWA	IncludeDefine.h	/^typedef uint uiWA[WA_SIZE];$/;"	t
+uiWC	IncludeDefine.h	/^typedef uint uiWC[WC_SIZE];$/;"	t
+uint	IncludeDefine.h	/^#define uint /;"	d
+uint16	IncludeDefine.h	/^#define uint16 /;"	d
+uint32	IncludeDefine.h	/^#define uint32 /;"	d
+uint64	IncludeDefine.h	/^#define uint64 /;"	d
+uint8	IncludeDefine.h	/^typedef uint8_t uint8; $/;"	t
+uintWinBin	IncludeDefine.h	/^#define uintWinBin /;"	d
+uintWinBinMax	IncludeDefine.h	/^#define uintWinBinMax /;"	d
+uniqLmax	ReadAlign.h	/^        uint storedLmin, uniqLmax, uniqLmaxInd, multLmax, multLmaxN, multNmin, multNminL, multNmax, multNmaxL;$/;"	m	class:ReadAlign
+uniqLmaxInd	ReadAlign.h	/^        uint storedLmin, uniqLmax, uniqLmaxInd, multLmax, multLmaxN, multNmin, multNminL, multNmax, multNmaxL;$/;"	m	class:ReadAlign
+unmapType	ReadAlign.h	/^        int unmapType; \/\/marker for why a read is unmapped$/;"	m	class:ReadAlign
+unmappedMismatch	Stats.h	/^        uint unmappedOther, unmappedShort, unmappedMismatch, unmappedMulti;$/;"	m	class:Stats
+unmappedMulti	Stats.h	/^        uint unmappedOther, unmappedShort, unmappedMismatch, unmappedMulti;$/;"	m	class:Stats
+unmappedOther	Stats.h	/^        uint unmappedOther, unmappedShort, unmappedMismatch, unmappedMulti;$/;"	m	class:Stats
+unmappedShort	Stats.h	/^        uint unmappedOther, unmappedShort, unmappedMismatch, unmappedMulti;$/;"	m	class:Stats
+value	ParameterInfo.h	/^    parameterType* value;$/;"	m	class:ParameterInfoScalar
+value	ParameterInfo.h	/^    vector <parameterType> *value;$/;"	m	class:ParameterInfoVector
+versionGenome	Parameters.h	/^        vector <uint> versionGenome;$/;"	m	class:Parameters
+versionSTAR	Parameters.h	/^        uint versionSTAR;$/;"	m	class:Parameters
+winAnchorDistNbins	Parameters.h	/^        uint winBinChrNbits, winBinNbits, winAnchorDistNbins, winFlankNbins, winBinN;$/;"	m	class:Parameters
+winAnchorMultimapNmax	Parameters.h	/^        uint winAnchorMultimapNmax; \/\/max number of alignments for anchors$/;"	m	class:Parameters
+winBin	ReadAlign.h	/^        uintWinBin **winBin; \/\/binned genome: window ID (number) per bin$/;"	m	class:ReadAlign
+winBinChrNbits	Parameters.h	/^        uint winBinChrNbits, winBinNbits, winAnchorDistNbins, winFlankNbins, winBinN;$/;"	m	class:Parameters
+winBinN	Parameters.h	/^        uint winBinChrNbits, winBinNbits, winAnchorDistNbins, winFlankNbins, winBinN;$/;"	m	class:Parameters
+winBinNbits	Parameters.h	/^        uint winBinChrNbits, winBinNbits, winAnchorDistNbins, winFlankNbins, winBinN;$/;"	m	class:Parameters
+winFlankNbins	Parameters.h	/^        uint winBinChrNbits, winBinNbits, winAnchorDistNbins, winFlankNbins, winBinN;$/;"	m	class:Parameters
+wordCompLength	PackedArray.h	/^        uint bitRecMask, wordCompLength;    $/;"	m	class:PackedArray
+wordLength	PackedArray.h	/^        uint wordLength, length, lengthByte;$/;"	m	class:PackedArray
+writePacked	PackedArray.cpp	/^void PackedArray::writePacked( uint jj, uint x) {$/;"	f	class:PackedArray
+~InOutStreams	InOutStreams.cpp	/^InOutStreams::~InOutStreams() {$/;"	f	class:InOutStreams
+~ParameterInfoBase	ParameterInfo.h	/^    virtual ~ParameterInfoBase() {};    $/;"	f	class:ParameterInfoBase
+~ParameterInfoScalar	ParameterInfo.h	/^    ~ParameterInfoScalar() {};$/;"	f	class:ParameterInfoScalar
+~ParameterInfoVector	ParameterInfo.h	/^    ~ParameterInfoVector() {};$/;"	f	class:ParameterInfoVector

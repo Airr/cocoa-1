@@ -1,0 +1,123 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+DIVSUFSORT_API	divsufsort.h	/^#  define DIVSUFSORT_API /;"	d
+GETIDX	sssort.c	/^#define GETIDX(/;"	d	file:
+HAVE_DLFCN_H	config.h	/^#define HAVE_DLFCN_H /;"	d
+HAVE_FCNTL_H	config.h	/^#define HAVE_FCNTL_H /;"	d
+HAVE_INT32_T	config.h	/^#define HAVE_INT32_T /;"	d
+HAVE_INTTYPES_H	config.h	/^#define HAVE_INTTYPES_H /;"	d
+HAVE_MALLOC	config.h	/^#define HAVE_MALLOC /;"	d
+HAVE_MEMORY_H	config.h	/^#define HAVE_MEMORY_H /;"	d
+HAVE_SETMODE	config.h	/^#define HAVE_SETMODE /;"	d
+HAVE_STDDEF_H	config.h	/^#define HAVE_STDDEF_H /;"	d
+HAVE_STDINT_H	config.h	/^#define HAVE_STDINT_H /;"	d
+HAVE_STDLIB_H	config.h	/^#define HAVE_STDLIB_H /;"	d
+HAVE_STRINGS_H	config.h	/^#define HAVE_STRINGS_H /;"	d
+HAVE_STRING_H	config.h	/^#define HAVE_STRING_H /;"	d
+HAVE_SYS_STAT_H	config.h	/^#define HAVE_SYS_STAT_H /;"	d
+HAVE_SYS_TYPES_H	config.h	/^#define HAVE_SYS_TYPES_H /;"	d
+HAVE_UINT8_T	config.h	/^#define HAVE_UINT8_T /;"	d
+HAVE_UNISTD_H	config.h	/^#define HAVE_UNISTD_H /;"	d
+HAVE__SETMODE	config.h	/^#define HAVE__SETMODE /;"	d
+INLINE	config.h	/^#define INLINE /;"	d
+LFS_FOPEN	lfs.h	/^# define LFS_FOPEN /;"	d
+LFS_FSEEK	lfs.h	/^# define LFS_FSEEK /;"	d
+LFS_FTELL	lfs.h	/^# define LFS_FTELL /;"	d
+LFS_OFF_T	lfs.h	/^# define LFS_OFF_T /;"	d
+LFS_PRId	lfs.h	/^# define LFS_PRId /;"	d
+LT_OBJDIR	config.h	/^#define LT_OBJDIR /;"	d
+MERGE_CHECK	sssort.c	/^#define MERGE_CHECK(/;"	d	file:
+PACKAGE_BUGREPORT	config.h	/^#define PACKAGE_BUGREPORT /;"	d
+PACKAGE_NAME	config.h	/^#define PACKAGE_NAME /;"	d
+PACKAGE_STRING	config.h	/^#define PACKAGE_STRING /;"	d
+PACKAGE_TARNAME	config.h	/^#define PACKAGE_TARNAME /;"	d
+PACKAGE_URL	config.h	/^#define PACKAGE_URL /;"	d
+PACKAGE_VERSION	config.h	/^#define PACKAGE_VERSION /;"	d
+PRIdOFF_T	lfs.h	/^# define PRIdOFF_T /;"	d
+PRIdSAIDX_T	divsufsort.h	/^#define PRIdSAIDX_T /;"	d
+PRIdSAINT_T	divsufsort.h	/^#define PRIdSAINT_T /;"	d
+PROJECT_VERSION_FULL	config.h	/^#define PROJECT_VERSION_FULL /;"	d
+SAIDX_T	divsufsort.h	/^#define SAIDX_T$/;"	d
+SAINT_T	divsufsort.h	/^#define SAINT_T$/;"	d
+SAUCHAR_T	divsufsort.h	/^#define SAUCHAR_T$/;"	d
+STACK_SIZE	sssort.c	/^#define STACK_SIZE /;"	d	file:
+STACK_SIZE	sssort.c	/^#undef STACK_SIZE$/;"	d	file:
+STACK_SIZE	trsort.c	/^#define STACK_SIZE /;"	d	file:
+STACK_SIZE	trsort.c	/^#undef STACK_SIZE$/;"	d	file:
+STDC_HEADERS	config.h	/^#define STDC_HEADERS /;"	d
+_DIVSUFSORT_H	divsufsort.h	/^#define _DIVSUFSORT_H /;"	d
+_LFS_H	lfs.h	/^#define _LFS_H /;"	d
+_compare	utils.c	/^_compare(const sauchar_t *T, saidx_t Tsize,$/;"	f	file:
+_setmode	config.h	/^#define _setmode /;"	d
+_trbudget_t	trsort.c	/^struct _trbudget_t {$/;"	s	file:
+binarysearch_lower	utils.c	/^binarysearch_lower(const saidx_t *A, saidx_t size, saidx_t value) {$/;"	f	file:
+bw_transform	utils.c	/^bw_transform(const sauchar_t *T, sauchar_t *U, saidx_t *SA,$/;"	f
+chance	trsort.c	/^  saidx_t chance;$/;"	m	struct:_trbudget_t	file:
+construct_BWT	divsufsort.c	/^construct_BWT(const sauchar_t *T, saidx_t *SA,$/;"	f	file:
+construct_SA	divsufsort.c	/^construct_SA(const sauchar_t *T, saidx_t *SA,$/;"	f	file:
+count	trsort.c	/^  saidx_t count;$/;"	m	struct:_trbudget_t	file:
+divbwt	divsufsort.c	/^divbwt(const sauchar_t *T, sauchar_t *U, saidx_t *A, saidx_t n) {$/;"	f
+divsufsort	divsufsort.c	/^divsufsort(const sauchar_t *T, saidx_t *SA, saidx_t n) {$/;"	f
+divsufsort_version	divsufsort.c	/^divsufsort_version(void) {$/;"	f
+incval	trsort.c	/^  saidx_t incval;$/;"	m	struct:_trbudget_t	file:
+inverse_bw_transform	utils.c	/^inverse_bw_transform(const sauchar_t *T, sauchar_t *U, saidx_t *A,$/;"	f
+lg_table	sssort.c	/^static const saint_t lg_table[256]= {$/;"	v	file:
+lg_table	trsort.c	/^static const saint_t lg_table[256]= {$/;"	v	file:
+main	bwt.c	/^main(int argc, const char *argv[]) {$/;"	f
+main	mksary.c	/^main(int argc, const char *argv[]) {$/;"	f
+main	sasearch.c	/^main(int argc, const char *argv[]) {$/;"	f
+main	suftest.c	/^main(int argc, const char *argv[]) {$/;"	f
+main	unbwt.c	/^main(int argc, const char *argv[]) {$/;"	f
+print_help	bwt.c	/^print_help(const char *progname, int status) {$/;"	f	file:
+print_help	mksary.c	/^print_help(const char *progname, int status) {$/;"	f	file:
+print_help	sasearch.c	/^print_help(const char *progname, int status) {$/;"	f	file:
+print_help	suftest.c	/^print_help(const char *progname, int status) {$/;"	f	file:
+print_help	unbwt.c	/^print_help(const char *progname, int status) {$/;"	f	file:
+read_int	unbwt.c	/^read_int(FILE *fp, saidx_t *n) {$/;"	f	file:
+remain	trsort.c	/^  saidx_t remain;$/;"	m	struct:_trbudget_t	file:
+sa_search	utils.c	/^sa_search(const sauchar_t *T, saidx_t Tsize,$/;"	f
+sa_simplesearch	utils.c	/^sa_simplesearch(const sauchar_t *T, saidx_t Tsize,$/;"	f
+saidx_t	divsufsort.h	/^typedef int32_t saidx_t;$/;"	t
+saint_t	divsufsort.h	/^typedef int32_t saint_t;$/;"	t
+sauchar_t	divsufsort.h	/^typedef uint8_t sauchar_t;$/;"	t
+sort_typeBstar	divsufsort.c	/^sort_typeBstar(const sauchar_t *T, saidx_t *SA,$/;"	f	file:
+sqq_table	sssort.c	/^static const saint_t sqq_table[256] = {$/;"	v	file:
+ss_blockswap	sssort.c	/^ss_blockswap(saidx_t *a, saidx_t *b, saidx_t n) {$/;"	f	file:
+ss_compare	sssort.c	/^ss_compare(const sauchar_t *T,$/;"	f	file:
+ss_fixdown	sssort.c	/^ss_fixdown(const sauchar_t *Td, const saidx_t *PA,$/;"	f	file:
+ss_heapsort	sssort.c	/^ss_heapsort(const sauchar_t *Td, const saidx_t *PA, saidx_t *SA, saidx_t size) {$/;"	f	file:
+ss_ilg	sssort.c	/^ss_ilg(saidx_t n) {$/;"	f	file:
+ss_inplacemerge	sssort.c	/^ss_inplacemerge(const sauchar_t *T, const saidx_t *PA,$/;"	f	file:
+ss_insertionsort	sssort.c	/^ss_insertionsort(const sauchar_t *T, const saidx_t *PA,$/;"	f	file:
+ss_isqrt	sssort.c	/^ss_isqrt(saidx_t x) {$/;"	f	file:
+ss_median3	sssort.c	/^ss_median3(const sauchar_t *Td, const saidx_t *PA,$/;"	f	file:
+ss_median5	sssort.c	/^ss_median5(const sauchar_t *Td, const saidx_t *PA,$/;"	f	file:
+ss_mergebackward	sssort.c	/^ss_mergebackward(const sauchar_t *T, const saidx_t *PA,$/;"	f	file:
+ss_mergeforward	sssort.c	/^ss_mergeforward(const sauchar_t *T, const saidx_t *PA,$/;"	f	file:
+ss_mintrosort	sssort.c	/^ss_mintrosort(const sauchar_t *T, const saidx_t *PA,$/;"	f	file:
+ss_partition	sssort.c	/^ss_partition(const saidx_t *PA,$/;"	f	file:
+ss_pivot	sssort.c	/^ss_pivot(const sauchar_t *Td, const saidx_t *PA, saidx_t *first, saidx_t *last) {$/;"	f	file:
+ss_rotate	sssort.c	/^ss_rotate(saidx_t *first, saidx_t *middle, saidx_t *last) {$/;"	f	file:
+ss_swapmerge	sssort.c	/^ss_swapmerge(const sauchar_t *T, const saidx_t *PA,$/;"	f	file:
+sssort	sssort.c	/^sssort(const sauchar_t *T, const saidx_t *PA,$/;"	f
+sufcheck	utils.c	/^sufcheck(const sauchar_t *T, const saidx_t *SA,$/;"	f
+tr_copy	trsort.c	/^tr_copy(saidx_t *ISA, const saidx_t *SA,$/;"	f	file:
+tr_fixdown	trsort.c	/^tr_fixdown(const saidx_t *ISAd, saidx_t *SA, saidx_t i, saidx_t size) {$/;"	f	file:
+tr_heapsort	trsort.c	/^tr_heapsort(const saidx_t *ISAd, saidx_t *SA, saidx_t size) {$/;"	f	file:
+tr_ilg	trsort.c	/^tr_ilg(saidx_t n) {$/;"	f	file:
+tr_insertionsort	trsort.c	/^tr_insertionsort(const saidx_t *ISAd, saidx_t *first, saidx_t *last) {$/;"	f	file:
+tr_introsort	trsort.c	/^tr_introsort(saidx_t *ISA, const saidx_t *ISAd,$/;"	f	file:
+tr_median3	trsort.c	/^tr_median3(const saidx_t *ISAd, saidx_t *v1, saidx_t *v2, saidx_t *v3) {$/;"	f	file:
+tr_median5	trsort.c	/^tr_median5(const saidx_t *ISAd,$/;"	f	file:
+tr_partialcopy	trsort.c	/^tr_partialcopy(saidx_t *ISA, const saidx_t *SA,$/;"	f	file:
+tr_partition	trsort.c	/^tr_partition(const saidx_t *ISAd,$/;"	f	file:
+tr_pivot	trsort.c	/^tr_pivot(const saidx_t *ISAd, saidx_t *first, saidx_t *last) {$/;"	f	file:
+trbudget_check	trsort.c	/^trbudget_check(trbudget_t *budget, saidx_t size) {$/;"	f	file:
+trbudget_init	trsort.c	/^trbudget_init(trbudget_t *budget, saidx_t chance, saidx_t incval) {$/;"	f	file:
+trbudget_t	trsort.c	/^typedef struct _trbudget_t trbudget_t;$/;"	t	typeref:struct:_trbudget_t	file:
+trsort	trsort.c	/^trsort(saidx_t *ISA, saidx_t *SA, saidx_t n, saidx_t depth) {$/;"	f
+write_int	bwt.c	/^write_int(FILE *fp, saidx_t n) {$/;"	f	file:

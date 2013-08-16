@@ -10,6 +10,19 @@ We call parts of a read seeds. What are anchor seeds?
 How would we choose anchors? What are the genomic windows?
 How do we use local sequence alignments when stitching seeds?
 
+Rough sketch of the steps
+-------------------------
+Version a genome.
+Index the genome.
+
+
+Load the genome.
+Load the suffix array.
+Load the suffix array index.
+ReadAlignChunk
+outputSJ
+
+
 References
 ----------
 dobin13, dobin13supp

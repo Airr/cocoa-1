@@ -1,0 +1,8 @@
+We have a project called mem, which contains source code by Khan09. We modified
+the source code and created an Xcode target memc. We use the code memc in 
+alder-align project, and the directory name is mem.
+
+Reference
+---------
+Khan90
+Khan, Z.; Bloom, J. S.; Kruglyak, L. & Singh, M. A practical algorithm for finding maximal exact matches in large sequence datasets using sparse suffix arrays. Bioinformatics, Department of Computer Science, Lewis-Sigler Institute for Integrative Genomics, Princeton University, Princeton, NJ 08544, USA. zkhan@cs.princeton.edu, 2009, 25, 1609-1616

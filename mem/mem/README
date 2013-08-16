@@ -1,0 +1,9 @@
+A source code:
+Khan, Z.; Bloom, J. S.; Kruglyak, L. & Singh, M. A practical algorithm for finding maximal exact matches in large sequence datasets using sparse suffix arrays. Bioinformatics, Department of Computer Science, Lewis-Sigler Institute for Integrative Genomics, Princeton University, Princeton, NJ 08544, USA. zkhan@cs.princeton.edu, 2009, 25, 1609-1616
+
+We need to find MMP(R,i,G): the longest substring (R_i, ..., R_{i + MML - 1})
+that matches exactly one or more substrings of G. The algorithm finds the MMP 
+starting from the first base of the read. We do not find all possible MEM, but
+sequentially from the beginning toward the end of a read. 
+memc is a C version of mem with this feature of sequential search of G for 
+substrings in R. 

@@ -1,0 +1,257 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D005167417B2BEC700F3EC62 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = D005167317B2BEC700F3EC62 /* main.c */; };
+		D005167617B2BEC700F3EC62 /* alder_de.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = D005167517B2BEC700F3EC62 /* alder_de.1 */; };
+		D00516B117B2D67900F3EC62 /* embeddedRCall.c in Sources */ = {isa = PBXBuildFile; fileRef = D00516AF17B2D67900F3EC62 /* embeddedRCall.c */; };
+		D00516B417B2E0FA00F3EC62 /* renv.c in Sources */ = {isa = PBXBuildFile; fileRef = D00516B317B2E0FA00F3EC62 /* renv.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D005166E17B2BEC700F3EC62 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				D005167617B2BEC700F3EC62 /* alder_de.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		D005167017B2BEC700F3EC62 /* alder-de */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "alder-de"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D005167317B2BEC700F3EC62 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		D005167517B2BEC700F3EC62 /* alder_de.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = alder_de.1; sourceTree = "<group>"; };
+		D00516A617B2C2DF00F3EC62 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		D00516A717B2C5F000F3EC62 /* setup.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = setup.sh; sourceTree = "<group>"; };
+		D00516A817B2CD2200F3EC62 /* install-package.R */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.rez; path = "install-package.R"; sourceTree = "<group>"; };
+		D00516AF17B2D67900F3EC62 /* embeddedRCall.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = embeddedRCall.c; sourceTree = "<group>"; };
+		D00516B017B2D67900F3EC62 /* embeddedRCall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = embeddedRCall.h; sourceTree = "<group>"; };
+		D00516B217B2E0D200F3EC62 /* renv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = renv.h; sourceTree = "<group>"; };
+		D00516B317B2E0FA00F3EC62 /* renv.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = renv.c; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D005166D17B2BEC700F3EC62 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D005166717B2BEC700F3EC62 = {
+			isa = PBXGroup;
+			children = (
+				D00516A617B2C2DF00F3EC62 /* README */,
+				D00516A717B2C5F000F3EC62 /* setup.sh */,
+				D00516A817B2CD2200F3EC62 /* install-package.R */,
+				D005167217B2BEC700F3EC62 /* alder-de */,
+				D005167117B2BEC700F3EC62 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D005167117B2BEC700F3EC62 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D005167017B2BEC700F3EC62 /* alder-de */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D005167217B2BEC700F3EC62 /* alder-de */ = {
+			isa = PBXGroup;
+			children = (
+				D00516AF17B2D67900F3EC62 /* embeddedRCall.c */,
+				D00516B017B2D67900F3EC62 /* embeddedRCall.h */,
+				D005167317B2BEC700F3EC62 /* main.c */,
+				D005167517B2BEC700F3EC62 /* alder_de.1 */,
+				D00516B317B2E0FA00F3EC62 /* renv.c */,
+				D00516B217B2E0D200F3EC62 /* renv.h */,
+			);
+			path = "alder-de";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D005166F17B2BEC700F3EC62 /* alder-de */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D005167917B2BEC700F3EC62 /* Build configuration list for PBXNativeTarget "alder-de" */;
+			buildPhases = (
+				D005166C17B2BEC700F3EC62 /* Sources */,
+				D005166D17B2BEC700F3EC62 /* Frameworks */,
+				D005166E17B2BEC700F3EC62 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "alder-de";
+			productName = "alder-de";
+			productReference = D005167017B2BEC700F3EC62 /* alder-de */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D005166817B2BEC700F3EC62 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = "Sang Chul Choi";
+			};
+			buildConfigurationList = D005166B17B2BEC700F3EC62 /* Build configuration list for PBXProject "alder-de" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = D005166717B2BEC700F3EC62;
+			productRefGroup = D005167117B2BEC700F3EC62 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D005166F17B2BEC700F3EC62 /* alder-de */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D005166C17B2BEC700F3EC62 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D005167417B2BEC700F3EC62 /* main.c in Sources */,
+				D00516B117B2D67900F3EC62 /* embeddedRCall.c in Sources */,
+				D00516B417B2E0FA00F3EC62 /* renv.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		D005167717B2BEC700F3EC62 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /Users/goshng/Downloads/R/lib/R/include;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-L/Users/goshng/Downloads/R/lib/R/lib",
+					"-lR",
+					"-dylib_file",
+					"libRblas.dylib:/Users/goshng/Downloads/R/lib/R/lib/libR.dylib",
+				);
+				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = "";
+			};
+			name = Debug;
+		};
+		D005167817B2BEC700F3EC62 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /Users/goshng/Downloads/R/lib/R/include;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-L/Users/goshng/Downloads/R/lib/R/lib",
+					"-lR",
+					"-dylib_file",
+					"libRblas.dylib:/Users/goshng/Downloads/R/lib/R/lib/libR.dylib",
+				);
+				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = "";
+			};
+			name = Release;
+		};
+		D005167A17B2BEC700F3EC62 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D005167B17B2BEC700F3EC62 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D005166B17B2BEC700F3EC62 /* Build configuration list for PBXProject "alder-de" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D005167717B2BEC700F3EC62 /* Debug */,
+				D005167817B2BEC700F3EC62 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D005167917B2BEC700F3EC62 /* Build configuration list for PBXNativeTarget "alder-de" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D005167A17B2BEC700F3EC62 /* Debug */,
+				D005167B17B2BEC700F3EC62 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D005166817B2BEC700F3EC62 /* Project object */;
+}

@@ -1,0 +1,7 @@
+We use the embedded R with DESeq, DESeq2, and DEXSeq to implement alder-de. 
+We need to have R's main library files and R packages. 
+
+
+Versions of R and R packages
+----------------------------
+R-3.0.1.tar.gz
