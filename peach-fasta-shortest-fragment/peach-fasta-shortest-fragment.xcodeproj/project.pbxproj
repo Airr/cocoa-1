@@ -1,0 +1,250 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D0170F2C17C3F36F007A74A5 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = D0170F2B17C3F36F007A74A5 /* main.c */; };
+		D0170F2E17C3F36F007A74A5 /* peach_fasta_shortest_fragment.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = D0170F2D17C3F36F007A74A5 /* peach_fasta_shortest_fragment.1 */; };
+		D0170F3617C3F692007A74A5 /* list.c in Sources */ = {isa = PBXBuildFile; fileRef = D0170F3517C3F692007A74A5 /* list.c */; };
+		D0170F3917C3F6B3007A74A5 /* fasta.rl in Sources */ = {isa = PBXBuildFile; fileRef = D0170F3817C3F6B3007A74A5 /* fasta.rl */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildRule section */
+		D0170F3B17C42EE6007A74A5 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.rl";
+			fileType = pattern.proxy;
+			isEditable = 1;
+			outputFiles = (
+				"${INPUT_FILE_BASE}.c",
+			);
+			script = "cd \"$INPUT_FILE_DIR\"\n/usr/local/bin/ragel \"$INPUT_FILE_NAME\" -o \"$DERIVED_SOURCES_DIR/$INPUT_FILE_BASE.c\"\n";
+		};
+/* End PBXBuildRule section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D0170F2617C3F36F007A74A5 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				D0170F2E17C3F36F007A74A5 /* peach_fasta_shortest_fragment.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		D0170F2817C3F36F007A74A5 /* peach-fasta-shortest-fragment */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "peach-fasta-shortest-fragment"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0170F2B17C3F36F007A74A5 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		D0170F2D17C3F36F007A74A5 /* peach_fasta_shortest_fragment.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = peach_fasta_shortest_fragment.1; sourceTree = "<group>"; };
+		D0170F3417C3F68D007A74A5 /* list.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = list.h; sourceTree = "<group>"; };
+		D0170F3517C3F692007A74A5 /* list.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = list.c; sourceTree = "<group>"; };
+		D0170F3717C3F6AE007A74A5 /* fasta.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fasta.h; sourceTree = "<group>"; };
+		D0170F3817C3F6B3007A74A5 /* fasta.rl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fasta.rl; sourceTree = "<group>"; };
+		D0170F3A17C42E5D007A74A5 /* fasta.rh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fasta.rh; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D0170F2517C3F36F007A74A5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D0170F1F17C3F36F007A74A5 = {
+			isa = PBXGroup;
+			children = (
+				D0170F2A17C3F36F007A74A5 /* peach-fasta-shortest-fragment */,
+				D0170F2917C3F36F007A74A5 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D0170F2917C3F36F007A74A5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D0170F2817C3F36F007A74A5 /* peach-fasta-shortest-fragment */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D0170F2A17C3F36F007A74A5 /* peach-fasta-shortest-fragment */ = {
+			isa = PBXGroup;
+			children = (
+				D0170F2B17C3F36F007A74A5 /* main.c */,
+				D0170F3417C3F68D007A74A5 /* list.h */,
+				D0170F3517C3F692007A74A5 /* list.c */,
+				D0170F3717C3F6AE007A74A5 /* fasta.h */,
+				D0170F3817C3F6B3007A74A5 /* fasta.rl */,
+				D0170F3A17C42E5D007A74A5 /* fasta.rh */,
+				D0170F2D17C3F36F007A74A5 /* peach_fasta_shortest_fragment.1 */,
+			);
+			path = "peach-fasta-shortest-fragment";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D0170F2717C3F36F007A74A5 /* peach-fasta-shortest-fragment */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D0170F3117C3F36F007A74A5 /* Build configuration list for PBXNativeTarget "peach-fasta-shortest-fragment" */;
+			buildPhases = (
+				D0170F2417C3F36F007A74A5 /* Sources */,
+				D0170F2517C3F36F007A74A5 /* Frameworks */,
+				D0170F2617C3F36F007A74A5 /* CopyFiles */,
+			);
+			buildRules = (
+				D0170F3B17C42EE6007A74A5 /* PBXBuildRule */,
+			);
+			dependencies = (
+			);
+			name = "peach-fasta-shortest-fragment";
+			productName = "peach-fasta-shortest-fragment";
+			productReference = D0170F2817C3F36F007A74A5 /* peach-fasta-shortest-fragment */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D0170F2017C3F36F007A74A5 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = "Sang Chul Choi";
+			};
+			buildConfigurationList = D0170F2317C3F36F007A74A5 /* Build configuration list for PBXProject "peach-fasta-shortest-fragment" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = D0170F1F17C3F36F007A74A5;
+			productRefGroup = D0170F2917C3F36F007A74A5 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D0170F2717C3F36F007A74A5 /* peach-fasta-shortest-fragment */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D0170F2417C3F36F007A74A5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0170F2C17C3F36F007A74A5 /* main.c in Sources */,
+				D0170F3617C3F692007A74A5 /* list.c in Sources */,
+				D0170F3917C3F6B3007A74A5 /* fasta.rl in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		D0170F2F17C3F36F007A74A5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		D0170F3017C3F36F007A74A5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		D0170F3217C3F36F007A74A5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D0170F3317C3F36F007A74A5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D0170F2317C3F36F007A74A5 /* Build configuration list for PBXProject "peach-fasta-shortest-fragment" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0170F2F17C3F36F007A74A5 /* Debug */,
+				D0170F3017C3F36F007A74A5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D0170F3117C3F36F007A74A5 /* Build configuration list for PBXNativeTarget "peach-fasta-shortest-fragment" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0170F3217C3F36F007A74A5 /* Debug */,
+				D0170F3317C3F36F007A74A5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D0170F2017C3F36F007A74A5 /* Project object */;
+}

@@ -1,0 +1,29 @@
+%%{
+    machine fasta;
+    action e_title {
+        pFastaDataStructure->index[n1++] = n2;
+    }
+    action t_sequence {
+        pFastaDataStructure->data[n2++] = fc;
+    }
+
+    title = print+ >e_title;
+    sequence = ([ACGTURYSWKMBDHVNacgturyswkmbdhvn]+ $t_sequence)+ cntrl*;
+    main := ('>' title cntrl+ sequence+)+;
+    write data;
+}%%
+
+%%{
+    machine fastaSize;
+    action e_title {
+        (*n1)++;
+    }
+    action t_sequence {
+        (*n2)++;
+    }
+
+    title = print+ >e_title;
+    sequence = ([ACGTURYSWKMBDHVNacgturyswkmbdhvn]+ $t_sequence)+ cntrl*;
+    main := ('>' title cntrl+ sequence+)+;
+    write data;
+}%%
