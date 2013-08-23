@@ -1,0 +1,15 @@
+A measure tree can be built based on a segment tree.
+
+It is used to solve a problem called Klee's Measure Problem.
+
+A simple solution in O (n log n) would be to sort the interval endpoints and then sweep from the smallest endpoint up, keeping track of the number of intervals that the current point belongs to. This number increases by 1 each time we pass a left interval endpoint and decreases by 1 each time we pass a right endpoint, and we compute the sum of the lengths from one endpoint to the next larger one for those points that belong to at least one interval.
+
+The construction of the measure tree begins with any balanced search tree on the endpoints of all intervals in the current set and negative infinity. The associated intervals of a node are all those intervals in the current set that have at least one endpoint in the node interval; like the node interval, we do not store the associated intervals in the node, but just need them as concept. Notice that an interval that properly contains a node interval is not associated with the node; the interval [a, b[ is associated with exactly those nodes that are on the search paths of a or b.
+
+References:
+V. Klee: Can the Measure of \cup [a_i,b_i] Be Computed in Less Than O(n log n) Steps?, American Mathematical Monthly 84 (1977) 284–285.
+M.L.Fredman,B.Weide: On the Complexity of Computing the Measure of P[ai,bi], Communications of the ACM 21 (1978) 540–544.
+M. Overmars, C.-K. Yap: New Upper Bounds in Klee’s Measure Problem, SIAM Journal on Computing 20 (1991) 1034–1045.
+
+Questions:
+1. What is a node interval of a node?

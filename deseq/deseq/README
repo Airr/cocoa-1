@@ -1,3 +1,38 @@
+Author
+------
+Sang Chul Choi
+Address: Institute of Arctic Biology, University of Alaska Fairbanks, Fairbanks, AK 99775 USA
+Email: scchoi@alaska.edu
+Phone: +1 (607) 542-9362
+Fax: +1 (907) 474-6967
+Homepage: http://goshng.droppages.com
+
+Abstract
+--------
+I present a unified software package called "alder" for studying differential gene expression with next generation sequencing data or RNA-seq data. This streamlined software package is intended to benefit biological researchers' experience of analyzing RNA-seq data. Biologists who want to analyze RNA-seq data without much efforts should be able to find it useful. The software pacakge streamlines preprocessing of FASTQ format RNA-seq data, aligning reads on a user defined genome, and determining differentially expressed genes based on its genome annotation. It uses local or distributed computing power. Users can communicate each other about their experience of using the software package. 
+
+Introduction
+------------
+
+
+Methods
+-------
+
+Results
+-------
+
+Discussion
+----------
+
+References
+----------
+
+Appendix
+--------
+
+================================================================================
+
+
 Related projects
 ----------------
 rgc: R test.

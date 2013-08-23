@@ -18,8 +18,6 @@
     action e_title {
         (*n1)++;
     }
-    action t_title {
-    }
     action t_sequence {
         (*n2)++;
     }

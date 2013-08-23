@@ -1,0 +1,77 @@
+
+The original paper seems to be worth try
+----------------------------------------
+Cheng and Janardan 1991 - is the paper to try to implement.
+1. We first insert two leaves in the tree. Note that we do not balance at this stage.
+2. We traverse the two paths from the two leaves to update pointers of nodes.
+3. We traverse one path and another path to balance the tree. 
+
+The construction of the measure tree begins with any balanced search tree on the endpoints of all intervals in the current set and negative infinity. The associated intervals of a node are all those intervals in the current set that have at least one endpoint in the node interval; like the node interval, we do not store the associated intervals in the node, but just need them as concept. Notice that an interval that properly contains a node interval is not associated with the node; the interval [a, b[ is associated with exactly those nodes that are on the search paths of a or b.
+A measure tree not union tree:
+https://github.com/raghavan291/Trees-for-the-Union-of-Intervals---Measure-Tree
+
+What We Need To Construct Union Trees
+-------------------------------------
+1. Balanced tree.
+2. Linked list of leaves.
+3. Tree height.
+
+Questions
+---------
+1. Rebalancing a tree might distrupt nodes with associated intervals?
+
+Union Tree
+----------
+We again start with any balanced search tree for the set {negative infinity, x1, . . . , xn} of all interval endpoints and negative infinity. As in the measure tree, we associate with each node all intervals in the current interval set that have at least one end point in the node interval. For a fixed node n, we consider the union of all intervals associated with that node; this union consists of connected components, which themselves are intervals with endpoints from the underlying set of intervals. Let [xi , xj[ be the leftmost component of the union and [xk , xl[ be the rightmost component. These intervals might coincide. Then the node n has the following additional fields:
+
+typedef struct tr_n_t {
+    key_t         key;
+    struct tr_n_t *left;
+    struct tr_n_t *right;
+    list_node_t   *interval_list;
+    
+    // [x_i, x_j) --- [x_k, x_l)
+    struct tr_n_t *leftmin;  // the pointer to the leaf with key x_i
+    struct tr_n_t *leftmax;  // the pointer to the leaf with key x_j
+    struct tr_n_t *rightmin; // the pointer to the leaf with key x_k
+    struct tr_n_t *rightmax; // the pointer to the leaf with key x_l
+    struct tr_n_t *next;     // the pointer to the leaf with the next larger key.
+    struct tr_n_t *transfer; // the pointer to the highest node v
+                             // v satisfies that
+                             // v->left->rightmin = n
+                             // v->left->rightmax->key >= v->key if such a node exists.
+    /* balancing  information */
+} tree_node_t;
+
+With these definitions, the query algorithm is now easy, based on the ob- servation that if [xi , xj [ is a connected component of the union of all intervals in the current set and n is the leaf node with key xi , then n->transfer is defined and n->transfer->rightmax is the leaf node with key xj . So if we know the beginning of a component of the union, then we find its end using the transfer pointers; and if we know the end of a component, then the next component must start at the next larger key, found by following the next pointer, because each key is beginning or end of some interval in the current interval set. The smallest key in the current set must be the beginning of the first component, so we can start at that node and work our way upward, with O(1) time for each component we found. This gives the claimed output-sensitive O(k) query time if the union of the current set consists of k components.
+
+The main difficulty is the update. To insert or delete an interval [a, b[, we first have to perform the insertion or deletion in the underlying tree, deleting a node only if there is no other interval in the current set with the same endpoint. We can also update the next pointer at this stage, that is, just maintaining a linked list of the leaves, as we mentioned in Section 3.11. Then we go back to the root, perform the rebalancing, and finally make a second upward pass over the nodes we passed on the search path and those neighboring nodes that were changed during the rebalancing to reconstruct all the other fields in a bottom-up way.
+
+For this, we observe that the fields leftmin to rightmax can change only for those nodes for which the set of associated intervals changed, which are the nodes on the search path for a and b. For these nodes, bottom-up reconstruction is easy: if n->left and n->right already contain the correct information, then the information for n is given by the following rules: leftmin, leftmax, rightmin, and rightmax.
+
+1. n->leftmin
+1.1 ifn->left->leftmin->key<n->right->leftmin->key,
+then set n->leftmin to n->left->leftmin;
+1.2 elsesetn->leftminton->right->leftmin.
+2. n->leftmax
+2.1 ifn->left->leftmax->key<n->right->leftmin->key,
+then set n->leftmax to n->left->leftmax;
+2.2 else if
+n->left->rightmax->key < n->right->leftmax->key, then set n->leftmax to n->right->leftmax;
+2.3 elseifn->left->rightmax->key< n->right->rightmax->key, then set n->leftmax to n->left->rightmax;
+2.4 elsesetn->leftmaxton->right->rightmax.
+3. n->rightmin
+3.1 ifn->left->rightmax->key< n->right->rightmin->key, then set n->rightmin to n->right->rightmin;
+3.2 else if
+n->left->rightmin->key < n->right->leftmin->key, then set n->rightmin to n->left->rightmin;
+3.3 else if
+n->left->leftmax->key < n->right->leftmin->key, then set n->rightmin to n->right->leftmin;
+3.4 elsesetn->rightminton->left->leftmin.
+4. n->rightmax
+4.1 ifn->left->rightmax->key< n->right->rightmax->key, then set n->rightmax to n->right->rightmax;
+4.2 elsesetn->rightmaxton->left->rightmax.
+
+If n is a leaf, then n->transfer is a pointer to a node v with v->left->rightmin = n, so the only leaves that possibly need update of their transfer pointer are those that are reached as v->left->rightmin from a node v that is on the search path or changed during rebalancing. We take these O (log n) nodes v in sequence of decreasing depth, that is from the leaf to the root, and for each we perform the following step:
+if v->left->rightmax->key>v->key,
+then set v->left->rightmin->transfer to v.
+

@@ -101,6 +101,8 @@
 		D0585EDF17A1F44300D7127B /* deseq.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = deseq.c; sourceTree = "<group>"; };
 		D0585EFA17A251E900D7127B /* README.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; path = README.r; sourceTree = "<group>"; };
 		D0F9E4B617BC423400896FAD /* README.mem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.mem; sourceTree = "<group>"; };
+		D0FBC43817C5B54800FD871A /* README.multiuser */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.multiuser; sourceTree = "<group>"; };
+		D0FBC43D17C6E21C00FD871A /* README.tools */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.tools; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				D0585B931797B86400D7127B /* README */,
+				D0FBC43817C5B54800FD871A /* README.multiuser */,
 				D0585BB21798B2A200D7127B /* README.sarray */,
 				D0585BB11798A22100D7127B /* README.star */,
 				D0585BD4179A85C900D7127B /* README.gff */,
@@ -190,6 +193,7 @@
 				D0585EDD17A1F11A00D7127B /* README.gsl */,
 				D0585EFA17A251E900D7127B /* README.r */,
 				D0F9E4B617BC423400896FAD /* README.mem */,
+				D0FBC43D17C6E21C00FD871A /* README.tools */,
 			);
 			name = README;
 			sourceTree = "<group>";

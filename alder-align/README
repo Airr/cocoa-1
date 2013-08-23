@@ -1,0 +1,8 @@
+A rough procedure of the alignment
+----------------------------------
+1. Build a suffix array from a genome in FASTA format.
+2. Repeat the alignment of each read in the RNA-seq data.
+3. Locate MEMs for each of the read in the data on the genome using the suffix array.
+4. Locate regions in the genome to perform pairwise alignment between the genome and the read.
+5. Perform the pairwise alignment using Dialign.
+6. Output the result in SAM file.

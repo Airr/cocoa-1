@@ -1,0 +1,22 @@
+This is interesting:
+http://boinc.berkeley.edu
+A C++ library for network programming:
+A RCF tool: http://www.deltavsoft.com/doc/index.html
+
+sqlite.
+An instance of the software package has a unique ID.
+batch job system.
+dispatch queue.
+
+https://sourceforge.net/projects/crimild/files/
+http://crimild.wordpress.com/2010/11/01/using-c-templates-to-implement-a-messaging-system/
+http://www.sixtyfourbit.org/mq4cpp.htm
+
+
+We send out a job packet to a main server or a proxy with multiple servers.
+Servers handle the job packet and send out small chunks of the job packet to
+workers. Workers finish their chunks of the job package, and send the result
+package back to the original job request. When all of the chunks of the job
+request are complete, the requester can use the result for next processing.
+
+We need a server that handles job packet requests. 

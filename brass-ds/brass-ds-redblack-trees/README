@@ -1,0 +1,10 @@
+I need to implement a red-black tree to use it in implementing union trees.
+
+
+The rebalancing operations are different for insert and delete operations. For insert, we perform the basic insert and color both new leaves red. This possibly violates condition (2), but preserves condition (1); so the rebalancing after the insert starts with a red node with red lower neighbors and moves this color conflict up along the path to the root till it disappears.
+
+For delete, we perform the basic delete but retain the colors of the nodes; if the deleted leaves were black, this violates condition (1) but preserves condition (2); again we will move this violation up along the path to the root till it disappears.
+
+(a,b)-tree
+----------
+An (a, b)-tree is a nonbinary search tree in which all leaves have the same depth; each nonroot node has degree between a and b, with b  2a, and the root has degree at most b and at least 2 (unless the tree is empty or has only one leaf).

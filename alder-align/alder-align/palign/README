@@ -1,0 +1,37 @@
+This is based on Dialign-TX. Most of important functions in Dialign-TX package
+are packed in alder_align_pairwise.c/h. See the following example for the usage
+of the source file.
+
+TODO: anchor information as parameters for the alder_align_read_execute()
+function.
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <unistd.h>
+#include "alder_align_pairwise.h"
+
+
+int main(int argc, const char * argv[])
+{
+    srand(1);
+    char codes[4] = {'A','C','G','T'};
+    alder_align_read_initialize();
+    for (size_t i = 0; i < 10000; i++)
+    {
+        size_t sLen = rand() % 100;
+        if (sLen < 30) sLen = 30;
+        char *s = malloc((sLen + 1)*sizeof(char));
+        for (size_t j = 0; j < sLen; j++) {
+            size_t sCode = rand() % 4;
+            s[j] = codes[sCode];
+        }
+        s[sLen] = '\0';
+        
+        alder_align_read_execute(s, s);
+        free(s);
+    }
+    alder_align_read_finalize();
+    return 0;
+}
