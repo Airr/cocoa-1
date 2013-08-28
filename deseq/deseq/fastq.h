@@ -18,10 +18,23 @@
 // Usage: creates a random FASTQ file from a FASTA file with mRNA sequences.
 //    randomFastqUsingFasta("test.mRNA.fa", 10);
 
+#undef __BEGIN_DECLS
+#undef __END_DECLS
+#ifdef __cplusplus
+# define __BEGIN_DECLS extern "C" {
+# define __END_DECLS }
+#else
+# define __BEGIN_DECLS /* empty */
+# define __END_DECLS /* empty */
+#endif
+
+__BEGIN_DECLS
 
 int randomFastqUsingGFF(const char* fastaFilename, const char* gffFilename);
 
 int randomFastqUsingFasta(const char* fastaFilename,
                           unsigned int numberOfRead);
+
+__END_DECLS
 
 #endif

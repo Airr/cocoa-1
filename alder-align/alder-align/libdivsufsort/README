@@ -1,0 +1,19 @@
+These 4 files are the main library source of libdivsufsort. The prepended number
+of each source file is the number lines in the file.
+    398 divsufsort.c
+    815 sssort.c
+    586 trsort.c
+    381 utils.c
+
+cmake -DCMAKE_BUILD_TYPE="Release" -DCMAKE_INSTALL_PREFIX="$HOME/usr/local" -DBUILD_DIVSUFSORT64:BOOL=ON ..
+
+References about suffix array
+-----------------------------
+http://www.cs.sysu.edu.cn/nong/index.files/Two%20Efficient%20Algorithms%20for%20Linear%20Suffix%20Array%20Construction.pdf
+http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.183.9182&rep=rep1&type=pdf
+http://arxiv.org/pdf/1101.3448.pdf
+
+Yuta Mori's websites
+--------------------
+https://sites.google.com/site/yuta256/
+http://homepage3.nifty.com/wpage/links/suffix_arrays.html [Collection of References]

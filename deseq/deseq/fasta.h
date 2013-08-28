@@ -9,6 +9,18 @@
 #ifndef deseq_fasta_h
 #define deseq_fasta_h
 
+#undef __BEGIN_DECLS
+#undef __END_DECLS
+#ifdef __cplusplus
+# define __BEGIN_DECLS extern "C" {
+# define __END_DECLS }
+#else
+# define __BEGIN_DECLS /* empty */
+# define __END_DECLS /* empty */
+#endif
+
+__BEGIN_DECLS
+
 ////////////////////////////////////////////////////////////////////////////////
 // Usage: readFasta and lengthSequenceFasta
 ////////////////////////////////////////////////////////////////////////////////
@@ -60,5 +72,7 @@ int lengthSequenceFasta(const char* fastaFilename, unsigned int* n1, unsigned in
 // n1: The number of sequences
 // n2: The number of lines per sequence (60 bp per line)
 int randomFasta(unsigned int n1, unsigned int n2);
+
+__END_DECLS
 
 #endif

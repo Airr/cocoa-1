@@ -54,6 +54,11 @@
 			<key>orderHint</key>
 			<integer>4</integer>
 		</dict>
+		<key>brass-ds-union-array.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>14</integer>
+		</dict>
 		<key>brass-ds-union-tree.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -93,6 +98,11 @@
 			<true/>
 		</dict>
 		<key>D0170F0A17C2230F007A74A5</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D01E76BC17CD3980005AF9FF</key>
 		<dict>
 			<key>primary</key>
 			<true/>

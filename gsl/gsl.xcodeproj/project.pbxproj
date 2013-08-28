@@ -14,6 +14,10 @@
 		D005187F17B634B700F3EC62 /* gsl_vector_string.c in Sources */ = {isa = PBXBuildFile; fileRef = D005187E17B634B700F3EC62 /* gsl_vector_string.c */; };
 		D005188217B6AB5B00F3EC62 /* gsl_vector_string_test.c in Sources */ = {isa = PBXBuildFile; fileRef = D005188117B6AB5A00F3EC62 /* gsl_vector_string_test.c */; };
 		D005188417B6D18F00F3EC62 /* alder_error_handler.c in Sources */ = {isa = PBXBuildFile; fileRef = D005188317B6D18F00F3EC62 /* alder_error_handler.c */; };
+		D06E373F17CC0A7600B8891B /* gsl_block_match.c in Sources */ = {isa = PBXBuildFile; fileRef = D06E373E17CC0A7600B8891B /* gsl_block_match.c */; };
+		D06E374217CC0E5500B8891B /* gsl_block_match_test.c in Sources */ = {isa = PBXBuildFile; fileRef = D06E374117CC0E5500B8891B /* gsl_block_match_test.c */; };
+		D0D4094117CC1B1300326968 /* gsl_vector_match.c in Sources */ = {isa = PBXBuildFile; fileRef = D0D4094017CC1B1300326968 /* gsl_vector_match.c */; };
+		D0D4094417CC1C2D00326968 /* gsl_vector_match_test.c in Sources */ = {isa = PBXBuildFile; fileRef = D0D4094317CC1C2D00326968 /* gsl_vector_match_test.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -43,6 +47,16 @@
 		D005188117B6AB5A00F3EC62 /* gsl_vector_string_test.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gsl_vector_string_test.c; sourceTree = "<group>"; };
 		D005188317B6D18F00F3EC62 /* alder_error_handler.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_error_handler.c; sourceTree = "<group>"; };
 		D005188517B6D1B100F3EC62 /* alder_error_handler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_error_handler.h; sourceTree = "<group>"; };
+		D06E373B17CC085300B8891B /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		D06E373C17CC088200B8891B /* gsl-block.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "gsl-block.sh"; sourceTree = "<group>"; };
+		D06E373D17CC0A6D00B8891B /* gsl_block_match.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = gsl_block_match.h; sourceTree = "<group>"; };
+		D06E373E17CC0A7600B8891B /* gsl_block_match.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gsl_block_match.c; sourceTree = "<group>"; };
+		D06E374017CC0E4100B8891B /* gsl_block_match_test.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = gsl_block_match_test.h; sourceTree = "<group>"; };
+		D06E374117CC0E5500B8891B /* gsl_block_match_test.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gsl_block_match_test.c; sourceTree = "<group>"; };
+		D0D4093F17CC1B0800326968 /* gsl_vector_match.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = gsl_vector_match.h; sourceTree = "<group>"; };
+		D0D4094017CC1B1300326968 /* gsl_vector_match.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gsl_vector_match.c; sourceTree = "<group>"; };
+		D0D4094217CC1C2100326968 /* gsl_vector_match_test.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = gsl_vector_match_test.h; sourceTree = "<group>"; };
+		D0D4094317CC1C2D00326968 /* gsl_vector_match_test.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gsl_vector_match_test.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +73,8 @@
 		D005186017B6150300F3EC62 = {
 			isa = PBXGroup;
 			children = (
+				D06E373B17CC085300B8891B /* README */,
+				D06E373C17CC088200B8891B /* gsl-block.sh */,
 				D005186B17B6150300F3EC62 /* gsl */,
 				D005186A17B6150300F3EC62 /* Products */,
 			);
@@ -95,6 +111,14 @@
 				D005187C17B623A600F3EC62 /* gsl_block_string_test.h */,
 				D005188117B6AB5A00F3EC62 /* gsl_vector_string_test.c */,
 				D005188017B6AB4100F3EC62 /* gsl_vector_string_test.h */,
+				D06E373D17CC0A6D00B8891B /* gsl_block_match.h */,
+				D06E373E17CC0A7600B8891B /* gsl_block_match.c */,
+				D06E374017CC0E4100B8891B /* gsl_block_match_test.h */,
+				D06E374117CC0E5500B8891B /* gsl_block_match_test.c */,
+				D0D4093F17CC1B0800326968 /* gsl_vector_match.h */,
+				D0D4094017CC1B1300326968 /* gsl_vector_match.c */,
+				D0D4094217CC1C2100326968 /* gsl_vector_match_test.h */,
+				D0D4094317CC1C2D00326968 /* gsl_vector_match_test.c */,
 			);
 			path = block;
 			sourceTree = "<group>";
@@ -156,6 +180,10 @@
 				D005187F17B634B700F3EC62 /* gsl_vector_string.c in Sources */,
 				D005188217B6AB5B00F3EC62 /* gsl_vector_string_test.c in Sources */,
 				D005188417B6D18F00F3EC62 /* alder_error_handler.c in Sources */,
+				D06E373F17CC0A7600B8891B /* gsl_block_match.c in Sources */,
+				D06E374217CC0E5500B8891B /* gsl_block_match_test.c in Sources */,
+				D0D4094117CC1B1300326968 /* gsl_vector_match.c in Sources */,
+				D0D4094417CC1C2D00326968 /* gsl_vector_match_test.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,6 +298,7 @@
 				D005187417B6150300F3EC62 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

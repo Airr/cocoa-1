@@ -64,19 +64,85 @@
 		D00518A817B7855A00F3EC62 /* alder_index_genome.c in Sources */ = {isa = PBXBuildFile; fileRef = D00518A717B7855A00F3EC62 /* alder_index_genome.c */; };
 		D00518AE17B787AB00F3EC62 /* alder_logger.c in Sources */ = {isa = PBXBuildFile; fileRef = D00518AD17B787AB00F3EC62 /* alder_logger.c */; };
 		D00518AF17B791BC00F3EC62 /* Parameters.c in Sources */ = {isa = PBXBuildFile; fileRef = D005185E17B609DB00F3EC62 /* Parameters.c */; };
-		D005195017B87A4A00F3EC62 /* divsufsort.c in Sources */ = {isa = PBXBuildFile; fileRef = D005194917B87A4A00F3EC62 /* divsufsort.c */; };
-		D005195117B87A4A00F3EC62 /* sssort.c in Sources */ = {isa = PBXBuildFile; fileRef = D005194D17B87A4A00F3EC62 /* sssort.c */; };
-		D005195217B87A4A00F3EC62 /* trsort.c in Sources */ = {isa = PBXBuildFile; fileRef = D005194E17B87A4A00F3EC62 /* trsort.c */; };
-		D005195317B87A4A00F3EC62 /* utils.c in Sources */ = {isa = PBXBuildFile; fileRef = D005194F17B87A4A00F3EC62 /* utils.c */; };
-		D005195517B87B7400F3EC62 /* suftest.c in Sources */ = {isa = PBXBuildFile; fileRef = D005195417B87B7400F3EC62 /* suftest.c */; };
-		D005195817B87DBA00F3EC62 /* mksary.c in Sources */ = {isa = PBXBuildFile; fileRef = D005195717B87DBA00F3EC62 /* mksary.c */; };
-		D005195B17B87DF200F3EC62 /* sasearch.c in Sources */ = {isa = PBXBuildFile; fileRef = D005195A17B87DF100F3EC62 /* sasearch.c */; };
 		D005195E17B8ADCD00F3EC62 /* alder_align_reads.c in Sources */ = {isa = PBXBuildFile; fileRef = D005195D17B8ADCB00F3EC62 /* alder_align_reads.c */; };
+		D00CC0DC17CB33FE004FB745 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = D00CC0DB17CB33FE004FB745 /* main.c */; };
+		D00CC0DE17CB33FE004FB745 /* alder_test_fastq.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = D00CC0DD17CB33FE004FB745 /* alder_test_fastq.1 */; };
+		D00CC0E217CB3405004FB745 /* alder_fastq.c in Sources */ = {isa = PBXBuildFile; fileRef = D0D13AE117CB2E1F0063B8C6 /* alder_fastq.c */; };
+		D00CC0EA17CB4506004FB745 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = D00CC0E917CB4506004FB745 /* main.c */; };
+		D00CC0EC17CB4506004FB745 /* alder_test_samtools.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = D00CC0EB17CB4506004FB745 /* alder_test_samtools.1 */; };
+		D00CC18D17CB45CC004FB745 /* bam.c in Sources */ = {isa = PBXBuildFile; fileRef = D00CC0F117CB4514004FB745 /* bam.c */; };
+		D00CC18E17CB45E5004FB745 /* bgzf.c in Sources */ = {isa = PBXBuildFile; fileRef = D00CC10F17CB4514004FB745 /* bgzf.c */; };
+		D00CC18F17CB4615004FB745 /* kstring.c in Sources */ = {isa = PBXBuildFile; fileRef = D00CC12117CB4514004FB745 /* kstring.c */; };
+		D00CC19017CB4621004FB745 /* bam_aux.c in Sources */ = {isa = PBXBuildFile; fileRef = D00CC0F717CB4514004FB745 /* bam_aux.c */; };
+		D00CC19117CB4628004FB745 /* bam_import.c in Sources */ = {isa = PBXBuildFile; fileRef = D00CC0FB17CB4514004FB745 /* bam_import.c */; };
+		D00CC19217CB4631004FB745 /* sam.c in Sources */ = {isa = PBXBuildFile; fileRef = D00CC12817CB4514004FB745 /* sam.c */; };
+		D00CC19317CB463B004FB745 /* bam_index.c in Sources */ = {isa = PBXBuildFile; fileRef = D00CC0FC17CB4514004FB745 /* bam_index.c */; };
+		D00CC19417CB463E004FB745 /* bam_pileup.c in Sources */ = {isa = PBXBuildFile; fileRef = D00CC10017CB4514004FB745 /* bam_pileup.c */; };
+		D00CC19517CB4646004FB745 /* bam_lpileup.c in Sources */ = {isa = PBXBuildFile; fileRef = D00CC0FD17CB4514004FB745 /* bam_lpileup.c */; };
+		D00CC19617CB4654004FB745 /* bam_md.c in Sources */ = {isa = PBXBuildFile; fileRef = D00CC0FF17CB4514004FB745 /* bam_md.c */; };
+		D00CC19717CB4660004FB745 /* razf.c in Sources */ = {isa = PBXBuildFile; fileRef = D00CC12517CB4514004FB745 /* razf.c */; };
+		D00CC19817CB466A004FB745 /* faidx.c in Sources */ = {isa = PBXBuildFile; fileRef = D00CC11517CB4514004FB745 /* faidx.c */; };
+		D00CC19917CB4678004FB745 /* bedidx.c in Sources */ = {isa = PBXBuildFile; fileRef = D00CC10E17CB4514004FB745 /* bedidx.c */; };
+		D00CC19A17CB4680004FB745 /* knetfile.c in Sources */ = {isa = PBXBuildFile; fileRef = D00CC11B17CB4514004FB745 /* knetfile.c */; };
+		D00CC19B17CB4692004FB745 /* bam_sort.c in Sources */ = {isa = PBXBuildFile; fileRef = D00CC10517CB4514004FB745 /* bam_sort.c */; };
+		D00CC19C17CB46A6004FB745 /* sam_header.c in Sources */ = {isa = PBXBuildFile; fileRef = D00CC12A17CB4514004FB745 /* sam_header.c */; };
+		D00CC19D17CB46B0004FB745 /* bam_reheader.c in Sources */ = {isa = PBXBuildFile; fileRef = D00CC10217CB4514004FB745 /* bam_reheader.c */; };
+		D00CC19E17CB46B8004FB745 /* kprobaln.c in Sources */ = {isa = PBXBuildFile; fileRef = D00CC11D17CB4514004FB745 /* kprobaln.c */; };
+		D00CC19F17CB46C2004FB745 /* bam_cat.c in Sources */ = {isa = PBXBuildFile; fileRef = D00CC0F817CB4514004FB745 /* bam_cat.c */; };
+		D00CC1A017CB4F9D004FB745 /* libbam.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D00CC18917CB4548004FB745 /* libbam.dylib */; };
+		D01E768517CC6944005AF9FF /* samtools.c in Sources */ = {isa = PBXBuildFile; fileRef = D06E373617CBCD9F00B8891B /* samtools.c */; };
+		D01E768817CC6FA2005AF9FF /* alder_align_alignment.c in Sources */ = {isa = PBXBuildFile; fileRef = D01E768717CC6FA2005AF9FF /* alder_align_alignment.c */; };
+		D01E76B317CD13DD005AF9FF /* bsafe.c in Sources */ = {isa = PBXBuildFile; fileRef = D01E76A817CD13DD005AF9FF /* bsafe.c */; };
+		D01E76B517CD13DD005AF9FF /* bstraux.c in Sources */ = {isa = PBXBuildFile; fileRef = D01E76AB17CD13DD005AF9FF /* bstraux.c */; };
+		D01E76B617CD13DD005AF9FF /* bstrlib.c in Sources */ = {isa = PBXBuildFile; fileRef = D01E76AE17CD13DD005AF9FF /* bstrlib.c */; };
+		D040B57C17CB1F90004A289B /* alder_logger.c in Sources */ = {isa = PBXBuildFile; fileRef = D00518AD17B787AB00F3EC62 /* alder_logger.c */; };
+		D06E373917CBDD7600B8891B /* sam_view.c in Sources */ = {isa = PBXBuildFile; fileRef = D00CC12C17CB4514004FB745 /* sam_view.c */; };
+		D06E373A17CC00B700B8891B /* libbam.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D00CC18917CB4548004FB745 /* libbam.dylib */; };
+		D07E3F1417C7082900F1958F /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = D07E3F1317C7082900F1958F /* main.c */; };
+		D07E3F1617C7082900F1958F /* alder_test_mksa.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = D07E3F1517C7082900F1958F /* alder_test_mksa.1 */; };
+		D07E3F5317C74F3C00F1958F /* sparse_sa.c in Sources */ = {isa = PBXBuildFile; fileRef = D0F9E4BA17BC42FB00896FAD /* sparse_sa.c */; };
+		D07E3F5817C7562800F1958F /* alder_fasta.rl in Sources */ = {isa = PBXBuildFile; fileRef = D07E3F5717C7561900F1958F /* alder_fasta.rl */; };
+		D07E3F5917C7562A00F1958F /* alder_fasta.rl in Sources */ = {isa = PBXBuildFile; fileRef = D07E3F5717C7561900F1958F /* alder_fasta.rl */; };
+		D07E3F6117C7587400F1958F /* rngs.c in Sources */ = {isa = PBXBuildFile; fileRef = D07E3F5D17C7587400F1958F /* rngs.c */; };
+		D07E3F6217C7587400F1958F /* rngs.c in Sources */ = {isa = PBXBuildFile; fileRef = D07E3F5D17C7587400F1958F /* rngs.c */; };
+		D07E3F6317C7587400F1958F /* rvgs.c in Sources */ = {isa = PBXBuildFile; fileRef = D07E3F5F17C7587400F1958F /* rvgs.c */; };
+		D07E3F6417C7587400F1958F /* rvgs.c in Sources */ = {isa = PBXBuildFile; fileRef = D07E3F5F17C7587400F1958F /* rvgs.c */; };
+		D07E3F6517C7741400F1958F /* qsufsort.c in Sources */ = {isa = PBXBuildFile; fileRef = D0F9E4B917BC42FB00896FAD /* qsufsort.c */; };
 		D0A861BF17BDF50C00F1BD3B /* alder_align_pairwise.c in Sources */ = {isa = PBXBuildFile; fileRef = D0A861BD17BDF50C00F1BD3B /* alder_align_pairwise.c */; };
+		D0D13AE217CB2E1F0063B8C6 /* alder_fastq.c in Sources */ = {isa = PBXBuildFile; fileRef = D0D13AE117CB2E1F0063B8C6 /* alder_fastq.c */; };
+		D0D1417817CE672300CD1FD3 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = D0D1417717CE672300CD1FD3 /* main.c */; };
+		D0D1417A17CE672300CD1FD3 /* alder_denovo.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = D0D1417917CE672300CD1FD3 /* alder_denovo.1 */; };
+		D0D4094917CC4A9200326968 /* gsl_block_match.c in Sources */ = {isa = PBXBuildFile; fileRef = D0D4094517CC4A9100326968 /* gsl_block_match.c */; };
+		D0D4094A17CC4A9200326968 /* gsl_vector_match.c in Sources */ = {isa = PBXBuildFile; fileRef = D0D4094717CC4A9200326968 /* gsl_vector_match.c */; };
 		D0F9E4BC17BC42FB00896FAD /* sparse_sa_test.c in Sources */ = {isa = PBXBuildFile; fileRef = D0F9E4B817BC42FB00896FAD /* sparse_sa_test.c */; };
 		D0F9E4BD17BC42FB00896FAD /* qsufsort.c in Sources */ = {isa = PBXBuildFile; fileRef = D0F9E4B917BC42FB00896FAD /* qsufsort.c */; };
 		D0F9E4BE17BC42FB00896FAD /* sparse_sa.c in Sources */ = {isa = PBXBuildFile; fileRef = D0F9E4BA17BC42FB00896FAD /* sparse_sa.c */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXBuildRule section */
+		D07E3F5A17C7567000F1958F /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.rl";
+			fileType = pattern.proxy;
+			isEditable = 1;
+			outputFiles = (
+				"${INPUT_FILE_BASE}.c",
+			);
+			script = "cd \"$INPUT_FILE_DIR\"\n/usr/local/bin/ragel \"$INPUT_FILE_NAME\" -o \"$DERIVED_SOURCES_DIR/$INPUT_FILE_BASE.c\"\n";
+		};
+		D07E3F5B17C756B000F1958F /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.rl";
+			fileType = pattern.proxy;
+			isEditable = 1;
+			outputFiles = (
+				"${INPUT_FILE_BASE}.c",
+			);
+			script = "cd \"$INPUT_FILE_DIR\"\n/usr/local/bin/ragel \"$INPUT_FILE_NAME\" -o \"$DERIVED_SOURCES_DIR/$INPUT_FILE_BASE.c\"\n";
+		};
+/* End PBXBuildRule section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		D005168317B2BF3C00F3EC62 /* CopyFiles */ = {
@@ -96,6 +162,46 @@
 			dstSubfolderSpec = 0;
 			files = (
 				D005172417B469E900F3EC62 /* star.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		D00CC0D717CB33FE004FB745 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				D00CC0DE17CB33FE004FB745 /* alder_test_fastq.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		D00CC0E517CB4506004FB745 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				D00CC0EC17CB4506004FB745 /* alder_test_samtools.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		D07E3F0F17C7082900F1958F /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				D07E3F1617C7082900F1958F /* alder_test_mksa.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		D0D1417317CE672300CD1FD3 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				D0D1417A17CE672300CD1FD3 /* alder_denovo.1 in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
@@ -251,9 +357,111 @@
 		D005195C17B87E0400F3EC62 /* sasearch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sasearch.h; sourceTree = "<group>"; };
 		D005195D17B8ADCB00F3EC62 /* alder_align_reads.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_align_reads.c; sourceTree = "<group>"; };
 		D005195F17B8ADD800F3EC62 /* alder_align_reads.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_align_reads.h; sourceTree = "<group>"; };
+		D00CC0D917CB33FE004FB745 /* alder-test-fastq */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "alder-test-fastq"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D00CC0DB17CB33FE004FB745 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		D00CC0DD17CB33FE004FB745 /* alder_test_fastq.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = alder_test_fastq.1; sourceTree = "<group>"; };
+		D00CC0E717CB4506004FB745 /* alder-test-samtools */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "alder-test-samtools"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D00CC0E917CB4506004FB745 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		D00CC0EB17CB4506004FB745 /* alder_test_samtools.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = alder_test_samtools.1; sourceTree = "<group>"; };
+		D00CC0F117CB4514004FB745 /* bam.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bam.c; sourceTree = "<group>"; };
+		D00CC0F217CB4514004FB745 /* bam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bam.h; sourceTree = "<group>"; };
+		D00CC0F317CB4514004FB745 /* bam2bcf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bam2bcf.c; sourceTree = "<group>"; };
+		D00CC0F417CB4514004FB745 /* bam2bcf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bam2bcf.h; sourceTree = "<group>"; };
+		D00CC0F517CB4514004FB745 /* bam2bcf_indel.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bam2bcf_indel.c; sourceTree = "<group>"; };
+		D00CC0F617CB4514004FB745 /* bam2depth.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bam2depth.c; sourceTree = "<group>"; };
+		D00CC0F717CB4514004FB745 /* bam_aux.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bam_aux.c; sourceTree = "<group>"; };
+		D00CC0F817CB4514004FB745 /* bam_cat.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bam_cat.c; sourceTree = "<group>"; };
+		D00CC0F917CB4514004FB745 /* bam_color.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bam_color.c; sourceTree = "<group>"; };
+		D00CC0FA17CB4514004FB745 /* bam_endian.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bam_endian.h; sourceTree = "<group>"; };
+		D00CC0FB17CB4514004FB745 /* bam_import.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bam_import.c; sourceTree = "<group>"; };
+		D00CC0FC17CB4514004FB745 /* bam_index.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bam_index.c; sourceTree = "<group>"; };
+		D00CC0FD17CB4514004FB745 /* bam_lpileup.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bam_lpileup.c; sourceTree = "<group>"; };
+		D00CC0FE17CB4514004FB745 /* bam_mate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bam_mate.c; sourceTree = "<group>"; };
+		D00CC0FF17CB4514004FB745 /* bam_md.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bam_md.c; sourceTree = "<group>"; };
+		D00CC10017CB4514004FB745 /* bam_pileup.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bam_pileup.c; sourceTree = "<group>"; };
+		D00CC10117CB4514004FB745 /* bam_plcmd.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bam_plcmd.c; sourceTree = "<group>"; };
+		D00CC10217CB4514004FB745 /* bam_reheader.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bam_reheader.c; sourceTree = "<group>"; };
+		D00CC10317CB4514004FB745 /* bam_rmdup.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bam_rmdup.c; sourceTree = "<group>"; };
+		D00CC10417CB4514004FB745 /* bam_rmdupse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bam_rmdupse.c; sourceTree = "<group>"; };
+		D00CC10517CB4514004FB745 /* bam_sort.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bam_sort.c; sourceTree = "<group>"; };
+		D00CC10617CB4514004FB745 /* bam_stat.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bam_stat.c; sourceTree = "<group>"; };
+		D00CC10717CB4514004FB745 /* bam_tview.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bam_tview.c; sourceTree = "<group>"; };
+		D00CC10817CB4514004FB745 /* bam_tview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bam_tview.h; sourceTree = "<group>"; };
+		D00CC10917CB4514004FB745 /* bam_tview_curses.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bam_tview_curses.c; sourceTree = "<group>"; };
+		D00CC10A17CB4514004FB745 /* bam_tview_html.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bam_tview_html.c; sourceTree = "<group>"; };
+		D00CC10B17CB4514004FB745 /* bamshuf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bamshuf.c; sourceTree = "<group>"; };
+		D00CC10C17CB4514004FB745 /* bamtk.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bamtk.c; sourceTree = "<group>"; };
+		D00CC10D17CB4514004FB745 /* bedcov.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bedcov.c; sourceTree = "<group>"; };
+		D00CC10E17CB4514004FB745 /* bedidx.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bedidx.c; sourceTree = "<group>"; };
+		D00CC10F17CB4514004FB745 /* bgzf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bgzf.c; sourceTree = "<group>"; };
+		D00CC11017CB4514004FB745 /* bgzf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bgzf.h; sourceTree = "<group>"; };
+		D00CC11117CB4514004FB745 /* bgzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bgzip.c; sourceTree = "<group>"; };
+		D00CC11217CB4514004FB745 /* cut_target.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cut_target.c; sourceTree = "<group>"; };
+		D00CC11317CB4514004FB745 /* errmod.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = errmod.c; sourceTree = "<group>"; };
+		D00CC11417CB4514004FB745 /* errmod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = errmod.h; sourceTree = "<group>"; };
+		D00CC11517CB4514004FB745 /* faidx.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = faidx.c; sourceTree = "<group>"; };
+		D00CC11617CB4514004FB745 /* faidx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = faidx.h; sourceTree = "<group>"; };
+		D00CC11717CB4514004FB745 /* kaln.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = kaln.c; sourceTree = "<group>"; };
+		D00CC11817CB4514004FB745 /* kaln.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kaln.h; sourceTree = "<group>"; };
+		D00CC11917CB4514004FB745 /* khash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = khash.h; sourceTree = "<group>"; };
+		D00CC11A17CB4514004FB745 /* klist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = klist.h; sourceTree = "<group>"; };
+		D00CC11B17CB4514004FB745 /* knetfile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = knetfile.c; sourceTree = "<group>"; };
+		D00CC11C17CB4514004FB745 /* knetfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = knetfile.h; sourceTree = "<group>"; };
+		D00CC11D17CB4514004FB745 /* kprobaln.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = kprobaln.c; sourceTree = "<group>"; };
+		D00CC11E17CB4514004FB745 /* kprobaln.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kprobaln.h; sourceTree = "<group>"; };
+		D00CC11F17CB4514004FB745 /* kseq.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kseq.h; sourceTree = "<group>"; };
+		D00CC12017CB4514004FB745 /* ksort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ksort.h; sourceTree = "<group>"; };
+		D00CC12117CB4514004FB745 /* kstring.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = kstring.c; sourceTree = "<group>"; };
+		D00CC12217CB4514004FB745 /* kstring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kstring.h; sourceTree = "<group>"; };
+		D00CC12317CB4514004FB745 /* padding.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = padding.c; sourceTree = "<group>"; };
+		D00CC12417CB4514004FB745 /* phase.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = phase.c; sourceTree = "<group>"; };
+		D00CC12517CB4514004FB745 /* razf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = razf.c; sourceTree = "<group>"; };
+		D00CC12617CB4514004FB745 /* razf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = razf.h; sourceTree = "<group>"; };
+		D00CC12717CB4514004FB745 /* razip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = razip.c; sourceTree = "<group>"; };
+		D00CC12817CB4514004FB745 /* sam.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sam.c; sourceTree = "<group>"; };
+		D00CC12917CB4514004FB745 /* sam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sam.h; sourceTree = "<group>"; };
+		D00CC12A17CB4514004FB745 /* sam_header.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sam_header.c; sourceTree = "<group>"; };
+		D00CC12B17CB4514004FB745 /* sam_header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sam_header.h; sourceTree = "<group>"; };
+		D00CC12C17CB4514004FB745 /* sam_view.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sam_view.c; sourceTree = "<group>"; };
+		D00CC12D17CB4514004FB745 /* sample.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sample.c; sourceTree = "<group>"; };
+		D00CC12E17CB4514004FB745 /* sample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sample.h; sourceTree = "<group>"; };
+		D00CC18917CB4548004FB745 /* libbam.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libbam.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		D01E768617CC6F96005AF9FF /* alder_align_alignment.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_align_alignment.h; sourceTree = "<group>"; };
+		D01E768717CC6FA2005AF9FF /* alder_align_alignment.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_align_alignment.c; sourceTree = "<group>"; };
+		D01E76A817CD13DD005AF9FF /* bsafe.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bsafe.c; sourceTree = "<group>"; };
+		D01E76A917CD13DD005AF9FF /* bsafe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bsafe.h; sourceTree = "<group>"; };
+		D01E76AB17CD13DD005AF9FF /* bstraux.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bstraux.c; sourceTree = "<group>"; };
+		D01E76AC17CD13DD005AF9FF /* bstraux.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bstraux.h; sourceTree = "<group>"; };
+		D01E76AE17CD13DD005AF9FF /* bstrlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bstrlib.c; sourceTree = "<group>"; };
+		D01E76AF17CD13DD005AF9FF /* bstrlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bstrlib.h; sourceTree = "<group>"; };
+		D040B55E17C7E9E8004A289B /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		D06E373517CB6DA700B8891B /* samtools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = samtools.h; sourceTree = "<group>"; };
+		D06E373617CBCD9F00B8891B /* samtools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = samtools.c; sourceTree = "<group>"; };
+		D07E3F1117C7082900F1958F /* alder-test-mksa */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "alder-test-mksa"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D07E3F1317C7082900F1958F /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		D07E3F1517C7082900F1958F /* alder_test_mksa.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = alder_test_mksa.1; sourceTree = "<group>"; };
+		D07E3F5517C7561900F1958F /* alder_fasta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_fasta.h; sourceTree = "<group>"; };
+		D07E3F5617C7561900F1958F /* alder_fasta.rh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = alder_fasta.rh; sourceTree = "<group>"; };
+		D07E3F5717C7561900F1958F /* alder_fasta.rl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = alder_fasta.rl; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
+		D07E3F5D17C7587400F1958F /* rngs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rngs.c; sourceTree = "<group>"; };
+		D07E3F5E17C7587400F1958F /* rngs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rngs.h; sourceTree = "<group>"; };
+		D07E3F5F17C7587400F1958F /* rvgs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rvgs.c; sourceTree = "<group>"; };
+		D07E3F6017C7587400F1958F /* rvgs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rvgs.h; sourceTree = "<group>"; };
 		D0A861BD17BDF50C00F1BD3B /* alder_align_pairwise.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_align_pairwise.c; sourceTree = "<group>"; };
 		D0A861BE17BDF50C00F1BD3B /* alder_align_pairwise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_align_pairwise.h; sourceTree = "<group>"; };
 		D0A861C017BDF52E00F1BD3B /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		D0D13AE017CB2E180063B8C6 /* alder_fastq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_fastq.h; sourceTree = "<group>"; };
+		D0D13AE117CB2E1F0063B8C6 /* alder_fastq.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_fastq.c; sourceTree = "<group>"; };
+		D0D13AE317CB2ED20063B8C6 /* kseq.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kseq.h; sourceTree = "<group>"; };
+		D0D1417517CE672300CD1FD3 /* alder-denovo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "alder-denovo"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0D1417717CE672300CD1FD3 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		D0D1417917CE672300CD1FD3 /* alder_denovo.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = alder_denovo.1; sourceTree = "<group>"; };
+		D0D1417E17CE673200CD1FD3 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		D0D1418017CE7BB300CD1FD3 /* alder_denovo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = alder_denovo.pdf; sourceTree = "<group>"; };
+		D0D4094517CC4A9100326968 /* gsl_block_match.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gsl_block_match.c; sourceTree = "<group>"; };
+		D0D4094617CC4A9100326968 /* gsl_block_match.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gsl_block_match.h; sourceTree = "<group>"; };
+		D0D4094717CC4A9200326968 /* gsl_vector_match.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gsl_vector_match.c; sourceTree = "<group>"; };
+		D0D4094817CC4A9200326968 /* gsl_vector_match.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gsl_vector_match.h; sourceTree = "<group>"; };
 		D0F9E4B817BC42FB00896FAD /* sparse_sa_test.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sparse_sa_test.c; sourceTree = "<group>"; };
 		D0F9E4B917BC42FB00896FAD /* qsufsort.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = qsufsort.c; sourceTree = "<group>"; };
 		D0F9E4BA17BC42FB00896FAD /* sparse_sa.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sparse_sa.c; sourceTree = "<group>"; };
@@ -268,10 +476,47 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D06E373A17CC00B700B8891B /* libbam.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		D005171C17B469E900F3EC62 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D00CC0D617CB33FE004FB745 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D00CC0E417CB4506004FB745 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D00CC1A017CB4F9D004FB745 /* libbam.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D00CC18617CB4548004FB745 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D07E3F0E17C7082900F1958F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0D1417217CE672300CD1FD3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -287,6 +532,10 @@
 				D0FBC43917C6DE1600FD871A /* README */,
 				D005168717B2BF3C00F3EC62 /* alder-align */,
 				D005172017B469E900F3EC62 /* star */,
+				D07E3F1217C7082900F1958F /* alder-test-mksa */,
+				D00CC0DA17CB33FE004FB745 /* alder-test-fastq */,
+				D00CC0E817CB4506004FB745 /* alder-test-samtools */,
+				D0D1417617CE672300CD1FD3 /* alder-denovo */,
 				D005168617B2BF3C00F3EC62 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -296,6 +545,11 @@
 			children = (
 				D005168517B2BF3C00F3EC62 /* alder-align */,
 				D005171F17B469E900F3EC62 /* star */,
+				D07E3F1117C7082900F1958F /* alder-test-mksa */,
+				D00CC0D917CB33FE004FB745 /* alder-test-fastq */,
+				D00CC0E717CB4506004FB745 /* alder-test-samtools */,
+				D00CC18917CB4548004FB745 /* libbam.dylib */,
+				D0D1417517CE672300CD1FD3 /* alder-denovo */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -303,12 +557,10 @@
 		D005168717B2BF3C00F3EC62 /* alder-align */ = {
 			isa = PBXGroup;
 			children = (
-				D0FBC43A17C6E13C00FD871A /* test */,
-				D0A861BC17BDF50C00F1BD3B /* palign */,
-				D0F9E4B717BC42FB00896FAD /* mem */,
-				D005194717B87A4A00F3EC62 /* libdivsufsort */,
 				D005168A17B2BF3C00F3EC62 /* alder_align.1 */,
 				D005182C17B50FD000F3EC62 /* alder_align_macro.h */,
+				D005195D17B8ADCB00F3EC62 /* alder_align_reads.c */,
+				D005195F17B8ADD800F3EC62 /* alder_align_reads.h */,
 				D005183A17B5A70800F3EC62 /* alder_block_junction.c */,
 				D005183917B5A6FF00F3EC62 /* alder_block_junction.h */,
 				D005182617B4A6B200F3EC62 /* alder_const.h */,
@@ -318,8 +570,6 @@
 				D005185417B5CC9600F3EC62 /* alder_genome.h */,
 				D00518A717B7855A00F3EC62 /* alder_index_genome.c */,
 				D00518A617B7854800F3EC62 /* alder_index_genome.h */,
-				D005195D17B8ADCB00F3EC62 /* alder_align_reads.c */,
-				D005195F17B8ADD800F3EC62 /* alder_align_reads.h */,
 				D005183D17B5A7C600F3EC62 /* alder_junction.c */,
 				D005183C17B5A7BA00F3EC62 /* alder_junction.h */,
 				D00518AD17B787AB00F3EC62 /* alder_logger.c */,
@@ -328,18 +578,31 @@
 				D005182B17B4B36400F3EC62 /* alder_suffix_array.h */,
 				D005183617B5A4C500F3EC62 /* alder_vector_junction.c */,
 				D005183817B5A4D100F3EC62 /* alder_vector_junction.h */,
+				D01E76A717CD13DD005AF9FF /* bstring */,
+				D07E3F5417C7561900F1958F /* fasta */,
+				D0D13ADF17CB2E050063B8C6 /* fastq */,
 				D005185A17B607B900F3EC62 /* generateGenome.c */,
 				D005185C17B607C400F3EC62 /* generateGenome.h */,
 				D005183F17B5B37D00F3EC62 /* gsl */,
+				D0D4094517CC4A9100326968 /* gsl_block_match.c */,
+				D0D4094617CC4A9100326968 /* gsl_block_match.h */,
 				D005188817B75A8700F3EC62 /* gsl_block_string.c */,
 				D005188917B75A8700F3EC62 /* gsl_block_string.h */,
+				D0D4094717CC4A9200326968 /* gsl_vector_match.c */,
+				D0D4094817CC4A9200326968 /* gsl_vector_match.h */,
 				D005188A17B75A8700F3EC62 /* gsl_vector_string.c */,
 				D005188B17B75A8700F3EC62 /* gsl_vector_string.h */,
+				D005194717B87A4A00F3EC62 /* libdivsufsort */,
 				D005168817B2BF3C00F3EC62 /* main.c */,
+				D0F9E4B717BC42FB00896FAD /* mem */,
 				D005182317B4A3A700F3EC62 /* PackedArray.c */,
 				D005182517B4A3B400F3EC62 /* PackedArray.h */,
+				D0A861BC17BDF50C00F1BD3B /* palign */,
 				D005185E17B609DB00F3EC62 /* Parameters.c */,
 				D005185D17B609D300F3EC62 /* Parameters.h */,
+				D07E3F5C17C7587400F1958F /* rng */,
+				D00CC0F017CB4514004FB745 /* samtools */,
+				D0FBC43A17C6E13C00FD871A /* test */,
 				D005182E17B599C700F3EC62 /* Transcript.c */,
 				D005182D17B599BE00F3EC62 /* Transcript.h */,
 			);
@@ -486,6 +749,7 @@
 		D005194717B87A4A00F3EC62 /* libdivsufsort */ = {
 			isa = PBXGroup;
 			children = (
+				D040B55E17C7E9E8004A289B /* README */,
 				D005195A17B87DF100F3EC62 /* sasearch.c */,
 				D005195C17B87E0400F3EC62 /* sasearch.h */,
 				D005195717B87DBA00F3EC62 /* mksary.c */,
@@ -504,14 +768,169 @@
 			path = libdivsufsort;
 			sourceTree = "<group>";
 		};
+		D00CC0DA17CB33FE004FB745 /* alder-test-fastq */ = {
+			isa = PBXGroup;
+			children = (
+				D00CC0DB17CB33FE004FB745 /* main.c */,
+				D00CC0DD17CB33FE004FB745 /* alder_test_fastq.1 */,
+			);
+			path = "alder-test-fastq";
+			sourceTree = "<group>";
+		};
+		D00CC0E817CB4506004FB745 /* alder-test-samtools */ = {
+			isa = PBXGroup;
+			children = (
+				D00CC0E917CB4506004FB745 /* main.c */,
+				D00CC0EB17CB4506004FB745 /* alder_test_samtools.1 */,
+			);
+			path = "alder-test-samtools";
+			sourceTree = "<group>";
+		};
+		D00CC0F017CB4514004FB745 /* samtools */ = {
+			isa = PBXGroup;
+			children = (
+				D00CC0F117CB4514004FB745 /* bam.c */,
+				D00CC0F217CB4514004FB745 /* bam.h */,
+				D00CC0F317CB4514004FB745 /* bam2bcf.c */,
+				D00CC0F417CB4514004FB745 /* bam2bcf.h */,
+				D00CC0F517CB4514004FB745 /* bam2bcf_indel.c */,
+				D00CC0F617CB4514004FB745 /* bam2depth.c */,
+				D00CC0F717CB4514004FB745 /* bam_aux.c */,
+				D00CC0F817CB4514004FB745 /* bam_cat.c */,
+				D00CC0F917CB4514004FB745 /* bam_color.c */,
+				D00CC0FA17CB4514004FB745 /* bam_endian.h */,
+				D00CC0FB17CB4514004FB745 /* bam_import.c */,
+				D00CC0FC17CB4514004FB745 /* bam_index.c */,
+				D00CC0FD17CB4514004FB745 /* bam_lpileup.c */,
+				D00CC0FE17CB4514004FB745 /* bam_mate.c */,
+				D00CC0FF17CB4514004FB745 /* bam_md.c */,
+				D00CC10017CB4514004FB745 /* bam_pileup.c */,
+				D00CC10117CB4514004FB745 /* bam_plcmd.c */,
+				D00CC10217CB4514004FB745 /* bam_reheader.c */,
+				D00CC10317CB4514004FB745 /* bam_rmdup.c */,
+				D00CC10417CB4514004FB745 /* bam_rmdupse.c */,
+				D00CC10517CB4514004FB745 /* bam_sort.c */,
+				D00CC10617CB4514004FB745 /* bam_stat.c */,
+				D00CC10717CB4514004FB745 /* bam_tview.c */,
+				D00CC10817CB4514004FB745 /* bam_tview.h */,
+				D00CC10917CB4514004FB745 /* bam_tview_curses.c */,
+				D00CC10A17CB4514004FB745 /* bam_tview_html.c */,
+				D00CC10B17CB4514004FB745 /* bamshuf.c */,
+				D00CC10C17CB4514004FB745 /* bamtk.c */,
+				D00CC10D17CB4514004FB745 /* bedcov.c */,
+				D00CC10E17CB4514004FB745 /* bedidx.c */,
+				D00CC10F17CB4514004FB745 /* bgzf.c */,
+				D00CC11017CB4514004FB745 /* bgzf.h */,
+				D00CC11117CB4514004FB745 /* bgzip.c */,
+				D00CC11217CB4514004FB745 /* cut_target.c */,
+				D00CC11317CB4514004FB745 /* errmod.c */,
+				D00CC11417CB4514004FB745 /* errmod.h */,
+				D00CC11517CB4514004FB745 /* faidx.c */,
+				D00CC11617CB4514004FB745 /* faidx.h */,
+				D00CC11717CB4514004FB745 /* kaln.c */,
+				D00CC11817CB4514004FB745 /* kaln.h */,
+				D00CC11917CB4514004FB745 /* khash.h */,
+				D00CC11A17CB4514004FB745 /* klist.h */,
+				D00CC11B17CB4514004FB745 /* knetfile.c */,
+				D00CC11C17CB4514004FB745 /* knetfile.h */,
+				D00CC11D17CB4514004FB745 /* kprobaln.c */,
+				D00CC11E17CB4514004FB745 /* kprobaln.h */,
+				D00CC11F17CB4514004FB745 /* kseq.h */,
+				D00CC12017CB4514004FB745 /* ksort.h */,
+				D00CC12117CB4514004FB745 /* kstring.c */,
+				D00CC12217CB4514004FB745 /* kstring.h */,
+				D00CC12317CB4514004FB745 /* padding.c */,
+				D00CC12417CB4514004FB745 /* phase.c */,
+				D00CC12517CB4514004FB745 /* razf.c */,
+				D00CC12617CB4514004FB745 /* razf.h */,
+				D00CC12717CB4514004FB745 /* razip.c */,
+				D00CC12817CB4514004FB745 /* sam.c */,
+				D00CC12917CB4514004FB745 /* sam.h */,
+				D00CC12A17CB4514004FB745 /* sam_header.c */,
+				D00CC12B17CB4514004FB745 /* sam_header.h */,
+				D00CC12C17CB4514004FB745 /* sam_view.c */,
+				D00CC12D17CB4514004FB745 /* sample.c */,
+				D00CC12E17CB4514004FB745 /* sample.h */,
+				D06E373617CBCD9F00B8891B /* samtools.c */,
+				D06E373517CB6DA700B8891B /* samtools.h */,
+			);
+			path = samtools;
+			sourceTree = "<group>";
+		};
+		D01E76A717CD13DD005AF9FF /* bstring */ = {
+			isa = PBXGroup;
+			children = (
+				D01E76A817CD13DD005AF9FF /* bsafe.c */,
+				D01E76A917CD13DD005AF9FF /* bsafe.h */,
+				D01E76AB17CD13DD005AF9FF /* bstraux.c */,
+				D01E76AC17CD13DD005AF9FF /* bstraux.h */,
+				D01E76AE17CD13DD005AF9FF /* bstrlib.c */,
+				D01E76AF17CD13DD005AF9FF /* bstrlib.h */,
+			);
+			path = bstring;
+			sourceTree = "<group>";
+		};
+		D07E3F1217C7082900F1958F /* alder-test-mksa */ = {
+			isa = PBXGroup;
+			children = (
+				D07E3F1317C7082900F1958F /* main.c */,
+				D07E3F1517C7082900F1958F /* alder_test_mksa.1 */,
+			);
+			path = "alder-test-mksa";
+			sourceTree = "<group>";
+		};
+		D07E3F5417C7561900F1958F /* fasta */ = {
+			isa = PBXGroup;
+			children = (
+				D07E3F5517C7561900F1958F /* alder_fasta.h */,
+				D07E3F5617C7561900F1958F /* alder_fasta.rh */,
+				D07E3F5717C7561900F1958F /* alder_fasta.rl */,
+			);
+			path = fasta;
+			sourceTree = "<group>";
+		};
+		D07E3F5C17C7587400F1958F /* rng */ = {
+			isa = PBXGroup;
+			children = (
+				D07E3F5D17C7587400F1958F /* rngs.c */,
+				D07E3F5E17C7587400F1958F /* rngs.h */,
+				D07E3F5F17C7587400F1958F /* rvgs.c */,
+				D07E3F6017C7587400F1958F /* rvgs.h */,
+			);
+			path = rng;
+			sourceTree = "<group>";
+		};
 		D0A861BC17BDF50C00F1BD3B /* palign */ = {
 			isa = PBXGroup;
 			children = (
 				D0A861C017BDF52E00F1BD3B /* README */,
 				D0A861BD17BDF50C00F1BD3B /* alder_align_pairwise.c */,
 				D0A861BE17BDF50C00F1BD3B /* alder_align_pairwise.h */,
+				D01E768617CC6F96005AF9FF /* alder_align_alignment.h */,
+				D01E768717CC6FA2005AF9FF /* alder_align_alignment.c */,
 			);
 			path = palign;
+			sourceTree = "<group>";
+		};
+		D0D13ADF17CB2E050063B8C6 /* fastq */ = {
+			isa = PBXGroup;
+			children = (
+				D0D13AE317CB2ED20063B8C6 /* kseq.h */,
+				D0D13AE017CB2E180063B8C6 /* alder_fastq.h */,
+				D0D13AE117CB2E1F0063B8C6 /* alder_fastq.c */,
+			);
+			path = fastq;
+			sourceTree = "<group>";
+		};
+		D0D1417617CE672300CD1FD3 /* alder-denovo */ = {
+			isa = PBXGroup;
+			children = (
+				D0D1418017CE7BB300CD1FD3 /* alder_denovo.pdf */,
+				D0D1417E17CE673200CD1FD3 /* README */,
+				D0D1417717CE672300CD1FD3 /* main.c */,
+				D0D1417917CE672300CD1FD3 /* alder_denovo.1 */,
+			);
+			path = "alder-denovo";
 			sourceTree = "<group>";
 		};
 		D0F9E4B717BC42FB00896FAD /* mem */ = {
@@ -536,6 +955,16 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		D00CC18717CB4548004FB745 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
 		D005168417B2BF3C00F3EC62 /* alder-align */ = {
 			isa = PBXNativeTarget;
@@ -546,6 +975,7 @@
 				D005168317B2BF3C00F3EC62 /* CopyFiles */,
 			);
 			buildRules = (
+				D07E3F5A17C7567000F1958F /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
@@ -571,6 +1001,92 @@
 			productReference = D005171F17B469E900F3EC62 /* star */;
 			productType = "com.apple.product-type.tool";
 		};
+		D00CC0D817CB33FE004FB745 /* alder-test-fastq */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D00CC0E117CB33FE004FB745 /* Build configuration list for PBXNativeTarget "alder-test-fastq" */;
+			buildPhases = (
+				D00CC0D517CB33FE004FB745 /* Sources */,
+				D00CC0D617CB33FE004FB745 /* Frameworks */,
+				D00CC0D717CB33FE004FB745 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "alder-test-fastq";
+			productName = "alder-test-fastq";
+			productReference = D00CC0D917CB33FE004FB745 /* alder-test-fastq */;
+			productType = "com.apple.product-type.tool";
+		};
+		D00CC0E617CB4506004FB745 /* alder-test-samtools */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D00CC0ED17CB4506004FB745 /* Build configuration list for PBXNativeTarget "alder-test-samtools" */;
+			buildPhases = (
+				D00CC0E317CB4506004FB745 /* Sources */,
+				D00CC0E417CB4506004FB745 /* Frameworks */,
+				D00CC0E517CB4506004FB745 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "alder-test-samtools";
+			productName = "alder-test-samtools";
+			productReference = D00CC0E717CB4506004FB745 /* alder-test-samtools */;
+			productType = "com.apple.product-type.tool";
+		};
+		D00CC18817CB4548004FB745 /* bam */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D00CC18A17CB4548004FB745 /* Build configuration list for PBXNativeTarget "bam" */;
+			buildPhases = (
+				D00CC18517CB4548004FB745 /* Sources */,
+				D00CC18617CB4548004FB745 /* Frameworks */,
+				D00CC18717CB4548004FB745 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = bam;
+			productName = bam;
+			productReference = D00CC18917CB4548004FB745 /* libbam.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+		D07E3F1017C7082900F1958F /* alder-test-mksa */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D07E3F1917C7082900F1958F /* Build configuration list for PBXNativeTarget "alder-test-mksa" */;
+			buildPhases = (
+				D07E3F0D17C7082900F1958F /* Sources */,
+				D07E3F0E17C7082900F1958F /* Frameworks */,
+				D07E3F0F17C7082900F1958F /* CopyFiles */,
+			);
+			buildRules = (
+				D07E3F5B17C756B000F1958F /* PBXBuildRule */,
+			);
+			dependencies = (
+			);
+			name = "alder-test-mksa";
+			productName = "alder-test-mksa";
+			productReference = D07E3F1117C7082900F1958F /* alder-test-mksa */;
+			productType = "com.apple.product-type.tool";
+		};
+		D0D1417417CE672300CD1FD3 /* alder-denovo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D0D1417D17CE672300CD1FD3 /* Build configuration list for PBXNativeTarget "alder-denovo" */;
+			buildPhases = (
+				D0D1417117CE672300CD1FD3 /* Sources */,
+				D0D1417217CE672300CD1FD3 /* Frameworks */,
+				D0D1417317CE672300CD1FD3 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "alder-denovo";
+			productName = "alder-denovo";
+			productReference = D0D1417517CE672300CD1FD3 /* alder-denovo */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -594,6 +1110,11 @@
 			targets = (
 				D005168417B2BF3C00F3EC62 /* alder-align */,
 				D005171E17B469E900F3EC62 /* star */,
+				D07E3F1017C7082900F1958F /* alder-test-mksa */,
+				D00CC0D817CB33FE004FB745 /* alder-test-fastq */,
+				D00CC0E617CB4506004FB745 /* alder-test-samtools */,
+				D00CC18817CB4548004FB745 /* bam */,
+				D0D1417417CE672300CD1FD3 /* alder-denovo */,
 			);
 		};
 /* End PBXProject section */
@@ -617,18 +1138,22 @@
 				D00518A817B7855A00F3EC62 /* alder_index_genome.c in Sources */,
 				D00518AE17B787AB00F3EC62 /* alder_logger.c in Sources */,
 				D00518AF17B791BC00F3EC62 /* Parameters.c in Sources */,
-				D005195017B87A4A00F3EC62 /* divsufsort.c in Sources */,
-				D005195117B87A4A00F3EC62 /* sssort.c in Sources */,
-				D005195217B87A4A00F3EC62 /* trsort.c in Sources */,
-				D005195317B87A4A00F3EC62 /* utils.c in Sources */,
-				D005195517B87B7400F3EC62 /* suftest.c in Sources */,
-				D005195817B87DBA00F3EC62 /* mksary.c in Sources */,
-				D005195B17B87DF200F3EC62 /* sasearch.c in Sources */,
 				D005195E17B8ADCD00F3EC62 /* alder_align_reads.c in Sources */,
 				D0F9E4BC17BC42FB00896FAD /* sparse_sa_test.c in Sources */,
 				D0F9E4BD17BC42FB00896FAD /* qsufsort.c in Sources */,
 				D0F9E4BE17BC42FB00896FAD /* sparse_sa.c in Sources */,
 				D0A861BF17BDF50C00F1BD3B /* alder_align_pairwise.c in Sources */,
+				D07E3F5817C7562800F1958F /* alder_fasta.rl in Sources */,
+				D07E3F6117C7587400F1958F /* rngs.c in Sources */,
+				D07E3F6317C7587400F1958F /* rvgs.c in Sources */,
+				D0D13AE217CB2E1F0063B8C6 /* alder_fastq.c in Sources */,
+				D0D4094917CC4A9200326968 /* gsl_block_match.c in Sources */,
+				D0D4094A17CC4A9200326968 /* gsl_vector_match.c in Sources */,
+				D01E768517CC6944005AF9FF /* samtools.c in Sources */,
+				D01E768817CC6FA2005AF9FF /* alder_align_alignment.c in Sources */,
+				D01E76B317CD13DD005AF9FF /* bsafe.c in Sources */,
+				D01E76B517CD13DD005AF9FF /* bstraux.c in Sources */,
+				D01E76B617CD13DD005AF9FF /* bstrlib.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -680,6 +1205,72 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D00CC0D517CB33FE004FB745 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D00CC0DC17CB33FE004FB745 /* main.c in Sources */,
+				D00CC0E217CB3405004FB745 /* alder_fastq.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D00CC0E317CB4506004FB745 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D00CC0EA17CB4506004FB745 /* main.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D00CC18517CB4548004FB745 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D00CC18D17CB45CC004FB745 /* bam.c in Sources */,
+				D00CC18E17CB45E5004FB745 /* bgzf.c in Sources */,
+				D00CC18F17CB4615004FB745 /* kstring.c in Sources */,
+				D00CC19017CB4621004FB745 /* bam_aux.c in Sources */,
+				D00CC19117CB4628004FB745 /* bam_import.c in Sources */,
+				D00CC19217CB4631004FB745 /* sam.c in Sources */,
+				D00CC19317CB463B004FB745 /* bam_index.c in Sources */,
+				D00CC19417CB463E004FB745 /* bam_pileup.c in Sources */,
+				D00CC19517CB4646004FB745 /* bam_lpileup.c in Sources */,
+				D00CC19617CB4654004FB745 /* bam_md.c in Sources */,
+				D00CC19717CB4660004FB745 /* razf.c in Sources */,
+				D00CC19817CB466A004FB745 /* faidx.c in Sources */,
+				D00CC19917CB4678004FB745 /* bedidx.c in Sources */,
+				D00CC19A17CB4680004FB745 /* knetfile.c in Sources */,
+				D00CC19B17CB4692004FB745 /* bam_sort.c in Sources */,
+				D00CC19C17CB46A6004FB745 /* sam_header.c in Sources */,
+				D00CC19D17CB46B0004FB745 /* bam_reheader.c in Sources */,
+				D00CC19E17CB46B8004FB745 /* kprobaln.c in Sources */,
+				D00CC19F17CB46C2004FB745 /* bam_cat.c in Sources */,
+				D06E373917CBDD7600B8891B /* sam_view.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D07E3F0D17C7082900F1958F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D07E3F1417C7082900F1958F /* main.c in Sources */,
+				D07E3F5317C74F3C00F1958F /* sparse_sa.c in Sources */,
+				D07E3F5917C7562A00F1958F /* alder_fasta.rl in Sources */,
+				D07E3F6217C7587400F1958F /* rngs.c in Sources */,
+				D07E3F6417C7587400F1958F /* rvgs.c in Sources */,
+				D07E3F6517C7741400F1958F /* qsufsort.c in Sources */,
+				D040B57C17CB1F90004A289B /* alder_logger.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0D1417117CE672300CD1FD3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0D1417817CE672300CD1FD3 /* main.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
@@ -711,7 +1302,20 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = (
+					"-I/usr/local/Cellar/gsl/1.15/include",
+					"-I/Users/goshng/usr/local/include",
+					"-DHAVE_CONFIG_H",
+				);
+				OTHER_LDFLAGS = (
+					/Users/goshng/usr/local/lib/libnglogc.a,
+					"-L/usr/local/Cellar/gsl/1.15/lib",
+					"-lgsl",
+					"-lgslcblas",
+					"-lz",
+				);
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = "${SOURCE_ROOT}";
 			};
 			name = Debug;
 		};
@@ -736,7 +1340,20 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				OTHER_CFLAGS = (
+					"-I/usr/local/Cellar/gsl/1.15/include",
+					"-I/Users/goshng/usr/local/include",
+					"-DHAVE_CONFIG_H",
+				);
+				OTHER_LDFLAGS = (
+					/Users/goshng/usr/local/lib/libnglogc.a,
+					"-L/usr/local/Cellar/gsl/1.15/lib",
+					"-lgsl",
+					"-lgslcblas",
+					"-lz",
+				);
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = "${SOURCE_ROOT}";
 			};
 			name = Release;
 		};
@@ -751,8 +1368,11 @@
 				OTHER_LDFLAGS = (
 					/Users/goshng/usr/local/lib/libnglogc.a,
 					"-L/usr/local/Cellar/gsl/1.15/lib",
+					"-L$HOME/usr/local/lib",
 					"-lgsl",
 					"-lgslcblas",
+					"-lz",
+					"-ldivsufsort64",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -769,8 +1389,11 @@
 				OTHER_LDFLAGS = (
 					/Users/goshng/usr/local/lib/libnglogc.a,
 					"-L/usr/local/Cellar/gsl/1.15/lib",
+					"-L$HOME/usr/local/lib",
 					"-lgsl",
 					"-lgslcblas",
+					"-lz",
+					"-ldivsufsort64",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -808,6 +1431,125 @@
 			};
 			name = Release;
 		};
+		D00CC0DF17CB33FE004FB745 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D00CC0E017CB33FE004FB745 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		D00CC0EE17CB4506004FB745 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D00CC0EF17CB4506004FB745 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		D00CC18B17CB4548004FB745 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				LD_DYLIB_INSTALL_NAME = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(EXECUTABLE_PATH)";
+				OTHER_CFLAGS = (
+					"-I/usr/local/Cellar/gsl/1.15/include",
+					"-I/Users/goshng/usr/local/include",
+					"-DHAVE_CONFIG_H",
+					"-D_FILE_OFFSET_BITS=64",
+					"-D_LARGEFILE64_SOURCE",
+					"-D_USE_KNETFILE",
+					"-D_CURSES_LIB=0",
+					"-I.",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D00CC18C17CB4548004FB745 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				OTHER_CFLAGS = (
+					"-I/usr/local/Cellar/gsl/1.15/include",
+					"-I/Users/goshng/usr/local/include",
+					"-DHAVE_CONFIG_H",
+					"-D_FILE_OFFSET_BITS=64",
+					"-D_LARGEFILE64_SOURCE",
+					"-D_USE_KNETFILE",
+					"-D_CURSES_LIB=0",
+					"-I.",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		D07E3F1717C7082900F1958F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_CFLAGS = (
+					"-I/usr/local/Cellar/gsl/1.15/include",
+					"-I/Users/goshng/usr/local/include",
+					"-DHAVE_CONFIG_H",
+				);
+				OTHER_LDFLAGS = (
+					/Users/goshng/usr/local/lib/libnglogc.a,
+					"-L/usr/local/Cellar/gsl/1.15/lib",
+					"-L$HOME/usr/local/lib",
+					"-lgsl",
+					"-lgslcblas",
+					"-ldivsufsort64",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D07E3F1817C7082900F1958F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_CFLAGS = (
+					"-I/usr/local/Cellar/gsl/1.15/include",
+					"-I/Users/goshng/usr/local/include",
+					"-DHAVE_CONFIG_H",
+				);
+				OTHER_LDFLAGS = (
+					/Users/goshng/usr/local/lib/libnglogc.a,
+					"-L/usr/local/Cellar/gsl/1.15/lib",
+					"-L$HOME/usr/local/lib",
+					"-lgsl",
+					"-lgslcblas",
+					"-ldivsufsort64",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		D0D1417B17CE672300CD1FD3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D0D1417C17CE672300CD1FD3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -837,6 +1579,50 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		D00CC0E117CB33FE004FB745 /* Build configuration list for PBXNativeTarget "alder-test-fastq" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D00CC0DF17CB33FE004FB745 /* Debug */,
+				D00CC0E017CB33FE004FB745 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D00CC0ED17CB4506004FB745 /* Build configuration list for PBXNativeTarget "alder-test-samtools" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D00CC0EE17CB4506004FB745 /* Debug */,
+				D00CC0EF17CB4506004FB745 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D00CC18A17CB4548004FB745 /* Build configuration list for PBXNativeTarget "bam" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D00CC18B17CB4548004FB745 /* Debug */,
+				D00CC18C17CB4548004FB745 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D07E3F1917C7082900F1958F /* Build configuration list for PBXNativeTarget "alder-test-mksa" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D07E3F1717C7082900F1958F /* Debug */,
+				D07E3F1817C7082900F1958F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D0D1417D17CE672300CD1FD3 /* Build configuration list for PBXNativeTarget "alder-denovo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0D1417B17CE672300CD1FD3 /* Debug */,
+				D0D1417C17CE672300CD1FD3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

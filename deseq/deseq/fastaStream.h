@@ -9,6 +9,18 @@
 #ifndef deseq_fastaStream_h
 #define deseq_fastaStream_h
 
+#undef __BEGIN_DECLS
+#undef __END_DECLS
+#ifdef __cplusplus
+# define __BEGIN_DECLS extern "C" {
+# define __END_DECLS }
+#else
+# define __BEGIN_DECLS /* empty */
+# define __END_DECLS /* empty */
+#endif
+
+__BEGIN_DECLS
+
 ////////////////////////////////////////////////////////////////////////////////
 // Usage
 //    struct fastaFormat fsm;
@@ -36,5 +48,6 @@ int fastaStreamInitialize( struct fastaFormat *fsm, FILE *fin );
 int fastaStreamNext( struct fastaFormat *fsm, FILE *fin );
 int fastaStreamFinalize( struct fastaFormat *fsm );
 
+__END_DECLS
 
 #endif

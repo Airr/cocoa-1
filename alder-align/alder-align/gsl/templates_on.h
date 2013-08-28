@@ -183,6 +183,31 @@
 #define ONE 1UL
 #define UNSIGNED 1
 
+#elif defined(BASE_ALDER_STRING)
+#define BASE string
+#define SHORT string
+#define ATOMIC string
+#define MULTIPLICITY 1
+#define IN_FORMAT "%s"
+#define OUT_FORMAT "%s"
+#define ATOMIC_IO ATOMIC
+#define ZERO NULL
+#define ONE NULL
+#define UNSIGNED 1
+
+#elif defined(BASE_ALDER_MATCH)
+#define BASE alder_match_t
+#define SHORT match
+#define ATOMIC alder_match_t
+#define MULTIPLICITY 1
+#define IN_FORMAT "%s"
+#define OUT_FORMAT "%s"
+#define ATOMIC_IO ATOMIC
+#define ZERO NULL
+#define ONE NULL
+#define UNSIGNED 1
+
+
 #elif defined(BASE_CHAR)
 #define BASE char
 #define SHORT char

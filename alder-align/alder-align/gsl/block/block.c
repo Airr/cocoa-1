@@ -100,4 +100,10 @@
 #include "templates_off.h"
 #undef  BASE_ALDER_STRING
 
+#define BASE_ALDER_MATCH
+#include "templates_on.h"
+#include "block_source.c"
+#include "templates_off.h"
+#undef  BASE_ALDER_MATCH
+
 

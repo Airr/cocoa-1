@@ -6,3 +6,68 @@ A rough procedure of the alignment
 4. Locate regions in the genome to perform pairwise alignment between the genome and the read.
 5. Perform the pairwise alignment using Dialign.
 6. Output the result in SAM file.
+
+Step 1. Suffix Array
+--------------------
+We need to combine libdivsufsort and mem, and find all possible MEMs for each
+read of a data set.
+
+alder_radixStep(sparseSA, t_new, intSA, &bucketNr, BucketBegin, 0, N/K-1, 0); 
+suffixsort(t_new_int, intSA_int, (int)(N/K), bucketNr_int, 0);
+alder_computeLCP(sparseSA);  // SA + ISA -> LCP
+
+Step 3. Locate MEMs
+-------------------
+Two arguments include sparseSA, f->seq->seq.s, which are used by
+functions including alder_MEM, alder_findMEM, alder_traverse, alder_collectMEMs,
+alder_find_Lmaximal, and alder_print_match. The last function prints out ref,
+query, and length. Use the place where alder_print_match functions are called
+for adding match or MEMs to alder_vector_match.
+
+Step 4. Locate regions for pairwise alignment
+---------------------------------------------
+Now, we have a list of MEMs. We need to find candidate regions in the reference
+genome that could be aligned with some of the MEMs. We need to know a 
+contiguous region in the reference genome. The region have MEMs
+
+region: position and length. (We ignore the possibility of crossing a border
+between two chromosomes. We will filter those out if we have those.)
+A region in the reference genome is delineated by MEMs. MEMs that are associated
+with a region would be anchored in the pairwise sequence alignment; MEM parts
+in the pairwise sequence alignment are not realigned.
+Query is the read sequence. We need to know where are the MEMs in the query and
+the region sequence. 
+
+There are ways of find candidate regions with MEMs anchored. This is just one
+ways. This cannot capture complicated alignment of reads. 
+1. We are given a set of intervals of query MEMs as input, say set I.
+2. Extend the intervals in the set I to either side by 25%. Let's call it I^e.
+3. Reduce the extended intervals, or create a set of intervals by mering the
+extended intervals. We call the set of those reduced intervals I^r.
+4. Assign query MEMs to the reduced interval set so that we know which query
+MEM is situated within which reduced interval. In other words, find all i in I
+such that i < r for a particular r in I^r. We call i < r when interval i is 
+located in interval r.
+
+MEM has position in the query sequence and the length. We need just position and
+the length of the query sequence. Then, we can find the set I^e. We need to find
+a union of the interval set I^e. How can we find the union of an interval set?
+Once we have the union interval set, we can easily assign query MEMs to one of
+the union interval set using interval tree or segment tree. We just pick a point
+in a query MEM and locate interval that overlaps the point. The problem is that 
+I could not implement the union tree (Cheng and Janardan 91) because it was 
+obvious to implement it. So, I decided to make a union array that is not dynamic
+but static; we add a new interval to the set of union interval set, and we 
+cannot remove any added intervals in the union set. The union tree is a dynamic
+version of this union array.
+
+
+Lectures about suffix array
+---------------------------
+http://www.imsc.res.in/~vraman/adsjan2012/suffix.pdf
+http://stackoverflow.com/questions/7857674/whats-the-current-state-of-the-art-suffix-array-construction-algorithm
+http://goanna.cs.rmit.edu.au/~sjp/awoca2006.pdf
+
+libdivsufsort
+-------------
+cmake -DCMAKE_BUILD_TYPE="Release" -DCMAKE_INSTALL_PREFIX="$HOME/usr/local" -DBUILD_DIVSUFSORT64:BOOL=ON ..

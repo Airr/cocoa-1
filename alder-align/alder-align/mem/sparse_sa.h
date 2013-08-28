@@ -12,6 +12,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <gsl/gsl_vector.h>
+#include "alder-align/fasta/alder_fasta.h"
+#include "../gsl_vector_match.h"
 
 #undef __BEGIN_DECLS
 #undef __END_DECLS
@@ -44,45 +46,35 @@ typedef struct
 }
 alder_lcp_t;
 
-// Match find by findMEM.
+/** Sparse suffix array
+ *
+ */
 typedef struct
 {
-    uint64_t ref;   // position in reference sequence
-    uint64_t query; // position in query
-    uint64_t len;   // length of match
-}
-alder_match_t;
-
-// This needs implementation.
-typedef struct
-{
-    size_t size;
-    size_t stride;
-    unsigned long *data;
-    gsl_block_ulong *block;
-    int owner;
-}
-alder_vector_match;
-
-typedef struct
-{
-    char *descr;
-    gsl_vector_ulong startpos;
-    bool _4column;
-
-    uint64_t K;
-    uint64_t N;
-    uint64_t logN;
-    uint64_t NKm1;
-    char *S;
-    uint64_t *SA;
-    uint64_t *ISA;
-    uint64_t *LCP;
+    int64_t K;    ///< Sparse suffix array stores every K-th suffix.
+    int64_t N;    ///< Length of the text with dollar signs.
+    int64_t logN; ///< = floor[log_2 N] - convenient members.
+    int64_t NKm1; ///< = N/K-1 - convenient members.
+    int64_t *SA;  ///< Suffix array.
+    int64_t *ISA; ///< Inverse suffix array.
+    int64_t *LCP; ///< Longest common prefix.
+    fasta_t  *fS;  ///< Data information
+    char     *S;   ///< (No ownership) Pointer to a string in fS
 }
 alder_sparse_sa_t;
 
-// alder_sparse_sa_t
-alder_sparse_sa_t *alder_sparse_sa_alloc (const char *ref, uint64_t K);
+/** Creates a sparse K-th suffix array using a text (ref).
+ *  \param ref Reference text in string
+ *  \param K Sparseness in a positive integer
+ */
+alder_sparse_sa_t *alder_sparse_sa_alloc (const char *ref, int64_t K);
+
+/** Creates a sparse K-th suffix array using a text in a file.
+ *  \param ref Filename
+ *  \param K Sparseness in a positive integer
+ */
+alder_sparse_sa_t *alder_sparse_sa_alloc_file (const char *ref, int64_t K);
+
 void alder_sparse_sa_free (alder_sparse_sa_t *o);
 void query_thread(alder_sparse_sa_t *o, const char *P);
 
@@ -90,11 +82,11 @@ void query_thread(alder_sparse_sa_t *o, const char *P);
 void alder_computeLCP(alder_sparse_sa_t *o);
 
 // Radix sort required to construct transformed text for sparse SA construction.
-int alder_radixStep2(alder_sparse_sa_t *o, uint64_t *t_new, uint64_t *SA,
-                    uint64_t *bucketNr_, uint64_t *BucketBegin,
-                    uint64_t l, uint64_t r, uint64_t h);
-int alder_radixStep(alder_sparse_sa_t *o, uint64_t *t_new, uint64_t *SA,
-                    long *bucketNr_, long *BucketBegin, long l, long r, long h);
+int alder_radixStep(alder_sparse_sa_t *o, uint8_t *t_new, int64_t *SA,
+                     uint16_t *bucketNr_, int64_t *BucketBegin,
+                     int64_t l, int64_t r, int64_t h);
+int alder_radixStep2(alder_sparse_sa_t *o, uint8_t *t_new, int64_t *SA,
+                     long *bucketNr_, long *BucketBegin, long l, long r, long h);
 
 
 // Prints match to cout.
@@ -132,7 +124,7 @@ bool alder_expand_link(alder_sparse_sa_t *o, alder_interval_t *link);
 // length within K steps.
 void alder_find_Lmaximal(alder_sparse_sa_t *o, const char *P,
                          uint64_t prefix, uint64_t i, uint64_t len,
-                         alder_vector_match *matches, uint64_t min_len, 
+                         gsl_vector_match *matches, uint64_t min_len,
                          bool print);
 
 // Given an interval where the given prefix is matched up to a
@@ -140,15 +132,15 @@ void alder_find_Lmaximal(alder_sparse_sa_t *o, const char *P,
 void alder_collectMEMs(alder_sparse_sa_t *o,
                        const char *P, uint64_t prefix,
                        alder_interval_t *mli, alder_interval_t *xmi,
-                       alder_vector_match *matches, uint64_t min_len,
+                       gsl_vector_match *matches, uint64_t min_len,
                        bool print);
 
 // Find all MEMs given a prefix pattern offset k.
 int alder_findMEM(alder_sparse_sa_t *o, uint64_t k, const char *P,
-                  alder_vector_match *matches, uint64_t min_len, bool print);
+                  gsl_vector_match *matches, uint64_t min_len, bool print);
 
 // Find Maximal Exact Matches (MEMs)
-int alder_MEM(alder_sparse_sa_t *o, const char *P, alder_vector_match *matches,
+int alder_MEM(alder_sparse_sa_t *o, const char *P, gsl_vector_match *matches,
               uint64_t min_len, bool print, int num_threads);
 
 // adler_interval_t

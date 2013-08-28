@@ -14,7 +14,13 @@
 #include <string.h>
 #include <gsl/gsl_errno.h>
 #include <assert.h>
+#include <nglogc/log.h>
+#include "alder_logger.h"
 #include "sparse_sa.h"
+#include "alder-align/fasta/alder_fasta.h"
+#include "/Users/goshng/usr/local/include/divsufsort64.h"
+
+static int64_t sMaxK = 3; ///< This must be smaller than sSizeCapacity in "alder_fasta.rl"
 
 #define BUCKETBEGINSIZE 256
 #define MAX(a,b)  ((a) > (b) ? (a) : (b))
@@ -23,7 +29,7 @@
 // The function is defined in qsufsort.c.
 void suffixsort(int *x, int *p, int n, int k, int l);
 
-alder_sparse_sa_t *alder_sparse_sa_alloc (const char *ref, uint64_t K)
+alder_sparse_sa_t *alder_sparse_sa_alloc(const char *ref, int64_t K)
 {
     assert(sizeof(size_t) == sizeof(uint64_t));
     
@@ -214,9 +220,227 @@ alder_sparse_sa_t *alder_sparse_sa_alloc (const char *ref, uint64_t K)
     return sparseSA;
 }
 
+// Builds a suffix tree using a fasta file with sequences.
+alder_sparse_sa_t *alder_sparse_sa_alloc_file (const char *ref, int64_t K)
+{
+    assert(sizeof(size_t) == sizeof(int64_t));
+    
+    alder_sparse_sa_t *sparseSA = malloc(sizeof(alder_sparse_sa_t));
+    if (sparseSA == NULL) {
+        GSL_ERROR_VAL("sparse sa alloc failed", GSL_ENOMEM, NULL);
+    }
+    
+    // Initialize member fS
+    sparseSA->fS = alder_fasta_alloc(ref);
+    if (sparseSA->fS == NULL) {
+        free(sparseSA);
+        GSL_ERROR_VAL("sparse sa alloc failed", GSL_ENOMEM, NULL);
+    }
+    sparseSA->S = sparseSA->fS->data;
+    int64_t S_length = sparseSA->fS->numberOfBase;
+    
+    // Increase string length so divisible by K.
+    // Don't forget to count $ termination character.
+    uint64_t appendK = S_length % K == 0 ? K : K - S_length % K;
+    if (sparseSA->fS->sizeCapacity < S_length + appendK + 1) {
+        alder_fasta_free(sparseSA->fS);
+        free(sparseSA);
+        GSL_ERROR_VAL("sparse sa alloc failed: increase sSizeCapacity"
+                      "in alder_fasta.rl",
+                      GSL_ENOMEM, NULL);
+    }
+    assert(appendK > 0);
+    for(uint64_t i = 0; i < appendK; i++) {
+        sparseSA->fS->data[sparseSA->fS->numberOfBase + i] = '$';
+    }
+    sparseSA->fS->data[sparseSA->fS->numberOfBase + appendK] = '\0';
+    sparseSA->fS->sizeOfDataWithDollar = sparseSA->fS->numberOfBase + appendK;
+    
+    // Initialize K, N, logN, NKm1.
+    sparseSA->K = K;
+    sparseSA->N = sparseSA->fS->sizeOfDataWithDollar;
+    uint64_t N = sparseSA->N;
+    sparseSA->logN = (uint64_t)ceil(log2((double)(N/K)));
+    sparseSA->NKm1 = N/K-1;
+    assert(N%K==0);
+    
+    assert(K > 1);
+    if (K == 0 || K == 1 || K > sMaxK) {
+        alder_fasta_free(sparseSA->fS);
+        free(sparseSA);
+        GSL_ERROR_VAL("sparse sa alloc failed", GSL_ENOMEM, NULL);
+    }
+    
+    // Initialize SA, and ISA
+    if(K > 1) {
+        uint16_t bucketNr = 1;
+        int64_t *intSA = malloc((N/K+1)*sizeof(int64_t));
+        if (intSA == NULL) {
+            alder_fasta_free(sparseSA->fS);
+            free(sparseSA);
+            GSL_ERROR_VAL("sparse sa alloc failed", GSL_ENOMEM, NULL);
+        }
+        for(uint64_t i = 0; i <= N/K; i++) intSA[i] = i; // Init SA.
+        uint8_t *t_new = malloc((N/K+1)*sizeof(uint8_t));
+        if (t_new == NULL) {
+            free(intSA);
+            alder_fasta_free(sparseSA->fS);
+            free(sparseSA);
+            GSL_ERROR_VAL("sparse sa alloc failed", GSL_ENOMEM, NULL);
+        }
+        int64_t *BucketBegin = malloc(BUCKETBEGINSIZE * sizeof(int64_t));
+        if (BucketBegin == NULL) {
+            free(t_new);
+            free(intSA);
+            alder_fasta_free(sparseSA->fS);
+            free(sparseSA);
+            GSL_ERROR_VAL("sparse sa alloc failed", GSL_ENOMEM, NULL);
+        }
+        
+        ////////////////////////////////////////////////
+        // Replace this with libdivsufsort.
+        ////////////////////////////////////////////////
+        // intSA: size of N/K initialized 0 to N/K-1.
+        // t_new: could be the result?
+        // bucketNr: ???
+        // BucketBegin: some temp we may not need this.
+        // l: 0
+        // r: N/K-1
+        // h: 0
+        // What are these l, r, h?
+        alder_radixStep(sparseSA, t_new, intSA, &bucketNr, BucketBegin, 0, N/K-1, 0); // start radix sort
+        ////////////////////////////////////////////////
+        // Replace this with libdivsufsort.
+        ////////////////////////////////////////////////
+        assert(intSA[N/K] == N/K);
+        t_new[N/K] = 0; // Terminate new integer string.
+        free(BucketBegin);
+        
+        logc_log(MAIN_LOGGER, LOG_FINEST, "bucketNr=%d", bucketNr);
+        logc_log(MAIN_LOGGER, LOG_FINEST, "N/K=%lld", N/K);
+#ifdef MAIN_LOGGER
+        for (size_t i = 0; i < N/K + 1; i++) {
+            logc_log(MAIN_LOGGER, LOG_FINEST,
+                     "t_new and intSA [%zd] %d\t%lld",
+                     i, (int)t_new[i], intSA[i]);
+        }
+#endif
+        ////////////////////////////////////////////////
+        // Replace this with libdivsufsort.
+        ////////////////////////////////////////////////
+        // t_new is the input
+        // intSA is the suffix array of t_new.
+        // size of intSA is N/K.
+        // 0 .. bucketNr - 1
+/* Makes suffix array p of x. x becomes inverse of p. p and x are both of size
+   n+1. Contents of x[0...n-1] are integers in the range l...k-1. Original
+   contents of x[n] is disregarded, the n-th symbol being regarded as
+   end-of-string smaller than all other symbols.*/
+//void suffixsort(int *x, int *p, int n, int k, int l)
+        //        suffixsort(t_new, intSA_int, (int)(N/K), bucketNr_int, 0);
+        
+        // t_new is uint8_t
+        // intSA is int64_t
+        // N/K is the size of the arrays.
+        // N/K+1 makes more sense; 0 at N/K position is used as the terminator.
+        //   because SA takes values from 1-st position not from 0-th position.
+        //   and the original source mentioned that the last character is
+        //   the terminator. suffixsort seems to mention x[n] or the last
+        //   character is disregarded, or ithe n-th symbol being regarded as
+        //   end-of-string smaller than all other symbols.
+        // 
+
+        // N/K is the original input;
+        saint_t status = divsufsort64(t_new, intSA, N/K+1);
+        if (status != 0) {
+            fprintf(stderr, "error: divsufsort64\n");
+        }
+#ifdef MAIN_LOGGER
+        logc_log(MAIN_LOGGER, LOG_FINEST, "divsufsort64 is called");
+        for (size_t i = 0; i < N/K + 1; i++) {
+            logc_log(MAIN_LOGGER, LOG_FINEST,
+                     "intSA [%zd] %lld",
+                     i, intSA[i]);
+        }
+#endif
+        ////////////////////////////////////////////////
+        // Replace this with libdivsufsort.
+        ////////////////////////////////////////////////
+        
+        ////////////////////////////////////////////////
+        // Translate suffix array.
+        sparseSA->SA = malloc((N/K)*sizeof(int64_t));
+        if (sparseSA->SA == NULL) {
+            alder_fasta_free(sparseSA->fS);
+            free(sparseSA);
+            GSL_ERROR_VAL("sparse sa alloc failed", GSL_ENOMEM, NULL);
+        }
+        for (int64_t i = 0; i < N/K; i++) {
+            sparseSA->SA[i] = intSA[i+1] * K;
+        }
+        free(intSA);
+        
+#ifdef MAIN_LOGGER
+        logc_log(MAIN_LOGGER, LOG_FINEST,
+                 "SA is computed using intSA (deleted)");
+        for (size_t i = 0; i < N/K; i++) {
+            logc_log(MAIN_LOGGER, LOG_FINEST,
+                     "SA [%zd] %lld",
+                     i, sparseSA->SA[i]);
+        }
+#endif
+        
+        // Build ISA using sparse SA.
+        sparseSA->ISA = malloc((N/K)*sizeof(uint64_t));
+        if (sparseSA->ISA == NULL) {
+            free(sparseSA->SA);
+            alder_fasta_free(sparseSA->fS);
+            free(sparseSA);
+            GSL_ERROR_VAL("sparse sa alloc failed", GSL_ENOMEM, NULL);
+        }
+        for (int64_t i = 0; i < N/K; i++) {
+            sparseSA->ISA[sparseSA->SA[i]/K] = i;
+        }
+    }
+
+    // Initialize LCP.
+    sparseSA->LCP = malloc((N/K)*sizeof(int64_t));
+    if (sparseSA->LCP == NULL) {
+        free(sparseSA->ISA);
+        free(sparseSA->SA);
+        alder_fasta_free(sparseSA->fS);
+        free(sparseSA);
+        GSL_ERROR_VAL("sparse sa alloc failed", GSL_ENOMEM, NULL);
+    }
+    
+    ////////////////////////////////////////////////
+    // Replace this with libdivsufsort.
+    ////////////////////////////////////////////////
+    alder_computeLCP(sparseSA);  // SA + ISA -> LCP
+    ////////////////////////////////////////////////
+    // Replace this with libdivsufsort.
+    ////////////////////////////////////////////////
+    
+#ifdef MAIN_LOGGER
+    logc_log(MAIN_LOGGER, LOG_FINEST, "ISA is computed using SA.");
+    for (size_t i = 0; i < N/K; i++) {
+        logc_log(MAIN_LOGGER, LOG_FINEST,
+                 "ISA [%zd] %lld",
+                 i, sparseSA->ISA[i]);
+    }
+    for (size_t i = 0; i < N/K; i++) {
+        logc_log(MAIN_LOGGER, LOG_FINEST,
+                 "LCP [%zd] %lld",
+                 i, sparseSA->LCP[i]);
+    }
+#endif
+    
+    return sparseSA;
+}
+
 void query_thread(alder_sparse_sa_t *o, const char *P)
 {
-    alder_vector_match *matches;
+    gsl_vector_match *matches;
     uint64_t min_len = 3;
     bool print = true;
     int num_threads = 1;
@@ -232,7 +456,8 @@ void query_thread(alder_sparse_sa_t *o, const char *P)
 
 void alder_sparse_sa_free (alder_sparse_sa_t *o)
 {
-    free(o->S);
+    alder_fasta_free(o->fS);
+//    free(o->S);
     free(o->SA);
     free(o->ISA);
     free(o->LCP);
@@ -244,45 +469,37 @@ void alder_sparse_sa_free (alder_sparse_sa_t *o)
 // suffix arrays and inverse sparse suffix arrays.
 void alder_computeLCP(alder_sparse_sa_t *o)
 {
-    uint64_t K = o->K;
-    uint64_t N = o->N;
+    int64_t K = o->K;
+    int64_t N = o->N;
     char *S = o->S;
-    uint64_t *SA = o->SA;
-    uint64_t *ISA = o->ISA;
-    uint64_t *LCP = o->LCP;
+    int64_t *SA = o->SA;
+    int64_t *ISA = o->ISA;
+    int64_t *LCP = o->LCP;
     
-    uint64_t h=0;
-    for(uint64_t i = 0; i < N; i+=K) {
-        uint64_t m = ISA[i/K];
+    int64_t h=0;
+    for(int64_t i = 0; i < N; i+=K) {
+        int64_t m = ISA[i/K];
         if(m==0) LCP[m]=0; // LCP.set(m, 0); // LCP[m]=0;
         else {
-            uint64_t j = SA[m-1];
+            int64_t j = SA[m-1];
             while(i+h < N && j+h < N && S[i+h] == S[j+h])  h++;
             LCP[m] = h; // LCP.set(m, h); //LCP[m] = h;
         }
-        if (h > K)
-        {
+        if (h > K) {
             h = h - K;
-        }
-        else
-        {
+        } else {
             h = 0;
         }
 //        h = max(0L, h - K);
     }
 }
 
-//void alder_initLCP(alder_sparse_sa_t *o)
-//{
-//    assert(0); // Implement this function.
-//}
-
 
 // Implements a variant of American flag sort (McIlroy radix sort).
 // Recurse until big-K size prefixes are sorted. Adapted from the C++
 // source code for the wordSA implementation from the following paper:
 // Ferragina and Fischer. Suffix Arrays on Words. CPM 2007.
-int alder_radixStep(alder_sparse_sa_t *o, uint64_t *t_new, uint64_t *SA,
+int alder_radixStep2(alder_sparse_sa_t *o, uint8_t *t_new, int64_t *SA,
                     long *bucketNr_, long *BucketBegin, long l, long r, long h)
 {
     // Note: SA is a local variable not o->SA.
@@ -291,14 +508,12 @@ int alder_radixStep(alder_sparse_sa_t *o, uint64_t *t_new, uint64_t *SA,
     long bucketNr = *bucketNr_;
     assert(sizeof(size_t) == sizeof(uint64_t));
     
-    if(h >= K)
-    {
+    if(h >= K) {
         GSL_ERROR("radixStep failed", GSL_EINVAL);
     }
     // first pass: count
     long *Sigma = malloc(BUCKETBEGINSIZE * sizeof(long));
-    if (Sigma == NULL)
-    {
+    if (Sigma == NULL) {
         GSL_ERROR("radixStep failed", GSL_ENOMEM);
     }
     memset(Sigma, 0, BUCKETBEGINSIZE * sizeof(long));
@@ -352,47 +567,39 @@ int alder_radixStep(alder_sparse_sa_t *o, uint64_t *t_new, uint64_t *SA,
 }
 
 
-int alder_radixStep2(alder_sparse_sa_t *o, uint64_t *t_new, uint64_t *SA,
-                    uint64_t *bucketNr_, uint64_t *BucketBegin,
-                    uint64_t l, uint64_t r, uint64_t h)
+int alder_radixStep(alder_sparse_sa_t *o, uint8_t *t_new, int64_t *SA,
+                    uint16_t *bucketNr_, int64_t *BucketBegin,
+                    int64_t l, int64_t r, int64_t h)
 {
     // Note: SA is a local variable not o->SA.
-    char *S           = o->S;
-    uint64_t K        = o->K;
-    uint64_t bucketNr = *bucketNr_;
-    assert(sizeof(size_t) == sizeof(uint64_t));
+    char *S          = o->S;
+    int64_t K        = o->K;
+    uint16_t bucketNr = *bucketNr_;
+    assert(1 < K && K <= 4);
+    assert(sizeof(size_t) == sizeof(int64_t));
 
-    if(h >= K)
-    {
+    if(h >= K) {
         GSL_ERROR("radixStep failed", GSL_EINVAL);
     }
     // first pass: count
-    uint64_t *Sigma = malloc(BUCKETBEGINSIZE * sizeof(uint64_t));
-//    long *Sigma = malloc(BUCKETBEGINSIZE * sizeof(long));
-    if (Sigma == NULL)
-    {
+    int64_t *Sigma = malloc(BUCKETBEGINSIZE * sizeof(int64_t));
+    if (Sigma == NULL) {
         GSL_ERROR("radixStep failed", GSL_ENOMEM);
     }
-    memset(Sigma, 0, BUCKETBEGINSIZE * sizeof(uint64_t));
+    memset(Sigma, 0, BUCKETBEGINSIZE * sizeof(int64_t));
     //vector<long> Sigma(256, 0); // Sigma counts occurring characters in bucket
-    for (size_t i = l; i <= r; i++)
-    {
+    for (size_t i = l; i <= r; i++) {
         Sigma[ S[ SA[i] * K + h ] ]++;
     }
-    //for (long i = l; i <= r; i++) Sigma[ S[ SA[i]*K + h ] ]++; // count characters
     BucketBegin[0] = l;
-    for (long i = 1; i < BUCKETBEGINSIZE ; i++)
-    {
+    for (size_t i = 1; i < BUCKETBEGINSIZE ; i++) {
         BucketBegin[i] = Sigma[i-1] + BucketBegin[i-1];
     } // accumulate
     
     // second pass: move (this variant does *not* need an additional array!)
-    unsigned char currentKey = 0;    // character of current bucket
-    assert(l+Sigma[currentKey] >= 1);
-    uint64_t end = l-1+Sigma[currentKey]; // end of current bucket
-    uint64_t pos = l;                     // 'pos' is current position in bucket
-//    long end = l-1+Sigma[currentKey]; // end of current bucket
-//    long pos = l;                     // 'pos' is current position in bucket
+    uint8_t currentKey = 0;    // character of current bucket
+    int64_t end = l-1+Sigma[currentKey]; // end of current bucket
+    int64_t pos = l;                     // 'pos' is current position in bucket
     while (1) {
         if (pos > end) { // Reached the end of the bucket.
             if (currentKey == 255) break; // Last character?
@@ -403,7 +610,7 @@ int alder_radixStep2(alder_sparse_sa_t *o, uint64_t *t_new, uint64_t *SA,
         else {
             // American flag sort of McIlroy et al. 1993. BucketBegin keeps
             // track of current position where to add to bucket set.
-            uint64_t tmp = SA[ BucketBegin[ S[ SA[pos]*K + h ] ] ];
+            int64_t tmp = SA[ BucketBegin[ S[ SA[pos]*K + h ] ] ];
             SA[ BucketBegin[ S[ SA[pos]*K + h] ]++ ] = SA[pos];  // Move bucket beginning to the right, and replace
             SA[ pos ] = tmp; // Save value at bucket beginning.
             if (S[ SA[pos]*K + h ] == currentKey) pos++; // Advance to next position if the right character.
@@ -411,15 +618,14 @@ int alder_radixStep2(alder_sparse_sa_t *o, uint64_t *t_new, uint64_t *SA,
     }
     // recursively refine buckets and calculate new text:
     assert(l >= 0);
-    uint64_t beg = l;
-//    long beg = l;
-    assert(l >= 1);
+    int64_t beg = l;
     end = l-1;
     for (size_t i = 1; i < BUCKETBEGINSIZE; i++) { // step through Sigma to find bucket borders
         end += Sigma[i];
         if (beg <= end) {
             if(h == K-1) {
                 for (size_t j = beg; j <= end; j++) {
+                    assert(bucketNr < BUCKETBEGINSIZE);
                     t_new[ SA[j] ] = bucketNr; // set new text
                 }
                 bucketNr++;
@@ -659,7 +865,7 @@ bool alder_expand_link(alder_sparse_sa_t *o, alder_interval_t *link) {
 
 // For a given offset in the prefix k, find all MEMs.
 int alder_findMEM(alder_sparse_sa_t *o, uint64_t k, const char *P,
-                  alder_vector_match *matches, uint64_t min_len, bool print)
+                  gsl_vector_match *matches, uint64_t min_len, bool print)
 {
     uint64_t K = o->K;
     uint64_t N = o->N;
@@ -735,13 +941,13 @@ int alder_findMEM(alder_sparse_sa_t *o, uint64_t k, const char *P,
 void alder_collectMEMs(alder_sparse_sa_t *o,
                        const char *P, uint64_t prefix,
                        alder_interval_t *mli, alder_interval_t *xmi,
-                       alder_vector_match *matches, uint64_t min_len,
+                       gsl_vector_match *matches, uint64_t min_len,
                        bool print)
 {
-    uint64_t *LCP = o->LCP;
-    uint64_t *SA = o->SA;
-    uint64_t N = o->N;
-    uint64_t K = o->K;
+    int64_t *LCP = o->LCP;
+    int64_t *SA = o->SA;
+    int64_t N = o->N;
+    int64_t K = o->K;
     
     // All of the suffixes in xmi's interval are right maximal.
     for(uint64_t i = xmi->start; i <= xmi->end; i++)
@@ -776,10 +982,10 @@ void alder_collectMEMs(alder_sparse_sa_t *o,
 // Finds left maximal matches given a right maximal match at position i.
 void alder_find_Lmaximal(alder_sparse_sa_t *o, const char *P,
                          uint64_t prefix, uint64_t i, uint64_t len,
-                         alder_vector_match *matches, uint64_t min_len,
+                         gsl_vector_match *matches, uint64_t min_len,
                          bool print)
 {
-    uint64_t K = o->K;
+    int64_t K = o->K;
     char *S = o->S;
     
     // Advance to the left up to K steps.
@@ -790,7 +996,9 @@ void alder_find_Lmaximal(alder_sparse_sa_t *o, const char *P,
                 if(print == true)
                 {
                     alder_match_t m = { .ref = i, .query = prefix, .len = len };
-                    alder_print_match(m);
+                    // Add the found match to matches.
+                    gsl_vector_match_add_alder_match(matches, m);
+//                    alder_print_match(m);
                 }
 //                else matches.push_back(match_t(i, prefix, len));
             }
@@ -802,7 +1010,8 @@ void alder_find_Lmaximal(alder_sparse_sa_t *o, const char *P,
                 if(print == true)
                 {
                     alder_match_t m = { .ref = i, .query = prefix, .len = len };
-                    alder_print_match(m);
+                    gsl_vector_match_add_alder_match(matches, m);
+//                    alder_print_match(m);
                 }
 //                else matches.push_back(match_t(i, prefix, len));
             }
@@ -812,7 +1021,7 @@ void alder_find_Lmaximal(alder_sparse_sa_t *o, const char *P,
     }
 }
 
-int alder_MEM(alder_sparse_sa_t *o, const char *P, alder_vector_match *matches,
+int alder_MEM(alder_sparse_sa_t *o, const char *P, gsl_vector_match *matches,
               uint64_t min_len, bool print, int num_threads)
 {
     assert(num_threads == 1);

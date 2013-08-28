@@ -16,11 +16,12 @@ int alder_logger_initialize ()
 {
     char *mainLoggerFilename = "alder-align.log";
     logc_registerLogger(MAIN_LOGGER, FILEOUT, LOG_BASIC);
+//    logc_registerLogger(MAIN_LOGGER, FILEOUT, LOG_FINEST);
     logc_error_t status = logc_setLogfile(MAIN_LOGGER, mainLoggerFilename);
-    if (status != LOG_ERR_OK)
-    {
+    if (status != LOG_ERR_OK) {
         printf("Error: no log is defined\n");
     }
+    logc_log(MAIN_LOGGER, LOG_BASIC, "");
     logc_setLogFormat(MAIN_LOGGER, TIMESTAMP_ERR_TAG, TIMESTAMP);
     return GSL_SUCCESS;
 }

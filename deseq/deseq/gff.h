@@ -69,6 +69,19 @@
 #ifndef deseq_gff_h
 #define deseq_gff_h
 
+
+#undef __BEGIN_DECLS
+#undef __END_DECLS
+#ifdef __cplusplus
+# define __BEGIN_DECLS extern "C" {
+# define __END_DECLS }
+#else
+# define __BEGIN_DECLS /* empty */
+# define __END_DECLS /* empty */
+#endif
+
+__BEGIN_DECLS
+
 #define BUFSIZE 10000
 enum { GFFELEMENTSIZE = 100 };
 
@@ -146,5 +159,7 @@ int randomGFF(unsigned int numberOfChromosome,
 
 int parseGFF(const char* gffFilename, gff_t* pGFFDataStructure);
 int parseGFFLength(const char* gffFilename, unsigned int *n1, unsigned int *n2, unsigned int *n3);
+
+__END_DECLS
 
 #endif
