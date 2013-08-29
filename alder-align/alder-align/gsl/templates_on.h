@@ -207,6 +207,17 @@
 #define ONE NULL
 #define UNSIGNED 1
 
+#elif defined(BASE_ALDER_ANCHOR)
+#define BASE alder_anchor_t
+#define SHORT anchor
+#define ATOMIC alder_anchor_t
+#define MULTIPLICITY 1
+#define IN_FORMAT "%d\t%d\t%d\t%lf"
+#define OUT_FORMAT "%d\t%d\t%d\t%lf"
+#define ATOMIC_IO ATOMIC
+#define ZERO NULL
+#define ONE NULL
+#define UNSIGNED 1
 
 #elif defined(BASE_CHAR)
 #define BASE char

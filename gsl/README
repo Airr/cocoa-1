@@ -1,1 +1,169 @@
+I do not have an automatic way of generating code for gsl_block for a C struct.
+GSL can be a model for this. Here is what I have so far.
 
+1. Edit templates_on.h to add your data for gsl block/vector.
+2. For example, I need a data type with a C structure like this:
+-----------------------------------------------------------------
+struct alder_anchor_struct {
+    int anchor1;
+    int anchor2;
+    int anchorLength;
+    double anchorScore;
+}
+typedef struct alder_anchor_struct alder_anchor_t;
+-----------------------------------------------------------------
+
+Add the following somewhere in the middle of templates_on.h.
+-----------------------------------------------------------------
+#elif defined(BASE_ALDER_ANCHOR)
+#define BASE alder_anchor_t
+#define SHORT anchor
+#define ATOMIC alder_anchor_t
+#define MULTIPLICITY 1
+#define IN_FORMAT "%s"
+#define OUT_FORMAT "%s"
+#define ATOMIC_IO ATOMIC
+#define ZERO NULL
+#define ONE NULL
+#define UNSIGNED 1
+-----------------------------------------------------------------
+3. Edit gsl-1.16/b/block/preprocess-block.sh
+4. Then, run a shell script at "gsl-1.16/b/block"
+bash preprocess-block.sh anchor
+
+5. You have two files: gsl_block.[ch]. Try to use it as you would with
+gsl_block. You might need to edit file operation part.
+6. Create gsl_block_anchor.[ch] in Xcode.
+7. Copy and pate the content of gsl_block.[ch] in the new gsl_block_anchor.[ch]
+$ cat gsl_block.h|pbcopy
+$ cat gsl_block.c|pbcopy
+
+8. You might want to edit the following functions.
+Add gsl_block_anchor_realloc
+-----------------------------------------------------------------
+gsl_block_anchor *
+gsl_block_anchor_realloc (gsl_block_anchor *b, const size_t n)
+{
+    if (b == NULL) {
+        GSL_ERROR_VAL ("b must have been allocated",
+                       GSL_EINVAL, 0);
+    }
+    if (n < b->size) {
+        GSL_ERROR_VAL ("b can only increase in size",
+                       GSL_EINVAL, 0);
+    }
+    alder_anchor_t *t = realloc(b->data, n * sizeof(alder_anchor_t));
+    if (t == NULL) {
+        GSL_ERROR_VAL ("failed to allocate space for block struct",
+                       GSL_ENOMEM, 0);
+    }
+    b->data = t;
+    b->size = n;
+    
+    return b;
+}
+-----------------------------------------------------------------
+
+gsl_block_anchor_calloc --
+  memset(b->data, 0, n*sizeof(alder_anchor_t));
+gsl_block_anchor_fprintf --
+  edit it so that you print what you want
+-----------------------------------------------------------------
+            const alder_anchor_t * t = data + 1*i + k;
+            status = fprintf (stream,
+                              "%d\t%d\t%d\t%lf",
+                              t->anchor1, t->anchor2, t->anchorLength,
+                              t->anchorScore);
+-----------------------------------------------------------------
+gsl_block_anchor_fscanf --
+  edit it so that you can read what you want. Parallelize it with
+  gsl_block_anchor_fprintf
+-----------------------------------------------------------------
+            int status = fscanf (stream, "%d\t%d\t%d\t%lf\n",
+                                 &tmp.anchor1,
+                                 &tmp.anchor2,
+                                 &tmp.anchorLength,
+                                 &tmp.anchorScore) ;
+            
+            data [1 * i + k] = tmp;
+            
+            
+            if (status != 4)
+            {
+                GSL_ERROR ("fscanf failed", GSL_EFAILED);
+            }
+-----------------------------------------------------------------
+gsl_block_anchor_raw_fprintf --
+  edit it.
+-----------------------------------------------------------------
+            const alder_anchor_t * t = data + 1*i*stride + k;
+            status = fprintf (stream,
+                              "%d\t%d\t%d\t%lf",
+                              t->anchor1, t->anchor2, t->anchorLength,
+                              t->anchorScore);
+-----------------------------------------------------------------
+gsl_block_anchor_raw_fscanf --
+  similar to that of gsl_block_anchor_fscanf
+  
+  
+Vector
+------
+Add gsl_vector_anchor_add_anchor and
+gsl_vector_anchor_init.
+Edit the following functions.
+gsl_vector_anchor_calloc
+
+-----------------------------------------------------------------
+int
+gsl_vector_anchor_add (gsl_vector_anchor * a, const alder_anchor_t m)
+{
+    if (a->block->size == a->size) {
+        // Resize a->block
+        gsl_block_anchor *t = gsl_block_anchor_realloc (a->block, 2 * a->block->size);
+        if (t == NULL) {
+            GSL_ERROR ("failed to allocate space for vector struct",
+                       GSL_ENOMEM);
+        }
+        a->data = a->block->data;
+    }
+    a->data[a->size] = m;
+    a->size++;
+    
+    return GSL_SUCCESS;
+}
+-----------------------------------------------------------------
+
+-----------------------------------------------------------------
+gsl_vector_anchor *
+gsl_vector_anchor_init ()
+{
+    gsl_block_anchor * block;
+    gsl_vector_anchor * v;
+    
+    v = (gsl_vector_anchor *) malloc (sizeof (gsl_vector_anchor));
+    
+    if (v == 0)
+    {
+        GSL_ERROR_VAL ("failed to allocate space for vector struct",
+                       GSL_ENOMEM, 0);
+    }
+    
+    block = gsl_block_anchor_alloc (GSLVECTORSIZE);
+    
+    if (block == 0)
+    {
+        free (v) ;
+        
+        GSL_ERROR_VAL ("failed to allocate space for block",
+                       GSL_ENOMEM, 0);
+    }
+    
+    v->data = block->data ;
+    v->size = 0;
+    v->stride = 1;
+    v->block = block;
+    v->owner = 1;
+    
+    return v;
+}
+-----------------------------------------------------------------

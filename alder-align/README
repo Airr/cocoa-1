@@ -61,6 +61,9 @@ but static; we add a new interval to the set of union interval set, and we
 cannot remove any added intervals in the union set. The union tree is a dynamic
 version of this union array.
 
+Assembler - "de novo"
+---------------------
+See a target called alder-denovo.
 
 Lectures about suffix array
 ---------------------------

@@ -96,6 +96,7 @@ gsl_vector_match_add_alder_match (gsl_vector_match * a, const alder_match_t m)
             GSL_ERROR ("failed to allocate space for vector struct",
                        GSL_ENOMEM);
         }
+        a->data = a->block->data;
     }
     a->data[a->size] = m;
     a->size++;

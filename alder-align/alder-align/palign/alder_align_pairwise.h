@@ -453,6 +453,13 @@ void alder_align_free_seq(struct seq *o);
 #pragma mark wrapper
 int alder_align_read_initialize();
 int alder_align_read_execute(const char *seqReference, const char *seqRead);
+int alder_align_read_execute_with_anchor(const char *seqReference,
+                                         const char *seqRead,
+                                         const int *anchor1,
+                                         const int *anchor2,
+                                         const int *anchorLength,
+                                         const double *anchorScore,
+                                         const size_t numberOfAnchor);
 int alder_align_read_finalize();
 
 __END_DECLS

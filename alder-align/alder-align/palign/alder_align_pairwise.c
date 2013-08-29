@@ -5579,6 +5579,175 @@ int alder_align_read_initialize()
     return 0;
 }
 
+int alder_align_read_execute_with_anchor(const char *seqReference,
+                                         const char *seqRead,
+                                         const int *anchor1,
+                                         const int *anchor2,
+                                         const int *anchorLength,
+                                         const double *anchorScore,
+                                         const size_t numberOfAnchor)
+{
+    struct seq_col *in_seq_col = read_fasta2(seqReference, seqRead);
+    
+    // print read input sequences
+    if(para->DEBUG>5) {
+        int sc,scl = in_seq_col->length;
+        for(sc=0; sc < scl;sc++) {
+            print_seq(&(in_seq_col->seqs[sc]));
+            printf("\n");
+        }
+    }
+    // fast mode has higher threshold weights
+    if(para->FAST_MODE) {
+        para->PROT_SIM_SCORE_THRESHOLD += 0.25;
+    }
+    
+    // ----------------------------------------------------------------------
+    // Consider Anchors
+    // ----------------------------------------------------------------------
+    struct alignment *algn= NULL;
+    if(! para->FAST_MODE) {
+        algn = create_empty_alignment(in_seq_col);
+    }
+    struct alignment *salgn = create_empty_alignment(in_seq_col);
+    
+    // Anchors
+    struct diag_col adcol;
+    struct simple_diag_col *anchors = NULL;
+    
+    para->DO_ANCHOR = 1;
+//    int anchor1[1] = {3};
+//    int anchor2[1] = {3};
+//    int anchorLength[1] = {10};
+//    double anchorScore[1] = {3.0};
+//    size_t numberOfAnchor = 1;
+    if(para->DO_ANCHOR>0) {
+//        anchors = read_anchors(para->ANCHOR_FILE_NAME, in_seq_col);
+        anchors = read_anchors_from_code(in_seq_col, anchor1, anchor2,
+                                         anchorLength, anchorScore,
+                                         numberOfAnchor);
+        
+        adcol.diags = anchors->data;
+        adcol.diag_amount = anchors->length;
+        
+        
+        simple_aligner(in_seq_col, &adcol,smatrix,pdist,salgn,1);
+        if(! para->FAST_MODE) simple_aligner(in_seq_col, &adcol,smatrix,pdist,algn,1);
+        
+        if(anchors!=NULL) {
+            for(unsigned int i=0;i<adcol.diag_amount;i++) {
+                free_diag(adcol.diags[i]);
+            }
+            free(adcol.diags);
+            free(anchors);
+        }
+    }
+    
+    // ----------------------------------------------------------------------
+    // Compute pairwise diagonals
+    // ----------------------------------------------------------------------
+    struct diag_col *all_diags = find_all_diags(smatrix, pdist, in_seq_col,salgn,1);
+    if(para->DEBUG >1) printf("Found %i diags\n", all_diags->diag_amount);
+    int diag_amount = all_diags->diag_amount;
+    
+    // ----------------------------------------------------------------------
+    // Compute alignment
+    // ----------------------------------------------------------------------
+    if(! para->FAST_MODE) {
+        struct diag *cp_diags[all_diags->diag_amount];
+        for(int i=0;i<diag_amount;i++) {
+            cp_diags[i] = malloc(sizeof (struct diag));
+            *(cp_diags[i]) = *(all_diags->diags[i]);
+        }
+        guided_aligner(algn, in_seq_col, all_diags,smatrix,pdist,all_diags->gt_root, 1);
+        
+        
+        for(int i=0;i<diag_amount;i++) {
+            all_diags->diags[i] = cp_diags[i];
+        }
+        all_diags->diag_amount = diag_amount;
+    }
+    //struct alignment *algn = salgn;
+    simple_aligner(in_seq_col, all_diags,smatrix,pdist,salgn,1);
+    
+    // Clean up!
+    free_diag_col(all_diags);
+    
+    para->DO_ANCHOR = 0; // anchors done
+    
+    // ----------------------------------------------------------------------
+    // round 2+
+    // ----------------------------------------------------------------------
+    int round;
+    char newFound = 0;
+    int type;
+    
+    // consider sensitivity level
+    if(! para->FAST_MODE) {
+        if(para->SENS_MODE==0) {
+            para->DIAG_THRESHOLD_WEIGHT = 0.0;
+        } else if(para->SENS_MODE==1) {
+            if(para->DNA_PARAMETERS)
+                para->DIAG_THRESHOLD_WEIGHT = -log(0.75);//-log(.875+0.125/2.0);
+            else
+                para->DIAG_THRESHOLD_WEIGHT = -log(0.75);
+        }else if(para->SENS_MODE==2) {
+            if(para->DNA_PARAMETERS)
+                para->DIAG_THRESHOLD_WEIGHT = -log(0.5);//-log(0.875);
+            else
+                para->DIAG_THRESHOLD_WEIGHT = -log(0.5);
+        }
+    }
+    
+    int stype = (para->FAST_MODE ? 1 : 0);
+    for(type=stype;type<2;type++) {
+        for(round=2;round<=20;round++) {
+            all_diags = find_all_diags(smatrix, pdist, in_seq_col,(type ? salgn : algn), round);
+            if(para->DEBUG >1) printf("Found %i diags", all_diags->diag_amount);
+            if(all_diags->diag_amount ==0) {
+                free_diag_col(all_diags);
+                break;
+            } else {
+                // round 2 and further we use the simple aligner
+                newFound = simple_aligner(in_seq_col, all_diags,smatrix,pdist,(type ? salgn : algn),round);
+                free_diag_col(all_diags);
+                if(!newFound) break;
+            }
+        }
+    }
+    if(para->DEBUG >1)
+        printf("Alignment ready!\n");
+    
+    if(! para->FAST_MODE) {
+        if(para->DEBUG >1) printf("Final alignment simple: %f guided: %f\n", salgn->total_weight, algn->total_weight);
+    } else {
+        if(para->DEBUG >1) printf("Final alignment simple: %f \n", salgn->total_weight);
+    }
+    
+    if( ( para->FAST_MODE) || (salgn->total_weight > algn->total_weight)) {
+        if(! para->FAST_MODE) free_alignment(algn);
+        algn = salgn;
+    }
+    else
+    {
+        free_alignment(salgn);  // FIXED.
+    }
+    
+/*
+    if(para->out_file==NULL) {
+        simple_print_alignment_default(algn);
+    }else {
+        fasta_print_alignment_default(algn, para->out_file);
+    }
+*/
+    
+    free_alignment(algn);
+    alder_align_free_seq_col(in_seq_col); in_seq_col = NULL;
+    
+    return 0;
+    
+}
+
 int alder_align_read_execute(const char *seqReference, const char *seqRead)
 {
     struct seq_col *in_seq_col = read_fasta2(seqReference, seqRead);

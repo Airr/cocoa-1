@@ -19,6 +19,8 @@
 #include "fastq/alder_fastq.h"
 #include "mem/sparse_sa.h"
 #include "gsl_vector_match.h"
+#include "lib/alder_reference.h"
+#include "palign/alder_palign.h"
 
 int main(int argc, const char * argv[])
 {
@@ -29,6 +31,7 @@ int main(int argc, const char * argv[])
     
     
     fastq_t *f = alder_fastq_alloc("data/test.fq.gz");
+    interval_t I = alder_reference_candidate_init();
     while (alder_fastq_next(f)) {
 //        printf("%s\n", f->seq->seq.s);
         
@@ -42,15 +45,19 @@ int main(int argc, const char * argv[])
         alder_MEM(sparseSA, f->seq->seq.s, mem, min_len, print, num_threads);
 //        gsl_vector_match_fprintf(stdout, mem, NULL);
         // Find regions from the reference genome that include MEMs.
-        gsl_vector_match *referenceCandidate = gsl_vector_match_init();
-//        alder__candidate(referenceCandidate, mem);
+        int64_t L = (int64_t)strlen(f->seq->seq.s);
+        alder_reference_candidate_find(I, mem, L);
         
         // Perform pairwise sequence alignment between ref and the query.
         // Print out the alignment to cam/sam file.
+        alder_palign(f->seq->seq.s, I, mem, sparseSA->fS);
         
-        gsl_vector_match_free(referenceCandidate);
+        
         gsl_vector_match_free(mem);
+        
+        alder_union_interval_reset(I);
     }
+    alder_reference_candidate_free(I);
     
     alder_sparse_sa_free(sparseSA);
     alder_logger_finalize();
