@@ -14,7 +14,11 @@
 #include <assert.h>
 #include <ctype.h>
 #include <string.h>
+#include <stdbool.h>
 #include "alder_align_pairwise.h"
+//#include "alder_palign_alignment.h"
+#include "alder_cigar_queue.h"
+
 
 #ifdef DEBUG
 #undef DEBUG
@@ -5579,7 +5583,8 @@ int alder_align_read_initialize()
     return 0;
 }
 
-int alder_align_read_execute_with_anchor(const char *seqReference,
+int alder_align_read_execute_with_anchor(const alder_sam_t *sam,
+                                         const char *seqReference,
                                          const char *seqRead,
                                          const int *anchor1,
                                          const int *anchor2,
@@ -5740,6 +5745,7 @@ int alder_align_read_execute_with_anchor(const char *seqReference,
         fasta_print_alignment_default(algn, para->out_file);
     }
 */
+    alder_palign_sam(sam, algn);
     
     free_alignment(algn);
     alder_align_free_seq_col(in_seq_col); in_seq_col = NULL;
@@ -5908,6 +5914,152 @@ int alder_align_read_execute(const char *seqReference, const char *seqRead)
     alder_align_free_seq_col(in_seq_col); in_seq_col = NULL;
     
     return 0;
+}
+
+/**
+ * Convert the Dialign's alignment struct algn to that of alder_sam_t.
+ */
+void alder_palign_sam(alder_sam_t *sam, struct alignment *algn)
+{
+    struct seq_col *scol = algn->scol;
+    unsigned int slen = scol->length;
+    assert(slen == 2);
+    
+    unsigned int i,j,s,pos,max,tmax;
+    struct seq* sq;
+    struct algn_pos **ap = algn->algn;
+    int proc[slen];
+    //  char proceed[slen];
+    
+    for(i=0;i<slen;i++) {
+        proc[i]=0;
+    }
+    
+    
+    prepare_alignment(algn);
+    max = algn->max_pos;
+    struct algn_pos *ap1;
+    
+    //
+    // print block
+    // WARNING!  print_info reallocates memory, this loses the algn pointer
+    //   since the new one is not stored when it is returned here, so it cannot
+    //   be freed later. In the present version the leak is relatively minor and
+    //   should not crash anything.
+    //
+    char *print_info_string = print_info(algn);
+	// printf("%s",print_info(algn)); FIXED.
+	printf("%s",print_info_string);
+    free(print_info_string);
+    
+    ///////////////////////////////////////////////////////////////////////////
+    // WE MOVE BASE-BY-BASE.
+    ///////////////////////////////////////////////////////////////////////////
+    alder_cigar_queue_t *qu = alder_cigar_queue_create();
+    alder_cigar_item_t m = { .n = 0, .t = 0 };
+
+    bool isQueryHasBase = false;
+    int64_t startPos = 0;
+    for(pos=0;pos<max;pos+=1) {
+        tmax = pos+1;
+        if(tmax>max) tmax = max;
+        char qbase = '.'; // query base
+        char rbase = '.'; // ref. base
+        
+        for(s=0;s<slen;s++) {
+            sq = &scol->seqs[s];
+            for(j=pos;j<tmax;j++) {
+//                if( (j%1)==0) {
+//                    printf("%12.12s%10i   ", sq->name, proc[s]+1);
+//                }
+                
+                if(proc[s]<sq->length) {
+                    ap1 = find_eqc(ap,s,proc[s]);
+                    if( (*ap1->eqcAlgnPos) < j) {
+                        printf ("\nALARM %i %i %i %i\n", s,j, proc[s], *ap1->eqcAlgnPos);
+                    }
+                    
+                    if( (*ap1->eqcAlgnPos) == j) {
+                        if(ap1->state & para->STATE_ORPHANE) {
+                            if (s == 0) {
+                                qbase = tolower(sq->data[proc[s]]);
+                            } else {
+                                rbase = tolower(sq->data[proc[s]]);
+                            }
+                        } else {
+                            if (s == 0) {
+                                qbase = toupper(sq->data[proc[s]]);
+                            } else {
+                                rbase = toupper(sq->data[proc[s]]);
+                            }
+                        }
+                        proc[s]++;
+                    } else {
+                        if (s == 0) {
+                            qbase = '-';
+                        } else {
+                            rbase = '-';
+                        }
+                    }
+                } else {
+                    if (s == 0) {
+                        qbase = '-';
+                    } else {
+                        rbase = '-';
+                    }
+                }
+            }
+        }
+        if (qbase != '-') {
+            isQueryHasBase = true;
+        }
+        if (isQueryHasBase == true) {
+            if (qbase != '-' && rbase != '-') {
+                // Match
+                m.t = 0;
+                alder_cigar_enqueue(m, qu);
+            } else if (qbase != '-' && rbase == '-') {
+                // Insertion
+                m.t = 1;
+                alder_cigar_enqueue(m, qu);
+            } else if (qbase == '-' && rbase != '-') {
+                // Deletion
+                m.t = 2;
+                alder_cigar_enqueue(m, qu);
+            } else {
+                assert(0);
+                fprintf(stderr, "error: both query and ref. bases are - or gap\n");
+                abort();
+            }
+            alder_cigar_enqueue(m, qu);
+        } else {
+            startPos++;
+        }
+    }
+    sq = &scol->seqs[0];
+    sam->qname = strdup(sq->name);
+    sam->flag = 0;
+    sq = &scol->seqs[1];
+    sam->rname = strdup(sq->name);
+    sam->pos += startPos; // sam->pos must have been set to the start of ref.
+    sam->mapq = 30;
+    size_t sizeOfCigar = alder_cigar_strsize(qu);
+    sam->cigar = malloc((sizeOfCigar + 1)*sizeof(char));
+    sam->cigar[0] = '\0';
+    sam->cigar[sizeOfCigar] = '\0';
+    char cigarString[9] = { 'M', 'I', 'D', 'N', 'S', 'H', 'P', '=', 'X' };
+    while (!alder_cigar_queue_empty(qu)) {
+        alder_cigar_item_t x = alder_cigar_dequeue(qu);
+        sprintf(sam->cigar, "%s%d%c", sam->cigar, x.n, cigarString[x.t]);
+    }
+    assert(strlen(sam->cigar) == sizeOfCigar);
+    sam->rnext = strdup("*");
+    sam->pnext = 0;
+    sam->tlen = 0;
+//    sam->seq; must have been set earlier.
+    sam->qual = strdup("*");
+    sam->optional = strdup("HO:i:1");
+    ///////////////////////////////////////////////////////////////////////////
 }
 
 int alder_align_read_finalize()

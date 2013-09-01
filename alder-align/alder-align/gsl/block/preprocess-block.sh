@@ -38,6 +38,7 @@ cat>$NAME.h<<EOF
 
 #include <stdlib.h>
 #include <gsl/gsl_errno.h>
+#include "gsl_vector_anchor.h"
 
 #undef __BEGIN_DECLS
 #undef __END_DECLS
@@ -52,11 +53,20 @@ cat>$NAME.h<<EOF
 __BEGIN_DECLS
 
 struct alder_${NAME}_struct {
-    int anchor1;
-    int anchor2;
-    int anchorLength;
-    double anchorScore;
-}
+    char     *qname;
+    uint16_t flag;
+    char     *rname;
+    uint32_t pos;
+    uint8_t  mapq;
+    char     *cigar;
+    char     *rnext;
+    uint32_t pnext;
+    int32_t  tlen;
+    char     *seq;
+    char     *qual;
+    char     *optional;
+};
+
 typedef struct alder_${NAME}_struct alder_${NAME}_t;
 
 struct gsl_block_${NAME}_struct
@@ -76,20 +86,22 @@ int gsl_block_${NAME}_fwrite (FILE * stream, const gsl_block_${NAME} * b);
 int gsl_block_${NAME}_fscanf (FILE * stream, gsl_block_${NAME} * b);
 int gsl_block_${NAME}_fprintf (FILE * stream, const gsl_block_${NAME} * b, const char *format);
 
-int gsl_block_${NAME}_raw_fread (FILE * stream, gsl_block_${NAME} * b, const size_t n, const size_t stride);
-int gsl_block_${NAME}_raw_fwrite (FILE * stream, const gsl_block_${NAME} * b, const size_t n, const size_t stride);
-int gsl_block_${NAME}_raw_fscanf (FILE * stream, gsl_block_${NAME} * b, const size_t n, const size_t stride);
-int gsl_block_${NAME}_raw_fprintf (FILE * stream, const gsl_block_${NAME} * b, const size_t n, const size_t stride, const char *format);
+int gsl_block_${NAME}_raw_fread (FILE * stream, alder_${NAME}_t * b, const size_t n, const size_t stride);
+int gsl_block_${NAME}_raw_fwrite (FILE * stream, const alder_${NAME}_t * b, const size_t n, const size_t stride);
+int gsl_block_${NAME}_raw_fscanf (FILE * stream, alder_${NAME}_t * b, const size_t n, const size_t stride);
+int gsl_block_${NAME}_raw_fprintf (FILE * stream, const alder_${NAME}_t * b, const size_t n, const size_t stride, const char *format);
 
 size_t gsl_block_${NAME}_size (const gsl_block_${NAME} * b);
-unsigned int * gsl_block_${NAME}_data (const gsl_block_${NAME} * b);
+alder_${NAME}_t * gsl_block_${NAME}_data (const gsl_block_${NAME} * b);
+gsl_block_${NAME} * gsl_block_${NAME}_realloc (gsl_block_${NAME} *b, const size_t n);
+
 
 __END_DECLS
 
 #endif /* _GSL_BLOCK_${CAPNAME}_H_ */
 EOF
 
-for i in init block file ; do
+for i in init block file test; do
 gcc -DHAVE_CONFIG_H -I. -I../../block -I.. -I../.. -g -O2 -MT $i.lo -MD -MP -MF .deps/$i.Tpo -E ../../block/$i.c  -fno-common -DPIC -o $i.c
 # cp ../../block/$i.c /Users/goshng/Dropbox/Documents/Projects/cocoa/alder-align/alder-align/gsl/block
 done

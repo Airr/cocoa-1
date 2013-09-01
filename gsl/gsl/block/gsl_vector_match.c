@@ -24,7 +24,7 @@ gsl_vector_match_alloc (const size_t n)
                        GSL_EINVAL, 0);
     }
     
-
+    
     v = (gsl_vector_match *) malloc (sizeof (gsl_vector_match));
     
     if (v == 0)
@@ -91,7 +91,7 @@ gsl_vector_match_add_alder_match (gsl_vector_match * a, const alder_match_t m)
     size_t n = (size_t)((double)a->size * GSLVECTORMATCHINCSIZE);
     if (a->block->size < n) {
         // Resize a->block
-        gsl_block_match *t = gsl_block_match_realloc (a->block, n);
+        gsl_block_match *t = gsl_block_match_realloc (a->block, n * 2);
         if (t == NULL) {
             GSL_ERROR ("failed to allocate space for vector struct",
                        GSL_ENOMEM);

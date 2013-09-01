@@ -12,10 +12,10 @@
 
 void gsl_vector_match_test ()
 {
-    int status;
-    size_t n;
-    char *testFile = "gsl_block_match_test.out";
-    char *testBinaryFile = "gsl_block_match_test.bin";
+//    int status;
+//    size_t n;
+//    char *testFile = "gsl_block_match_test.out";
+//    char *testBinaryFile = "gsl_block_match_test.bin";
     
     // We need to create a vector with 0 elements.
     // We need to add an element to the vector.

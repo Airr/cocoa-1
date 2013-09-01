@@ -1,0 +1,115 @@
+
+
+gengetopt < alder-adapter.ggo --file-name=cmdline --unamed-opts --func-name=my_cmdline_parser --include-getopt
+
+
+(byte1 == 0x1f) && (byte2 == 0x8b)
+
+
+
+             "globalalign_locate(string1, string2, max_error_rate, flags=SEMIGLOBAL) -> (start1, stop1, start2, stop2, matches, errors)
+             
+             Locate one string within another by computing an optimal semiglobal alignment between string1 and string2.
+             
+             The alignment uses unit costs, which means that mismatches, insertions and deletions are
+             counted as one error.
+             
+             The alignment is semiglobal, which means that an arbitrary number of characters in the beginning and end of
+             string1 and in the beginning and end of string2 may be skipped at no cost. These
+             skipped parts are described with two interval (start1, stop1), (start2, stop2).
+             For example, the semiglobal alignment of SISSI and MISSISSIPPI looks like this:
+             
+             ---SISSI---
+             MISSISSIPPI
+             
+             start1, stop1 = 0, 5
+             start2, stop2 = 3, 8
+             (with zero errors)
+             
+             The aligned parts are string1[start1:stop1] and string2[start2:stop2].
+             
+             The alignment itself is not returned, only the tuple
+             (start1, stop1, start2, stop2, matches, errors), where the first four fields have the
+             meaning as described, matches is the number of matches and errors is the number of 
+             errors in the alignment.
+             
+             The error_rate is: errors / length where length is (stop1 - start1).
+             
+             (TODO length is computed on string1 only! It could also be min(or max)(stop1-start1, stop2-start2).)
+             
+             An optimal alignment fulfills all of these criteria:
+             - error_rate <= max_error_rate
+             - Among those alignments with error_rate <= max_error_rate, the alignment contains
+             a maximal number of matches (there is no alignment with more matches).
+             - If there are multiple alignments with the same no. of matches, then one that
+             has minimal no. of errors is chosen.
+             
+             It is always the case that at least one of start1 and start2 is zero.
+             
+             The flags parameter allows to compute semiglobal alignments in which initial
+             or trailing gaps in only one of the strings are penalized.\n");
+             
+             
+package "alder-adapter"
+
+version "0.1"
+
+purpose "The program alder-adapter cuts parts of 3'-end of read with an adapter sequence from Illumina HiSeq.\n\nExample: ./alder-adapter file.fq\n         ./alder-adapter file.fq.gz\n         ./alder-adapter -a ACGTACGTACGT file.fq.gz\n         ./alder-adapter -a ACGTACGTACGT -o outfile.fq file.fq.gz\n         ./alder-adapter file.fq.gz > outfile.fq\n         gzip -d file.fq.gz | ./alder-adapter > outfile.fq\n         gzip -d file.fq.gz | ./alder-adapter | gzip > outfile.fq.gz\n         ./alder-adapter -e 0.1 file.fq.gz\n         ./alder-adapter file.fq.gz -o outfile.fq"
+
+usage "alder-adapter [-h|--help] l-help] [-V|--version] [-aSTRING|--adapter=STRING] [-eFLOAT|--error-rate=FLOAT] [-ofilename|--output=filename] [FILE]"
+
+description "This is a simpler version of cutadapt by Marcel Martin. You can use more features in his software package, cutadapt, and cite his paper, if you use this alder-adapter software package, Martin, M. Cutadapt removes adapter sequences from high-throughput sequencing reads EMBnet.journal, 2011, 17. See http://code.google.com/p/cutadapt/ for the software package. Most of the text in the following options were a copy of cutadapt version 1.2.1. "
+
+section "File Input/Output"
+
+text "alder-adapter can read a FASTQ file or a gzipped FASTQ file. An input file in any other format is not allowed. It reads in either the standard input from other program or a single file. After cutting 3'-end adapter parts, if any, for each read sequence, it prints out the processed read sequence to the standard output or to the screen. Option output allows alder-adapter to create a file and print processed read sequences to the file. WARNING: if the output file exists, the file will be erased.\n"
+
+option "output" o "Write the modified sequences to this file instead of standard output and send the summary report to standard output. The format is FASTQ if qualities are available, FASTA otherwise. (default: standard output)" string optional
+
+section "Adapter:\n"
+
+text "alder-adapter needs a single adapter sequence. Otherwise, it inspects the first read sequence in the given input FASTQ file, and determines the read sequence using the six-letter index code. See below section FASTQ file.\n"
+
+option "adapter" a "Sequence of an adapter that was ligated to the 3'-end. The adapter itself and anything that follows is trimmed." string optional
+
+option "error-rate" e "Maximum allowed error rate (no. of mismatches divided by the length of the matching region) (default: 0.1)" double optional
+
+text "\nAdapters from Illumina:\n"
+text "One could find Illumina adapter sequences in the Internet. I found one at http://supportres.illumina.com/documents/myillumina/6378de81-c0cc-47d0-9281-724878bb1c30/2012-09-18_illuminacustomersequenceletter.pdf by googling with the words of [illumina truseq adapter sequences document].\n"
+text "There may be other adapter sequences, but these are hard-coded in this alder-adapter software package. Note that all of the 12 sequences are the same except the 6 letters in the middle of each sequence.\n"
+text "TruSeq Adapter, Index 1           ******\n"
+text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC ATCACG ATCTCGTATGCCGTCTTCTGCTTG\n"
+text "TruSeq Adapter, Index 2\n"
+text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CGATGT ATCTCGTATGCCGTCTTCTGCTTG\n"
+text "TruSeq Adapter, Index 3\n"
+text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TTAGGC ATCTCGTATGCCGTCTTCTGCTTG\n"
+text "TruSeq Adapter, Index 4\n"
+text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TGACCA ATCTCGTATGCCGTCTTCTGCTTG\n"
+text "TruSeq Adapter, Index 5\n"
+text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC ACAGTG ATCTCGTATGCCGTCTTCTGCTTG\n"
+text "TruSeq Adapter, Index 6\n"
+text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC GCCAAT ATCTCGTATGCCGTCTTCTGCTTG\n"
+text "TruSeq Adapter, Index 7\n"
+text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CAGATC ATCTCGTATGCCGTCTTCTGCTTG\n"
+text "TruSeq Adapter, Index 8\n"
+text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC ACTTGA ATCTCGTATGCCGTCTTCTGCTTG\n"
+text "TruSeq Adapter, Index 9 <--- matched with the example of the read below\n"
+text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC GATCAG ATCTCGTATGCCGTCTTCTGCTTG\n"
+text "TruSeq Adapter, Index 10\n"
+text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TAGCTT ATCTCGTATGCCGTCTTCTGCTTG\n"
+text "TruSeq Adapter, Index 11\n"
+text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC GGCTAC ATCTCGTATGCCGTCTTCTGCTTG\n"
+text "TruSeq Adapter, Index 12\n"
+text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CTTGTA ATCTCGTATGCCGTCTTCTGCTTG\n"
+
+
+text "\nFASTQ file:\n"
+text "This is an example of Illumina HiSeq reads. The six-letter at the end of the first line matches that in the TruSeq Adapter Index 9.\n"
+text "@read:name 1:N:0:GATCAG\n"
+text "NTCCCATTTGGGTACTCAGAGTTGCCCAAAATCCTGACAACTGCGATCGGAAGAGCACACG\n"
+text "+\n"
+text "#1=DDFFFHHHGFHIGJJJJJFHAHGIJJJCFHIJJFIG<GHGGGHJGHIHIGFEHGIIJI\n"
+
+text "\nTry alder-adapter:\n"
+text "Create a FASTQ file, file.fq, with the example above. Run the following command.\n"
+text "$ ./alder-adapter file.fq"

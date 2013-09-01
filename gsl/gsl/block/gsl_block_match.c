@@ -55,7 +55,7 @@ gsl_block_match_calloc (const size_t n)
         return 0;
     
     
-
+    
     for (i = 0; i < 1 * n; i++)
     {
         b->data[i].query = 0;
@@ -92,7 +92,7 @@ gsl_block_match_realloc (gsl_block_match *b, const size_t n)
     }
     b->data = t;
     b->size = n;
- 
+    
     return b;
 }
 

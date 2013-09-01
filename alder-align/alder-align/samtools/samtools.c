@@ -9,7 +9,8 @@
 #include <stdio.h>
 #include "../samtools/sam.h"
 #include "../fasta/alder_fasta.h"
-#include "../palign/alder_align_alignment.h"
+//#include "../palign/alder_align_alignment.h"
+#include "gsl_vector_sam.h"
 #include "../bstring/bstraux.h"
 #include "samtools.h"
 
@@ -52,7 +53,7 @@ FILE *alder_sam_open(const char *fn, const fasta_t *fh)
     return fp;
 }
 
-int alder_sam_print(FILE *fp, const alder_alignment_t *a)
+int alder_sam_print(FILE *fp, const alder_sam_t *a)
 {
     fprintf(fp, "%s\t%d\t%s\t%d\t%d\t%s\t%s\t%d\t%d\t%s\t%s\n",
             a->qname, a->flag, a->rname, a->pos, a->mapq, a->cigar, a->rnext,

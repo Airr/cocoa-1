@@ -10,7 +10,7 @@
 #define alder_align_alder_palign_h
 
 #include "../union/union_array.h"
-#include "../gsl_vector_match.h"
+#include "gsl_vector_match.h"
 #include "../fasta/alder_fasta.h"
 
 #undef __BEGIN_DECLS

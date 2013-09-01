@@ -18,6 +18,8 @@
 		D06E374217CC0E5500B8891B /* gsl_block_match_test.c in Sources */ = {isa = PBXBuildFile; fileRef = D06E374117CC0E5500B8891B /* gsl_block_match_test.c */; };
 		D0D1418E17CEF99E00CD1FD3 /* gsl_block_anchor.c in Sources */ = {isa = PBXBuildFile; fileRef = D0D1418D17CEF99E00CD1FD3 /* gsl_block_anchor.c */; };
 		D0D1419317CF20F800CD1FD3 /* gsl_vector_anchor.c in Sources */ = {isa = PBXBuildFile; fileRef = D0D1419217CF20F800CD1FD3 /* gsl_vector_anchor.c */; };
+		D0D1419B17CFD45300CD1FD3 /* gsl_vector_seqpair.c in Sources */ = {isa = PBXBuildFile; fileRef = D0D1419A17CFD45300CD1FD3 /* gsl_vector_seqpair.c */; };
+		D0D141B517D08E4B00CD1FD3 /* gsl_vector_sam.c in Sources */ = {isa = PBXBuildFile; fileRef = D0D141B417D08E4B00CD1FD3 /* gsl_vector_sam.c */; };
 		D0D4094117CC1B1300326968 /* gsl_vector_match.c in Sources */ = {isa = PBXBuildFile; fileRef = D0D4094017CC1B1300326968 /* gsl_vector_match.c */; };
 		D0D4094417CC1C2D00326968 /* gsl_vector_match_test.c in Sources */ = {isa = PBXBuildFile; fileRef = D0D4094317CC1C2D00326968 /* gsl_vector_match_test.c */; };
 /* End PBXBuildFile section */
@@ -61,6 +63,12 @@
 		D0D1419217CF20F800CD1FD3 /* gsl_vector_anchor.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gsl_vector_anchor.c; sourceTree = "<group>"; };
 		D0D1419417CF210400CD1FD3 /* gsl_vector_anchor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = gsl_vector_anchor.h; sourceTree = "<group>"; };
 		D0D1419517CF3A0900CD1FD3 /* gsl_vector_anchor_test.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = gsl_vector_anchor_test.c; sourceTree = "<group>"; };
+		D0D1419917CFD44600CD1FD3 /* gsl_vector_seqpair.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = gsl_vector_seqpair.h; sourceTree = "<group>"; };
+		D0D1419A17CFD45300CD1FD3 /* gsl_vector_seqpair.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gsl_vector_seqpair.c; sourceTree = "<group>"; };
+		D0D1419C17CFE1CB00CD1FD3 /* gsl_vector_seqpair_test.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = gsl_vector_seqpair_test.c; sourceTree = "<group>"; };
+		D0D141B417D08E4B00CD1FD3 /* gsl_vector_sam.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gsl_vector_sam.c; sourceTree = "<group>"; };
+		D0D141B617D08E5400CD1FD3 /* gsl_vector_sam.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = gsl_vector_sam.h; sourceTree = "<group>"; };
+		D0D141B717D08E6800CD1FD3 /* gsl_vector_sam_test.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = gsl_vector_sam_test.c; sourceTree = "<group>"; };
 		D0D4093F17CC1B0800326968 /* gsl_vector_match.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = gsl_vector_match.h; sourceTree = "<group>"; };
 		D0D4094017CC1B1300326968 /* gsl_vector_match.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gsl_vector_match.c; sourceTree = "<group>"; };
 		D0D4094217CC1C2100326968 /* gsl_vector_match_test.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = gsl_vector_match_test.h; sourceTree = "<group>"; };
@@ -119,8 +127,8 @@
 				D005187C17B623A600F3EC62 /* gsl_block_string_test.h */,
 				D005188117B6AB5A00F3EC62 /* gsl_vector_string_test.c */,
 				D005188017B6AB4100F3EC62 /* gsl_vector_string_test.h */,
-				D06E373D17CC0A6D00B8891B /* gsl_block_match.h */,
 				D06E373E17CC0A7600B8891B /* gsl_block_match.c */,
+				D06E373D17CC0A6D00B8891B /* gsl_block_match.h */,
 				D06E374017CC0E4100B8891B /* gsl_block_match_test.h */,
 				D06E374117CC0E5500B8891B /* gsl_block_match_test.c */,
 				D0D4094017CC1B1300326968 /* gsl_vector_match.c */,
@@ -133,6 +141,12 @@
 				D0D1419217CF20F800CD1FD3 /* gsl_vector_anchor.c */,
 				D0D1419417CF210400CD1FD3 /* gsl_vector_anchor.h */,
 				D0D1419517CF3A0900CD1FD3 /* gsl_vector_anchor_test.c */,
+				D0D1419917CFD44600CD1FD3 /* gsl_vector_seqpair.h */,
+				D0D1419A17CFD45300CD1FD3 /* gsl_vector_seqpair.c */,
+				D0D1419C17CFE1CB00CD1FD3 /* gsl_vector_seqpair_test.c */,
+				D0D141B417D08E4B00CD1FD3 /* gsl_vector_sam.c */,
+				D0D141B617D08E5400CD1FD3 /* gsl_vector_sam.h */,
+				D0D141B717D08E6800CD1FD3 /* gsl_vector_sam_test.c */,
 			);
 			path = block;
 			sourceTree = "<group>";
@@ -200,6 +214,8 @@
 				D0D4094417CC1C2D00326968 /* gsl_vector_match_test.c in Sources */,
 				D0D1418E17CEF99E00CD1FD3 /* gsl_block_anchor.c in Sources */,
 				D0D1419317CF20F800CD1FD3 /* gsl_vector_anchor.c in Sources */,
+				D0D1419B17CFD45300CD1FD3 /* gsl_vector_seqpair.c in Sources */,
+				D0D141B517D08E4B00CD1FD3 /* gsl_vector_sam.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,6 +300,10 @@
 		D005187317B6150300F3EC62 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				OTHER_CFLAGS = (
+					"-I/usr/local/Cellar/gsl/1.15/include",
+					"-DHAVE_INLINE",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -291,6 +311,10 @@
 		D005187417B6150300F3EC62 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				OTHER_CFLAGS = (
+					"-I/usr/local/Cellar/gsl/1.15/include",
+					"-DHAVE_INLINE",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

@@ -10,7 +10,7 @@ gsl_block_string *
 gsl_block_string_alloc (const size_t n)
 {
     gsl_block_string * b;
-      
+    
     b = (gsl_block_string *) malloc (sizeof (gsl_block_string));
     
     if (b == 0)
@@ -46,19 +46,19 @@ gsl_block_string_alloc (const size_t n)
 gsl_block_string *
 gsl_block_string_calloc (const size_t n)
 {
-  size_t i;
-
-  gsl_block_string * b = gsl_block_string_alloc (n);
-
-  if (b == 0)
-    return 0;
-
-  for (i = 0; i < 1 * n; i++)
+    size_t i;
+    
+    gsl_block_string * b = gsl_block_string_alloc (n);
+    
+    if (b == 0)
+        return 0;
+    
+    for (i = 0; i < 1 * n; i++)
     {
-      b->data[i] = 0;
+        b->data[i] = 0;
     }
-
-  return b;
+    
+    return b;
 }
 
 void
@@ -122,7 +122,7 @@ gsl_block_string_raw_fread (FILE * stream, string * data,
         }
         data[i * stride][lengthOfString] = '\0';
     }
-        
+    
     return GSL_SUCCESS;
 }
 
@@ -236,7 +236,7 @@ gsl_block_string_raw_fscanf (FILE * stream,
     size_t i;
     
     char tmp[BUFSIZE + 1];
-
+    
     for (i = 0; i < n; i++)
     {
         int k;
@@ -299,13 +299,13 @@ gsl_block_string_raw_fscanf (FILE * stream,
 size_t
 gsl_block_string_size (const gsl_block_string * b)
 {
-  return b->size ;
+    return b->size ;
 }
 
 string *
 gsl_block_string_data (const gsl_block_string * b)
 {
-  return b->data ;
+    return b->data ;
 }
 
 int

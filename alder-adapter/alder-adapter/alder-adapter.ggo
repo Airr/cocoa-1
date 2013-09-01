@@ -1,0 +1,73 @@
+package "alder-adapter"
+
+version "0.1"
+
+purpose "The program alder-adapter cuts parts of 3'-end of read sequences that overlap an adapter sequence from Illumina HiSeq data.\n\nExample: ./alder-adapter file.fq\n         ./alder-adapter file.fq.gz\n         ./alder-adapter -a TTTGGGTACTCAGAGTTGC file.fq.gz\n         ./alder-adapter -a TTTGGGTACTCAGAGTTGC -o outfile.fq file.fq.gz\n         ./alder-adapter file.fq.gz > outfile.fq\n         gzip -dc file.fq.gz | ./alder-adapter > outfile.fq\n         gzip -dc file.fq.gz | ./alder-adapter | gzip > outfile.fq.gz\n         ./alder-adapter -e 0.1 file.fq.gz\n         ./alder-adapter file.fq.gz -o outfile.fq"
+
+usage "alder-adapter [-h|--help] l-help] [-V|--version] [-aSTRING|--adapter=STRING] [-eFLOAT|--error-rate=FLOAT] [-ofilename|--output=filename] [-l|--log] [-flogfilename|--logfile=logfilename] [FILE]"
+
+description "This is a simpler version of cutadapt by Marcel Martin. You can use more features in his software package, cutadapt, and cite his paper, if you use this alder-adapter software package, Martin, M. Cutadapt removes adapter sequences from high-throughput sequencing reads EMBnet.journal, 2011, 17. See http://code.google.com/p/cutadapt/ for the software package. Most of the text in the following options were a copy of cutadapt version 1.2.1. "
+
+section "File Input/Output"
+
+sectiondesc="alder-adapter can read a FASTQ file or a gzipped FASTQ file. An input file in any other format is not allowed. It reads in either the standard input from other program or a single file. After cutting 3'-end adapter parts, if any, for each read sequence, it prints out the processed read sequence to the standard output or to the screen. Option output allows alder-adapter to create a file and print processed read sequences to the file. WARNING: if the output file exists, the file will be erased.\n"
+
+option "output" o "Write the modified sequences to this file instead of standard output and send the summary report to standard output. The format is FASTQ if qualities are available, FASTA otherwise. (default: standard output)" string optional
+
+option "keep" k "Keeps the trimmed sequences. (default: off)" flag off
+
+section "Adapter"
+
+sectiondesc="alder-adapter needs a single adapter sequence. Otherwise, it inspects the first read sequence in the given input FASTQ file, and determines the read sequence using the six-letter index code. See below section FASTQ file.\n"
+
+option "adapter" a "Sequence of an adapter that was ligated to the 3'-end. The adapter itself and anything that follows is trimmed." string optional
+
+option "error-rate" e "Maximum allowed error rate (no. of mismatches divided by the length of the matching region) (default: 0.1)" double optional
+
+section "Log"
+
+sectiondesc="alder-adapter computes basic summary stattistics of the given FASTQ file."
+
+option "log" l "Write a summary statistics of the input FASTQ file to a file with basename being the input file name. Option logfile overrides this log option; if both used, the log filename is the one given by option logfile. If the input file is standard input, use option logfile because option log is meaningless." flag off
+option "logfile" f "Write a summary statistics of the input FASTQ file to this file name" string optional
+
+text "\n------------------------------------------------------------------------------\n"
+text "\nAdapters from Illumina:\n"
+text "One could find Illumina adapter sequences in the Internet. I found one at http://supportres.illumina.com/documents/myillumina/6378de81-c0cc-47d0-9281-724878bb1c30/2012-09-18_illuminacustomersequenceletter.pdf by googling with the words of [illumina truseq adapter sequences document].\n"
+text "There may be other adapter sequences, but these are hard-coded in this alder-adapter software package. Note that all of the 12 sequences are the same except the 6 letters in the middle of each sequence.\n"
+text "TruSeq Adapter, Index 1           ******\n"
+text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC ATCACG ATCTCGTATGCCGTCTTCTGCTTG\n"
+text "TruSeq Adapter, Index 2\n"
+text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CGATGT ATCTCGTATGCCGTCTTCTGCTTG\n"
+text "TruSeq Adapter, Index 3\n"
+text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TTAGGC ATCTCGTATGCCGTCTTCTGCTTG\n"
+text "TruSeq Adapter, Index 4\n"
+text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TGACCA ATCTCGTATGCCGTCTTCTGCTTG\n"
+text "TruSeq Adapter, Index 5\n"
+text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC ACAGTG ATCTCGTATGCCGTCTTCTGCTTG\n"
+text "TruSeq Adapter, Index 6\n"
+text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC GCCAAT ATCTCGTATGCCGTCTTCTGCTTG\n"
+text "TruSeq Adapter, Index 7\n"
+text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CAGATC ATCTCGTATGCCGTCTTCTGCTTG\n"
+text "TruSeq Adapter, Index 8\n"
+text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC ACTTGA ATCTCGTATGCCGTCTTCTGCTTG\n"
+text "TruSeq Adapter, Index 9 <--- matched with the example of the read below\n"
+text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC GATCAG ATCTCGTATGCCGTCTTCTGCTTG\n"
+text "TruSeq Adapter, Index 10\n"
+text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TAGCTT ATCTCGTATGCCGTCTTCTGCTTG\n"
+text "TruSeq Adapter, Index 11\n"
+text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC GGCTAC ATCTCGTATGCCGTCTTCTGCTTG\n"
+text "TruSeq Adapter, Index 12\n"
+text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CTTGTA ATCTCGTATGCCGTCTTCTGCTTG\n"
+
+
+text "\nFASTQ file:\n"
+text "This is an example of Illumina HiSeq reads. The six-letter at the end of the first line matches that in the TruSeq Adapter Index 9.\n"
+text "@read:name 1:N:0:GATCAG\n"
+text "NTCCCATTTGGGTACTCAGAGTTGCCCAAAATCCTGACAACTGCGATCGGAAGAGCACACG\n"
+text "+\n"
+text "#1=DDFFFHHHGFHIGJJJJJFHAHGIJJJCFHIJJFIG<GHGGGHJGHIHIGFEHGIIJI\n"
+
+text "\nTry alder-adapter:\n"
+text "Create a FASTQ file, file.fq, with the example above. Run the following command.\n"
+text "$ ./alder-adapter file.fq"

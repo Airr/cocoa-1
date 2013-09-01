@@ -10,6 +10,7 @@
 #define brass_ds_union_array_h
 
 #include <stdint.h>
+#include <stdbool.h>
 
 #undef __BEGIN_DECLS
 #undef __END_DECLS

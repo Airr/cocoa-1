@@ -70,14 +70,14 @@ gsl_vector_match *gsl_vector_match_alloc (const size_t n);
 gsl_vector_match *gsl_vector_match_calloc (const size_t n);
 
 gsl_vector_match *gsl_vector_match_alloc_from_block (gsl_block_match * b,
-                                                       const size_t offset,
-                                                       const size_t n,
-                                                       const size_t stride);
+                                                     const size_t offset,
+                                                     const size_t n,
+                                                     const size_t stride);
 
 gsl_vector_match *gsl_vector_match_alloc_from_vector (gsl_vector_match * v,
-                                                        const size_t offset,
-                                                        const size_t n,
-                                                        const size_t stride);
+                                                      const size_t offset,
+                                                      const size_t n,
+                                                      const size_t stride);
 
 void gsl_vector_match_free (gsl_vector_match * v);
 
@@ -88,38 +88,38 @@ gsl_vector_match_view_array (gsl_vector_match *v, size_t n);
 
 _gsl_vector_match_view
 gsl_vector_match_view_array_with_stride (gsl_vector_match *base,
-                                          size_t stride,
-                                          size_t n);
+                                         size_t stride,
+                                         size_t n);
 
 _gsl_vector_match_const_view
 gsl_vector_match_const_view_array (const gsl_vector_match *v, size_t n);
 
 _gsl_vector_match_const_view
 gsl_vector_match_const_view_array_with_stride (const gsl_vector_match *base,
-                                                size_t stride,
-                                                size_t n);
+                                               size_t stride,
+                                               size_t n);
 
 _gsl_vector_match_view
 gsl_vector_match_subvector (gsl_vector_match *v,
-                             size_t i,
-                             size_t n);
+                            size_t i,
+                            size_t n);
 
 _gsl_vector_match_view
 gsl_vector_match_subvector_with_stride (gsl_vector_match *v,
-                                         size_t i,
-                                         size_t stride,
-                                         size_t n);
+                                        size_t i,
+                                        size_t stride,
+                                        size_t n);
 
 _gsl_vector_match_const_view
 gsl_vector_match_const_subvector (const gsl_vector_match *v,
-                                   size_t i,
-                                   size_t n);
+                                  size_t i,
+                                  size_t n);
 
 _gsl_vector_match_const_view
 gsl_vector_match_const_subvector_with_stride (const gsl_vector_match *v,
-                                               size_t i,
-                                               size_t stride,
-                                               size_t n);
+                                              size_t i,
+                                              size_t stride,
+                                              size_t n);
 
 /* Operations */
 
@@ -130,7 +130,7 @@ int gsl_vector_match_fread (FILE * stream, gsl_vector_match * v);
 int gsl_vector_match_fwrite (FILE * stream, const gsl_vector_match * v);
 int gsl_vector_match_fscanf (FILE * stream, gsl_vector_match * v);
 int gsl_vector_match_fprintf (FILE * stream, const gsl_vector_match * v,
-                               const char *format);
+                              const char *format);
 
 int gsl_vector_match_memcpy (gsl_vector_match * dest, const gsl_vector_match * src);
 
@@ -146,6 +146,26 @@ void gsl_vector_match_minmax (const gsl_vector_match * v, alder_match_t * min_ou
 size_t gsl_vector_match_max_index (const gsl_vector_match * v);
 size_t gsl_vector_match_min_index (const gsl_vector_match * v);
 void gsl_vector_match_minmax_index (const gsl_vector_match * v, size_t * imin, size_t * imax);
+
+#ifndef HAVE_INLINE
+#define HAVE_INLINE
+#endif
+
+#ifdef INLINE_DECL
+#undef INLINE_DECL
+#endif
+
+#ifndef INLINE_DECL
+#define INLINE_DECL static inline
+#endif
+
+#ifdef INLINE_FUN
+#undef INLINE_FUN
+#endif
+
+#ifndef INLINE_FUN
+#define INLINE_FUN static inline
+#endif
 
 INLINE_DECL alder_match_t gsl_vector_match_get (const gsl_vector_match * v, const size_t i);
 INLINE_DECL void gsl_vector_match_set (gsl_vector_match * v, const size_t i, alder_match_t x);

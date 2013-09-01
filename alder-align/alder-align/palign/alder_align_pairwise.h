@@ -13,6 +13,9 @@
 #ifndef dialign_alder_assemble_h
 #define dialign_alder_assemble_h
 
+//#include "alder_palign_alignment.h"
+#include "gsl_vector_sam.h"
+
 #undef __BEGIN_DECLS
 #undef __END_DECLS
 #ifdef __cplusplus
@@ -453,13 +456,15 @@ void alder_align_free_seq(struct seq *o);
 #pragma mark wrapper
 int alder_align_read_initialize();
 int alder_align_read_execute(const char *seqReference, const char *seqRead);
-int alder_align_read_execute_with_anchor(const char *seqReference,
+int alder_align_read_execute_with_anchor(const alder_sam_t *sam,
+                                         const char *seqReference,
                                          const char *seqRead,
                                          const int *anchor1,
                                          const int *anchor2,
                                          const int *anchorLength,
                                          const double *anchorScore,
                                          const size_t numberOfAnchor);
+void alder_palign_sam(alder_sam_t *sam, struct alignment *algn);
 int alder_align_read_finalize();
 
 __END_DECLS

@@ -126,31 +126,33 @@ typedef struct
 } 
 gsl_vector_${NAME};
 
-typedef struct
-{
-  gsl_vector_${NAME} vector;
-} _gsl_vector_${NAME}_view;
-
-typedef _gsl_vector_${NAME}_view gsl_vector_${NAME}_view;
-
-typedef struct
-{
-  gsl_vector_${NAME} vector;
-} _gsl_vector_${NAME}_const_view;
-
-typedef const _gsl_vector_${NAME}_const_view gsl_vector_${NAME}_const_view;
+//typedef struct
+//{
+//  gsl_vector_${NAME} vector;
+//} _gsl_vector_${NAME}_view;
+//
+//typedef _gsl_vector_${NAME}_view gsl_vector_${NAME}_view;
+//
+//typedef struct
+//{
+//  gsl_vector_${NAME} vector;
+//} _gsl_vector_${NAME}_const_view;
+//
+//typedef const _gsl_vector_${NAME}_const_view gsl_vector_${NAME}_const_view;
 
 /* Addition */
-#ifndef GSLVECTORSIZE
-#define GSLVECTORSIZE 10
-#endif
-
-#ifndef GSLVECTORINCSIZE
-#define GSLVECTORINCSIZE 1.2
-#endif
+//#ifndef GSLVECTORSIZE
+//#define GSLVECTORSIZE 10
+//#endif
+//
+//#ifndef GSLVECTORINCSIZE
+//#define GSLVECTORINCSIZE 1.2
+//#endif
 
 /* Allocation */
 gsl_vector_${NAME} *gsl_vector_${NAME}_init ();
+gsl_vector_${NAME}_add (gsl_vector_${NAME} * a, const alder_${NAME}_t m)
+
 
 gsl_vector_${NAME} *gsl_vector_${NAME}_alloc (const size_t n);
 gsl_vector_${NAME} *gsl_vector_${NAME}_calloc (const size_t n);
@@ -169,84 +171,83 @@ void gsl_vector_${NAME}_free (gsl_vector_${NAME} * v);
 
 /* Views */
 
-_gsl_vector_${NAME}_view 
-gsl_vector_${NAME}_view_array (alder_${NAME}_t *v, size_t n);
-
-_gsl_vector_${NAME}_view 
-gsl_vector_${NAME}_view_array_with_stride (alder_${NAME}_t *base,
-                                         size_t stride,
-                                         size_t n);
-
-_gsl_vector_${NAME}_const_view 
-gsl_vector_${NAME}_const_view_array (const alder_${NAME}_t *v, size_t n);
-
-_gsl_vector_${NAME}_const_view 
-gsl_vector_${NAME}_const_view_array_with_stride (const alder_${NAME}_t *base,
-                                               size_t stride,
-                                               size_t n);
-
-_gsl_vector_${NAME}_view 
-gsl_vector_${NAME}_subvector (gsl_vector_${NAME} *v, 
-                            size_t i, 
-                            size_t n);
-
-_gsl_vector_${NAME}_view 
-gsl_vector_${NAME}_subvector_with_stride (gsl_vector_${NAME} *v, 
-                                        size_t i,
-                                        size_t stride,
-                                        size_t n);
-
-_gsl_vector_${NAME}_const_view 
-gsl_vector_${NAME}_const_subvector (const gsl_vector_${NAME} *v, 
-                                  size_t i, 
-                                  size_t n);
-
-_gsl_vector_${NAME}_const_view 
-gsl_vector_${NAME}_const_subvector_with_stride (const gsl_vector_${NAME} *v, 
-                                              size_t i, 
-                                              size_t stride,
-                                              size_t n);
+//_gsl_vector_${NAME}_view 
+//gsl_vector_${NAME}_view_array (alder_${NAME}_t *v, size_t n);
+//
+//_gsl_vector_${NAME}_view 
+//gsl_vector_${NAME}_view_array_with_stride (alder_${NAME}_t *base,
+//                                         size_t stride,
+//                                         size_t n);
+//
+//_gsl_vector_${NAME}_const_view 
+//gsl_vector_${NAME}_const_view_array (const alder_${NAME}_t *v, size_t n);
+//
+//_gsl_vector_${NAME}_const_view 
+//gsl_vector_${NAME}_const_view_array_with_stride (const alder_${NAME}_t *base,
+//                                               size_t stride,
+//                                               size_t n);
+//
+//_gsl_vector_${NAME}_view 
+//gsl_vector_${NAME}_subvector (gsl_vector_${NAME} *v, 
+//                            size_t i, 
+//                            size_t n);
+//
+//_gsl_vector_${NAME}_view 
+//gsl_vector_${NAME}_subvector_with_stride (gsl_vector_${NAME} *v, 
+//                                        size_t i,
+//                                        size_t stride,
+//                                        size_t n);
+//
+//_gsl_vector_${NAME}_const_view 
+//gsl_vector_${NAME}_const_subvector (const gsl_vector_${NAME} *v, 
+//                                  size_t i, 
+//                                  size_t n);
+//
+//_gsl_vector_${NAME}_const_view 
+//gsl_vector_${NAME}_const_subvector_with_stride (const gsl_vector_${NAME} *v, 
+//                                              size_t i, 
+//                                              size_t stride,
+//                                              size_t n);
 
 /* Operations */
+// void gsl_vector_${NAME}_set_zero (gsl_vector_${NAME} * v);
+// void gsl_vector_${NAME}_set_all (gsl_vector_${NAME} * v, alder_${NAME}_t x);
 
-void gsl_vector_${NAME}_set_zero (gsl_vector_${NAME} * v);
-void gsl_vector_${NAME}_set_all (gsl_vector_${NAME} * v, alder_${NAME}_t x);
-
-int gsl_vector_${NAME}_fread (FILE * stream, gsl_vector_${NAME} * v);
-int gsl_vector_${NAME}_fwrite (FILE * stream, const gsl_vector_${NAME} * v);
-int gsl_vector_${NAME}_fscanf (FILE * stream, gsl_vector_${NAME} * v);
+//int gsl_vector_${NAME}_fread (FILE * stream, gsl_vector_${NAME} * v);
+//int gsl_vector_${NAME}_fwrite (FILE * stream, const gsl_vector_${NAME} * v);
+//int gsl_vector_${NAME}_fscanf (FILE * stream, gsl_vector_${NAME} * v);
 int gsl_vector_${NAME}_fprintf (FILE * stream, const gsl_vector_${NAME} * v,
                               const char *format);
 
-int gsl_vector_${NAME}_memcpy (gsl_vector_${NAME} * dest, const gsl_vector_${NAME} * src);
+//int gsl_vector_${NAME}_memcpy (gsl_vector_${NAME} * dest, const gsl_vector_${NAME} * src);
 
 int gsl_vector_${NAME}_reverse (gsl_vector_${NAME} * v);
 
 int gsl_vector_${NAME}_swap (gsl_vector_${NAME} * v, gsl_vector_${NAME} * w);
 int gsl_vector_${NAME}_swap_elements (gsl_vector_${NAME} * v, const size_t i, const size_t j);
 
-alder_${NAME}_t gsl_vector_${NAME}_max (const gsl_vector_${NAME} * v);
-alder_${NAME}_t gsl_vector_${NAME}_min (const gsl_vector_${NAME} * v);
-void gsl_vector_${NAME}_minmax (const gsl_vector_${NAME} * v, alder_${NAME}_t * min_out, alder_${NAME}_t * max_out);
+// alder_${NAME}_t gsl_vector_${NAME}_max (const gsl_vector_${NAME} * v);
+// alder_${NAME}_t gsl_vector_${NAME}_min (const gsl_vector_${NAME} * v);
+// void gsl_vector_${NAME}_minmax (const gsl_vector_${NAME} * v, alder_${NAME}_t * min_out, alder_${NAME}_t * max_out);
+// 
+// size_t gsl_vector_${NAME}_max_index (const gsl_vector_${NAME} * v);
+// size_t gsl_vector_${NAME}_min_index (const gsl_vector_${NAME} * v);
+// void gsl_vector_${NAME}_minmax_index (const gsl_vector_${NAME} * v, size_t * imin, size_t * imax);
 
-size_t gsl_vector_${NAME}_max_index (const gsl_vector_${NAME} * v);
-size_t gsl_vector_${NAME}_min_index (const gsl_vector_${NAME} * v);
-void gsl_vector_${NAME}_minmax_index (const gsl_vector_${NAME} * v, size_t * imin, size_t * imax);
-
-int gsl_vector_${NAME}_add (gsl_vector_${NAME} * a, const gsl_vector_${NAME} * b);
-int gsl_vector_${NAME}_sub (gsl_vector_${NAME} * a, const gsl_vector_${NAME} * b);
-int gsl_vector_${NAME}_mul (gsl_vector_${NAME} * a, const gsl_vector_${NAME} * b);
-int gsl_vector_${NAME}_div (gsl_vector_${NAME} * a, const gsl_vector_${NAME} * b);
-int gsl_vector_${NAME}_scale (gsl_vector_${NAME} * a, const double x);
-int gsl_vector_${NAME}_add_constant (gsl_vector_${NAME} * a, const double x);
-
-int gsl_vector_${NAME}_equal (const gsl_vector_${NAME} * u, 
-                            const gsl_vector_${NAME} * v);
-
-int gsl_vector_${NAME}_isnull (const gsl_vector_${NAME} * v);
-int gsl_vector_${NAME}_ispos (const gsl_vector_${NAME} * v);
-int gsl_vector_${NAME}_isneg (const gsl_vector_${NAME} * v);
-int gsl_vector_${NAME}_isnonneg (const gsl_vector_${NAME} * v);
+// int gsl_vector_${NAME}_add (gsl_vector_${NAME} * a, const gsl_vector_${NAME} * b);
+// int gsl_vector_${NAME}_sub (gsl_vector_${NAME} * a, const gsl_vector_${NAME} * b);
+// int gsl_vector_${NAME}_mul (gsl_vector_${NAME} * a, const gsl_vector_${NAME} * b);
+// int gsl_vector_${NAME}_div (gsl_vector_${NAME} * a, const gsl_vector_${NAME} * b);
+// int gsl_vector_${NAME}_scale (gsl_vector_${NAME} * a, const double x);
+// int gsl_vector_${NAME}_add_constant (gsl_vector_${NAME} * a, const double x);
+// 
+// int gsl_vector_${NAME}_equal (const gsl_vector_${NAME} * u, 
+//                             const gsl_vector_${NAME} * v);
+// 
+// int gsl_vector_${NAME}_isnull (const gsl_vector_${NAME} * v);
+// int gsl_vector_${NAME}_ispos (const gsl_vector_${NAME} * v);
+// int gsl_vector_${NAME}_isneg (const gsl_vector_${NAME} * v);
+// int gsl_vector_${NAME}_isnonneg (const gsl_vector_${NAME} * v);
 
 INLINE_DECL alder_${NAME}_t gsl_vector_${NAME}_get (const gsl_vector_${NAME} * v, const size_t i);
 INLINE_DECL void gsl_vector_${NAME}_set (gsl_vector_${NAME} * v, const size_t i, alder_${NAME}_t x);

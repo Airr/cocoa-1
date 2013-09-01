@@ -131,7 +131,7 @@ typedef struct __kstring_t {
 			str->s = (char*)calloc(1, 1);								\
 		}																\
 		str->s[str->l] = '\0';											\
-		return str->l;													\
+		return (int)str->l;													\
 	} \
 	static inline int ks_getuntil(kstream_t *ks, int delimiter, kstring_t *str, int *dret) \
 	{ return ks_getuntil2(ks, delimiter, str, dret, 0); }

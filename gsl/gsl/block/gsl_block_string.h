@@ -20,8 +20,8 @@ typedef char* string;
 
 struct gsl_block_string_struct
 {
-  size_t size;
-  string *data;
+    size_t size;
+    string *data;
 };
 
 typedef struct gsl_block_string_struct gsl_block_string;

@@ -9,6 +9,11 @@
 			<key>orderHint</key>
 			<integer>12</integer>
 		</dict>
+		<key>brass-ds-cigar-dequeue.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>15</integer>
+		</dict>
 		<key>brass-ds-height-balanced-tree.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -118,6 +123,11 @@
 			<true/>
 		</dict>
 		<key>D07D766117C17C780017192C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D0D141A317D0275E00CD1FD3</key>
 		<dict>
 			<key>primary</key>
 			<true/>

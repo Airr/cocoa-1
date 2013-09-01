@@ -13,7 +13,7 @@
 #include <stdbool.h>
 #include <gsl/gsl_vector.h>
 #include "alder-align/fasta/alder_fasta.h"
-#include "../gsl_vector_match.h"
+#include "gsl_vector_match.h"
 
 #undef __BEGIN_DECLS
 #undef __END_DECLS

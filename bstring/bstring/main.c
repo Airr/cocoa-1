@@ -12,7 +12,7 @@
 
 int main(int argc, const char * argv[])
 {
-//    bstring b = bfromcstr ("Hello");
+/*
     bstring b = blk2bstr (bsStaticBlkParms ("Fast init. "));
     bReverse(b);
     char *tailS = bdata(b);
@@ -22,6 +22,18 @@ int main(int argc, const char * argv[])
     char *s = bdataofs(b, 3);
     printf("Hello, World! %s\n", bdata(b));
     bdestroy(b);
+*/
+    bstring b = bfromcstr ("1:N:0:ABCD");
+    struct bstrList * lines;
+    lines = bsplit (b, ':');
+    
+    for (int i=0; i < lines->qty; i++) {
+        printf ("%04d: %s\n", i, bdatae (lines->entry[i], "NULL"));
+    }
+    bstrListDestroy (lines);
+    bdestroy (b);
+    
+    
     return 0;
 }
 

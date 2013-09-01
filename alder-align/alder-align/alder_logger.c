@@ -7,27 +7,30 @@
 //
 
 #include <stdio.h>
-#include <gsl/gsl_errno.h>
+//#include <gsl/gsl_errno.h>
 #include <nglogc/log.h>
 //#include <nglogc/logger.h>
 #include "alder_logger.h"
 
-int alder_logger_initialize ()
+int alder_logger_initialize (const char *mainLoggerFilename,
+                             logc_logLevel_t l)
 {
-    char *mainLoggerFilename = "alder-align.log";
-    logc_registerLogger(MAIN_LOGGER, FILEOUT, LOG_BASIC);
-//    logc_registerLogger(MAIN_LOGGER, FILEOUT, LOG_FINEST);
+    remove(mainLoggerFilename);
+    
+    logc_registerLogger(MAIN_LOGGER, FILEOUT, l); // for basic
+//    logc_registerLogger(MAIN_LOGGER, FILEOUT, LOG_FINEST); // for debug
     logc_error_t status = logc_setLogfile(MAIN_LOGGER, mainLoggerFilename);
+    
     if (status != LOG_ERR_OK) {
-        printf("Error: no log is defined\n");
+        fprintf(stderr, "error: no log is defined\n");
     }
-    logc_log(MAIN_LOGGER, LOG_BASIC, "");
-    logc_setLogFormat(MAIN_LOGGER, TIMESTAMP_ERR_TAG, TIMESTAMP);
-    return GSL_SUCCESS;
+//    logc_log(MAIN_LOGGER, LOG_INFO, "");
+//    logc_setLogFormat(MAIN_LOGGER, TIMESTAMP_ERR_TAG, TIMESTAMP);
+    return 0;
 }
 
 int alder_logger_finalize ()
 {
     logc_removeLogger(MAIN_LOGGER);
-    return GSL_SUCCESS;
+    return 0;
 }

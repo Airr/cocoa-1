@@ -9,6 +9,8 @@
 #ifndef alder_align_alder_logger_h
 #define alder_align_alder_logger_h
 
+#include <nglogc/log.h>
+
 #undef __BEGIN_DECLS
 #undef __END_DECLS
 #ifdef __cplusplus
@@ -24,7 +26,8 @@ __BEGIN_DECLS
 #define MAIN_LOGGER 0x0011
 #define ERR_TEST 0x00000001
 
-int alder_logger_initialize ();
+int alder_logger_initialize (const char *mainLoggerFilename,
+                             logc_logLevel_t l);
 int alder_logger_finalize ();
 
 __END_DECLS

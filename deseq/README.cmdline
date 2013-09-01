@@ -1,0 +1,6 @@
+
+Use gengetopt 2.22.6 to generate cmdline.c and cmdline.h files.
+
+----
+$ gengetopt < deseq.ggo --file-name=cmdline --unamed-opts --func-name=my_cmdline_parser --include-getopt
+----

@@ -13,6 +13,8 @@
 #include "block/gsl_vector_match_test.h"
 #include "block/gsl_block_anchor_test.c"
 #include "block/gsl_vector_anchor_test.c"
+#include "block/gsl_vector_seqpair_test.c"
+#include "block/gsl_vector_sam_test.c"
 
 int main(int argc, const char * argv[])
 {
@@ -22,7 +24,9 @@ int main(int argc, const char * argv[])
 //    gsl_block_match_test();
 //    gsl_vector_match_test ();
 //    gsl_block_anchor_test();
-    gsl_vector_anchor_test();
+//    gsl_vector_anchor_test();
+//    gsl_vector_seqpair_test();
+    gsl_vector_sam_test();
 
     return 0;
 }

@@ -219,6 +219,30 @@
 #define ONE NULL
 #define UNSIGNED 1
 
+#elif defined(BASE_ALDER_SEQPAIR)
+#define BASE alder_seqpair_t
+#define SHORT seqpair
+#define ATOMIC alder_seqpair_t
+#define MULTIPLICITY 1
+#define IN_FORMAT "%s\t%s\t%d\t%d\t%d\t%lf\n"
+#define OUT_FORMAT "%s\t%s\t%d\t%d\t%d\t%lf\n"
+#define ATOMIC_IO ATOMIC
+#define ZERO NULL
+#define ONE NULL
+#define UNSIGNED 1
+
+#elif defined(BASE_ALDER_SAM)
+#define BASE alder_sam_t
+#define SHORT sam
+#define ATOMIC alder_sam_t
+#define MULTIPLICITY 1
+#define IN_FORMAT "%s\t%s\t%d\t%d\t%d\t%lf\n"
+#define OUT_FORMAT "%s\t%s\t%d\t%d\t%d\t%lf\n"
+#define ATOMIC_IO ATOMIC
+#define ZERO NULL
+#define ONE NULL
+#define UNSIGNED 1
+
 #elif defined(BASE_CHAR)
 #define BASE char
 #define SHORT char

@@ -67,7 +67,6 @@ __END_DECLS
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_inline.h>
 #include <gsl/gsl_check_range.h>
-#include "gsl_block_anchor.h"
 
 #undef __BEGIN_DECLS
 #undef __END_DECLS
@@ -86,12 +85,20 @@ __BEGIN_DECLS
 #define HAVE_INLINE
 #endif
 
-#ifndef INLINE_FUN
-#define INLINE_FUN inline
+#ifdef INLINE_DECL
+#undef INLINE_DECL
 #endif
 
 #ifndef INLINE_DECL
-#define INLINE_DECL inline
+#define INLINE_DECL static inline
+#endif
+
+#ifdef INLINE_FUN
+#undef INLINE_FUN
+#endif
+
+#ifndef INLINE_FUN
+#define INLINE_FUN static inline
 #endif
 
 typedef struct

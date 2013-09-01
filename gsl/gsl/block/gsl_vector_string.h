@@ -59,14 +59,14 @@ gsl_vector_string *gsl_vector_string_alloc (const size_t n);
 gsl_vector_string *gsl_vector_string_calloc (const size_t n);
 
 gsl_vector_string *gsl_vector_string_alloc_from_block (gsl_block_string * b,
-                                                     const size_t offset,
-                                                     const size_t n,
-                                                     const size_t stride);
+                                                       const size_t offset,
+                                                       const size_t n,
+                                                       const size_t stride);
 
 gsl_vector_string *gsl_vector_string_alloc_from_vector (gsl_vector_string * v,
-                                                      const size_t offset,
-                                                      const size_t n,
-                                                      const size_t stride);
+                                                        const size_t offset,
+                                                        const size_t n,
+                                                        const size_t stride);
 
 void gsl_vector_string_free (gsl_vector_string * v);
 
@@ -77,38 +77,38 @@ gsl_vector_string_view_array (string *v, size_t n);
 
 _gsl_vector_string_view
 gsl_vector_string_view_array_with_stride (string *base,
-                                         size_t stride,
-                                         size_t n);
+                                          size_t stride,
+                                          size_t n);
 
 _gsl_vector_string_const_view
 gsl_vector_string_const_view_array (const string *v, size_t n);
 
 _gsl_vector_string_const_view
 gsl_vector_string_const_view_array_with_stride (const string *base,
-                                               size_t stride,
-                                               size_t n);
+                                                size_t stride,
+                                                size_t n);
 
 _gsl_vector_string_view
 gsl_vector_string_subvector (gsl_vector_string *v,
-                            size_t i,
-                            size_t n);
+                             size_t i,
+                             size_t n);
 
 _gsl_vector_string_view
 gsl_vector_string_subvector_with_stride (gsl_vector_string *v,
-                                        size_t i,
-                                        size_t stride,
-                                        size_t n);
+                                         size_t i,
+                                         size_t stride,
+                                         size_t n);
 
 _gsl_vector_string_const_view
 gsl_vector_string_const_subvector (const gsl_vector_string *v,
-                                  size_t i,
-                                  size_t n);
+                                   size_t i,
+                                   size_t n);
 
 _gsl_vector_string_const_view
 gsl_vector_string_const_subvector_with_stride (const gsl_vector_string *v,
-                                              size_t i,
-                                              size_t stride,
-                                              size_t n);
+                                               size_t i,
+                                               size_t stride,
+                                               size_t n);
 
 /* Operations */
 
@@ -120,7 +120,7 @@ int gsl_vector_string_fread (FILE * stream, gsl_vector_string * v);
 int gsl_vector_string_fwrite (FILE * stream, const gsl_vector_string * v);
 int gsl_vector_string_fscanf (FILE * stream, gsl_vector_string * v);
 int gsl_vector_string_fprintf (FILE * stream, const gsl_vector_string * v,
-                              const char *format);
+                               const char *format);
 
 int gsl_vector_string_memcpy (gsl_vector_string * dest, const gsl_vector_string * src);
 
@@ -137,8 +137,15 @@ size_t gsl_vector_string_max_index (const gsl_vector_string * v);
 size_t gsl_vector_string_min_index (const gsl_vector_string * v);
 void gsl_vector_string_minmax_index (const gsl_vector_string * v, size_t * imin, size_t * imax);
 
+int gsl_vector_string_add (gsl_vector_string * a, const gsl_vector_string * b);
+int gsl_vector_string_sub (gsl_vector_string * a, const gsl_vector_string * b);
+int gsl_vector_string_mul (gsl_vector_string * a, const gsl_vector_string * b);
+int gsl_vector_string_div (gsl_vector_string * a, const gsl_vector_string * b);
+int gsl_vector_string_scale (gsl_vector_string * a, const double x);
+int gsl_vector_string_add_constant (gsl_vector_string * a, const double x);
+
 int gsl_vector_string_equal (const gsl_vector_string * u,
-                            const gsl_vector_string * v);
+                             const gsl_vector_string * v);
 
 int gsl_vector_string_isnull (const gsl_vector_string * v);
 int gsl_vector_string_ispos (const gsl_vector_string * v);
