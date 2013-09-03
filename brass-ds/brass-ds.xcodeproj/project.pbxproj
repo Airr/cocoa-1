@@ -28,6 +28,14 @@
 		D0301C2F17C07D3600845194 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = D0301C2E17C07D3600845194 /* main.c */; };
 		D0301C3117C07D3600845194 /* brass_ds_segment_trees.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = D0301C3017C07D3600845194 /* brass_ds_segment_trees.1 */; };
 		D0301C3717C07D7D00845194 /* segment_trees.c in Sources */ = {isa = PBXBuildFile; fileRef = D0301C3617C07D7D00845194 /* segment_trees.c */; };
+		D0375CF217D50145001474F1 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = D0375CF117D50145001474F1 /* main.c */; };
+		D0375CF417D50145001474F1 /* brass_ds_trie.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = D0375CF317D50145001474F1 /* brass_ds_trie.1 */; };
+		D0375CF917D50219001474F1 /* trie_tree.c in Sources */ = {isa = PBXBuildFile; fileRef = D0375CF817D50219001474F1 /* trie_tree.c */; };
+		D0375D0217D512E0001474F1 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = D0375D0117D512E0001474F1 /* main.c */; };
+		D0375D0417D512E0001474F1 /* brass_ds_trie_list.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = D0375D0317D512E0001474F1 /* brass_ds_trie_list.1 */; };
+		D0375D0917D51415001474F1 /* trie_tree_list.c in Sources */ = {isa = PBXBuildFile; fileRef = D0375D0817D51415001474F1 /* trie_tree_list.c */; };
+		D0375D0B17D515D8001474F1 /* stack.c in Sources */ = {isa = PBXBuildFile; fileRef = D0170F1D17C2E335007A74A5 /* stack.c */; };
+		D040990217D51AC900766610 /* alder_dictionary.c in Sources */ = {isa = PBXBuildFile; fileRef = D040990117D51AC900766610 /* alder_dictionary.c */; };
 		D07D765617C0B8AE0017192C /* brass_ds_union_tree.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = D07D765517C0B8AE0017192C /* brass_ds_union_tree.1 */; };
 		D07D766517C17C780017192C /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = D07D766417C17C780017192C /* main.c */; };
 		D07D766717C17C780017192C /* brass_ds_measure_tree.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = D07D766617C17C780017192C /* brass_ds_measure_tree.1 */; };
@@ -111,6 +119,26 @@
 			dstSubfolderSpec = 0;
 			files = (
 				D0301C3117C07D3600845194 /* brass_ds_segment_trees.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		D0375CED17D50145001474F1 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				D0375CF417D50145001474F1 /* brass_ds_trie.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		D0375CFD17D512E0001474F1 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				D0375D0417D512E0001474F1 /* brass_ds_trie_list.1 in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
@@ -247,6 +275,18 @@
 		D0301C3017C07D3600845194 /* brass_ds_segment_trees.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = brass_ds_segment_trees.1; sourceTree = "<group>"; };
 		D0301C3517C07D7100845194 /* segment_trees.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = segment_trees.h; sourceTree = "<group>"; };
 		D0301C3617C07D7D00845194 /* segment_trees.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = segment_trees.c; sourceTree = "<group>"; };
+		D0375CEF17D50145001474F1 /* brass-ds-trie */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "brass-ds-trie"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0375CF117D50145001474F1 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		D0375CF317D50145001474F1 /* brass_ds_trie.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = brass_ds_trie.1; sourceTree = "<group>"; };
+		D0375CF817D50219001474F1 /* trie_tree.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = trie_tree.c; sourceTree = "<group>"; };
+		D0375CFA17D5022B001474F1 /* trie_tree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = trie_tree.h; sourceTree = "<group>"; };
+		D0375CFF17D512E0001474F1 /* brass-ds-trie-list */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "brass-ds-trie-list"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0375D0117D512E0001474F1 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		D0375D0317D512E0001474F1 /* brass_ds_trie_list.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = brass_ds_trie_list.1; sourceTree = "<group>"; };
+		D0375D0817D51415001474F1 /* trie_tree_list.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = trie_tree_list.c; sourceTree = "<group>"; };
+		D0375D0A17D5141D001474F1 /* trie_tree_list.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = trie_tree_list.h; sourceTree = "<group>"; };
+		D040990117D51AC900766610 /* alder_dictionary.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_dictionary.c; sourceTree = "<group>"; };
+		D040990317D51AD100766610 /* alder_dictionary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_dictionary.h; sourceTree = "<group>"; };
 		D07D765117C0B8AE0017192C /* brass-ds-union-tree */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "brass-ds-union-tree"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D07D765317C0B8AE0017192C /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		D07D765517C0B8AE0017192C /* brass_ds_union_tree.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = brass_ds_union_tree.1; sourceTree = "<group>"; };
@@ -332,6 +372,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		D0301C2917C07D3600845194 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0375CEC17D50145001474F1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0375CFC17D512E0001474F1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -475,6 +529,30 @@
 			path = "brass-ds-segment-trees";
 			sourceTree = "<group>";
 		};
+		D0375CF017D50145001474F1 /* brass-ds-trie */ = {
+			isa = PBXGroup;
+			children = (
+				D0375CF117D50145001474F1 /* main.c */,
+				D0375CF817D50219001474F1 /* trie_tree.c */,
+				D0375CFA17D5022B001474F1 /* trie_tree.h */,
+				D0375CF317D50145001474F1 /* brass_ds_trie.1 */,
+			);
+			path = "brass-ds-trie";
+			sourceTree = "<group>";
+		};
+		D0375D0017D512E0001474F1 /* brass-ds-trie-list */ = {
+			isa = PBXGroup;
+			children = (
+				D0375D0117D512E0001474F1 /* main.c */,
+				D0375D0817D51415001474F1 /* trie_tree_list.c */,
+				D0375D0A17D5141D001474F1 /* trie_tree_list.h */,
+				D040990117D51AC900766610 /* alder_dictionary.c */,
+				D040990317D51AD100766610 /* alder_dictionary.h */,
+				D0375D0317D512E0001474F1 /* brass_ds_trie_list.1 */,
+			);
+			path = "brass-ds-trie-list";
+			sourceTree = "<group>";
+		};
 		D07D765217C0B8AE0017192C /* brass-ds-union-tree */ = {
 			isa = PBXGroup;
 			children = (
@@ -520,20 +598,22 @@
 			isa = PBXGroup;
 			children = (
 				D0FA624A17BE385800261716 /* brass-ds */,
-				D0301C2D17C07D3600845194 /* brass-ds-segment-trees */,
+				D0170EFE17C221AA007A74A5 /* brass-ds-b-trees */,
+				D0D141A517D0275E00CD1FD3 /* brass-ds-cigar-dequeue */,
+				D0170EDC17C1EBEF007A74A5 /* brass-ds-height-balanced-tree */,
 				D0FA625917BE389A00261716 /* brass-ds-interval-trees */,
+				D07D766317C17C780017192C /* brass-ds-measure-tree */,
+				D0FA62A717BF536C00261716 /* brass-ds-queue */,
+				D0170F0C17C2230F007A74A5 /* brass-ds-redblack-trees */,
 				D0FA626A17BF01F200261716 /* brass-ds-search-trees */,
+				D0301C2D17C07D3600845194 /* brass-ds-segment-trees */,
 				D0FA627A17BF47B600261716 /* brass-ds-stack */,
 				D0FA628A17BF4C0C00261716 /* brass-ds-stack2 */,
-				D0FA62A717BF536C00261716 /* brass-ds-queue */,
-				D07D765217C0B8AE0017192C /* brass-ds-union-tree */,
-				D07D766317C17C780017192C /* brass-ds-measure-tree */,
-				D0170EDC17C1EBEF007A74A5 /* brass-ds-height-balanced-tree */,
-				D0170EEE17C21FA3007A74A5 /* brass-ds-weight-balanced-trees */,
-				D0170EFE17C221AA007A74A5 /* brass-ds-b-trees */,
-				D0170F0C17C2230F007A74A5 /* brass-ds-redblack-trees */,
+				D0375CF017D50145001474F1 /* brass-ds-trie */,
+				D0375D0017D512E0001474F1 /* brass-ds-trie-list */,
 				D01E76BE17CD3980005AF9FF /* brass-ds-union-array */,
-				D0D141A517D0275E00CD1FD3 /* brass-ds-cigar-dequeue */,
+				D07D765217C0B8AE0017192C /* brass-ds-union-tree */,
+				D0170EEE17C21FA3007A74A5 /* brass-ds-weight-balanced-trees */,
 				D0FA624917BE385800261716 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -556,6 +636,8 @@
 				D0170F0B17C2230F007A74A5 /* brass-ds-redblack-trees */,
 				D01E76BD17CD3980005AF9FF /* brass-ds-union-array */,
 				D0D141A417D0275E00CD1FD3 /* brass-ds-cigar-dequeue */,
+				D0375CEF17D50145001474F1 /* brass-ds-trie */,
+				D0375CFF17D512E0001474F1 /* brass-ds-trie-list */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -727,6 +809,40 @@
 			name = "brass-ds-segment-trees";
 			productName = "brass-ds-segment-trees";
 			productReference = D0301C2C17C07D3600845194 /* brass-ds-segment-trees */;
+			productType = "com.apple.product-type.tool";
+		};
+		D0375CEE17D50145001474F1 /* brass-ds-trie */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D0375CF717D50145001474F1 /* Build configuration list for PBXNativeTarget "brass-ds-trie" */;
+			buildPhases = (
+				D0375CEB17D50145001474F1 /* Sources */,
+				D0375CEC17D50145001474F1 /* Frameworks */,
+				D0375CED17D50145001474F1 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "brass-ds-trie";
+			productName = "brass-ds-trie";
+			productReference = D0375CEF17D50145001474F1 /* brass-ds-trie */;
+			productType = "com.apple.product-type.tool";
+		};
+		D0375CFE17D512E0001474F1 /* brass-ds-trie-list */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D0375D0517D512E0001474F1 /* Build configuration list for PBXNativeTarget "brass-ds-trie-list" */;
+			buildPhases = (
+				D0375CFB17D512E0001474F1 /* Sources */,
+				D0375CFC17D512E0001474F1 /* Frameworks */,
+				D0375CFD17D512E0001474F1 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "brass-ds-trie-list";
+			productName = "brass-ds-trie-list";
+			productReference = D0375CFF17D512E0001474F1 /* brass-ds-trie-list */;
 			productType = "com.apple.product-type.tool";
 		};
 		D07D765017C0B8AE0017192C /* brass-ds-union-tree */ = {
@@ -918,6 +1034,8 @@
 				D0170F0A17C2230F007A74A5 /* brass-ds-redblack-trees */,
 				D01E76BC17CD3980005AF9FF /* brass-ds-union-array */,
 				D0D141A317D0275E00CD1FD3 /* brass-ds-cigar-dequeue */,
+				D0375CEE17D50145001474F1 /* brass-ds-trie */,
+				D0375CFE17D512E0001474F1 /* brass-ds-trie-list */,
 			);
 		};
 /* End PBXProject section */
@@ -975,6 +1093,26 @@
 			files = (
 				D0301C2F17C07D3600845194 /* main.c in Sources */,
 				D0301C3717C07D7D00845194 /* segment_trees.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0375CEB17D50145001474F1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0375CF217D50145001474F1 /* main.c in Sources */,
+				D0375CF917D50219001474F1 /* trie_tree.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0375CFB17D512E0001474F1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0375D0217D512E0001474F1 /* main.c in Sources */,
+				D0375D0917D51415001474F1 /* trie_tree_list.c in Sources */,
+				D0375D0B17D515D8001474F1 /* stack.c in Sources */,
+				D040990217D51AC900766610 /* alder_dictionary.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1138,6 +1276,34 @@
 			name = Debug;
 		};
 		D0301C3317C07D3600845194 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		D0375CF517D50145001474F1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D0375CF617D50145001474F1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		D0375D0617D512E0001474F1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D0375D0717D512E0001474F1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1384,6 +1550,24 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		D0375CF717D50145001474F1 /* Build configuration list for PBXNativeTarget "brass-ds-trie" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0375CF517D50145001474F1 /* Debug */,
+				D0375CF617D50145001474F1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D0375D0517D512E0001474F1 /* Build configuration list for PBXNativeTarget "brass-ds-trie-list" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0375D0617D512E0001474F1 /* Debug */,
+				D0375D0717D512E0001474F1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		D07D765917C0B8AE0017192C /* Build configuration list for PBXNativeTarget "brass-ds-union-tree" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1409,6 +1593,7 @@
 				D0D141AB17D0275E00CD1FD3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D0FA624317BE385800261716 /* Build configuration list for PBXProject "brass-ds" */ = {
 			isa = XCConfigurationList;

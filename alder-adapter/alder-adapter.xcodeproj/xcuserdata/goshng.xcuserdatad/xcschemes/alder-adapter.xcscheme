@@ -75,8 +75,12 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "mallard/Anas_flavirostris_2K_LIMP_Animal_1900_A_1_sequence.txt"
+            argument = "test/in/027.fq --no-trim-ambiguous-left --no-trim-ambiguous-right"
             isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "mallard/Anas_flavirostris_2K_LIMP_Animal_1900_A_1_sequence.txt"
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "file.fq"

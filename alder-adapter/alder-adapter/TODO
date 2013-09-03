@@ -1,0 +1,7 @@
+
+
+1. Multiple sequences at once with *.gz
+
+2. Paired-end read - two adapter sequences.
+
+3. Duplicates and uniq... by using suffix tree.

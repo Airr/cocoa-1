@@ -12,7 +12,7 @@
 
 #pragma mark Dynamic allocation of nodes
 
-#define BLOCKSIZE 2
+#define BLOCKSIZE 10000
 
 static stack_node_t *st = NULL;
 static stack_node_t **headblock = NULL;
@@ -76,6 +76,7 @@ static void free_node()
     currentblock = NULL;
     sizeblock = 0;
     freeblock = NULL;
+    st = NULL;
     //    size_left;
 }
 

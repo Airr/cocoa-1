@@ -59,6 +59,16 @@
 			<key>orderHint</key>
 			<integer>4</integer>
 		</dict>
+		<key>brass-ds-trie-list.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>17</integer>
+		</dict>
+		<key>brass-ds-trie.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>16</integer>
+		</dict>
 		<key>brass-ds-union-array.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -113,6 +123,16 @@
 			<true/>
 		</dict>
 		<key>D0301C2B17C07D3600845194</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D0375CEE17D50145001474F1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D0375CFE17D512E0001474F1</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -1,13 +1,13 @@
 //
-//  alder_file_stat.h
-//  alder-adapter
+//  trie_tree.h
+//  brass-ds
 //
-//  Created by Sang Chul Choi on 9/1/13.
+//  Created by Sang Chul Choi on 9/2/13.
 //  Copyright (c) 2013 Sang Chul Choi. All rights reserved.
 //
 
-#ifndef alder_adapter_alder_file_stat_h
-#define alder_adapter_alder_file_stat_h
+#ifndef brass_ds_trie_tree_h
+#define brass_ds_trie_tree_h
 
 #undef __BEGIN_DECLS
 #undef __END_DECLS
@@ -19,11 +19,14 @@
 # define __END_DECLS /* empty */
 #endif
 
+
 __BEGIN_DECLS
 
-int alder_file_exist(const char *fn);
+typedef struct trie_n_t {
+    struct trie_n_t   *next[256];
+    /* possibly additional information*/
+} trie_node_t;
 
 __END_DECLS
-
 
 #endif

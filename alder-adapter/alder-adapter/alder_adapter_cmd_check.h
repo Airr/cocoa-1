@@ -1,13 +1,16 @@
 //
-//  alder_file_stat.h
+//  alder_adatper_cmd_check.h
 //  alder-adapter
 //
 //  Created by Sang Chul Choi on 9/1/13.
 //  Copyright (c) 2013 Sang Chul Choi. All rights reserved.
 //
 
-#ifndef alder_adapter_alder_file_stat_h
-#define alder_adapter_alder_file_stat_h
+#ifndef alder_adapter_alder_adapter_cmd_check_h
+#define alder_adapter_alder_adapter_cmd_check_h
+
+#include "alder_adapter_cut_core.h"
+#include "cmdline.h"
 
 #undef __BEGIN_DECLS
 #undef __END_DECLS
@@ -21,7 +24,7 @@
 
 __BEGIN_DECLS
 
-int alder_file_exist(const char *fn);
+int alder_adatper_cmd_check(alder_adapter_option_t *option, struct gengetopt_args_info *args_info);
 
 __END_DECLS
 

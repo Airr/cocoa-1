@@ -24,8 +24,12 @@
 __BEGIN_DECLS
 
 #define MAIN_LOGGER 0x0011
+#define ERROR_LOGGER 0x0001
 #define ERR_TEST 0x00000001
+#define EXAMPLE_ERR 0x00000001
 
+int alder_error_logger_initialize(logc_logLevel_t l);
+void  alder_error_logger_finalize();
 int alder_logger_initialize (const char *mainLoggerFilename,
                              logc_logLevel_t l);
 int alder_logger_finalize ();

@@ -17,10 +17,12 @@
 #include "alder_logger.h"
 #include "kseq.h"
 #include "bstrlib.h"
+#include "bstrmore.h"
 #include "alder_adapter_index_illumina.h"
 #include "alder_adapter_cut.h"
 #include "alder_fastq_stat.h"
 #include "alder_adapter_cut_file.h"
+#include "alder_adapter_cut_core.h"
 
 KSEQ_INIT(int, read)
 
@@ -28,7 +30,7 @@ extern char *adapter_sequence[19];
 
 int alder_adapter_cut_file(const char *fnin, const char *fnout,
                            const char *adapter_seq, const double error_rate,
-                           const int keep_flag,
+                           const alder_adapter_option_t *option,
                            alder_fastq_stat_t *stat)
 {
     int fp = fnin == NULL ? STDIN_FILENO : open(fnin, O_RDONLY);

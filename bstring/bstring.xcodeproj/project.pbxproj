@@ -12,6 +12,7 @@
 		D01E76A417CC7EE1005AF9FF /* bsafe.c in Sources */ = {isa = PBXBuildFile; fileRef = D01E769E17CC7EE1005AF9FF /* bsafe.c */; };
 		D01E76A517CC7EE1005AF9FF /* bstraux.c in Sources */ = {isa = PBXBuildFile; fileRef = D01E76A017CC7EE1005AF9FF /* bstraux.c */; };
 		D01E76A617CC7EE1005AF9FF /* bstrlib.c in Sources */ = {isa = PBXBuildFile; fileRef = D01E76A217CC7EE1005AF9FF /* bstrlib.c */; };
+		D0375CE217D42BE6001474F1 /* bstrmore.c in Sources */ = {isa = PBXBuildFile; fileRef = D0375CE117D42BE6001474F1 /* bstrmore.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -37,6 +38,9 @@
 		D01E76A117CC7EE1005AF9FF /* bstraux.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bstraux.h; sourceTree = "<group>"; };
 		D01E76A217CC7EE1005AF9FF /* bstrlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bstrlib.c; sourceTree = "<group>"; };
 		D01E76A317CC7EE1005AF9FF /* bstrlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bstrlib.h; sourceTree = "<group>"; };
+		D0375CE117D42BE6001474F1 /* bstrmore.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bstrmore.c; sourceTree = "<group>"; };
+		D0375CE317D42BEC001474F1 /* bstrmore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bstrmore.h; sourceTree = "<group>"; };
+		D0375CE717D42D91001474F1 /* bstrlib.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = bstrlib.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,7 +80,10 @@
 				D01E76A217CC7EE1005AF9FF /* bstrlib.c */,
 				D01E76A317CC7EE1005AF9FF /* bstrlib.h */,
 				D01E769517CC7E8C005AF9FF /* main.c */,
+				D0375CE117D42BE6001474F1 /* bstrmore.c */,
+				D0375CE317D42BEC001474F1 /* bstrmore.h */,
 				D01E769717CC7E8C005AF9FF /* bstring.1 */,
+				D0375CE717D42D91001474F1 /* bstrlib.txt */,
 			);
 			path = bstring;
 			sourceTree = "<group>";
@@ -136,6 +143,7 @@
 				D01E76A417CC7EE1005AF9FF /* bsafe.c in Sources */,
 				D01E76A517CC7EE1005AF9FF /* bstraux.c in Sources */,
 				D01E76A617CC7EE1005AF9FF /* bstrlib.c in Sources */,
+				D0375CE217D42BE6001474F1 /* bstrmore.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,6 +244,7 @@
 				D01E769D17CC7E8C005AF9FF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -12,6 +12,22 @@
 //#include <nglogc/logger.h>
 #include "alder_logger.h"
 
+// 0 : success
+int alder_error_logger_initialize(logc_logLevel_t l)
+{
+    logc_error_t r = logc_registerLogger(ERROR_LOGGER, STDERROUT, l);
+    if (r != LOG_ERR_OK) {
+        fprintf(stderr, "error : cannot register an error logger.");
+    }
+    return r;
+}
+
+void  alder_error_logger_finalize()
+{
+    logc_removeLogger(ERROR_LOGGER);
+    
+}
+
 int alder_logger_initialize (const char *mainLoggerFilename,
                              logc_logLevel_t l)
 {

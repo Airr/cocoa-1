@@ -10,6 +10,7 @@
 #define alder_adapter_alder_adapter_cut_h
 
 #include "alder_fastq_stat.h"
+#include "alder_adapter_cut_core.h"
 
 #undef __BEGIN_DECLS
 #undef __END_DECLS
@@ -26,7 +27,7 @@ __BEGIN_DECLS
 
 int alder_adapter_cut_file(const char *fnin, const char *fnout,
                            const char *adapter_seq, const double error_rate,
-                           const int keep_flag,
+                           const alder_adapter_option_t *option,
                            alder_fastq_stat_t *stat);
 
 __END_DECLS

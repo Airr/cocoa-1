@@ -10,11 +10,6 @@
 #include <sys/stat.h>
 #include "alder_fastq_stat.h"
 
-int alder_file_stat()
-{
-    
-}
-
 //  0 : exist
 // -1 : not exist
 int alder_file_exist(const char *fn)

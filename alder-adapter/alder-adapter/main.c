@@ -21,6 +21,8 @@
 #include "alder_logger.h"
 #include "alder_fastq_stat.h"
 #include "alder_file_stat.h"
+#include "alder_adapter_cut_core.h"
+#include "alder_adapter_cmd_check.h"
 
 // TruSeq Adapters - Index 1-16,18,19 (Note: Illumina Index 17 is missing)
 char *adapter_sequence[19] = {
@@ -50,37 +52,18 @@ int main(int argc, char * argv[])
     int isExitWithHelp = 0;
     struct gengetopt_args_info args_info;
     if (my_cmdline_parser (argc, argv, &args_info) != 0) exit(1) ;
-    
-    ///////////////////////////////////////////////////////////////////////////
-    // Default argument values.
-    ///////////////////////////////////////////////////////////////////////////
-    if (!args_info.error_rate_given) {
-        args_info.error_rate_arg = 0.1;
-    }
+
+    alder_error_logger_initialize(LOG_WARNING);
     
     ///////////////////////////////////////////////////////////////////////////
     // Check the command line.
     ///////////////////////////////////////////////////////////////////////////
-    int isstdin = alder_file_isstdin();
-    if (args_info.help_given) isExitWithHelp = 1;
-    if ((isstdin == 0 && args_info.inputs_num != 1)
-        || (isstdin == 1 && args_info.inputs_num > 0)) {
-        fprintf(stderr, "error: need either standard input or a single input file.\n");
-        isExitWithHelp = 1;
-    }
-    if (isstdin == 1 && args_info.log_given && !args_info.logfile_given) {
-        fprintf(stderr, "error: no log file name is possible with standard input.\n");
-        isExitWithHelp = 1;
-    }
-    if (args_info.inputs_num == 1) {
-        int status = alder_file_exist(args_info.inputs[0]);
-        if (status != 0) {
-            fprintf(stderr, "error: file %s does not exist.\n", args_info.inputs[0]);
-            isExitWithHelp = 1;
-        }
-    }
+    alder_adapter_option_t main_option;
+    main_option.is_stdin = alder_file_isstdin();
+    int isstdin = main_option.is_stdin;
+    isExitWithHelp = alder_adatper_cmd_check(&main_option, &args_info);
+    
     if (isExitWithHelp == 1) {
-        my_cmdline_parser_print_help();
         my_cmdline_parser_free(&args_info);
         exit(1);
     }
@@ -139,14 +122,14 @@ int main(int argc, char * argv[])
                                args_info.output_arg,
                                the_adapter_sequence,
                                args_info.error_rate_arg,
-                               args_info.keep_flag,
+                               &main_option,
                                &stat);
     } else if (status == 1) {
         alder_adapter_cut_gzip(inputFilename,
                                args_info.output_arg,
                                the_adapter_sequence,
                                args_info.error_rate_arg,
-                               args_info.keep_flag,
+                               &main_option,
                                &stat);
     } else {
         fprintf(stderr, "error: input file is not good.\n");
@@ -161,6 +144,7 @@ int main(int argc, char * argv[])
     
     my_cmdline_parser_free(&args_info);
     alder_logger_finalize();
+    alder_error_logger_finalize();
     return 0;
 }
 

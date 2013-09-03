@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D0375CE617D42C06001474F1 /* bstrmore.c in Sources */ = {isa = PBXBuildFile; fileRef = D0375CE417D42C06001474F1 /* bstrmore.c */; };
+		D0375CE917D4602A001474F1 /* alder_adapter_cmd_check.c in Sources */ = {isa = PBXBuildFile; fileRef = D0375CE817D46029001474F1 /* alder_adapter_cmd_check.c */; };
+		D040990617D5298300766610 /* stack.c in Sources */ = {isa = PBXBuildFile; fileRef = D040990417D5298300766610 /* stack.c */; };
+		D040990B17D529A000766610 /* alder_dictionary.c in Sources */ = {isa = PBXBuildFile; fileRef = D040990717D529A000766610 /* alder_dictionary.c */; };
+		D040990C17D529A000766610 /* trie_tree_list.c in Sources */ = {isa = PBXBuildFile; fileRef = D040990917D529A000766610 /* trie_tree_list.c */; };
 		D0A3820D17D12D990002D96D /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = D0A3820C17D12D990002D96D /* main.c */; };
 		D0A3820F17D12D990002D96D /* alder_adapter.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = D0A3820E17D12D990002D96D /* alder_adapter.1 */; };
 		D0A3821617D146590002D96D /* alder_adapter_cut.c in Sources */ = {isa = PBXBuildFile; fileRef = D0A3821517D146590002D96D /* alder_adapter_cut.c */; };
@@ -54,6 +59,18 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D0375CDC17D3C4A0001474F1 /* TODO */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
+		D0375CDD17D41944001474F1 /* alder_adapter_cut_core.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_adapter_cut_core.h; sourceTree = "<group>"; };
+		D0375CE417D42C06001474F1 /* bstrmore.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = bstrmore.c; path = ../../bstring/bstring/bstrmore.c; sourceTree = "<group>"; };
+		D0375CE517D42C06001474F1 /* bstrmore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bstrmore.h; path = ../../bstring/bstring/bstrmore.h; sourceTree = "<group>"; };
+		D0375CE817D46029001474F1 /* alder_adapter_cmd_check.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_adapter_cmd_check.c; sourceTree = "<group>"; };
+		D0375CEA17D46049001474F1 /* alder_adapter_cmd_check.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_adapter_cmd_check.h; sourceTree = "<group>"; };
+		D040990417D5298300766610 /* stack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = stack.c; path = "../../brass-ds/brass-ds-redblack-trees/stack.c"; sourceTree = "<group>"; };
+		D040990517D5298300766610 /* stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stack.h; path = "../../brass-ds/brass-ds-redblack-trees/stack.h"; sourceTree = "<group>"; };
+		D040990717D529A000766610 /* alder_dictionary.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = alder_dictionary.c; path = "../../brass-ds/brass-ds-trie-list/alder_dictionary.c"; sourceTree = "<group>"; };
+		D040990817D529A000766610 /* alder_dictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = alder_dictionary.h; path = "../../brass-ds/brass-ds-trie-list/alder_dictionary.h"; sourceTree = "<group>"; };
+		D040990917D529A000766610 /* trie_tree_list.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = trie_tree_list.c; path = "../../brass-ds/brass-ds-trie-list/trie_tree_list.c"; sourceTree = "<group>"; };
+		D040990A17D529A000766610 /* trie_tree_list.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = trie_tree_list.h; path = "../../brass-ds/brass-ds-trie-list/trie_tree_list.h"; sourceTree = "<group>"; };
 		D0A3820917D12D990002D96D /* alder-adapter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "alder-adapter"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0A3820C17D12D990002D96D /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		D0A3820E17D12D990002D96D /* alder_adapter.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = alder_adapter.1; sourceTree = "<group>"; };
@@ -123,17 +140,24 @@
 			children = (
 				D0A3821A17D19FCB0002D96D /* alder-adapter.ggo */,
 				D0A3820E17D12D990002D96D /* alder_adapter.1 */,
+				D0375CE817D46029001474F1 /* alder_adapter_cmd_check.c */,
+				D0375CEA17D46049001474F1 /* alder_adapter_cmd_check.h */,
 				D0A3821517D146590002D96D /* alder_adapter_cut.c */,
 				D0A3821817D152160002D96D /* alder_adapter_cut.h */,
+				D0A3824817D333A40002D96D /* alder_adapter_cut_core.c */,
+				D0375CDD17D41944001474F1 /* alder_adapter_cut_core.h */,
 				D0A3822217D1C8090002D96D /* alder_adapter_cut_file.c */,
 				D0A3822417D1C8160002D96D /* alder_adapter_cut_file.h */,
 				D0A3822717D1E2600002D96D /* alder_adapter_cut_gzip.c */,
 				D0A3822917D1E2660002D96D /* alder_adapter_cut_gzip.h */,
-				D0A3824817D333A40002D96D /* alder_adapter_cut_core.c */,
 				D0A3822D17D1F1790002D96D /* alder_adapter_index_illumina.c */,
 				D0A3822F17D1F1800002D96D /* alder_adapter_index_illumina.h */,
 				D0A3823317D1FBEF0002D96D /* alder_adapter_index_illumina_gzip.c */,
 				D0A3823517D1FBFE0002D96D /* alder_adapter_index_illumina_gzip.h */,
+				D040990717D529A000766610 /* alder_dictionary.c */,
+				D040990817D529A000766610 /* alder_dictionary.h */,
+				D0A3824217D2F2930002D96D /* alder_fastq_stat.c */,
+				D0A3824417D2F29C0002D96D /* alder_fastq_stat.h */,
 				D0A3822B17D1E4F70002D96D /* alder_file_isgzip.c */,
 				D0A3822A17D1E4EA0002D96D /* alder_file_isgzip.h */,
 				D0A3823017D1F3300002D96D /* alder_file_isstdin.c */,
@@ -144,17 +168,22 @@
 				D0A3822017D1C1E60002D96D /* alder_kseq.h */,
 				D0A3823F17D27F2D0002D96D /* alder_logger.c */,
 				D0A3824017D27F2D0002D96D /* alder_logger.h */,
-				D0A3824217D2F2930002D96D /* alder_fastq_stat.c */,
-				D0A3824417D2F29C0002D96D /* alder_fastq_stat.h */,
 				D0A3823617D1FF5B0002D96D /* bsafe.c */,
 				D0A3823717D1FF5B0002D96D /* bsafe.h */,
 				D0A3823817D1FF5B0002D96D /* bstraux.c */,
 				D0A3823917D1FF5C0002D96D /* bstraux.h */,
 				D0A3823A17D1FF5C0002D96D /* bstrlib.c */,
 				D0A3823B17D1FF5C0002D96D /* bstrlib.h */,
+				D0375CE417D42C06001474F1 /* bstrmore.c */,
+				D0375CE517D42C06001474F1 /* bstrmore.h */,
 				D0A3822117D1C58E0002D96D /* kseq.h */,
 				D0A3820C17D12D990002D96D /* main.c */,
 				D0A3821717D14E530002D96D /* README */,
+				D040990417D5298300766610 /* stack.c */,
+				D040990517D5298300766610 /* stack.h */,
+				D0375CDC17D3C4A0001474F1 /* TODO */,
+				D040990917D529A000766610 /* trie_tree_list.c */,
+				D040990A17D529A000766610 /* trie_tree_list.h */,
 			);
 			path = "alder-adapter";
 			sourceTree = "<group>";
@@ -226,6 +255,11 @@
 				D0A3824117D27F2D0002D96D /* alder_logger.c in Sources */,
 				D0A3824317D2F2930002D96D /* alder_fastq_stat.c in Sources */,
 				D0A3824617D32D8F0002D96D /* alder_file_stat.c in Sources */,
+				D0375CE617D42C06001474F1 /* bstrmore.c in Sources */,
+				D0375CE917D4602A001474F1 /* alder_adapter_cmd_check.c in Sources */,
+				D040990617D5298300766610 /* stack.c in Sources */,
+				D040990B17D529A000766610 /* alder_dictionary.c in Sources */,
+				D040990C17D529A000766610 /* trie_tree_list.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,6 +368,7 @@
 				D0A3821417D12D990002D96D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

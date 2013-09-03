@@ -374,8 +374,7 @@ int insert(tree_node_t *tree, key_t new_key, tree_node_t *new_object)
             else
                 tmp_node = tmp_node->right;
         }
-        /* found the candidate leaf. Test whether
-         key distinct */
+        /* found the candidate leaf. Test whether key distinct */
         if( tmp_node->key == new_key )
             return( -1 );
         /* key is distinct, now perform the insert */
