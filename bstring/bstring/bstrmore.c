@@ -7,6 +7,7 @@
 //
 
 #include <stdio.h>
+#include <assert.h>
 #include "bstrmore.h"
 
 /*
@@ -393,4 +394,50 @@ int i, len, j;
 	}
 
 	return j;
+}
+
+
+/*
+ * Create a list of bstring with at least n.
+ */
+struct bstrList * bstrVectorCreate(int n)
+{
+    struct bstrList *sl = bstrListCreate();
+    int s = bstrListAlloc(sl, n);
+    assert(s == BSTR_OK);
+    return sl;
+}
+
+void bstrVectorAdd(struct bstrList *sl, const char *s)
+{
+    bstring b = bfromcstr(s);
+    sl->entry[sl->qty] = b;
+    sl->qty++;
+    return;
+}
+
+void bstrVectorDelete(struct bstrList *sl)
+{
+    bstrListDestroy(sl);
+    return;
+}
+
+
+/*
+ * 0: sl1 and sl2 are same.
+ * 1: sl1 and sl2 are different.
+ */
+int bstrVectorCompare(struct bstrList *sl1, struct bstrList *sl2)
+{
+    if (sl1->qty != sl2->qty) {
+        return 1;
+    }
+    for (size_t i = 0; i < sl1->qty; i++) {
+        bstring b1 = sl1->entry[i];
+        bstring b2 = sl2->entry[i];
+        if (bstrcmp(b1, b2)) {
+            return 1;
+        }
+    }
+    return 0;
 }

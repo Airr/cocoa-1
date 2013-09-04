@@ -23,13 +23,15 @@
 #include "alder_fastq_stat.h"
 #include "alder_adapter_cut_file.h"
 #include "alder_adapter_cut_core.h"
+#include "alder_adapter_cut_filter.h"
 
 KSEQ_INIT(gzFile, gzread)
 
 extern char *adapter_sequence[19];
 
 int alder_adapter_cut_gzip(const char *fnin, const char *fnout,
-                           const char *adapter_seq, const double error_rate,
+                           const char *fnin2, const char *fnout2,
+                           const char *adapter_seq, const char *adapter_seq2,
                            const alder_adapter_option_t *option,
                            alder_fastq_stat_t *stat)
 {
@@ -51,10 +53,33 @@ int alder_adapter_cut_gzip(const char *fnin, const char *fnout,
         gzclose(fp);
         return -1;
     }
+    // The second FASTQ file.
+    gzFile fp2;
+    int fdin2 = open(fnin2, O_RDONLY);
+    if (fdin2 < 0) {
+        fprintf(stderr, "error: cannot open %s\n", fnin2);
+        gzclose(fp);
+        return -1;
+    }
+    fp2 = gzdopen(fdin2, "r");
+    if (fp2 == Z_NULL) {
+        fprintf(stderr, "error: cannot gzopen %s\n", fnin2);
+        fclose(fpout);
+        gzclose(fp);
+        close(fdin2);
+        return -1;
+    }
+    FILE *fpout2 = fnout2 == NULL ? stdout : fopen(fnout2, "w");
+    if (fpout2 == NULL) {
+        fprintf(stderr, "error: cannot make a file %s\n", fnout2);
+        fclose(fpout);
+        gzclose(fp);
+        gzclose(fp2);
+        return -1;
+    }
     
 #include "alder_adapter_cut_core.c"
     
-	kseq_destroy(seq);
     if (fnin != NULL) gzclose(fp);
     if (fnout != NULL) fclose(fpout);
     

@@ -45,7 +45,15 @@ int btrimq2 (bstring b, bstring b2, int c);
 
 int bcount (bstring b, char c);
 int bcountq (bstring b, int c);
-    
+
+
+struct bstrList * bstrVectorCreate(int n);
+void bstrVectorAdd(struct bstrList *sl, const char *s);
+void bstrVectorDelete(struct bstrList *sl);
+
+int bstrVectorCompare(struct bstrList *sl1, struct bstrList *sl2);
+
+
 __END_DECLS
 
 #endif

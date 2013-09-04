@@ -5,6 +5,7 @@
 // are almost identical. Espeically, they share the following core part.
 ///////////////////////////////////////////////////////////////////////////////
 
+// First adapter
 int isAdapterFound = 0;
 kseq_t *seq;
 seq = kseq_init(fp);
@@ -24,89 +25,136 @@ if (adapter_seq == NULL) {
     logc_logErrorBasic(ERROR_LOGGER, 0, "no adapter sequence is found.");
 }
 
+// First adapter 2
+int isAdapterFound2 = 0;
+kseq_t *seq2 = NULL;
+if (fnin2 != NULL) {
+    seq2 = kseq_init(fp);
+    kseq_read(seq2);
+    if (adapter_seq2 == NULL && seq2->comment.s != NULL) {
+        int index = alder_adapter_index_illumina_seq_summary(seq2->comment.s);
+        stat->adapter_seq_id2 = index;
+        if (index >= 0) {
+            isAdapterFound2 = 1;
+            adapter_seq2 = adapter_sequence[index];
+        }
+    } else {
+        isAdapterFound2 = 1;
+    }
+    assert(adapter_seq2 != NULL);
+    if (adapter_seq2 == NULL) {
+        logc_logErrorBasic(ERROR_LOGGER, 0, "no adapter sequence 2 is found.");
+    }
+}
+
 
 if (isAdapterFound == 1) {
     stat->adapter_seq = bfromcstr(adapter_seq);
     int m = (int)strlen(adapter_seq);
-    const int flags = 14;
-    const int degenerate = 0;
-    int start1, best_i, start2, best_j, best_matches, best_cost;
+    int m2;
+    if (seq2 != NULL) m2 = (int)strlen(adapter_seq2);
     do {
         int status;
-        // Trim either side of a read sequence.
+        int start21, start22;
+        
         bstring bSequence = bfromcstr(seq->seq.s);
         bstring bQuality = bfromcstr(seq->qual.s);
-        btoupper(bSequence);
-        bltrim(bSequence, option->trim_left);
-        brtrim(bSequence, option->trim_right);
-        bltrim(bQuality, option->trim_left);
-        brtrim(bQuality, option->trim_right);
-        if (option->trim_ambiguous_left == 0) bltrimc2(bSequence, bQuality, 'N');
-        if (option->trim_ambiguous_right == 0) brtrimc2(bSequence, bQuality, 'N');
-        bltrimq2(bQuality, bSequence, option->phred+option->trim_quality_left);
-        brtrimq2(bQuality, bSequence, option->phred+option->trim_quality_right);
-        
-        // Cuts adapter parts.
-        char *seqS = bstr2cstr(bSequence, '\0');
-        alder_adapter_cut(adapter_seq, m, seqS, blength(bSequence),
-                          error_rate, flags, degenerate,
-                          &start1, &best_i, &start2, &best_j,
-                          &best_matches, &best_cost);
-        bcstrfree(seqS);
-        
-        // Filter out reads.
-        if (start2 < 0 || blength(bSequence) < start2) {
+        int isFiltered = 0;
+        status = alder_adapter_cut_filter(adapter_seq, m, bSequence, bQuality,
+                                          &isFiltered, &start21, option);
+        if (status != 0) {
             logc_logBasic(ERROR_LOGGER,
-                          "Fatal: negative start2 or large start2 - %s",
-                          seq->name.s);
+                          "Fatal: negative start2 or large start2\n"
+                          "File: %s\n"
+                          "%s\n%s\n+\n%s\n",
+                          fnin, seq->name.s, seq->seq.s, seq->qual.s);
             abort();
         }
-        btrunc(bSequence, start2);
-        btrunc(bQuality, start2);
-        int isFiltered = 0;
-        if (blength(bSequence) < option->filter_length) isFiltered = 1;
-        if (option->filter_ambiguous < bcount(bSequence, 'N')) isFiltered = 1;
-        status = bcountq(bQuality, option->phred+option->filter_quality);
-        if (status != BSTR_ERR && status > 0) isFiltered = 1;
+        bstring bSequence2;
+        bstring bQuality2;
+        int isFiltered2 = 0;
+        if (seq2 != NULL) {
+            bSequence2 = bfromcstr(seq2->seq.s);
+            bQuality2 = bfromcstr(seq2->qual.s);
+            status = alder_adapter_cut_filter(adapter_seq2, m2, bSequence2, bQuality2,
+                                              &isFiltered2, &start22, option);
+            if (status != 0) {
+                logc_logBasic(ERROR_LOGGER,
+                              "Fatal: negative start2 or large start2\n"
+                              "File: %s\n"
+                              "%s\n%s\n+\n%s\n",
+                              fnin2, seq2->name.s, seq2->seq.s, seq2->qual.s);
+                abort();
+            }
+        }
         
+        // NEED 2
+        stat->n_total++;
+        stat->n_base += seq->seq.l;
+        if (seq2 != NULL) stat->n_base2 += seq2->seq.l;
         if (option->keep == 0) {
-            if (isFiltered == 0) {
+            if (isFiltered == 0 && isFiltered2 == 0) {
                 if (seq->comment.s == NULL) {
                     fprintf(fpout, "@%s\n%s\n+\n%s\n",
                             seq->name.s, bdata(bSequence), bdata(bQuality));
+                    if (seq2 != NULL) {
+                        fprintf(fpout2, "@%s\n%s\n+\n%s\n",
+                                seq2->name.s, bdata(bSequence2), bdata(bQuality2));
+                    }
                 } else {
                     fprintf(fpout, "@%s %s\n%s\n+\n%s\n",
                             seq->name.s, seq->comment.s, bdata(bSequence), bdata(bQuality));
+                    if (seq2 != NULL) {
+                        fprintf(fpout2, "@%s %s\n%s\n+\n%s\n",
+                                seq2->name.s, seq2->comment.s, bdata(bSequence2), bdata(bQuality2));
+                    }
                 }
+                stat->n_base_remained += start21;
+                if (start21 < seq->seq.l) stat->n_trimmed++;
+                if (seq2 != NULL) {
+                    stat->n_base_remained2 += start22;
+                    if (start22 < seq2->seq.l) stat->n_trimmed2++;
+                }
+            } else {
+                stat->n_trimmed++;
+                if (seq2 != NULL) stat->n_trimmed2++;
             }
         } else {
-            if (isFiltered == 1) {
+            if (isFiltered == 1 && isFiltered2 == 1) {
                 if (seq->comment.s == NULL) {
-                    fprintf(fpout, "@%s\n%s\n+ %d-%d, %d-%d %d\n%s\n",
+                    fprintf(fpout, "@%s\n%s\n+\n%s\n",
                             seq->name.s,
                             bdata(bSequence),
-                            start1, best_i,
-                            start2, best_j,
-                            best_matches,
                             bdata(bQuality));
+                    if (seq2 != NULL) {
+                        fprintf(fpout2, "@%s\n%s\n+\n%s\n",
+                                seq2->name.s,
+                                bdata(bSequence2),
+                                bdata(bQuality2));
+                    }
                 } else {
-                    fprintf(fpout, "@%s %s\n%s\n+ %d-%d, %d-%d %d\n%s\n",
+                    fprintf(fpout, "@%s %s\n%s\n+\n%s\n",
                             seq->name.s, seq->comment.s,
                             bdata(bSequence),
-                            start1, best_i,
-                            start2, best_j,
-                            best_matches,
                             bdata(bQuality));
+                    if (seq2 != NULL) {
+                        fprintf(fpout2, "@%s %s\n%s\n+\n%s\n",
+                                seq2->name.s, seq2->comment.s,
+                                bdata(bSequence2),
+                                bdata(bQuality2));
+                    }
                 }
             }
         }
-        bdestroy(bQuality);
-        bdestroy(bSequence);
+        // NEED 2
+        bdestroy(bQuality);  bdestroy(bSequence);
+        bdestroy(bQuality2); bdestroy(bSequence2);
         
-        stat->n_total++;
-        stat->n_base += seq->seq.l;
-        stat->n_base_remained += start2;
-        if (start2 < seq->seq.l) stat->n_trimmed++;
-        
+        if (seq2 != NULL) kseq_read(seq2);
     } while (kseq_read(seq) >= 0);
+}
+
+kseq_destroy(seq);
+if (seq2 != NULL) {
+    kseq_destroy(seq2);
 }

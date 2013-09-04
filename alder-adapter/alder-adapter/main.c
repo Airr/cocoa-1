@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <sys/poll.h>
 #include <assert.h>
-#include "bstrlib.h"
+#include "bstrmore.h"
 #include "cmdline.h"
 #include "alder_file_isgzip.h"
 #include "alder_adapter_cut.h"
@@ -22,7 +22,9 @@
 #include "alder_fastq_stat.h"
 #include "alder_file_stat.h"
 #include "alder_adapter_cut_core.h"
+#include "alder_adapter_pair.h"
 #include "alder_adapter_cmd_check.h"
+#include "alder_adapter_cut_file2.h"
 
 // TruSeq Adapters - Index 1-16,18,19 (Note: Illumina Index 17 is missing)
 char *adapter_sequence[19] = {
@@ -67,6 +69,7 @@ int main(int argc, char * argv[])
         my_cmdline_parser_free(&args_info);
         exit(1);
     }
+    alder_adapter_pair(&main_option);
     
     ///////////////////////////////////////////////////////////////////////////
     // Setup logfilename
@@ -98,17 +101,56 @@ int main(int argc, char * argv[])
     ///////////////////////////////////////////////////////////////////////////
     // Adapter sequence argument
     ///////////////////////////////////////////////////////////////////////////
-    char *the_adapter_sequence = NULL;
-    if (args_info.adapter_given) {
-        the_adapter_sequence = args_info.adapter_arg;
-    }
+//    char *the_adapter_sequence = NULL;
+//    if (args_info.adapter_given) {
+//        the_adapter_sequence = args_info.adapter_arg;
+//    }
     
     
     ///////////////////////////////////////////////////////////////////////////
     // Cuts adapter parts in read sequences.
     ///////////////////////////////////////////////////////////////////////////
     alder_fastq_stat_t stat;
-    alder_fastq_stat_init(&stat);
+    int pairIndex = 0;
+    int firstIndex = main_option.pair[pairIndex*2];
+    int secondIndex = main_option.pair[pairIndex*2+1];
+    while (!(firstIndex < 0 && secondIndex < 0)) {
+        alder_fastq_stat_init(&stat);
+        char *fnin = bstr2cstr(main_option.infile->entry[firstIndex], '\0');
+        char *fnout = bstr2cstr(main_option.outfile->entry[firstIndex], '\0');
+        char *adapter_seq = bstr2cstr(main_option.adapter->entry[firstIndex], '\0');
+        
+        char *fnin2 = NULL;
+        char *fnout2 = NULL;
+        char *adapter_seq2 = NULL;
+        if (!(secondIndex < 0)) {
+            fnin2 = bstr2cstr(main_option.infile->entry[secondIndex], '\0');
+            fnout2 = bstr2cstr(main_option.outfile->entry[secondIndex], '\0');
+            adapter_seq2 = bstr2cstr(main_option.adapter->entry[secondIndex], '\0');
+        }
+        
+        alder_adapter_cut_file2(fnin, fnout, fnin2, fnout2,
+                                adapter_seq, adapter_seq2,
+                                &main_option, &stat);
+        
+    
+        if (args_info.log_flag == 1 || args_info.logfile_given) {
+            alder_fastq_stat_log(&stat, fnin, fnout, fnin2, fnout2, adapter_seq, adapter_seq2);
+        }
+        bcstrfree(fnin);
+        bcstrfree(fnout);
+        bcstrfree(adapter_seq);
+        if (!(secondIndex < 0)) {
+            bcstrfree(fnin2);
+            bcstrfree(fnout2);
+            bcstrfree(adapter_seq2);
+        }
+        pairIndex++;
+        firstIndex = main_option.pair[pairIndex*2];
+        secondIndex = main_option.pair[pairIndex*2+1];
+    }
+    
+/*
     char *inputFilename = NULL;
     if (isstdin == 0) {
         bstring bInputFilename = bfromcstr(args_info.inputs[0]);
@@ -119,16 +161,18 @@ int main(int argc, char * argv[])
     assert(status == 0 || status == 1);
     if (status == 0) {
         status = alder_adapter_cut_file(inputFilename,
-                               args_info.output_arg,
-                               the_adapter_sequence,
-                               args_info.error_rate_arg,
-                               &main_option,
-                               &stat);
+                                        args_info.output_arg,
+                                        NULL, NULL,
+                                        the_adapter_sequence,
+                                        NULL,
+                                        &main_option,
+                                        &stat);
     } else if (status == 1) {
         alder_adapter_cut_gzip(inputFilename,
                                args_info.output_arg,
+                               NULL, NULL,
                                the_adapter_sequence,
-                               args_info.error_rate_arg,
+                               NULL,
                                &main_option,
                                &stat);
     } else {
@@ -136,12 +180,12 @@ int main(int argc, char * argv[])
         my_cmdline_parser_print_help();
     }
     if (inputFilename != NULL) bcstrfree(inputFilename);
+*/
     
-    if (args_info.log_flag == 1 || args_info.logfile_given) {
-        alder_fastq_stat_log(&stat);
-    }
-    alder_fastq_stat_free(&stat);
+//    alder_fastq_stat_free(&stat);
     
+    alder_adapter_option_free(&main_option);
+//    bstrVectorDelete(inputfiles);
     my_cmdline_parser_free(&args_info);
     alder_logger_finalize();
     alder_error_logger_finalize();

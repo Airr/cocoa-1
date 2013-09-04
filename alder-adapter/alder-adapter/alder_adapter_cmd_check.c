@@ -7,8 +7,12 @@
 //
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "bstrmore.h"
 #include "alder_logger.h"
 #include "alder_file_stat.h"
+#include "alder_adapter_pair.h"
 #include "alder_adapter_cmd_check.h"
 
 // 0: success
@@ -28,6 +32,93 @@ int alder_adatper_cmd_check(alder_adapter_option_t *option, struct gengetopt_arg
     } else {
         option->phred = 33;
     }
+    
+    // cutadapt options
+    option->cutadapt_flag = 14;
+    option->cutadapt_degenerate = 0;
+    
+    // FIXME: could make these option initializatoin.
+    // pairs, input files, output files, and adapters
+    // pair (0,1 -> -1, -1 if stdin)
+    option->pair = malloc((args_info->inputs_num + 1)* 2 * sizeof(int));
+    if (args_info->inputs_num == 0 || option->is_stdin == 1) {
+        option->infile = NULL;
+    } else {
+        option->infile = bstrVectorCreate((int)args_info->inputs_num);
+    }
+    for (size_t i = 0; i < args_info->inputs_num; i++) {
+        bstrVectorAdd(option->infile, args_info->inputs[i]);
+    }
+    if (option->is_stdin == 0) {
+        option->outfile = bstrVectorCreate((int)args_info->inputs_num);
+        if (args_info->output_given > 0) {
+            if (args_info->output_given == args_info->inputs_num) {
+                for (size_t i = 0; i < args_info->output_given; i++) {
+                    bstrVectorAdd(option->outfile, args_info->output_arg[i]);
+                }
+            } else {
+                logc_logWarning(ERROR_LOGGER,
+                                "option --adapter needs as many values as input files.");
+                logc_logWarning(ERROR_LOGGER, "See the following option\n%s.",
+                                args_info->adapter_help);
+                status = 1;
+            }
+        } else {
+            for (size_t i = 0; i < args_info->inputs_num; i++) {
+                bstrVectorAdd(option->outfile, args_info->inputs[i]);
+                bcatcstr(option->outfile->entry[i], ".alder.fq");
+            }
+        }
+        if (!bstrVectorCompare(option->infile, option->outfile)) {
+            logc_logWarning(ERROR_LOGGER,
+                            "input and output file names are the same.");
+            status = 1;
+        }
+    } else {
+        if (args_info->output_given == 1) {
+            option->outfile = bstrVectorCreate(1);
+            bstrVectorAdd(option->outfile, args_info->output_arg[0]);
+            bcatcstr(option->outfile->entry[0], ".alder.fq");
+        } else {
+            option->outfile = NULL;
+        }
+    }
+    if (option->is_stdin == 0) {
+        option->adapter = bstrVectorCreate((int)args_info->inputs_num);
+        if (args_info->adapter_given > 0) {
+            if (args_info->adapter_given == args_info->inputs_num) {
+                for (size_t i = 0; i < args_info->adapter_given; i++) {
+                    bstrVectorAdd(option->adapter, args_info->adapter_arg[i]);
+                }
+            } else {
+                logc_logWarning(ERROR_LOGGER,
+                                "option --adapter needs as many values as input files.");
+                logc_logWarning(ERROR_LOGGER, "See the following option\n%s.",
+                                args_info->adapter_help);
+                status = 1;
+            }
+        }
+    } else {
+        if (args_info->adapter_given == 1) {
+            option->adapter = bstrVectorCreate(1);
+            bstrVectorAdd(option->adapter, args_info->adapter_arg[0]);
+        } else {
+            logc_logWarning(ERROR_LOGGER,
+                            "option --adapter needs one value for standard input.");
+            logc_logWarning(ERROR_LOGGER, "See the following option\n%s.",
+                            args_info->adapter_help);
+            status = 1;
+        }
+    }
+    if (args_info->no_pair_flag == 0) {
+        alder_adapter_pair(option);
+    } else {
+        alder_adapter_nopair(option);
+    }
+    alder_adapter_set_adapter(option);
+    
+    
+    option->error_rate= args_info->error_rate_arg;
     option->trim_left = args_info->trim_left_arg;
     option->trim_right= args_info->trim_right_arg;
     option->trim_ambiguous_left = args_info->no_trim_ambiguous_left_flag;

@@ -1,22 +1,22 @@
 package "alder-adapter"
 
-version "0.2"
+version "0.3"
 
-purpose "The program alder-adapter cuts parts of 3'-end of read sequences that overlap an adapter sequence from Illumina HiSeq data.\n\nExample: ./alder-adapter file.fq\n         ./alder-adapter file.fq.gz\n         ./alder-adapter -a TTTGGGTACTCAGAGTTGC file.fq.gz\n         ./alder-adapter -a TTTGGGTACTCAGAGTTGC -o outfile.fq file.fq.gz\n         ./alder-adapter file.fq.gz > outfile.fq\n         gzip -dc file.fq.gz | ./alder-adapter > outfile.fq\n         gzip -dc file.fq.gz | ./alder-adapter | gzip > outfile.fq.gz\n         ./alder-adapter -e 0.1 file.fq.gz\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.*\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq"
+purpose "The program alder-adapter trims 5'-end and 3'-end bases with ambiguous bases or low-quality bases, and cuts parts of 3'-end of read sequences that overlap an adapter sequence from Illumina HiSeq data. \n\nExample: ./alder-adapter file.fq\n         ./alder-adapter file.fq.gz\n         ./alder-adapter -a TTTGGGTACTCAGAGTTGC file.fq.gz\n         ./alder-adapter -a TTTGGGTACTCAGAGTTGC -o outfile.fq file.fq.gz\n         ./alder-adapter file.fq.gz > outfile.fq\n         gzip -dc file.fq.gz | ./alder-adapter > outfile.fq\n         gzip -dc file.fq.gz | ./alder-adapter | gzip > outfile.fq.gz\n         ./alder-adapter -e 0.1 file.fq.gz\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.*\n         ./alder-adapter file1.fq.gz file2.fq.gz -o outfile1.fq,outfile2.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq"
 
 usage "alder-adapter [-h|--help] l-help] [-V|--version] [-aSTRING|--adapter=STRING] [-eFLOAT|--error-rate=FLOAT] [-ofilename|--output=filename] [-l|--log] [-flogfilename|--logfile=logfilename] [FILES]"
 
-description "This is a simpler version of cutadapt by Marcel Martin, and prinseq by . You can use more features in their software packages, cutadapt and prinseq, and cite their paper, if you use this alder-adapter software package; 1) Martin, M. Cutadapt removes adapter sequences from high-throughput sequencing reads EMBnet.journal, 2011, 17. 2) Schmieder R and Edwards R: Quality control and preprocessing of metagenomic datasets. Bioinformatics 2011, 27:863-864. [PMID: 21278185]. See their websites http://code.google.com/p/cutadapt/ or http://prinseq.sourceforge.net for the software packages. Most of the text in the following options were a copy of cutadapt version 1.2.1. and prinseq version 0.20.3.\n\nThe software package alder-adapter takes one read sequence, and trims it from the 5'-end or the 3'-end, if --trim-left or --trim-right are given. Then, it trims off any ambiguous bases from the 5'-end or the 3'-end, and trims off any bases with low base quality scores. "
+description "This is a simpler version of cutadapt by Marcel Martin, and prinseq by Schmieder and Edwards. You could use more features in their software packages, cutadapt and prinseq, and cite their paper, if you use this alder-adapter software package; 1) Martin, M. Cutadapt removes adapter sequences from high-throughput sequencing reads EMBnet.journal, 2011, 17. 2) Schmieder R and Edwards R: Quality control and preprocessing of metagenomic datasets. Bioinformatics 2011, 27:863-864. [PMID: 21278185]. See their websites http://code.google.com/p/cutadapt/ or http://prinseq.sourceforge.net for the software packages. Most of the text in the following options were a copy of cutadapt version 1.2.1. and prinseq version 0.20.3. The software package alder-adapter takes one read sequence, and trims it from the 5'-end or the 3'-end, if --trim-left or --trim-right are given. Then, it trims off any ambiguous bases from the 5'-end or the 3'-end, and trims off any bases with low base quality scores. "
 
 section "File Input"
 
-sectiondesc="alder-adapter takes a single FASTQ file for single-end read sequences, or a pair of FASTQ files for pair-end read sequences. Multiple input files can be given. alder-adapter takes each of them processes them. With option pair, alder-adapter find pairs of FASTQ files to process them. It uses two files as a pair if they contains the same read sequence identifiers for forward and reverse direction. If a FASTQ file among them does not pair with any of the given FASTQ files, it is processed as a single-end data set."
+sectiondesc="alder-adapter takes a single FASTQ file for single-end read sequences, or a pair of FASTQ files for pair-end read sequences. alder-adapter processes multiple input files. With option pair, alder-adapter find pairs of FASTQ files to process them. It uses two files as a pair if they contains the same read sequence identifiers for forward and reverse direction. If a FASTQ file among them does not pair with any of the given FASTQ files, it is processed as a single-end data set."
 
 option "fastq" - "Input file in FASTQ format for a single FASTQ file or one of a pair of FASTQ files in pair-end data" string optional
 
 option "fastq2" - "Input file in FASTQ format for the second of a pair of FASTQ files in pair-end data" string optional
 
-option "pair" - "Uses two files in the list of file names as a pair of forward and reverse reads" flag off
+option "no-pair" - "Process each file separately without considering pairs of forward and reverse reads" flag off
 
 option "phread" - "Changes the base value of base quality score to 64. (default off)" flag off
 
@@ -25,7 +25,7 @@ section "File Output"
 
 sectiondesc="alder-adapter can read a FASTQ file or a gzipped FASTQ file. An input file in any other format is not allowed. It reads in either the standard input from other program or a single file. After cutting 3'-end adapter parts, if any, for each read sequence, it prints out the processed read sequence to the standard output or to the screen. Option output allows alder-adapter to create a file and print processed read sequences to the file. WARNING: if the output file exists, the file will be erased.\n"
 
-option "output" o "Write the modified sequences to this file instead of standard output and send the summary report to standard output. The format is FASTQ if qualities are available, FASTA otherwise. (default: standard output)" string optional
+option "output" o "Write the modified sequences to this file instead of standard output and send the summary report to standard output. The format is FASTQ if qualities are available, FASTA otherwise. (default: standard output)" string optional multiple
 
 option "keep" k "Keeps the trimmed sequences." flag off
 
@@ -33,7 +33,7 @@ section "Adapter"
 
 sectiondesc="alder-adapter needs a single adapter sequence. Otherwise, it inspects the first read sequence in the given input FASTQ file, and determines the read sequence using the six-letter index code. See below section FASTQ file.\n"
 
-option "adapter" a "Sequence of an adapter that was ligated to the 3'-end. The adapter itself and anything that follows is trimmed." string optional
+option "adapter" a "Sequence of an adapter that was ligated to the 3'-end. The adapter itself and anything that follows is trimmed." string optional multiple
 
 option "error-rate" e "Maximum allowed error rate (number of mismatches divided by the length of the matching region)" double optional default="0.1"
 

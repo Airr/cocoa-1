@@ -2,6 +2,8 @@
 
 1. Multiple sequences at once with *.gz
 
-2. Paired-end read - two adapter sequences.
+2. Duplicates and uniq... by using suffix tree.
 
-3. Duplicates and uniq... by using suffix tree.
+.Brew install, and one of linux install package.
+
+.Source repository in somewhere? sourceforge, google project, github.

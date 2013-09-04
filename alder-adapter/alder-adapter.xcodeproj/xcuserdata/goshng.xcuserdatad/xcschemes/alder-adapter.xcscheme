@@ -76,6 +76,14 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "test/in/027.fq --no-trim-ambiguous-left --no-trim-ambiguous-right"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "mallard/Anas_flavirostris_2K_LIMP_Animal_1900_A_1_sequence.txt mallard/Anas_flavirostris_2K_LIMP_Animal_1900_A_2_sequence.txt"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "test/in/030.fq test/in/031.fq -o test/out/030.fq,test/out/031.fq"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument

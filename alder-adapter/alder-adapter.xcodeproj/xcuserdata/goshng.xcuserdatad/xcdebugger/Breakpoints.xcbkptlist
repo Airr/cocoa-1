@@ -7,12 +7,25 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "alder-adapter/alder_adapter_cmd_check.c"
-         timestampString = "399799299.583427"
+         filePath = "alder-adapter/main.c"
+         timestampString = "399964324.429763"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "61"
-         endingLineNumber = "61"
+         startingLineNumber = "66"
+         endingLineNumber = "66"
+         landmarkName = "main()"
+         landmarkType = "7">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "alder-adapter/alder_adapter_cmd_check.c"
+         timestampString = "399965031.575081"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "71"
+         endingLineNumber = "71"
          landmarkName = "alder_adatper_cmd_check()"
          landmarkType = "7">
       </FileBreakpoint>
@@ -20,24 +33,13 @@
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "alder-adapter/alder_adapter_cut_core.c"
-         timestampString = "399856914.694459"
+         filePath = "alder-adapter/alder_adapter_cut_file2.c"
+         timestampString = "399965275.787452"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "37"
-         endingLineNumber = "37">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "alder-adapter/alder_adapter_cut_file.c"
-         timestampString = "399856949.285363"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "41"
-         endingLineNumber = "41"
-         landmarkName = "alder_adapter_cut_file()"
+         startingLineNumber = "187"
+         endingLineNumber = "187"
+         landmarkName = "alder_adapter_cut_file2()"
          landmarkType = "7">
       </FileBreakpoint>
    </FileBreakpoints>

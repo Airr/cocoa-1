@@ -26,7 +26,8 @@
 __BEGIN_DECLS
 
 int alder_adapter_cut_file(const char *fnin, const char *fnout,
-                           const char *adapter_seq, const double error_rate,
+                           const char *fnin2, const char *fnout2,
+                           const char *adapter_seq, const char *adapter_seq2,
                            const alder_adapter_option_t *option,
                            alder_fastq_stat_t *stat);
 

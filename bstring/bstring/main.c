@@ -12,6 +12,32 @@
 #include "bstraux.h"
 #include "bstrmore.h"
 
+void test_bstrlist2()
+{
+    const int n = 100000;
+    struct bstrList *sl = bstrVectorCreate(n);
+    for (int i = 0; i < n; i++) {
+        bstrVectorAdd(sl, "xxx");
+    }
+    bstrVectorDelete(sl);
+}
+
+void test_bstrlist()
+{
+    const int n = 100000;
+    struct bstrList *sl = bstrListCreate();
+    int s = bstrListAlloc(sl, n);
+    assert(s == BSTR_OK);
+    bstring b;
+    for (int i = 0; i < n; i++) {
+        b = bfromcstr("xxx");
+        sl->entry[i] = b;
+        sl->qty++;
+    }
+    assert(sl->qty == n);
+    bstrListDestroy(sl);
+}
+
 void test_trim_quality2()
 {
     // *: 33+9
@@ -124,7 +150,11 @@ int main(int argc, const char * argv[])
 //    test_trim();
 //    test_trim_quality();
 //    test_trim2();
-    test_trim_quality2();
+//    test_trim_quality2();
+    for (size_t i = 0; i < 100; i++) {
+//        test_bstrlist();
+        test_bstrlist2();
+    }
     
     return 0;
 }

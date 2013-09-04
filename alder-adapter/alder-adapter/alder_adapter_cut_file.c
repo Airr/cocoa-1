@@ -23,16 +23,21 @@
 #include "alder_fastq_stat.h"
 #include "alder_adapter_cut_file.h"
 #include "alder_adapter_cut_core.h"
+#include "alder_adapter_cut_filter.h"
 
 KSEQ_INIT(int, read)
 
 extern char *adapter_sequence[19];
 
 int alder_adapter_cut_file(const char *fnin, const char *fnout,
-                           const char *adapter_seq, const double error_rate,
+                           const char *fnin2, const char *fnout2,
+                           const char *adapter_seq, const char *adapter_seq2,
                            const alder_adapter_option_t *option,
                            alder_fastq_stat_t *stat)
 {
+    if (fnin2 != NULL) {
+        assert(fnout2 != NULL);
+    }
     int fp = fnin == NULL ? STDIN_FILENO : open(fnin, O_RDONLY);
     if (fp < 0) {
         fprintf(stderr, "error: cannot open %s\n", fnin);
@@ -45,12 +50,36 @@ int alder_adapter_cut_file(const char *fnin, const char *fnout,
         return -1;
     }
     
+    // A second FASTQ file.
+    int fp2 = -1;
+    if (fnin2 != NULL) {
+        fp2 = open(fnin2, O_RDONLY);
+        if (fp2 < 0) {
+            fprintf(stderr, "error: cannot open %s\n", fnin2);
+        }
+        close(fp);
+        fclose(fpout);
+        return -1;
+    }
+    FILE *fpout2;
+    if (fnout2 != NULL) {
+        fpout2 = fopen(fnout2, "w");
+        if (fpout2 == NULL) {
+            fprintf(stderr, "error: cannot make a file %s\n", fnout2);
+            close(fp2);
+            close(fp);
+            fclose(fpout);
+            return -1;
+        }
+    }
+    
 #include "alder_adapter_cut_core.c"
     
-	kseq_destroy(seq);
     if (fnin != NULL) close(fp);
     if (fnout != NULL) fclose(fpout);
-
+    if (fnin2 != NULL) close(fp2);
+    if (fnout2 != NULL) fclose(fpout2);
+    
     return 0;
 }
 
