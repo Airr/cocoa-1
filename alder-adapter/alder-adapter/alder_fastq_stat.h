@@ -40,7 +40,6 @@ typedef struct {
 } alder_fastq_stat_t;
 
 void alder_fastq_stat_init(alder_fastq_stat_t *stat);
-void alder_fastq_stat_free(alder_fastq_stat_t *stat);
 int alder_fastq_stat_log (alder_fastq_stat_t *stat,
                           const char *fnin, const char *fnout,
                           const char *fnin2, const char *fnout2,

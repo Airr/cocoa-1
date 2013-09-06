@@ -1,0 +1,18 @@
+package "alder-fasta"
+version "0.1"
+purpose "alder-fasta reads and writes files in FASTA format."
+
+option "outfile" o "Output files" string typestr="file,file,..." multiple optional
+
+option "log" - "Log file" string typestr="file" default="alder-fasta.log" optional
+
+section "Concatenate"
+
+option "cat" - "Concatenate sequences" flag off
+details="Print sequence names, and sequence positions in a single concatenated sequence"
+
+section "Stat"
+
+option "stat" s "Print summary of sequences" flag off
+details="Print number of sequences and number of bases."
+option "seq" - "Print length of sequences" flag off

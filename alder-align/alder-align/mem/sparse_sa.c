@@ -1,10 +1,23 @@
-//
-//  sparse_sa.c
-//  mem
-//
-//  Created by Sang Chul Choi on 8/13/13.
-//  Copyright (c) 2013 Sang Chul Choi. All rights reserved.
-//
+/**
+ * This file, sparse_sa.c, is part of alder-align.
+ *
+ * Original Authors: Zia Khan, Joshua S. Bloom, Leonid Kruglyak and Mona Singh
+ *
+ * Modified by Sang Chul Choi
+ *
+ * alder-align is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * alder-align is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with alder-align.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include <stdio.h>
 #include <assert.h>
@@ -15,15 +28,253 @@
 #include <gsl/gsl_errno.h>
 #include <assert.h>
 #include <nglogc/log.h>
+#include "bstrlib.h"
+#include "alder_fasta.h"
 #include "alder_logger.h"
+
 #include "sparse_sa.h"
-#include "alder-align/fasta/alder_fasta.h"
 #include "/Users/goshng/usr/local/include/divsufsort64.h"
 
 static int64_t sMaxK = 3; ///< This must be smaller than sSizeCapacity in "alder_fasta.rl"
 
 #define BUCKETBEGINSIZE 256
 #define MAX(a,b)  ((a) > (b) ? (a) : (b))
+
+// Builds a suffix array using a fasta file with sequences.
+alder_sparse_sa_t *alder_sparse_sa_alloc_file (const struct bstrList *ref,
+                                               const int64_t K)
+{
+    assert(K == 2 || K== 3);
+    assert(sizeof(size_t) == sizeof(int64_t));
+    
+    alder_sparse_sa_t *sparseSA = malloc(sizeof(alder_sparse_sa_t));
+    if (sparseSA == NULL) {
+        logc_logWarning(ERROR_LOGGER, "cannot a sparse suffix array.");
+        GSL_ERROR_VAL("sparse sa alloc failed", GSL_ENOMEM, NULL);
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////
+    // Set sparseSA->fS, and initialize others K, N, logN, NKm1.
+    ///////////////////////////////////////////////////////////////////////////
+    int64_t tSeq = 0;
+    int64_t tBase = 0;
+    alder_fasta_list_length(ref, &tSeq, &tBase);
+    sparseSA->fS = alder_fasta_list_alloc(ref, tSeq, tBase, K);
+    if (sparseSA->fS == NULL) {
+        free(sparseSA);
+        GSL_ERROR_VAL("sparse sa alloc failed", GSL_ENOMEM, NULL);
+    }
+    sparseSA->S = sparseSA->fS->data;
+    int64_t S_length = sparseSA->fS->numberOfBase;
+    logc_log(MAIN_LOGGER, LOG_FINE, "Number of files=%d", ref->qty);
+    logc_log(MAIN_LOGGER, LOG_FINE, "Number of sequences=%lld", tSeq);
+    logc_log(MAIN_LOGGER, LOG_FINE, "Number of bases=%lld", tBase);
+    
+    // Increase string length so divisible by K.
+    // Don't forget to count $ termination character.
+    uint64_t appendK = S_length % K == 0 ? K : K - S_length % K;
+    if (sparseSA->fS->sizeCapacity < S_length + appendK + 1) {
+        alder_fasta_list_free(sparseSA->fS);
+        free(sparseSA);
+        GSL_ERROR_VAL("sparse sa alloc failed: increase sSizeCapacity"
+                      "in alder_fasta.rl",
+                      GSL_ENOMEM, NULL);
+    }
+    assert(appendK > 0);
+    for(uint64_t i = 0; i < appendK; i++) {
+        sparseSA->fS->data[sparseSA->fS->numberOfBase + i] = '$';
+    }
+    sparseSA->fS->data[sparseSA->fS->numberOfBase + appendK] = '\0';
+    sparseSA->fS->sizeOfDataWithDollar = sparseSA->fS->numberOfBase + appendK;
+    sparseSA->K = K;
+    sparseSA->N = sparseSA->fS->sizeOfDataWithDollar;
+    int64_t N = sparseSA->N;
+    sparseSA->logN = (uint64_t)ceil(log2((double)(N/K)));
+    sparseSA->NKm1 = N/K-1;
+    assert(N%K==0);
+    if (K == 0 || K == 1 || K > sMaxK) {
+        alder_fasta_list_free(sparseSA->fS);
+        free(sparseSA);
+        GSL_ERROR_VAL("sparse sa alloc failed", GSL_ENOMEM, NULL);
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////
+    // Build SA
+    ///////////////////////////////////////////////////////////////////////////
+    assert(1 < K && K < 4);
+    uint16_t bucketNr = 1;
+    int64_t *intSA = malloc((N/K+1)*sizeof(int64_t));
+    if (intSA == NULL) {
+        alder_fasta_list_free(sparseSA->fS);
+        free(sparseSA);
+        GSL_ERROR_VAL("sparse sa alloc failed", GSL_ENOMEM, NULL);
+    }
+    for(int64_t i = 0; i < N/K+1; i++) intSA[i] = i; // Init SA.
+    uint8_t *t_new = malloc((N/K+1)*sizeof(uint8_t));
+    if (t_new == NULL) {
+        free(intSA);
+        alder_fasta_list_free(sparseSA->fS);
+        free(sparseSA);
+        GSL_ERROR_VAL("sparse sa alloc failed", GSL_ENOMEM, NULL);
+    }
+    int64_t *BucketBegin = malloc(BUCKETBEGINSIZE * sizeof(int64_t));
+    if (BucketBegin == NULL) {
+        free(t_new);
+        free(intSA);
+        alder_fasta_list_free(sparseSA->fS);
+        free(sparseSA);
+        GSL_ERROR_VAL("sparse sa alloc failed", GSL_ENOMEM, NULL);
+    }
+    
+    ////////////////////////////////////////////////
+    // Radix sort.
+    ////////////////////////////////////////////////
+    // intSA: size of N/K+1 initialized 0 to N/K.
+    // t_new: could be the result?
+    // bucketNr: ???
+    // BucketBegin: some temp we may not need this.
+    // l: 0
+    // r: N/K-1
+    // h: 0
+    // What are these l, r, h?
+    alder_radixStep(sparseSA, t_new, intSA, &bucketNr, BucketBegin, 0, N/K-1, 0);
+    assert(intSA[N/K] == N/K);
+    t_new[N/K] = 0; // Terminate new integer string.
+    free(BucketBegin);
+    logc_log(MAIN_LOGGER, LOG_FINE, "bucketNr=%d", bucketNr);
+    logc_log(MAIN_LOGGER, LOG_FINE, "N/K=%lld", N/K);
+#ifdef MAIN_LOGGER
+    for (size_t i = 0; i < N/K + 1; i++) {
+        logc_log(MAIN_LOGGER, LOG_FINEST,
+                 "t_new and intSA [%zd] %d\t%lld",
+                 i, (int)t_new[i], intSA[i]);
+    }
+#endif
+    
+    ////////////////////////////////////////////////
+    // Replace this with libdivsufsort64.
+    ////////////////////////////////////////////////
+    // t_new is the input
+    // intSA is the suffix array of t_new.
+    // size of intSA is N/K.
+    // 0 .. bucketNr - 1
+    // Makes suffix array p of x. x becomes inverse of p. p and x are both of size
+    // n+1. Contents of x[0...n-1] are integers in the range l...k-1. Original
+    // contents of x[n] is disregarded, the n-th symbol being regarded as
+    // end-of-string smaller than all other symbols.
+    //
+    // void suffixsort(int *x, int *p, int n, int k, int l)
+    // suffixsort(t_new, intSA_int, (int)(N/K), bucketNr_int, 0);
+    //
+    // t_new is uint8_t
+    // intSA is int64_t
+    // N/K is the size of the arrays.
+    // N/K+1 makes more sense; 0 at N/K position is used as the terminator.
+    // because SA takes values from 1-st position not from 0-th position.
+    // and the original source mentioned that the last character is
+    // the terminator. suffixsort seems to mention x[n] or the last
+    // character is disregarded, or ithe n-th symbol being regarded as
+    // end-of-string smaller than all other symbols.
+    // N/K was the original input;
+    saint_t status = divsufsort64(t_new, intSA, N/K+1);
+    if (status != 0) {
+        fprintf(stderr, "error: divsufsort64\n");
+    }
+#ifdef MAIN_LOGGER
+    logc_log(MAIN_LOGGER, LOG_FINE, "divsufsort64 is called");
+    for (size_t i = 0; i < N/K + 1; i++) {
+        logc_log(MAIN_LOGGER, LOG_FINEST,
+                 "intSA [%zd] %lld",
+                 i, intSA[i]);
+    }
+#endif
+    free(t_new);
+    
+    ////////////////////////////////////////////////
+    // Translate suffix array: set sparseSA->SA.
+    ////////////////////////////////////////////////
+    sparseSA->SA = malloc((N/K)*sizeof(int64_t));
+    if (sparseSA->SA == NULL) {
+        free(intSA);
+        alder_fasta_list_free(sparseSA->fS);
+        free(sparseSA);
+        GSL_ERROR_VAL("sparse sa alloc failed", GSL_ENOMEM, NULL);
+    }
+    for (int64_t i = 0; i < N/K; i++) {
+        sparseSA->SA[i] = intSA[i+1] * K;
+    }
+    free(intSA);
+#ifdef MAIN_LOGGER
+    logc_log(MAIN_LOGGER, LOG_FINEST,
+             "SA is computed using intSA (deleted)");
+    for (size_t i = 0; i < N/K; i++) {
+        logc_log(MAIN_LOGGER, LOG_FINEST,
+                 "SA [%zd] %lld",
+                 i, sparseSA->SA[i]);
+    }
+#endif
+    
+    ///////////////////////////////////////////////////////////////////////////
+    // Build ISA using sparse SA.
+    ///////////////////////////////////////////////////////////////////////////
+    sparseSA->ISA = malloc((N/K)*sizeof(uint64_t));
+    if (sparseSA->ISA == NULL) {
+        free(sparseSA->SA);
+        alder_fasta_list_free(sparseSA->fS);
+        free(sparseSA);
+        GSL_ERROR_VAL("sparse sa alloc failed", GSL_ENOMEM, NULL);
+    }
+    for (int64_t i = 0; i < N/K; i++) {
+        sparseSA->ISA[sparseSA->SA[i]/K] = i;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Initialize LCP : SA + ISA -> LCP
+    ///////////////////////////////////////////////////////////////////////////
+    sparseSA->LCP = malloc((N/K)*sizeof(int64_t));
+    if (sparseSA->LCP == NULL) {
+        free(sparseSA->ISA);
+        free(sparseSA->SA);
+        alder_fasta_list_free(sparseSA->fS);
+        free(sparseSA);
+        GSL_ERROR_VAL("sparse sa alloc failed", GSL_ENOMEM, NULL);
+    }
+    alder_computeLCP(sparseSA);
+    
+#ifdef MAIN_LOGGER
+    logc_log(MAIN_LOGGER, LOG_FINE, "ISA is computed using SA.");
+    for (size_t i = 0; i < N/K; i++) {
+        logc_log(MAIN_LOGGER, LOG_FINEST,
+                 "ISA [%zd] %lld",
+                 i, sparseSA->ISA[i]);
+    }
+    for (size_t i = 0; i < N/K; i++) {
+        logc_log(MAIN_LOGGER, LOG_FINEST,
+                 "LCP [%zd] %lld",
+                 i, sparseSA->LCP[i]);
+    }
+#endif
+    
+    return sparseSA;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // LS suffix sorter (integer alphabet).
 // The function is defined in qsufsort.c.
@@ -220,223 +471,6 @@ alder_sparse_sa_t *alder_sparse_sa_alloc(const char *ref, int64_t K)
     return sparseSA;
 }
 
-// Builds a suffix tree using a fasta file with sequences.
-alder_sparse_sa_t *alder_sparse_sa_alloc_file (const char *ref, int64_t K)
-{
-    assert(sizeof(size_t) == sizeof(int64_t));
-    
-    alder_sparse_sa_t *sparseSA = malloc(sizeof(alder_sparse_sa_t));
-    if (sparseSA == NULL) {
-        GSL_ERROR_VAL("sparse sa alloc failed", GSL_ENOMEM, NULL);
-    }
-    
-    // Initialize member fS
-    sparseSA->fS = alder_fasta_alloc(ref);
-    if (sparseSA->fS == NULL) {
-        free(sparseSA);
-        GSL_ERROR_VAL("sparse sa alloc failed", GSL_ENOMEM, NULL);
-    }
-    sparseSA->S = sparseSA->fS->data;
-    int64_t S_length = sparseSA->fS->numberOfBase;
-    
-    // Increase string length so divisible by K.
-    // Don't forget to count $ termination character.
-    uint64_t appendK = S_length % K == 0 ? K : K - S_length % K;
-    if (sparseSA->fS->sizeCapacity < S_length + appendK + 1) {
-        alder_fasta_free(sparseSA->fS);
-        free(sparseSA);
-        GSL_ERROR_VAL("sparse sa alloc failed: increase sSizeCapacity"
-                      "in alder_fasta.rl",
-                      GSL_ENOMEM, NULL);
-    }
-    assert(appendK > 0);
-    for(uint64_t i = 0; i < appendK; i++) {
-        sparseSA->fS->data[sparseSA->fS->numberOfBase + i] = '$';
-    }
-    sparseSA->fS->data[sparseSA->fS->numberOfBase + appendK] = '\0';
-    sparseSA->fS->sizeOfDataWithDollar = sparseSA->fS->numberOfBase + appendK;
-    
-    // Initialize K, N, logN, NKm1.
-    sparseSA->K = K;
-    sparseSA->N = sparseSA->fS->sizeOfDataWithDollar;
-    uint64_t N = sparseSA->N;
-    sparseSA->logN = (uint64_t)ceil(log2((double)(N/K)));
-    sparseSA->NKm1 = N/K-1;
-    assert(N%K==0);
-    
-    assert(K > 1);
-    if (K == 0 || K == 1 || K > sMaxK) {
-        alder_fasta_free(sparseSA->fS);
-        free(sparseSA);
-        GSL_ERROR_VAL("sparse sa alloc failed", GSL_ENOMEM, NULL);
-    }
-    
-    // Initialize SA, and ISA
-    if(K > 1) {
-        uint16_t bucketNr = 1;
-        int64_t *intSA = malloc((N/K+1)*sizeof(int64_t));
-        if (intSA == NULL) {
-            alder_fasta_free(sparseSA->fS);
-            free(sparseSA);
-            GSL_ERROR_VAL("sparse sa alloc failed", GSL_ENOMEM, NULL);
-        }
-        for(uint64_t i = 0; i <= N/K; i++) intSA[i] = i; // Init SA.
-        uint8_t *t_new = malloc((N/K+1)*sizeof(uint8_t));
-        if (t_new == NULL) {
-            free(intSA);
-            alder_fasta_free(sparseSA->fS);
-            free(sparseSA);
-            GSL_ERROR_VAL("sparse sa alloc failed", GSL_ENOMEM, NULL);
-        }
-        int64_t *BucketBegin = malloc(BUCKETBEGINSIZE * sizeof(int64_t));
-        if (BucketBegin == NULL) {
-            free(t_new);
-            free(intSA);
-            alder_fasta_free(sparseSA->fS);
-            free(sparseSA);
-            GSL_ERROR_VAL("sparse sa alloc failed", GSL_ENOMEM, NULL);
-        }
-        
-        ////////////////////////////////////////////////
-        // Replace this with libdivsufsort.
-        ////////////////////////////////////////////////
-        // intSA: size of N/K initialized 0 to N/K-1.
-        // t_new: could be the result?
-        // bucketNr: ???
-        // BucketBegin: some temp we may not need this.
-        // l: 0
-        // r: N/K-1
-        // h: 0
-        // What are these l, r, h?
-        alder_radixStep(sparseSA, t_new, intSA, &bucketNr, BucketBegin, 0, N/K-1, 0); // start radix sort
-        ////////////////////////////////////////////////
-        // Replace this with libdivsufsort.
-        ////////////////////////////////////////////////
-        assert(intSA[N/K] == N/K);
-        t_new[N/K] = 0; // Terminate new integer string.
-        free(BucketBegin);
-        
-        logc_log(MAIN_LOGGER, LOG_FINEST, "bucketNr=%d", bucketNr);
-        logc_log(MAIN_LOGGER, LOG_FINEST, "N/K=%lld", N/K);
-#ifdef MAIN_LOGGER
-        for (size_t i = 0; i < N/K + 1; i++) {
-            logc_log(MAIN_LOGGER, LOG_FINEST,
-                     "t_new and intSA [%zd] %d\t%lld",
-                     i, (int)t_new[i], intSA[i]);
-        }
-#endif
-        ////////////////////////////////////////////////
-        // Replace this with libdivsufsort.
-        ////////////////////////////////////////////////
-        // t_new is the input
-        // intSA is the suffix array of t_new.
-        // size of intSA is N/K.
-        // 0 .. bucketNr - 1
-/* Makes suffix array p of x. x becomes inverse of p. p and x are both of size
-   n+1. Contents of x[0...n-1] are integers in the range l...k-1. Original
-   contents of x[n] is disregarded, the n-th symbol being regarded as
-   end-of-string smaller than all other symbols.*/
-//void suffixsort(int *x, int *p, int n, int k, int l)
-        //        suffixsort(t_new, intSA_int, (int)(N/K), bucketNr_int, 0);
-        
-        // t_new is uint8_t
-        // intSA is int64_t
-        // N/K is the size of the arrays.
-        // N/K+1 makes more sense; 0 at N/K position is used as the terminator.
-        //   because SA takes values from 1-st position not from 0-th position.
-        //   and the original source mentioned that the last character is
-        //   the terminator. suffixsort seems to mention x[n] or the last
-        //   character is disregarded, or ithe n-th symbol being regarded as
-        //   end-of-string smaller than all other symbols.
-        // 
-
-        // N/K is the original input;
-        saint_t status = divsufsort64(t_new, intSA, N/K+1);
-        if (status != 0) {
-            fprintf(stderr, "error: divsufsort64\n");
-        }
-#ifdef MAIN_LOGGER
-        logc_log(MAIN_LOGGER, LOG_FINEST, "divsufsort64 is called");
-        for (size_t i = 0; i < N/K + 1; i++) {
-            logc_log(MAIN_LOGGER, LOG_FINEST,
-                     "intSA [%zd] %lld",
-                     i, intSA[i]);
-        }
-#endif
-        ////////////////////////////////////////////////
-        // Replace this with libdivsufsort.
-        ////////////////////////////////////////////////
-        
-        ////////////////////////////////////////////////
-        // Translate suffix array.
-        sparseSA->SA = malloc((N/K)*sizeof(int64_t));
-        if (sparseSA->SA == NULL) {
-            alder_fasta_free(sparseSA->fS);
-            free(sparseSA);
-            GSL_ERROR_VAL("sparse sa alloc failed", GSL_ENOMEM, NULL);
-        }
-        for (int64_t i = 0; i < N/K; i++) {
-            sparseSA->SA[i] = intSA[i+1] * K;
-        }
-        free(intSA);
-        
-#ifdef MAIN_LOGGER
-        logc_log(MAIN_LOGGER, LOG_FINEST,
-                 "SA is computed using intSA (deleted)");
-        for (size_t i = 0; i < N/K; i++) {
-            logc_log(MAIN_LOGGER, LOG_FINEST,
-                     "SA [%zd] %lld",
-                     i, sparseSA->SA[i]);
-        }
-#endif
-        
-        // Build ISA using sparse SA.
-        sparseSA->ISA = malloc((N/K)*sizeof(uint64_t));
-        if (sparseSA->ISA == NULL) {
-            free(sparseSA->SA);
-            alder_fasta_free(sparseSA->fS);
-            free(sparseSA);
-            GSL_ERROR_VAL("sparse sa alloc failed", GSL_ENOMEM, NULL);
-        }
-        for (int64_t i = 0; i < N/K; i++) {
-            sparseSA->ISA[sparseSA->SA[i]/K] = i;
-        }
-    }
-
-    // Initialize LCP.
-    sparseSA->LCP = malloc((N/K)*sizeof(int64_t));
-    if (sparseSA->LCP == NULL) {
-        free(sparseSA->ISA);
-        free(sparseSA->SA);
-        alder_fasta_free(sparseSA->fS);
-        free(sparseSA);
-        GSL_ERROR_VAL("sparse sa alloc failed", GSL_ENOMEM, NULL);
-    }
-    
-    ////////////////////////////////////////////////
-    // Replace this with libdivsufsort.
-    ////////////////////////////////////////////////
-    alder_computeLCP(sparseSA);  // SA + ISA -> LCP
-    ////////////////////////////////////////////////
-    // Replace this with libdivsufsort.
-    ////////////////////////////////////////////////
-    
-#ifdef MAIN_LOGGER
-    logc_log(MAIN_LOGGER, LOG_FINEST, "ISA is computed using SA.");
-    for (size_t i = 0; i < N/K; i++) {
-        logc_log(MAIN_LOGGER, LOG_FINEST,
-                 "ISA [%zd] %lld",
-                 i, sparseSA->ISA[i]);
-    }
-    for (size_t i = 0; i < N/K; i++) {
-        logc_log(MAIN_LOGGER, LOG_FINEST,
-                 "LCP [%zd] %lld",
-                 i, sparseSA->LCP[i]);
-    }
-#endif
-    
-    return sparseSA;
-}
 
 void query_thread(alder_sparse_sa_t *o, const char *P)
 {
@@ -456,7 +490,7 @@ void query_thread(alder_sparse_sa_t *o, const char *P)
 
 void alder_sparse_sa_free (alder_sparse_sa_t *o)
 {
-    alder_fasta_free(o->fS);
+    alder_fasta_list_free(o->fS);
 //    free(o->S);
     free(o->SA);
     free(o->ISA);

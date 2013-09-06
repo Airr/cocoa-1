@@ -18,6 +18,7 @@
  */
 
 #include <stdio.h>
+#include <unistd.h>
 #include <fcntl.h>
 #include <zlib.h>
 #include <assert.h>
@@ -27,7 +28,6 @@
 #include "alder_kseq_base.h"
 #include "alder_adapter_pair.h"
 #include "alder_adapter_index_illumina.h"
-#include "alder_adapter_index_illumina_gzip.h"
 
 // We are given a number of FASTQ files.
 // We find pairs, if any, of them. By seeing the first read sequences.

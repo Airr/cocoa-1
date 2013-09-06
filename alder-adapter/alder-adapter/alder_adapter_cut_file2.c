@@ -27,14 +27,11 @@
 #include <stdint.h>
 #include <assert.h>
 #include "alder_logger.h"
-//#include "kseq.h"
 #include "bstrlib.h"
 #include "bstrmore.h"
 #include "alder_adapter_index_illumina.h"
 #include "alder_adapter_cut.h"
 #include "alder_fastq_stat.h"
-#include "alder_adapter_cut_file.h"
-#include "alder_adapter_cut_core.h"
 #include "alder_adapter_cut_filter.h"
 #include "alder_file_isgzip.h"
 #include "alder_kseq_base.h"

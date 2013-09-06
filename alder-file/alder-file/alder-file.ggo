@@ -1,0 +1,7 @@
+package "alder-file"
+version "0.1"
+purpose "alder-file summarizes files and directories."
+description "This tests files and directories in C."
+
+option "output" o "Output files" string typestr="file,..." multiple optional
+option "summary" - "Summary of files" flag off

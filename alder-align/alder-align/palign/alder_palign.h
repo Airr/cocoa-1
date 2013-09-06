@@ -11,7 +11,7 @@
 
 #include "../union/union_array.h"
 #include "gsl_vector_match.h"
-#include "../fasta/alder_fasta.h"
+#include "alder_fasta.h"
 
 #undef __BEGIN_DECLS
 #undef __END_DECLS
@@ -24,7 +24,7 @@
 #endif
 
 __BEGIN_DECLS
-int alder_palign(const char *s, interval_t I, gsl_vector_match *mem, fasta_t *fS);
+int alder_palign(const char *s, interval_t I, gsl_vector_match *mem, alder_fasta_t *fS);
 __END_DECLS
 
 #endif

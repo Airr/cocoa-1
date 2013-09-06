@@ -11,12 +11,10 @@
 #include <fcntl.h>
 #include <assert.h>
 #include "bstrlib.h"
-#include "kseq.h"
 #include "alder_file_isgzip.h"
 #include "alder_adapter_index_illumina.h"
-#include "alder_adapter_index_illumina_gzip.h"
 
-KSEQ_INIT(int, read)
+//KSEQ_INIT(int, read)
 
 extern char *adapter_sequence[19];
 
@@ -57,37 +55,3 @@ int alder_adapter_index_illumina_seq_summary(const char *s)
     return truseqIndex;
 }
 
-///////////////////////////////////////////////////////////////////////////////
-// OBSOLETE
-///////////////////////////////////////////////////////////////////////////////
-int alder_adapter_index_illumina(const char *fnin)
-{
-    assert(fnin != NULL);
-    
-    int truseqIndex = -1;
-    if (fnin != NULL) {
-        int status = alder_file_isgzip(fnin);
-        if (status == 1) {
-            return alder_adapter_index_illumina_gzip(fnin);
-        }
-    }
-    int fdin = fnin == NULL ? dup(STDIN_FILENO) : open(fnin, O_RDONLY);
-    kseq_t *seq;
-    seq = kseq_init(fdin);
-    kseq_read(seq);
-    if (seq->comment.s == NULL) {
-        truseqIndex = -1;
-    } else {
-        truseqIndex = alder_adapter_index_illumina_seq_summary(seq->comment.s);
-    }
-    kseq_destroy(seq);
-    
-    if (fnin == NULL) {
-        dup2(fdin, STDIN_FILENO);
-    } else {
-        close(fdin);
-    }
-    
-    
-    return truseqIndex;
-}

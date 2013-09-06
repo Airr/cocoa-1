@@ -20,6 +20,8 @@
 #ifndef alder_adapter_alder_adapter_option_h
 #define alder_adapter_alder_adapter_option_h
 
+#include "bstrlib.h"
+
 #undef __BEGIN_DECLS
 #undef __END_DECLS
 #ifdef __cplusplus
@@ -29,7 +31,6 @@
 # define __BEGIN_DECLS /* empty */
 # define __END_DECLS /* empty */
 #endif
-
 
 __BEGIN_DECLS
 
@@ -49,11 +50,12 @@ typedef struct {
     int filter_length;
     int filter_quality;
     int filter_ambiguous;
-    int filter_uniq;
+    int filter_duplicates;
     int *pair;
     struct bstrList *adapter;
     struct bstrList *infile;
     struct bstrList *outfile;
+    bstring logfilename;
 } alder_adapter_option_t;
 
 void alder_adapter_option_free(alder_adapter_option_t *option);

@@ -25,13 +25,6 @@ void alder_fastq_stat_init(alder_fastq_stat_t *stat)
     stat->adapter_seq_id2 = -1;
 }
 
-void alder_fastq_stat_free(alder_fastq_stat_t *stat)
-{
-//    bdestroy(stat->adapter_seq);
-}
-
-
-
 int alder_fastq_stat_log (alder_fastq_stat_t *stat,
                           const char *fnin, const char *fnout,
                           const char *fnin2, const char *fnout2,

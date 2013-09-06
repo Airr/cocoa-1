@@ -8,7 +8,7 @@
 
 #include <stdio.h>
 #include "../samtools/sam.h"
-#include "../fasta/alder_fasta.h"
+#include "alder_fasta.h"
 //#include "../palign/alder_align_alignment.h"
 #include "gsl_vector_sam.h"
 #include "../bstring/bstraux.h"
@@ -30,7 +30,7 @@
     
     //    samfile_t *out = samopen(fn2, "wh", header);
 
-FILE *alder_sam_open(const char *fn, const fasta_t *fh)
+FILE *alder_sam_open(const char *fn, const alder_fasta_t *fh)
 {
     FILE *fp = fopen(fn, "w");
     if (fp == NULL) {

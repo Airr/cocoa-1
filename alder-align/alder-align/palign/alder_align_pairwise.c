@@ -15,6 +15,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <stdbool.h>
+#include "bstrlib.h"
 #include "alder_align_pairwise.h"
 //#include "alder_palign_alignment.h"
 #include "alder_cigar_queue.h"
@@ -950,6 +951,7 @@ struct seq_col* read_fasta2(const char *s1, const char *s2)
     for (size_t i = 0; i < 2; i++) {
         seq = &(scol->seqs[i]);
         seq->max_seen = 0;
+        
         seq->name = strdup("name");
         seq->num = (int)i;
         seq->orf_frame=0;

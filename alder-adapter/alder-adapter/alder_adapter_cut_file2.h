@@ -21,7 +21,7 @@
 #define alder_adapter_alder_adapter_cut_file2_h
 
 #include "alder_fastq_stat.h"
-#include "alder_adapter_cut_core.h"
+#include "alder_adapter_option.h"
 
 #undef __BEGIN_DECLS
 #undef __END_DECLS

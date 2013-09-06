@@ -11,7 +11,7 @@
 #include "bstrmore.h"
 #include "alder_logger.h"
 #include "alder_adapter_cut.h"
-#include "alder_adapter_cut_core.h"
+#include "alder_adapter_option.h"
 
 //
 // bSequence : seq.s

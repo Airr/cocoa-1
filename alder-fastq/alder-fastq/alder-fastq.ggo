@@ -1,0 +1,10 @@
+package "alder-fastq"
+version "0.1"
+purpose "alder-fastq summarizes FASTQ files."
+description "FASTQ files tend to be large in size. Computer users can take advantage of useful command line tools to examine the content of FASTQ files; awk, sed, grep, PERL, and the like. This program, alder-fastq, cannot substitute any of those. This program is intended to be useful in developing other software packages in C."
+
+option "outfile" o "Output files" string typestr="file,..." multiple optional
+option "log" - "Log file" string typestr="file" default="alder-fastq.log" optional
+option "kseq" - "Use kseq library" flag off
+
+option "summary" - "Summary of FASTQ files" flag off

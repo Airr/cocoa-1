@@ -76,27 +76,8 @@ libdivsufsort
 cmake -DCMAKE_BUILD_TYPE="Release" -DCMAKE_INSTALL_PREFIX="$HOME/usr/local" -DBUILD_DIVSUFSORT64:BOOL=ON ..
 
 
-section "Trim options"
-
-sectiondesc="alder-adapter removes 5'-end and 3'-end parts of read sequences with ambiguous DNA bases or low base quality score."
-
-option "trim-to-len" - "Trim all sequence from the 3'-end to result in sequence with this length" int optional
-option "trim-left"            - "Trim sequence at the 5'-end by this number of bases" int optional
-option "trim-right"           - "Trim sequence at the 3'-end by this number of bases" int optional
-option "trim-ambiguous-left"  - "Trim ambiguous bases off from the 5'-end" flag on
-option "trim-ambiguous-right" - "Trim ambiguous bases off from the 3'-end" flag on
-option "trim-quality-left"    - "Trim bases off from the 5'-end until the base quality score is not below this number" int optional default="30"
-option "trim-quality-right"    - "Trim bases off from the 3'-end until the base quality score is not below this number" int optional default="30"
-
-section "Filter options"
-
-sectiondesc="alder-adapter filters out whole read sequences if they are too short, too long, or too bad in base quality scores."
-
-
-
-option "min-length" - "Filters out read sequences short than this number." int optional default="20"
-option "max-length" - "Filters out read sequences longer than this number." int optional
-option "min-quality" - "Filters out read sequences with at leaset one base whose base quality score is below this number" int optional
-option "max-quality" - "Filters out read sequences with at leaset one base whose base quality score is above this number" int optional
-option "max-ambiguous-n" - "Filters out read sequences with more than this number of ambiguous bases" int optional
-option "uniq" - "Filters out duplicate read sequences" flag off
+Main flow
+---------
+main
+  alder_sparse_sa_alloc_file
+    alder_fasta_alloc

@@ -1,0 +1,47 @@
+package "alder-align"
+
+version "0.1"
+
+purpose "The software package align read sequences on a genome."
+
+usage "alder-align [-h|--help] l-help] [-V|--version] [-ofilename|--output=filename] [-l|--log] [-flogfilename|--logfile=logfilename] [FILES]"
+
+description "The software package alder-align aligns a set of read sequences one on a reference genome. Use option --cite to see the reference papers about this software package."
+
+option "cite" - "Print reference papers" optional hidden
+
+section "Input file option"
+
+sectiondesc="alder-align reads FASTQ files or gzipped FASTQ files. It can read in either the standard input from other program, or can process multiple input files. Two files are considered as a pair if they contains the same read sequence identifiers in the first read sequences. If a FASTQ file does not pair with any of the given FASTQ files, it is considered as a single-end data set.\n"
+
+option "reference" - "Reference fasta files" string typestr="file,file,..." multiple
+details="FASTA files contains DNA sequences, each of which is indexed with a unique identifier that is a number starts at 1 and ends in the number of sequences. A FASTA file can contains multiple DNA sequences. alder-align supports gzipped FASTA files.\n"
+
+option "no-pair" - "Process each file as a single-end data" flag off
+details="By default, alder-align finds pairs of FASTQ files if they contains the same read sequence identifiers in the first read sequences for forward and reverse direction. Use this option to process each FASTQ file without pairing them.\n"
+
+section "Output file option"
+
+sectiondesc="alder-align prints out the processed read sequence to the standard output or to the screen. Option --output allows alder-align to create a SAM/BAM file, and print processed read sequences to the file. WARNING: if the output file exists, the file will be erased.\n"
+
+option "output" o "Create output files" string typestr="file,file,..." optional multiple
+details="Without option --output or -o, alder-align behaves differently depending on the input file. Without this option, alder-align prints out to the standard output if the input file is the standard input. Without this option, if input files are given, each output file name is automatically created with \".alder.sam\" appended to the corresponding input file name. The number of output files must be as many as input files. With multiple file names, alder-align processes each input file and prints processed read sequences in each output file in the corresponding order. Use a comma as a separator of multiple output file names. Note that the number of output files can be larger than that of the input files.
+For example,
+$ alder-align file1.fq.gz file2.fq.gz -o outfile1.sam,outfile2.sam\n"
+
+section "Log option"
+sectiondesc="alder-align computes basic summary stattistics of the given FASTQ files.\n"
+
+option "log" l "Write a summary in a file" flag on
+details="Write a summary statistics of the input FASTQ file to a file with basename being the input file name. Option logfile overrides this log option; if both used, the log filename is the one given by option logfile. If the input file is standard input, use option logfile because option log is meaningless.\n"
+
+option "logfile" f "Write a summary statistics this file name" string typestr="file" optional
+details="Write a summary statistics of the input FASTQ file to this file name.\n"
+
+section "Sparse suffix array"
+sectiondesc="Reference FASTA sequences are concatenated to be a indexed suffix array. We have options to control the behavior of the suffix array.\n"
+
+option "sparse-suffix-array-k" - "Sparse SAs store every K-th suffix" int typestr="[2,3]" values="2","3" default="2" optional
+details="To save spaces and more effective search for maximal exact matches, we do not use full-text suffix arrays, but sparse suffix arrays that store every K-th suffix of the text. A text is considered a reference genome sequences.\n"
+
+

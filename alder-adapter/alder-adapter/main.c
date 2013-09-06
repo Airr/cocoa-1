@@ -1,29 +1,32 @@
-//
-//  main.c
-//  alder-adapter
-//
-//  Created by Sang Chul Choi on 8/30/13.
-//  Copyright (c) 2013 Sang Chul Choi. All rights reserved.
-//
+/**
+ * This file, main.c, is part of alder-adapter.
+ *
+ * Copyright 2013 by Sang Chul Choi
+ *
+ * alder-adapter is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * alder-adapter is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with alder-adapter.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/poll.h>
 #include <assert.h>
-#include "bstrmore.h"
-#include "cmdline.h"
-#include "alder_file_isgzip.h"
-#include "alder_adapter_cut.h"
-#include "alder_adapter_cut_file.h"
-#include "alder_adapter_cut_gzip.h"
-#include "alder_adapter_index_illumina.h"
-#include "alder_file_isstdin.h"
+#include "alder_adapter_option.h"
 #include "alder_logger.h"
-#include "alder_fastq_stat.h"
-#include "alder_file_stat.h"
-#include "alder_adapter_cut_core.h"
-#include "alder_adapter_pair.h"
+#include "cmdline.h"
 #include "alder_adapter_cmd_check.h"
+#include "bstrmore.h"
+#include "alder_fastq_stat.h"
 #include "alder_adapter_cut_file2.h"
 
 // TruSeq Adapters - Index 1-16,18,19 (Note: Illumina Index 17 is missing)
@@ -52,60 +55,31 @@ char *adapter_sequence[19] = {
 int main(int argc, char * argv[])
 {
     int isExitWithHelp = 0;
-    struct gengetopt_args_info args_info;
-    if (my_cmdline_parser (argc, argv, &args_info) != 0) exit(1) ;
-
-    alder_error_logger_initialize(LOG_WARNING);
+    alder_adapter_option_t main_option;
+    
+    ///////////////////////////////////////////////////////////////////////////
+    // Initialize the error logger.
+    ///////////////////////////////////////////////////////////////////////////
+    alder_logger_error_initialize(LOG_WARNING);
     
     ///////////////////////////////////////////////////////////////////////////
     // Check the command line.
     ///////////////////////////////////////////////////////////////////////////
-    alder_adapter_option_t main_option;
-    main_option.is_stdin = alder_file_isstdin();
-    int isstdin = main_option.is_stdin;
+    struct gengetopt_args_info args_info;
+    if (my_cmdline_parser (argc, argv, &args_info) != 0) exit(1) ;
     isExitWithHelp = alder_adatper_cmd_check(&main_option, &args_info);
-    
     if (isExitWithHelp == 1) {
         my_cmdline_parser_free(&args_info);
         exit(1);
     }
-    alder_adapter_pair(&main_option);
     
     ///////////////////////////////////////////////////////////////////////////
-    // Setup logfilename
+    // Setup the regular logger.
     ///////////////////////////////////////////////////////////////////////////
-    char *mainLogfilename = NULL;
-    if (args_info.log_given && !args_info.logfile_given) {
-        // logfilename starts with the basename
-        assert(isstdin == 0);
-        bstring blogext = bfromcstr(".log");
-        bstring bfilename = bfromcstr(args_info.inputs[0]);
-        bstring blogfilename = bfromcstralloc (blength(bfilename)+5, args_info.inputs[0]);
-        bconcat(blogfilename, blogext);
-        mainLogfilename = bstr2cstr(blogfilename, '\0');
-        bdestroy(blogfilename);
-        bdestroy(bfilename);
-        bdestroy(blogext);
-    } else if (args_info.logfile_given) {
-        args_info.log_flag = 1;
-        bstring blogfilename = bfromcstr(args_info.logfile_arg);
-        mainLogfilename = bstr2cstr(blogfilename, '\0');
-    }
     if (args_info.log_flag == 1 || args_info.logfile_given) {
-        alder_logger_initialize(mainLogfilename, LOG_INFO);
+        assert(main_option.logfilename != NULL);
+        alder_logger_initialize(bdata(main_option.logfilename), LOG_INFO);
     }
-    if (mainLogfilename != NULL) {
-        bcstrfree(mainLogfilename);
-    }
-    
-    ///////////////////////////////////////////////////////////////////////////
-    // Adapter sequence argument
-    ///////////////////////////////////////////////////////////////////////////
-//    char *the_adapter_sequence = NULL;
-//    if (args_info.adapter_given) {
-//        the_adapter_sequence = args_info.adapter_arg;
-//    }
-    
     
     ///////////////////////////////////////////////////////////////////////////
     // Cuts adapter parts in read sequences.
@@ -133,7 +107,6 @@ int main(int argc, char * argv[])
                                 adapter_seq, adapter_seq2,
                                 &main_option, &stat);
         
-    
         if (args_info.log_flag == 1 || args_info.logfile_given) {
             alder_fastq_stat_log(&stat, fnin, fnout, fnin2, fnout2, adapter_seq, adapter_seq2);
         }
@@ -150,45 +123,13 @@ int main(int argc, char * argv[])
         secondIndex = main_option.pair[pairIndex*2+1];
     }
     
-/*
-    char *inputFilename = NULL;
-    if (isstdin == 0) {
-        bstring bInputFilename = bfromcstr(args_info.inputs[0]);
-        inputFilename = bstr2cstr(bInputFilename, '\0');
-        bdestroy(bInputFilename);
-    }
-    int status = alder_file_isgzip(inputFilename);
-    assert(status == 0 || status == 1);
-    if (status == 0) {
-        status = alder_adapter_cut_file(inputFilename,
-                                        args_info.output_arg,
-                                        NULL, NULL,
-                                        the_adapter_sequence,
-                                        NULL,
-                                        &main_option,
-                                        &stat);
-    } else if (status == 1) {
-        alder_adapter_cut_gzip(inputFilename,
-                               args_info.output_arg,
-                               NULL, NULL,
-                               the_adapter_sequence,
-                               NULL,
-                               &main_option,
-                               &stat);
-    } else {
-        fprintf(stderr, "error: input file is not good.\n");
-        my_cmdline_parser_print_help();
-    }
-    if (inputFilename != NULL) bcstrfree(inputFilename);
-*/
-    
-//    alder_fastq_stat_free(&stat);
-    
+    ///////////////////////////////////////////////////////////////////////////
+    // Free everything.
+    ///////////////////////////////////////////////////////////////////////////
     alder_adapter_option_free(&main_option);
-//    bstrVectorDelete(inputfiles);
     my_cmdline_parser_free(&args_info);
     alder_logger_finalize();
-    alder_error_logger_finalize();
+    alder_logger_error_finalize();
     return 0;
 }
 

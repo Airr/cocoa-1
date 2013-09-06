@@ -1,10 +1,23 @@
-//
-//  sparse_sa.h
-//  mem
-//
-//  Created by Sang Chul Choi on 8/13/13.
-//  Copyright (c) 2013 Sang Chul Choi. All rights reserved.
-//
+/**
+ * This file, sparse_sa.h, is part of alder-align.
+ *
+ * Original Authors: Zia Khan, Joshua S. Bloom, Leonid Kruglyak and Mona Singh
+ *
+ * Modified by Sang Chul Choi
+ *
+ * alder-align is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * alder-align is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with alder-align.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef mem_sparse_sa_h
 #define mem_sparse_sa_h
@@ -12,7 +25,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <gsl/gsl_vector.h>
-#include "alder-align/fasta/alder_fasta.h"
+#include "alder_fasta.h"
 #include "gsl_vector_match.h"
 
 #undef __BEGIN_DECLS
@@ -51,17 +64,31 @@ alder_lcp_t;
  */
 typedef struct
 {
+                  // (N) N-th order in memory allocation.
     int64_t K;    ///< Sparse suffix array stores every K-th suffix.
     int64_t N;    ///< Length of the text with dollar signs.
     int64_t logN; ///< = floor[log_2 N] - convenient members.
     int64_t NKm1; ///< = N/K-1 - convenient members.
-    int64_t *SA;  ///< Suffix array.
-    int64_t *ISA; ///< Inverse suffix array.
-    int64_t *LCP; ///< Longest common prefix.
-    fasta_t  *fS;  ///< Data information
-    char     *S;   ///< (No ownership) Pointer to a string in fS
+    int64_t *SA;  ///< Suffix array.          (2)
+    int64_t *ISA; ///< Inverse suffix array.  (3)
+    int64_t *LCP; ///< Longest common prefix. (4)
+    alder_fasta_t *fS;  ///< Data information (1)
+    char     *S;  ///< (No ownership) Pointer to a string in fS
 }
 alder_sparse_sa_t;
+
+/** Creates a sparse K-th suffix array using a text in a file.
+ *  \param ref Filename
+ *  \param K Sparseness in a positive integer
+ */
+alder_sparse_sa_t *alder_sparse_sa_alloc_file (const struct bstrList *ref, const int64_t K);
+
+
+void alder_sparse_sa_free (alder_sparse_sa_t *o);
+
+
+
+
 
 /** Creates a sparse K-th suffix array using a text (ref).
  *  \param ref Reference text in string
@@ -69,13 +96,7 @@ alder_sparse_sa_t;
  */
 alder_sparse_sa_t *alder_sparse_sa_alloc (const char *ref, int64_t K);
 
-/** Creates a sparse K-th suffix array using a text in a file.
- *  \param ref Filename
- *  \param K Sparseness in a positive integer
- */
-alder_sparse_sa_t *alder_sparse_sa_alloc_file (const char *ref, int64_t K);
 
-void alder_sparse_sa_free (alder_sparse_sa_t *o);
 void query_thread(alder_sparse_sa_t *o, const char *P);
 
 // Modified Kasai et all for LCP computation.

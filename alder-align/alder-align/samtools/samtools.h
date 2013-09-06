@@ -10,7 +10,7 @@
 #define alder_align_samtools_h
 
 #include <stdio.h>
-#include "../fasta/alder_fasta.h"
+#include "alder_fasta.h"
 #include "gsl_vector_sam.h"
 
 #undef __BEGIN_DECLS
@@ -26,7 +26,7 @@
 __BEGIN_DECLS
 
 
-FILE *alder_sam_open(const char *fn, const fasta_t *fh);
+FILE *alder_sam_open(const char *fn, const alder_fasta_t *fh);
 int alder_sam_print(FILE *fp, const alder_sam_t *a);
 void alder_sam_close(FILE *fp);
 int alder_sam_check(const char *fn);

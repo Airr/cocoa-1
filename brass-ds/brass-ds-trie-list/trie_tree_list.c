@@ -9,7 +9,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../brass-ds-redblack-trees/stack.h"
+//#include "../brass-ds-redblack-trees/stack.h"
+#include "stack.h"
 #include "trie_tree_list.h"
 
 #pragma mark Tree Memory Management

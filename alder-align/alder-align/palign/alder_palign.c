@@ -9,9 +9,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
+#include "bstrlib.h"
 #include "../union/union_array.h"
 #include "gsl_vector_match.h"
-#include "../fasta/alder_fasta.h"
+#include "alder_fasta.h"
 #include "../gsl/gsl_vector_seqpair.h"
 #include "../gsl/gsl_vector_anchor.h"
 #include "gsl_vector_anchor.h"
@@ -19,7 +20,7 @@
 #include "alder_align_pairwise.h"
 #include "gsl_vector_sam.h"
 
-int alder_palign(const char *s, interval_t I, gsl_vector_match *mem, fasta_t *fS)
+int alder_palign(const char *s, interval_t I, gsl_vector_match *mem, alder_fasta_t *fS)
 {
     // Use s as the first sequence for the pairwise sequence alignment.
     // Prepare the second sequence from each of I using fS.
@@ -32,14 +33,17 @@ int alder_palign(const char *s, interval_t I, gsl_vector_match *mem, fasta_t *fS
     
     int64_t numberOfI = I[1];
     assert(numberOfI > 0);
-    gsl_vector_seqpair *v = gsl_vector_seqpair_alloc((size_t)numberOfI);
+//    gsl_vector_seqpair *v = gsl_vector_seqpair_alloc((size_t)numberOfI);
+    gsl_vector_seqpair *v = gsl_vector_seqpair_init();
     for (size_t i = 0; i < (size_t)numberOfI; i++) {
         int64_t startI = I[(i+1)*2];
         int64_t endI   = I[(i+1)*2 + 1];
         int64_t sizeI  = endI - startI + 1;
         alder_seqpair_t m;
         m.anchor = gsl_vector_anchor_init();
-        m.seq1 = strdup(s);
+        bstring bS = bfromcstr(s);
+        m.seq1 = bstr2cstr(bS, '\0');
+        bdestroy(bS);
         m.seq2 = malloc((sizeI+1)*sizeof(char));
         strncpy(m.seq2, fS->data + startI, sizeI); m.seq2[sizeI] = '\0';
         gsl_vector_seqpair_add(v, m);
@@ -55,7 +59,7 @@ int alder_palign(const char *s, interval_t I, gsl_vector_match *mem, fasta_t *fS
         int64_t startI = I[(indexI+1)*2];
         alder_anchor_t a;
         a.anchor1 = m.query + 1;     // anchor1 - 1-based position
-        a.anchor2 = m.ref - startI;  // anchor2 - 1-based position
+        a.anchor2 = m.ref - startI + 1;  // anchor2 - 1-based position
         assert(a.anchor1 == 1);
         assert(a.anchor2 == 1);
         a.anchorLength = m.len;

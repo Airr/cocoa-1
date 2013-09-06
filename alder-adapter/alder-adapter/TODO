@@ -1,9 +1,7 @@
 
 
-1. Multiple sequences at once with *.gz
+1. Duplicates and uniq... by using suffix tree.
 
-2. Duplicates and uniq... by using suffix tree.
+2. Brew install, and one of linux install package.
 
-.Brew install, and one of linux install package.
-
-.Source repository in somewhere? sourceforge, google project, github.
+3.Source repository in somewhere? sourceforge, google project, github.

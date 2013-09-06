@@ -1,111 +1,122 @@
-package "alder-adapter"
+package "alder-pre"
 
 version "0.3"
 
-purpose "The program alder-adapter trims 5'-end and 3'-end bases with ambiguous bases or low-quality bases, and cuts parts of 3'-end of read sequences that overlap an adapter sequence from Illumina HiSeq data. \n\nExample: ./alder-adapter file.fq\n         ./alder-adapter file.fq.gz\n         ./alder-adapter -a TTTGGGTACTCAGAGTTGC file.fq.gz\n         ./alder-adapter -a TTTGGGTACTCAGAGTTGC -o outfile.fq file.fq.gz\n         ./alder-adapter file.fq.gz > outfile.fq\n         gzip -dc file.fq.gz | ./alder-adapter > outfile.fq\n         gzip -dc file.fq.gz | ./alder-adapter | gzip > outfile.fq.gz\n         ./alder-adapter -e 0.1 file.fq.gz\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.*\n         ./alder-adapter file1.fq.gz file2.fq.gz -o outfile1.fq,outfile2.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq\n         ./alder-adapter file.fq.gz -o outfile.fq"
+purpose "The software package alder-pre trims, cuts, and filters read sequences."
 
-usage "alder-adapter [-h|--help] l-help] [-V|--version] [-aSTRING|--adapter=STRING] [-eFLOAT|--error-rate=FLOAT] [-ofilename|--output=filename] [-l|--log] [-flogfilename|--logfile=logfilename] [FILES]"
+# Example: ./alder-pre file.fq\n         
+# ./alder-pre file.fq.gz\n         
+# ./alder-pre -a TTTGGGTACTCAGAGTTGC file.fq.gz\n         
+# ./alder-pre -a TTTGGGTACTCAGAGTTGC -o outfile.fq file.fq.gz\n         
+# ./alder-pre file.fq.gz > outfile.fq\n         
+# gzip -dc file.fq.gz | ./alder-pre > outfile.fq\n         
+# gzip -dc file.fq.gz | ./alder-pre | gzip > outfile.fq.gz\n         
+# ./alder-pre -e 0.1 file.fq.gz\n         
+# ./alder-pre file.fq.*\n         
+# ./alder-pre file1.fq.gz file2.fq.gz -o outfile1.fq,outfile2.fq\n         
+# ./alder-pre file.fq.gz -o outfile.fq\n"
 
-description "This is a simpler version of cutadapt by Marcel Martin, and prinseq by Schmieder and Edwards. You could use more features in their software packages, cutadapt and prinseq, and cite their paper, if you use this alder-adapter software package; 1) Martin, M. Cutadapt removes adapter sequences from high-throughput sequencing reads EMBnet.journal, 2011, 17. 2) Schmieder R and Edwards R: Quality control and preprocessing of metagenomic datasets. Bioinformatics 2011, 27:863-864. [PMID: 21278185]. See their websites http://code.google.com/p/cutadapt/ or http://prinseq.sourceforge.net for the software packages. Most of the text in the following options were a copy of cutadapt version 1.2.1. and prinseq version 0.20.3. The software package alder-adapter takes one read sequence, and trims it from the 5'-end or the 3'-end, if --trim-left or --trim-right are given. Then, it trims off any ambiguous bases from the 5'-end or the 3'-end, and trims off any bases with low base quality scores. "
+usage "alder-pre [-h|--help] l-help] [-V|--version] [-aSTRING|--adapter=STRING] [-eFLOAT|--error-rate=FLOAT] [-ofilename|--output=filename] [-l|--log] [-flogfilename|--logfile=logfilename] [FILES]"
 
-section "File Input"
+description "The software package alder-pre takes read sequence one at a time from FASTQ files, and trims off ambiguous bases from the 5'-end or the 3'-end, and trims off bases with low base quality scores. It cuts adapter sequence parts, and then filters out too low quality read sequences. Use option --cite to see the reference papers about this software package."
 
-sectiondesc="alder-adapter takes a single FASTQ file for single-end read sequences, or a pair of FASTQ files for pair-end read sequences. alder-adapter processes multiple input files. With option pair, alder-adapter find pairs of FASTQ files to process them. It uses two files as a pair if they contains the same read sequence identifiers for forward and reverse direction. If a FASTQ file among them does not pair with any of the given FASTQ files, it is processed as a single-end data set."
+option "cite" - "Print reference papers" optional hidden
 
-option "fastq" - "Input file in FASTQ format for a single FASTQ file or one of a pair of FASTQ files in pair-end data" string optional
+section "Input file option"
 
-option "fastq2" - "Input file in FASTQ format for the second of a pair of FASTQ files in pair-end data" string optional
+sectiondesc="alder-pre reads FASTQ files or gzipped FASTQ files. It can read in either the standard input from other program, or can process multiple input files. Two files among the multiple files are considered as a pair if they contains the same read sequence identifiers in the first read sequences for forward and reverse direction. If a FASTQ file does not pair with any of the given FASTQ files, it is considered as a single-end data set.\n"
 
-option "no-pair" - "Process each file separately without considering pairs of forward and reverse reads" flag off
+option "no-pair" - "Process each file as a single-end data" flag off
+details="By default, alder-pre finds pairs of FASTQ files if they contains the same read sequence identifiers in the first read sequences for forward and reverse direction. Use this option to process each FASTQ file without pairing them.\n"
 
-option "phread" - "Changes the base value of base quality score to 64. (default off)" flag off
+option "phread" - "Change the base value of base quality score to 64." flag off
+details="Use this option when FASTQ quality scores are phred+64. FASTQ files produced by Illumina 1.3+ or 1.5+ versions are of phred+64.\n"
 
+section "Output file option"
 
-section "File Output"
+sectiondesc="alder-pre prints out the processed read sequence to the standard output or to the screen. Option --output allows alder-pre to create a file, and print processed read sequences to the file. WARNING: if the output file exists, the file will be erased.\n"
 
-sectiondesc="alder-adapter can read a FASTQ file or a gzipped FASTQ file. An input file in any other format is not allowed. It reads in either the standard input from other program or a single file. After cutting 3'-end adapter parts, if any, for each read sequence, it prints out the processed read sequence to the standard output or to the screen. Option output allows alder-adapter to create a file and print processed read sequences to the file. WARNING: if the output file exists, the file will be erased.\n"
+option "output" o "Create output files" string typestr="file,file,..." optional multiple
+details="Without option --output or -o, alder-pre behaves differently depending on the input file. Without this option, alder-pre prints out to the standard output if the input file is the standard input. If input files are given, each output file name is automatically created with \".alder.fq\" appended to the corresponding input file name. The number of output files must be as many as input files. With multiple file names, alder-pre processes each input file and prints processed read sequences in each output file in the corresponding order. Use a comma as a separator of multiple output file names. 
+For example,
+$ alder-pre file1.fq.gz file2.fq.gz -o outfile1.fq,outfile2.fq\n"
 
-option "output" o "Write the modified sequences to this file instead of standard output and send the summary report to standard output. The format is FASTQ if qualities are available, FASTA otherwise. (default: standard output)" string optional multiple
+option "keep" k "Keep filtered sequences" flag off
+details="Use this option to create output files with filtered read sequences.\n"
 
-option "keep" k "Keeps the trimmed sequences." flag off
+section "Log option"
+sectiondesc="alder-pre computes basic summary stattistics of the given FASTQ file.\n"
 
-section "Adapter"
+option "log" l "Write a summary in a file" flag off
+details="Write a summary statistics of the input FASTQ file to a file with basename being the input file name. Option logfile overrides this log option; if both used, the log filename is the one given by option logfile. If the input file is standard input, use option logfile because option log is meaningless.\n"
 
-sectiondesc="alder-adapter needs a single adapter sequence. Otherwise, it inspects the first read sequence in the given input FASTQ file, and determines the read sequence using the six-letter index code. See below section FASTQ file.\n"
+option "logfile" f "Write a summary statistics this file name" string typestr="file" optional
+details="Write a summary statistics of the input FASTQ file to this file name.\n"
 
-option "adapter" a "Sequence of an adapter that was ligated to the 3'-end. The adapter itself and anything that follows is trimmed." string optional multiple
+section "Adapter option"
 
-option "error-rate" e "Maximum allowed error rate (number of mismatches divided by the length of the matching region)" double optional default="0.1"
+sectiondesc="alder-pre needs a single adapter sequence. Otherwise, it inspects the first read sequence in the given input FASTQ file, and determines the read sequence using the six-letter index code.\n"
 
-section "Log"
+option "adapter" a "Adapter sequence" string typestr="seq,seq,..." optional multiple
+details="A adapter sequence is assumed to be ligated to the 3'-end. The adapter itself and anything that follows is trimmed. Without this option, alder-pre tries to detect adapter sequences using the comment section in the first read sequence in each FASTQ input file. For example, a read sequence in a FASTQ file is
+  @read:name 1:N:0:GATCAG
+  ATCCCATTTGGGTACTCAGAGTTGCCCAAAATCCTGACAACTGCGATCGGAAGAGCACACG
+  +
+  #1=DDFFFHHHGFHIGJJJJJFHAHGIJJJCFHIJJFIG<GHGGGHJGHIHIGFEHGIIJI
+where the six-letter GATCAG can be used to find an Illumina TruSeq Adapter. Here is a list of Illumina TruSeq adapter sequences that I found one at http://supportres.illumina.com/documents/myillumina/6378de81-c0cc-47d0-9281-724878bb1c30/2012-09-18_illuminacustomersequenceletter.pdf by googling with the words of [illumina truseq adapter sequences document]. There may be other adapter sequences, but these are hard-coded in this alder-pre software package. Note that all of the 12 sequences are the same except the 6 letters in the middle of each sequence. The number is the adapter index for each of the 12 adapters.
+                                        ******
+   1: GATCGGAAGAGCACACGTCTGAACTCCAGTCAC ATCACG ATCTCGTATGCCGTCTTCTGCTTG
+   2: GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CGATGT ATCTCGTATGCCGTCTTCTGCTTG
+   3: GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TTAGGC ATCTCGTATGCCGTCTTCTGCTTG
+   4: GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TGACCA ATCTCGTATGCCGTCTTCTGCTTG
+   5: GATCGGAAGAGCACACGTCTGAACTCCAGTCAC ACAGTG ATCTCGTATGCCGTCTTCTGCTTG
+   6: GATCGGAAGAGCACACGTCTGAACTCCAGTCAC GCCAAT ATCTCGTATGCCGTCTTCTGCTTG
+   7: GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CAGATC ATCTCGTATGCCGTCTTCTGCTTG
+   8: GATCGGAAGAGCACACGTCTGAACTCCAGTCAC ACTTGA ATCTCGTATGCCGTCTTCTGCTTG
+   9: GATCGGAAGAGCACACGTCTGAACTCCAGTCAC GATCAG ATCTCGTATGCCGTCTTCTGCTTG
+  10: GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TAGCTT ATCTCGTATGCCGTCTTCTGCTTG
+  11: GATCGGAAGAGCACACGTCTGAACTCCAGTCAC GGCTAC ATCTCGTATGCCGTCTTCTGCTTG
+  12: GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CTTGTA ATCTCGTATGCCGTCTTCTGCTTG
+In the example read sequence above, the six-letter at the end of the first line matches that in the TruSeq Adapter Index 9 or 1:N:0:GATCAG
+By creating a file called file.fq with the example of the read sequence above, we can run the following either of the two command lines to create the same output.
+$ alder-pre -a TTTGGGTACTCAGAGTTGC file.fq
+$ alder-pre file.fq\n"
 
-sectiondesc="alder-adapter computes basic summary stattistics of the given FASTQ file."
+option "error-rate" e "Maximum allowed error rate" double typestr="[0 < e < 1]" optional default="0.1"
+details="Error rate is defined as the ratio of the number of mismatches and the length of the matching region. As the error rate increases, adapter and read sequences is more easily aligned; 3'-end part of read sequences are more often considered as part of the given adapter sequence than otherwise.\n"
 
-option "log" l "Write a summary statistics of the input FASTQ file to a file with basename being the input file name. Option logfile overrides this log option; if both used, the log filename is the one given by option logfile. If the input file is standard input, use option logfile because option log is meaningless." flag off
-option "logfile" f "Write a summary statistics of the input FASTQ file to this file name" string optional
+option "no-cut-adapter" - "Do not cut adapter sequence" flag off
+details="Skip the step of cutting adapter sequence parts in read sequences.\n"
 
 section "Trim options"
 
-sectiondesc="alder-adapter removes 5'-end and 3'-end parts of read sequences with ambiguous DNA bases or low base quality score."
+sectiondesc="alder-pre removes 5'-end and 3'-end parts of read sequences with ambiguous DNA bases or low base quality score.\n"
 
-option "trim-left"            - "Trim sequence at the 5'-end by this number of bases" int default="0" optional
-option "trim-right"           - "Trim sequence at the 3'-end by this number of bases" int default="0" optional
-option "no-trim-ambiguous-left"  - "Trim ambiguous bases off from the 5'-end" flag off
-option "no-trim-ambiguous-right" - "Trim ambiguous bases off from the 3'-end" flag off
-option "trim-quality-left"    - "Trim bases off from the 5'-end until the base quality score is not below this number" int optional default="30"
-option "trim-quality-right"    - "Trim bases off from the 3'-end until the base quality score is not below this number" int optional default="30"
+option "trim-left"            - "Trim 5'-end \"n\" bases" int typestr="n" default="0" optional
+option "trim-right"           - "Trim 3'-end \"n\" bases" int typestr="n" default="0" optional
+option "no-trim-ambiguous-left"  - "No trim of ambiguous 5'-end bases" flag off
+option "no-trim-ambiguous-right" - "No trim of ambiguous 3'-end bases" flag off
+
+option "trim-quality-left"    - "Trim low quality 5'-end bases" int optional default="20"
+details="Trim bases off from the 5'-end until the base quality score is not below this number\n"
+option "trim-quality-right"   - "Trim low quality 3'-end bases" int optional default="20"
+details="Trim bases off from the 3'-end until the base quality score is not below this number\n"
+
+option "no-trim" - "Do not trim sequence" flag off
+details="Skip the step of trimming read sequences.\n"
 
 section "Filter options"
+sectiondesc="alder-pre filters out whole read sequences if they are too short, too long, or too bad in base quality scores.\n"
 
-sectiondesc="alder-adapter filters out whole read sequences if they are too short, too long, or too bad in base quality scores."
+option "filter-length" - "Filters out short reads" int typestr="n" optional default="20"
+details="Filters out read sequences short than \"n\".\n"
+option "filter-quality" - "Filters out poor quality." int typestr="n" default="20" optional
+details="Filters out read sequences with at leaset one base whose base quality score is below \"n\".\n"
+option "filter-ambiguous" - "Filters out ambiguous reads" int typestr="n" default="3" optional
+details="Filters out read sequences with more than \"n\" of ambiguous bases.\n"
+option "filter-duplicates" - "Filters out duplicates" flag off
+details="Filters out duplicate read sequences.\n"
 
-option "filter-length" - "Filters out read sequences short than this number." int optional default="20"
-option "filter-quality" - "Filters out read sequences with at leaset one base whose base quality score is below this number" int default="30" optional
-option "filter-ambiguous" - "Filters out read sequences with more than this number of ambiguous bases" int default="3" optional
-option "filter-uniq" - "Filters out duplicate read sequences" flag off
+option "no-filter" - "Do not filter sequence" flag off
+details="Skip the step of filtering read sequences."
 
-
-
-
-
-
-text "\n------------------------------------------------------------------------------\n"
-text "\nAdapters from Illumina:\n"
-text "One could find Illumina adapter sequences in the Internet. I found one at http://supportres.illumina.com/documents/myillumina/6378de81-c0cc-47d0-9281-724878bb1c30/2012-09-18_illuminacustomersequenceletter.pdf by googling with the words of [illumina truseq adapter sequences document].\n"
-text "There may be other adapter sequences, but these are hard-coded in this alder-adapter software package. Note that all of the 12 sequences are the same except the 6 letters in the middle of each sequence.\n"
-text "TruSeq Adapter, Index 1           ******\n"
-text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC ATCACG ATCTCGTATGCCGTCTTCTGCTTG\n"
-text "TruSeq Adapter, Index 2\n"
-text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CGATGT ATCTCGTATGCCGTCTTCTGCTTG\n"
-text "TruSeq Adapter, Index 3\n"
-text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TTAGGC ATCTCGTATGCCGTCTTCTGCTTG\n"
-text "TruSeq Adapter, Index 4\n"
-text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TGACCA ATCTCGTATGCCGTCTTCTGCTTG\n"
-text "TruSeq Adapter, Index 5\n"
-text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC ACAGTG ATCTCGTATGCCGTCTTCTGCTTG\n"
-text "TruSeq Adapter, Index 6\n"
-text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC GCCAAT ATCTCGTATGCCGTCTTCTGCTTG\n"
-text "TruSeq Adapter, Index 7\n"
-text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CAGATC ATCTCGTATGCCGTCTTCTGCTTG\n"
-text "TruSeq Adapter, Index 8\n"
-text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC ACTTGA ATCTCGTATGCCGTCTTCTGCTTG\n"
-text "TruSeq Adapter, Index 9 <--- matched with the example of the read below\n"
-text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC GATCAG ATCTCGTATGCCGTCTTCTGCTTG\n"
-text "TruSeq Adapter, Index 10\n"
-text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TAGCTT ATCTCGTATGCCGTCTTCTGCTTG\n"
-text "TruSeq Adapter, Index 11\n"
-text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC GGCTAC ATCTCGTATGCCGTCTTCTGCTTG\n"
-text "TruSeq Adapter, Index 12\n"
-text "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CTTGTA ATCTCGTATGCCGTCTTCTGCTTG\n"
-
-
-text "\nFASTQ file:\n"
-text "This is an example of Illumina HiSeq reads. The six-letter at the end of the first line matches that in the TruSeq Adapter Index 9.\n"
-text "@read:name 1:N:0:GATCAG\n"
-text "NTCCCATTTGGGTACTCAGAGTTGCCCAAAATCCTGACAACTGCGATCGGAAGAGCACACG\n"
-text "+\n"
-text "#1=DDFFFHHHGFHIGJJJJJFHAHGIJJJCFHIJJFIG<GHGGGHJGHIHIGFEHGIIJI\n"
-
-text "\nTry alder-adapter:\n"
-text "Create a FASTQ file, file.fq, with the example above. Run the following command.\n"
-text "$ ./alder-adapter file.fq"

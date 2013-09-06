@@ -28,6 +28,7 @@ void alder_adapter_option_free(alder_adapter_option_t *option)
 {
     if (option->infile != NULL) bstrListDestroy(option->infile);
     if (option->outfile != NULL) bstrListDestroy(option->outfile);
+    if (option->logfilename != NULL) bdestroy(option->logfilename);
     assert(option->adapter != NULL);
     bstrListDestroy(option->adapter);
     free(option->pair);
