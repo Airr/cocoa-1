@@ -1,0 +1,285 @@
+#!/bin/bash
+
+# This script copies source files of alder-align to a directory for packaing.
+
+mkdir lib
+
+# align-align - base
+DEST=src
+mkdir $DEST
+for i in \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-align/alder-align/alder_align_cite.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-align/alder-align/alder_align_cite.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-align/alder-align/alder_align_cmd_check.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-align/alder-align/alder_align_cmd_check.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-align/alder-align/alder_align_macro.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-align/alder-align/alder_align_option.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-align/alder-align/alder_align_option.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-align/alder-align/main.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-align/alder-align/alder-align.ggo \
+; do
+cp -p $i $DEST
+done
+
+# align-align - ggo
+gengetopt < src/alder-align.ggo --file-name=cmdline --unamed-opts --func-name=my_cmdline_parser --include-getopt --output-dir src
+
+# cigar
+DEST=lib/cigar
+mkdir $DEST
+for i in \ \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-cigar/alder-cigar/cigar/alder_cigar_queue.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-cigar/alder-cigar/cigar/alder_cigar_queue.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-cigar/alder-cigar/cigar/alder_cigar.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-cigar/alder-cigar/cigar/alder_cigar.h \
+; do
+cp -p $i $DEST
+done
+
+# ssa
+DEST=lib/ssa
+mkdir $DEST
+for i in \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-ssa/alder-ssa/ssa/alder_ssa.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-ssa/alder-ssa/ssa/alder_ssa.h \
+; do
+cp -p $i $DEST
+done
+
+# rng
+DEST=lib/rng
+mkdir $DEST
+for i in \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-rng/alder-rng/rng/alder_rng.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-rng/alder-rng/rng/alder_rng.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-rng/alder-rng/rng/rngs.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-rng/alder-rng/rng/rngs.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-rng/alder-rng/rng/rvgs.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-rng/alder-rng/rng/rvgs.h \
+; do
+cp -p $i $DEST
+done
+
+# logger
+DEST=lib/logger
+mkdir $DEST
+for i in \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/alder_logger.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/alder_logger.h \
+; do
+cp -p $i $DEST
+done
+
+# logger/nglogc
+DEST=lib/logger/nglogc
+mkdir $DEST
+for i in \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/array_record.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/array_record.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/AUTHORS \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/Changes \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/CMakeLists.txt \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/COPYING \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/COPYING.LESSER \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/err_record.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/err_record.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/flf_log.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/flf_log.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/flf_logarray.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/flf_logarray.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/flf_logerror.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/flf_logerror.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/flf_logtrace.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/flf_logtrace.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/INSTALL \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/log_priv.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/log_record.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/log_record.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/log.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/logger_type.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/logger.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/logger.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/NEWS \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/nflf_log.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/nflf_log.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/nflf_logarray.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/nflf_logarray.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/nflf_logerror.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/nflf_logerror.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/nflf_logtrace.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/nflf_logtrace.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/printout.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/printout.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/README \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/ringbuffer.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/ringbuffer.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/timestamp.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/timestamp.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/types.h \
+; do
+cp -p $i $DEST
+done
+
+# fastq
+DEST=lib/fastq
+mkdir $DEST
+for i in \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fastq/alder-fastq/fastq/alder_fastq_kseq_summary.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fastq/alder-fastq/fastq/alder_fastq_kseq_summary.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fastq/alder-fastq/fastq/alder_fastq_kseq.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fastq/alder-fastq/fastq/alder_fastq_kseq.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fastq/alder-fastq/fastq/alder_fastq_pair.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fastq/alder-fastq/fastq/alder_fastq_pair.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fastq/alder-fastq/fastq/alder_fastq_ragel_summary.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fastq/alder-fastq/fastq/alder_fastq_ragel_summary.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fastq/alder-fastq/fastq/alder_fastq_ragel.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fastq/alder-fastq/fastq/alder_fastq_ragel.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fastq/alder-fastq/fastq/alder_fastq_ragel.rl \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fastq/alder-fastq/fastq/alder_fastq.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fastq/alder-fastq/fastq/alder_fastq.h \
+; do
+cp -p $i $DEST
+done
+
+ragel lib/fastq/alder_fastq_ragel.rl -o lib/fastq/alder_fastq_ragel.c
+
+
+# fasta
+DEST=lib/fasta
+mkdir $DEST
+for i in \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fasta/alder-fasta/fasta/alder_fasta.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fasta/alder-fasta/fasta/alder_fasta.rl \
+; do
+cp -p $i $DEST
+done
+
+ragel lib/fasta/alder_fasta.rl -o lib/fasta/alder_fasta.c
+
+# divsufsort
+DEST=lib/divsufsort
+mkdir $DEST
+for i in \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-divsufsort/alder-divsufsort/divsufsort/alder_divsufsort.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-divsufsort/alder-divsufsort/divsufsort/alder_divsufsort.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-divsufsort/alder-divsufsort/divsufsort/divsufsort_config.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-divsufsort/alder-divsufsort/divsufsort/divsufsort_private.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-divsufsort/alder-divsufsort/divsufsort/divsufsort.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-divsufsort/alder-divsufsort/divsufsort/divsufsort64.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-divsufsort/alder-divsufsort/divsufsort/lfs.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-divsufsort/alder-divsufsort/divsufsort/sssort.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-divsufsort/alder-divsufsort/divsufsort/trsort.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-divsufsort/alder-divsufsort/divsufsort/utils.c \
+; do
+cp -p $i $DEST
+done
+
+# bstrlib
+DEST=lib/bstrlib
+mkdir $DEST
+for i in \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-bstrlib/alder-bstrlib/bstrlib/bsafe.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-bstrlib/alder-bstrlib/bstrlib/bsafe.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-bstrlib/alder-bstrlib/bstrlib/bstraux.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-bstrlib/alder-bstrlib/bstrlib/bstraux.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-bstrlib/alder-bstrlib/bstrlib/bstrlib.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-bstrlib/alder-bstrlib/bstrlib/bstrlib.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-bstrlib/alder-bstrlib/bstrlib/bstrmore.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-bstrlib/alder-bstrlib/bstrlib/bstrmore.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-bstrlib/alder-bstrlib/bstrlib/bstrlib.txt \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-bstrlib/alder-bstrlib/bstrlib/CMakeLists.txt \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-bstrlib/alder-bstrlib/bstrlib/gpl.txt \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-bstrlib/alder-bstrlib/bstrlib/license.txt \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-bstrlib/alder-bstrlib/bstrlib/porting.txt \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-bstrlib/alder-bstrlib/bstrlib/security.txt \
+; do
+cp -p $i $DEST
+done
+
+# palign
+DEST=lib/palign
+mkdir $DEST
+for i in \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-palign/alder-palign/palign/alder_palign_dialign.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-palign/alder-palign/palign/alder_palign_dialign.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-palign/alder-palign/palign/alder_palign_exact.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-palign/alder-palign/palign/alder_palign_exact.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-palign/alder-palign/palign/alder_palign.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-palign/alder-palign/palign/alder_palign.h \
+; do
+cp -p $i $DEST
+done
+
+# interval
+DEST=lib/interval
+mkdir $DEST
+for i in \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-interval/alder-interval/interval/alder_interval_union_array.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-interval/alder-interval/interval/alder_interval_union_array.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-interval/alder-interval/interval/alder_interval.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-interval/alder-interval/interval/alder_interval.h \
+; do
+cp -p $i $DEST
+done
+
+# file
+DEST=lib/file
+mkdir $DEST
+for i in \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_creatable.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_creatable.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_exist.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_exist.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_isgzip.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_isgzip.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_isstdin.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_isstdin.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_writable.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_writable.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file.h \
+; do
+cp -p $i $DEST
+done
+
+# vector
+DEST=lib/vector
+mkdir $DEST
+for i in \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-vector/alder-vector/vector/alder_gsl.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-vector/alder-vector/vector/alder_gsl.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-vector/alder-vector/vector/alder_vector_interval.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-vector/alder-vector/vector/alder_vector_interval.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-vector/alder-vector/vector/alder_vector_pair.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-vector/alder-vector/vector/alder_vector_pair.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-vector/alder-vector/vector/alder_vector_palign.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-vector/alder-vector/vector/alder_vector_palign.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-vector/alder-vector/vector/alder_vector.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-vector/alder-vector/vector/alder_vector.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-vector/alder-vector/vector/gsl_vector_anchor.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-vector/alder-vector/vector/gsl_vector_anchor.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-vector/alder-vector/vector/gsl_vector_match.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-vector/alder-vector/vector/gsl_vector_match.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-vector/alder-vector/vector/gsl_vector_sam.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-vector/alder-vector/vector/gsl_vector_sam.h \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-vector/alder-vector/vector/gsl_vector_seqpair.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-vector/alder-vector/vector/gsl_vector_seqpair.h \
+; do
+cp -p $i $DEST
+done
+
+# mem
+DEST=lib/mem
+mkdir $DEST
+for i in \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-mem/alder-mem/mem/alder_mem.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-mem/alder-mem/mem/alder_mem.h \
+; do
+cp -p $i $DEST
+done
+
+
+
+# cp -p /Users/goshng/Dropbox/Documents/Projects/cocoa/bstring/bstring/bstrlib.patch lib/bstrlib
+# patch -s lib/bstrlib/bstrlib.c <lib/bstrlib/bstrlib.patch \
+

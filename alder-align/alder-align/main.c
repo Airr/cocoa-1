@@ -14,7 +14,6 @@
 #include "alder_align_cmd_check.h"
 #include "alder_fastq.h"
 #include "gsl_vector_match.h"
-#include "lib/alder_reference.h"
 #include "alder_ssa.h"
 #include "alder_fastq_kseq.h"
 #include "alder_file_isgzip.h"

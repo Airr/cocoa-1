@@ -8,15 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		D0DBE2D017DAADCB009563F3 /* alder_rng_option.c in Sources */ = {isa = PBXBuildFile; fileRef = D0DBE2CF17DAADCB009563F3 /* alder_rng_option.c */; };
-		D0DBE2D317DAADCB009563F3 /* alder_rng.c in Sources */ = {isa = PBXBuildFile; fileRef = D0DBE2D217DAADCB009563F3 /* alder_rng.c */; };
 		D0DBE2D817DAADCB009563F3 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = D0DBE2D717DAADCB009563F3 /* main.c */; };
 		D0DBE2DA17DAADCB009563F3 /* alder_rng.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = D0DBE2D917DAADCB009563F3 /* alder_rng.1 */; };
 		D0DBE2E117DAADFA009563F3 /* alder-rng.ggo in Sources */ = {isa = PBXBuildFile; fileRef = D0DBE2D517DAADCB009563F3 /* alder-rng.ggo */; };
-		D0DBE2E917DAAE1E009563F3 /* bstraux.c in Sources */ = {isa = PBXBuildFile; fileRef = D0DBE2E317DAAE1E009563F3 /* bstraux.c */; };
-		D0DBE2EA17DAAE1E009563F3 /* bstrlib.c in Sources */ = {isa = PBXBuildFile; fileRef = D0DBE2E517DAAE1E009563F3 /* bstrlib.c */; };
-		D0DBE2EB17DAAE1E009563F3 /* bstrmore.c in Sources */ = {isa = PBXBuildFile; fileRef = D0DBE2E717DAAE1E009563F3 /* bstrmore.c */; };
-		D0DBE2F017DAAE62009563F3 /* rngs.c in Sources */ = {isa = PBXBuildFile; fileRef = D0DBE2EC17DAAE62009563F3 /* rngs.c */; };
-		D0DBE2F117DAAE62009563F3 /* rvgs.c in Sources */ = {isa = PBXBuildFile; fileRef = D0DBE2EE17DAAE62009563F3 /* rvgs.c */; };
+		D0FD769617DEF7C0003B5AEE /* alder_rng.c in Sources */ = {isa = PBXBuildFile; fileRef = D0FD769017DEF7C0003B5AEE /* alder_rng.c */; };
+		D0FD769717DEF7C0003B5AEE /* rngs.c in Sources */ = {isa = PBXBuildFile; fileRef = D0FD769217DEF7C0003B5AEE /* rngs.c */; };
+		D0FD769817DEF7C0003B5AEE /* rvgs.c in Sources */ = {isa = PBXBuildFile; fileRef = D0FD769417DEF7C0003B5AEE /* rvgs.c */; };
+		D0FD76A217DEF7D7003B5AEE /* bsafe.c in Sources */ = {isa = PBXBuildFile; fileRef = D0FD769A17DEF7D7003B5AEE /* bsafe.c */; };
+		D0FD76A317DEF7D7003B5AEE /* bstraux.c in Sources */ = {isa = PBXBuildFile; fileRef = D0FD769C17DEF7D7003B5AEE /* bstraux.c */; };
+		D0FD76A417DEF7D7003B5AEE /* bstrlib.c in Sources */ = {isa = PBXBuildFile; fileRef = D0FD769E17DEF7D7003B5AEE /* bstrlib.c */; };
+		D0FD76A517DEF7D7003B5AEE /* bstrmore.c in Sources */ = {isa = PBXBuildFile; fileRef = D0FD76A017DEF7D7003B5AEE /* bstrmore.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -51,21 +52,23 @@
 		D0DBE2CC17DAADCB009563F3 /* alder-rng */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "alder-rng"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0DBE2CF17DAADCB009563F3 /* alder_rng_option.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = alder_rng_option.c; sourceTree = "<group>"; };
 		D0DBE2D117DAADCB009563F3 /* alder_rng_option.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_rng_option.h; sourceTree = "<group>"; };
-		D0DBE2D217DAADCB009563F3 /* alder_rng.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = alder_rng.c; sourceTree = "<group>"; };
-		D0DBE2D417DAADCB009563F3 /* alder_rng.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_rng.h; sourceTree = "<group>"; };
 		D0DBE2D517DAADCB009563F3 /* alder-rng.ggo */ = {isa = PBXFileReference; lastKnownFileType = text; path = "alder-rng.ggo"; sourceTree = "<group>"; };
 		D0DBE2D717DAADCB009563F3 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		D0DBE2D917DAADCB009563F3 /* alder_rng.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = alder_rng.1; sourceTree = "<group>"; };
-		D0DBE2E317DAAE1E009563F3 /* bstraux.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = bstraux.c; path = ../../bstring/bstring/bstraux.c; sourceTree = "<group>"; };
-		D0DBE2E417DAAE1E009563F3 /* bstraux.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bstraux.h; path = ../../bstring/bstring/bstraux.h; sourceTree = "<group>"; };
-		D0DBE2E517DAAE1E009563F3 /* bstrlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = bstrlib.c; path = ../../bstring/bstring/bstrlib.c; sourceTree = "<group>"; };
-		D0DBE2E617DAAE1E009563F3 /* bstrlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bstrlib.h; path = ../../bstring/bstring/bstrlib.h; sourceTree = "<group>"; };
-		D0DBE2E717DAAE1E009563F3 /* bstrmore.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = bstrmore.c; path = ../../bstring/bstring/bstrmore.c; sourceTree = "<group>"; };
-		D0DBE2E817DAAE1E009563F3 /* bstrmore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bstrmore.h; path = ../../bstring/bstring/bstrmore.h; sourceTree = "<group>"; };
-		D0DBE2EC17DAAE62009563F3 /* rngs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rngs.c; sourceTree = "<group>"; };
-		D0DBE2ED17DAAE62009563F3 /* rngs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rngs.h; sourceTree = "<group>"; };
-		D0DBE2EE17DAAE62009563F3 /* rvgs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rvgs.c; sourceTree = "<group>"; };
-		D0DBE2EF17DAAE62009563F3 /* rvgs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rvgs.h; sourceTree = "<group>"; };
+		D0FD769017DEF7C0003B5AEE /* alder_rng.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_rng.c; sourceTree = "<group>"; };
+		D0FD769117DEF7C0003B5AEE /* alder_rng.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_rng.h; sourceTree = "<group>"; };
+		D0FD769217DEF7C0003B5AEE /* rngs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rngs.c; sourceTree = "<group>"; };
+		D0FD769317DEF7C0003B5AEE /* rngs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rngs.h; sourceTree = "<group>"; };
+		D0FD769417DEF7C0003B5AEE /* rvgs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rvgs.c; sourceTree = "<group>"; };
+		D0FD769517DEF7C0003B5AEE /* rvgs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rvgs.h; sourceTree = "<group>"; };
+		D0FD769A17DEF7D7003B5AEE /* bsafe.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bsafe.c; sourceTree = "<group>"; };
+		D0FD769B17DEF7D7003B5AEE /* bsafe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bsafe.h; sourceTree = "<group>"; };
+		D0FD769C17DEF7D7003B5AEE /* bstraux.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bstraux.c; sourceTree = "<group>"; };
+		D0FD769D17DEF7D7003B5AEE /* bstraux.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bstraux.h; sourceTree = "<group>"; };
+		D0FD769E17DEF7D7003B5AEE /* bstrlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bstrlib.c; sourceTree = "<group>"; };
+		D0FD769F17DEF7D7003B5AEE /* bstrlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bstrlib.h; sourceTree = "<group>"; };
+		D0FD76A017DEF7D7003B5AEE /* bstrmore.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bstrmore.c; sourceTree = "<group>"; };
+		D0FD76A117DEF7D7003B5AEE /* bstrmore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bstrmore.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,33 +101,44 @@
 		D0DBE2CE17DAADCB009563F3 /* alder-rng */ = {
 			isa = PBXGroup;
 			children = (
-				D0DBE2E217DAADFE009563F3 /* bstrlib */,
+				D0FD769917DEF7D7003B5AEE /* bstrlib */,
+				D0FD768F17DEF7C0003B5AEE /* rng */,
 				D0DBE2CF17DAADCB009563F3 /* alder_rng_option.c */,
 				D0DBE2D117DAADCB009563F3 /* alder_rng_option.h */,
-				D0DBE2D217DAADCB009563F3 /* alder_rng.c */,
-				D0DBE2D417DAADCB009563F3 /* alder_rng.h */,
 				D0DBE2D517DAADCB009563F3 /* alder-rng.ggo */,
 				D0DBE2D717DAADCB009563F3 /* main.c */,
 				D0DBE2D917DAADCB009563F3 /* alder_rng.1 */,
-				D0DBE2EC17DAAE62009563F3 /* rngs.c */,
-				D0DBE2ED17DAAE62009563F3 /* rngs.h */,
-				D0DBE2EE17DAAE62009563F3 /* rvgs.c */,
-				D0DBE2EF17DAAE62009563F3 /* rvgs.h */,
 			);
 			path = "alder-rng";
 			sourceTree = "<group>";
 		};
-		D0DBE2E217DAADFE009563F3 /* bstrlib */ = {
+		D0FD768F17DEF7C0003B5AEE /* rng */ = {
 			isa = PBXGroup;
 			children = (
-				D0DBE2E317DAAE1E009563F3 /* bstraux.c */,
-				D0DBE2E417DAAE1E009563F3 /* bstraux.h */,
-				D0DBE2E517DAAE1E009563F3 /* bstrlib.c */,
-				D0DBE2E617DAAE1E009563F3 /* bstrlib.h */,
-				D0DBE2E717DAAE1E009563F3 /* bstrmore.c */,
-				D0DBE2E817DAAE1E009563F3 /* bstrmore.h */,
+				D0FD769017DEF7C0003B5AEE /* alder_rng.c */,
+				D0FD769117DEF7C0003B5AEE /* alder_rng.h */,
+				D0FD769217DEF7C0003B5AEE /* rngs.c */,
+				D0FD769317DEF7C0003B5AEE /* rngs.h */,
+				D0FD769417DEF7C0003B5AEE /* rvgs.c */,
+				D0FD769517DEF7C0003B5AEE /* rvgs.h */,
+			);
+			path = rng;
+			sourceTree = "<group>";
+		};
+		D0FD769917DEF7D7003B5AEE /* bstrlib */ = {
+			isa = PBXGroup;
+			children = (
+				D0FD769A17DEF7D7003B5AEE /* bsafe.c */,
+				D0FD769B17DEF7D7003B5AEE /* bsafe.h */,
+				D0FD769C17DEF7D7003B5AEE /* bstraux.c */,
+				D0FD769D17DEF7D7003B5AEE /* bstraux.h */,
+				D0FD769E17DEF7D7003B5AEE /* bstrlib.c */,
+				D0FD769F17DEF7D7003B5AEE /* bstrlib.h */,
+				D0FD76A017DEF7D7003B5AEE /* bstrmore.c */,
+				D0FD76A117DEF7D7003B5AEE /* bstrmore.h */,
 			);
 			name = bstrlib;
+			path = "../../alder-bstrlib/alder-bstrlib/bstrlib";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -181,13 +195,14 @@
 			files = (
 				D0DBE2D017DAADCB009563F3 /* alder_rng_option.c in Sources */,
 				D0DBE2E117DAADFA009563F3 /* alder-rng.ggo in Sources */,
-				D0DBE2D317DAADCB009563F3 /* alder_rng.c in Sources */,
 				D0DBE2D817DAADCB009563F3 /* main.c in Sources */,
-				D0DBE2E917DAAE1E009563F3 /* bstraux.c in Sources */,
-				D0DBE2EA17DAAE1E009563F3 /* bstrlib.c in Sources */,
-				D0DBE2EB17DAAE1E009563F3 /* bstrmore.c in Sources */,
-				D0DBE2F017DAAE62009563F3 /* rngs.c in Sources */,
-				D0DBE2F117DAAE62009563F3 /* rvgs.c in Sources */,
+				D0FD769617DEF7C0003B5AEE /* alder_rng.c in Sources */,
+				D0FD769717DEF7C0003B5AEE /* rngs.c in Sources */,
+				D0FD769817DEF7C0003B5AEE /* rvgs.c in Sources */,
+				D0FD76A217DEF7D7003B5AEE /* bsafe.c in Sources */,
+				D0FD76A317DEF7D7003B5AEE /* bstraux.c in Sources */,
+				D0FD76A417DEF7D7003B5AEE /* bstrlib.c in Sources */,
+				D0FD76A517DEF7D7003B5AEE /* bstrmore.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,6 +299,7 @@
 				D0DBE2DF17DAADCB009563F3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -81,6 +81,12 @@
 		D0FD748017DEED76003B5AEE /* alder_file_isstdin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_isstdin.h; sourceTree = "<group>"; };
 		D0FD748117DEED76003B5AEE /* alder_file_writable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_writable.c; sourceTree = "<group>"; };
 		D0FD748217DEED76003B5AEE /* alder_file_writable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_writable.h; sourceTree = "<group>"; };
+		D0FD778B17DF0804003B5AEE /* bstrlib.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bstrlib.txt; sourceTree = "<group>"; };
+		D0FD778C17DF0804003B5AEE /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		D0FD778D17DF0804003B5AEE /* gpl.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gpl.txt; sourceTree = "<group>"; };
+		D0FD778E17DF0804003B5AEE /* license.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = license.txt; sourceTree = "<group>"; };
+		D0FD778F17DF0804003B5AEE /* porting.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = porting.txt; sourceTree = "<group>"; };
+		D0FD779017DF0804003B5AEE /* security.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = security.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +135,12 @@
 		D0FD746817DEECDD003B5AEE /* bstrlib */ = {
 			isa = PBXGroup;
 			children = (
+				D0FD778B17DF0804003B5AEE /* bstrlib.txt */,
+				D0FD778C17DF0804003B5AEE /* CMakeLists.txt */,
+				D0FD778D17DF0804003B5AEE /* gpl.txt */,
+				D0FD778E17DF0804003B5AEE /* license.txt */,
+				D0FD778F17DF0804003B5AEE /* porting.txt */,
+				D0FD779017DF0804003B5AEE /* security.txt */,
 				D0FD746917DEECDD003B5AEE /* bsafe.c */,
 				D0FD746A17DEECDD003B5AEE /* bsafe.h */,
 				D0FD746B17DEECDD003B5AEE /* bstraux.c */,
@@ -323,6 +335,7 @@
 				D0FD746717DEEBB9003B5AEE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

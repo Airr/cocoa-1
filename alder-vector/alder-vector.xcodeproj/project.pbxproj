@@ -18,6 +18,11 @@
 		D0E8954E17DD7F9600E9E65E /* alder_vector.c in Sources */ = {isa = PBXBuildFile; fileRef = D0E8954A17DD7F9600E9E65E /* alder_vector.c */; };
 		D0E8954F17DD7F9600E9E65E /* alder_vector_pair.c in Sources */ = {isa = PBXBuildFile; fileRef = D0E8954C17DD7F9600E9E65E /* alder_vector_pair.c */; };
 		D0E8955117DD7FD000E9E65E /* alder_vector_interval.c in Sources */ = {isa = PBXBuildFile; fileRef = D0E8955017DD7FD000E9E65E /* alder_vector_interval.c */; };
+		D0FD779B17DF1C9D003B5AEE /* alder_gsl.c in Sources */ = {isa = PBXBuildFile; fileRef = D0FD779117DF1C9D003B5AEE /* alder_gsl.c */; };
+		D0FD779C17DF1C9D003B5AEE /* gsl_vector_anchor.c in Sources */ = {isa = PBXBuildFile; fileRef = D0FD779317DF1C9D003B5AEE /* gsl_vector_anchor.c */; };
+		D0FD779D17DF1C9D003B5AEE /* gsl_vector_match.c in Sources */ = {isa = PBXBuildFile; fileRef = D0FD779517DF1C9D003B5AEE /* gsl_vector_match.c */; };
+		D0FD779E17DF1C9D003B5AEE /* gsl_vector_sam.c in Sources */ = {isa = PBXBuildFile; fileRef = D0FD779717DF1C9D003B5AEE /* gsl_vector_sam.c */; };
+		D0FD779F17DF1C9D003B5AEE /* gsl_vector_seqpair.c in Sources */ = {isa = PBXBuildFile; fileRef = D0FD779917DF1C9D003B5AEE /* gsl_vector_seqpair.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -69,6 +74,16 @@
 		D0E8954D17DD7F9600E9E65E /* alder_vector_pair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_vector_pair.h; sourceTree = "<group>"; };
 		D0E8955017DD7FD000E9E65E /* alder_vector_interval.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_vector_interval.c; sourceTree = "<group>"; };
 		D0E8955217DD7FD500E9E65E /* alder_vector_interval.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_vector_interval.h; sourceTree = "<group>"; };
+		D0FD779117DF1C9D003B5AEE /* alder_gsl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_gsl.c; sourceTree = "<group>"; };
+		D0FD779217DF1C9D003B5AEE /* alder_gsl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_gsl.h; sourceTree = "<group>"; };
+		D0FD779317DF1C9D003B5AEE /* gsl_vector_anchor.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gsl_vector_anchor.c; sourceTree = "<group>"; };
+		D0FD779417DF1C9D003B5AEE /* gsl_vector_anchor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gsl_vector_anchor.h; sourceTree = "<group>"; };
+		D0FD779517DF1C9D003B5AEE /* gsl_vector_match.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gsl_vector_match.c; sourceTree = "<group>"; };
+		D0FD779617DF1C9D003B5AEE /* gsl_vector_match.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gsl_vector_match.h; sourceTree = "<group>"; };
+		D0FD779717DF1C9D003B5AEE /* gsl_vector_sam.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gsl_vector_sam.c; sourceTree = "<group>"; };
+		D0FD779817DF1C9D003B5AEE /* gsl_vector_sam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gsl_vector_sam.h; sourceTree = "<group>"; };
+		D0FD779917DF1C9D003B5AEE /* gsl_vector_seqpair.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gsl_vector_seqpair.c; sourceTree = "<group>"; };
+		D0FD779A17DF1C9D003B5AEE /* gsl_vector_seqpair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gsl_vector_seqpair.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +143,16 @@
 		D0E8954917DD7F9600E9E65E /* vector */ = {
 			isa = PBXGroup;
 			children = (
+				D0FD779117DF1C9D003B5AEE /* alder_gsl.c */,
+				D0FD779217DF1C9D003B5AEE /* alder_gsl.h */,
+				D0FD779317DF1C9D003B5AEE /* gsl_vector_anchor.c */,
+				D0FD779417DF1C9D003B5AEE /* gsl_vector_anchor.h */,
+				D0FD779517DF1C9D003B5AEE /* gsl_vector_match.c */,
+				D0FD779617DF1C9D003B5AEE /* gsl_vector_match.h */,
+				D0FD779717DF1C9D003B5AEE /* gsl_vector_sam.c */,
+				D0FD779817DF1C9D003B5AEE /* gsl_vector_sam.h */,
+				D0FD779917DF1C9D003B5AEE /* gsl_vector_seqpair.c */,
+				D0FD779A17DF1C9D003B5AEE /* gsl_vector_seqpair.h */,
 				D0E8954A17DD7F9600E9E65E /* alder_vector.c */,
 				D0E8954B17DD7F9600E9E65E /* alder_vector.h */,
 				D0E8954C17DD7F9600E9E65E /* alder_vector_pair.c */,
@@ -202,6 +227,11 @@
 				D0E8954F17DD7F9600E9E65E /* alder_vector_pair.c in Sources */,
 				D0E8955117DD7FD000E9E65E /* alder_vector_interval.c in Sources */,
 				D067541F17DDBF6B007C5AFD /* alder_vector_palign.c in Sources */,
+				D0FD779B17DF1C9D003B5AEE /* alder_gsl.c in Sources */,
+				D0FD779C17DF1C9D003B5AEE /* gsl_vector_anchor.c in Sources */,
+				D0FD779D17DF1C9D003B5AEE /* gsl_vector_match.c in Sources */,
+				D0FD779E17DF1C9D003B5AEE /* gsl_vector_sam.c in Sources */,
+				D0FD779F17DF1C9D003B5AEE /* gsl_vector_seqpair.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,0 +1,9 @@
+#!/bin/bash
+rm -rf ../b
+mkdir ../b
+cd ../b
+cmake ../alder_align
+cpack --config CPackSourceConfig.cmake \
+  -D CPACK_GENERATOR=TGZ \
+  -D CPACK_PACKAGE_FILE_NAME=alder-0.1.2
+ls $PWD/*.gz

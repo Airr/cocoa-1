@@ -8,14 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		D0DBE29E17DAAC36009563F3 /* alder_cigar_option.c in Sources */ = {isa = PBXBuildFile; fileRef = D0DBE29D17DAAC36009563F3 /* alder_cigar_option.c */; };
-		D0DBE2A117DAAC36009563F3 /* alder_cigar.c in Sources */ = {isa = PBXBuildFile; fileRef = D0DBE2A017DAAC36009563F3 /* alder_cigar.c */; };
 		D0DBE2A617DAAC36009563F3 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = D0DBE2A517DAAC36009563F3 /* main.c */; };
 		D0DBE2A817DAAC36009563F3 /* alder_cigar.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = D0DBE2A717DAAC36009563F3 /* alder_cigar.1 */; };
-		D0DBE2B617DAAC7A009563F3 /* bstraux.c in Sources */ = {isa = PBXBuildFile; fileRef = D0DBE2B017DAAC7A009563F3 /* bstraux.c */; };
-		D0DBE2B717DAAC7A009563F3 /* bstrlib.c in Sources */ = {isa = PBXBuildFile; fileRef = D0DBE2B217DAAC7A009563F3 /* bstrlib.c */; };
-		D0DBE2B817DAAC7A009563F3 /* bstrmore.c in Sources */ = {isa = PBXBuildFile; fileRef = D0DBE2B417DAAC7A009563F3 /* bstrmore.c */; };
 		D0DBE2B917DAAC8E009563F3 /* alder-cigar.ggo in Sources */ = {isa = PBXBuildFile; fileRef = D0DBE2A317DAAC36009563F3 /* alder-cigar.ggo */; };
-		D0DBE2BB17DAACF5009563F3 /* alder_cigar_queue.c in Sources */ = {isa = PBXBuildFile; fileRef = D0DBE2BA17DAACF5009563F3 /* alder_cigar_queue.c */; };
+		D0FD772817DEF918003B5AEE /* alder_cigar.c in Sources */ = {isa = PBXBuildFile; fileRef = D0FD772417DEF918003B5AEE /* alder_cigar.c */; };
+		D0FD772917DEF918003B5AEE /* alder_cigar_queue.c in Sources */ = {isa = PBXBuildFile; fileRef = D0FD772617DEF918003B5AEE /* alder_cigar_queue.c */; };
+		D0FD773317DEF921003B5AEE /* bsafe.c in Sources */ = {isa = PBXBuildFile; fileRef = D0FD772B17DEF921003B5AEE /* bsafe.c */; };
+		D0FD773417DEF921003B5AEE /* bstraux.c in Sources */ = {isa = PBXBuildFile; fileRef = D0FD772D17DEF921003B5AEE /* bstraux.c */; };
+		D0FD773517DEF921003B5AEE /* bstrlib.c in Sources */ = {isa = PBXBuildFile; fileRef = D0FD772F17DEF921003B5AEE /* bstrlib.c */; };
+		D0FD773617DEF921003B5AEE /* bstrmore.c in Sources */ = {isa = PBXBuildFile; fileRef = D0FD773117DEF921003B5AEE /* bstrmore.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -50,19 +51,21 @@
 		D0DBE29A17DAAC35009563F3 /* alder-cigar */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "alder-cigar"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0DBE29D17DAAC36009563F3 /* alder_cigar_option.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = alder_cigar_option.c; sourceTree = "<group>"; };
 		D0DBE29F17DAAC36009563F3 /* alder_cigar_option.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_cigar_option.h; sourceTree = "<group>"; };
-		D0DBE2A017DAAC36009563F3 /* alder_cigar.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = alder_cigar.c; sourceTree = "<group>"; };
-		D0DBE2A217DAAC36009563F3 /* alder_cigar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_cigar.h; sourceTree = "<group>"; };
 		D0DBE2A317DAAC36009563F3 /* alder-cigar.ggo */ = {isa = PBXFileReference; lastKnownFileType = text; path = "alder-cigar.ggo"; sourceTree = "<group>"; };
 		D0DBE2A517DAAC36009563F3 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		D0DBE2A717DAAC36009563F3 /* alder_cigar.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = alder_cigar.1; sourceTree = "<group>"; };
-		D0DBE2B017DAAC7A009563F3 /* bstraux.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = bstraux.c; path = ../../bstring/bstring/bstraux.c; sourceTree = "<group>"; };
-		D0DBE2B117DAAC7A009563F3 /* bstraux.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bstraux.h; path = ../../bstring/bstring/bstraux.h; sourceTree = "<group>"; };
-		D0DBE2B217DAAC7A009563F3 /* bstrlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = bstrlib.c; path = ../../bstring/bstring/bstrlib.c; sourceTree = "<group>"; };
-		D0DBE2B317DAAC7A009563F3 /* bstrlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bstrlib.h; path = ../../bstring/bstring/bstrlib.h; sourceTree = "<group>"; };
-		D0DBE2B417DAAC7A009563F3 /* bstrmore.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = bstrmore.c; path = ../../bstring/bstring/bstrmore.c; sourceTree = "<group>"; };
-		D0DBE2B517DAAC7A009563F3 /* bstrmore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bstrmore.h; path = ../../bstring/bstring/bstrmore.h; sourceTree = "<group>"; };
-		D0DBE2BA17DAACF5009563F3 /* alder_cigar_queue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_cigar_queue.c; sourceTree = "<group>"; };
-		D0DBE2BC17DAAD07009563F3 /* alder_cigar_queue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_cigar_queue.h; sourceTree = "<group>"; };
+		D0FD772417DEF918003B5AEE /* alder_cigar.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_cigar.c; sourceTree = "<group>"; };
+		D0FD772517DEF918003B5AEE /* alder_cigar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_cigar.h; sourceTree = "<group>"; };
+		D0FD772617DEF918003B5AEE /* alder_cigar_queue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_cigar_queue.c; sourceTree = "<group>"; };
+		D0FD772717DEF918003B5AEE /* alder_cigar_queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_cigar_queue.h; sourceTree = "<group>"; };
+		D0FD772B17DEF921003B5AEE /* bsafe.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bsafe.c; sourceTree = "<group>"; };
+		D0FD772C17DEF921003B5AEE /* bsafe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bsafe.h; sourceTree = "<group>"; };
+		D0FD772D17DEF921003B5AEE /* bstraux.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bstraux.c; sourceTree = "<group>"; };
+		D0FD772E17DEF921003B5AEE /* bstraux.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bstraux.h; sourceTree = "<group>"; };
+		D0FD772F17DEF921003B5AEE /* bstrlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bstrlib.c; sourceTree = "<group>"; };
+		D0FD773017DEF921003B5AEE /* bstrlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bstrlib.h; sourceTree = "<group>"; };
+		D0FD773117DEF921003B5AEE /* bstrmore.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bstrmore.c; sourceTree = "<group>"; };
+		D0FD773217DEF921003B5AEE /* bstrmore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bstrmore.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,31 +98,42 @@
 		D0DBE29C17DAAC35009563F3 /* alder-cigar */ = {
 			isa = PBXGroup;
 			children = (
-				D0DBE2AF17DAAC5B009563F3 /* bstrlib */,
+				D0FD772A17DEF921003B5AEE /* bstrlib */,
+				D0FD772317DEF918003B5AEE /* cigar */,
 				D0DBE29D17DAAC36009563F3 /* alder_cigar_option.c */,
 				D0DBE29F17DAAC36009563F3 /* alder_cigar_option.h */,
-				D0DBE2A017DAAC36009563F3 /* alder_cigar.c */,
-				D0DBE2A217DAAC36009563F3 /* alder_cigar.h */,
 				D0DBE2A317DAAC36009563F3 /* alder-cigar.ggo */,
 				D0DBE2A517DAAC36009563F3 /* main.c */,
 				D0DBE2A717DAAC36009563F3 /* alder_cigar.1 */,
-				D0DBE2BA17DAACF5009563F3 /* alder_cigar_queue.c */,
-				D0DBE2BC17DAAD07009563F3 /* alder_cigar_queue.h */,
 			);
 			path = "alder-cigar";
 			sourceTree = "<group>";
 		};
-		D0DBE2AF17DAAC5B009563F3 /* bstrlib */ = {
+		D0FD772317DEF918003B5AEE /* cigar */ = {
 			isa = PBXGroup;
 			children = (
-				D0DBE2B017DAAC7A009563F3 /* bstraux.c */,
-				D0DBE2B117DAAC7A009563F3 /* bstraux.h */,
-				D0DBE2B217DAAC7A009563F3 /* bstrlib.c */,
-				D0DBE2B317DAAC7A009563F3 /* bstrlib.h */,
-				D0DBE2B417DAAC7A009563F3 /* bstrmore.c */,
-				D0DBE2B517DAAC7A009563F3 /* bstrmore.h */,
+				D0FD772417DEF918003B5AEE /* alder_cigar.c */,
+				D0FD772517DEF918003B5AEE /* alder_cigar.h */,
+				D0FD772617DEF918003B5AEE /* alder_cigar_queue.c */,
+				D0FD772717DEF918003B5AEE /* alder_cigar_queue.h */,
+			);
+			path = cigar;
+			sourceTree = "<group>";
+		};
+		D0FD772A17DEF921003B5AEE /* bstrlib */ = {
+			isa = PBXGroup;
+			children = (
+				D0FD772B17DEF921003B5AEE /* bsafe.c */,
+				D0FD772C17DEF921003B5AEE /* bsafe.h */,
+				D0FD772D17DEF921003B5AEE /* bstraux.c */,
+				D0FD772E17DEF921003B5AEE /* bstraux.h */,
+				D0FD772F17DEF921003B5AEE /* bstrlib.c */,
+				D0FD773017DEF921003B5AEE /* bstrlib.h */,
+				D0FD773117DEF921003B5AEE /* bstrmore.c */,
+				D0FD773217DEF921003B5AEE /* bstrmore.h */,
 			);
 			name = bstrlib;
+			path = "../../alder-bstrlib/alder-bstrlib/bstrlib";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -175,13 +189,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0DBE29E17DAAC36009563F3 /* alder_cigar_option.c in Sources */,
-				D0DBE2A117DAAC36009563F3 /* alder_cigar.c in Sources */,
 				D0DBE2B917DAAC8E009563F3 /* alder-cigar.ggo in Sources */,
 				D0DBE2A617DAAC36009563F3 /* main.c in Sources */,
-				D0DBE2B617DAAC7A009563F3 /* bstraux.c in Sources */,
-				D0DBE2B717DAAC7A009563F3 /* bstrlib.c in Sources */,
-				D0DBE2B817DAAC7A009563F3 /* bstrmore.c in Sources */,
-				D0DBE2BB17DAACF5009563F3 /* alder_cigar_queue.c in Sources */,
+				D0FD772817DEF918003B5AEE /* alder_cigar.c in Sources */,
+				D0FD772917DEF918003B5AEE /* alder_cigar_queue.c in Sources */,
+				D0FD773317DEF921003B5AEE /* bsafe.c in Sources */,
+				D0FD773417DEF921003B5AEE /* bstraux.c in Sources */,
+				D0FD773517DEF921003B5AEE /* bstrlib.c in Sources */,
+				D0FD773617DEF921003B5AEE /* bstrmore.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -278,6 +293,7 @@
 				D0DBE2AD17DAAC36009563F3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

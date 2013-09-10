@@ -1,0 +1,19 @@
+XCODE=/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-align/alder-align/cmake
+mkdir $XCODE
+mkdir $XCODE/sh
+mkdir $XCODE/src
+mkdir $XCODE/lib
+cp sh/dist $XCODE/sh
+cp sh/src2xcode $XCODE/sh
+cp sh/xcode2src $XCODE/sh
+cp CMakeLists.txt $XCODE
+cp src/CMakeLists.txt $XCODE/src
+cp lib/CMakeLists.txt $XCODE/lib
+
+for i in bstrlib cigar divsufsort fasta fastq file interval logger mem palign rng ssa vector; do 
+  cp lib/$i/CMakeLists.txt /Users/goshng/Dropbox/Documents/Projects/cocoa/alder-$i/alder-$i/$i/
+done
+
+for i in AUTHORS COPYING INSTALL NEWS README THANKS TODO; do
+  cp $i $XCODE
+done

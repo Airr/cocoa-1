@@ -38,7 +38,7 @@ int alder_align_cmd_check(alder_align_option_t *option, struct gengetopt_args_in
         return status;
     }
     
-    option->sparse_suffix_array_k = args_info->sparse_suffix_array_k_arg;
+    option->sparse_suffix_array_k = (int)args_info->sparse_suffix_array_k_arg;
     option->is_stdin = alder_file_isstdin();
     
     if (option->is_stdin == 0 && args_info->inputs_num == 0) {

@@ -1,0 +1,21 @@
+Additional contributors to alder-pre.
+
+  Copyright (C) 2013 Sang Chul Choi
+
+  Copying and distribution of this file, with or without modification,
+  are permitted in any medium without royalty provided the copyright
+  notice and this notice are preserved.
+
+Thanks to:
+
+    Marcel Martin for the C function in cutadapt.
+
+    Schmieder and Edwards for the concept of prinseq.
+
+    Paul Hsieh for Better String library (bstrlib).
+
+    Dennis Krzyzaniak for Flexible C Logging API (nglogc).
+
+    Peter Brass for Advanced Data Structures.
+
+See also the AUTHORS and ChangeLog files.

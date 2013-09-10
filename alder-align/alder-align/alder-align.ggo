@@ -41,9 +41,9 @@ details="Write a summary statistics of the input FASTQ file to this file name.\n
 section "Sparse suffix array"
 sectiondesc="Reference FASTA sequences are concatenated to be a indexed suffix array. We have options to control the behavior of the suffix array.\n"
 
-option "sparse-suffix-array-k" - "Sparse SAs store every K-th suffix" int typestr="[2,3]" values="2","3" default="2" optional
+option "sparse-suffix-array-k" - "Sparse SAs store every K-th suffix" long typestr="[2,3]" values="2","3" default="2" optional
 details="To save spaces and more effective search for maximal exact matches, we do not use full-text suffix arrays, but sparse suffix arrays that store every K-th suffix of the text. A text is considered a reference genome sequences.\n"
 
-option "min-len-mem" - "Minimum length of maximal exact match" int default="15" optional
+option "min-len-mem" - "Minimum length of maximal exact match" long default="15" optional
 
 

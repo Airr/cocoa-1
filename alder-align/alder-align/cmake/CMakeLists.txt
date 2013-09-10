@@ -1,0 +1,28 @@
+cmake_minimum_required(VERSION 2.8)
+project(alder_align C)
+set (alder_align_VERSION_MAJOR "0")
+set (alder_align_VERSION_MINOR "1")
+set (alder_align_VERSION_PATCH "2")
+
+set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+
+enable_testing()
+include_directories(lib)
+include_directories(lib/bstrlib)
+include_directories(lib/cigar)
+include_directories(lib/divsufsort)
+include_directories(lib/fasta)
+include_directories(lib/fastq)
+include_directories(lib/file)
+# include_directories(lib/gsl)
+include_directories(lib/interval)
+include_directories(lib/logger)
+include_directories(lib/mem)
+include_directories(lib/palign)
+include_directories(lib/rng)
+include_directories(lib/ssa)
+include_directories(lib/vector)
+
+add_subdirectory(lib)
+add_subdirectory(src)
+
