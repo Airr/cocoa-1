@@ -22,8 +22,9 @@
 #include "bstrmore.h"
 #include "alder_logger.h"
 #include "alder_file_isstdin.h"
-#include "alder_file_stat.h"
+#include "alder_file_exist.h"
 #include "alder_align_cite.h"
+#include "alder_fastq_pair.h"
 #include "alder_align_cmd_check.h"
 
 // 0: success
@@ -113,6 +114,14 @@ int alder_align_cmd_check(alder_align_option_t *option, struct gengetopt_args_in
     } else {
         option->outfile = NULL;
     }
+    
+    option->pair = alder_vector_pair_t_alloc(args_info->inputs_num);
+    if (args_info->no_pair_flag == 0) {
+        alder_fastq_pair(option->infile, option->pair);
+    } else {
+        alder_fastq_nopair(option->pair);
+    }
+
 
     return status;
 }

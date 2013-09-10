@@ -1,0 +1,13 @@
+package "alder-mem"
+version "0.1"
+purpose "alder-mem does something ..."
+description "alder-mem does something more ..."
+option "cite" - "Print reference papers" optional hidden
+option "outfile" o "Output files" string typestr="file,..." multiple optional
+option "log" - "Log file" string typestr="file" default="alder-mem.log" optional argoptional
+
+option "reference" - "Reference fasta files" string typestr="file,..." dependon="query" optional multiple
+option "query" - "Query sequence" string typestr="DNA" optional dependon="reference"
+
+option "sparse-suffix-array-k" - "Sparse SAs store every K-th suffix" int typestr="[2,3]" values="2","3" default="2" optional
+option "min-len-mem" - "Minimum length of maximal exact match" int default="15" optional

@@ -1,0 +1,6 @@
+package "alder-cigar"
+version "0.1"
+purpose "alder-cigar does something ..."
+description "alder-cigar does something more ..."
+option "outfile" o "Output files" string typestr="file,..." multiple optional
+option "log" - "Log file" string typestr="file" default="alder-fastq.log"

@@ -1,0 +1,5 @@
+package "alder-ssa"
+version "0.1"
+purpose "alder-ssa builds a sparse suffix array."
+option "outfile" o "Output files" string typestr="file,file,..." multiple optional
+option "log" - "Log file" string typestr="file" default="alder-fasta.log" optional

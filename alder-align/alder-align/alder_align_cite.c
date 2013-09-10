@@ -20,7 +20,7 @@
 #include <stdio.h>
 #include "alder_align_cite.h"
 
-static const char *alder_align_cite_description = "We will have a paper of this method.";
+static const char *alder_align_cite_description = "Choi 2013 - Possibly!";
 
 void alder_align_cite()
 {

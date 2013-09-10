@@ -1,0 +1,13 @@
+
+We call a region of size being L "L-window" where L is the size of the read.
+0. alder_mem functions allow me to have a list of anchors or matches.
+1. Find L-windows from anchors. A match or anchor has q, r, and l. 
+   q is the 0-based position of the match in the query sequence.
+   r is the 0-based position of the match in the reference sequence.
+   l is the length of the match.
+   The L-window for a match starts at r - q and ends in r - q + L, or
+   L-window is [r-q,r-q+L). 
+2. Take the union of the L-windows.
+3. Assign matches or anchors to the L-windows.
+4. Filter L-windows that any of the matches in the L-window are not consecutive.
+5. Use each L-window to perform a pairwise alignment.

@@ -1,0 +1,6 @@
+package "alder-interval"
+version "0.1"
+purpose "alder-interval does something ..."
+description "alder-interval does something more ..."
+option "outfile" o "Output files" string typestr="file,..." multiple optional
+option "log" - "Log file" string typestr="file" default="alder-fastq.log"

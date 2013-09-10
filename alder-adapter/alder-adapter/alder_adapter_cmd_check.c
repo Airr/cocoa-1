@@ -23,10 +23,12 @@
 #include <assert.h>
 #include "bstrmore.h"
 #include "alder_logger.h"
-#include "alder_file_stat.h"
+#include "alder_file_exist.h"
 #include "alder_adapter_pair.h"
 #include "alder_file_isstdin.h"
 #include "alder_adapter_cite.h"
+#include "alder_vector_pair.h"
+#include "alder_fastq_pair.h"
 #include "alder_adapter_cmd_check.h"
 
 // 0: success
@@ -158,7 +160,7 @@ int alder_adatper_cmd_check(alder_adapter_option_t *option, struct gengetopt_arg
     // FIXME: could make these option initializatoin.
     // pairs, input files, output files, and adapters
     // pair (0,1 -> -1, -1 if stdin)
-    option->pair = malloc((args_info->inputs_num + 1)* 2 * sizeof(int));
+//    option->pair = malloc((args_info->inputs_num + 1)* 2 * sizeof(int));
     if (args_info->inputs_num == 0 || option->is_stdin == 1) {
         option->infile = NULL;
     } else {
@@ -228,10 +230,11 @@ int alder_adatper_cmd_check(alder_adapter_option_t *option, struct gengetopt_arg
             status = 1;
         }
     }
+    option->pair = alder_vector_pair_t_alloc(args_info->inputs_num);
     if (args_info->no_pair_flag == 0) {
-        alder_adapter_pair(option);
+        alder_fastq_pair(option->infile, option->pair);
     } else {
-        alder_adapter_nopair(option);
+        alder_fastq_nopair(option->pair);
     }
     alder_adapter_set_adapter(option);
     

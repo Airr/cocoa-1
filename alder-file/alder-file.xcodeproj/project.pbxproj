@@ -10,10 +10,12 @@
 		D0C5A3DA17D9699400C1E004 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C5A3D917D9699400C1E004 /* main.c */; };
 		D0C5A3DC17D9699400C1E004 /* alder_file.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = D0C5A3DB17D9699400C1E004 /* alder_file.1 */; };
 		D0C5A3E517D969F000C1E004 /* alder-file.ggo in Sources */ = {isa = PBXBuildFile; fileRef = D0C5A3E417D969E900C1E004 /* alder-file.ggo */; };
-		D0C5A3F017D96CC200C1E004 /* alder_file.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C5A3EF17D96CC200C1E004 /* alder_file.c */; };
-		D0C5A3F317D97F1600C1E004 /* alder_file_isgzip.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C5A3F217D97F1600C1E004 /* alder_file_isgzip.c */; };
-		D0C5A3F617D97FD900C1E004 /* alder_file_isstdin.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C5A3F517D97FD900C1E004 /* alder_file_isstdin.c */; };
-		D0C5A3F917D9802800C1E004 /* alder_file_exist.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C5A3F817D9802800C1E004 /* alder_file_exist.c */; };
+		D0E8945017DBF0E600E9E65E /* alder_file_writable.c in Sources */ = {isa = PBXBuildFile; fileRef = D0E8944F17DBF0E600E9E65E /* alder_file_writable.c */; };
+		D0E8945317DC072900E9E65E /* alder_file_creatable.c in Sources */ = {isa = PBXBuildFile; fileRef = D0E8945217DC072900E9E65E /* alder_file_creatable.c */; };
+		D0E8946117DC101300E9E65E /* alder_file_exist.c in Sources */ = {isa = PBXBuildFile; fileRef = D0E8945B17DC101300E9E65E /* alder_file_exist.c */; };
+		D0E8946217DC101300E9E65E /* alder_file_isgzip.c in Sources */ = {isa = PBXBuildFile; fileRef = D0E8945D17DC101300E9E65E /* alder_file_isgzip.c */; };
+		D0E8946317DC101300E9E65E /* alder_file_isstdin.c in Sources */ = {isa = PBXBuildFile; fileRef = D0E8945F17DC101300E9E65E /* alder_file_isstdin.c */; };
+		D0E8946F17DC107000E9E65E /* alder_file.c in Sources */ = {isa = PBXBuildFile; fileRef = D0E8946D17DC107000E9E65E /* alder_file.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -60,14 +62,18 @@
 		D0C5A3D917D9699400C1E004 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		D0C5A3DB17D9699400C1E004 /* alder_file.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = alder_file.1; sourceTree = "<group>"; };
 		D0C5A3E417D969E900C1E004 /* alder-file.ggo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "alder-file.ggo"; sourceTree = "<group>"; };
-		D0C5A3EF17D96CC200C1E004 /* alder_file.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file.c; sourceTree = "<group>"; };
-		D0C5A3F117D96CC700C1E004 /* alder_file.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_file.h; sourceTree = "<group>"; };
-		D0C5A3F217D97F1600C1E004 /* alder_file_isgzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_isgzip.c; sourceTree = "<group>"; };
-		D0C5A3F417D97F5200C1E004 /* alder_file_isgzip.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_file_isgzip.h; sourceTree = "<group>"; };
-		D0C5A3F517D97FD900C1E004 /* alder_file_isstdin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_isstdin.c; sourceTree = "<group>"; };
-		D0C5A3F717D97FDE00C1E004 /* alder_file_isstdin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_file_isstdin.h; sourceTree = "<group>"; };
-		D0C5A3F817D9802800C1E004 /* alder_file_exist.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_exist.c; sourceTree = "<group>"; };
-		D0C5A3FA17D9802D00C1E004 /* alder_file_exist.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_file_exist.h; sourceTree = "<group>"; };
+		D0E8944F17DBF0E600E9E65E /* alder_file_writable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_writable.c; sourceTree = "<group>"; };
+		D0E8945117DBF0EF00E9E65E /* alder_file_writable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_file_writable.h; sourceTree = "<group>"; };
+		D0E8945217DC072900E9E65E /* alder_file_creatable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_creatable.c; sourceTree = "<group>"; };
+		D0E8945417DC072D00E9E65E /* alder_file_creatable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_file_creatable.h; sourceTree = "<group>"; };
+		D0E8945B17DC101300E9E65E /* alder_file_exist.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_exist.c; sourceTree = "<group>"; };
+		D0E8945C17DC101300E9E65E /* alder_file_exist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_exist.h; sourceTree = "<group>"; };
+		D0E8945D17DC101300E9E65E /* alder_file_isgzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_isgzip.c; sourceTree = "<group>"; };
+		D0E8945E17DC101300E9E65E /* alder_file_isgzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_isgzip.h; sourceTree = "<group>"; };
+		D0E8945F17DC101300E9E65E /* alder_file_isstdin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_isstdin.c; sourceTree = "<group>"; };
+		D0E8946017DC101300E9E65E /* alder_file_isstdin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_isstdin.h; sourceTree = "<group>"; };
+		D0E8946D17DC107000E9E65E /* alder_file.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file.c; sourceTree = "<group>"; };
+		D0E8946E17DC107000E9E65E /* alder_file.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,19 +106,31 @@
 		D0C5A3D817D9699400C1E004 /* alder-file */ = {
 			isa = PBXGroup;
 			children = (
+				D0E8944E17DBF0C800E9E65E /* file */,
 				D0C5A3D917D9699400C1E004 /* main.c */,
 				D0C5A3E417D969E900C1E004 /* alder-file.ggo */,
-				D0C5A3EF17D96CC200C1E004 /* alder_file.c */,
-				D0C5A3F117D96CC700C1E004 /* alder_file.h */,
-				D0C5A3F217D97F1600C1E004 /* alder_file_isgzip.c */,
-				D0C5A3F417D97F5200C1E004 /* alder_file_isgzip.h */,
-				D0C5A3F517D97FD900C1E004 /* alder_file_isstdin.c */,
-				D0C5A3F717D97FDE00C1E004 /* alder_file_isstdin.h */,
-				D0C5A3F817D9802800C1E004 /* alder_file_exist.c */,
-				D0C5A3FA17D9802D00C1E004 /* alder_file_exist.h */,
 				D0C5A3DB17D9699400C1E004 /* alder_file.1 */,
 			);
 			path = "alder-file";
+			sourceTree = "<group>";
+		};
+		D0E8944E17DBF0C800E9E65E /* file */ = {
+			isa = PBXGroup;
+			children = (
+				D0E8946D17DC107000E9E65E /* alder_file.c */,
+				D0E8946E17DC107000E9E65E /* alder_file.h */,
+				D0E8945B17DC101300E9E65E /* alder_file_exist.c */,
+				D0E8945C17DC101300E9E65E /* alder_file_exist.h */,
+				D0E8945D17DC101300E9E65E /* alder_file_isgzip.c */,
+				D0E8945E17DC101300E9E65E /* alder_file_isgzip.h */,
+				D0E8945F17DC101300E9E65E /* alder_file_isstdin.c */,
+				D0E8946017DC101300E9E65E /* alder_file_isstdin.h */,
+				D0E8944F17DBF0E600E9E65E /* alder_file_writable.c */,
+				D0E8945117DBF0EF00E9E65E /* alder_file_writable.h */,
+				D0E8945217DC072900E9E65E /* alder_file_creatable.c */,
+				D0E8945417DC072D00E9E65E /* alder_file_creatable.h */,
+			);
+			path = file;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -170,10 +188,12 @@
 			files = (
 				D0C5A3DA17D9699400C1E004 /* main.c in Sources */,
 				D0C5A3E517D969F000C1E004 /* alder-file.ggo in Sources */,
-				D0C5A3F017D96CC200C1E004 /* alder_file.c in Sources */,
-				D0C5A3F317D97F1600C1E004 /* alder_file_isgzip.c in Sources */,
-				D0C5A3F617D97FD900C1E004 /* alder_file_isstdin.c in Sources */,
-				D0C5A3F917D9802800C1E004 /* alder_file_exist.c in Sources */,
+				D0E8945017DBF0E600E9E65E /* alder_file_writable.c in Sources */,
+				D0E8945317DC072900E9E65E /* alder_file_creatable.c in Sources */,
+				D0E8946117DC101300E9E65E /* alder_file_exist.c in Sources */,
+				D0E8946217DC101300E9E65E /* alder_file_isgzip.c in Sources */,
+				D0E8946317DC101300E9E65E /* alder_file_isstdin.c in Sources */,
+				D0E8946F17DC107000E9E65E /* alder_file.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,6 +290,7 @@
 				D0C5A3E117D9699400C1E004 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

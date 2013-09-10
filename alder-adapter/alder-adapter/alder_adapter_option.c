@@ -31,5 +31,5 @@ void alder_adapter_option_free(alder_adapter_option_t *option)
     if (option->logfilename != NULL) bdestroy(option->logfilename);
     assert(option->adapter != NULL);
     bstrListDestroy(option->adapter);
-    free(option->pair);
+    alder_vector_pair_t_free(option->pair);
 }

@@ -416,6 +416,7 @@ struct bstrList * bstrVectorCreate(int n)
     struct bstrList *sl = bstrListCreate();
     int s = bstrListAlloc(sl, n);
     assert(s == BSTR_OK);
+    memset(sl->entry, 0, sl->mlen * sizeof(bstring));
     return sl;
 }
 

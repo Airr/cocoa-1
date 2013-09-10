@@ -20,7 +20,8 @@
 #ifndef alder_align_alder_align_option_h
 #define alder_align_alder_align_option_h
 
-#include "bstring/bstrlib.h"
+#include "bstrlib.h"
+#include "alder_vector_pair.h"
 
 #undef __BEGIN_DECLS
 #undef __END_DECLS
@@ -38,7 +39,7 @@ __BEGIN_DECLS
 typedef struct {
     int is_stdin;
     int sparse_suffix_array_k;
-    
+    alder_vector_pair_t *pair;
     struct bstrList *refile;
     struct bstrList *infile;
     struct bstrList *outfile;

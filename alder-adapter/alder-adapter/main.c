@@ -86,8 +86,8 @@ int main(int argc, char * argv[])
     ///////////////////////////////////////////////////////////////////////////
     alder_fastq_stat_t stat;
     int pairIndex = 0;
-    int firstIndex = main_option.pair[pairIndex*2];
-    int secondIndex = main_option.pair[pairIndex*2+1];
+    int firstIndex = main_option.pair->data[pairIndex].first;
+    int secondIndex = main_option.pair->data[pairIndex].second;
     while (!(firstIndex < 0 && secondIndex < 0)) {
         alder_fastq_stat_init(&stat);
         char *fnin = bstr2cstr(main_option.infile->entry[firstIndex], '\0');
@@ -118,9 +118,11 @@ int main(int argc, char * argv[])
             bcstrfree(fnout2);
             bcstrfree(adapter_seq2);
         }
+        
         pairIndex++;
-        firstIndex = main_option.pair[pairIndex*2];
-        secondIndex = main_option.pair[pairIndex*2+1];
+        if (main_option.pair->size == pairIndex) break;
+        firstIndex = main_option.pair->data[pairIndex].first;
+        secondIndex = main_option.pair->data[pairIndex].second;
     }
     
     ///////////////////////////////////////////////////////////////////////////

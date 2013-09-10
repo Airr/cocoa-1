@@ -7,7 +7,7 @@
 //
 
 #include <stdio.h>
-#include <nglogc/log.h>
+#include "nglogc/log.h"
 #include "alder_logger.h"
 #include "alder_align_reads.h"
 

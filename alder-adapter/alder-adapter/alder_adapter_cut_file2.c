@@ -34,7 +34,7 @@
 #include "alder_fastq_stat.h"
 #include "alder_adapter_cut_filter.h"
 #include "alder_file_isgzip.h"
-#include "alder_kseq_base.h"
+#include "alder_fastq_kseq.h"
 
 #include "alder_adapter_cut_file2.h"
 
@@ -115,11 +115,11 @@ int alder_adapter_cut_file2(const char *fnin, const char *fnout,
     int isAdapterFound = 0;
     kseq_t *seq;
     if (isGzip == 0) {
-        seq = kseq_init((void *)(intptr_t)fp, isGzip);
+        seq = alder_kseq_init((void *)(intptr_t)fp, isGzip);
     } else {
-        seq = kseq_init(fpgz, isGzip);
+        seq = alder_kseq_init(fpgz, isGzip);
     }
-    kseq_read(seq);
+    alder_kseq_read(seq);
     
     if (fnin == NULL) {
         if (adapter_seq == NULL && seq->comment.s != NULL) {
@@ -163,11 +163,11 @@ int alder_adapter_cut_file2(const char *fnin, const char *fnout,
     kseq_t *seq2 = NULL;
     if (fnin2 != NULL) {
         if (isGzip2 == 0) {
-            seq2 = kseq_init((void *)(intptr_t)fp2, isGzip2);
+            seq2 = alder_kseq_init((void *)(intptr_t)fp2, isGzip2);
         } else {
-            seq2 = kseq_init(fpgz2, isGzip2);
+            seq2 = alder_kseq_init(fpgz2, isGzip2);
         }
-        kseq_read(seq2);
+        alder_kseq_read(seq2);
     }
     
     assert(isAdapterFound == 1);
@@ -276,13 +276,13 @@ int alder_adapter_cut_file2(const char *fnin, const char *fnout,
             bdestroy(bQuality2); bdestroy(bSequence2);
         }
         
-        if (seq2 != NULL) kseq_read(seq2);
-    } while (kseq_read(seq) >= 0);
+        if (seq2 != NULL) alder_kseq_read(seq2);
+    } while (alder_kseq_read(seq) >= 0);
     
     
-    kseq_destroy(seq);
+    alder_kseq_destroy(seq);
     if (seq2 != NULL) {
-        kseq_destroy(seq2);
+        alder_kseq_destroy(seq2);
     }
     if (fnout2 != NULL) fclose(fpout2);
     if (fnin2 != NULL) {

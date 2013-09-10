@@ -25,7 +25,8 @@
 #include "bstrmore.h"
 #include "alder_logger.h"
 #include "alder_file_isgzip.h"
-#include "alder_kseq_base.h"
+#include "alder_fastq_pair.h"
+#include "alder_fastq_kseq.h"
 #include "alder_adapter_pair.h"
 #include "alder_adapter_index_illumina.h"
 
@@ -34,19 +35,6 @@
 // We may need to check adapter sequences as well.
 
 extern char *adapter_sequence[19];
-
-int alder_adapter_nopair(alder_adapter_option_t *o)
-{
-    struct bstrList *sl = o->infile;
-    size_t pairIndex = 0;
-    for (int i = 0; i < sl->qty; i++) {
-        o->pair[pairIndex++] = i;
-        o->pair[pairIndex++] = -1;
-    }
-    o->pair[pairIndex++] = -1;
-    o->pair[pairIndex++] = -1;
-    return 0;
-}
 
 int alder_adapter_set_adapter(alder_adapter_option_t *o)
 {
@@ -67,98 +55,6 @@ int alder_adapter_set_adapter(alder_adapter_option_t *o)
     }
     
     return 0;
-}
-
-// We may need a better data structure.
-// A set structure for testing existence.
-// o->paired must be 2 * (number of input files).
-// positive-positive for pairs.
-// positive-negative for singles.
-int alder_adapter_pair(alder_adapter_option_t *o)
-{
-    // Check the pairs.
-    struct bstrList *sl = o->infile;
-    size_t pairIndex = 0;
-    for (int i = 0; i < sl->qty; i++) {
-        // FIXME: allocate pair?
-        int isPaired = 0;
-        for (int j = 0; j < pairIndex; j++) {
-            if (o->pair[j] == i) {
-                isPaired = 1;
-                break;
-            }
-        }
-        if (isPaired == 1) {
-            continue;
-        }
-        
-        bstring b = sl->entry[i];
-        bstring readname = alder_adapter_read_name(bdata(b));
-        isPaired = 0;
-        for (int j = 0; j < sl->qty; j++) {
-            if (i == j) continue;
-            bstring b2 = sl->entry[j];
-            bstring readname2 = alder_adapter_read_name(bdata(b2));
-            if (!bstrcmp(readname, readname2)) {
-                o->pair[pairIndex++] = i;
-                o->pair[pairIndex++] = j;
-                isPaired = 1;
-                bdestroy(readname2);
-                break;
-            }
-            bdestroy(readname2);
-        }
-        if (isPaired == 0) {
-            o->pair[pairIndex++] = i;
-            o->pair[pairIndex++] = -1;
-        }
-        bdestroy(readname);
-    }
-    o->pair[pairIndex++] = -1;
-    o->pair[pairIndex++] = -1;
-    assert(pairIndex <= (sl->qty + 1)* 2);
-    
-    return 0;
-}
-
-bstring alder_adapter_read_name(const char *fnin)
-{
-    int fp = -1;
-    int isGzip = 0;
-    gzFile fpgz;
-    if (fnin == NULL) {
-        fp = STDIN_FILENO;
-    } else {
-        isGzip = alder_file_isgzip(fnin);
-        if (isGzip == 1) {
-            fpgz = gzopen(fnin, "r");
-        } else {
-            fp = open(fnin, O_RDONLY);
-        }
-    }
-    if (fp < 0 && fpgz == Z_NULL) {
-        logc_logWarning(ERROR_LOGGER, "cannot open %s.\n", fnin);
-        return NULL;
-    }
-
-    kseq_t *seq;
-    if (isGzip == 0) {
-        seq = kseq_init((void *)(intptr_t)fp, isGzip);
-    } else {
-        seq = kseq_init(fpgz, isGzip);
-    }
-    kseq_read(seq);
-    bstring b = bfromcstr(seq->name.s);
-    kseq_destroy(seq);
-    
-    if (fnin != NULL) {
-        if (isGzip == 0) {
-            close(fp);
-        } else {
-            gzclose(fpgz);
-        }
-    }
-    return b;
 }
 
 bstring alder_adapter_adapter(const char *fnin, char *adapter_seq)
@@ -184,11 +80,11 @@ bstring alder_adapter_adapter(const char *fnin, char *adapter_seq)
     int isAdapterFound = 0;
     kseq_t *seq;
     if (isGzip == 0) {
-        seq = kseq_init((void *)(intptr_t)fp, isGzip);
+        seq = alder_kseq_init((void *)(intptr_t)fp, isGzip);
     } else {
-        seq = kseq_init(fpgz, isGzip);
+        seq = alder_kseq_init(fpgz, isGzip);
     }
-    kseq_read(seq);
+    alder_kseq_read(seq);
     bstring b;
     if (adapter_seq == NULL && seq->comment.s != NULL) {
 //    if (seq->comment.s != NULL) {
@@ -201,7 +97,7 @@ bstring alder_adapter_adapter(const char *fnin, char *adapter_seq)
     } else if (adapter_seq != NULL) {
         isAdapterFound = 1;
     }
-    kseq_destroy(seq);
+    alder_kseq_destroy(seq);
     
     assert(adapter_seq != NULL);
     b = bfromcstr(adapter_seq);
@@ -219,3 +115,115 @@ bstring alder_adapter_adapter(const char *fnin, char *adapter_seq)
     }
     return b;
 }
+
+///////////////////////////////////////////////////////////////////////////////
+// OBSOLETE
+///////////////////////////////////////////////////////////////////////////////
+
+//int alder_adapter_nopair(alder_adapter_option_t *o)
+//{
+//    struct bstrList *sl = o->infile;
+//    size_t pairIndex = 0;
+//    for (int i = 0; i < sl->qty; i++) {
+//        o->pair[pairIndex++] = i;
+//        o->pair[pairIndex++] = -1;
+//    }
+//    o->pair[pairIndex++] = -1;
+//    o->pair[pairIndex++] = -1;
+//    return 0;
+//}
+
+
+// We may need a better data structure.
+// A set structure for testing existence.
+// o->paired must be 2 * (number of input files).
+// positive-positive for pairs.
+// positive-negative for singles.
+//int alder_adapter_pair(alder_adapter_option_t *o)
+//{
+//    // Check the pairs.
+//    struct bstrList *sl = o->infile;
+//    size_t pairIndex = 0;
+//    for (int i = 0; i < sl->qty; i++) {
+//        // FIXME: allocate pair?
+//        int isPaired = 0;
+//        for (int j = 0; j < pairIndex; j++) {
+//            if (o->pair[j] == i) {
+//                isPaired = 1;
+//                break;
+//            }
+//        }
+//        if (isPaired == 1) {
+//            continue;
+//        }
+//        
+//        bstring b = sl->entry[i];
+//        bstring readname = alder_adapter_read_name(bdata(b));
+//        isPaired = 0;
+//        for (int j = 0; j < sl->qty; j++) {
+//            if (i == j) continue;
+//            bstring b2 = sl->entry[j];
+//            bstring readname2 = alder_adapter_read_name(bdata(b2));
+//            if (!bstrcmp(readname, readname2)) {
+//                o->pair[pairIndex++] = i;
+//                o->pair[pairIndex++] = j;
+//                isPaired = 1;
+//                bdestroy(readname2);
+//                break;
+//            }
+//            bdestroy(readname2);
+//        }
+//        if (isPaired == 0) {
+//            o->pair[pairIndex++] = i;
+//            o->pair[pairIndex++] = -1;
+//        }
+//        bdestroy(readname);
+//    }
+//    o->pair[pairIndex++] = -1;
+//    o->pair[pairIndex++] = -1;
+//    assert(pairIndex <= (sl->qty + 1)* 2);
+//    
+//    return 0;
+//}
+//
+//bstring alder_adapter_read_name(const char *fnin)
+//{
+//    int fp = -1;
+//    int isGzip = 0;
+//    gzFile fpgz;
+//    if (fnin == NULL) {
+//        fp = STDIN_FILENO;
+//    } else {
+//        isGzip = alder_file_isgzip(fnin);
+//        if (isGzip == 1) {
+//            fpgz = gzopen(fnin, "r");
+//        } else {
+//            fp = open(fnin, O_RDONLY);
+//        }
+//    }
+//    if (fp < 0 && fpgz == Z_NULL) {
+//        logc_logWarning(ERROR_LOGGER, "cannot open %s.\n", fnin);
+//        return NULL;
+//    }
+//
+//    kseq_t *seq;
+//    if (isGzip == 0) {
+//        seq = kseq_init((void *)(intptr_t)fp, isGzip);
+//    } else {
+//        seq = kseq_init(fpgz, isGzip);
+//    }
+//    kseq_read(seq);
+//    bstring b = bfromcstr(seq->name.s);
+//    kseq_destroy(seq);
+//    
+//    if (fnin != NULL) {
+//        if (isGzip == 0) {
+//            close(fp);
+//        } else {
+//            gzclose(fpgz);
+//        }
+//    }
+//    return b;
+//}
+//
+

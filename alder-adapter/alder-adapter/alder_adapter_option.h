@@ -21,6 +21,7 @@
 #define alder_adapter_alder_adapter_option_h
 
 #include "bstrlib.h"
+#include "alder_vector_pair.h"
 
 #undef __BEGIN_DECLS
 #undef __END_DECLS
@@ -51,7 +52,7 @@ typedef struct {
     int filter_quality;
     int filter_ambiguous;
     int filter_duplicates;
-    int *pair;
+    alder_vector_pair_t *pair;
     struct bstrList *adapter;
     struct bstrList *infile;
     struct bstrList *outfile;

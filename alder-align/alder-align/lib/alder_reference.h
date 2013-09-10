@@ -10,7 +10,7 @@
 #define alder_align_alder_reference_h
 
 #include "gsl_vector_match.h"
-#include "../union/union_array.h"
+#include "alder_interval.h"
 
 #undef __BEGIN_DECLS
 #undef __END_DECLS

@@ -18,7 +18,8 @@
 */
 
 #include <stdio.h>
-#include "bstring/bstrlib.h"
+#include "bstrlib.h"
+#include "alder_vector_pair.h"
 #include "alder_align_option.h"
 
 void alder_align_option_init(alder_align_option_t *option)
@@ -35,4 +36,5 @@ void alder_align_option_free(alder_align_option_t *option)
     if (option->infile != NULL) bstrListDestroy(option->infile);
     if (option->outfile != NULL) bstrListDestroy(option->outfile);
     if (option->logfilename != NULL) bdestroy(option->logfilename);
+    alder_vector_pair_t_free(option->pair);
 }

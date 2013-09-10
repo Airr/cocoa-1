@@ -60,6 +60,10 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "--reference test.fa,test2.fa test.fq"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--reference test.fa test.fq"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

@@ -119,3 +119,11 @@ $ gengetopt < deseq.ggo --file-name=cmdline --unamed-opts --func-name=my_cmdline
 Other sequence tools
 --------------------
 http://code.google.com/p/biopieces/
+
+Xcode Template Customization
+----------------------------
+Check the following directory:
+/Users/goshng/Library/Developer/Xcode/Templates/Project\ Templates/Alder/Application/Alder\ Command\ Line\ Tool.xctemplate
+
+and this directory as well
+/Applications/Xcode.app/Contents/Developer/Library/Xcode/Templates/Project Templates

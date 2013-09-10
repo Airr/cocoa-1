@@ -1,6 +1,6 @@
 package "alder-pre"
 
-version "0.3"
+version "0.3.2"
 
 purpose "The software package alder-pre trims, cuts, and filters read sequences."
 
@@ -114,7 +114,7 @@ option "filter-quality" - "Filters out poor quality." int typestr="n" default="2
 details="Filters out read sequences with at leaset one base whose base quality score is below \"n\".\n"
 option "filter-ambiguous" - "Filters out ambiguous reads" int typestr="n" default="3" optional
 details="Filters out read sequences with more than \"n\" of ambiguous bases.\n"
-option "filter-duplicates" - "Filters out duplicates" flag off
+option "filter-duplicates" - "Filters out duplicates" flag off hidden
 details="Filters out duplicate read sequences.\n"
 
 option "no-filter" - "Do not filter sequence" flag off

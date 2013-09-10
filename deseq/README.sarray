@@ -1,6 +1,9 @@
 libdivsufsort-lite.zip
 libdivsufsort-2.0.1.tar.gz
 
+cmake -DBUILD_DIVSUFSORT64:BOOL=ON ..
+-DBUILD_DIVSUFSORT64
+
 http://www.cs.dartmouth.edu/~doug/sarray
 http://www.cs.dartmouth.edu/~doug/sarray/sarray.tar
 http://www.larsson.dogma.net/research.html
