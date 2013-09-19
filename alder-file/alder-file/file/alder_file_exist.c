@@ -21,9 +21,23 @@
 #include <sys/stat.h>
 #include "alder_file_exist.h"
 
+/**
+ * This function returns 0 or SUCCESS if the file exists.
+ * Otherwise, it returns -1.
+ *
+ * Argument:
+ * fn - a file name
+ * Return:
+ * 1 exist, 0 not exist
+ */
 int alder_file_exist(const char *fn)
 {
     struct stat buf;
     int status = stat(fn, &buf);
+    if (status == 0) {
+        status = 1;
+    } else {
+        status = 0;
+    }
     return status;
 }

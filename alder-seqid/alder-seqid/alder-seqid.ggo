@@ -1,0 +1,12 @@
+package "alder-seqid"
+version "0.1"
+purpose "alder-seqid does something ..."
+description "alder-seqid does something more ..."
+option "cite" - "Print reference papers" optional hidden
+option "outfile" o "Output files" string typestr="file,..." multiple optional
+option "log" - "Log file" string typestr="file" default="alder-seqid.log" optional argoptional
+
+option "seqid" - "List files in order" flag off
+details="Check the input files and order them in pair-end and single-end."
+option "read" - "Read files in order" flag off
+details="Read all of the sequences"

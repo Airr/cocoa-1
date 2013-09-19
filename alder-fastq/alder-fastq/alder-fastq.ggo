@@ -6,5 +6,6 @@ description "FASTQ files tend to be large in size. Computer users can take advan
 option "outfile" o "Output files" string typestr="file,..." multiple optional
 option "log" - "Log file" string typestr="file" default="alder-fastq.log" optional
 option "kseq" - "Use kseq library" flag off
+option "concat" - "Concatenate read sequences" flag off
 
 option "summary" - "Summary of FASTQ files" flag off

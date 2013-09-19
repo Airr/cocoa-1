@@ -63,8 +63,16 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--summary 1.fa"
+            argument = "--concat t.fq -o t.log"
             isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--summary 1.fa"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--concat t.fq"
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--kseq --summary test3.fq.gz"

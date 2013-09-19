@@ -25,17 +25,30 @@
 int alder_fastq_option_init(alder_fastq_option_t *o,
                             struct gengetopt_args_info *a)
 {
-    if (a->inputs_num > 0) o->infile = bstrVectorCreate((int)a->inputs_num);
+    if (a->inputs_num > 0) {
+        o->infile = bstrVectorCreate((int)a->inputs_num);
+    } else {
+        o->infile = NULL;
+    }
     for (size_t i = 0; i < a->inputs_num; i++) {
         bstrVectorAdd(o->infile, a->inputs[i]);
     }
-    if (a->outfile_given > 0) o->outfile = bstrVectorCreate((int)a->outfile_given);
+    
+    if (a->outfile_given > 0) {
+        o->outfile = bstrVectorCreate((int)a->outfile_given);
+    } else {
+        o->outfile = NULL;
+    }
     for (size_t i = 0; i < a->outfile_given; i++) {
         bstrVectorAdd(o->outfile, a->outfile_arg[i]);
     }
+    
     if (a->log_given) {
         o->logfilename = bfromcstr(a->log_arg);
+    } else {
+        o->logfilename = NULL;
     }
+    
     return 0;
 }
 

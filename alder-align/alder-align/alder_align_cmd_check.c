@@ -86,7 +86,7 @@ int alder_align_cmd_check(alder_align_option_t *option, struct gengetopt_args_in
     for (size_t i = 0; i < args_info->inputs_num; i++) {
         bstrVectorAdd(option->infile, args_info->inputs[i]);
         int r = alder_file_exist(args_info->inputs[i]);
-        if (r != 0) {
+        if (r == 0) {
             logc_logWarning(ERROR_LOGGER, "no such input file %s.", args_info->inputs[i]);
             status = 1;
         }
@@ -96,7 +96,7 @@ int alder_align_cmd_check(alder_align_option_t *option, struct gengetopt_args_in
     for (size_t i = 0; i < args_info->reference_given; i++) {
         bstrVectorAdd(option->refile, args_info->reference_arg[i]);
         int r = alder_file_exist(args_info->reference_arg[i]);
-        if (r != 0) {
+        if (r == 0) {
             logc_logWarning(ERROR_LOGGER, "no such reference file %s.", args_info->reference_arg[i]);
             status = 1;
         }
@@ -106,7 +106,7 @@ int alder_align_cmd_check(alder_align_option_t *option, struct gengetopt_args_in
         for (size_t i = 0; i < args_info->output_given; i++) {
             bstrVectorAdd(option->outfile, args_info->output_arg[i]);
             int r = alder_file_exist(args_info->output_arg[i]);
-            if (r != 0) {
+            if (r == 0) {
                 logc_logWarning(ERROR_LOGGER, "no such output file %s.", args_info->output_arg[i]);
                 status = 1;
             }

@@ -36,14 +36,32 @@
 
 __BEGIN_DECLS
 
+/**
+ * This structure is the same as that of alder_fastq_concat_t except that
+ * it does not have qual. See alder_fastq_concat_t for the description of 
+ * variables.
+ */
 typedef struct {
+    int     type;
+    int     fixedLength;
+    int64_t numberRead;
+    int64_t numberBase;
+    int64_t sizeWithDollar;
+    int64_t sizeCapacity;
+    int64_t *index;
+    char    *read;
+} alder_fasta_concat_t;
+
+typedef struct {
+    int     type;
+    int     fixedLength;
     int64_t numberOfSequence;
     int64_t numberOfBase;
-    int64_t sizeCapacity;
     int64_t sizeOfDataWithDollar;
+    int64_t sizeCapacity;
     int64_t *index;
-    struct bstrList *name;
-    char* data;
+    struct  bstrList *name;
+    char    *data;
 } alder_fasta_t;
 
 int alder_fasta_length(const char* fn, int64_t *n1, int64_t *n2);

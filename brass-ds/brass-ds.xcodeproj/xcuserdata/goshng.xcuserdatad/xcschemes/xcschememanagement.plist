@@ -4,6 +4,126 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>1-ar-stack.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>20</integer>
+		</dict>
+		<key>10-triv-tree.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>30</integer>
+		</dict>
+		<key>11-t-op-tree.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>31</integer>
+		</dict>
+		<key>12-b-op-tree.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>32</integer>
+		</dict>
+		<key>13-h-bl-tree.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>33</integer>
+		</dict>
+		<key>14-w-bl-tree.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>34</integer>
+		</dict>
+		<key>15-a-b-tree.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>35</integer>
+		</dict>
+		<key>16-rb-tree.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>36</integer>
+		</dict>
+		<key>17-t-rb-tree.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>37</integer>
+		</dict>
+		<key>18-spla-tree.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>38</integer>
+		</dict>
+		<key>19-skip-list.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>39</integer>
+		</dict>
+		<key>2-li-stack.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>21</integer>
+		</dict>
+		<key>20-intv-tree.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>40</integer>
+		</dict>
+		<key>21-segm-tree.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>41</integer>
+		</dict>
+		<key>22-wsum-tree.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>42</integer>
+		</dict>
+		<key>23-wsmx-tree.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>43</integer>
+		</dict>
+		<key>24-or-r-tree.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>44</integer>
+		</dict>
+		<key>3-bl-stack.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>22</integer>
+		</dict>
+		<key>4-ar-queue.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>24</integer>
+		</dict>
+		<key>5-li-queue.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>25</integer>
+		</dict>
+		<key>6-c-l-queue.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>26</integer>
+		</dict>
+		<key>7-dll-queue.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>27</integer>
+		</dict>
+		<key>8-free-list.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>28</integer>
+		</dict>
+		<key>9-shd-stack.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>29</integer>
+		</dict>
 		<key>brass-ds-b-trees.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -49,6 +169,11 @@
 			<key>orderHint</key>
 			<integer>7</integer>
 		</dict>
+		<key>brass-ds-stack-array.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>23</integer>
+		</dict>
 		<key>brass-ds-stack.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -73,6 +198,16 @@
 		<dict>
 			<key>orderHint</key>
 			<integer>14</integer>
+		</dict>
+		<key>brass-ds-union-find-wco.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>19</integer>
+		</dict>
+		<key>brass-ds-union-find.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>18</integer>
 		</dict>
 		<key>brass-ds-union-tree.xcscheme</key>
 		<dict>
@@ -127,12 +262,147 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>D033DA0017E537370080F534</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D033DA0D17E54C3A0080F534</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D033DA1A17E6D3050080F534</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D033DA2717E6D5400080F534</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D033DA3417E6D66C0080F534</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D033DA4117E6DA460080F534</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D033DA4E17E6F1580080F534</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D033DA5B17E6F3F80080F534</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D033DA6817E6F7020080F534</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D033DA7517E6F9390080F534</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D033DA8217E770A60080F534</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D033DA9117E7712B0080F534</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D033DA9E17E77B760080F534</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D033DAAB17E7C4580080F534</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D033DAB817E7C4610080F534</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D033DAC517E7E1710080F534</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>D0375CEE17D50145001474F1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>D0375CFE17D512E0001474F1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D048217A17E80EC0008C0C5C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D048218717E80ED3008C0C5C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D048219417E80F17008C0C5C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D04821A117E80F43008C0C5C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D04821AE17E80F52008C0C5C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D04821BB17E80F5D008C0C5C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D04821C817E80FDC008C0C5C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D04821D517E80FE8008C0C5C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D04821E217E810D3008C0C5C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D04821EF17E810E6008C0C5C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D04821FC17E810FE008C0C5C</key>
 		<dict>
 			<key>primary</key>
 			<true/>

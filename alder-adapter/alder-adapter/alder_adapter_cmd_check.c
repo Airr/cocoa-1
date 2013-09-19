@@ -132,7 +132,7 @@ int alder_adatper_cmd_check(alder_adapter_option_t *option, struct gengetopt_arg
     if (args_info->inputs_num > 0) {
         for (unsigned int i = 0; i < args_info->inputs_num; i++) {
             int r = alder_file_exist(args_info->inputs[i]);
-            if (r != 0) {
+            if (r == 0) {
                 logc_logWarning(ERROR_LOGGER, "no such file %s.", args_info->inputs[i]);
                 status = 1;
             }

@@ -72,7 +72,7 @@ int alder_mem_option_init(alder_mem_option_t *o, struct gengetopt_args_info *a)
     for (size_t i = 0; i < a->reference_given; i++) {
         bstrVectorAdd(o->refile, a->reference_arg[i]);
         int r = alder_file_exist(a->reference_arg[i]);
-        if (r != 0) {
+        if (r == 0) {
             status = 1;
         }
     }

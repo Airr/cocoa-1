@@ -416,6 +416,10 @@ struct bstrList * bstrVectorCreate(int n)
     struct bstrList *sl = bstrListCreate();
     int s = bstrListAlloc(sl, n);
     assert(s == BSTR_OK);
+//    for (int i = 0; i < sl->qty; i++) {
+//        sl->entry[i] = NULL;
+//    }
+    // We have zeroed it here already.
     memset(sl->entry, 0, sl->mlen * sizeof(bstring));
     return sl;
 }

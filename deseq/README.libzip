@@ -1,0 +1,9 @@
+Library Zipping Files
+---------------------
+gzip, bzip2, 7-zip, zip, 
+
+libraries
+---------
+http://www.libarchive.org
+http://7-zip.org/sdk.html
+http://stackoverflow.com/questions/262899/portable-zip-library-for-c-c-not-an-application

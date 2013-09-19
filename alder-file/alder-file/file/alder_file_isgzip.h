@@ -33,11 +33,6 @@
 
 __BEGIN_DECLS
 
-// Returns
-// -1 : could not open the file fn.
-//  1 : file fn is a gzip file.
-//  0 : file fn is not a gzip file.
-//  0 : file fn is nil.
 int alder_file_isgzip(const char *fnin);
 
 __END_DECLS

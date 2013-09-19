@@ -23,6 +23,9 @@
 #include "alder_fastq_kseq.h"
 #include "alder_fastq_kseq_summary.h"
 #include "alder_fastq_ragel_summary.h"
+#include "alder_fastq_concat.h"
+#include "alder_fastq_numbase.h"
+#include "alder_fastq_length.h"
 
 #undef __BEGIN_DECLS
 #undef __END_DECLS

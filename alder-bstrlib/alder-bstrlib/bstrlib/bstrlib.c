@@ -2429,6 +2429,7 @@ struct bstrList * sl = (struct bstrList *) bstr__alloc (sizeof (struct bstrList)
 			bstr__free (sl);
 			sl = NULL;
 		} else {
+            sl->entry[0] = NULL; // goshng: Could be a bug!
 			sl->qty = 0;
 			sl->mlen = 1;
 		}

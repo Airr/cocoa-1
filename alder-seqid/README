@@ -1,0 +1,28 @@
+The birth of seqid
+------------------
+Here is the structure of the code flow:
+We need a structure that is common to FASTA and the fS variable in
+alder_sparse_sa_t type. The name alder_fasta_t is not a good one
+because the data of a suffix array could be decoupled from the original
+data file format. In other words, files could be FASTA or FASTQ. This
+is where I have trouble. So, I need a one more layer between fS and
+file formats. I also need a converter from file format to fS.
+FASTQ and FASTA have two common variables: sequence name, and sequence.
+FASTQ has base quality scores, and the number of reads tend to be large.
+FASTA has no base quality scores, and tends to have smaller number of
+sequences although it is not always the case. Sequence names are not
+useful till we reference them. As long as we have an organized
+reference point to which file we should look at, it is okay.
+The reference point consists of input files and the order of them;
+just an array of file names and the ordered index array should serve
+the duty of a reference point.
+Let's create a module called ... seqid.
+
+seqid has a struct that is similar to those of fasta or fastq. This supports
+a transparent layer to fasta or fastq so that we could easily find the 
+sequence name with an index. When I need the sequence name and additional
+description or comment (in FASTQ), I create an array for them.
+
+Compression library
+-------------------
+libarchive

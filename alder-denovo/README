@@ -1,0 +1,73 @@
+We could have a "de novo" assembler.
+
+Steps of "de novo" assembly
+---------------------------
+1. We are given a set of short reads.
+2. Concatenate all of the reads to create a new sequence.
+3. Build a suffix array from the new sequence.
+4. Repeat the following for each of the read sequences.
+5. Take one read out of the new sequence, and find MEMs.
+6. Prepare pairwise relationship of the read sequences using MEMs.
+7. Cluster read sequences using the pairwise relationship using MCL (?)
+8. Create a union tree for each cluster.
+
+Union tree for a cluster
+------------------------
+This union tree might be different from that of Cheng and R... (91). I want to
+manage a set of intervals dynamically; I should be able add and remove
+intervals to and from the union tree. I also need to quickly compute the
+pairwise relation map of a union tree. I wish to quickly compute which pairs of
+read sequences or intervals overlap or not, and how much. This would be used to 
+compare the map from the MEMs (one realization from the MEMs) and one of many 
+possible map from the union tree. The order of addition of pairs of read
+sequences into a union tree affect the shape of the union tree. We wish to 
+optimize (or minimize) the distance between the MEM pairwise relation map and 
+the map from a union tree by changing the union tree. We change the union tree
+by adding or removing an interval of a read sequence.
+
+1. Perform a progressive read aggregation for a cluster.
+2. Design a distance measure between pairwise relation map and the 
+corresponding map from the union tree.
+
+Building a union tree
+---------------------
+Because the position of a read seqeunce is relative to one another, we give an
+arbitrary coordinate for a read seqeunce. We have two sets of read seqeunces.
+One is the set (P) of reads in the pairwise relation map, and the other is the 
+set (T) of reads in the union tree.
+1. Pick a read sequence at random and add it to the union tree.
+2. Repeat the following until all of the read sequences fill the union tree.
+3. Pick a read sequence S_t in the union tree T at random.
+4. Choose another read sequence S_p that is related with S_t at random.
+5. Add S_p to the union tree.
+
+Pairwise relation map of a union tree
+-------------------------------------
+The union tree represents a "de novo" assembly of some of read sequences. A
+unique pairwise relation map exists in a union tree. There are many possible
+union trees because of multiple ways of building union trees by changing the
+order of addition of reads to a union tree. We wish to update a union tree by
+removing a read sequence and adding it back by using a different pair, in which
+one is the read sequence. [WARNING] This may be one of complicated procedure in 
+this union tree strcture.
+See "alder_denovo.pdf" in the same directory of this README.
+
+Measure of distance between two pairwise relation map
+-----------------------------------------------------
+We have a difference measure between two pairs of read sequences by counting
+the number of overlapping bases in each pair, and subtracting one number of
+overlapping bases in one pair from that of the other pair. Then, we take the 
+square of the difference measure for each of the pair in a map, and sum the
+squared values over all possible pairs. This is the distance measrue, which we
+minimize to optimize the union tree.
+
+Alignment refinement
+--------------------
+We refine the alignment from the "de novo" assembly. 
+
+
+
+Dynamic Segment Tree
+--------------------
+http://www.docstoc.com/docs/22537477/Dynamic-Segment-Trees-and-Union-Copy-Stuctures
+http://www-cs.ccny.cuny.edu/~peter/dstest.html

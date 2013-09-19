@@ -77,8 +77,6 @@
 		D0C5A36A17D87FF200C1E004 /* alder-align.ggo in Sources */ = {isa = PBXBuildFile; fileRef = D0C5A36517D87A8500C1E004 /* alder-align.ggo */; };
 		D0C5A36C17D8805800C1E004 /* alder_align_cmd_check.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C5A36B17D8805800C1E004 /* alder_align_cmd_check.c */; };
 		D0C5A37817D8820A00C1E004 /* alder_align_cite.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C5A37717D8820A00C1E004 /* alder_align_cite.c */; };
-		D0D1417817CE672300CD1FD3 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = D0D1417717CE672300CD1FD3 /* main.c */; };
-		D0D1417A17CE672300CD1FD3 /* alder_denovo.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = D0D1417917CE672300CD1FD3 /* alder_denovo.1 */; };
 		D0FD743F17DE9A1F003B5AEE /* alder_palign_exact.c in Sources */ = {isa = PBXBuildFile; fileRef = D0FD743E17DE9A1F003B5AEE /* alder_palign_exact.c */; };
 		D0FD749217DEEE59003B5AEE /* bsafe.c in Sources */ = {isa = PBXBuildFile; fileRef = D0FD748A17DEEE59003B5AEE /* bsafe.c */; };
 		D0FD749317DEEE59003B5AEE /* bstraux.c in Sources */ = {isa = PBXBuildFile; fileRef = D0FD748C17DEEE59003B5AEE /* bstraux.c */; };
@@ -210,16 +208,6 @@
 			dstSubfolderSpec = 0;
 			files = (
 				D07E3F1617C7082900F1958F /* alder_test_mksa.1 in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
-		D0D1417317CE672300CD1FD3 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-				D0D1417A17CE672300CD1FD3 /* alder_denovo.1 in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
@@ -358,11 +346,6 @@
 		D0C5A36D17D8806200C1E004 /* alder_align_cmd_check.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_align_cmd_check.h; sourceTree = "<group>"; };
 		D0C5A37717D8820A00C1E004 /* alder_align_cite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_align_cite.c; sourceTree = "<group>"; };
 		D0C5A37917D8821400C1E004 /* alder_align_cite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_align_cite.h; sourceTree = "<group>"; };
-		D0D1417517CE672300CD1FD3 /* alder-denovo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "alder-denovo"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D0D1417717CE672300CD1FD3 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
-		D0D1417917CE672300CD1FD3 /* alder_denovo.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = alder_denovo.1; sourceTree = "<group>"; };
-		D0D1417E17CE673200CD1FD3 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
-		D0D1418017CE7BB300CD1FD3 /* alder_denovo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = alder_denovo.pdf; sourceTree = "<group>"; };
 		D0FBC43917C6DE1600FD871A /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		D0FD743E17DE9A1F003B5AEE /* alder_palign_exact.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_palign_exact.c; sourceTree = "<group>"; };
 		D0FD744017DE9A26003B5AEE /* alder_palign_exact.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_palign_exact.h; sourceTree = "<group>"; };
@@ -512,13 +495,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D0D1417217CE672300CD1FD3 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -532,7 +508,6 @@
 				D07E3F1217C7082900F1958F /* alder-test-mksa */,
 				D00CC0DA17CB33FE004FB745 /* alder-test-fastq */,
 				D00CC0E817CB4506004FB745 /* alder-test-samtools */,
-				D0D1417617CE672300CD1FD3 /* alder-denovo */,
 				D005168617B2BF3C00F3EC62 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -546,7 +521,6 @@
 				D00CC0D917CB33FE004FB745 /* alder-test-fastq */,
 				D00CC0E717CB4506004FB745 /* alder-test-samtools */,
 				D00CC18917CB4548004FB745 /* libbam.dylib */,
-				D0D1417517CE672300CD1FD3 /* alder-denovo */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -783,17 +757,6 @@
 				D07E3F1517C7082900F1958F /* alder_test_mksa.1 */,
 			);
 			path = "alder-test-mksa";
-			sourceTree = "<group>";
-		};
-		D0D1417617CE672300CD1FD3 /* alder-denovo */ = {
-			isa = PBXGroup;
-			children = (
-				D0D1418017CE7BB300CD1FD3 /* alder_denovo.pdf */,
-				D0D1417E17CE673200CD1FD3 /* README */,
-				D0D1417717CE672300CD1FD3 /* main.c */,
-				D0D1417917CE672300CD1FD3 /* alder_denovo.1 */,
-			);
-			path = "alder-denovo";
 			sourceTree = "<group>";
 		};
 		D0FD748917DEEE59003B5AEE /* bstrlib */ = {
@@ -1075,23 +1038,6 @@
 			productReference = D07E3F1117C7082900F1958F /* alder-test-mksa */;
 			productType = "com.apple.product-type.tool";
 		};
-		D0D1417417CE672300CD1FD3 /* alder-denovo */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D0D1417D17CE672300CD1FD3 /* Build configuration list for PBXNativeTarget "alder-denovo" */;
-			buildPhases = (
-				D0D1417117CE672300CD1FD3 /* Sources */,
-				D0D1417217CE672300CD1FD3 /* Frameworks */,
-				D0D1417317CE672300CD1FD3 /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "alder-denovo";
-			productName = "alder-denovo";
-			productReference = D0D1417517CE672300CD1FD3 /* alder-denovo */;
-			productType = "com.apple.product-type.tool";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1119,7 +1065,6 @@
 				D00CC0D817CB33FE004FB745 /* alder-test-fastq */,
 				D00CC0E617CB4506004FB745 /* alder-test-samtools */,
 				D00CC18817CB4548004FB745 /* bam */,
-				D0D1417417CE672300CD1FD3 /* alder-denovo */,
 			);
 		};
 /* End PBXProject section */
@@ -1272,14 +1217,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D07E3F1417C7082900F1958F /* main.c in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D0D1417117CE672300CD1FD3 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D0D1417817CE672300CD1FD3 /* main.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1534,20 +1471,6 @@
 			};
 			name = Release;
 		};
-		D0D1417B17CE672300CD1FD3 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		D0D1417C17CE672300CD1FD3 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1610,15 +1533,6 @@
 			buildConfigurations = (
 				D07E3F1717C7082900F1958F /* Debug */,
 				D07E3F1817C7082900F1958F /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		D0D1417D17CE672300CD1FD3 /* Build configuration list for PBXNativeTarget "alder-denovo" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				D0D1417B17CE672300CD1FD3 /* Debug */,
-				D0D1417C17CE672300CD1FD3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

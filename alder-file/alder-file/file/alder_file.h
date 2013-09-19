@@ -25,6 +25,12 @@
 #include "alder_file_isstdin.h"
 #include "alder_file_writable.h"
 #include "alder_file_creatable.h"
+#include "alder_file_numline.h"
+#include "alder_file_isfile.h"
+#include "alder_file_isbinary.h"
+#include "alder_file_isfasta.h"
+#include "alder_file_whatformat.h"
+#include "alder_file_firstline.h"
 
 #undef __BEGIN_DECLS
 #undef __END_DECLS

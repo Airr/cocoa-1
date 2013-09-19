@@ -35,6 +35,23 @@ int main(int argc, char * argv[])
         }
     }
     
+    if (args_info.concat_flag == 1) {
+        for (size_t i = 0; i < option.infile->qty; i++) {
+            alder_fastq_concat_t *afc = alder_fastq_concat_init(bdata(option.infile->entry[i]), NULL);
+            alder_fastq_concat_read(args_info.inputs[i], afc->read, afc->qual, afc->index, afc->numberBase);
+            if (option.outfile == NULL) {
+                alder_fastq_concat_fprintf(NULL, afc, 0);
+            } else if (option.outfile->qty == 1) {
+                alder_fastq_concat_fprintf(bdata(option.outfile->entry[0]),
+                                           afc, 1);
+            } else if (option.outfile->qty > 1) {
+                alder_fastq_concat_fprintf(bdata(option.outfile->entry[i]),
+                                           afc, 0);
+            }
+            alder_fastq_concat_free(afc);
+        }
+    }
+    
     my_cmdline_parser_free(&args_info);
     alder_fastq_option_free(&option);
     return 0;

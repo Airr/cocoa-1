@@ -62,7 +62,7 @@ int alder_file_creatable(const char *fn)
     char *dn = alder_path_basedir(fn);
     
     int status = alder_file_exist(fn);
-    if (status == 0) {
+    if (status == 1) {
         return -1;
     }
     

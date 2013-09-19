@@ -63,9 +63,9 @@ void alder_file(const char *fn)
     printf("The file %s a symbolic link\n", (S_ISLNK(fileStat.st_mode)) ? "is" : "is not");
     
     s = alder_file_exist(fn);
-    if (s == 0) {
+    if (s == 1) {
         printf("  exist.\n");
-    } else if (s == -1) {
+    } else if (s == 0) {
         printf("  does not exist.\n");
     } else {
         assert(0);

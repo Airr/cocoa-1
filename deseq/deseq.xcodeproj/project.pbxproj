@@ -165,6 +165,7 @@
 		D07E3F4917C72BDB00F1958F /* alder-fastq-random */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "alder-fastq-random"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D07E3F4B17C72BDC00F1958F /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		D07E3F4D17C72BDC00F1958F /* alder_fastq_random.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = alder_fastq_random.1; sourceTree = "<group>"; };
+		D09116C617E11B9000700BF2 /* README.libzip */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.libzip; sourceTree = "<group>"; };
 		D0A3821917D19F300002D96D /* README.cmdline */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.cmdline; sourceTree = "<group>"; };
 		D0F9E4B617BC423400896FAD /* README.mem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.mem; sourceTree = "<group>"; };
 		D0FBC43817C5B54800FD871A /* README.multiuser */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.multiuser; sourceTree = "<group>"; };
@@ -298,6 +299,7 @@
 				D0F9E4B617BC423400896FAD /* README.mem */,
 				D0FBC43D17C6E21C00FD871A /* README.tools */,
 				D0A3821917D19F300002D96D /* README.cmdline */,
+				D09116C617E11B9000700BF2 /* README.libzip */,
 			);
 			name = README;
 			sourceTree = "<group>";

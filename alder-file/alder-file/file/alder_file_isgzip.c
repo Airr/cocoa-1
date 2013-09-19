@@ -20,6 +20,13 @@
 #include <stdio.h>
 #include "alder_file_isgzip.h"
 
+/**
+ * Return:
+ * -1 could not open the file fn.
+ * 1  file fn is a gzip file.
+ * 0  file fn is not a gzip file.
+ * 0  file fn is nil.
+ */
 int alder_file_isgzip(const char *fn)
 {
     if (fn == NULL) {
