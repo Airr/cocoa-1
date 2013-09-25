@@ -1047,7 +1047,7 @@ main (int argc, char *argv[])
 
           if (opts.test == TST_CORRECTNESS)
             {
-              printf ("Deletion order:");
+              printf ("  Deletion order:");
               for (i = 0; i < opts.node_cnt; i++)
                 printf (" %d", delete[i]);
               printf (".\n");

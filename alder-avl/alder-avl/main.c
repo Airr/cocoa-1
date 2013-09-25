@@ -21,6 +21,7 @@
 #include <stdlib.h>
 #include "cmdline.h"
 #include "alder_avl_option.h" 
+#include "alder_avl_dictionary_interval.h"
 
 int main(int argc, char * argv[])
 {
@@ -34,6 +35,8 @@ int main(int argc, char * argv[])
         alder_avl_option_free(&option);
         exit(1);
     }
+    
+    alder_avl_dictionary_interval();
     
     my_cmdline_parser_free(&args_info);
     alder_avl_option_free(&option);

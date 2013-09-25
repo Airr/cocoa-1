@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D00B8C7517EB658000ACF6CD"
-               BuildableName = "alder-avl"
-               BlueprintName = "alder-avl"
+               BlueprintIdentifier = "D067305D17EB77110008C708"
+               BuildableName = "prb-test"
+               BlueprintName = "prb-test"
                ReferencedContainer = "container:alder-avl.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,9 +32,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D00B8C7517EB658000ACF6CD"
-            BuildableName = "alder-avl"
-            BlueprintName = "alder-avl"
+            BlueprintIdentifier = "D067305D17EB77110008C708"
+            BuildableName = "prb-test"
+            BlueprintName = "prb-test"
             ReferencedContainer = "container:alder-avl.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -51,18 +51,12 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D00B8C7517EB658000ACF6CD"
-            BuildableName = "alder-avl"
-            BlueprintName = "alder-avl"
+            BlueprintIdentifier = "D067305D17EB77110008C708"
+            BuildableName = "prb-test"
+            BlueprintName = "prb-test"
             ReferencedContainer = "container:alder-avl.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <CommandLineArguments>
-         <CommandLineArgument
-            argument = "1"
-            isEnabled = "YES">
-         </CommandLineArgument>
-      </CommandLineArguments>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -75,9 +69,9 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D00B8C7517EB658000ACF6CD"
-            BuildableName = "alder-avl"
-            BlueprintName = "alder-avl"
+            BlueprintIdentifier = "D067305D17EB77110008C708"
+            BuildableName = "prb-test"
+            BlueprintName = "prb-test"
             ReferencedContainer = "container:alder-avl.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

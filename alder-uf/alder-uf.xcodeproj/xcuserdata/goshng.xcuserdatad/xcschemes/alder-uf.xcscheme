@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D00B8C7517EB658000ACF6CD"
-               BuildableName = "alder-avl"
-               BlueprintName = "alder-avl"
-               ReferencedContainer = "container:alder-avl.xcodeproj">
+               BlueprintIdentifier = "D0414BE517ED30AA002B4758"
+               BuildableName = "alder-uf"
+               BlueprintName = "alder-uf"
+               ReferencedContainer = "container:alder-uf.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,10 +32,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D00B8C7517EB658000ACF6CD"
-            BuildableName = "alder-avl"
-            BlueprintName = "alder-avl"
-            ReferencedContainer = "container:alder-avl.xcodeproj">
+            BlueprintIdentifier = "D0414BE517ED30AA002B4758"
+            BuildableName = "alder-uf"
+            BlueprintName = "alder-uf"
+            ReferencedContainer = "container:alder-uf.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -51,10 +51,10 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D00B8C7517EB658000ACF6CD"
-            BuildableName = "alder-avl"
-            BlueprintName = "alder-avl"
-            ReferencedContainer = "container:alder-avl.xcodeproj">
+            BlueprintIdentifier = "D0414BE517ED30AA002B4758"
+            BuildableName = "alder-uf"
+            BlueprintName = "alder-uf"
+            ReferencedContainer = "container:alder-uf.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <CommandLineArguments>
@@ -75,10 +75,10 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D00B8C7517EB658000ACF6CD"
-            BuildableName = "alder-avl"
-            BlueprintName = "alder-avl"
-            ReferencedContainer = "container:alder-avl.xcodeproj">
+            BlueprintIdentifier = "D0414BE517ED30AA002B4758"
+            BuildableName = "alder-uf"
+            BlueprintName = "alder-uf"
+            ReferencedContainer = "container:alder-uf.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

@@ -94,6 +94,16 @@
 			<key>orderHint</key>
 			<integer>22</integer>
 		</dict>
+		<key>32-am-u-find.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>45</integer>
+		</dict>
+		<key>33-wc-u-find.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>46</integer>
+		</dict>
 		<key>4-ar-queue.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -348,6 +358,16 @@
 			<true/>
 		</dict>
 		<key>D0375CFE17D512E0001474F1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D0414BC617ED07CB002B4758</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D0414BD317ED2643002B4758</key>
 		<dict>
 			<key>primary</key>
 			<true/>

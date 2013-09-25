@@ -29,6 +29,7 @@
 		D00B8CC817EB66D600ACF6CD /* alder_file_numline.c in Sources */ = {isa = PBXBuildFile; fileRef = D00B8CB717EB66D600ACF6CD /* alder_file_numline.c */; };
 		D00B8CC917EB66D600ACF6CD /* alder_file_whatformat.c in Sources */ = {isa = PBXBuildFile; fileRef = D00B8CB917EB66D600ACF6CD /* alder_file_whatformat.c */; };
 		D00B8CCA17EB66D600ACF6CD /* alder_file_writable.c in Sources */ = {isa = PBXBuildFile; fileRef = D00B8CBB17EB66D600ACF6CD /* alder_file_writable.c */; };
+		D0414BC117EC338B002B4758 /* alder_avl_dictionary_interval.c in Sources */ = {isa = PBXBuildFile; fileRef = D0414BC017EC338B002B4758 /* alder_avl_dictionary_interval.c */; };
 		D0672F3E17EB68D50008C708 /* alder_avl.c in Sources */ = {isa = PBXBuildFile; fileRef = D0672F3C17EB68D50008C708 /* alder_avl.c */; };
 		D0672F5817EB6CE40008C708 /* avl.c in Sources */ = {isa = PBXBuildFile; fileRef = D0672F3F17EB6CE40008C708 /* avl.c */; };
 		D0672F5917EB6CE40008C708 /* bst.c in Sources */ = {isa = PBXBuildFile; fileRef = D0672F4117EB6CE40008C708 /* bst.c */; };
@@ -225,7 +226,6 @@
 		D00B8C8217EB658000ACF6CD /* alder-avl.ggo */ = {isa = PBXFileReference; lastKnownFileType = text; path = "alder-avl.ggo"; sourceTree = "<group>"; };
 		D00B8C8417EB658000ACF6CD /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		D00B8C8617EB658000ACF6CD /* alder_avl.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = alder_avl.1; sourceTree = "<group>"; };
-		D00B8C8F17EB66C600ACF6CD /* .bstrlib.txt.swp */ = {isa = PBXFileReference; lastKnownFileType = file; path = .bstrlib.txt.swp; sourceTree = "<group>"; };
 		D00B8C9017EB66C600ACF6CD /* bsafe.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bsafe.c; sourceTree = "<group>"; };
 		D00B8C9117EB66C600ACF6CD /* bsafe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bsafe.h; sourceTree = "<group>"; };
 		D00B8C9217EB66C600ACF6CD /* bstraux.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bstraux.c; sourceTree = "<group>"; };
@@ -267,6 +267,8 @@
 		D00B8CBB17EB66D600ACF6CD /* alder_file_writable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_writable.c; sourceTree = "<group>"; };
 		D00B8CBC17EB66D600ACF6CD /* alder_file_writable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_writable.h; sourceTree = "<group>"; };
 		D00B8CBD17EB66D600ACF6CD /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		D0414BC017EC338B002B4758 /* alder_avl_dictionary_interval.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_avl_dictionary_interval.c; sourceTree = "<group>"; };
+		D0414BC217EC3392002B4758 /* alder_avl_dictionary_interval.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_avl_dictionary_interval.h; sourceTree = "<group>"; };
 		D0672F3C17EB68D50008C708 /* alder_avl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_avl.c; sourceTree = "<group>"; };
 		D0672F3D17EB68D50008C708 /* alder_avl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_avl.h; sourceTree = "<group>"; };
 		D0672F3F17EB6CE40008C708 /* avl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = avl.c; sourceTree = "<group>"; };
@@ -471,7 +473,6 @@
 		D00B8C8E17EB66C600ACF6CD /* bstrlib */ = {
 			isa = PBXGroup;
 			children = (
-				D00B8C8F17EB66C600ACF6CD /* .bstrlib.txt.swp */,
 				D00B8C9017EB66C600ACF6CD /* bsafe.c */,
 				D00B8C9117EB66C600ACF6CD /* bsafe.h */,
 				D00B8C9217EB66C600ACF6CD /* bstraux.c */,
@@ -560,6 +561,8 @@
 				D0672F5717EB6CE40008C708 /* trb.h */,
 				D0672F3C17EB68D50008C708 /* alder_avl.c */,
 				D0672F3D17EB68D50008C708 /* alder_avl.h */,
+				D0414BC017EC338B002B4758 /* alder_avl_dictionary_interval.c */,
+				D0414BC217EC3392002B4758 /* alder_avl_dictionary_interval.h */,
 			);
 			path = avl;
 			sourceTree = "<group>";
@@ -860,6 +863,7 @@
 				D0672F5F17EB6CE40008C708 /* rtavl.c in Sources */,
 				D00B8CC317EB66D600ACF6CD /* alder_file_isbinary.c in Sources */,
 				D0672F5E17EB6CE40008C708 /* rb.c in Sources */,
+				D0414BC117EC338B002B4758 /* alder_avl_dictionary_interval.c in Sources */,
 				D0672F5817EB6CE40008C708 /* avl.c in Sources */,
 				D00B8CCA17EB66D600ACF6CD /* alder_file_writable.c in Sources */,
 				D0672F5D17EB6CE40008C708 /* prb.c in Sources */,
@@ -1342,6 +1346,7 @@
 				D0672FD217EB75040008C708 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D0672FE217EB76870008C708 /* Build configuration list for PBXNativeTarget "bst-test" */ = {
 			isa = XCConfigurationList;
@@ -1350,6 +1355,7 @@
 				D0672FE417EB76870008C708 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D0672FEF17EB76940008C708 /* Build configuration list for PBXNativeTarget "rb-test" */ = {
 			isa = XCConfigurationList;
@@ -1358,6 +1364,7 @@
 				D0672FF117EB76940008C708 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D0672FFC17EB76B80008C708 /* Build configuration list for PBXNativeTarget "tbst-test" */ = {
 			isa = XCConfigurationList;
@@ -1366,6 +1373,7 @@
 				D0672FFE17EB76B80008C708 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D067300917EB76C80008C708 /* Build configuration list for PBXNativeTarget "tavl-test" */ = {
 			isa = XCConfigurationList;
@@ -1374,6 +1382,7 @@
 				D067300B17EB76C80008C708 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D067301617EB76D40008C708 /* Build configuration list for PBXNativeTarget "trb-test" */ = {
 			isa = XCConfigurationList;
@@ -1382,6 +1391,7 @@
 				D067301817EB76D40008C708 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D067302317EB76DF0008C708 /* Build configuration list for PBXNativeTarget "rtbst-test" */ = {
 			isa = XCConfigurationList;
@@ -1390,6 +1400,7 @@
 				D067302517EB76DF0008C708 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D067303017EB76EA0008C708 /* Build configuration list for PBXNativeTarget "rtavl-test" */ = {
 			isa = XCConfigurationList;
@@ -1398,6 +1409,7 @@
 				D067303217EB76EA0008C708 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D067303D17EB76F50008C708 /* Build configuration list for PBXNativeTarget "rtrb-test" */ = {
 			isa = XCConfigurationList;
@@ -1406,6 +1418,7 @@
 				D067303F17EB76F50008C708 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D067304A17EB76FF0008C708 /* Build configuration list for PBXNativeTarget "pbst-test" */ = {
 			isa = XCConfigurationList;
@@ -1414,6 +1427,7 @@
 				D067304C17EB76FF0008C708 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D067305717EB77070008C708 /* Build configuration list for PBXNativeTarget "pavl-test" */ = {
 			isa = XCConfigurationList;
@@ -1422,6 +1436,7 @@
 				D067305917EB77070008C708 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D067306417EB77110008C708 /* Build configuration list for PBXNativeTarget "prb-test" */ = {
 			isa = XCConfigurationList;
@@ -1430,6 +1445,7 @@
 				D067306617EB77110008C708 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D00B8C7517EB658000ACF6CD"
-               BuildableName = "alder-avl"
-               BlueprintName = "alder-avl"
-               ReferencedContainer = "container:alder-avl.xcodeproj">
+               BlueprintIdentifier = "D0414BC617ED07CB002B4758"
+               BuildableName = "32-am-u-find"
+               BlueprintName = "32-am-u-find"
+               ReferencedContainer = "container:brass-ds.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,10 +32,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D00B8C7517EB658000ACF6CD"
-            BuildableName = "alder-avl"
-            BlueprintName = "alder-avl"
-            ReferencedContainer = "container:alder-avl.xcodeproj">
+            BlueprintIdentifier = "D0414BC617ED07CB002B4758"
+            BuildableName = "32-am-u-find"
+            BlueprintName = "32-am-u-find"
+            ReferencedContainer = "container:brass-ds.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -51,18 +51,12 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D00B8C7517EB658000ACF6CD"
-            BuildableName = "alder-avl"
-            BlueprintName = "alder-avl"
-            ReferencedContainer = "container:alder-avl.xcodeproj">
+            BlueprintIdentifier = "D0414BC617ED07CB002B4758"
+            BuildableName = "32-am-u-find"
+            BlueprintName = "32-am-u-find"
+            ReferencedContainer = "container:brass-ds.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <CommandLineArguments>
-         <CommandLineArgument
-            argument = "1"
-            isEnabled = "YES">
-         </CommandLineArgument>
-      </CommandLineArguments>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -75,10 +69,10 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D00B8C7517EB658000ACF6CD"
-            BuildableName = "alder-avl"
-            BlueprintName = "alder-avl"
-            ReferencedContainer = "container:alder-avl.xcodeproj">
+            BlueprintIdentifier = "D0414BC617ED07CB002B4758"
+            BuildableName = "32-am-u-find"
+            BlueprintName = "32-am-u-find"
+            ReferencedContainer = "container:brass-ds.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
