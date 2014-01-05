@@ -7,3 +7,21 @@ option "numline" - "Print the number of lines" flag off
 
 option "output" o "Output files" string typestr="file" optional
 option "summary" - "Summary of files" flag off
+
+section "Disk usage"
+option "disk" - "Display the disk usage." flag off
+
+section "Esimate the number of nucleotides"
+option "estimate-sequence-file" - "Estimate seqeunce file sizes." flag off
+
+section "Directory"
+option "mkdir" - "Create directories" string typestr="path/to" optional
+
+section "CPU"
+option "cpu" - "Display number of CPU cores" flag off
+
+section "Memory"
+option "memory" - "Display momory info" flag off
+
+section "IO"
+option "io" - "Read and write files" flag off

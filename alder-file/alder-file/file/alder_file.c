@@ -72,15 +72,10 @@ void alder_file(const char *fn)
     }
     
     s = alder_file_writable(fn);
-    if (s == 0) {
+    if (s) {
         printf("  writable.\n");
-    } else if (s < 0) {
-        printf("  is not writable.\n");
     } else {
-        assert(0);
+        printf("  is not writable.\n");
     }
-    
-    
-    
 }
 

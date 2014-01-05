@@ -1,0 +1,10 @@
+# Roadmap
+Convert a set of sequence files to a kfm file.
+Use a kfm file to count kmer using alder-kmer.
+Use a kfm file or features of alder-kfm to assemble genomes or transcriptomes
+with alder-debruijn.
+
+alder-denovo would use a de Bruijn method and others for assembling genomes or
+transcriptomes.
+
+# Features

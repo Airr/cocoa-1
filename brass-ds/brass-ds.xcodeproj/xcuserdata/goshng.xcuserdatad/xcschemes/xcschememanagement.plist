@@ -104,10 +104,30 @@
 			<key>orderHint</key>
 			<integer>46</integer>
 		</dict>
+		<key>38-un-i-hash.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>48</integer>
+		</dict>
+		<key>38-un_i_hash.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>47</integer>
+		</dict>
+		<key>39-un-s-hash.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>49</integer>
+		</dict>
 		<key>4-ar-queue.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>24</integer>
+		</dict>
+		<key>40-perf-hash.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>50</integer>
 		</dict>
 		<key>5-li-queue.xcscheme</key>
 		<dict>
@@ -438,6 +458,26 @@
 			<true/>
 		</dict>
 		<key>D0D141A317D0275E00CD1FD3</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D0F7F0A01807886C00B4BDDB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D0F7F0AD180788BB00B4BDDB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D0F7F0BA18078CD700B4BDDB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D0F7F0C718078D3500B4BDDB</key>
 		<dict>
 			<key>primary</key>
 			<true/>

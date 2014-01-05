@@ -16,3 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with alder-rng.  If not, see <http://www.gnu.org/licenses/>.
 */
+#include "alder_rng.h"
+
+uint64_t alder_rng_uint64(uint64_t m)
+{
+    double x = Random();
+    return (uint64_t)(x * m);
+}

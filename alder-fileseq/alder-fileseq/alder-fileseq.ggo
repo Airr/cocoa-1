@@ -1,0 +1,14 @@
+package "alder-fileseq"
+version "0.1"
+purpose "alder-fileseq does something ..."
+description "alder-fileseq does something more ..."
+option "cite" - "Print reference papers" optional hidden
+option "outfile" o "Output files" string typestr="file,..." multiple optional
+option "log" - "Log file" string typestr="file" default="alder-fileseq.log" optional argoptional
+
+option "kmer" - "Kmer size" long typestr="1-64" default="1" optional
+
+option "stat" - "Stat of files" flag off
+option "encode" - "Encode kmers" flag off
+
+option "token" - "Print tokens in sequences" flag off

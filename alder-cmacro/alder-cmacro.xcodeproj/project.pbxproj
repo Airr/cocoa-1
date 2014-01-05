@@ -12,7 +12,6 @@
 		D01F2FE417E290DA0060FA91 /* alder-cmacro.ggo in Sources */ = {isa = PBXBuildFile; fileRef = D01F2FE317E290DA0060FA91 /* alder-cmacro.ggo */; };
 		D01F2FE617E290DA0060FA91 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = D01F2FE517E290DA0060FA91 /* main.c */; };
 		D01F2FE817E290DA0060FA91 /* alder_cmacro.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = D01F2FE717E290DA0060FA91 /* alder_cmacro.1 */; };
-		D01F2FF217E291840060FA91 /* alder_cmacro.c in Sources */ = {isa = PBXBuildFile; fileRef = D01F2FF017E291840060FA91 /* alder_cmacro.c */; };
 		D01F300217E291920060FA91 /* bsafe.c in Sources */ = {isa = PBXBuildFile; fileRef = D01F2FF417E291920060FA91 /* bsafe.c */; };
 		D01F300317E291920060FA91 /* bstraux.c in Sources */ = {isa = PBXBuildFile; fileRef = D01F2FF617E291920060FA91 /* bstraux.c */; };
 		D01F300417E291920060FA91 /* bstrlib.c in Sources */ = {isa = PBXBuildFile; fileRef = D01F2FF817E291920060FA91 /* bstrlib.c */; };
@@ -69,7 +68,6 @@
 		D01F2FE317E290DA0060FA91 /* alder-cmacro.ggo */ = {isa = PBXFileReference; lastKnownFileType = text; path = "alder-cmacro.ggo"; sourceTree = "<group>"; };
 		D01F2FE517E290DA0060FA91 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		D01F2FE717E290DA0060FA91 /* alder_cmacro.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = alder_cmacro.1; sourceTree = "<group>"; };
-		D01F2FF017E291840060FA91 /* alder_cmacro.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_cmacro.c; sourceTree = "<group>"; };
 		D01F2FF117E291840060FA91 /* alder_cmacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_cmacro.h; sourceTree = "<group>"; };
 		D01F2FF417E291920060FA91 /* bsafe.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bsafe.c; sourceTree = "<group>"; };
 		D01F2FF517E291920060FA91 /* bsafe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bsafe.h; sourceTree = "<group>"; };
@@ -112,6 +110,18 @@
 		D01F301F17E2919F0060FA91 /* alder_file_writable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_writable.c; sourceTree = "<group>"; };
 		D01F302017E2919F0060FA91 /* alder_file_writable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_writable.h; sourceTree = "<group>"; };
 		D01F302117E2919F0060FA91 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		D08228A517F6988B0039280D /* alder_node_memory_source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_node_memory_source.h; sourceTree = "<group>"; };
+		D08228A617F6988B0039280D /* alder_node_memory_template_off.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_node_memory_template_off.h; sourceTree = "<group>"; };
+		D08228A717F6988B0039280D /* alder_node_memory_template_on.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_node_memory_template_on.h; sourceTree = "<group>"; };
+		D08228C217FB4B5B0039280D /* alder_node_item_int_source.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_node_item_int_source.h; sourceTree = "<group>"; };
+		D08228C817FB689E0039280D /* alder_node_item_tuple2_source.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_node_item_tuple2_source.h; sourceTree = "<group>"; };
+		D08228CB17FB71B20039280D /* alder_node_function_int_source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_node_function_int_source.h; sourceTree = "<group>"; };
+		D08228CD17FB75520039280D /* alder_node_function_tuple2_source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_node_function_tuple2_source.h; sourceTree = "<group>"; };
+		D08228E417FBB49F0039280D /* alder_node_item_tree_source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_node_item_tree_source.h; sourceTree = "<group>"; };
+		D08228E617FBB4D10039280D /* alder_node_item_uf_source.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_node_item_uf_source.h; sourceTree = "<group>"; };
+		D08228E817FBB7130039280D /* alder_node_item_uc_edge_source.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_node_item_uc_edge_source.h; sourceTree = "<group>"; };
+		D08228E917FBB75F0039280D /* alder_node_item_uc_source.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_node_item_uc_source.h; sourceTree = "<group>"; };
+		D0F7EEC617FC0B9C00B4BDDB /* alder_node_function_uc_source.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_node_function_uc_source.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,8 +171,19 @@
 		D01F2FEF17E291840060FA91 /* cmacro */ = {
 			isa = PBXGroup;
 			children = (
-				D01F2FF017E291840060FA91 /* alder_cmacro.c */,
 				D01F2FF117E291840060FA91 /* alder_cmacro.h */,
+				D08228CB17FB71B20039280D /* alder_node_function_int_source.h */,
+				D08228CD17FB75520039280D /* alder_node_function_tuple2_source.h */,
+				D0F7EEC617FC0B9C00B4BDDB /* alder_node_function_uc_source.h */,
+				D08228C217FB4B5B0039280D /* alder_node_item_int_source.h */,
+				D08228E417FBB49F0039280D /* alder_node_item_tree_source.h */,
+				D08228C817FB689E0039280D /* alder_node_item_tuple2_source.h */,
+				D08228E817FBB7130039280D /* alder_node_item_uc_edge_source.h */,
+				D08228E917FBB75F0039280D /* alder_node_item_uc_source.h */,
+				D08228E617FBB4D10039280D /* alder_node_item_uf_source.h */,
+				D08228A517F6988B0039280D /* alder_node_memory_source.h */,
+				D08228A617F6988B0039280D /* alder_node_memory_template_off.h */,
+				D08228A717F6988B0039280D /* alder_node_memory_template_on.h */,
 			);
 			path = cmacro;
 			sourceTree = "<group>";
@@ -251,7 +272,7 @@
 		D01F2FCF17E290DA0060FA91 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Sang Chul Choi";
 			};
 			buildConfigurationList = D01F2FD217E290DA0060FA91 /* Build configuration list for PBXProject "alder-cmacro" */;
@@ -280,7 +301,6 @@
 				D01F2FDE17E290DA0060FA91 /* alder_cmacro_option.c in Sources */,
 				D01F2FE417E290DA0060FA91 /* alder-cmacro.ggo in Sources */,
 				D01F2FE617E290DA0060FA91 /* main.c in Sources */,
-				D01F2FF217E291840060FA91 /* alder_cmacro.c in Sources */,
 				D01F300217E291920060FA91 /* bsafe.c in Sources */,
 				D01F300317E291920060FA91 /* bstraux.c in Sources */,
 				D01F300417E291920060FA91 /* bstrlib.c in Sources */,
@@ -308,7 +328,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -340,7 +359,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -396,6 +414,7 @@
 				D01F2FED17E290DA0060FA91 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

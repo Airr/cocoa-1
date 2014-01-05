@@ -1,0 +1,1 @@
+alderg-kmer allows users to count kmer sequences using multiple CPUs.

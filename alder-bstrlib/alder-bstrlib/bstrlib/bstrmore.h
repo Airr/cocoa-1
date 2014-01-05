@@ -58,12 +58,23 @@ int bcount (bstring b, char c);
 int bcountq (bstring b, int c);
 
 
+bstring brepeat(int n, char c);
 struct bstrList * bstrVectorCreate(int n);
-void bstrVectorAdd(struct bstrList *sl, const char *s);
-void bstrVectorDelete(struct bstrList *sl);
-
+int bstrVectorAdd(struct bstrList *sl, const char *s);
+void bstrVectorAddBstring(struct bstrList *sl, bstring b);
+int bstrVectorDelete(struct bstrList *sl);
+struct bstrList * bstrVectorCopy(struct bstrList *sl);
 int bstrVectorCompare(struct bstrList *sl1, struct bstrList *sl2);
+void bstrVectorSort(struct bstrList *sl);
+void bstrVectorUnique(struct bstrList *sl);
+int bstrVectorExistSubstring(struct bstrList *sl, bstring b);
+void bstrVectorPrint(FILE *fp, struct bstrList *sl);
 
+#pragma mark view
+
+struct bstrList * bstrViewCreate();
+int bstrViewAdd(struct bstrList *sl, bstring b);
+int bstrViewDestroy(struct bstrList *sl);
 
 __END_DECLS
 

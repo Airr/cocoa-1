@@ -24,19 +24,21 @@
 // Argument:
 // fn - a file path
 // Return:
-// 0 - if writable
-// <0 - if not writable
+// 1 - if writable
+// 0 - if not writable
 int alder_file_writable(const char *fn)
 {
     struct stat fileStat;
     int status = stat(fn, &fileStat);
-    if (!(status < 0)) {
+    if (status < 0) {
+        status = 0;
+    } else {
         if ((fileStat.st_mode & S_IWUSR) ||
             (fileStat.st_mode & S_IWGRP) ||
             (fileStat.st_mode & S_IWOTH)) {
-            status = 0;
+            status = 1;
         } else {
-            status = -1;
+            status = 0;
         }
     }
     

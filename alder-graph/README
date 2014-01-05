@@ -1,0 +1,14 @@
+# Graph Implementation in C
+
+http://pine.cs.yale.edu/pinewiki/C/Graphs
+http://simplestcodings.blogspot.com/2013/09/graphs.html
+
+Algorithms in C by Sedgewick - See the graph part.
+
+# Graph Drawing Libraries
+http://www.ogdf.net (C++)
+http://graphml.graphdrawing.org/about.html
+
+# Shortest (Common) Superstring Problem
+
+Approximating Shortest Superstring Problem Using de Bruijn Graphs

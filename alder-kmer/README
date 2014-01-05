@@ -1,0 +1,77 @@
+# TODO
+
+. alder_fasta_count_kmer
+. alder_fastq_count_kmer
+
+. MCAS implementation in Mac OSX.
+. MCAS implementation for Mac OSX, and ARSC.
+. Report better, but how?.
+. FASTQ, FASTA, and SEQ Parser - a thorough test
+
+#
+
+alder_kmer_count
+alder_kmer_count_per_partition
+alder_kmer_thread_kmerrw_create
+
+# Don't know what to do?
+
+## To change the command line options.
+See alder_kmer_option.c and alder-kmer.ggo.
+
+## To change the behavior of the program depending on command line options.
+Use options in main.c.
+
+
+
+# Introduction
+I will introduce a method for counting k-mer with arbitrary size of k by
+combining methods of Rizk et al. (2013), and Marcais and Kingsford (2011). 
+The point of the paper is the usage of multi-word CAS in counting k-mer.
+
+# Procedure
+1. Read a file in format of sequence only text file, fasta, fastq.
+2. Read k-mer one at a time, and count the number of k-mer.
+3. Report the count of k-mer.
+
+# Features
+
+Faster processing with less memory.
+
+1. U Hash Table for overflow, and reduce the size of value type 
+   to 1 or 2 bytes, or even variable size.
+
+## bit-packed data
+Count numbers may be small or variable in size. They could be bit-packed as 
+well. Some of k-mers occur more often than others. Some of them occur extremely
+often, and many others occur only once.
+
+## Arbitrary k-mer with multi-word CAS
+
+## Effective use of CPU cores
+
+# Uses
+gzip for compression
+CAS instruction
+Constant memory and hard dirve usage
+Binary matrix multiplication - Am for f(m) the hash function.
+Random invertible matrix multiplication
+memory, cpu, hard drive stats.
+
+# Questions
+1. What if I know the distribution of keys? This may not make sense because
+   I would have the count data after counting was finished.
+
+# GCC function for CAS
+http://gcc.gnu.org/onlinedocs/gcc-4.3.5/gcc/Atomic-Builtins.html#Atomic-Builtins
+
+# Unix command
+To count A,C,G,T in a file
+grep -o . a-00.seq | sort | uniq -ic
+
+# Retired options
+
+option "number-kmers" - "Number of kmers" long typestr="number" default="10" optional
+details="The maximum number of kmers and effectively the length of a long sequence.
+The maximum value is 9223372036854775807 because of its long type."
+

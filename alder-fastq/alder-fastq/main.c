@@ -10,6 +10,8 @@
 #include <stdlib.h>
 #include "cmdline.h"
 #include "alder_fastq.h"
+#include "alder_logger.h"
+#include "alder_file.h"
 #include "alder_fastq_option.h"
 
 int main(int argc, char * argv[])
@@ -23,6 +25,16 @@ int main(int argc, char * argv[])
         my_cmdline_parser_free(&args_info);
         alder_fastq_option_free(&option);
         exit(1);
+    }
+    ///////////////////////////////////////////////////////////////////////////
+    // Set up a log file if needed.
+    alder_file_rm(args_info.log_arg);
+    if (args_info.log_given) {
+        alder_logger_initialize(args_info.log_arg, LOG_FINE);
+        alder_logger_error_initialize(LOG_BASIC);
+    } else {
+        alder_logger_initialize(args_info.log_arg, LOG_SILENT);
+        alder_logger_error_initialize(LOG_FINE);
     }
     
     if (args_info.kseq_flag) {
@@ -50,6 +62,23 @@ int main(int argc, char * argv[])
             }
             alder_fastq_concat_free(afc);
         }
+    }
+    
+    if (args_info.kmer_given) {
+        for (int i = 0; i < option.infile->qty; i++) {
+            uint64_t v = 0;
+            alder_fastq_count_kmer(bdata(option.infile->entry[i]),
+                                   (int)args_info.kmer_arg, &v);
+            fprintf(stdout, "File: %s\n", bdata(option.infile->entry[i]));
+            fprintf(stdout, "Kmer: %llu\n", v);
+        }
+    }
+    
+    if (args_info.sequenceiterator_flag) {
+        alder_fastq_sequenceiterator_test(option.infile);
+    }
+    if (args_info.chunk_flag) {
+        alder_fastq_chunk_test(args_info.inputs, args_info.inputs_num);
     }
     
     my_cmdline_parser_free(&args_info);

@@ -1,0 +1,18 @@
+package "alder-thread"
+version "0.1"
+purpose "alder-thread does something ..."
+description "alder-thread does something more ..."
+option "cite" - "Print reference papers" optional hidden
+option "outfile" o "Output files" string typestr="file,..." multiple optional
+option "log" - "Log file" string typestr="file" default="alder-thread.log" optional argoptional
+
+section "Commands:"
+option "worker" - "Run worker model" flag off
+option "argument" - "Run threads with multiple arguments" flag off
+option "join" - "Run joining threads" flag off
+option "stack" - "Run threads with stack" flag off
+option "readwriter" - "Run readwriter model of threads" flag off
+option "nthread" n "Number of threads" long typestr="number" default="2" optional
+option "casn" - "Run CASN thread model" flag off
+option "mcas" - "Run MCAS thread model" flag off
+option "sundell" - "Run Sundell thread model" flag off

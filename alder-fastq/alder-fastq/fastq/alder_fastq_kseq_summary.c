@@ -24,7 +24,7 @@
 #include "alder_logger.h"
 #include "bstrlib.h"
 #include "alder_file_isgzip.h"
-#include "alder_fastq_kseq.h"
+#include "alder_kseq.h"
 #include "alder_fastq_kseq_summary.h"
 
 int alder_fastq_kseq_summary(struct bstrList *fs, struct bstrList *ofs)

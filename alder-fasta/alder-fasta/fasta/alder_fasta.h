@@ -20,8 +20,13 @@
 #ifndef alder_fasta_alder_fasta_h
 #define alder_fasta_alder_fasta_h
 
+#include <stdio.h>
 #include <stdint.h>
 #include "bstrlib.h"
+#include "alder_fasta_kmer.h"
+#include "alder_fasta_streamer.h"
+#include "alder_fasta_sequenceiterator.h"
+#include "alder_fasta_chunk.h"
 
 #undef __BEGIN_DECLS
 #undef __END_DECLS
@@ -84,6 +89,13 @@ int alder_fasta_list_length(const struct bstrList *fs, int64_t *n1, int64_t *n2)
 char * alder_fasta_name_by_saindex(const alder_fasta_t *af, int64_t position);
 int64_t alder_fasta_index_by_saindex(const alder_fasta_t *af, int64_t position);
 int64_t alder_fasta_position_by_saindex(const alder_fasta_t *af, int64_t position);
+
+// Kmer
+int alder_fasta_count_kmer(const char *fn, int kmer_size,
+                           size_t *curBufsize, size_t totalBufsize,
+                           uint64_t *volume,
+                           int progress_flag,
+                           int progressToError_flag);
 
 __END_DECLS
 

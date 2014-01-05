@@ -1,0 +1,7 @@
+package "alder-boost"
+version "0.1"
+purpose "alder-boost does something ..."
+description "alder-boost does something more ..."
+
+option "cite" - "Print reference papers" flag off hidden
+option "outfile" o "Output files" string typestr="file,..." multiple optional

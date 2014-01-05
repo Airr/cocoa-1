@@ -22,7 +22,7 @@
 #include <fcntl.h>
 #include <assert.h>
 #include "bstrlib.h"
-#include "alder_fastq_kseq.h"
+#include "alder_kseq.h"
 #include "alder_logger.h"
 #include "alder_file_isgzip.h"
 #include "alder_vector_pair.h"

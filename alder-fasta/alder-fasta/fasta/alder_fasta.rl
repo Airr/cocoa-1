@@ -21,11 +21,15 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <assert.h>
+#include "alder_file.h"
 #include "bstrmore.h"
+#include "alder_progress.h"
 #include "alder_fasta.h"
 //#include <gsl/gsl_errno.h>
 
-#define BUFSIZE 10000
+/* 8MB */
+#define BUFSIZE 8388608
+
 enum { GFFELEMENTSIZE = 100 };
 static uint64_t sSizeCapacity = 100;
 
@@ -120,6 +124,161 @@ static uint64_t sSizeCapacity = 100;
     write data;
 }%%
 
+#pragma mark volume
+
+%%{
+    machine fastaKmer;
+    action e_title {
+        t1 = 0;
+    }
+    action t_sequence {
+        t1++;
+    }
+    action f_sequence {
+        if (t1 >= kmer_size) {
+            *volume += (t1 - kmer_size + 1);
+        }
+    }
+    
+    title = print+ >e_title;
+    sequence = ([ACGTURYSWKMBDHVNacgturyswkmbdhvn]+ $t_sequence)+ cntrl*;
+    main := ('>' title cntrl+ sequence+ %f_sequence)+;
+    write data;
+}%%
+
+/* This function counts kmers (size of kmer_size) in a fasta file.
+ * returns
+ * 0 on success
+ * 1 if an error occurs.
+ */
+static int alder_fasta_count_kmer_file(const char *fn, int kmer_size,
+                                       size_t *curBufsize, size_t totalBufsize,
+                                       uint64_t *volume,
+                                       int progress_flag,
+                                       int progressToError_flag);
+static int alder_fasta_count_kmer_gzip(const char *fn, int kmer_size,
+                                       size_t *curBufsize, size_t totalBufsize,
+                                       uint64_t *volume,
+                                       int progress_flag,
+                                       int progressToError_flag);
+
+int alder_fasta_count_kmer(const char *fn, int kmer_size,
+                           size_t *curBufsize, size_t totalBufsize,
+                           uint64_t *volume,
+                           int progress_flag,
+                           int progressToError_flag)
+{
+    int s = alder_file_isgzip(fn);
+    if (s) {
+        alder_fasta_count_kmer_gzip(fn, kmer_size,
+                                    curBufsize, totalBufsize, volume,
+                                    progress_flag, progressToError_flag);
+    } else {
+        alder_fasta_count_kmer_file(fn, kmer_size,
+                                    curBufsize, totalBufsize, volume,
+                                    progress_flag, progressToError_flag);
+    }
+    return 0;
+}
+
+static int alder_fasta_count_kmer_file(const char *fn, int kmer_size,
+                                       size_t *curBufsize, size_t totalBufsize,
+                                       uint64_t *volume,
+                                       int progress_flag,
+                                       int progressToError_flag)
+{
+    %% machine fastaKmer;
+    int cs;
+    char *buf = malloc(sizeof(*buf) * BUFSIZE);
+    memset(buf,0,sizeof(*buf) * BUFSIZE);
+    *volume = 0;
+    uint64_t t1 = 0;
+    
+    FILE *fp = fopen(fn, "r");
+    if (fp == NULL) {
+        fprintf(stderr, "Error: could not open %s\n", fn);
+        return 1;
+    }
+    %% write init;
+    while ( 1 ) {
+        char *p;
+        char *pe;
+        char *eof;
+        size_t len = fread(buf, sizeof(char), BUFSIZE, fp);
+        *curBufsize += len;
+        if (progress_flag) {
+            alder_progress_step(*curBufsize, totalBufsize, progressToError_flag);
+        }
+        if (len == 0) {
+            break;
+        }
+        p = buf;
+        pe = buf + len;
+        if (len < BUFSIZE) {
+            eof = pe;
+        }
+        %% write exec;
+    }
+    fclose(fp);
+    free(buf);
+    return 0;
+}
+
+#include <zlib.h>
+
+static int alder_fasta_count_kmer_gzip(const char *fn, int kmer_size,
+                                       size_t *curBufsize, size_t totalBufsize,
+                                       uint64_t *volume,
+                                       int progress_flag,
+                                       int progressToError_flag)
+{
+    %% machine fastaKmer;
+    int cs;
+    char *buf = malloc(sizeof(*buf) * BUFSIZE);
+    memset(buf,0,sizeof(*buf) * BUFSIZE);
+    *volume = 0;
+    uint64_t t1 = 0;
+    
+    gzFile fp = gzopen(fn, "r");
+//    FILE *fp = fopen(fn, "r");
+    if (fp == NULL) {
+        fprintf(stderr, "Error: could not open %s\n", fn);
+        return 1;
+    }
+    %% write init;
+    while ( 1 ) {
+        char *p;
+        char *pe;
+        char *eof;
+        int len = gzread ((gzFile)fp, buf, BUFSIZE);
+        *curBufsize += len;
+        if (progress_flag) {
+            alder_progress_step(*curBufsize, totalBufsize, progressToError_flag);
+        }
+//        size_t len = fread(buf, sizeof(char), BUFSIZE, fp);
+        if (len < 0) {
+            break;
+        } else if (len == 0) {
+            break;
+        }
+        p = buf;
+        pe = buf + len;
+        if (len < BUFSIZE) {
+            eof = pe;
+        }
+        %% write exec;
+    }
+    gzclose(fp);
+//    fclose(fp);
+    free(buf);
+    return 0;
+}
+
+
+#pragma mark ragel
+
+/* This function finds the number of sequences and the total length of them.
+ */
 int alder_fasta_length(const char* fn, int64_t *n1, int64_t *n2)
 {
     %% machine fastaSize;
@@ -212,13 +371,16 @@ int alder_fasta_read(const char* fn, alder_fasta_t* pf)
     return 0;
 }
 
+#pragma mark fasta_t
+
 alder_fasta_t *alder_fasta_alloc(const char* fn)
 {
     int status;
     int64_t ui1 = 0;
     int64_t ui2 = 0;
-    alder_fasta_t *v = malloc(sizeof(alder_fasta_t));
+    alder_fasta_t *v = malloc(sizeof(*v));
     if (v == NULL) return NULL;
+    memset(v,0,sizeof(*v));
     alder_fasta_length(fn, &ui1, &ui2);
     v->numberOfSequence = ui1;
     v->numberOfBase = ui2;
@@ -228,12 +390,14 @@ alder_fasta_t *alder_fasta_alloc(const char* fn)
         free(v);
         return NULL;
     }
+    memset(v->index,0,ui1*sizeof(unsigned int));
     v->data = malloc(v->sizeCapacity*sizeof(char));
     if (v->data == NULL) {
         free(v);
         free(v->index);
         return NULL;
     }
+    memset(v->data,0,v->sizeCapacity*sizeof(char));
     status = alder_fasta_read(fn, v);
     if (status != 0) {
         free(v->data);
@@ -254,6 +418,8 @@ void alder_fasta_free(alder_fasta_t* pf)
     free(pf);
 }
 
+/* This function find sequence names and their lengths.
+ */
 int alder_fasta_seqname_length(const struct bstrList* fn,
                                struct bstrList *name,
                                int64_t *length)
@@ -321,10 +487,13 @@ alder_fasta_t *alder_fasta_list_alloc(const struct bstrList *fn,
     assert(tBase > 0);
     %% machine fastaBuild;
     
-    alder_fasta_t *af = malloc(sizeof(alder_fasta_t));
+    alder_fasta_t *af = malloc(sizeof(*af));
+    memset(af,0,sizeof(*af));
     af->name = bstrVectorCreate((int)tSeq);
     af->index = malloc((size_t)tSeq * sizeof(int64_t));
+    memset(af->index,0,(size_t)tSeq * sizeof(int64_t));
     af->data = malloc((tBase+1+plusK)*sizeof(char));
+    memset(af->data,0,(tBase+1+plusK)*sizeof(char));
     af->data[tBase] = '\0';
     af->numberOfSequence = tSeq;
     af->numberOfBase = tBase;

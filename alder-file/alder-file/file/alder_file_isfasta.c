@@ -56,7 +56,7 @@ int alder_file_isfasta(const char *fn)
             } else if (buf[0] == '@') {
                 status = 0;
             } else {
-                status = -1;
+                status = 0;
             }
         } else {
             status = -1;
@@ -73,7 +73,7 @@ int alder_file_isfasta(const char *fn)
             } else if (buf[0] == '@') {
                 status = 0;
             } else {
-                status = -1;
+                status = 0;
             }
         } else {
             status = -1;

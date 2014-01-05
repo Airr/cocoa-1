@@ -1,0 +1,16 @@
+* Noteworthy changes in release 0.3.2 (2013-09-06) [unstable]
+
+Three options of skipping steps of preprocessing need to be added;
+options --no-cut-adapter, --no-trim, and --no-filter.
+
+Version 0.3 (4 September 2013)
+* alder-pre handles multiple input files.
+
+Version 0.2 (15 August 2013)
+* adopted the concept of prinseq 0.20.3
+
+Version 0.1 (1 August 2013)
+* adopted the C-function in cutadapt 1.2.1
+
+* This is a `NEWS' file (this one), giving a history of
+  user-visible changes.

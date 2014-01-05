@@ -1,0 +1,13 @@
+XCODE=/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-adapter/alder-adapter/cmake
+cp CMakeLists.txt $XCODE
+cp src/CMakeLists.txt $XCODE/src
+cp lib/CMakeLists.txt $XCODE/lib
+for i in bstrlib fastq file logger nglogc vector; do
+  cp lib/$i/CMakeLists.txt $XCODE/lib/$i
+done
+cp sh/src2xcode $XCODE/sh
+cp sh/xcode2src $XCODE/sh
+
+for i in AUTHORS COPYING INSTALL NEWS README THANKS TODO; do
+  cp $i $XCODE
+done

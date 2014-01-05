@@ -17,7 +17,6 @@
 		D01F2F4B17E1CDD90060FA91 /* alder_file_whatformat.c in Sources */ = {isa = PBXBuildFile; fileRef = D01F2F4617E1CDD90060FA91 /* alder_file_whatformat.c */; };
 		D01F2F5217E26D920060FA91 /* alder_ssa_core.c in Sources */ = {isa = PBXBuildFile; fileRef = D01F2F5117E26D920060FA91 /* alder_ssa_core.c */; };
 		D01F2FC917E27D9A0060FA91 /* alder_ssa_khan09.c in Sources */ = {isa = PBXBuildFile; fileRef = D01F2FC817E27D9A0060FA91 /* alder_ssa_khan09.c */; };
-		D01F303217E292000060FA91 /* alder_cmacro.c in Sources */ = {isa = PBXBuildFile; fileRef = D01F303017E292000060FA91 /* alder_cmacro.c */; };
 		D01F304917E2C7930060FA91 /* alder_seqid_set.c in Sources */ = {isa = PBXBuildFile; fileRef = D01F304717E2C7930060FA91 /* alder_seqid_set.c */; };
 		D091144117DFB9EE00700BF2 /* alder_denovo_cite.c in Sources */ = {isa = PBXBuildFile; fileRef = D091144017DFB9EE00700BF2 /* alder_denovo_cite.c */; };
 		D091144417DFB9EE00700BF2 /* alder_denovo_option.c in Sources */ = {isa = PBXBuildFile; fileRef = D091144317DFB9EE00700BF2 /* alder_denovo_option.c */; };
@@ -148,7 +147,6 @@
 		D01F2F5317E26D970060FA91 /* alder_ssa_core.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_ssa_core.h; sourceTree = "<group>"; };
 		D01F2FC817E27D9A0060FA91 /* alder_ssa_khan09.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_ssa_khan09.c; sourceTree = "<group>"; };
 		D01F2FCA17E27DA00060FA91 /* alder_ssa_khan09.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_ssa_khan09.h; sourceTree = "<group>"; };
-		D01F303017E292000060FA91 /* alder_cmacro.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_cmacro.c; sourceTree = "<group>"; };
 		D01F303117E292000060FA91 /* alder_cmacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_cmacro.h; sourceTree = "<group>"; };
 		D01F304717E2C7930060FA91 /* alder_seqid_set.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_seqid_set.c; sourceTree = "<group>"; };
 		D01F304817E2C7930060FA91 /* alder_seqid_set.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_seqid_set.h; sourceTree = "<group>"; };
@@ -346,7 +344,6 @@
 		D01F302F17E292000060FA91 /* cmacro */ = {
 			isa = PBXGroup;
 			children = (
-				D01F303017E292000060FA91 /* alder_cmacro.c */,
 				D01F303117E292000060FA91 /* alder_cmacro.h */,
 			);
 			name = cmacro;
@@ -788,7 +785,6 @@
 				D01F2F4B17E1CDD90060FA91 /* alder_file_whatformat.c in Sources */,
 				D01F2F5217E26D920060FA91 /* alder_ssa_core.c in Sources */,
 				D01F2FC917E27D9A0060FA91 /* alder_ssa_khan09.c in Sources */,
-				D01F303217E292000060FA91 /* alder_cmacro.c in Sources */,
 				D01F304917E2C7930060FA91 /* alder_seqid_set.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

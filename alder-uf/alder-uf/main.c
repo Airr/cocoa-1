@@ -17,10 +17,11 @@
  * along with alder-uf.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "cmdline.h"
-#include "alder_uf.h"
+#include "alder_uf_client.h"
 #include "alder_uf_option.h" 
 
 int main(int argc, char * argv[])
@@ -35,77 +36,11 @@ int main(int argc, char * argv[])
         alder_uf_option_free(&option);
         exit(1);
     }
-
-    alder_uf_t *uf;
-    /* Test: creats and destroys a union-find type variable. */
-//    uf = alder_uf_create();
-//    alder_uf_destroy(uf);
-
-    /* Test: makes a new set with an element. */
-    uf = alder_uf_create();
-    alder_uf_makeset(uf, 1);
-    alder_uf_makeset(uf, 2);
-    alder_uf_makeset(uf, 3);
-    alder_uf_makeset(uf, 4);
-    alder_uf_makeset(uf, 5);
-    alder_uf_makeset(uf, 6);
-    alder_uf_makeset(uf, 7);
     
-    alder_uf_makeset(uf, 11);
-    alder_uf_makeset(uf, 12);
-    alder_uf_makeset(uf, 13);
-    alder_uf_makeset(uf, 14);
-    alder_uf_makeset(uf, 15);
-    alder_uf_makeset(uf, 16);
-    alder_uf_makeset(uf, 17);
-    alder_uf_union(uf, 11, 12);
-    alder_uf_union(uf, 11, 13);
-    alder_uf_union(uf, 11, 14);
-    alder_uf_union(uf, 11, 15);
-    alder_uf_union(uf, 11, 16);
-    alder_uf_union(uf, 11, 17);
-    
-    alder_uf_union(uf, 1, 2);
-    alder_uf_union(uf, 3, 4);
-    
-    uf_node_t *uf_node = alder_uf_enumerate(uf, 1);
-    alder_uf_printSet(uf, stdout);
-    uf_node = alder_uf_enumerate(uf, 3);
-    alder_uf_printSet(uf, stdout);
-    
-    alder_uf_union(uf, 2, 4);
-    uf_node = alder_uf_enumerate(uf, 2);
-    alder_uf_printSet(uf, stdout);
-    
-    alder_uf_union(uf, 5, 6);
-    alder_uf_union(uf, 5, 7);
-    uf_node = alder_uf_enumerate(uf, 5);
-    alder_uf_printSet(uf, stdout);
-    
-    alder_uf_union(uf, 2, 5);
-    uf_node = alder_uf_enumerate(uf, 2);
-    alder_uf_printSet(uf, stdout);
-    
-    alder_uf_union(uf, 2, 11);
-    uf_node = alder_uf_enumerate(uf, 2);
-    alder_uf_printSet(uf, stdout);
-    
-    alder_uf_destroy(uf);
-
-    /* Test: takes the union of two sets. */
-//    uf = alder_uf_create();
-//    alder_uf_makeset(uf, 1);
-//    alder_uf_makeset(uf, 2);
-//    alder_uf_union(uf, 1, 2);
-//    alder_uf_destroy(uf);
-
-    /* Test: finds the set that contains an element.  */
-//    uf = alder_uf_create();
-//    alder_uf_makeset(uf, 1);
-//    int i = alder_uf_find(uf, 1);
-//    alder_uf_destroy(uf);
-
-
+//    for (int i = 0; i < 5; i++) {
+//        alder_uf_test0();
+//    }
+    alder_uf_client_test1();
 
 
     

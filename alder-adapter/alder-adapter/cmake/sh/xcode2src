@@ -1,0 +1,92 @@
+#!/bin/bash
+
+# c/h to src
+DEST=src
+for i in \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-adapter/alder-adapter/alder_adapter_cut.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-adapter/alder-adapter/alder_adapter_index_illumina.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-adapter/alder-adapter/alder_fastq_stat.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-adapter/alder-adapter/alder_adapter_cmd_check.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/brass-ds/brass-ds-redblack-trees/stack.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/brass-ds/brass-ds-trie-list/alder_dictionary.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/brass-ds/brass-ds-trie-list/trie_tree_list.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-adapter/alder-adapter/alder_adapter_pair.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-adapter/alder-adapter/alder_adapter_cut_file2.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-adapter/alder-adapter/alder_adapter_option.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-adapter/alder-adapter/alder_adapter_cut_filter.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-adapter/alder-adapter/alder_adapter_cite.c \
+; do
+cp ${i%.*}.h $DEST
+cp $i $DEST
+done
+
+for i in \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-adapter/alder-adapter/main.c \
+; do
+cp $i $DEST
+done
+
+# c/h to bstrlib
+DEST=lib/bstrlib
+for i in \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/bstring/bstring/bstraux.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/bstring/bstring/bstrlib.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/bstring/bstring/bstrmore.c \
+; do
+cp ${i%.*}.h $DEST
+cp $i $DEST
+done
+
+# c/h to logger
+DEST=lib/logger
+for i in \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/alder_logger.c \
+; do
+cp ${i%.*}.h $DEST
+cp $i $DEST
+done
+
+# c/h to nglogc
+DEST=lib/nglogc
+cp /Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/nglogc/* $DEST
+
+# c/h to vector
+DEST=lib/vector
+for i in \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-vector/alder-vector/alder_vector_pair.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-vector/alder-vector/alder_vector.c \
+; do
+cp ${i%.*}.h $DEST
+cp $i $DEST
+done
+
+# c/h to fastq
+DEST=lib/fastq
+for i in \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fastq/alder-fastq/alder_fastq_kseq.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fastq/alder-fastq/alder_fastq_pair.c \
+; do
+cp ${i%.*}.h $DEST
+cp $i $DEST
+done
+
+
+# c/h to file
+DEST=lib/file
+for i in \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/alder_file_exist.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/alder_file_isgzip.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/alder_file_isstdin.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/alder_file.c \
+; do
+cp ${i%.*}.h $DEST
+cp $i $DEST
+done
+
+# ggo
+cp /Users/goshng/Dropbox/Documents/Projects/cocoa/alder-adapter/alder-adapter/alder-adapter.ggo src
+gengetopt < src/alder-adapter.ggo --file-name=cmdline --unamed-opts --func-name=my_cmdline_parser --include-getopt --output-dir src
+
+# cp /Users/goshng/Dropbox/Documents/Projects/cocoa/bstring/bstring/bstrlib.patch lib/bstrlib
+# patch -s lib/bstrlib/bstrlib.c <lib/bstrlib/bstrlib.patch
+

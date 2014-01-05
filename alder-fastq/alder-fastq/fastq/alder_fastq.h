@@ -20,12 +20,15 @@
 #ifndef alder_fastq_alder_fastq_h
 #define alder_fastq_alder_fastq_h
 
-#include "alder_fastq_kseq.h"
+#include "alder_kseq.h"
 #include "alder_fastq_kseq_summary.h"
 #include "alder_fastq_ragel_summary.h"
 #include "alder_fastq_concat.h"
 #include "alder_fastq_numbase.h"
 #include "alder_fastq_length.h"
+#include "alder_fastq_count_kmer.h"
+#include "alder_fastq_sequenceiterator.h"
+#include "alder_fastq_chunk.h"
 
 #undef __BEGIN_DECLS
 #undef __END_DECLS
@@ -51,6 +54,9 @@ kseq_t * alder_fastq_init (const char *fn);
 alder_fastq_t * alder_fastq_open(const char *fn);
 kseq_t * alder_fastq_read(alder_fastq_t *f);
 void alder_fastq_close(alder_fastq_t *f);
+
+
+
 
 __END_DECLS
 

@@ -19,6 +19,8 @@
 #ifndef alder_cmacro_alder_cmacro_h
 #define alder_cmacro_alder_cmacro_h
 
+#include <stdio.h>
+
 #undef __BEGIN_DECLS
 #undef __END_DECLS
 #ifdef __cplusplus
@@ -32,8 +34,79 @@
 
 __BEGIN_DECLS
 
+enum {
+    ALDER_STATUS_SUCCESS = 0,
+    ALDER_STATUS_ERROR = 1
+};
+#define ALDER_HELP_LINE_SIZE 1024
+
+#define XFCLOSE(x) do { if ((x) != NULL) {fclose(x); x=NULL;} } while(0)
 #define XFREE(x) do { if ((x) != NULL) {free(x); x=NULL;} } while(0)
+#define XRETURN(x) do { if ((x) == NULL) {return NULL;} } while(0)
 #define MAX(a,b)  ((a) > (b) ? (a) : (b))
+#define ALDER_MIN(a,b)  ((a) < (b) ? (a) : (b))
+#define ALDER_MAX(a,b)  ((a) > (b) ? (a) : (b))
+
+/* Strings */
+#define ALDER_KMER_TABLE_EXTENSION "tbl"
+
+/* Numbers */
+#define ALDER_KMER_SECONDARY_BUFFER_SIZE 1000
+#define ALDER_LOG_TEXTWIDTH -21
+#define BLOCKSIZE 256
+#define ALDER_NUMKMER_8BYTE 31
+#define ALDER_NUMBIT_KMER_8BYTE 62
+#define ALDER_MB2BYTE 1048576
+#define ALDER_GB2BYTE 1073741824
+#define ALDER_MB2BIT 8388608
+#define ALDER_MB2BITTIMESPOINT7 5872026 /* 0.7 x ALDER_MB2BIT */
+#define ALDER_BYTE2BIT 8
+#define ALDER_RETURN_NULL_IF_NULL(x) do {if ((x) == NULL) {return NULL;}} while(0)
+#define ALDER_RETURN_ERROR_IF_NULL(x,alder_errno) \
+        do { \
+            if ((x) == NULL) { \
+                return alder_errno ; \
+            } \
+        } while (0)
+#define ALDER_RETURN_ERROR_UNLESS_SUCCESSFUL(x,alder_errno) \
+        do { \
+            if ((x) != 0) { \
+                return alder_errno ; \
+            } \
+        } while (0)
+#define ALDER_RETURN_IF_EQUAL(x,y) \
+        do { \
+            if ((x) == (y)) { \
+                return y; \
+            } \
+        } while (0)
+
+
+#define ALDER_UC_CONNECT_NODE_UP_DOWN(upnode,downnode) \
+        do { \
+            (upnode)->down = (downnode); \
+            (downnode)->up = (upnode); \
+        } while (0)
+
+#define ALDER_UC_DISCONNECT_NODE_DOWN(node) \
+        do { \
+            (node)->down->up = NULL; \
+            (node)->down = NULL; \
+        } while (0)
+
+#define ALDER_UC_DISCONNECT_NODE_UP(node) \
+        do { \
+            (node)->up->down = NULL; \
+            (node)->up = NULL; \
+        } while (0)
+
+#pragma mark encoding
+
+#define ALDER_BYTESIZE_KMER(a,b) (((a)%(b)) ? (a)/(b) + 1: (a)/(b))
+#define ALDER_ENCODING_ACGT(character) (((int)(character))>>1)&3
+
+typedef int alder_comparison_func (const void *, const void *);
+typedef void alder_print_func (FILE *, const void *);
 
 
 __END_DECLS

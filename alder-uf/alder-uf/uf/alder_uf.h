@@ -34,21 +34,28 @@
 
 __BEGIN_DECLS
 
+/* ALDER_ERROR: unrecoverable fatal error.
+ */
 enum {
     ALDER_SUCCESS = 0,
-    ALDER_ERROR = 1
+    ALDER_ERROR = 1,
+    ALDER_ERROR_MEMORY = 2,
+    ALDER_ERROR_DUPLICATE = 3,
+    ALDER_ERROR_NOTEXIST = 4
 };
 
 typedef int item_t;
 typedef int key_t;
 
 typedef struct uf_i_t {
+    int use; /* use: 0 if the memory is not in use, 1 otherwise. */
     item_t item;
     struct uf_i_t *next;
 } item_node_t;
 
 typedef struct uf_n_t
 {
+    int use; /* use: 0 if the memory is not in use, 1 otherwise. */
     int rank;
     int degree;
     item_node_t *item;
@@ -66,6 +73,7 @@ typedef uf_node_t object_t;
 
 typedef struct tr_n_t
 {
+    int use; /* use: 0 if the memory is not in use, 1 otherwise. */
     key_t key;
     union {
         struct tr_n_t *left;
@@ -84,12 +92,16 @@ alder_uf_t * alder_uf_create();
 void alder_uf_destroy(alder_uf_t *uf);
 int alder_uf_makeset(alder_uf_t *uf, item_t e);
 int alder_uf_union(alder_uf_t *uf, item_t e1, item_t e2);
-int alder_uf_find(alder_uf_t *uf, item_t e);
-int alder_uf_same(alder_uf_t *uf, item_t e1, item_t e2);
+int alder_uf_find(alder_uf_t *uf, item_t *e);
+int alder_uf_same(alder_uf_t *uf, item_t e1, item_t e2, int *s);
+int alder_uf_count(alder_uf_t *uf);
+item_t alder_uf_set_k(alder_uf_t *uf, int k);
 int alder_uf_delete(alder_uf_t *uf, item_t e);
-uf_node_t * alder_uf_enumerate(alder_uf_t *uf, item_t e);
+int alder_uf_enumerate(alder_uf_t *uf, item_t e);
 void alder_uf_printSet(alder_uf_t *uf, FILE *fp);
-
+void alder_uf_print(alder_uf_t *uf, FILE *fp, int i);
+int alder_uf_test0();
+int alder_uf_test1();
 
 __END_DECLS
 

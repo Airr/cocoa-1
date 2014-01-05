@@ -1,0 +1,468 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D0F7EFCD1800CB4E00B4BDDB /* alder_rbtree_cite.c in Sources */ = {isa = PBXBuildFile; fileRef = D0F7EFCC1800CB4E00B4BDDB /* alder_rbtree_cite.c */; };
+		D0F7EFD01800CB4E00B4BDDB /* alder_rbtree_option.c in Sources */ = {isa = PBXBuildFile; fileRef = D0F7EFCF1800CB4E00B4BDDB /* alder_rbtree_option.c */; };
+		D0F7EFD61800CB4E00B4BDDB /* alder-rbtree.ggo in Sources */ = {isa = PBXBuildFile; fileRef = D0F7EFD51800CB4E00B4BDDB /* alder-rbtree.ggo */; };
+		D0F7EFD81800CB4E00B4BDDB /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = D0F7EFD71800CB4E00B4BDDB /* main.c */; };
+		D0F7EFDA1800CB4E00B4BDDB /* alder_rbtree.1 in Copy Files */ = {isa = PBXBuildFile; fileRef = D0F7EFD91800CB4E00B4BDDB /* alder_rbtree.1 */; };
+		D0F7EFE41800CBAD00B4BDDB /* alder_rbtree.c in Sources */ = {isa = PBXBuildFile; fileRef = D0F7EFE21800CBAD00B4BDDB /* alder_rbtree.c */; };
+		D0F7EFF41800CBB800B4BDDB /* bsafe.c in Sources */ = {isa = PBXBuildFile; fileRef = D0F7EFE61800CBB800B4BDDB /* bsafe.c */; };
+		D0F7EFF51800CBB800B4BDDB /* bstraux.c in Sources */ = {isa = PBXBuildFile; fileRef = D0F7EFE81800CBB800B4BDDB /* bstraux.c */; };
+		D0F7EFF61800CBB800B4BDDB /* bstrlib.c in Sources */ = {isa = PBXBuildFile; fileRef = D0F7EFEA1800CBB800B4BDDB /* bstrlib.c */; };
+		D0F7EFF71800CBB800B4BDDB /* bstrmore.c in Sources */ = {isa = PBXBuildFile; fileRef = D0F7EFED1800CBB800B4BDDB /* bstrmore.c */; };
+		D0F7F0141800CBC100B4BDDB /* alder_file.c in Sources */ = {isa = PBXBuildFile; fileRef = D0F7EFF91800CBC100B4BDDB /* alder_file.c */; };
+		D0F7F0151800CBC100B4BDDB /* alder_file_creatable.c in Sources */ = {isa = PBXBuildFile; fileRef = D0F7EFFB1800CBC100B4BDDB /* alder_file_creatable.c */; };
+		D0F7F0161800CBC100B4BDDB /* alder_file_exist.c in Sources */ = {isa = PBXBuildFile; fileRef = D0F7EFFD1800CBC100B4BDDB /* alder_file_exist.c */; };
+		D0F7F0171800CBC100B4BDDB /* alder_file_firstline.c in Sources */ = {isa = PBXBuildFile; fileRef = D0F7EFFF1800CBC100B4BDDB /* alder_file_firstline.c */; };
+		D0F7F0181800CBC100B4BDDB /* alder_file_info.c in Sources */ = {isa = PBXBuildFile; fileRef = D0F7F0011800CBC100B4BDDB /* alder_file_info.c */; };
+		D0F7F0191800CBC100B4BDDB /* alder_file_isbinary.c in Sources */ = {isa = PBXBuildFile; fileRef = D0F7F0031800CBC100B4BDDB /* alder_file_isbinary.c */; };
+		D0F7F01A1800CBC100B4BDDB /* alder_file_isfasta.c in Sources */ = {isa = PBXBuildFile; fileRef = D0F7F0051800CBC100B4BDDB /* alder_file_isfasta.c */; };
+		D0F7F01B1800CBC100B4BDDB /* alder_file_isfile.c in Sources */ = {isa = PBXBuildFile; fileRef = D0F7F0071800CBC100B4BDDB /* alder_file_isfile.c */; };
+		D0F7F01C1800CBC100B4BDDB /* alder_file_isgzip.c in Sources */ = {isa = PBXBuildFile; fileRef = D0F7F0091800CBC100B4BDDB /* alder_file_isgzip.c */; };
+		D0F7F01D1800CBC100B4BDDB /* alder_file_isstdin.c in Sources */ = {isa = PBXBuildFile; fileRef = D0F7F00B1800CBC100B4BDDB /* alder_file_isstdin.c */; };
+		D0F7F01E1800CBC100B4BDDB /* alder_file_numline.c in Sources */ = {isa = PBXBuildFile; fileRef = D0F7F00D1800CBC100B4BDDB /* alder_file_numline.c */; };
+		D0F7F01F1800CBC100B4BDDB /* alder_file_whatformat.c in Sources */ = {isa = PBXBuildFile; fileRef = D0F7F00F1800CBC100B4BDDB /* alder_file_whatformat.c */; };
+		D0F7F0201800CBC100B4BDDB /* alder_file_writable.c in Sources */ = {isa = PBXBuildFile; fileRef = D0F7F0111800CBC100B4BDDB /* alder_file_writable.c */; };
+		D0F7F0361800D2EC00B4BDDB /* alder_rbtree_int.c in Sources */ = {isa = PBXBuildFile; fileRef = D0F7F0351800D2EC00B4BDDB /* alder_rbtree_int.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildRule section */
+		D0F7EFE01800CB6C00B4BDDB /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.ggo";
+			fileType = pattern.proxy;
+			isEditable = 1;
+			outputFiles = (
+				"$(DERIVED_FILE_DIR)/cmdline.c",
+				"$(DERIVED_FILE_DIR)/cmdline.h",
+			);
+			script = "cd \"$INPUT_FILE_DIR\"\n/usr/local/bin/gengetopt -i \"$INPUT_FILE_NAME\" --output-dir=\"$DERIVED_SOURCES_DIR\" --file-name=cmdline --unamed-opts --func-name=my_cmdline_parser --include-getopt";
+		};
+/* End PBXBuildRule section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D0F7EFC71800CB4E00B4BDDB /* Copy Files */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				D0F7EFDA1800CB4E00B4BDDB /* alder_rbtree.1 in Copy Files */,
+			);
+			name = "Copy Files";
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		D0F7EFC91800CB4E00B4BDDB /* alder-rbtree */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "alder-rbtree"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0F7EFCC1800CB4E00B4BDDB /* alder_rbtree_cite.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = alder_rbtree_cite.c; sourceTree = "<group>"; };
+		D0F7EFCE1800CB4E00B4BDDB /* alder_rbtree_cite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_rbtree_cite.h; sourceTree = "<group>"; };
+		D0F7EFCF1800CB4E00B4BDDB /* alder_rbtree_option.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = alder_rbtree_option.c; sourceTree = "<group>"; };
+		D0F7EFD11800CB4E00B4BDDB /* alder_rbtree_option.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_rbtree_option.h; sourceTree = "<group>"; };
+		D0F7EFD51800CB4E00B4BDDB /* alder-rbtree.ggo */ = {isa = PBXFileReference; lastKnownFileType = text; path = "alder-rbtree.ggo"; sourceTree = "<group>"; };
+		D0F7EFD71800CB4E00B4BDDB /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		D0F7EFD91800CB4E00B4BDDB /* alder_rbtree.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = alder_rbtree.1; sourceTree = "<group>"; };
+		D0F7EFE21800CBAD00B4BDDB /* alder_rbtree.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_rbtree.c; sourceTree = "<group>"; };
+		D0F7EFE31800CBAD00B4BDDB /* alder_rbtree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_rbtree.h; sourceTree = "<group>"; };
+		D0F7EFE61800CBB800B4BDDB /* bsafe.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bsafe.c; sourceTree = "<group>"; };
+		D0F7EFE71800CBB800B4BDDB /* bsafe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bsafe.h; sourceTree = "<group>"; };
+		D0F7EFE81800CBB800B4BDDB /* bstraux.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bstraux.c; sourceTree = "<group>"; };
+		D0F7EFE91800CBB800B4BDDB /* bstraux.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bstraux.h; sourceTree = "<group>"; };
+		D0F7EFEA1800CBB800B4BDDB /* bstrlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bstrlib.c; sourceTree = "<group>"; };
+		D0F7EFEB1800CBB800B4BDDB /* bstrlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bstrlib.h; sourceTree = "<group>"; };
+		D0F7EFEC1800CBB800B4BDDB /* bstrlib.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bstrlib.txt; sourceTree = "<group>"; };
+		D0F7EFED1800CBB800B4BDDB /* bstrmore.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bstrmore.c; sourceTree = "<group>"; };
+		D0F7EFEE1800CBB800B4BDDB /* bstrmore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bstrmore.h; sourceTree = "<group>"; };
+		D0F7EFEF1800CBB800B4BDDB /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		D0F7EFF01800CBB800B4BDDB /* gpl.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gpl.txt; sourceTree = "<group>"; };
+		D0F7EFF11800CBB800B4BDDB /* license.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = license.txt; sourceTree = "<group>"; };
+		D0F7EFF21800CBB800B4BDDB /* porting.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = porting.txt; sourceTree = "<group>"; };
+		D0F7EFF31800CBB800B4BDDB /* security.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = security.txt; sourceTree = "<group>"; };
+		D0F7EFF91800CBC100B4BDDB /* alder_file.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file.c; sourceTree = "<group>"; };
+		D0F7EFFA1800CBC100B4BDDB /* alder_file.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file.h; sourceTree = "<group>"; };
+		D0F7EFFB1800CBC100B4BDDB /* alder_file_creatable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_creatable.c; sourceTree = "<group>"; };
+		D0F7EFFC1800CBC100B4BDDB /* alder_file_creatable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_creatable.h; sourceTree = "<group>"; };
+		D0F7EFFD1800CBC100B4BDDB /* alder_file_exist.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_exist.c; sourceTree = "<group>"; };
+		D0F7EFFE1800CBC100B4BDDB /* alder_file_exist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_exist.h; sourceTree = "<group>"; };
+		D0F7EFFF1800CBC100B4BDDB /* alder_file_firstline.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_firstline.c; sourceTree = "<group>"; };
+		D0F7F0001800CBC100B4BDDB /* alder_file_firstline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_firstline.h; sourceTree = "<group>"; };
+		D0F7F0011800CBC100B4BDDB /* alder_file_info.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_info.c; sourceTree = "<group>"; };
+		D0F7F0021800CBC100B4BDDB /* alder_file_info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_info.h; sourceTree = "<group>"; };
+		D0F7F0031800CBC100B4BDDB /* alder_file_isbinary.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_isbinary.c; sourceTree = "<group>"; };
+		D0F7F0041800CBC100B4BDDB /* alder_file_isbinary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_isbinary.h; sourceTree = "<group>"; };
+		D0F7F0051800CBC100B4BDDB /* alder_file_isfasta.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_isfasta.c; sourceTree = "<group>"; };
+		D0F7F0061800CBC100B4BDDB /* alder_file_isfasta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_isfasta.h; sourceTree = "<group>"; };
+		D0F7F0071800CBC100B4BDDB /* alder_file_isfile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_isfile.c; sourceTree = "<group>"; };
+		D0F7F0081800CBC100B4BDDB /* alder_file_isfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_isfile.h; sourceTree = "<group>"; };
+		D0F7F0091800CBC100B4BDDB /* alder_file_isgzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_isgzip.c; sourceTree = "<group>"; };
+		D0F7F00A1800CBC100B4BDDB /* alder_file_isgzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_isgzip.h; sourceTree = "<group>"; };
+		D0F7F00B1800CBC100B4BDDB /* alder_file_isstdin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_isstdin.c; sourceTree = "<group>"; };
+		D0F7F00C1800CBC100B4BDDB /* alder_file_isstdin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_isstdin.h; sourceTree = "<group>"; };
+		D0F7F00D1800CBC100B4BDDB /* alder_file_numline.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_numline.c; sourceTree = "<group>"; };
+		D0F7F00E1800CBC100B4BDDB /* alder_file_numline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_numline.h; sourceTree = "<group>"; };
+		D0F7F00F1800CBC100B4BDDB /* alder_file_whatformat.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_whatformat.c; sourceTree = "<group>"; };
+		D0F7F0101800CBC100B4BDDB /* alder_file_whatformat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_whatformat.h; sourceTree = "<group>"; };
+		D0F7F0111800CBC100B4BDDB /* alder_file_writable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_writable.c; sourceTree = "<group>"; };
+		D0F7F0121800CBC100B4BDDB /* alder_file_writable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_writable.h; sourceTree = "<group>"; };
+		D0F7F0131800CBC100B4BDDB /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		D0F7F0211800CDA300B4BDDB /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		D0F7F0231800CDF200B4BDDB /* alder_cmacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_cmacro.h; sourceTree = "<group>"; };
+		D0F7F0241800CDF200B4BDDB /* alder_node_function_item_int_source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_node_function_item_int_source.h; sourceTree = "<group>"; };
+		D0F7F0251800CDF200B4BDDB /* alder_node_function_tuple2_source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_node_function_tuple2_source.h; sourceTree = "<group>"; };
+		D0F7F0261800CDF200B4BDDB /* alder_node_function_uc_source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_node_function_uc_source.h; sourceTree = "<group>"; };
+		D0F7F0271800CDF200B4BDDB /* alder_node_item_int_source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_node_item_int_source.h; sourceTree = "<group>"; };
+		D0F7F0281800CDF200B4BDDB /* alder_node_item_tree_source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_node_item_tree_source.h; sourceTree = "<group>"; };
+		D0F7F0291800CDF200B4BDDB /* alder_node_item_tuple2_source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_node_item_tuple2_source.h; sourceTree = "<group>"; };
+		D0F7F02A1800CDF200B4BDDB /* alder_node_item_uc_edge_source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_node_item_uc_edge_source.h; sourceTree = "<group>"; };
+		D0F7F02B1800CDF200B4BDDB /* alder_node_item_uc_source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_node_item_uc_source.h; sourceTree = "<group>"; };
+		D0F7F02C1800CDF200B4BDDB /* alder_node_item_uf_source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_node_item_uf_source.h; sourceTree = "<group>"; };
+		D0F7F02D1800CDF200B4BDDB /* alder_node_item_void_source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_node_item_void_source.h; sourceTree = "<group>"; };
+		D0F7F02E1800CDF200B4BDDB /* alder_node_memory_source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_node_memory_source.h; sourceTree = "<group>"; };
+		D0F7F02F1800CDF200B4BDDB /* alder_node_memory_template_off.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_node_memory_template_off.h; sourceTree = "<group>"; };
+		D0F7F0301800CDF200B4BDDB /* alder_node_memory_template_on.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_node_memory_template_on.h; sourceTree = "<group>"; };
+		D0F7F0311800CDF200B4BDDB /* alder_node_stack_header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_node_stack_header.h; sourceTree = "<group>"; };
+		D0F7F0321800CDF200B4BDDB /* alder_node_stack_source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_node_stack_source.h; sourceTree = "<group>"; };
+		D0F7F0331800CF3E00B4BDDB /* alder_node_item_rbtree_source.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_node_item_rbtree_source.h; sourceTree = "<group>"; };
+		D0F7F0341800D02700B4BDDB /* alder_node_item_common_source.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_node_item_common_source.h; sourceTree = "<group>"; };
+		D0F7F0351800D2EC00B4BDDB /* alder_rbtree_int.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_rbtree_int.c; sourceTree = "<group>"; };
+		D0F7F0371800D2F300B4BDDB /* alder_rbtree_int.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_rbtree_int.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D0F7EFC61800CB4E00B4BDDB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D0F7EFC01800CB4E00B4BDDB = {
+			isa = PBXGroup;
+			children = (
+				D0F7F0211800CDA300B4BDDB /* README */,
+				D0F7EFCB1800CB4E00B4BDDB /* alder-rbtree */,
+				D0F7EFCA1800CB4E00B4BDDB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D0F7EFCA1800CB4E00B4BDDB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D0F7EFC91800CB4E00B4BDDB /* alder-rbtree */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D0F7EFCB1800CB4E00B4BDDB /* alder-rbtree */ = {
+			isa = PBXGroup;
+			children = (
+				D0F7F0221800CDF200B4BDDB /* cmacro */,
+				D0F7EFF81800CBC100B4BDDB /* file */,
+				D0F7EFE51800CBB800B4BDDB /* bstrlib */,
+				D0F7EFE11800CBAD00B4BDDB /* rbtree */,
+				D0F7EFCC1800CB4E00B4BDDB /* alder_rbtree_cite.c */,
+				D0F7EFCE1800CB4E00B4BDDB /* alder_rbtree_cite.h */,
+				D0F7EFCF1800CB4E00B4BDDB /* alder_rbtree_option.c */,
+				D0F7EFD11800CB4E00B4BDDB /* alder_rbtree_option.h */,
+				D0F7EFD51800CB4E00B4BDDB /* alder-rbtree.ggo */,
+				D0F7EFD71800CB4E00B4BDDB /* main.c */,
+				D0F7EFD91800CB4E00B4BDDB /* alder_rbtree.1 */,
+			);
+			path = "alder-rbtree";
+			sourceTree = "<group>";
+		};
+		D0F7EFE11800CBAD00B4BDDB /* rbtree */ = {
+			isa = PBXGroup;
+			children = (
+				D0F7EFE21800CBAD00B4BDDB /* alder_rbtree.c */,
+				D0F7EFE31800CBAD00B4BDDB /* alder_rbtree.h */,
+				D0F7F0351800D2EC00B4BDDB /* alder_rbtree_int.c */,
+				D0F7F0371800D2F300B4BDDB /* alder_rbtree_int.h */,
+			);
+			path = rbtree;
+			sourceTree = "<group>";
+		};
+		D0F7EFE51800CBB800B4BDDB /* bstrlib */ = {
+			isa = PBXGroup;
+			children = (
+				D0F7EFE61800CBB800B4BDDB /* bsafe.c */,
+				D0F7EFE71800CBB800B4BDDB /* bsafe.h */,
+				D0F7EFE81800CBB800B4BDDB /* bstraux.c */,
+				D0F7EFE91800CBB800B4BDDB /* bstraux.h */,
+				D0F7EFEA1800CBB800B4BDDB /* bstrlib.c */,
+				D0F7EFEB1800CBB800B4BDDB /* bstrlib.h */,
+				D0F7EFEC1800CBB800B4BDDB /* bstrlib.txt */,
+				D0F7EFED1800CBB800B4BDDB /* bstrmore.c */,
+				D0F7EFEE1800CBB800B4BDDB /* bstrmore.h */,
+				D0F7EFEF1800CBB800B4BDDB /* CMakeLists.txt */,
+				D0F7EFF01800CBB800B4BDDB /* gpl.txt */,
+				D0F7EFF11800CBB800B4BDDB /* license.txt */,
+				D0F7EFF21800CBB800B4BDDB /* porting.txt */,
+				D0F7EFF31800CBB800B4BDDB /* security.txt */,
+			);
+			name = bstrlib;
+			path = "../../alder-bstrlib/alder-bstrlib/bstrlib";
+			sourceTree = "<group>";
+		};
+		D0F7EFF81800CBC100B4BDDB /* file */ = {
+			isa = PBXGroup;
+			children = (
+				D0F7EFF91800CBC100B4BDDB /* alder_file.c */,
+				D0F7EFFA1800CBC100B4BDDB /* alder_file.h */,
+				D0F7EFFB1800CBC100B4BDDB /* alder_file_creatable.c */,
+				D0F7EFFC1800CBC100B4BDDB /* alder_file_creatable.h */,
+				D0F7EFFD1800CBC100B4BDDB /* alder_file_exist.c */,
+				D0F7EFFE1800CBC100B4BDDB /* alder_file_exist.h */,
+				D0F7EFFF1800CBC100B4BDDB /* alder_file_firstline.c */,
+				D0F7F0001800CBC100B4BDDB /* alder_file_firstline.h */,
+				D0F7F0011800CBC100B4BDDB /* alder_file_info.c */,
+				D0F7F0021800CBC100B4BDDB /* alder_file_info.h */,
+				D0F7F0031800CBC100B4BDDB /* alder_file_isbinary.c */,
+				D0F7F0041800CBC100B4BDDB /* alder_file_isbinary.h */,
+				D0F7F0051800CBC100B4BDDB /* alder_file_isfasta.c */,
+				D0F7F0061800CBC100B4BDDB /* alder_file_isfasta.h */,
+				D0F7F0071800CBC100B4BDDB /* alder_file_isfile.c */,
+				D0F7F0081800CBC100B4BDDB /* alder_file_isfile.h */,
+				D0F7F0091800CBC100B4BDDB /* alder_file_isgzip.c */,
+				D0F7F00A1800CBC100B4BDDB /* alder_file_isgzip.h */,
+				D0F7F00B1800CBC100B4BDDB /* alder_file_isstdin.c */,
+				D0F7F00C1800CBC100B4BDDB /* alder_file_isstdin.h */,
+				D0F7F00D1800CBC100B4BDDB /* alder_file_numline.c */,
+				D0F7F00E1800CBC100B4BDDB /* alder_file_numline.h */,
+				D0F7F00F1800CBC100B4BDDB /* alder_file_whatformat.c */,
+				D0F7F0101800CBC100B4BDDB /* alder_file_whatformat.h */,
+				D0F7F0111800CBC100B4BDDB /* alder_file_writable.c */,
+				D0F7F0121800CBC100B4BDDB /* alder_file_writable.h */,
+				D0F7F0131800CBC100B4BDDB /* CMakeLists.txt */,
+			);
+			name = file;
+			path = "../../alder-file/alder-file/file";
+			sourceTree = "<group>";
+		};
+		D0F7F0221800CDF200B4BDDB /* cmacro */ = {
+			isa = PBXGroup;
+			children = (
+				D0F7F0231800CDF200B4BDDB /* alder_cmacro.h */,
+				D0F7F0241800CDF200B4BDDB /* alder_node_function_item_int_source.h */,
+				D0F7F0251800CDF200B4BDDB /* alder_node_function_tuple2_source.h */,
+				D0F7F0261800CDF200B4BDDB /* alder_node_function_uc_source.h */,
+				D0F7F0341800D02700B4BDDB /* alder_node_item_common_source.h */,
+				D0F7F0271800CDF200B4BDDB /* alder_node_item_int_source.h */,
+				D0F7F0331800CF3E00B4BDDB /* alder_node_item_rbtree_source.h */,
+				D0F7F0281800CDF200B4BDDB /* alder_node_item_tree_source.h */,
+				D0F7F0291800CDF200B4BDDB /* alder_node_item_tuple2_source.h */,
+				D0F7F02A1800CDF200B4BDDB /* alder_node_item_uc_edge_source.h */,
+				D0F7F02B1800CDF200B4BDDB /* alder_node_item_uc_source.h */,
+				D0F7F02C1800CDF200B4BDDB /* alder_node_item_uf_source.h */,
+				D0F7F02D1800CDF200B4BDDB /* alder_node_item_void_source.h */,
+				D0F7F02E1800CDF200B4BDDB /* alder_node_memory_source.h */,
+				D0F7F02F1800CDF200B4BDDB /* alder_node_memory_template_off.h */,
+				D0F7F0301800CDF200B4BDDB /* alder_node_memory_template_on.h */,
+				D0F7F0311800CDF200B4BDDB /* alder_node_stack_header.h */,
+				D0F7F0321800CDF200B4BDDB /* alder_node_stack_source.h */,
+			);
+			name = cmacro;
+			path = "../../alder-cmacro/alder-cmacro/cmacro";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D0F7EFC81800CB4E00B4BDDB /* alder-rbtree */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D0F7EFDD1800CB4E00B4BDDB /* Build configuration list for PBXNativeTarget "alder-rbtree" */;
+			buildPhases = (
+				D0F7EFC51800CB4E00B4BDDB /* Sources */,
+				D0F7EFC61800CB4E00B4BDDB /* Frameworks */,
+				D0F7EFC71800CB4E00B4BDDB /* Copy Files */,
+			);
+			buildRules = (
+				D0F7EFE01800CB6C00B4BDDB /* PBXBuildRule */,
+			);
+			dependencies = (
+			);
+			name = "alder-rbtree";
+			productName = "alder-rbtree";
+			productReference = D0F7EFC91800CB4E00B4BDDB /* alder-rbtree */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D0F7EFC11800CB4E00B4BDDB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = "Sang Chul Choi";
+			};
+			buildConfigurationList = D0F7EFC41800CB4E00B4BDDB /* Build configuration list for PBXProject "alder-rbtree" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = D0F7EFC01800CB4E00B4BDDB;
+			productRefGroup = D0F7EFCA1800CB4E00B4BDDB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D0F7EFC81800CB4E00B4BDDB /* alder-rbtree */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D0F7EFC51800CB4E00B4BDDB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0F7F0171800CBC100B4BDDB /* alder_file_firstline.c in Sources */,
+				D0F7F0191800CBC100B4BDDB /* alder_file_isbinary.c in Sources */,
+				D0F7F0201800CBC100B4BDDB /* alder_file_writable.c in Sources */,
+				D0F7F0141800CBC100B4BDDB /* alder_file.c in Sources */,
+				D0F7EFD61800CB4E00B4BDDB /* alder-rbtree.ggo in Sources */,
+				D0F7F0151800CBC100B4BDDB /* alder_file_creatable.c in Sources */,
+				D0F7F01F1800CBC100B4BDDB /* alder_file_whatformat.c in Sources */,
+				D0F7EFE41800CBAD00B4BDDB /* alder_rbtree.c in Sources */,
+				D0F7F01C1800CBC100B4BDDB /* alder_file_isgzip.c in Sources */,
+				D0F7F01A1800CBC100B4BDDB /* alder_file_isfasta.c in Sources */,
+				D0F7EFD81800CB4E00B4BDDB /* main.c in Sources */,
+				D0F7EFF51800CBB800B4BDDB /* bstraux.c in Sources */,
+				D0F7EFF61800CBB800B4BDDB /* bstrlib.c in Sources */,
+				D0F7F01E1800CBC100B4BDDB /* alder_file_numline.c in Sources */,
+				D0F7EFF71800CBB800B4BDDB /* bstrmore.c in Sources */,
+				D0F7F01D1800CBC100B4BDDB /* alder_file_isstdin.c in Sources */,
+				D0F7F01B1800CBC100B4BDDB /* alder_file_isfile.c in Sources */,
+				D0F7EFF41800CBB800B4BDDB /* bsafe.c in Sources */,
+				D0F7F0181800CBC100B4BDDB /* alder_file_info.c in Sources */,
+				D0F7EFCD1800CB4E00B4BDDB /* alder_rbtree_cite.c in Sources */,
+				D0F7F0361800D2EC00B4BDDB /* alder_rbtree_int.c in Sources */,
+				D0F7F0161800CBC100B4BDDB /* alder_file_exist.c in Sources */,
+				D0F7EFD01800CB4E00B4BDDB /* alder_rbtree_option.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		D0F7EFDB1800CB4E00B4BDDB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		D0F7EFDC1800CB4E00B4BDDB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		D0F7EFDE1800CB4E00B4BDDB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-lz";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D0F7EFDF1800CB4E00B4BDDB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-lz";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D0F7EFC41800CB4E00B4BDDB /* Build configuration list for PBXProject "alder-rbtree" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0F7EFDB1800CB4E00B4BDDB /* Debug */,
+				D0F7EFDC1800CB4E00B4BDDB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D0F7EFDD1800CB4E00B4BDDB /* Build configuration list for PBXNativeTarget "alder-rbtree" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0F7EFDE1800CB4E00B4BDDB /* Debug */,
+				D0F7EFDF1800CB4E00B4BDDB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D0F7EFC11800CB4E00B4BDDB /* Project object */;
+}

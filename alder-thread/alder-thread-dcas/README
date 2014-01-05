@@ -1,0 +1,29 @@
+Test of "Double" CAS using the source code available at https://code.google.com/p/dcasun/.
+
+So, after all, fresh memory makes a differece. I noticed that DCAS does not 
+deallocate memory. I let it run without it, and see what would happen.
+It worked. Each thread increments the count of value. Here is a question:
+
+1. What is memory barrier or MB?
+2. What are the CAS and other atomic operations? How can I see those?
+3. How can I manage the memory? It keeps allocating memory.
+
+I need time to learn more about this kind of lock-free or wait-free algorithms.
+There are many data structures that can benefit from these algorithms. This
+greatly simplies the user code because of no need of using mutex and the like.
+They claim that this lock-free scheme is faster than the lock scheme. This 
+heavily depends on computer system.
+
+So, this would take longer than I expected. Unexpectedly, I stumbled upon on 
+this idea of multi-word compare-and-swap algorithms. First, I realized that I
+need one, and then I found papers about the topic. Then, I spent a couple of 
+days having a working code. I attempted to implement the code in
+"A Practical Multi-Word Compare-and-Swap Operation" by Harris et al. The code
+seemed nice, but did not work. I found their code to try to use it, it did not
+work either. Then, I came across DCAS in the dcasun google project. It 
+implemented "Doulble" CAS not a general "Multiple" CAS. However, I wished to
+have a working code of the algorithm in Harris et al. There are a few 
+difficulties that would require more time and effort in understanding 
+multi-thread programming such as memory barrier, atomic operation, 
+and the like. LUCKILY, that double CAS worked but with a glitch; no memory
+manangement.

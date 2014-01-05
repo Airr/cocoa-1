@@ -1,0 +1,10 @@
+Use alder_thread_mcas.
+I could not find a way of managing the memory for Harris's method or mcas.
+I resort to Sundell's method or alder_thread_sundell.
+I do not know how this Sundell's method would work.
+
+# Papers
+http://www.mscs.mu.edu/~brylow/SPLASH-MARC-2013/Feldman.pdf
+
+# Resources
+http://libcds.sourceforge.net

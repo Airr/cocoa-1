@@ -4,7 +4,7 @@ purpose "alder-fasta reads and writes files in FASTA format."
 
 option "outfile" o "Output files" string typestr="file,file,..." multiple optional
 
-option "log" - "Log file" string typestr="file" default="alder-fasta.log" optional
+option "log" - "Log file" string typestr="file" default="outfile.log" optional argoptional
 
 section "Concatenate"
 
@@ -12,7 +12,21 @@ option "cat" - "Concatenate sequences" flag off
 details="Print sequence names, and sequence positions in a single concatenated sequence"
 
 section "Stat"
-
 option "stat" s "Print summary of sequences" flag off
 details="Print number of sequences and number of bases."
 option "seq" - "Print length of sequences" flag off
+
+section "Kmer"
+option "kmer" - "Kmer size" long typestr="number" default="1" optional
+option "use-ragel" - "Use ragel" flag off
+
+section "Streamer"
+option "stream" - "Extract sequences only with fixed size" flag off
+option "bufsize" - "Size of buffer in the streamming" long typestr="number" default="10" optional
+
+section "Token"
+option "token" - "Print tokens in sequences" flag off
+option "sequenceiterator" - "alder_fasta_sequenceiterator" flag off
+
+section "chunk"
+option "chunk" - "Print chunks in a fasta file" flag off

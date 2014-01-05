@@ -1,0 +1,18 @@
+# Hash tables.
+
+I might want to have these, which I do not need and remove from the source 
+tree.
+alder_hashtable_klib
+alder_hashtable_ulib
+alder_hashtable_uthash
+
+## Features
+
+## Reference
+http://troydhanson.github.com/uthash/
+https://code.google.com/p/ulib/
+https://code.google.com/p/fast-hash/
+https://code.google.com/p/smhasher/
+https://github.com/marekweb/datastructs-c/blob/master/src/hashtable.c
+https://github.com/attractivechaos/klib (by Heng Li)
+

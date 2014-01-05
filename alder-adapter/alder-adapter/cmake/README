@@ -1,0 +1,37 @@
+This is the README file for the alder-pre distribution.
+
+Alder-pre trims, cuts, and filters read sequences.
+
+  Copyright (C) 2013 Sang Chul Choi
+
+  Copying and distribution of this file, with or without modification,
+  are permitted in any medium without royalty provided the copyright
+  notice and this notice are preserved.
+
+See the files ./INSTALL* for building and installation instructions.
+
+Primary distribution point: https://bitbucket.org/goshng/alder/downloads
+
+Home page: https://bitbucket.org/goshng/alder/wiki/Home
+
+Mailing list: alder-list@googlegroups.com
+- please use this list for all discussion: bug reports, enhancements, etc.
+- anyone is welcome to join the list; to do so, visit
+  https://groups.google.com/d/forum/alder-list
+
+Bug reports: https://bitbucket.org/goshng/alder/issues/new
+ Please use the bitbucket issue for reporting bugs.
+ Please include enough information for the maintainers to reproduce the
+ problem.  Generally speaking, that means:
+- the contents of any input files necessary to reproduce the bug
+  and command line invocations of the program(s) involved (crucial!).
+- a description of the problem and any samples of the erroneous output.
+- the version number of the program(s) involved (use --version).
+- hardware, operating system, and compiler versions (uname -a).
+- unusual options you gave to cmake.
+- anything else that you think would be helpful.
+
+Patches are most welcome; if possible, please make them with diff -c and
+include ChangeLog entries.
+
+Alder-pre is free software.  See the file COPYING for copying conditions.

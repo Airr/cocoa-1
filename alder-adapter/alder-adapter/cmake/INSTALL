@@ -1,0 +1,72 @@
+Installation Instructions
+*************************
+
+Copyright (C) 2013 Sang Chul Choi
+
+   Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.  This file is offered as-is,
+without warranty of any kind.
+
+Basic Installation using CMake
+==============================
+
+   The simplest way to compile this package is:
+
+  1. `cd' to the directory containing the package's source code and type
+     `cmake' to configure the package for your system.
+
+     Running `cmake' might take a while.  While running, it prints
+     some messages telling which features it is checking for.
+
+  2. Type `make' to compile the package.
+
+  3. Optionally, type `make test' to run any self-tests that come with
+     the package, generally using the just-built uninstalled binaries.
+
+  4. Type `make install' to install the programs and any data files and
+     documentation.  When installing into a prefix owned by root, it is
+     recommended that the package be configured and built as a regular
+     user, and only the `make install' phase executed with root
+     privileges.
+
+  5. You can remove the program binaries and object files from the
+     source code directory by typing `make clean'.  
+
+  6. We do not have a way to uninstall the package. Just delete the binary
+     file that is installed. They are usually installed in /usr/local/bin,
+     and the executable name is alder-pre. 
+
+Compilers and Options
+=====================
+
+   You can give `cmake' initial values for configuration parameters
+by setting variables in the command line or in the environment.  Here
+is an example:
+
+     $ cmake -DCMAKE_INSTALL_PREFIX=/path/to/install
+
+Installation Names
+==================
+
+   By default, `make install' installs the package's commands under
+`/usr/local/bin', include files under `/usr/local/include', etc.  You
+can specify an installation prefix other than `/usr/local' by giving
+`cmake' the option `-DCMAKE_INSTALL_PREFIX=PREFIX', where PREFIX must be an
+absolute file name.
+
+Distribution
+============
+
+   I can use `cpack' for making a distribution of alder-pre. Follow these steps,
+     $ mkdir build
+     $ cmake ..
+     $ make
+     $ cpack --config CPackSourceConfig.cmake
+VERSION_PATCH is not working. I had to manually edit `CPackSourceConfig.cmake',
+and use `sh/dist' script instead.
+
+Upload it to bitbucket website, https://bitbucket.org/goshng/alder/downloads,
+then edit homebrew package file.
+     $ brew edit alder
+

@@ -7,12 +7,11 @@
 //
 
 #include <stdio.h>
+#include "alder_logger.h"
 
 int main(int argc, const char * argv[])
 {
-
-    // insert code here...
-    printf("Hello, World!\n");
+    alder_logger_test();
     return 0;
 }
 

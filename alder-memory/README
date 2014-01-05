@@ -1,0 +1,9 @@
+# Memory Management
+
+## alder_memory_mcas
+I need to implement a memory manangement for the multi-word compare and swap.
+Sundell's work might be relevant to the implementation.
+
+# References
+Sundell, H.: Wait-free reference counting and memory management. In: Proceedings of the 19th Inter- national Parallel & Distributed Processing Symposium, IEEE (Apr, 2005)
+

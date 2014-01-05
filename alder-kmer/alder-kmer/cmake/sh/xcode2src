@@ -1,0 +1,295 @@
+#!/bin/bash
+
+function copy_ch_to_lib {
+#  mkdir lib/$DEST
+  for i in ${CFILE[@]}; do
+    if [ -e ${i%.*}.h ]; then
+      cp ${i%.*}.h lib/$DEST
+    fi
+    if [ -e $i ]; then
+      cp $i lib/$DEST
+    fi
+  done
+}
+
+# c/h to src
+DEST=src
+for i in \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-kmer/alder-kmer/alder_kmer_cite.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-kmer/alder-kmer/alder_kmer_option.c \
+; do
+cp ${i%.*}.h $DEST
+cp $i $DEST
+done
+
+for i in \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-kmer/alder-kmer/main.c \
+; do
+cp $i $DEST
+done
+
+################################################################################
+# c/h to bit
+DEST=bit
+CFILE=(\
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-bit/alder-bit/bit/alder_bit.c \
+)
+copy_ch_to_lib
+
+################################################################################
+# c/h to bstrlib
+DEST=bstrlib
+CFILE=(\
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-bstrlib/alder-bstrlib/bstrlib/bstrlib.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-bstrlib/alder-bstrlib/bstrlib/bstraux.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-bstrlib/alder-bstrlib/bstrlib/bstrmore.c \
+)
+copy_ch_to_lib
+
+for i in \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-bstrlib/alder-bstrlib/bstrlib/license.txt \
+; do cp $i lib/$DEST
+done
+
+################################################################################
+# c/h to cmacro
+DEST=cmacro
+cp /Users/goshng/Dropbox/Documents/Projects/cocoa/alder-cmacro/alder-cmacro/cmacro/* lib/$DEST
+
+################################################################################
+# c/h to dna
+DEST=dna
+CFILE=(\
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-dna/alder-dna/dna/alder_dna.c \
+)
+copy_ch_to_lib
+
+################################################################################
+# c/h to encode
+DEST=encode
+CFILE=(\
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-encode/alder-encode/encode/alder_encode.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-encode/alder-encode/encode/alder_encode_kmer.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-encode/alder-encode/encode/alder_encode_number.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-encode/alder-encode/encode/alder_encode_pack.c \
+)
+copy_ch_to_lib
+
+
+################################################################################
+# c/h to fasta
+DEST=fasta
+CFILE=(\
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fasta/alder-fasta/fasta/alder_fasta.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fasta/alder-fasta/fasta/alder_fasta_chunk.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fasta/alder-fasta/fasta/alder_fasta_kmer.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fasta/alder-fasta/fasta/alder_fasta_sequenceiterator.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fasta/alder-fasta/fasta/alder_fasta_streamer.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fasta/alder-fasta/fasta/alder_fasta_token.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fasta/alder-fasta/fasta/alder_fasta_write.c \
+)
+copy_ch_to_lib
+
+################################################################################
+# c/h to fastq
+DEST=fastq
+CFILE=(\
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fastq/alder-fastq/fastq/alder_fastq.c
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fastq/alder-fastq/fastq/alder_fastq_chunk.c
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fastq/alder-fastq/fastq/alder_fastq_concat.c
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fastq/alder-fastq/fastq/alder_fastq_count_kmer.c
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fastq/alder-fastq/fastq/alder_fastq_kseq_summary.c
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fastq/alder-fastq/fastq/alder_fastq_length.c
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fastq/alder-fastq/fastq/alder_fastq_numbase.c
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fastq/alder-fastq/fastq/alder_fastq_pair.c
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fastq/alder-fastq/fastq/alder_fastq_ragel.c
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fastq/alder-fastq/fastq/alder_fastq_ragel_summary.c
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fastq/alder-fastq/fastq/alder_fastq_sequenceiterator.c
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fastq/alder-fastq/fastq/alder_fastq_streamer.c
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fastq/alder-fastq/fastq/alder_fastq_write.c
+)
+copy_ch_to_lib
+
+################################################################################
+# c/h to file
+DEST=file
+CFILE=(\
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_availablediskspace.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_availablememory.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_availableopenfiles.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_creatable.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_exist.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_firstline.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_format.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_getcwd.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_info.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_isbinary.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_isfasta.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_isfastq.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_isfile.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_isgzip.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_isstdin.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_makedtemp.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_mkdir.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_numline.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_rm.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_sequencefilesize.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_size.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_sysctl.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_whatformat.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-file/alder-file/file/alder_file_writable.c \
+)
+copy_ch_to_lib
+
+################################################################################
+# c/h to fileseq
+DEST=fileseq
+CFILE=(\
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fileseq/alder-fileseq/fileseq/alder_fileseq.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fileseq/alder-fileseq/fileseq/alder_fileseq_chunk.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fileseq/alder-fileseq/fileseq/alder_fileseq_kmer.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fileseq/alder-fileseq/fileseq/alder_fileseq_sample.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fileseq/alder-fileseq/fileseq/alder_fileseq_sequenceiterator \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fileseq/alder-fileseq/fileseq/alder_fileseq_streamer.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fileseq/alder-fileseq/fileseq/alder_fileseq_token.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fileseq/alder-fileseq/fileseq/alder_fileseq_type.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-fileseq/alder-fileseq/fileseq/alder_fileseq_write.c \
+)
+copy_ch_to_lib
+
+################################################################################
+# c/h to hash
+DEST=hash
+CFILE=(\
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-hash/alder-hash/hash/alder_hash.c \
+)
+copy_ch_to_lib
+
+################################################################################
+# c/h to hashtable
+DEST=hashtable
+CFILE=(\
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-hashtable/alder-hashtable/hashtable/alder_hashtable.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-hashtable/alder-hashtable/hashtable/alder_hashtable_dsk.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-hashtable/alder-hashtable/hashtable/alder_hashtable_klib.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-hashtable/alder-hashtable/hashtable/alder_hashtable_mcas.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-hashtable/alder-hashtable/hashtable/alder_hashtable_ulib.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-hashtable/alder-hashtable/hashtable/alder_hashtable_uthash.c \
+)
+copy_ch_to_lib
+
+
+################################################################################
+# c/h to kmer
+DEST=kmer
+CFILE=(\
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-kmer/alder-kmer/kmer/alder_kmer.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-kmer/alder-kmer/kmer/alder_kmer_count.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-kmer/alder-kmer/kmer/alder_kmer_decode.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-kmer/alder-kmer/kmer/alder_kmer_encode.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-kmer/alder-kmer/kmer/alder_kmer_report.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-kmer/alder-kmer/kmer/alder_kmer_simulate.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-kmer/alder-kmer/kmer/alder_kmer_thread.c \
+)
+copy_ch_to_lib
+
+################################################################################
+# c/h to kseq
+DEST=kseq
+CFILE=(\
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-kseq/alder-kseq/kseq/alder_kseq.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-kseq/alder-kseq/kseq/alder_kseq_sequenceiterator.c \
+)
+copy_ch_to_lib
+
+################################################################################
+# c/h to logger
+DEST=logger
+CFILE=(\
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/alder_logger.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/alder_logger_error.c \
+)
+copy_ch_to_lib
+
+# c/h to nglogc
+DEST=nglogc
+cp /Users/goshng/Dropbox/Documents/Projects/cocoa/alder-logger/alder-logger/logger/nglogc/* lib/$DEST
+
+
+################################################################################
+# c/h to mcas
+DEST=mcas
+CFILE=(\
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-mcas/alder-mcas/mcas/alder_mcas.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-mcas/alder-mcas/mcas/alder_mcas_wf.c \
+)
+copy_ch_to_lib
+
+################################################################################
+# c/h to p99
+DEST=p99
+CFILE=(\
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-p99/alder-p99/p99/alder_p99.c \
+)
+copy_ch_to_lib
+
+# c/h to p99
+DEST=p99
+cp /Users/goshng/Dropbox/Documents/Projects/cocoa/alder-p99/alder-p99/p99/* lib/$DEST
+
+################################################################################
+# c/h to 
+DEST=rng
+CFILE=(\
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-rng/alder-rng/rng/alder_rng.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-rng/alder-rng/rng/rngs.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-rng/alder-rng/rng/rvgs.c \
+)
+copy_ch_to_lib
+
+################################################################################
+# c/h to seq
+DEST=seq
+CFILE=(\
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-seq/alder-seq/seq/alder_seq.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-seq/alder-seq/seq/alder_seq_chunk.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-seq/alder-seq/seq/alder_seq_sample.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-seq/alder-seq/seq/alder_seq_streamer.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-seq/alder-seq/seq/alder_seq_write.c \
+)
+copy_ch_to_lib
+
+################################################################################
+# c/h to token
+DEST=token
+CFILE=(\
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-token/alder-token/token/alder_token.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-token/alder-token/token/alder_token_dna.c \
+)
+copy_ch_to_lib
+
+################################################################################
+# c/h to vector
+DEST=vector
+CFILE=(\
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-vector/alder-vector/vector/alder_gsl.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-vector/alder-vector/vector/alder_vector.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-vector/alder-vector/vector/alder_vector_interval.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-vector/alder-vector/vector/alder_vector_pair.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-vector/alder-vector/vector/alder_vector_palign.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-vector/alder-vector/vector/gsl_vector_anchor.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-vector/alder-vector/vector/gsl_vector_match.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-vector/alder-vector/vector/gsl_vector_sam.c \
+/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-vector/alder-vector/vector/gsl_vector_seqpair.c \
+)
+copy_ch_to_lib
+
+
+# ggo
+cp /Users/goshng/Dropbox/Documents/Projects/cocoa/alder-kmer/alder-kmer/alder-kmer.ggo src
+gengetopt < src/alder-kmer.ggo  --file-name=cmdline --unamed-opts --func-name=my_cmdline_parser --include-getopt --no-handle-help --output-dir src
+
+# cp /Users/goshng/Dropbox/Documents/Projects/cocoa/bstring/bstring/bstrlib.patch lib/bstrlib
+# patch -s lib/bstrlib/bstrlib.c <lib/bstrlib/bstrlib.patch
+

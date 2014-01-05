@@ -1,0 +1,15 @@
+See https://github.com/noporpoise/BitArray
+
+# Library
+cc -O3 -Wall -Wextra -Wc++-compat -I. -c lookup3.c -o lookup3.o
+cc -O3 -Wall -Wextra -Wc++-compat -I. -c bit_array.c -o bit_array.o
+ar -csru libbitarr.a bit_array.o lookup3.o
+
+# Example
+cd dev; make
+cc -O3 -Wall -Wextra -Wc++-compat -I.. -L.. -o bit_array_test bit_array_test.c -lbitarr
+cc -O3 -Wall -Wextra -Wc++-compat -o bit_array_generate bit_array_generate.c
+
+cd examples; make
+c++ -Wall -Wextra -I.. -L.. -o example_cpp example.cpp -lbitarr
+cc -Wall -Wextra -I.. -L.. -Wc++-compat -o example_c example.c -lbitarr

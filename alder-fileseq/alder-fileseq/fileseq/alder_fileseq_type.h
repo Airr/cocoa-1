@@ -1,0 +1,51 @@
+/**
+ * This file, alder_fileseq_type.h, is part of alder-fileseq.
+ *
+ * Copyright 2013 by Sang Chul Choi
+ *
+ * alder-fileseq is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * alder-fileseq is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with alder-fileseq.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#ifndef alder_fileseq_alder_fileseq_type_h
+#define alder_fileseq_alder_fileseq_type_h
+
+#include <stdint.h>
+
+#undef __BEGIN_DECLS
+#undef __END_DECLS
+#ifdef __cplusplus
+# define __BEGIN_DECLS extern "C" {
+# define __END_DECLS }
+#else
+# define __BEGIN_DECLS /* empty */
+# define __END_DECLS /* empty */
+#endif
+
+#define ALDER_FILETYPE_FASTA   0x00000001
+#define ALDER_FILETYPE_FASTQ   0x00000002
+#define ALDER_FILETYPE_SEQ     0x00000004
+#define ALDER_FILETYPE_BSEQ    0x00000008
+#define ALDER_FILETYPE_GZFASTA 0x00000010
+#define ALDER_FILETYPE_GZFASTQ 0x00000020
+#define ALDER_FILETYPE_GZSEQ   0x00000040
+#define ALDER_FILETYPE_GZ      0x00000070
+
+__BEGIN_DECLS
+
+int alder_fileseq_type(const char *fn);
+
+__END_DECLS
+
+
+#endif /* alder_fileseq_alder_fileseq_type_h */

@@ -1,0 +1,37 @@
+XCODE=/Users/goshng/Dropbox/Documents/Projects/cocoa/alder-kmer/alder-kmer/cmake
+cp CMakeLists.txt $XCODE
+cp CPackSourceConfig.cmake $XCODE
+cp src/CMakeLists.txt $XCODE/src
+cp lib/CMakeLists.txt $XCODE/lib
+
+for i in \
+bit \
+bstrlib \
+dna \
+encode \
+fasta \
+fastq \
+file \
+fileseq \
+hash \
+hashtable \
+kmer \
+kseq \
+logger \
+mcas \
+nglogc \
+p99 \
+rng \
+seq \
+token \
+vector \
+; do
+  cp lib/$i/CMakeLists.txt $XCODE/lib/$i
+done
+cp sh/src2xcode $XCODE/sh
+cp sh/xcode2src $XCODE/sh
+
+for i in AUTHORS COPYING INSTALL NEWS README THANKS TODO; do
+  cp $i $XCODE
+done
+

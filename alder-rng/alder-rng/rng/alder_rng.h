@@ -19,6 +19,10 @@
 #ifndef alder_rng_alder_rng_h
 #define alder_rng_alder_rng_h
 
+#include <stdint.h>
+#include "rngs.h"
+#include "rvgs.h"
+
 #undef __BEGIN_DECLS
 #undef __END_DECLS
 #ifdef __cplusplus
@@ -32,5 +36,8 @@
 
 __BEGIN_DECLS
 
+uint64_t alder_rng_uint64(uint64_t m);
 
-__END_DECLS  #endif /* alder_rng_alder_rng_h */
+__END_DECLS
+
+#endif /* alder_rng_alder_rng_h */

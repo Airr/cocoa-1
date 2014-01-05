@@ -29,8 +29,19 @@
 #include "alder_file_isfile.h"
 #include "alder_file_isbinary.h"
 #include "alder_file_isfasta.h"
+#include "alder_file_isfastq.h"
 #include "alder_file_whatformat.h"
 #include "alder_file_firstline.h"
+#include "alder_file_availablediskspace.h"
+#include "alder_file_sequencefilesize.h"
+#include "alder_file_availablememory.h"
+#include "alder_file_mkdir.h"
+#include "alder_file_getcwd.h"
+#include "alder_file_sysctl.h"
+#include "alder_file_availableopenfiles.h"
+#include "alder_file_rm.h"
+#include "alder_file_size.h"
+#include "alder_file_format.h"
 
 #undef __BEGIN_DECLS
 #undef __END_DECLS

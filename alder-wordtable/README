@@ -1,0 +1,49 @@
+# TODO
+KFMindex debug? how?
+
+alder_wordtable_tokeniterator
+alder_wordtable_stackkfmindex
+alder_wordtable_sequenceiterator
+alder_wordtable_kfmoptions
+
+# DONE
+alder_wordtable_positionlist
+alder_wordtable_positionvaluelist
+alder_wordtable_bigbitarray
+
+# NOT YET
+KFMindex
+inedgelist
+alder_wordtable_bitpackedlist
+
+# Structure
+There are a few list and bit array types. The following is an outline of their
+usages.
+
+1. inedgelist prepares a list of node sequences before creating a KFMindex, and
+it uses intblocklist.
+
+2. KFMindex uses inedgedata bitpackedcumulativearray
+for the 5-bit array and the rho table. Each of the two uses bitpackedlist.
+This is why the two types are made rather than directly using bitpackedlist.
+
+3. KFMmerger merges two KFMindex variables using bigbitarray.
+
+4. Pruning KFMindex uses positionlist and positionvaluelist.
+
+# Procedure
+
+1. Use FASTA or FASTQ sequences to create a kfm binary file.
+FASTQ files
+
+2. Find the index of a node sequence.
+
+# Java Tutorials
+
+## Iterable and Iterator
+http://blog.dreasgrech.com/2010/03/javas-iterators-and-iterables.html
+
+## Population Count
+http://www.bitbashing.org/2012/11/12/popcount-of-a-bit-string/
+
+

@@ -35,10 +35,11 @@ alder_fastq_concat_t * alder_fastq_concat_init(const char *fn1,
 {
     const int64_t moreSpace = 100;
     int64_t numLine = alder_file_numline(fn1);
-    alder_fastq_concat_t *afc = malloc(sizeof(alder_fastq_concat_t));
+    alder_fastq_concat_t *afc = malloc(sizeof(*afc));
     if (afc == NULL) {
         return NULL;
     }
+    memset(afc, 0, sizeof(*afc));
     if (numLine%4 != 0) {
         // The number of lines can be divided by 4.
         free(afc);
@@ -50,24 +51,27 @@ alder_fastq_concat_t * alder_fastq_concat_init(const char *fn1,
     afc->sizeWithDollar = -1;
     afc->type = 0; // single-end data
     afc->fixedLength = 0; // no fixed length
-    afc->read = malloc(afc->sizeCapacity * sizeof(char));
+    afc->read = malloc(afc->sizeCapacity * sizeof(*afc->read));
     if (afc->read == NULL) {
         free(afc);
         return NULL;
     }
-    afc->qual = malloc(afc->sizeCapacity * sizeof(char));
+    memset(afc->read,0,afc->sizeCapacity * sizeof(*afc->read));
+    afc->qual = malloc(afc->sizeCapacity * sizeof(*afc->qual));
     if (afc->qual == NULL) {
         free(afc->read);
         free(afc);
         return NULL;
     }
-    afc->index = malloc(afc->numberRead * sizeof(int64_t));
+    memset(afc->qual,0,afc->sizeCapacity * sizeof(*afc->qual));
+    afc->index = malloc(afc->numberRead * sizeof(*afc->index));
     if (afc->index == NULL) {
         free(afc->qual);
         free(afc->read);
         free(afc);
         return NULL;
     }
+    memset(afc->index,0,afc->numberRead * sizeof(*afc->index));
     int status = (int)alder_fastq_concat_read(fn1, afc->read, afc->qual, afc->index,
                                               afc->numberBase);
     if (status != 0) {

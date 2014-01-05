@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>75DFE350-A6FA-4129-B6CD-1F1ED8833D65</string>
+	<key>IDESourceControlProjectName</key>
+	<string>alder-cmacro</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>160CA2C2-C0D8-4EC7-818C-C2B4E1A68D23</key>
+		<string>ssh://github.com/goshng/cocoa.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>alder-cmacro/alder-cmacro.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>160CA2C2-C0D8-4EC7-818C-C2B4E1A68D23</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/goshng/cocoa.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>160CA2C2-C0D8-4EC7-818C-C2B4E1A68D23</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>160CA2C2-C0D8-4EC7-818C-C2B4E1A68D23</string>
+			<key>IDESourceControlWCCName</key>
+			<string>cocoa</string>
+		</dict>
+	</array>
+</dict>
+</plist>

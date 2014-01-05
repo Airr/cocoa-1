@@ -18,8 +18,41 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <assert.h>
 #include "bstrmore.h"
+
+#ifndef bstr__alloc
+#define bstr__alloc(x) malloc (x)
+#endif
+
+#ifndef bstr__free
+#define bstr__free(p) free (p)
+#endif
+
+#ifndef bstr__realloc
+#define bstr__realloc(p,x) realloc ((p), (x))
+#endif
+
+#ifndef bstr__memcpy
+#define bstr__memcpy(d,s,l) memcpy ((d), (s), (l))
+#endif
+
+#ifndef bstr__memmove
+#define bstr__memmove(d,s,l) memmove ((d), (s), (l))
+#endif
+
+#ifndef bstr__memset
+#define bstr__memset(d,c,l) memset ((d), (c), (l))
+#endif
+
+#ifndef bstr__memcmp
+#define bstr__memcmp(d,c,l) memcmp ((d), (c), (l))
+#endif
+
+#ifndef bstr__memchr
+#define bstr__memchr(s,c,l) memchr ((s), (c), (l))
+#endif
 
 /*
  * int bltrimc (bstring b, char c)
@@ -407,6 +440,42 @@ int i, len, j;
 	return j;
 }
 
+/*
+ * Create a list of bstring with at least n.
+ * This does not own the elements of bstrings.
+ */
+struct bstrList * bstrViewCreate()
+{
+    return bstrListCreate();
+}
+
+int bstrViewAdd(struct bstrList *sl, bstring b)
+{
+    if (sl->qty >= sl->mlen - 1) {
+        int s = bstrListAlloc(sl, sl->mlen*2);
+        if (s != BSTR_OK) {
+            return s;
+        }
+    }
+    sl->entry[sl->qty] = b;
+    sl->qty++;
+    return BSTR_OK;
+}
+
+/* 
+ * Destory a list without freeing bstring elements.
+ */
+int bstrViewDestroy(struct bstrList *sl)
+{
+	if (sl == NULL || sl->qty < 0) return BSTR_ERR;
+	sl->qty  = -1;
+	sl->mlen = -1;
+	bstr__free (sl->entry);
+	sl->entry = NULL;
+	bstr__free (sl);
+	return BSTR_OK;
+}
+
 
 /*
  * Create a list of bstring with at least n.
@@ -414,28 +483,75 @@ int i, len, j;
 struct bstrList * bstrVectorCreate(int n)
 {
     struct bstrList *sl = bstrListCreate();
+    if (sl == NULL) {
+        return NULL;
+    }
     int s = bstrListAlloc(sl, n);
-    assert(s == BSTR_OK);
-//    for (int i = 0; i < sl->qty; i++) {
-//        sl->entry[i] = NULL;
-//    }
-    // We have zeroed it here already.
+    if (s != BSTR_OK) {
+        bstrListDestroy(sl);
+        return NULL;
+    }
+    assert(sl->qty == 0);
     memset(sl->entry, 0, sl->mlen * sizeof(bstring));
     return sl;
 }
 
-void bstrVectorAdd(struct bstrList *sl, const char *s)
+void bstrVectorAddBstring(struct bstrList *sl, bstring b)
 {
-    bstring b = bfromcstr(s);
+    if (sl->qty >= sl->mlen - 1) {
+        int s = bstrListAlloc(sl, sl->mlen*2);
+        assert(s == BSTR_OK);
+    }
     sl->entry[sl->qty] = b;
     sl->qty++;
     return;
 }
 
-void bstrVectorDelete(struct bstrList *sl)
+/* This function adds string s to the given string list sl.
+ * returns
+ * BSTR_OK or BSTR_ERR
+ */
+int bstrVectorAdd(struct bstrList *sl, const char *s)
 {
-    bstrListDestroy(sl);
-    return;
+    if (sl->qty >= sl->mlen - 1) {
+        int s = bstrListAlloc(sl, sl->mlen*2);
+        if (s != BSTR_OK) {
+            return BSTR_ERR;
+        }
+    }
+    bstring b = bfromcstr(s);
+    if (b == NULL) {
+        return BSTR_ERR;
+    }
+    sl->entry[sl->qty] = b;
+    sl->qty++;
+    return BSTR_OK;
+}
+
+int bstrVectorDelete(struct bstrList *sl)
+{
+    return bstrListDestroy(sl);
+}
+
+/* This function copies strings in the sl list.
+ * returns 
+ * a new string list or NULL
+ */
+struct bstrList * bstrVectorCopy(struct bstrList *sl)
+{
+    int r;
+    struct bstrList *new_sl = bstrVectorCreate(sl->qty);
+    if (new_sl == NULL) {
+        return NULL;
+    }
+    for (int i = 0; i < sl->qty; i++) {
+        if (bstrVectorAdd(new_sl, bdata(sl->entry[i])) != BSTR_OK) {
+            r = bstrListDestroy(new_sl);
+            assert(r == BSTR_OK);
+            return NULL;
+        }
+    }
+    return new_sl;
 }
 
 
@@ -456,4 +572,76 @@ int bstrVectorCompare(struct bstrList *sl1, struct bstrList *sl2)
         }
     }
     return 0;
+}
+
+static int
+bstrVectorSortCommpare(const void *a, const void *b)
+{
+    return bstrcmp(*(const_bstring*)a, *(const_bstring*)b);
+}
+
+void bstrVectorSort(struct bstrList *sl)
+{
+    qsort(sl->entry, sl->qty, sizeof(*sl->entry), bstrVectorSortCommpare);
+}
+
+void bstrVectorUnique(struct bstrList *sl)
+{
+    for (int i = 0; i < sl->qty; i++) {
+        for (int j = 0; j < sl->qty; j++) {
+            if (i == j) {
+                continue;
+            }
+            if (!bstrcmp(sl->entry[i], sl->entry[j])) {
+                bdestroy(sl->entry[j]);
+                sl->entry[j] = NULL;
+            }
+        }
+    }
+    int j = 0;
+    for (int i = 0; i < sl->qty; i++) {
+        if (sl->entry[i] == NULL) {
+            continue;
+        }
+        if (j < i) {
+            sl->entry[j] = sl->entry[i];
+            sl->entry[i] = NULL;
+        }
+        j++;
+    }
+    sl->qty = j;
+}
+
+/* This function tests whether a substring exists in the set of strings.
+ * returns BSTR_ERR if no such string exists,
+ * otherwise some other values.
+ */
+int bstrVectorExistSubstring(struct bstrList *sl, bstring b)
+{
+    int v = BSTR_ERR;
+    for (int i = 0; i < sl->qty; i++) {
+        v = binstr(sl->entry[i], 0, b);
+        if (v != BSTR_ERR) {
+            break;
+        }
+    }
+    return v;
+}
+
+void bstrVectorPrint(FILE *fp, struct bstrList *sl)
+{
+    for (int i = 0; i < sl->qty; i++) {
+        fprintf(fp, "[%02d] %s\n", i, bdata(sl->entry[i]));
+    }
+}
+
+/* This function creates a string of c characters of size n.
+ */
+bstring brepeat(int n, char c)
+{
+    bstring b = bfromcstralloc(n, "");
+    for (int i = 0; i < n; i++) {
+        bconchar(b, c);
+    }
+    return b;
 }

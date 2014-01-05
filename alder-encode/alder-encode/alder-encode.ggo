@@ -1,0 +1,10 @@
+package "alder-encode"
+version "0.1"
+purpose "alder-encode does something ..."
+description "alder-encode does something more ..."
+option "cite" - "Print reference papers" optional hidden
+option "outfile" o "Output files" string typestr="file,..." multiple optional
+option "log" - "Log file" string typestr="file" default="alder-encode.log" optional argoptional
+option "kmer" - "Encode kmer" long typestr="1-128" default="1" optional
+option "seq" - "A sequence" string typestr="ACGT..." default="ACGT" optional
+option "number" - "Test of number" flag off

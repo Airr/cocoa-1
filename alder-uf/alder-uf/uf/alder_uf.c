@@ -22,6 +22,15 @@
 #include <assert.h>
 #include "alder_uf.h"
 
+#pragma mark debug
+
+static void
+alder_uf_assert()
+{
+    assert(0);
+    abort();
+}
+
 #pragma mark memory
 
 #define BLOCKSIZE 256
@@ -36,7 +45,7 @@ struct alder_item_memory {
     size_t nhead;
 };
 
-static struct alder_item_memory block_item = { NULL, NULL, NULL, 0 };
+static struct alder_item_memory block_item = { NULL, NULL, NULL, 0, 0 };
 
 static item_node_t *get_node_item()
 {
@@ -80,6 +89,11 @@ static void destroy_node_item()
             free(block_item.head[i]);
         }
         free(block_item.head);
+        block_item.head = NULL;
+        block_item.current = NULL;
+        block_item.free = NULL;
+        block_item.size = 0;
+        block_item.nhead = 0;
     }
 }
 
@@ -93,7 +107,7 @@ struct alder_uf_memory {
     size_t nhead;
 };
 
-static struct alder_uf_memory block_uf = { NULL, NULL, NULL, 0 };
+static struct alder_uf_memory block_uf = { NULL, NULL, NULL, 0, 0 };
 
 static uf_node_t *get_node_uf()
 {
@@ -137,6 +151,11 @@ static void destroy_node_uf()
             free(block_uf.head[i]);
         }
         free(block_uf.head);
+        block_uf.head = NULL;
+        block_uf.current = NULL;
+        block_uf.free = NULL;
+        block_uf.size = 0;
+        block_uf.nhead = 0;
     }
 }
 
@@ -150,7 +169,7 @@ struct alder_tree_memory {
     size_t nhead;
 };
 
-static struct alder_tree_memory block_tree = { NULL, NULL, NULL, 0 };
+static struct alder_tree_memory block_tree = { NULL, NULL, NULL, 0, 0 };
 
 static tree_node_t *get_node_tree()
 {
@@ -204,6 +223,11 @@ static void destroy_node_tree()
             free(block_tree.head[i]);
         }
         free(block_tree.head);
+        block_tree.head = NULL;
+        block_tree.current = NULL;
+        block_tree.free = NULL;
+        block_tree.size = 0;
+        block_tree.nhead = 0;
     }
 }
 
@@ -307,22 +331,6 @@ item_print(FILE *fp, item_node_t *i)
 
 #pragma mark uf
 
-static uf_node_t *
-uf_create (item_node_t *new_item)
-{
-    uf_node_t *new_node;
-    new_node = get_node_uf();
-    if (new_node == NULL) return NULL;
-    new_node->item = new_item;
-    new_node->rank = 0;
-    new_node->degree = 0;
-    new_node->up = NULL;
-    new_node->down = NULL;
-    new_node->left = NULL;
-    new_node->right = NULL;
-    return new_node;
-}
-
 
 static uf_node_t *
 uf_insert (item_node_t *new_item)
@@ -340,19 +348,35 @@ uf_insert (item_node_t *new_item)
     return new_node;
 }
 
+static uf_node_t *
+uf_create (item_node_t *new_item)
+{
+    uf_node_t *new_node = uf_insert(new_item);
+    new_node->rank = 0;
+    return new_node;
+}
+
+/* This function finds the roots of two nodes in the union-find structure,
+ * and tests whether they points to the same root ine union-find structure.
+ * returns
+ * 1 or true if the two nodes are led to the same root.
+ * 0 or false if the two nodes are led to different roots.
+ */
 static int
-same_class (uf_node_t * node1, uf_node_t * node2)
+uf_same (uf_node_t * node1, uf_node_t * node2)
 {
     uf_node_t *root1;
     uf_node_t *root2;
     /* find both roots */
     for (root1 = node1; root1->up->rank > 0; root1 = root1->up);
-    for (root2 = node1; root2->up->rank > 0; root2 = root2->up);
+    for (root2 = node2; root2->up->rank > 0; root2 = root2->up);
     
     /* return result */
     return (root1 == root2);
 }
 
+/* This function deletes a node in the union-find structure.
+ */
 static void
 uf_delete (uf_node_t * node1)
 {
@@ -370,10 +394,40 @@ uf_delete (uf_node_t * node1)
     if (down1 == NULL) {
         /* Detach the node. */
         t1 = node1;
-        if (t1->left != NULL && pnode1->down == t1) pnode1->down = t1->left;
+//        if (t1->left != NULL && pnode1->down == t1) pnode1->down = t1->left;
+        if (pnode1->down == t1) pnode1->down = t1->left;
         if (t1->left != NULL) t1->left->right = t1->right;
         if (t1->right != NULL) t1->right->left = t1->left;
         pnode1->degree--;
+    } else if (pnode1 == rootUF) {
+        t1 = down1->left;
+        down1->left = node1->left;
+        down1->right = node1->right;
+        if (node1->left != NULL) node1->left->right = down1;
+        if (node1->right != NULL) node1->right->left = down1;
+        down1->up = rootUF;
+        if (rootUF->down == node1) rootUF->down = down1;
+        uf_node_t *t11 = down1->down;
+        if (t11 == NULL) {
+            down1->down = t1;
+            if (t1 != NULL) {
+                t1->right = NULL;
+            }
+        } else {
+            while (t11->left != NULL) {
+                t11 = t11->left;
+            }
+            t11->left = t1;
+            if (t1 != NULL) {
+                t1->right = t11;
+            }
+        }
+        while (t1 != NULL) {
+            t1->up = down1;
+            t1 = t1->left;
+        }
+        down1->degree += node1->degree - 1;
+        pnode1 = down1;
     } else {
         t1 = down1;
         t1->right = node1->right;
@@ -401,8 +455,7 @@ uf_delete (uf_node_t * node1)
                 if (new_rank < t1->rank) new_rank = t1->rank;
                 t1 = t1->left;
             }
-            assert(pnode1->rank <= new_rank + 1);
-            if (pnode1->rank < new_rank + 1) {
+            if (pnode1->rank != new_rank + 1) {
                 pnode1->rank = new_rank + 1;
             } else {
                 break;
@@ -412,18 +465,25 @@ uf_delete (uf_node_t * node1)
     }
 }
 
-static void
-join (uf_node_t * node1, uf_node_t * node2)
+/* This function takes the union of two nodes in the union-find structure.
+ * returns
+ * ALDER_ERROR_DUPLICATE if the two nodes are the same or are led to the same
+ *   root in the union-find structure.
+ */
+static int
+uf_join (uf_node_t * node1, uf_node_t * node2)
 {
     uf_node_t *rootUF;
     uf_node_t *root1;
     uf_node_t *root2;
     uf_node_t *t1;
     uf_node_t *t2;
+    if (node1 == node2) return ALDER_ERROR_DUPLICATE;
+    
     /* find both roots */
     for (root1 = node1; root1->up->rank > 0; root1 = root1->up);
     for (root2 = node2; root2->up->rank > 0; root2 = root2->up);
-    assert(root1 != root2);
+    if (root1 == root2) return ALDER_ERROR_DUPLICATE;
     rootUF = root1->up;
     assert(root2->up == rootUF);
     
@@ -442,49 +502,55 @@ join (uf_node_t * node1, uf_node_t * node2)
         assert(root2->down == NULL);
         /* Detach root2. */
         t2 = root2;
-        if (t2->left != NULL && rootUF->down == t2) rootUF->down = t2->left;
+        if (rootUF->down == t2) assert(t2->left != NULL);
+        if (rootUF->down == t2) rootUF->down = t2->left;
         if (t2->left != NULL) t2->left->right = t2->right;
         if (t2->right != NULL) t2->right->left = t2->left;
-        root2->up = root1;
         root1->down = root2;
+        root2->up = root1;
         root2->right = NULL;
         root2->left = NULL;
-        rootUF->degree--;
+        assert(root2->down == NULL);
         root1->rank = 2;
         root1->degree = 1;
     } else if (root1->rank == 2) {
+        assert(root1->degree > 0);
+        assert(root1->down != NULL);
         if (root2->rank == 1) {
             assert(root2->degree == 0);
             assert(root2->down == NULL);
             /* Detach root1. */
             t1 = root1;
-            if (t1->left != NULL && rootUF->down == t1) rootUF->down = t1->left;
+            if (rootUF->down == t1) assert(t1->left != NULL);
+            if (rootUF->down == t1) rootUF->down = t1->left;
             if (t1->left != NULL) t1->left->right = t1->right;
             if (t1->right != NULL) t1->right->left = t1->left;
-            root1->up = root2;
             root2->down = root1;
+            root1->up = root2;
             root1->right = NULL;
             root1->left = NULL;
-            rootUF->degree--;
-            root2->rank = 3;
-            root2->degree = 1;
+            assert(root1->down != NULL);
         } else {
             assert(root2->rank == 2);
+            assert(root2->degree > 0);
+            assert(root2->down != NULL);
             /* Detach root1. */
             t1 = root1;
-            if (t1->left != NULL && rootUF->down == t1) rootUF->down = t1->left;
+            if (rootUF->down == t1) assert(t1->left != NULL);
+            if (rootUF->down == t1) rootUF->down = t1->left;
             if (t1->left != NULL) t1->left->right = t1->right;
             if (t1->right != NULL) t1->right->left = t1->left;
             /* Append root1 to root2's children. */
-            t2 = root2->down;
-            root1->up = root2;
-            root2->down = root1;
-            t2->right = root1;
-            root1->left = t2;
-            root1->right = NULL;
-            root2->rank = 3;
-            root2->degree++;
+            t2 = root2->down;     /* (1) */
+            root1->up = root2;    /* (2) */
+            root2->down = root1;  /* (3) */
+            t2->right = root1;    /* (4) */
+            root1->left = t2;     /* (5) */
+            root1->right = NULL;  /* (6) */
         }
+        root2->rank = 3;
+        root2->degree++;
+        /* root1's rank/degree no change. */
     } else if (root1->rank >= 3) {
         if (root2->rank < root1->rank)
         {
@@ -493,45 +559,50 @@ join (uf_node_t * node1, uf_node_t * node2)
                 assert(root2->down == NULL);
                 /* Detach root2. */
                 t2 = root2;
-                if (t2->left != NULL && rootUF->down == t2) rootUF->down = t2->left;
+                if (rootUF->down == t2) assert(t2->left != NULL);
+                if (rootUF->down == t2) rootUF->down = t2->left;
                 if (t2->left != NULL) t2->left->right = t2->right;
                 if (t2->right != NULL) t2->right->left = t2->left;
-                t1 = root1->down;
-                uf_node_t *t11 = t1->down;
-                root2->up = t1;
-                t1->down = root2;
-                root2->left = t11;
-                root2->right = NULL;
+                assert(root1->down != NULL);
+                t1 = root1->down;           /* (1) */
+                uf_node_t *t11 = t1->down;  /* (2) */
+                root2->up = t1;             /* (3) */
+                t1->down = root2;           /* (4) */
+                root2->left = t11;          /* (5) */
+                root2->right = NULL;        /* (6) */
                 if (t11 != NULL) {
-                    t11->right = root2;
+                    t11->right = root2;     /* (7) */
                 } else {
                     assert(t1->rank == 1);
                     t1->rank = 2;
                 }
                 t1->degree++;
             } else {
+                assert(root2->rank >= 2);
                 /* Detach root2. */
                 t2 = root2;
-                if (t2->left != NULL && rootUF->down == t2) rootUF->down = t2->left;
+                if (rootUF->down == t2) assert(t2->left != NULL);
+                if (rootUF->down == t2) rootUF->down = t2->left;
                 if (t2->left != NULL) t2->left->right = t2->right;
                 if (t2->right != NULL) t2->right->left = t2->left;
-                t1 = root1->down;
-                uf_node_t *t11 = t1->down;
-                root2->up = t1;
-                t2 = root2->down;
-                t2->right = root2;
-                root2->left = t2;
-                root2->right = NULL;
-                root2->down = NULL;
+                assert(root1->down != NULL);
+                t1 = root1->down;           /* (1) */
+                uf_node_t *t11 = t1->down;  /* (2) */
+                root2->up = t1;             /* (3) */
+                t2 = root2->down;           /* (4) */
+                t2->right = root2;          /* (5) */
+                root2->left = t2;           /* (6) */
+                root2->right = NULL;        /* (7) */
+                root2->down = NULL;         /* (8) */
                 while (t2->left != NULL) {
-                    t2->up = t1;
-                    t2 = t2->left;
+                    t2->up = t1;            /* (9) */
+                    t2 = t2->left;          /* (10)*/
                 }
-                t2->up = t1;
-                t1->down = root2;
-                t2->left = t11;
+                t2->up = t1;                /* (11)*/
+                t1->down = root2;           /* (12)*/
+                t2->left = t11;             /* (13)*/
                 if (t11 != NULL) {
-                    t11->right = t2;
+                    t11->right = t2;        /* (14)*/
                 } else {
                     assert(t1->rank == 1);
                     t1->rank = 2;
@@ -541,11 +612,13 @@ join (uf_node_t * node1, uf_node_t * node2)
                 root2->degree = 0;
             }
         }
-        else  /* root2->height == root1->height */
+        else
         {
+            assert(root1->rank == root2->rank);
             /* Detach root2. */
             t2 = root2;
-            if (t2->left != NULL && rootUF->down == t2) rootUF->down = t2->left;
+            if (rootUF->down == t2) assert(t2->left != NULL);
+            if (rootUF->down == t2) rootUF->down = t2->left;
             if (t2->left != NULL) t2->left->right = t2->right;
             if (t2->right != NULL) t2->right->left = t2->left;
             
@@ -562,42 +635,54 @@ join (uf_node_t * node1, uf_node_t * node2)
             t2->left = t1;
             root1->down = root2->down;
             
-            
-            root1->degree += root2->degree;
-            
             /* now lists joined together below root 1 */
             if (root1->degree < root1->rank) {
-                root2->up = root1->down;    /* point to node on root1 list */
-                t1 = root1->down->down;
-                root2->left = t1;
-                root2->right = NULL;
+                /* Make it wider. */
+                root2->up = root1->down;     /* (1) */
+                t1 = root1->down->down;      /* (2) */
+                root2->left = t1;            /* (3) */
+                root2->right = NULL;         /* (4) */
                 if (t1 != NULL) {
-                    t1->right = root2;
+                    t1->right = root2;       /* (5) */
                 } else {
                     root1->down->rank = 2;
                 }
-                root2->up->down = root2;
-                root2->down = NULL;
+                root2->up->down = root2;     /* (6) */
+                root2->down = NULL;          /* (7) */
+                
                 root2->rank = 1;
+                root1->degree += root2->degree;
                 root2->degree = 0;
                 root1->down->degree++;
             }
             else                  /* root2 becomes new root, root1 goes below */
             {
-                /* Detach root1. */
+                /* Make it taller. */
+                /* Replace root1 with root2. */
                 t1 = root1;
-                if (t1->left != NULL && rootUF->down == t1) rootUF->down = t1->left;
-                if (t1->left != NULL) t1->left->right = t1->right;
-                if (t1->right != NULL) t1->right->left = t1->left;
-                root1->up = root2;
-                root2->down = root1;
+                root2->left = root1->left;
+                root2->right = root1->right;
+                root2->up = rootUF;
+                if (rootUF->down == root1) rootUF->down = root2;
+                if (root1->right != NULL) root1->right->left = root2;
+                if (root1->left != NULL) root1->left->right = root2;
+                
+                root1->up = root2;           /* (1) */
+                root1->right = NULL;
+                root1->left = NULL;
+                root2->down = root1;         /* (2) */
+                
                 root2->rank = root1->rank + 1;
+                root1->degree += root2->degree;
                 root2->degree = 1;
             }
-            rootUF->degree--;
         }
     }
+    rootUF->degree--;
+    return ALDER_SUCCESS;
 }
+
+#pragma mark tree
 
 static tree_node_t *
 tree_create (void)
@@ -673,7 +758,7 @@ tree_destroyWithUFAndItem (tree_node_t * tree)
 }
 
 static void
-left_rotation (tree_node_t * n)
+tree_left_rotation (tree_node_t * n)
 {
     tree_node_t *tmp_node;
     key_t tmp_key;
@@ -688,7 +773,7 @@ left_rotation (tree_node_t * n)
 }
 
 static void
-right_rotation (tree_node_t * n)
+tree_right_rotation (tree_node_t * n)
 {
     tree_node_t *tmp_node;
     key_t tmp_key;
@@ -702,14 +787,16 @@ right_rotation (tree_node_t * n)
     n->right->key = tmp_key;
 }
 
+/* This functions search the binary tree for a value node with the query key.
+ * returns the value leaf node if a node is found, and nil otherwise.
+ */
 static object_t *
-find (tree_node_t * tree, key_t query_key)
+tree_find (tree_node_t * tree, key_t query_key)
 {
     tree_node_t *tmp_node;
-    if (tree->left == NULL)
-        return (NULL);
-    else
-    {
+    if (tree->left == NULL) {
+        return NULL;
+    } else {
         tmp_node = tree;
         while (tmp_node->right != NULL)
         {
@@ -721,13 +808,19 @@ find (tree_node_t * tree, key_t query_key)
         if (tmp_node->key == query_key)
             return ((object_t *) tmp_node->left);
         else
-            return (NULL);
+            return NULL;
     }
 }
 
 
+/* This function inserts a node to a binary search tree.
+ * returns 
+ * ALDER_SUCCESS on success.
+ * ALDER_ERROR_DUPULICATE if the item already exists in the tree.
+ * ALDER_ERROR_MEMORY if not enough memory available.
+ */
 static int
-insert (tree_node_t * tree, key_t new_key, object_t * new_object)
+tree_insert (tree_node_t * tree, key_t new_key, object_t * new_object)
 {
     tree_node_t *tmp_node;
     int finished;
@@ -750,16 +843,22 @@ insert (tree_node_t * tree, key_t new_key, object_t * new_object)
         }
         /* found the candidate leaf. Test whether key distinct */
         if (tmp_node->key == new_key)
-            return (-1);
+            return ALDER_ERROR_DUPLICATE;
         /* key is distinct, now perform the insert */
         {
             tree_node_t *old_leaf, *new_leaf;
             old_leaf = get_node_tree();
+            if (old_leaf == NULL) {
+                return ALDER_ERROR_MEMORY;
+            }
             old_leaf->left = tmp_node->left;
             old_leaf->key = tmp_node->key;
             old_leaf->right = NULL;
             old_leaf->height = 0;
             new_leaf = get_node_tree();
+            if (new_leaf == NULL) {
+                return ALDER_ERROR_MEMORY;
+            }
             new_leaf->left = (tree_node_t *) new_object;
             new_leaf->key = new_key;
             new_leaf->right = NULL;
@@ -782,12 +881,12 @@ insert (tree_node_t * tree, key_t new_key, object_t * new_object)
             old_height = tmp_node->height;
             if (tmp_node->left->height - tmp_node->right->height == 2) {
                 if (tmp_node->left->left->height - tmp_node->right->height == 1) {
-                    right_rotation (tmp_node);
+                    tree_right_rotation (tmp_node);
                     tmp_node->right->height = tmp_node->right->left->height + 1;
                     tmp_node->height = tmp_node->right->height + 1;
                 } else {
-                    left_rotation (tmp_node->left);
-                    right_rotation (tmp_node);
+                    tree_left_rotation (tmp_node->left);
+                    tree_right_rotation (tmp_node);
                     tmp_height = tmp_node->left->left->height;
                     tmp_node->left->height = tmp_height + 1;
                     tmp_node->right->height = tmp_height + 1;
@@ -795,12 +894,12 @@ insert (tree_node_t * tree, key_t new_key, object_t * new_object)
                 }
             } else if (tmp_node->left->height - tmp_node->right->height == -2) {
                 if (tmp_node->right->right->height - tmp_node->left->height == 1) {
-                    left_rotation (tmp_node);
+                    tree_left_rotation (tmp_node);
                     tmp_node->left->height = tmp_node->left->right->height + 1;
                     tmp_node->height = tmp_node->left->height + 1;
                 } else {
-                    right_rotation (tmp_node->right);
-                    left_rotation (tmp_node);
+                    tree_right_rotation (tmp_node->right);
+                    tree_left_rotation (tmp_node);
                     tmp_height = tmp_node->right->right->height;
                     tmp_node->left->height = tmp_height + 1;
                     tmp_node->right->height = tmp_height + 1;
@@ -818,13 +917,13 @@ insert (tree_node_t * tree, key_t new_key, object_t * new_object)
         }
         
     }
-    return (0);
+    return ALDER_SUCCESS;
 }
 
 
 
 static object_t *
-delete (tree_node_t * tree, key_t delete_key)
+tree_delete (tree_node_t * tree, key_t delete_key)
 {
     tree_node_t *tmp_node, *upper_node, *other_node;
     object_t *deleted_object;
@@ -887,14 +986,14 @@ delete (tree_node_t * tree, key_t delete_key)
             {
                 if (tmp_node->left->left->height - tmp_node->right->height == 1)
                 {
-                    right_rotation (tmp_node);
+                    tree_right_rotation (tmp_node);
                     tmp_node->right->height = tmp_node->right->left->height + 1;
                     tmp_node->height = tmp_node->right->height + 1;
                 }
                 else
                 {
-                    left_rotation (tmp_node->left);
-                    right_rotation (tmp_node);
+                    tree_left_rotation (tmp_node->left);
+                    tree_right_rotation (tmp_node);
                     tmp_height = tmp_node->left->left->height;
                     tmp_node->left->height = tmp_height + 1;
                     tmp_node->right->height = tmp_height + 1;
@@ -906,14 +1005,14 @@ delete (tree_node_t * tree, key_t delete_key)
                 if (tmp_node->right->right->height -
                     tmp_node->left->height == 1)
                 {
-                    left_rotation (tmp_node);
+                    tree_left_rotation (tmp_node);
                     tmp_node->left->height = tmp_node->left->right->height + 1;
                     tmp_node->height = tmp_node->left->height + 1;
                 }
                 else
                 {
-                    right_rotation (tmp_node->right);
-                    left_rotation (tmp_node);
+                    tree_right_rotation (tmp_node->right);
+                    tree_left_rotation (tmp_node);
                     tmp_height = tmp_node->right->right->height;
                     tmp_node->left->height = tmp_height + 1;
                     tmp_node->right->height = tmp_height + 1;
@@ -939,6 +1038,9 @@ delete (tree_node_t * tree, key_t delete_key)
 
 /* This function creates a union-find structure.
  * returns a union-find structure, and NULL otherwise.
+ * always call alder_uf_destroy after alder_uf_create
+ * even if alder_uf_create failed. This would free any memory
+ * allocated by alder_uf_create.
  */
 alder_uf_t * alder_uf_create()
 {
@@ -948,14 +1050,15 @@ alder_uf_t * alder_uf_create()
         return NULL;
     }
     uf->tree = tree_create();
-    item_node_t *new_item;
-    new_item = get_node_item();
+    item_node_t *new_item = get_node_item();
+    new_item->item = -1;
     uf->uf = uf_create(new_item);
-   if (uf->tree == NULL || uf->uf == NULL) {
-       if (uf->tree != NULL) return_node_tree(uf->tree);
-       if (uf->uf != NULL) return_node_uf(uf->uf);
-       free(uf);
-       return NULL;
+    if (uf->tree == NULL || uf->uf == NULL || new_item == NULL) {
+        if (uf->tree != NULL) return_node_tree(uf->tree);
+        if (uf->uf != NULL) return_node_uf(uf->uf);
+        if (new_item != NULL) return_node_item(new_item);
+        free(uf);
+        return NULL;
     }
     return uf;
 }
@@ -965,21 +1068,25 @@ alder_uf_t * alder_uf_create()
 void alder_uf_destroy(alder_uf_t *uf)
 {
     /* Return memory for the union-find structure. */
-    tree_destroyWithUFAndItem(uf->tree);
-    return_node_item(uf->uf->item);
-    return_node_uf(uf->uf);
+    if (uf != NULL) {
+        tree_destroyWithUFAndItem(uf->tree);
+        return_node_item(uf->uf->item);
+        return_node_uf(uf->uf);
+        /* Free the memory for the union-find variable. */
+        free(uf);
+    }
     
     /* Check if the memory is clean. */
     destroy_node_item();
     destroy_node_tree();
     destroy_node_uf();
-    
-    /* Free the memory for the union-find variable. */
-    free(uf);
 }
 
 /* This function creates a new set with a single element.
- * returns ALDER_SUCCESS or ALDER_ERROR.
+ * returns ALDER_SUCCESS if a new set is created with the element.
+ * ALDER_ERROR otherwise. If the element already exists in the tree, this 
+ * function returns ALDER_ERROR_DUPLICATE.
+ * always call alder_uf_destroy if this function returns ALDER_ERROR_MEMORY.
  */
 int alder_uf_makeset(alder_uf_t *uf, item_t e)
 {
@@ -987,13 +1094,18 @@ int alder_uf_makeset(alder_uf_t *uf, item_t e)
     item_node_t *new_item;
     uf_node_t *new_uf_node;
     
+    uf_node_t *n = tree_find (uf->tree, e);
+    if (n != NULL) {
+        return ALDER_ERROR_DUPLICATE;
+    }
+    
     new_item = get_node_item();
-    if (new_item == NULL) return ALDER_ERROR;
+    if (new_item == NULL) return ALDER_ERROR_MEMORY;
     new_item->item = e;
     new_uf_node = uf_insert(new_item);
     if (new_uf_node == NULL) {
         return_node_item(new_item);
-        return ALDER_ERROR;
+        return ALDER_ERROR_MEMORY;
     }
     
     uf_node_t *rootUF = uf->uf;
@@ -1008,54 +1120,105 @@ int alder_uf_makeset(alder_uf_t *uf, item_t e)
     rootUF->down = new_uf_node;
     rootUF->degree++;
     
-    s = insert (uf->tree, e, new_uf_node);
+    s = tree_insert(uf->tree, e, new_uf_node);
+    if (s != ALDER_SUCCESS) {
+        alder_uf_assert();
+    }
     
     return s;
 }
 
+/* This function takes the union of two sets. Two sets are identified by
+ * two different elements in them.
+ * returns
+ * ALDER_ERROR_DUPLICATE - two items are the same or belongs to the same set.
+ * ALDER_ERROR_NOTEXIST - not both of the items exist in the univeral set.
+ */
 int alder_uf_union(alder_uf_t *uf, item_t e1, item_t e2)
 {
+    if (e1 == e2) {
+        return ALDER_ERROR_DUPLICATE;
+    }
     uf_node_t *n1, *n2;
-    n1 = find (uf->tree, e1);
-    n2 = find (uf->tree, e2);
-    join (n1, n2);
-    return 0;
+    n1 = tree_find (uf->tree, e1);
+    n2 = tree_find (uf->tree, e2);
+    if (n1 == NULL || n2 == NULL) {
+        return ALDER_ERROR_NOTEXIST;
+    }
+    int s = uf_join (n1, n2);
+    return s;
 }
 
-int alder_uf_find(alder_uf_t *uf, item_t e)
+
+/* This function finds the set of the item.
+ * returns 
+ * ALDER_SUCCESS on success.
+ * ALDER_ERROR_NOTEXIST if the item does not exist.
+ */
+int alder_uf_find(alder_uf_t *uf, item_t *e)
 {
     uf_node_t *n;
-    n = find (uf->tree, e);
-    return n->item->item;
+    uf_node_t *root;
+    n = tree_find (uf->tree, *e);
+    if (n == NULL) return ALDER_ERROR_NOTEXIST;
+    for (root = n; root->up->rank > 0; root = root->up);
+    *e = root->item->item;
+    return ALDER_SUCCESS;
 }
 
-int alder_uf_same(alder_uf_t *uf, item_t e1, item_t e2)
+/* This function tests whether two elements are in the same set.
+ * returns
+ * ALDER_ERROR_NOTEXIST if not both of the elements do not exist in the set.
+ * ALDER_SUCCESS on success with s set to 
+ * 1 or true if the two elements are in the same set.
+ * 0 or false if they are in different sets.
+ */
+int alder_uf_same(alder_uf_t *uf, item_t e1, item_t e2, int *s)
 {
     uf_node_t *n1, *n2;
-    n1 = find (uf->tree, e1);
-    n2 = find (uf->tree, e2);
-    return same_class(n1, n2);
+    n1 = tree_find (uf->tree, e1);
+    if (n1 == NULL) return ALDER_ERROR_NOTEXIST;
+    n2 = tree_find (uf->tree, e2);
+    if (n2 == NULL) return ALDER_ERROR_NOTEXIST;
+    *s = uf_same(n1, n2);
+    return ALDER_SUCCESS;
 }
 
+/* This function deletes an element in the union-find structure.
+ * returns
+ * ALDER_ERROR_NOTEXIST if the element does not exist in the set.
+ * ALDER_SUCCESS on successful deletion.
+ */
 int alder_uf_delete(alder_uf_t *uf, item_t e)
 {
     uf_node_t *n;
-    n = find (uf->tree, e);
-    delete(uf->tree, e);
+    uf_node_t *delete_node;
+    n = tree_find (uf->tree, e);
+    if (n == NULL) return ALDER_ERROR_NOTEXIST;
+    delete_node = tree_delete(uf->tree, e);
+    if (delete_node == NULL) return ALDER_ERROR;
+    if (delete_node != n) return ALDER_ERROR;
     uf_delete(n);
-    return 0;
+    return_node_item(n->item);
+    return_node_uf(n);
+    return ALDER_SUCCESS;
 }
 
 /* This function constructs a linked list of items for a set.
- * returns a uf node, which can be used to list all of the elements.
+ * returns
+ * ALDER_ERROR_NOTEXIST if the element does not exist in the set.
+ * ALDER_SUCCESS on successful deletion.
+ * Use uf->uf->list to access all of the enumerated values.
  */
-uf_node_t * alder_uf_enumerate(alder_uf_t *uf, item_t e)
+int alder_uf_enumerate(alder_uf_t *uf, item_t e)
 {
     uf_node_t *rootUF;
     uf_node_t *root;
     uf_node_t *n;
     uf_node_t *c;
-    n = find (uf->tree, e);
+    n = tree_find (uf->tree, e);
+    if (n == NULL) return ALDER_ERROR_NOTEXIST;
+    
     for (root = n; root->up->rank > 0; root = root->up);
     rootUF = root->up;
     
@@ -1074,9 +1237,12 @@ uf_node_t * alder_uf_enumerate(alder_uf_t *uf, item_t e)
     }
     c->list = NULL;
     uf_stack_destroy(stack);
-    return root;
+    return ALDER_SUCCESS;
 }
 
+/* This function is an example of using uf->uf->list to access enumerated 
+ * elements.
+ */
 void alder_uf_printSet(alder_uf_t *uf, FILE *fp)
 {
     uf_node_t *t = uf->uf->list;
@@ -1088,5 +1254,278 @@ void alder_uf_printSet(alder_uf_t *uf, FILE *fp)
     fputc('\n', fp);
 }
 
+/* This function prints the content of the union-find structure.
+ */
+void alder_uf_print(alder_uf_t *uf, FILE *fp, int i)
+{
+    uf_node_t *rootUF;
+    
+    rootUF = uf->uf;
+    
+    alder_uf_node_stack_t *stack = uf_stack_create(100);
+    uf_stack_push(rootUF, stack);
+    fprintf(fp, "digraph G%d {\n", i);
+    while (!uf_stack_empty(stack)) {
+        uf_node_t *t = uf_stack_pop(stack);
+        fprintf(fp, "%d [label=\"%d (%d:%d)", t->item->item, t->item->item, t->rank, t->degree);
+        if (t->left != NULL) {
+            fprintf(fp, " %d", t->left->item->item);
+        } else {
+            fprintf(fp, " x");
+        }
+        if (t->right != NULL) {
+            fprintf(fp, " %d", t->right->item->item);
+        } else {
+            fprintf(fp, " x");
+        }
+        if (t->down != NULL) {
+            fprintf(fp, " %d", t->down->item->item);
+        } else {
+            fprintf(fp, " x");
+        }
+        fprintf(fp, "\"];\n");
+        
+        if (t->up != NULL) {
+            fprintf(fp, "%d -> %d;\n", t->up->item->item, t->item->item);
+        }
+        if (t->down != NULL) {
+            fprintf(fp, "%d [color=red];\n", t->down->item->item);
+        }
+        uf_node_t *t2 = t->down;
+        while (t2 != NULL) {
+            uf_stack_push(t2, stack);
+            t2 = t2->left;
+        }
+    }
+    fprintf(fp, "}\n");
+    uf_stack_destroy(stack);
+}
 
+/* This function counts the sets.
+ */
+int alder_uf_count(alder_uf_t *uf)
+{
+    uf_node_t *rootUF;
+    rootUF = uf->uf;
+    
+    int i = 0;
+    uf_node_t *t = rootUF->down;
+    while (t != NULL) {
+        i++;
+        t = t->left;
+    }
+    return i;
+}
+
+/* This function returns the name of k-th set.
+ */
+item_t alder_uf_set_k(alder_uf_t *uf, int k)
+{
+    uf_node_t *rootUF;
+    rootUF = uf->uf;
+    
+    uf_node_t *t = rootUF->down;
+    for (int i = 0; i < k; i++) {
+        t = t->left;
+    }
+    return t->item->item;
+}
+
+/* This function tests the union-find algorithm.
+ * creates 10 sets, of which index starts at 0 and ends in 9.
+ * Set 0 contains elements from 0 to 99.
+ * Set 1 contains those from 100 to 199.
+ * Set 9 contains those from 900 to 999.
+ * So, Set i contains those from (i x 100) to (i x 100 + 99).
+ * I randomly join two elements in each set until all of the elements in each
+ * set are joined together.
+ * tests the following:
+ * 1. Each of two elements in a set must be in the same set.
+ * 2. Each set must contains 100 elements.
+ * 3. I repeatedly remove an element in the set until the set is empty.
+ * 4. Repeat the check for each set after the removal of an element.
+ */
+int alder_uf_test0()
+{
+    srand(1);
+    alder_uf_t *uf = alder_uf_create();
+    const int size_superset = 10;
+    const int size_set = 10000;
+    
+    for (int k = 0; k < size_superset; k++) {
+        for (item_t i = k*size_set; i < (k+1)*size_set; i++) {
+            alder_uf_makeset(uf, i);
+        }
+        int c = alder_uf_count(uf);
+        while (c > 1 + k) {
+            int rn1 = rand()%c;
+            int rn2 = rand()%c;
+            while (rn1 == rn2) {
+                rn2 = rand()%c;
+            }
+            item_t set1 = alder_uf_set_k(uf, rn1);
+            item_t set2 = alder_uf_set_k(uf, rn2);
+            if (set1 >= k*size_set && set1 < (k+1)*size_set
+                && set2 >= k*size_set && set2 < (k+1)*size_set) {
+                alder_uf_union(uf, set1, set2);
+                c = alder_uf_count(uf);
+            }
+        }
+    }
+//    alder_uf_print(uf, stdout, 1);
+    /* Test of find. */
+    for (int i = 0; i < size_superset*size_set; i++) {
+        int k = i / size_set;
+        item_t e = i;
+        int s = alder_uf_find(uf, &e);
+        assert(s == ALDER_SUCCESS);
+        assert(e >= k*size_set && e < (k+1)*size_set
+               && e >= k*size_set && e < (k+1)*size_set);
+    }
+    
+    for (int i = 0; i < size_superset*size_set; i++) {
+        int rn1 = rand()%(size_superset*size_set);
+        int rn2 = rand()%(size_superset*size_set);
+        int k1 = rn1 / size_set;
+        int k2 = rn2 / size_set;
+        int s;
+        alder_uf_same(uf, rn1, rn2, &s);
+        if (k1 == k2) {
+            assert(s == 1);
+        } else {
+            if (s != 0) {
+                printf("[i] %d [s] %d [k] %d vs. %d [rn] %d vs. %d\n", i, s, k1, k2, rn1, rn2);
+            }
+            assert(s == 0);
+            
+        }
+    }
+    
+    for (int i = 0; i < size_superset*size_set; i++) {
+//        alder_uf_print(uf, stdout, i);
+        alder_uf_delete(uf, i);
+    }
+    alder_uf_print(uf, stdout, 1);
+    
+    alder_uf_destroy(uf);
+
+    return ALDER_SUCCESS;
+}
+
+/* A manual test.
+ */
+int alder_uf_test1()
+{
+    alder_uf_t *uf;
+    /* Test: creats and destroys a union-find type variable. */
+//    uf = alder_uf_create();
+//    alder_uf_destroy(uf);
+
+    /* Test: makes a new set with an element. */
+    int i = 0;
+    uf = alder_uf_create();
+    alder_uf_makeset(uf, 1);
+    alder_uf_print(uf, stdout, i++);
+    alder_uf_makeset(uf, 2);
+    alder_uf_print(uf, stdout, i++);
+    alder_uf_makeset(uf, 3);
+    alder_uf_print(uf, stdout, i++);
+    alder_uf_makeset(uf, 4);
+    alder_uf_print(uf, stdout, i++);
+    alder_uf_makeset(uf, 5);
+    alder_uf_print(uf, stdout, i++);
+    alder_uf_makeset(uf, 6);
+    alder_uf_print(uf, stdout, i++);
+    alder_uf_makeset(uf, 7);
+    alder_uf_print(uf, stdout, i++);
+    
+    alder_uf_makeset(uf, 11);
+    alder_uf_print(uf, stdout, i++);
+    alder_uf_makeset(uf, 12);
+    alder_uf_print(uf, stdout, i++);
+    alder_uf_makeset(uf, 13);
+    alder_uf_print(uf, stdout, i++);
+    alder_uf_makeset(uf, 14);
+    alder_uf_print(uf, stdout, i++);
+    alder_uf_makeset(uf, 15);
+    alder_uf_print(uf, stdout, i++);
+    alder_uf_makeset(uf, 16);
+    alder_uf_print(uf, stdout, i++);
+    alder_uf_makeset(uf, 17);
+    alder_uf_print(uf, stdout, i++);
+    alder_uf_union(uf, 11, 12);
+    alder_uf_print(uf, stdout, i++);
+    alder_uf_union(uf, 11, 13);
+    alder_uf_print(uf, stdout, i++);
+    alder_uf_union(uf, 11, 14);
+    alder_uf_print(uf, stdout, i++);
+    alder_uf_union(uf, 11, 15);
+    alder_uf_print(uf, stdout, i++);
+    alder_uf_union(uf, 11, 16);
+    alder_uf_print(uf, stdout, i++);
+    alder_uf_union(uf, 11, 17);
+    alder_uf_print(uf, stdout, i++);
+    
+    alder_uf_union(uf, 1, 2);
+    alder_uf_print(uf, stdout, i++);
+    alder_uf_union(uf, 3, 4);
+    alder_uf_print(uf, stdout, i++);
+    
+//    alder_uf_enumerate(uf, 1);
+//    alder_uf_printSet(uf, stdout);
+//    alder_uf_enumerate(uf, 3);
+//    alder_uf_printSet(uf, stdout);
+    
+    alder_uf_union(uf, 2, 4);
+    alder_uf_print(uf, stdout, i++);
+//    alder_uf_enumerate(uf, 2);
+//    alder_uf_printSet(uf, stdout);
+    
+    alder_uf_union(uf, 5, 6);
+    alder_uf_print(uf, stdout, i++);
+    alder_uf_union(uf, 5, 7);
+    alder_uf_print(uf, stdout, i++);
+//    alder_uf_enumerate(uf, 5);
+//    alder_uf_printSet(uf, stdout);
+    
+    alder_uf_union(uf, 2, 5);
+    alder_uf_print(uf, stdout, i++);
+//    alder_uf_enumerate(uf, 2);
+//    alder_uf_printSet(uf, stdout);
+    
+    alder_uf_union(uf, 2, 11);
+    alder_uf_print(uf, stdout, i++);
+//    alder_uf_enumerate(uf, 2);
+//    alder_uf_printSet(uf, stdout);
+    alder_uf_delete(uf, 6);
+    alder_uf_print(uf, stdout, i++);
+    alder_uf_delete(uf, 3);
+    alder_uf_print(uf, stdout, i++);
+    alder_uf_delete(uf, 11);
+    alder_uf_print(uf, stdout, i++);
+    alder_uf_delete(uf, 13);
+    alder_uf_print(uf, stdout, i++);
+    alder_uf_delete(uf, 5);
+    alder_uf_print(uf, stdout, i++);
+    alder_uf_delete(uf, 1);
+    alder_uf_delete(uf, 2);
+    alder_uf_delete(uf, 4);
+    alder_uf_delete(uf, 7);
+    alder_uf_delete(uf, 12);
+    alder_uf_delete(uf, 14);
+    alder_uf_delete(uf, 15);
+    alder_uf_print(uf, stdout, i++);
+    alder_uf_delete(uf, 16);
+    alder_uf_print(uf, stdout, i++);
+    alder_uf_delete(uf, 17);
+    alder_uf_print(uf, stdout, i++);
+    
+    int s;
+    item_t eFound = 0;
+    s = alder_uf_find(uf, &eFound);
+    assert(s == ALDER_ERROR_NOTEXIST);
+    
+    alder_uf_destroy(uf);
+    return 0;
+}
 

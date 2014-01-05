@@ -1,0 +1,12 @@
+package "alder-snippet"
+version "0.1"
+purpose "alder-snippet does something ..."
+description "alder-snippet does something more ..."
+option "cite" - "Print reference papers" optional hidden
+option "outfile" o "Output files" string typestr="file,..." multiple optional
+option "log" - "Log file" string typestr="file" default="alder-snippet.log" optional argoptional
+
+option "forloop" - "For loop" long typestr="number" default="0" optional
+option "array" - "Array" long typestr="number" default="0" optional
+option "sort" - "Sort" long typestr="number" default="0" optional
+option "sizeof" - "sizeof" long typestr="number" default="0" optional

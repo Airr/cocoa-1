@@ -1,0 +1,20 @@
+Additional contributors to alder-kmer.
+
+  Copyright (C) 2013, 2014 Sang Chul Choi
+
+  Copying and distribution of this file, with or without modification,
+  are permitted in any medium without royalty provided the copyright
+  notice and this notice are preserved.
+
+Thanks to:
+
+  Steven Feldman for the C source code of wait-free multi-word
+    compare-and-swap operation
+
+  Paul Hsieh for Better String library (bstrlib).
+
+  Dennis Krzyzaniak for Flexible C Logging API (nglogc).
+
+  Peter Brass for Advanced Data Structures.
+
+See also the AUTHORS and ChangeLog files.

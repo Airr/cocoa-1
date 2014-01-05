@@ -1,0 +1,32 @@
+This is a dynamic version of segment tree.
+I need a red-black tree.
+I have a key-value pair for a node in the red-black search tree.
+I need a function to compare keys in a client code of the red-black tree.
+segtree is built upon a red-black tree.
+
+I need the operation DOWN(n), which changes values in the node n, and its
+two children nodes.
+
+Wait! Internal nodes in the current tree model do not have values. 
+I could use a node with four elements: left, right, key, and value.
+The value could be linked to a list.
+I could have a union-copy structure, where sets represent nodes in the tree,
+and elements represent values in the list that could have been implemented
+by a linked-list otherwise.
+
+I need a red-black tree without value and only with key. I would store elements
+in a union-copy structure.
+
+Operations that segment trees provide
+1. Add a new interval to a segment tree
+2. Delete an interval in a segment tree
+3.
+
+A list of pairs of sequences. The two sequences in a pair could be overlapped.
+Using the pairwise alignments I would create a segment tree. 
+
+I do not know where an interval exist in a segment tree.
+A sequence has ID - this sequence would have its position in a segment tree.
+
+
+

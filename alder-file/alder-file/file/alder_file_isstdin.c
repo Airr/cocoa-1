@@ -22,6 +22,10 @@
 #include <sys/poll.h>
 #include "alder_file_isstdin.h"
 
+/* This function tests if there is any standard input to the program.
+ * returns
+ * 0 if no standard input, otherwise non-zero.
+ */
 int alder_file_isstdin()
 {
     struct pollfd fds;

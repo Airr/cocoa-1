@@ -1,0 +1,37 @@
+package "alder-wordtable"
+version "0.1"
+purpose "alder-wordtable is a clone of Rodland's wordtable."
+description "alder-wordtable builds a de Bruijn graph."
+option "cite" - "Print reference papers" optional hidden
+option "outfile" o "Output files" string typestr="file,..." multiple optional
+option "log" - "Log file" string typestr="file" default="alder-wordtable.log" optional argoptional
+
+option "build" - "Build a de Bruijn graph from a sequence file." flag off
+option "kmersize" - "kmer size" long typestr="number" default="3" optional
+option "blocksize" - "block size" long typestr="number" default="1000" optional
+option "stepsize" - "save kFM-index's rho in this step" long typestr="number" default="1000" optional
+option "reverse" - "reverse complementary sequences as well" flag off
+option "prune-finals" - "prune final-completing nodes" flag off
+
+section "test"
+sectiondesc="This section provides tests of functions."
+option "sequenceiterator" - "test of sequenceiterator" flag off
+option "bigbitarray" - "test of bigbitarray" flag off
+option "bitpackedlist" - "test of bitpackedlist" flag off
+option "positionlist" - "test of positionlist" flag off
+option "positionvaluelist" - "test of positionvaluelist" flag off
+option "bitpackedcumulativearray" - "test of bitpackedcumulativearray" flag off
+option "bits" - "test of bits" flag off
+option "tokeniterator" - "test of tokeniterator" flag off
+option "inedgelist" - "test of inedgelist" flag off
+option "intblocklist" - "test of intblocklist" flag off
+option "inedgedata" - "test of inedgedata" flag off
+option "kfmindex" - "test of kfmindex" flag off
+option "kfminterval" - "test of kfminterval" flag off
+option "kfmmerge" - "test of kfmmerge" flag off
+option "kfmprune" - "test of kfmprune" flag off
+option "kfmaggregator" - "test of kfmaggregator" flag off
+option "kfmsim" - "test of kfmsim" flag off
+option "kfmcheck" - "test of kfmcheck" flag off
+option "kfmio" - "test of kfmio" flag off
+option "kfmfind" - "test of kfmfind" flag off

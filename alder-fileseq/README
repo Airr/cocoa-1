@@ -1,0 +1,6 @@
+Why do I need this?
+1. I need to summarize sequence statistics for different file types:
+   fasta, fastq, and just a sequence. They could be gzipped.
+   
+See ALSO
+alder-kmer

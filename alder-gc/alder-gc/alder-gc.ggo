@@ -1,0 +1,10 @@
+package "alder-gc"
+version "0.1"
+purpose "alder-gc does something ..."
+description "alder-gc does something more ..."
+option "cite" - "Print reference papers" optional hidden
+option "outfile" o "Output files" string typestr="file,..." multiple optional
+option "log" - "Log file" string typestr="file" default="alder-gc.log" optional argoptional
+
+option "dpgc" - "Run dpgb" flag off
+option "bdwgc" - "Run bdwgc" flag off

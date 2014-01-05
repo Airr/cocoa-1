@@ -1,0 +1,9 @@
+package "alder-lcfg"
+version "0.1"
+purpose "alder-lcfg does something ..."
+description "alder-lcfg does something more ..."
+option "cite" - "Print reference papers" optional hidden
+option "outfile" o "Output files" string typestr="file,..." multiple optional
+option "log" - "Log file" string typestr="file" default="alder-lcfg.log" optional argoptional
+
+option "kmer" - "Test of kmer" flag off

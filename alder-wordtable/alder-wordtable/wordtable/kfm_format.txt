@@ -1,0 +1,78 @@
+/******************************************************************************
+ 
+ This document describes KFM, a file format for KFM index. I'd follow the 
+ PNG file format described in http://www.w3.org/TR/PNG/. I also copy text 
+ thereof.
+ 
+ 1. KFM signature
+ 
+ The first eight bytes of a KFM datastream contain the following decimal 
+ values:
+ 137 75 70 77 13 10 26 10
+ This signature indicates that the remainder of the datastream contains a
+ single KFM index, consisting of a series of chunks beginning with an IHDR
+ chunk and ending with an IEND chunk.
+ I reserve 24 bytes for futre use. Total 32 bytes in the KFM signature are 
+ reserved.
+
+ 2. Chunk Layout
+
+ Each chunk consists of four fields:
+ Length Type Data CRC
+
+ Length is the 64-bit unsigned integer; eight-byte unsigned integer giving the
+ number of bytes in the chunk's data field. The length counts only the data
+ field, not itself, the chunk type, or the CRC. Zero is a valid length.
+
+ Type is a series of four bytes defining the chunk type. 
+
+ Data is a serise of bytes appropriate to the chunk type, if any. This field
+ can be of zero length.
+
+ CRC four-byte CRC (Cyclic Redundancy Code) calculated on the preceding bytes
+ in the chunk, including the chunk type field and chunk data fields, but not
+ including the length field. The CRC can be used to check for corruption of
+ the data. The CRC is always present, even for chunks containing no data. 
+
+ 3. IHDR chunk
+
+ The four-byte chunk type field contains the decimal values
+ 73, 72, 68, 82
+ The IHDR chunk shall be the first chunk in the PNG datastream, containing:
+ KFM index order | 4 byte
+ KFM index size  | 8 bytes
+ KFM rho size    | 8 bytes
+ rho step size   | 8 bytes
+ 
+ 4. IKFM chunk
+
+ The four-byte chunk type field contains the decimal values
+ 73, 75, 70, 77
+ The IKFM chunk contains (3*8 + V x 8):
+ Number of item bits  | 8 bytes
+ Number of items      | 8 bytes
+ Number of values (V) | 8 bytes
+ DATA                 | V x 8
+ 
+ 5. IRHO chunk
+
+ The four-byte chunk type field contains the decimal values
+ 73, 82, 72, 79
+ The IKFM chunk contains (2 x 8 + 2 x longsize x 8 + 3 x 8 + V x 8):
+ Number of items      | 8 bytes
+ maxstep              | 8 bytes
+ increments           | longsize x 8 bytes
+ stored               | longsize x 8 bytes
+ Number of item bits  | 8 bytes
+ Number of items      | 8 bytes
+ Number of values (V) | 8 bytes
+ DATA                 | V x 8
+
+ 6. IEND chunk
+ 
+ The four-byte chunk type field contains the decimal values
+ 73, 69, 78, 68
+ The IEND chunk marks the end of the KFM datastream. 
+ The chunk's data field is empty.
+
+******************************************************************************/

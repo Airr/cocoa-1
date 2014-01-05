@@ -25,7 +25,7 @@
 #include <assert.h>
 #include "alder_logger.h"
 #include "alder_file_isgzip.h"
-#include "alder_fastq_kseq.h"
+#include "alder_kseq.h"
 #include "alder_fastq.h"
 
 /*
@@ -68,13 +68,14 @@ alder_fastq_t * alder_fastq_open(const char *fn)
         return NULL;
     }
     
-    alder_fastq_t * afd = malloc(sizeof(alder_fastq_t));
+    alder_fastq_t * afd = malloc(sizeof(*afd));
     if (afd == NULL) {
         alder_kseq_destroy(seq);
         if (isGzip == 0) { close(fp); } else { gzclose(fpgz); }
         logc_logErrorBasic(ERROR_LOGGER, 0, "cannot open %s.\n", fn);
         return NULL;
     }
+    memset(afd, 0, sizeof(*afd));
     afd->type = isGzip;
     afd->seq = seq;
     if (isGzip == 0) {

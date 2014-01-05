@@ -1,0 +1,16 @@
+cmake_minimum_required(VERSION 2.8)
+project(alder-pre C)
+set (alder-pre_VERSION_MAJOR "0")
+set (alder-pre_VERSION_MINOR "3")
+set (alder-pre_VERSION_PATCH "2")
+
+enable_testing()
+INCLUDE_DIRECTORIES(lib)
+INCLUDE_DIRECTORIES(lib/bstrlib)
+INCLUDE_DIRECTORIES(lib/logger)
+INCLUDE_DIRECTORIES(lib/file)
+INCLUDE_DIRECTORIES(lib/fastq)
+INCLUDE_DIRECTORIES(lib/vector)
+ADD_SUBDIRECTORY(lib)
+ADD_SUBDIRECTORY(src)
+

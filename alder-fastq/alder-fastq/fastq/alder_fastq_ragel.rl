@@ -69,8 +69,11 @@ rseq_t * alder_rseq_init (const char *fn, int type)
     int cs;
     %% write init;
     
-    rseq_t *seq = malloc(sizeof(rseq_t));
-    seq->f = malloc(sizeof(rstream_t));
+    rseq_t *seq = malloc(sizeof(*seq));
+    memset(seq,0,sizeof(*seq);
+    seq->f = malloc(sizeof(*seq->f));
+    memset(seq->f,0,sizeof(*seq->f));
+
     seq->f->have = 0;
     seq->f->f = fin;
     seq->f->cs = cs;

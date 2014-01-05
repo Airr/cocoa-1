@@ -1,0 +1,9 @@
+package "alder-smartall"
+version "0.1"
+purpose "alder-smartall does something ..."
+description "alder-smartall does something more ..."
+option "cite" - "Print reference papers" optional hidden
+option "outfile" o "Output files" string typestr="file,..." multiple optional
+option "log" - "Log file" string typestr="file" default="alder-smartall.log" optional argoptional
+
+option "smartall" - "smartall" flag off
