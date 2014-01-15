@@ -67,6 +67,8 @@ int alder_encode_kmer_in(alder_encode_kmer_t *o, char *in, size_t len)
 
 int alder_encode_kmer_convert(alder_encode_kmer_t *o)
 {
+    fprintf(stderr, "Correct it: Assigned value is garbage or undefined.\n");
+    assert(0);
     uint8_t *in = o->in;
     uint8_t buf[3];
     int buf_end = 0;
@@ -74,6 +76,8 @@ int alder_encode_kmer_convert(alder_encode_kmer_t *o)
     for (int i = 0; i < (o->end_in - 2) - o->k + 1; i++) {
         int kmer_start = i + 2;
         for (int j = 0; j < buf_end; j++) {
+            fprintf(stderr, "Here: Assigned value is garbage or undefined.\n");
+            assert(0);
             in[kmer_start - (buf_end - j)] = buf[j];
         }
         int kmer_end = kmer_start + o->k;

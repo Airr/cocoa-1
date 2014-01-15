@@ -17,6 +17,7 @@
  * along with alder-fastq.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -26,6 +27,7 @@
 #include <zlib.h>
 #include <fcntl.h>
 #include <stdint.h>
+#include "bzlib.h"
 #include "bstrlib.h"
 #include "alder_logger.h"
 #include "alder_cmacro.h"
@@ -128,8 +130,6 @@ alder_fastq_chunk_test(char **inputs, unsigned int inputs_num)
  *    and repeat the procedure of checking whether a block is a valid FASTQ
  *    read. Repeat these until I find one. If I did not find one, there is
  *    some problem in the FASTQ file.
- 
- 
  * 5. return the function with just before '@' if '@' is found.
  *    When returning, copy buf2 in the front of the buf.
  */
@@ -146,6 +146,7 @@ alder_fastq_chunk_check_read(size_t *lenBuf, char *buf, size_t sizeBuf,
     }
     size_t atAtsign = 0;
 again:
+    /* Search for @ and an end line.*/
     if (finalBlock == false) {
         for (; atAtsign < sizeBuf; atAtsign++) {
             if (buf[sizeBuf - 1 - atAtsign] == '@' &&
@@ -184,23 +185,46 @@ again:
     }
     
     size_t posAtsign = sizeBuf - 1 - atAtsign;
+    assert(posAtsign < sizeBuf);
     assert(buf[posAtsign] == '@');
     if (buf[posAtsign] != '@') {
         // Not a fastq read block!
         atAtsign++;
         goto again;
     }
+    assert(buf[posAtsign] == '@');
+    assert(posAtsign < sizeBuf);
     alder_log5("[%zu] %c", posAtsign, buf[posAtsign]);
     while (posAtsign < sizeBuf && buf[posAtsign++] != '\n') {
-        alder_log5("[%zu] %c", posAtsign, buf[posAtsign]);
+#if !defined(NDEBUG)
+        if (posAtsign < sizeBuf) {
+            alder_log5("[%zu] %c", posAtsign, buf[posAtsign]);
+        }
+#endif
     }
+    if (posAtsign == sizeBuf) {
+        // Not a fastq read block!
+        atAtsign++;
+        goto again;
+    }
+    assert(posAtsign < sizeBuf);
     alder_log5("[%zu] %c", posAtsign, buf[posAtsign]);
     size_t lenSeq = 0;
     while (posAtsign < sizeBuf && buf[posAtsign++] != '\n') {
-        alder_log5("[%zu] %c", posAtsign, buf[posAtsign]);
+#if !defined(NDEBUG)
+        if (posAtsign < sizeBuf) {
+            alder_log5("[%zu] %c", posAtsign, buf[posAtsign]);
+        }
+#endif
         lenSeq++;
     }
+    if (posAtsign == sizeBuf) {
+        // Not a fastq read block!
+        atAtsign++;
+        goto again;
+    }
     alder_log5("seq len: %zu", lenSeq);
+    assert(posAtsign < sizeBuf);
     if (buf[posAtsign] != '+') {
         // Not a fastq read block!
         atAtsign++;
@@ -208,12 +232,25 @@ again:
     }
     alder_log5("[%zu] %c", posAtsign, buf[posAtsign]);
     while (posAtsign < sizeBuf && buf[posAtsign++] != '\n') {
-        alder_log5("[%zu] %c", posAtsign, buf[posAtsign]);
+#if !defined(NDEBUG)
+        if (posAtsign < sizeBuf) {
+            alder_log5("[%zu] %c", posAtsign, buf[posAtsign]);
+        }
+#endif
+    }
+    if (posAtsign == sizeBuf) {
+        // Not a fastq read block!
+        atAtsign++;
+        goto again;
     }
     alder_log5("[%zu] %c", posAtsign, buf[posAtsign]);
     size_t lenQual = 0;
     while (posAtsign < sizeBuf && buf[posAtsign++] != '\n') {
-        alder_log5("[%zu] %c", posAtsign, buf[posAtsign]);
+#if !defined(NDEBUG)
+        if (posAtsign < sizeBuf) {
+            alder_log5("[%zu : %zu] %c", posAtsign, sizeBuf, buf[posAtsign]);
+        }
+#endif
         lenQual++;
     }
     alder_log5("qual len: %zu", lenQual);
@@ -222,7 +259,7 @@ again:
         atAtsign++;
         goto again;
     }
-    if (finalBlock == false && buf[posAtsign] != '@') {
+    if (finalBlock == false && posAtsign < sizeBuf && buf[posAtsign] != '@') {
         // Not a fastq read block!
         atAtsign++;
         goto again;
@@ -246,31 +283,22 @@ alder_fastq_chunk(size_t *lenBuf, char *buf, size_t sizeBuf,
         alder_loga4("buf0", (uint8_t*)buf, (*lenBuf2));
     }
     int lenRead;
-    if (gz_flag) {
+    if (gz_flag == 1) {
         lenRead = gzread((gzFile)fx, startBuf,
                          (unsigned)(sizeof(*buf)*(sizeBuf - *lenBuf2)));
+    } else if (gz_flag == 2) {
+        lenRead = BZ2_bzread((BZFILE*)fx, startBuf,
+                             (unsigned)(sizeof(*buf)*(sizeBuf - *lenBuf2)));
     } else {
         lenRead = (int) read((int)((intptr_t)fx), startBuf,
                              sizeof(*buf)*(sizeBuf - *lenBuf2));
+        if (lenRead == -1) {
+            alder_loge(ALDER_ERR_FILE, "failed to read a fastq file: %s",
+                       strerror(errno));
+            assert(lenRead != -1);
+        }
 //        lenRead = fread(startBuf, sizeof(*buf), sizeBuf - *lenBuf2, fp);
     }
-    
-//        ks->end = gzread ((gzFile)ks->f, ks->buf, 4096);
-//        if (ks->end < 4096)
-//            ks->is_eof = 1;
-//        if (ks->end == 0)
-//            return -1;
-//
-    
-    
-//        ks->end = (int)read ((int)((intptr_t)ks->f), ks->buf, 4096);
-//        if (ks->end == -1) {
-//            fprintf(stderr, "file_ks_getc: %s,", strerror(errno));
-//        }
-//        if (ks->end < 4096)
-//            ks->is_eof = 1;
-//        if (ks->end == 0)
-//            return -1;
     
     if (lenRead == 0 && *lenBuf2 == 0) {
         if (*lenBuf2 > 0) {

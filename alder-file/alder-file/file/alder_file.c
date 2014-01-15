@@ -73,9 +73,37 @@ void alder_file(const char *fn)
     
     s = alder_file_writable(fn);
     if (s) {
-        printf("  writable.\n");
+        printf("  is writable.\n");
     } else {
         printf("  is not writable.\n");
+    }
+    
+    s = alder_file_isbzip2(fn);
+    if (s) {
+        printf("  is bzip2 format.\n");
+    } else {
+        printf("  is not bzip2 format.\n");
+    }
+    
+    s = alder_file_isgzip(fn);
+    if (s) {
+        printf("  is gzip format.\n");
+    } else {
+        printf("  is not gzip format.\n");
+    }
+    
+    s = alder_file_isfasta(fn);
+    if (s) {
+        printf("  is of FASTA format.\n");
+    } else {
+        printf("  is not of FASTA format.\n");
+    }
+    
+    s = alder_file_isfastq(fn);
+    if (s) {
+        printf("  is of FASTQ format.\n");
+    } else {
+        printf("  is not of FASTQ format.\n");
     }
 }
 

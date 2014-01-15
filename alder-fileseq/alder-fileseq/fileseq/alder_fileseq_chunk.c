@@ -68,7 +68,11 @@ alder_fileseq_chunk(size_t *lenBuf, char *buf, size_t sizeBuf,
         } else if (type == ALDER_FILETYPE_SEQ) {
             s = alder_fasta_chunk(lenBuf, buf, sizeBuf,
                                   lenBuf2, buf2, sizeBuf2, kmer_size - 1, fx, 0);
-        } else if (type == ALDER_FILETYPE_GZFASTA) {
+        }
+        /**
+         *  gzip format
+         */
+        else if (type == ALDER_FILETYPE_GZFASTA) {
             s = alder_fasta_chunk(lenBuf, buf, sizeBuf,
                                   lenBuf2, buf2, sizeBuf2, kmer_size - 1, fx, 1);
         } else if (type == ALDER_FILETYPE_GZFASTQ) {
@@ -77,6 +81,19 @@ alder_fileseq_chunk(size_t *lenBuf, char *buf, size_t sizeBuf,
         } else if (type == ALDER_FILETYPE_GZSEQ) {
             s = alder_fasta_chunk(lenBuf, buf, sizeBuf,
                                   lenBuf2, buf2, sizeBuf2, kmer_size - 1, fx, 1);
+        }
+        /**
+         *  bzip2 format
+         */
+        else if (type == ALDER_FILETYPE_BZFASTA) {
+            s = alder_fasta_chunk(lenBuf, buf, sizeBuf,
+                                  lenBuf2, buf2, sizeBuf2, kmer_size - 1, fx, 2);
+        } else if (type == ALDER_FILETYPE_BZFASTQ) {
+            s = alder_fastq_chunk(lenBuf, buf, sizeBuf,
+                                  lenBuf2, buf2, sizeBuf2, fx, 2);
+        } else if (type == ALDER_FILETYPE_BZSEQ) {
+            s = alder_fasta_chunk(lenBuf, buf, sizeBuf,
+                                  lenBuf2, buf2, sizeBuf2, kmer_size - 1, fx, 2);
         } else {
             assert(0);
         }

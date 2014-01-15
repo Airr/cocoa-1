@@ -32,7 +32,7 @@ int alder_fastq_kseq_summary(struct bstrList *fs, struct bstrList *ofs)
     for (size_t i = 0; i < fs->qty; i++) {
         int fp = -1;
         int isGzip = 0;
-        gzFile fpgz;
+        gzFile fpgz = Z_NULL;
         isGzip = alder_file_isgzip(bdata(fs->entry[i]));
         if (isGzip == 1) {
             fpgz = gzopen(bdata(fs->entry[i]), "r");
@@ -45,7 +45,7 @@ int alder_fastq_kseq_summary(struct bstrList *fs, struct bstrList *ofs)
         }
         
         kseq_t *seq;
-        if (isGzip == 0) {
+        if (isGzip == 0 && fpgz == Z_NULL) {
             seq = alder_kseq_init((void *)(intptr_t)fp, isGzip);
         } else {
             seq = alder_kseq_init(fpgz, isGzip);

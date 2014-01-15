@@ -25,7 +25,6 @@
 		D0BC949E1825BE68004650C1 /* alder_type_bitfield.c in Sources */ = {isa = PBXBuildFile; fileRef = D0BC94991825BE68004650C1 /* alder_type_bitfield.c */; };
 		D0BC953F1825C895004650C1 /* alder_type_sundell.c in Sources */ = {isa = PBXBuildFile; fileRef = D0BC953D1825C895004650C1 /* alder_type_sundell.c */; };
 		D0BC95421825C89B004650C1 /* alder_memory_sundell.c in Sources */ = {isa = PBXBuildFile; fileRef = D0BC95401825C89B004650C1 /* alder_memory_sundell.c */; };
-		D0BC956C18260332004650C1 /* alder_mcas.c in Sources */ = {isa = PBXBuildFile; fileRef = D0BC956818260332004650C1 /* alder_mcas.c */; };
 		D0BC956D18260332004650C1 /* alder_mcas_sundell.c in Sources */ = {isa = PBXBuildFile; fileRef = D0BC956A18260332004650C1 /* alder_mcas_sundell.c */; };
 		D0BC95731826033E004650C1 /* alder_atomic.c in Sources */ = {isa = PBXBuildFile; fileRef = D0BC956F1826033E004650C1 /* alder_atomic.c */; };
 		D0BC95741826033E004650C1 /* alder_atomic_osx.c in Sources */ = {isa = PBXBuildFile; fileRef = D0BC95711826033E004650C1 /* alder_atomic_osx.c */; };
@@ -191,8 +190,6 @@
 		D0BC953E1825C895004650C1 /* alder_type_sundell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_type_sundell.h; sourceTree = "<group>"; };
 		D0BC95401825C89B004650C1 /* alder_memory_sundell.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_memory_sundell.c; sourceTree = "<group>"; };
 		D0BC95411825C89B004650C1 /* alder_memory_sundell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_memory_sundell.h; sourceTree = "<group>"; };
-		D0BC956818260332004650C1 /* alder_mcas.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_mcas.c; sourceTree = "<group>"; };
-		D0BC956918260332004650C1 /* alder_mcas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_mcas.h; sourceTree = "<group>"; };
 		D0BC956A18260332004650C1 /* alder_mcas_sundell.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_mcas_sundell.c; sourceTree = "<group>"; };
 		D0BC956B18260332004650C1 /* alder_mcas_sundell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_mcas_sundell.h; sourceTree = "<group>"; };
 		D0BC956F1826033E004650C1 /* alder_atomic.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_atomic.c; sourceTree = "<group>"; };
@@ -428,8 +425,6 @@
 			children = (
 				D012369F183C830700F92C84 /* alder_mcas_wf.c */,
 				D01236A0183C830700F92C84 /* alder_mcas_wf.h */,
-				D0BC956818260332004650C1 /* alder_mcas.c */,
-				D0BC956918260332004650C1 /* alder_mcas.h */,
 				D0BC956A18260332004650C1 /* alder_mcas_sundell.c */,
 				D0BC956B18260332004650C1 /* alder_mcas_sundell.h */,
 			);
@@ -819,7 +814,6 @@
 				D0BC95421825C89B004650C1 /* alder_memory_sundell.c in Sources */,
 				D0CAEEB7180D3AA500681CD0 /* alder_file_availablememory.c in Sources */,
 				D0CAEEBB180D3AA500681CD0 /* alder_file_info.c in Sources */,
-				D0BC956C18260332004650C1 /* alder_mcas.c in Sources */,
 				D0E53A8E180E1B3F00C84089 /* alder_thread_stack.c in Sources */,
 				D0CAEEC3180D3AA500681CD0 /* alder_file_sequencefilesize.c in Sources */,
 				D0CAEEC1180D3AA500681CD0 /* alder_file_isstdin.c in Sources */,
@@ -1027,6 +1021,7 @@
 				D01236AE183C834D00F92C84 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D08AFCFB18184C3B00D04508 /* Build configuration list for PBXNativeTarget "alder-thread-dcas" */ = {
 			isa = XCConfigurationList;

@@ -195,25 +195,22 @@ void alder_logger_error_finalize()
 int alder_logger_initialize (const char *mainLoggerFilename,
                              logc_logLevel_t l)
 {
-//    int s = remove(mainLoggerFilename);
-//    if (s != 0) {
-//        fprintf(stderr, "Error - cannot open file %s: %s\n",
-//                mainLoggerFilename, strerror(errno));
-//        return 1;
-//    }
-    
     int s = 0;
-//    logc_registerLogger(MAIN_LOGGER, FILEOUT, l);
-//    logc_error_t status = logc_setLogfile(MAIN_LOGGER, mainLoggerFilename);
-//    if (status != LOG_ERR_OK) {
-//        fprintf(stderr, "Error - no log is defined\n");
-//        s = 1;
-//    }
+#if defined(NDEBUG)
+    s = remove(mainLoggerFilename);
+    
+    logc_registerLogger(MAIN_LOGGER, FILEOUT, l);
+    logc_error_t status = logc_setLogfile(MAIN_LOGGER, mainLoggerFilename);
+    if (status != LOG_ERR_OK) {
+        fprintf(stderr, "Error - no log is defined\n");
+        s = 1;
+    }
+//    logc_registerLogger(MAIN_LOGGER, STDOUT, l);
+//    logc_setLogFormat(MAIN_LOGGER, ERR_TAG, CLEAN);
+#else
     logc_registerLogger(MAIN_LOGGER, STDOUT, l);
-//    logc_registerLogger(MAIN_LOGGER, STDERROUT, l);
-
     logc_setLogFormat(MAIN_LOGGER, ERR_TAG, CLEAN);
-//    logc_setLogFormat(MAIN_LOGGER, ERR_TAG_TIMESTAMP, TIMESTAMP);
+#endif
     return s;
 }
 

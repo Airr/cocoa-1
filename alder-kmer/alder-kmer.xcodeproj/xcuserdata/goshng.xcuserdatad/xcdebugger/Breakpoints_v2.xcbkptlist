@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_thread.c"
-            timestampString = "410443110.605967"
+            timestampString = "411031183.331551"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "268"
-            endingLineNumber = "268"
+            startingLineNumber = "264"
+            endingLineNumber = "264"
             landmarkName = "alder_kmer_count_iteration()"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_thread.c"
-            timestampString = "410443110.605967"
+            timestampString = "411031183.331551"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "660"
-            endingLineNumber = "660"
+            startingLineNumber = "657"
+            endingLineNumber = "657"
             landmarkName = "alder_kmer_counter_create()"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_thread.c"
-            timestampString = "410443110.605967"
+            timestampString = "411031183.331551"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "569"
-            endingLineNumber = "569"
+            startingLineNumber = "566"
+            endingLineNumber = "566"
             landmarkName = "counter()"
             landmarkType = "7">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_thread.c"
-            timestampString = "410443110.605967"
+            timestampString = "411031183.331551"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "280"
-            endingLineNumber = "280"
+            startingLineNumber = "276"
+            endingLineNumber = "276"
             landmarkName = "alder_kmer_count_iteration()"
             landmarkType = "7">
          </BreakpointContent>
@@ -124,11 +124,11 @@
             condition = "index == 0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_thread.c"
-            timestampString = "410443110.605967"
+            timestampString = "411031183.331551"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "577"
-            endingLineNumber = "577"
+            startingLineNumber = "574"
+            endingLineNumber = "574"
             landmarkName = "counter()"
             landmarkType = "7">
          </BreakpointContent>
@@ -189,11 +189,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/main.c"
-            timestampString = "410513552.514912"
+            timestampString = "411079058.645662"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "124"
-            endingLineNumber = "124"
+            startingLineNumber = "134"
+            endingLineNumber = "134"
             landmarkName = "main()"
             landmarkType = "7">
          </BreakpointContent>
@@ -221,11 +221,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_thread.c"
-            timestampString = "410443110.605967"
+            timestampString = "411031183.331551"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "268"
-            endingLineNumber = "268"
+            startingLineNumber = "264"
+            endingLineNumber = "264"
             landmarkName = "alder_kmer_count_iteration()"
             landmarkType = "7">
          </BreakpointContent>
@@ -253,11 +253,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/alder_kmer_option.c"
-            timestampString = "409276213.910963"
+            timestampString = "411270577.56668"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "40"
-            endingLineNumber = "40"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
             landmarkName = "alder_kmer_cmdline_parser_print_help_init()"
             landmarkType = "7">
          </BreakpointContent>
@@ -269,11 +269,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_simulate.c"
-            timestampString = "410392669.086662"
+            timestampString = "411087450.466767"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "281"
-            endingLineNumber = "281"
+            startingLineNumber = "286"
+            endingLineNumber = "286"
             landmarkName = "alder_kmer_simulate()"
             landmarkType = "7">
          </BreakpointContent>
@@ -285,11 +285,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_simulate.c"
-            timestampString = "410392669.086662"
+            timestampString = "411349170.446858"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "287"
-            endingLineNumber = "287"
+            startingLineNumber = "296"
+            endingLineNumber = "296"
             landmarkName = "alder_kmer_simulate()"
             landmarkType = "7">
          </BreakpointContent>
@@ -301,11 +301,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_simulate.c"
-            timestampString = "410392669.086662"
+            timestampString = "411349170.446858"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "316"
-            endingLineNumber = "316"
+            startingLineNumber = "325"
+            endingLineNumber = "325"
             landmarkName = "alder_kmer_simulate()"
             landmarkType = "7">
          </BreakpointContent>
@@ -317,11 +317,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_simulate.c"
-            timestampString = "410392669.086662"
+            timestampString = "411349170.446858"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "314"
-            endingLineNumber = "314"
+            startingLineNumber = "323"
+            endingLineNumber = "323"
             landmarkName = "alder_kmer_simulate()"
             landmarkType = "7">
          </BreakpointContent>
@@ -333,11 +333,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_simulate.c"
-            timestampString = "410392669.086662"
+            timestampString = "411349170.446858"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "326"
-            endingLineNumber = "326"
+            startingLineNumber = "335"
+            endingLineNumber = "335"
             landmarkName = "alder_kmer_simulate()"
             landmarkType = "7">
          </BreakpointContent>
@@ -349,11 +349,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_simulate.c"
-            timestampString = "410392669.086662"
+            timestampString = "411349170.446858"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "300"
-            endingLineNumber = "300"
+            startingLineNumber = "309"
+            endingLineNumber = "309"
             landmarkName = "alder_kmer_simulate()"
             landmarkType = "7">
             <Locations>
@@ -395,40 +395,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_simulate.c"
-            timestampString = "410392669.086662"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "337"
-            endingLineNumber = "337"
-            landmarkName = "alder_kmer_simulate()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            condition = "hash_s1 == 70099481059"
-            continueAfterRunningActions = "No"
-            filePath = "alder-kmer/kmer/alder_kmer_simulate.c"
-            timestampString = "410443110.605967"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "651"
-            endingLineNumber = "651"
-            landmarkName = "alder_kmer_simulate_select()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "alder-kmer/kmer/alder_kmer_simulate.c"
-            timestampString = "410392669.086662"
+            timestampString = "411349170.446858"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "346"
@@ -442,13 +409,46 @@
          <BreakpointContent
             shouldBeEnabled = "No"
             ignoreCount = "0"
+            condition = "hash_s1 == 70099481059"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_simulate.c"
-            timestampString = "410392669.086662"
+            timestampString = "411349170.446858"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "431"
-            endingLineNumber = "431"
+            startingLineNumber = "706"
+            endingLineNumber = "706"
+            landmarkName = "alder_kmer_simulate_select()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_simulate.c"
+            timestampString = "411349170.446858"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "355"
+            endingLineNumber = "355"
+            landmarkName = "alder_kmer_simulate()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_simulate.c"
+            timestampString = "411349170.446858"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "440"
+            endingLineNumber = "440"
             landmarkName = "alder_kmer_simulate()"
             landmarkType = "7">
          </BreakpointContent>
@@ -492,11 +492,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_simulate.c"
-            timestampString = "410392669.086662"
+            timestampString = "411087450.466767"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "210"
-            endingLineNumber = "210"
+            startingLineNumber = "215"
+            endingLineNumber = "215"
             landmarkName = "alder_kmer_simulate()"
             landmarkType = "7">
          </BreakpointContent>
@@ -508,11 +508,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_simulate.c"
-            timestampString = "410392669.086662"
+            timestampString = "411349170.446858"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "333"
-            endingLineNumber = "333"
+            startingLineNumber = "342"
+            endingLineNumber = "342"
             landmarkName = "alder_kmer_simulate()"
             landmarkType = "7">
             <Locations>
@@ -554,11 +554,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_simulate.c"
-            timestampString = "410392669.086662"
+            timestampString = "411349170.446858"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "406"
-            endingLineNumber = "406"
+            startingLineNumber = "415"
+            endingLineNumber = "415"
             landmarkName = "alder_kmer_simulate()"
             landmarkType = "7">
             <Locations>
@@ -600,11 +600,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_simulate.c"
-            timestampString = "410392669.086662"
+            timestampString = "411349170.446858"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "362"
-            endingLineNumber = "362"
+            startingLineNumber = "371"
+            endingLineNumber = "371"
             landmarkName = "alder_kmer_simulate()"
             landmarkType = "7">
          </BreakpointContent>
@@ -616,11 +616,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_simulate.c"
-            timestampString = "410392669.086662"
+            timestampString = "411349170.446858"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "348"
-            endingLineNumber = "348"
+            startingLineNumber = "357"
+            endingLineNumber = "357"
             landmarkName = "alder_kmer_simulate()"
             landmarkType = "7">
          </BreakpointContent>
@@ -632,11 +632,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_simulate.c"
-            timestampString = "410392669.086662"
+            timestampString = "411087450.466767"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "195"
-            endingLineNumber = "195"
+            startingLineNumber = "200"
+            endingLineNumber = "200"
             landmarkName = "alder_kmer_simulate()"
             landmarkType = "7">
          </BreakpointContent>
@@ -648,11 +648,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_simulate.c"
-            timestampString = "410392669.086662"
+            timestampString = "411087450.466767"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "205"
-            endingLineNumber = "205"
+            startingLineNumber = "210"
+            endingLineNumber = "210"
             landmarkName = "alder_kmer_simulate()"
             landmarkType = "7">
          </BreakpointContent>
@@ -664,11 +664,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/alder_kmer_option.c"
-            timestampString = "410513552.514912"
+            timestampString = "411458567.108243"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "292"
-            endingLineNumber = "292"
+            startingLineNumber = "411"
+            endingLineNumber = "411"
             landmarkName = "alder_kmer_option_init()"
             landmarkType = "7">
          </BreakpointContent>
@@ -680,11 +680,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/main.c"
-            timestampString = "410513552.514912"
+            timestampString = "410595741.301895"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
             landmarkName = "main()"
             landmarkType = "7">
          </BreakpointContent>
@@ -696,11 +696,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/main.c"
-            timestampString = "410513552.514912"
+            timestampString = "410595741.301895"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
             landmarkName = "main()"
             landmarkType = "7">
          </BreakpointContent>
@@ -712,11 +712,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/main.c"
-            timestampString = "410513552.514912"
+            timestampString = "411079058.645662"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "135"
-            endingLineNumber = "135"
+            startingLineNumber = "145"
+            endingLineNumber = "145"
             landmarkName = "main()"
             landmarkType = "7">
          </BreakpointContent>
@@ -728,11 +728,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/main.c"
-            timestampString = "410513552.514912"
+            timestampString = "411087450.466767"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "155"
-            endingLineNumber = "155"
+            startingLineNumber = "167"
+            endingLineNumber = "167"
             landmarkName = "main()"
             landmarkType = "7">
          </BreakpointContent>
@@ -744,11 +744,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_simulate.c"
-            timestampString = "410392669.086662"
+            timestampString = "411087450.466767"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "255"
-            endingLineNumber = "255"
+            startingLineNumber = "260"
+            endingLineNumber = "260"
             landmarkName = "alder_kmer_simulate()"
             landmarkType = "7">
          </BreakpointContent>
@@ -760,11 +760,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_simulate.c"
-            timestampString = "410392669.086662"
+            timestampString = "411349170.446858"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "302"
-            endingLineNumber = "302"
+            startingLineNumber = "311"
+            endingLineNumber = "311"
             landmarkName = "alder_kmer_simulate()"
             landmarkType = "7">
             <Locations>
@@ -806,11 +806,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_thread.c"
-            timestampString = "410443110.605967"
+            timestampString = "411031183.331551"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "531"
-            endingLineNumber = "531"
+            startingLineNumber = "528"
+            endingLineNumber = "528"
             landmarkName = "counter()"
             landmarkType = "7">
          </BreakpointContent>
@@ -822,11 +822,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../alder-hashtable/alder-hashtable/hashtable/alder_hashtable_mcas.c"
-            timestampString = "410293396.923468"
+            timestampString = "411461074.511587"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "207"
-            endingLineNumber = "207"
+            startingLineNumber = "265"
+            endingLineNumber = "265"
             landmarkName = "alder_hashtable_mcas_increment()"
             landmarkType = "7">
          </BreakpointContent>
@@ -838,11 +838,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_thread.c"
-            timestampString = "410443110.605967"
+            timestampString = "411031183.331551"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "586"
-            endingLineNumber = "586"
+            startingLineNumber = "583"
+            endingLineNumber = "583"
             landmarkName = "counter()"
             landmarkType = "7">
          </BreakpointContent>
@@ -874,12 +874,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../alder-encode/alder-encode/encode/alder_encode_number.c"
-            timestampString = "410513552.514912"
+            timestampString = "411462431.354353"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1229"
-            endingLineNumber = "1229"
-            landmarkName = "alder_encode_number_log()"
+            startingLineNumber = "1611"
+            endingLineNumber = "1611"
+            landmarkName = "alder_encode_number_kmer_shift_left_with()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -890,11 +890,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_encode.c"
-            timestampString = "410513552.514912"
+            timestampString = "410764317.040491"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "888"
-            endingLineNumber = "888"
+            startingLineNumber = "889"
+            endingLineNumber = "889"
             landmarkName = "encoder()"
             landmarkType = "7">
          </BreakpointContent>
@@ -906,13 +906,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../alder-encode/alder-encode/encode/alder_encode_number.c"
-            timestampString = "410513552.514912"
+            timestampString = "411462431.354353"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1321"
-            endingLineNumber = "1321"
-            landmarkName = "alder_encode_number_print_DNA_and_hash()"
-            landmarkType = "7">
+            startingLineNumber = "1703"
+            endingLineNumber = "1703">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -922,11 +920,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_encode.c"
-            timestampString = "410513552.514912"
+            timestampString = "410764317.040491"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1595"
-            endingLineNumber = "1595"
+            startingLineNumber = "1603"
+            endingLineNumber = "1603"
             landmarkName = "alder_kmer_readwriter_flush()"
             landmarkType = "7">
          </BreakpointContent>
@@ -938,11 +936,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_encode.c"
-            timestampString = "410513552.514912"
+            timestampString = "410764317.040491"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "758"
-            endingLineNumber = "758"
+            startingLineNumber = "759"
+            endingLineNumber = "759"
             landmarkName = "encoder()"
             landmarkType = "7">
          </BreakpointContent>
@@ -954,11 +952,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_encode.c"
-            timestampString = "410513552.514912"
+            timestampString = "410764317.040491"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "784"
-            endingLineNumber = "784"
+            startingLineNumber = "785"
+            endingLineNumber = "785"
             landmarkName = "encoder()"
             landmarkType = "7">
          </BreakpointContent>
@@ -970,11 +968,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_encode.c"
-            timestampString = "410513552.514912"
+            timestampString = "410764317.040491"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "837"
-            endingLineNumber = "837"
+            startingLineNumber = "838"
+            endingLineNumber = "838"
             landmarkName = "encoder()"
             landmarkType = "7">
          </BreakpointContent>
@@ -986,11 +984,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_encode.c"
-            timestampString = "410513552.514912"
+            timestampString = "410764317.040491"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "839"
-            endingLineNumber = "839"
+            startingLineNumber = "840"
+            endingLineNumber = "840"
             landmarkName = "encoder()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1002,11 +1000,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_simulate.c"
-            timestampString = "410392669.086662"
+            timestampString = "411349170.446858"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "499"
-            endingLineNumber = "499"
+            startingLineNumber = "515"
+            endingLineNumber = "515"
             landmarkName = "alder_kmer_simulate_woHashtable()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1018,11 +1016,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_simulate.c"
-            timestampString = "410443110.605967"
+            timestampString = "411349170.446858"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "634"
-            endingLineNumber = "634"
+            startingLineNumber = "689"
+            endingLineNumber = "689"
             landmarkName = "alder_kmer_simulate_woHashtable()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1034,11 +1032,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_thread.c"
-            timestampString = "410443110.605967"
+            timestampString = "411031183.331551"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "261"
-            endingLineNumber = "261"
+            startingLineNumber = "257"
+            endingLineNumber = "257"
             landmarkName = "alder_kmer_count_iteration()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1050,7 +1048,23 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_thread.c"
-            timestampString = "410443110.605967"
+            timestampString = "411031183.331551"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "256"
+            endingLineNumber = "256"
+            landmarkName = "alder_kmer_count_iteration()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_thread.c"
+            timestampString = "411031183.331551"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "260"
@@ -1066,27 +1080,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_thread.c"
-            timestampString = "410443110.605967"
+            timestampString = "411031183.331551"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "264"
-            endingLineNumber = "264"
-            landmarkName = "alder_kmer_count_iteration()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "alder-kmer/kmer/alder_kmer_thread.c"
-            timestampString = "410443110.605967"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "566"
-            endingLineNumber = "566"
+            startingLineNumber = "563"
+            endingLineNumber = "563"
             landmarkName = "counter()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1098,11 +1096,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_thread.c"
-            timestampString = "410443110.605967"
+            timestampString = "411031183.331551"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "572"
-            endingLineNumber = "572"
+            startingLineNumber = "569"
+            endingLineNumber = "569"
             landmarkName = "counter()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1114,11 +1112,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_thread.c"
-            timestampString = "410443110.605967"
+            timestampString = "411031183.331551"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "545"
-            endingLineNumber = "545"
+            startingLineNumber = "542"
+            endingLineNumber = "542"
             landmarkName = "counter()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1130,11 +1128,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../alder-hashtable/alder-hashtable/hashtable/alder_hashtable_mcas.c"
-            timestampString = "410293396.923468"
+            timestampString = "411461074.511587"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "183"
-            endingLineNumber = "183"
+            startingLineNumber = "241"
+            endingLineNumber = "241"
             landmarkName = "alder_hashtable_mcas_increment()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1146,11 +1144,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_decode.c"
-            timestampString = "410392669.086662"
+            timestampString = "411079058.645662"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
+            startingLineNumber = "170"
+            endingLineNumber = "170"
             landmarkName = "alder_kmer_decode()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1162,43 +1160,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../alder-encode/alder-encode/encode/alder_encode_number.c"
-            timestampString = "410513552.514912"
+            timestampString = "411462431.354353"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1297"
-            endingLineNumber = "1297"
-            landmarkName = "alder_encode_number_print_DNA_and_hash()"
+            startingLineNumber = "1679"
+            endingLineNumber = "1679"
+            landmarkName = "alder_encode_number_kmer_shift_right_with()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../alder-hashtable/alder-hashtable/hashtable/alder_hashtable_mcas.c"
-            timestampString = "410513552.514912"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "665"
-            endingLineNumber = "665"
-            landmarkName = "alder_hashtable_mcas_load()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_simulate.c"
-            timestampString = "410392669.086662"
+            timestampString = "411349170.446858"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "523"
-            endingLineNumber = "523"
+            startingLineNumber = "548"
+            endingLineNumber = "548"
             landmarkName = "alder_kmer_simulate_woHashtable()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1210,11 +1192,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_simulate.c"
-            timestampString = "410443110.605967"
+            timestampString = "411349170.446858"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "611"
-            endingLineNumber = "611"
+            startingLineNumber = "666"
+            endingLineNumber = "666"
             landmarkName = "alder_kmer_simulate_woHashtable()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1226,11 +1208,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../alder-fastq/alder-fastq/fastq/alder_fastq_chunk.c"
-            timestampString = "410443110.605967"
+            timestampString = "411128645.191566"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "240"
-            endingLineNumber = "240"
+            startingLineNumber = "277"
+            endingLineNumber = "277"
             landmarkName = "alder_fastq_chunk()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1242,13 +1224,43 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_encode.c"
-            timestampString = "410513552.514912"
+            timestampString = "410764317.040491"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "467"
-            endingLineNumber = "467"
+            startingLineNumber = "468"
+            endingLineNumber = "468"
             landmarkName = "readwriter()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "readwriter"
+                  moduleName = "alder-kmer"
+                  urlString = "file:///Users/goshng/Dropbox/Documents/Projects/cocoa/alder-kmer/alder-kmer/kmer/alder_kmer_encode.c"
+                  timestampString = "410901294.949737"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "468"
+                  endingLineNumber = "468"
+                  offsetFromSymbolStart = "68">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "readwriter"
+                  moduleName = "alder-kmer"
+                  urlString = "file:///Users/goshng/Dropbox/Documents/Projects/cocoa/alder-kmer/alder-kmer/kmer/alder_kmer_encode.c"
+                  timestampString = "410901294.950382"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "468"
+                  endingLineNumber = "468"
+                  offsetFromSymbolStart = "114">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1258,11 +1270,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../alder-fastq/alder-fastq/fastq/alder_fastq_chunk.c"
-            timestampString = "410443110.605967"
+            timestampString = "411128645.191566"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "203"
-            endingLineNumber = "203"
+            startingLineNumber = "226"
+            endingLineNumber = "226"
             landmarkName = "alder_fastq_chunk_check_read()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1274,11 +1286,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../alder-fastq/alder-fastq/fastq/alder_fastq_chunk.c"
-            timestampString = "410443110.605967"
+            timestampString = "411128645.191566"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "219"
-            endingLineNumber = "219"
+            startingLineNumber = "256"
+            endingLineNumber = "256"
             landmarkName = "alder_fastq_chunk_check_read()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1290,11 +1302,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_decode.c"
-            timestampString = "410235443.262778"
+            timestampString = "411079058.645662"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
+            startingLineNumber = "142"
+            endingLineNumber = "142"
             landmarkName = "alder_kmer_decode()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1306,11 +1318,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/main.c"
-            timestampString = "410513552.514912"
+            timestampString = "410995950.636226"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
             landmarkName = "main()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1322,11 +1334,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_encode.c"
-            timestampString = "410513552.514912"
+            timestampString = "410764317.040491"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "709"
-            endingLineNumber = "709"
+            startingLineNumber = "710"
+            endingLineNumber = "710"
             landmarkName = "encoder()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1338,11 +1350,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_encode.c"
-            timestampString = "410513552.514912"
+            timestampString = "410764317.040491"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "753"
-            endingLineNumber = "753"
+            startingLineNumber = "754"
+            endingLineNumber = "754"
             landmarkName = "encoder()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1354,11 +1366,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_encode.c"
-            timestampString = "410513552.514912"
+            timestampString = "410764317.040491"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "811"
-            endingLineNumber = "811"
+            startingLineNumber = "812"
+            endingLineNumber = "812"
             landmarkName = "encoder()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1370,92 +1382,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_encode.c"
-            timestampString = "410513552.514912"
+            timestampString = "410764317.040491"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "826"
-            endingLineNumber = "826"
+            startingLineNumber = "827"
+            endingLineNumber = "827"
             landmarkName = "encoder()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../alder-hashtable/alder-hashtable/hashtable/alder_hashtable_mcas.c"
-            timestampString = "410513552.514912"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "930"
-            endingLineNumber = "930"
-            landmarkName = "alder_hashtable_mcas_count()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../alder-hashtable/alder-hashtable/hashtable/alder_hashtable_mcas.c"
-            timestampString = "410513552.514912"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "811"
-            endingLineNumber = "811"
-            landmarkName = "count_read_kmer()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../alder-hashtable/alder-hashtable/hashtable/alder_hashtable_mcas.c"
-            timestampString = "410513552.514912"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "856"
-            endingLineNumber = "856"
-            landmarkName = "count_read_kmer()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../alder-hashtable/alder-hashtable/hashtable/alder_hashtable_mcas.c"
-            timestampString = "410513552.514912"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "966"
-            endingLineNumber = "966"
-            landmarkName = "alder_hashtable_mcas_count()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../alder-hashtable/alder-hashtable/hashtable/alder_hashtable_mcas.c"
-            timestampString = "410513552.514912"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "962"
-            endingLineNumber = "962"
-            landmarkName = "alder_hashtable_mcas_count()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1488,102 +1420,6 @@
             startingLineNumber = "87"
             endingLineNumber = "87"
             landmarkName = "alder_kmer_pack()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../alder-hashtable/alder-hashtable/hashtable/alder_hashtable_mcas.c"
-            timestampString = "410513552.514912"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1042"
-            endingLineNumber = "1042"
-            landmarkName = "alder_hashtable_mcas_large_convert()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../alder-hashtable/alder-hashtable/hashtable/alder_hashtable_mcas.c"
-            timestampString = "410513552.514912"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1040"
-            endingLineNumber = "1040"
-            landmarkName = "alder_hashtable_mcas_large_convert()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../alder-hashtable/alder-hashtable/hashtable/alder_hashtable_mcas.c"
-            timestampString = "410513552.514912"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1051"
-            endingLineNumber = "1051"
-            landmarkName = "alder_hashtable_mcas_large_convert()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../alder-hashtable/alder-hashtable/hashtable/alder_hashtable_mcas.c"
-            timestampString = "410513552.514912"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1155"
-            endingLineNumber = "1155"
-            landmarkName = "alder_hashtable_mcas_large_close()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "alder-kmer/kmer/alder_kmer_pack.c"
-            timestampString = "410392453.152826"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "109"
-            endingLineNumber = "109"
-            landmarkName = "alder_kmer_pack_kmercount()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../alder-hashtable/alder-hashtable/hashtable/alder_hashtable_mcas.c"
-            timestampString = "410513552.514912"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1204"
-            endingLineNumber = "1204"
-            landmarkName = "alder_hashtable_mcas_convertCountToHashTable()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1654,32 +1490,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../alder-file/alder-file/file/alder_file_size.c"
-            timestampString = "410481718.522099"
+            timestampString = "410764317.040491"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "39"
-            endingLineNumber = "39"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
             landmarkName = "alder_file_size()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../alder-hashtable/alder-hashtable/hashtable/alder_hashtable_mcas.c"
-            timestampString = "410513687.180485"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "730"
-            endingLineNumber = "730"
-            landmarkName = "alder_hashtable_mcas_query()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1690,13 +1510,1113 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alderg-kmer/AlderAppDelegate.m"
-            timestampString = "410578207.360353"
+            timestampString = "410595741.301895"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "105"
-            endingLineNumber = "105"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
             landmarkName = "-new:"
             landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_count.c"
+            timestampString = "411349170.446858"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "333"
+            endingLineNumber = "333"
+            landmarkName = "alder_kmer_partition()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_count.c"
+            timestampString = "411120650.975284"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "300"
+            endingLineNumber = "300"
+            landmarkName = "alder_kmer_count()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_pack.c"
+            timestampString = "410764311.833381"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "109"
+            endingLineNumber = "109"
+            landmarkName = "alder_kmer_pack_kmercount()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../alder-hashtable/alder-hashtable/hashtable/alder_hashtable_mcas.c"
+            timestampString = "411461074.511587"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "900"
+            endingLineNumber = "900"
+            landmarkName = "alder_hashtable_mcas_load()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_count.c"
+            timestampString = "411349170.446858"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "370"
+            endingLineNumber = "370"
+            landmarkName = "alder_kmer_count_withPartition()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_count.c"
+            timestampString = "411349170.446858"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "502"
+            endingLineNumber = "502"
+            landmarkName = "alder_kmer_count_init()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../alder-hashtable/alder-hashtable/hashtable/alder_hashtable_mcas.c"
+            timestampString = "411461074.511587"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "882"
+            endingLineNumber = "882"
+            landmarkName = "alder_hashtable_mcas_load()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../alder-hashtable/alder-hashtable/hashtable/alder_hashtable_mcas.c"
+            timestampString = "411461074.511587"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "909"
+            endingLineNumber = "909"
+            landmarkName = "alder_hashtable_mcas_load()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../alder-hashtable/alder-hashtable/hashtable/alder_hashtable_mcas.c"
+            timestampString = "411461074.511587"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1048"
+            endingLineNumber = "1048"
+            landmarkName = "alder_hashtable_mcas_query()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../alder-hashtable/alder-hashtable/hashtable/alder_hashtable_mcas.c"
+            timestampString = "411463115.060276"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1210"
+            endingLineNumber = "1210"
+            landmarkName = "alder_hashtable_mcas_query()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../alder-hashtable/alder-hashtable/hashtable/alder_hashtable_mcas.c"
+            timestampString = "411461759.717141"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1174"
+            endingLineNumber = "1174"
+            landmarkName = "alder_hashtable_mcas_query()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../alder-hashtable/alder-hashtable/hashtable/alder_hashtable_mcas.c"
+            timestampString = "411461759.717141"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1167"
+            endingLineNumber = "1167"
+            landmarkName = "alder_hashtable_mcas_query()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_count.c"
+            timestampString = "411102220.583195"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "192"
+            endingLineNumber = "192"
+            landmarkName = "alder_kmer_count()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_encode2.c"
+            timestampString = "411090542.062936"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "254"
+            endingLineNumber = "254"
+            landmarkName = "alder_kmer_encoder2_create()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_encode2.c"
+            timestampString = "411349170.446858"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "927"
+            endingLineNumber = "927"
+            landmarkName = "reader()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_encode2.c"
+            timestampString = "411349170.446858"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1082"
+            endingLineNumber = "1082"
+            landmarkName = "encoder()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_encode2.c"
+            timestampString = "411349170.446858"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1095"
+            endingLineNumber = "1095"
+            landmarkName = "encoder()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_encode2.c"
+            timestampString = "411349170.446858"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1099"
+            endingLineNumber = "1099"
+            landmarkName = "encoder()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_encode2.c"
+            timestampString = "411349170.446858"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1133"
+            endingLineNumber = "1133"
+            landmarkName = "encoder()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_encode2.c"
+            timestampString = "411349170.446858"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1158"
+            endingLineNumber = "1158"
+            landmarkName = "encoder()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_encode2.c"
+            timestampString = "411349170.446858"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1171"
+            endingLineNumber = "1171"
+            landmarkName = "encoder()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_encode2.c"
+            timestampString = "411349170.446858"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1206"
+            endingLineNumber = "1206"
+            landmarkName = "encoder()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "encoder"
+                  moduleName = "alder-kmer"
+                  urlString = "file:///Users/goshng/Dropbox/Documents/Projects/cocoa/alder-kmer/alder-kmer/kmer/alder_kmer_encode2.c"
+                  timestampString = "411090777.875386"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1197"
+                  endingLineNumber = "1197"
+                  offsetFromSymbolStart = "2428">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "encoder"
+                  moduleName = "alder-kmer"
+                  urlString = "file:///Users/goshng/Dropbox/Documents/Projects/cocoa/alder-kmer/alder-kmer/kmer/alder_kmer_encode2.c"
+                  timestampString = "411090777.875645"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1197"
+                  endingLineNumber = "1197"
+                  offsetFromSymbolStart = "2513">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_encode2.c"
+            timestampString = "411349170.446858"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1235"
+            endingLineNumber = "1235"
+            landmarkName = "encoder()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_encode2.c"
+            timestampString = "411349170.446858"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1005"
+            endingLineNumber = "1005"
+            landmarkName = "writer()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_thread2.c"
+            timestampString = "411108211.751862"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "424"
+            endingLineNumber = "424"
+            landmarkName = "alder_kmer_count_iteration2()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_thread2.c"
+            timestampString = "411108211.751862"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "846"
+            endingLineNumber = "846"
+            landmarkName = "reader()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_thread2.c"
+            timestampString = "411108211.751862"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "930"
+            endingLineNumber = "930"
+            landmarkName = "writer()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_thread2.c"
+            timestampString = "411349170.446858"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1017"
+            endingLineNumber = "1017"
+            landmarkName = "counter()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_thread2.c"
+            timestampString = "411349170.446858"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1067"
+            endingLineNumber = "1067"
+            landmarkName = "counter()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_thread2.c"
+            timestampString = "411108211.751862"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "816"
+            endingLineNumber = "816"
+            landmarkName = "finish_table()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_encode2.c"
+            timestampString = "411349170.446858"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1161"
+            endingLineNumber = "1161"
+            landmarkName = "encoder()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_encode2.c"
+            timestampString = "411349170.446858"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1073"
+            endingLineNumber = "1073"
+            landmarkName = "encoder()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_encode2.c"
+            timestampString = "411349170.446858"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1212"
+            endingLineNumber = "1212"
+            landmarkName = "encoder()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_encode2.c"
+            timestampString = "411349170.446858"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "959"
+            endingLineNumber = "959"
+            landmarkName = "reader()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_thread2.c"
+            timestampString = "411108211.751862"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "327"
+            endingLineNumber = "327"
+            landmarkName = "alder_kmer_thread2_create()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_count.c"
+            timestampString = "411102218.551717"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "165"
+            endingLineNumber = "165"
+            landmarkName = "alder_kmer_count()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_thread2.c"
+            timestampString = "411108211.751862"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "877"
+            endingLineNumber = "877"
+            landmarkName = "reader()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_thread2.c"
+            timestampString = "411108289.881702"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "289"
+            endingLineNumber = "289"
+            landmarkName = "alder_kmer_thread2_create()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_count.c"
+            timestampString = "411349170.446858"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "447"
+            endingLineNumber = "447"
+            landmarkName = "alder_kmer_count_withPartition()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_thread3.c"
+            timestampString = "411395427.956171"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "620"
+            endingLineNumber = "620"
+            landmarkName = "counter()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_thread3.c"
+            timestampString = "411395427.956171"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "631"
+            endingLineNumber = "631"
+            landmarkName = "counter()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_thread3.c"
+            timestampString = "411395427.956171"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "136"
+            endingLineNumber = "136"
+            landmarkName = "compute_number_block()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_thread3.c"
+            timestampString = "411395427.956171"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "540"
+            endingLineNumber = "540"
+            landmarkName = "read_parfile()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/main.c"
+            timestampString = "411200002.19933"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "92"
+            endingLineNumber = "92"
+            landmarkName = "main()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/alder_kmer_option.c"
+            timestampString = "411458567.108243"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "340"
+            endingLineNumber = "340"
+            landmarkName = "alder_kmer_option_init()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../alder-encode/alder-encode/encode/alder_encode_number.c"
+            timestampString = "411386482.652021"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "239"
+            endingLineNumber = "239"
+            landmarkName = "alder_encode_number2_adjustBufferSizeForKmer()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_thread3.c"
+            timestampString = "411395427.956171"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "503"
+            endingLineNumber = "503"
+            landmarkName = "write_tabfile()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_thread3.c"
+            timestampString = "411395427.956171"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "606"
+            endingLineNumber = "606"
+            landmarkName = "counter()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_count.c"
+            timestampString = "411349170.446858"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "612"
+            endingLineNumber = "612"
+            landmarkName = "alder_kmer_count_init()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_simulate.c"
+            timestampString = "411349170.446858"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "619"
+            endingLineNumber = "619"
+            landmarkName = "alder_kmer_simulate_woHashtable()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_simulate.c"
+            timestampString = "411349170.446858"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "502"
+            endingLineNumber = "502"
+            landmarkName = "alder_kmer_simulate_woHashtable()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/alder_kmer_option.c"
+            timestampString = "411458567.108243"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "369"
+            endingLineNumber = "369"
+            landmarkName = "alder_kmer_option_init()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "alder_kmer_option_init"
+                  moduleName = "alder-kmer"
+                  urlString = "file:///Users/goshng/Dropbox/Documents/Projects/cocoa/alder-kmer/alder-kmer/alder_kmer_option.c"
+                  timestampString = "411387105.944402"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "356"
+                  endingLineNumber = "356"
+                  offsetFromSymbolStart = "563">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "alder_kmer_option_init"
+                  moduleName = "alder-kmer"
+                  urlString = "file:///Users/goshng/Dropbox/Documents/Projects/cocoa/alder-kmer/alder-kmer/alder_kmer_option.c"
+                  timestampString = "411387105.944669"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "356"
+                  endingLineNumber = "356"
+                  offsetFromSymbolStart = "589">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/alder_kmer_option.c"
+            timestampString = "411458567.108243"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "199"
+            endingLineNumber = "199"
+            landmarkName = "alder_kmer_cmdline_parser_print_count_help()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_encode3.c"
+            timestampString = "411394659.001965"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "398"
+            endingLineNumber = "398"
+            landmarkName = "alder_kmer_encode3_token()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_encode3.c"
+            timestampString = "411394659.001965"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "416"
+            endingLineNumber = "416"
+            landmarkName = "alder_kmer_encode3_token()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_encode3.c"
+            timestampString = "411394659.001965"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "753"
+            endingLineNumber = "753"
+            landmarkName = "encoder()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_encode3.c"
+            timestampString = "411394659.001965"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "751"
+            endingLineNumber = "751"
+            landmarkName = "encoder()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_match.c"
+            timestampString = "411458984.284491"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "135"
+            endingLineNumber = "135"
+            landmarkName = "alder_kmer_match()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alder-kmer/kmer/alder_kmer_match.c"
+            timestampString = "411458993.054957"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
+            landmarkName = "alder_kmer_match()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../alder-hashtable/alder-hashtable/hashtable/alder_hashtable_mcas.c"
+            timestampString = "411461212.421864"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1082"
+            endingLineNumber = "1082"
+            landmarkName = "alder_hashtable_mcas_query()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../alder-hashtable/alder-hashtable/hashtable/alder_hashtable_mcas.c"
+            timestampString = "411461318.836532"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1112"
+            endingLineNumber = "1112"
+            landmarkName = "alder_hashtable_mcas_query()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../alder-hashtable/alder-hashtable/hashtable/alder_hashtable_mcas.c"
+            timestampString = "411461622.757516"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1138"
+            endingLineNumber = "1138"
+            landmarkName = "alder_hashtable_mcas_query()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../alder-hashtable/alder-hashtable/hashtable/alder_hashtable_mcas.c"
+            timestampString = "411462075.725562"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1077"
+            endingLineNumber = "1077"
+            landmarkName = "alder_hashtable_mcas_query()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../alder-hashtable/alder-hashtable/hashtable/alder_hashtable_mcas.c"
+            timestampString = "411463102.840815"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1199"
+            endingLineNumber = "1199"
+            landmarkName = "alder_hashtable_mcas_query()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../alder-hashtable/alder-hashtable/hashtable/alder_hashtable_mcas.c"
+            timestampString = "411464091.454474"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1502"
+            endingLineNumber = "1502"
+            landmarkName = "alder_hashtable_mcas_find()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

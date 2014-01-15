@@ -6,6 +6,7 @@ description "This tests files and directories in C."
 option "numline" - "Print the number of lines" flag off
 
 option "output" o "Output files" string typestr="file" optional
+
 option "summary" - "Summary of files" flag off
 
 section "Disk usage"

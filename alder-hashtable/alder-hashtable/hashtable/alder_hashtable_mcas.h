@@ -35,13 +35,36 @@
 # define __END_DECLS /* empty */
 #endif
 
-
 __BEGIN_DECLS
 
 #define ALDER_HASHTABLE_MCAS_OCCUPIED 0x4000000000000000
+#define ALDER_HASHTABLE_MCAS_STATE_UNFINISHED 1
+#define ALDER_HASHTABLE_MCAS_STATE_FINISHED   2
+#define ALDER_HASHTABLE_MCAS_STATE_LOCKED     3
+
+/**
+ *  n is the size of the array on the current line.
+ */
+struct alder_hashtable_mcas_struct {
+    int k;                      /* k-mer size                           */
+    int stride;                 /* stride in key                        */
+    size_t size;                /* number of elements in the hash table */
+    size_t index;               /* current index for iteration          */
+    int state;                  /* 1 unfinished, 2 finished, 3 locked   */
+    uint64_t i_np;              /* partition index                      */
+    uint64_t *empty_key;        /* n: stride - EMPTY key                */
+    uint64_t *key;              /* n: size x stride                     */
+    uint16_t *value;            /* n: size                              */
+};
 
 typedef struct alder_hashtable_mcas_struct
 alder_hashtable_mcas_t;
+
+size_t
+alder_hashtable_mcas_element_sizeof(int K);
+
+size_t
+alder_hashtable_mcas_sizeof(int k, size_t size);
 
 alder_hashtable_mcas_t*
 alder_hashtable_mcas_create(int k, size_t size);
@@ -57,6 +80,11 @@ alder_hashtable_mcas_increment(alder_hashtable_mcas_t *o,
                                uint64_t *key,
                                uint64_t *res_key,
                                bool isMultithreaded);
+int
+alder_hashtable_mcas_state(alder_hashtable_mcas_t *o);
+
+uint64_t
+alder_hashtable_mcas_i_np(alder_hashtable_mcas_t *o);
 
 size_t
 alder_hashtable_mcas_size(alder_hashtable_mcas_t *o);
@@ -90,41 +118,29 @@ int
 alder_hashtable_mcaspseudo_maximum_count(alder_hashtable_mcas_t *o);
 
 int
-alder_hashtable_mcas_print_header_with_FILE(FILE *fp,
-                                            int kmer_size,
-                                            int hashtable_size,
-                                            uint64_t n_ni,
-                                            uint64_t n_np);
-
-int
-alder_hashtable_mcas_print_with_FILE(alder_hashtable_mcas_t *o, FILE *fp);
+alder_hashtable_mcas_printHeaderToFILE(FILE *fp,
+                                       int kmer_size,
+                                       uint64_t hashtable_size,
+                                       uint64_t n_ni,
+                                       uint64_t n_np);
 
 int64_t
 alder_hashtable_mcas_printPackToFILE(alder_hashtable_mcas_t *o, FILE *fp);
+
+int
+alder_hashtable_mcas_printCountPerPartition(FILE *fp, size_t value,
+                                            uint64_t i_ni, uint64_t i_np,
+                                            uint64_t n_np);
+
 int
 alder_hashtable_mcas_printPackToFILE_count(size_t value, FILE *fp);
 
-alder_hashtable_mcas_t * alder_hashtable_mcas_load(const char *fn,
-                                                   int isSummary);
+int
+alder_hashtable_mcas_load(const char *fn, int isSummary);
 
 int
 alder_hashtable_mcas_query(const char *fn,
                            const char *query);
-
-int
-alder_hashtable_mcas_count(const char *fn,
-                           size_t *volumn);
-
-int
-alder_hashtable_mcas_header(const char *fn,
-                            int *K, int *S, uint64_t *Ni, uint64_t *Np);
-
-int
-alder_hashtable_mcas_large_convert(alder_hashtable_mcas_t *dst,
-                                   alder_hashtable_mcas_t *src,
-                                   const char *fn,
-                                   uint64_t xi_np,
-                                   uint64_t xn_np);
 
 int
 alder_hashtable_mcas_convertCountToHashTable(alder_hashtable_mcas_t *ht,
@@ -141,11 +157,51 @@ alder_hashtable_mcas_select(alder_encode_number_t **ss,
                             uint64_t number_iteration,
                             uint64_t number_partition);
 
+void
+alder_hashtable_mcas_select2(alder_encode_number2_t **ss,
+                             uint64_t *i_ni,
+                             uint64_t *i_np,
+                             alder_encode_number2_t *s1,
+                             alder_encode_number2_t *s2,
+                             uint64_t number_iteration,
+                             uint64_t number_partition);
+
 int
 alder_hashtable_mcaspseudo_find(alder_hashtable_mcas_t *o,
                                 uint64_t *key,
                                 int *value);
-__END_DECLS
 
+int
+alder_hashtable_mcas_nextFromFile(int fildes,
+                                  alder_encode_number_t *key,
+                                  uint16_t *value,
+                                  size_t *pos,
+                                  int flag_nh64);
+int
+alder_hashtable_mcas_updateFile(int fildes,
+                                alder_encode_number_t *key,
+                                uint16_t *value,
+                                size_t *pos,
+                                int flag_nh64);
+int
+alder_hashtable_mcas_large_close(int fildes);
+
+
+int
+alder_hashtable_mcas_find_open(const char *fn, int *fildes_p, int *K_p,
+                               uint64_t *nh_p, uint64_t *ni_p, uint64_t *np_p,
+                               uint64_t *tnh_p, uint64_t **n_nhs_p);
+int
+alder_hashtable_mcas_find(int fildes,
+                          const char *query,
+                          int K,
+                          uint64_t nh,
+                          uint64_t ni,
+                          uint64_t np,
+                          uint64_t tnh,
+                          uint64_t *n_nhs);
+
+
+__END_DECLS
 
 #endif /* alder_hashtable_alder_hashtable_mcas_h */

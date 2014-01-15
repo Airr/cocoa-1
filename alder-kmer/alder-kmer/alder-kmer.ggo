@@ -3,204 +3,207 @@ version "0.1"
 purpose "alder-kmer counts kmers in a nucleotide sequence data set."
 usage "alder-kmer [command] [OPTIONS]... [FILES]..."
 description
-"alder-kmer allows arbitrary size of kmer using multiple CPUs. The first argument of the alder-kmer is a command, which is one of the strings such as `count', and `report'.  It is optional as indicated by the brackets in the Usage above. The default command is `count'. Use option --detailed-help to see options for more commands. Options may require arguments. `number' is a positive number unless stated otherwise. `file' and `directory' are strings that could be found or created in the file system that you run alder-kmer on."
+"alder-kmer allows arbitrary size of kmer using multiple CPUs. The first argument of the alder-kmer is a command, which is one of the strings: `count', `report', `simulate', `partition', `decode', and `table'. Use option --detailed-help to see options for more commands. Options may require arguments. `INT' is a positive number unless stated otherwise. `STRING' is a string. `FILENAME' and `DIRECTORY' are strings that could be found or created in the file system that you run alder-kmer on."
+
+option "help" h "Print help of the program, or a command: e.g., alder-kmer count -h" flag off
+option "detailed-help" - "Print help, including all details" flag off
+option "full-help" - "Print help with documents" flag off
 
 section "count"
-sectiondesc="The following options are for counting kmers in a data set. The numbers of iterations and partitions are determined by the available disk space and input sequence data. The program attempts to compute the available disk space and memory at the time the program runs. This help message even shows the available disk space and memory below. Those values can be changed whenever the program runs, and they can be different from the ones below. You could specify disk space or available memory, and adjust the usage of disk space and memory using load options: --load-disk and --load-memory. You can also specify the number of iterations and partitions --ni and --np, these will override values that otherwise would be determined by disk space and input sequence data; this is not recommended for real data. See command `simulate' options. The program would use about half the number of CPU cores. Change the number of cores or threads as you wish. Output file name prefix can be changed, and so can their location with --outdir."
-option "count" - "Count k-mer data" flag on
-option "kmer" k "k-mer size" long typestr="number" default="1" optional
-option "disk" - "maximum disk space" long typestr="N MB" default="10" optional
-option "load-disk" - "fraction of disk" double typestr="0 < x < 1" default="0.5" optional
-option "memory" - "maximum memory" long typestr="N MB" default="10" optional
-option "load-memory" - "fraction of memory" double typestr="0 < x < 1" default="0.5" optional
-option "nthread" - "Number of threads" long typestr=">=1" default="1" optional
-option "outfile" o "Output files" string typestr="file" default="outfile" optional
-option "outdir" - "Output directory" string typestr="directory" default="." optional
-option "use-simulate" - "Use options in simulations" flag off
+sectiondesc="The following options are for counting kmers in a data set. The input files must be sequence files: fasta, or fastq. The numbers of iterations and partitions are determined by the available disk space, memory, and input sequence data (see Rizk et al. 2013 using --cite option). The program attempts to compute the available disk space and memory at the time the program runs. This help message even shows the available disk space and memory below. Those values can be changed whenever the program runs, and they can be different from the ones below. You could specify disk space or available memory, and adjust the usage of disk space and memory using load options: --load-disk and --load-memory. You can also specify the number of iterations and partitions --ni and --np, these will override values that otherwise would be determined by disk space and input sequence data; this is not recommended for real data, but for command `simulate'. The program would use about half the number of CPU cores. Change the number of cores or threads as you wish. Output file name prefix can be changed using --outfile, and so can their location with --outdir."
+option "count" - "Count k-mer data" flag off
+option "kmer" k "k-mer size" long typestr="INT" default="1" optional
+option "disk" d "maximum disk space" long typestr="N MB" default="10" optional
+option "load-disk" - "fraction of disk" double typestr="0 < x < 1" default="1.0" optional
+option "memory" m "maximum memory" long typestr="N MB" default="10" optional
+option "load-memory" - "fraction of memory" double typestr="0 < x < 1" default="1.0" optional
+option "nthread" t "number of threads" long typestr="INT>=1" default="1" optional
+option "outfile" o "prefix of output files" string typestr="FILENAME" default="outfile" optional
+option "outdir" - "output directory" string typestr="DIRECTORY" default="." optional
+option "nh" - "number of elements in a hash table" long typestr="INT" default="10" optional
 option "no-partition" - "Use partitions not sequence files." flag off
-option "do-partition" - "Do only partitions not counting." flag off
-option "no-pack" - "No pack of the hash table." flag off
-option "no-delete-partition" - "Do not delete partition files." flag off
+option "no-count" - "Do only partitions not counting." flag off
+option "no-delete" - "Do not delete partition files; on with --no-count" flag off
 
 section "report"
-sectiondesc="This command reports the count table. It prints k-mer, its reverse
-complementary sequence, and the number of occurences. The input file can be
-created either using `count' or `simulate' command. A hash table file name is
-suffixed with `tbl'."
+sectiondesc="This command reports the table of kmers and their occurences in a table file. The input file can be created either using `count', `table' or `simulate' command. A hash table file name is suffixed with `tbl'.  It prints k-mer, its reverse complementary sequence, the number of occurences, and the index of the sequence in the table."
 option "report" - "Report the count table" flag off
-option "summary" - "Display summary of the table" flag off
-option "query" - "Query a single kmer" string typestr="DNA sequence" optional
+option "summary" s "Display summary of the table" flag off
+option "query" q "Query a kmer DNA sequence" string typestr="sequence" optional
 
 section "simulate"
-sectiondesc="The following options are for simulating a data set. No input files are necessary. Use --kmer to specifiy the length of kmer sequences, and --outfile and --outdir to change the out file prefix. See the reference papers for details using option --cite. The command generates sequence, partition, and hash table files. Use --nf to change the number of files. Total number of parition files with .par extension is equal to ni x np where ni is given by option --ni and np is by --np. Data size is limited by the size of hash table and the maximum count in a slot. The larger maximum count, the greater the data size. Data size can also be limited by kmer size; e.g., however large the hash table size is, the number of slots would be two if kmer size is 1. If kmer size is very large, hash table size would also determine data size. "
+sectiondesc="The following options are for simulating a data set. There are io input files for `simulate' command. Use --kmer to specifiy the length of kmer sequences, and --outfile and --outdir to change the out file prefix. See the reference papers for details using option --cite. The command generates sequence and partition files. Use --nf to change the number of files. Total number of parition files with .par extension is equal to ni x np where ni is given by option --ni and np is by --np. Data size is limited by the size of hash table and the maximum count in a slot. The larger maximum count, the greater the data size. Data size can also be limited by kmer size; e.g., however large the hash table size is, the number of slots would be two if kmer size is 1. If kmer size is very large, hash table size would also determine data size. You can use --ni and --np in `count' command where these two values are set by disk space and memory."
 option "simulate" - "Simulate k-mer data" flag off dependon="outfile"
-option "format" - "Generated sequence file format" string typestr="string" default="fasta" values="fasta","fastq","seq","fa","fq" enum optional
-option "ni" - "Number of iterations" long typestr="number" default="1" optional
-option "np" - "Number of partitions" long typestr="number" default="1" optional
-option "nf" - "Number of sequences files" long typestr="number" default="1" optional
-option "seqlen" - "Maximum sequence length" long typestr="number" default="100" optional
-option "maxcount" - "Maximum count in a hash table" long typestr="number < 65536" default="8" optional
-option "nh" - "Number of elements in a hash table" long typestr="number" default="10" optional
-option "maxkmer" - "Number of kmers in a file" long typestr="number" default="1000" optional
-option "seed" - "Random seed" long typestr="number < 10^9" default="-1" optional
+option "maxkmer" - "number of kmers in a file" long typestr="INT < 10^8" default="1000" optional
+option "format" - "generated sequence file format" string typestr="STRING" default="fastq" values="fasta","fastq","fa","fq","seq" enum optional
+option "ni" - "number of iterations" long typestr="INT" default="1" optional
+option "np" - "number of partitions" long typestr="INT" default="1" optional
+option "nf" - "number of sequences files" long typestr="INT" default="1" optional
+option "seqlen" - "maximum sequence length" long typestr="INT" default="100" optional
+option "seed" - "random seed" long typestr="INT < 10^9" default="-1" optional
 details="Enter a positive integer seed (9 digits or less)."
 
 section "partition"
-sectiondesc="This command converts sequence files to a partition file. Use options of command `simulate': --kmer, --nthread, --outfile, --outdir, --ni, and --np. More options below can change the buffer size during partition. The result should not be affected by changes to buffer sizes. The default number of threads for the command partition is 1."
+sectiondesc="This command converts sequence files to partition files. Use options of command `simulate': --kmer, --nthread, --outfile, --outdir, --ni, and --np. You can use options: --disk and --memory to set automatically --ni and --np, but to use --disk and --memmory you must set --ni=-1 and --np=-1 or negative values. Otherwise, --ni and --np values in `simulate' command would be used. The --memory option value will be still used for acquiring buffers for reading sequence files and writing partition files. Large memory would increase the speed of `partition' command. On the contrary, the value in --disk does not affect the buffer, and the performance of `partition' command would be the same for different values of --disk, which would change the size of --ni and --np if --ni=-1 and --np=-1. See the reference by Rizk, et al. (2013) for details using option --cite."
 option "partition" - "Create a partition file" flag off dependon="outfile"
 option "inbuffer" - "Size of input buffer" long typestr="number" default="0" optional
-option "outbuffer" - "Size of output buffer" long typestr="number" default="0" optional
+option "outbuffer" - "Size of output buffer" long typestr="INT" default="0" optional
 
 section "decode"
-sectiondesc="This command converts a partition file to a sequence file. Use options of count command: e.g., --kmer"
+sectiondesc="This command converts a partition file to a sequence file. Available options include --kmer, --outfile, and --outdir."
 option "decode" - "Decode a partition file" flag off dependon="outfile"
 
 section "table"
-sectiondesc="This command converts partition files to a hash table. Use the following options: --kmer, --nh, --nthread, and provide at least one partition file as an input file.A count option --use-partition will use partition files that are generated from partition commands; it does not need an input file, and it uses ni and np values to construct partition file names.  This command table requires partition input files."
+sectiondesc="This command converts partition files to a table file. Use the following options: --kmer, --nh, --nthread, and provide at least one partition file as an input file."
 option "table" - "Partition file" flag off dependon="outfile"
 
-section "pack"
-sectiondesc="Package a hash table so that its file size is much smaller. The input file is a .tbl, and its out file is .tb2."
-option "pack" - "Package a hash table." flag off dependon="outfile"
-option "use-table" - "Use a hash table" flag off
+section "list"
+sectiondesc="This command lists kmer sequences in a fastq file. Kmer sequences should have the four letters of A, C, G, and T. Any other characters, even a, c, g, or t, are considered not a valid DNA letter. Available options include kmer, seqlen."
+option "list" - "List kmers in a text file. Options: kmer, seqlen" flag off
 
-section "others"
+section "match"
+sectiondesc="This command compares a table file and a set of input files. A set of sequence data can be given as either standard input or input files."
+option "match" - "Compare ." flag off
+option "tabfile" - "a table file" string typestr="FILENAME" default="outfile.tbl" optional
+
+section "more"
 option "cite" - "Print reference papers" optional hidden
 option "log" - "Log file using option outfile" string typestr="file" default="outfile.log" optional argoptional
-option "loglevel" - "Log level" long typestr="level" values="0","1","2","3","4","5" default="1" optional
 option "progress" - "Display progress" flag off
-option "progress-to-stderr" - "Display progress to stderr" flag off
-option "totalmaxkmer" - "Skip counting max kmer, and use this number" long typestr="number" default="0" optional
 
-section "EXIT STATUS"
+option "loglevel" - "Log level" long typestr="level" values="0","1","2","3","4","5" default="1" optional
+option "progress-to-stderr" - "Display progress number to stdandard error" flag off
+option "totalmaxkmer" - "Skip counting maximum number of kmers in data, and use this number" long typestr="INT" default="0" optional
+option "select-version" - "Select a version" long typestr="INT" default="3" values="1","2","3" optional
+
+section "exit"
 sectiondesc="The alder-kmer exit 0 on success, and >0 if an error occurs. The command `simulate' returns 0 if all of the Kmers occur only once, otherwise >0."
 option "exit" - "dummy" flag off
 
 section "examples"
-sectiondesc="Use one of the commands to execute alder-kmer. This section describes usages of alder-kmer. Because the first argument is always a command, I omit alder-kmer. For example, to count kmer of size 1 in file a.fa I can type in the following command:
-$ alder-kmer count -k 1 a.fa
-Instead, I write as follows:
-$ count -k 1 a.fa
+sectiondesc="The alder-kmer can take files of different formats depending on the given command argument. Let's see the format of files that alder-kmer is concerned of.
 
-To count kmers (K=2) in sequence files,
-$ alder-kmer -k 2 a-00.seq
+*** FILE FORMAT ***
 
-To report the summary of a created hash table,
-$ alder-kmer report a.tbl
+FASTA: See http://en.wikipedia.org/wiki/FASTA_format for the format. Command `simulate' can create fasta-format files.
 
-Command: Simulate 
+FASTQ: See http://en.wikipedia.org/wiki/FASTQ_format for the format. Command `simulate' can create fastq-format files.
 
-To simulate a data set with the following option; kmer size 1, iteration 1, partition 1, number of sequence files 1, maximum sequence length 100, maximum count for a key in a hash table 32, hash table size 10, and a random seed,
-$ alder-kmer simulate -o a
+TAB: This is a binary file format for files created by alder-kmer `count' command. It contains a list of entries, of which each consists of a kmer, its occurence, and the index. The index value could be used to search the table for a particular kmer. Another command named `table' can create a table file from a partition file.
 
-To simulate a data set in a directory, 
-$ mkdir d
-$ alder-kmer simulate -o a --outdir=d
+PAR: This is a binary file format for a partition. See Rizk et al. (2013) for details of partitions. A file of the format contains kmer sequences of the same kmer size. Commands `count'. `simulate', and `partition' can create partition files.
 
-To simulate a data set with kmer size 31.
-$ alder-kmer simulate -o a -k 31
+DEC: This is a text file format of partition files. It simply prints one kmer per line.
 
-To simulate a data set without a hash table. This is one of two ways of
-simulate command. Kmers are distributed to ni x np partition files. 
-$ simulate -k 3 --ni=1 --np=1 --nf=1 --seqlen=10 --maxkmer=25 --seed=1
+*** COUNT ***
 
-Test: K=1
-Without --kmer or -k option, kmer size is assumed to be 1.  First, let's generate files using `simulate' command. 
+Use one of the commands to execute alder-kmer. When demontrating usages of alder-kmer, the first argument being always a command, I omit alder-kmer. For instance, to count kmer of size 1 in file a.fa you can type in the following command:
+$ ./alder-kmer count a.fa
+Instead, we write as follows:
+$ count a.fa
+So, please, always prepend the command with `alder-kmer'. If you need a test sequence file, then see a following section to learn how to use `simulate' command, which would create sequence files.
+
+To count kmers (K=2) in a sequence file, using option -k, type in:
+$ count -k 2 a.fa
+This would create an output file named outfile.tbl.
+
+*** REPORT ***
+
+To list kmers and their occurences in a created hash table, type in:
+$ report outfile.tbl
+
+*** SIMULATE ***
+
+Create a sequence file using `simulate' command.
 $ simulate --seed=1
-The command has several default options. See the secion `simulate' for detail.  It creates outfile-00.fa, outfile.tbl, and outfile_0-0.par. The parition file is outfile_0-0.par.  Let's recover the same  partition file, which is a part of command `count' using command `partition'.
+The command runs with default options. See the secion `simulate' command above for detail or type in:
+$ simulate -h
+to learn options and default values of the command. The `simulate' command would create a sequence file (outfile-00.fa) and a partition file (outfile_0-0.par).
+
+*** PARTITION ***
+
+Let's recover the same partition file, which is a part of command `count' using command `partition'.
 $ partition outfile-00.fa
-Because this command is part of simulation, it uses more options in command `simulate' than those in `count'. The command would create a partition file without outfile prefix: 0-0.par. This file and outfile_0-0.par must be same.  The partition file contains kmers in bytes, which can be decoded by using command `decode' with the partition file.
-$ decode 0-0.par
-The `decode' command generates an out file with .dec extension. In this way, I can use simulate, partition, and decode to recover kmers in a simulated sequence file, and check whether they are the same.
+Because this command is part of simulation, it uses more options in command `simulate' than those in `count'. The command would create a partition file: outfile-0-0.par. This file and outfile_0-0.par should be same.  The partition file contains kmers in bytes, which can be decoded by using command `decode' with the partition file.
+
+*** DECODE ***
+
+To convert a partition file to a text file, type in:
+$ decode outfile-0-0.par
+The `decode' command generates an out file with .dec extension.
+
+*** TABLE ***
+
+To create the report file from a partition file, type in:
+$ table outfile-0-0.par
+This would create an output file named outfile.tbl.
+
+*** Testing ***
+
+Let's consider these variables in testing.
+K: kmer size
+N: number of unique kmers (MAX of N=10^8)
+M: occurence of each unique kmer
+T: number of threads
+
+1. Partition command test without consistency check (.fa/.fq -> .par)
+K=1..62,N=10000,M=65535,T=1 
+./alder_kmer_test_partition.sh $K 10000 65535 fq no 1 3
+K=1..62,N=10000,M=65535,T=4 (1 hour)
+for K in {1..62}; do ./alder_kmer_test_partition.sh $K 10000 65535 fq no 4 3; done
+
+2. Table command test (.par -> .tbl)
+K=1..62,N=1000,T=1
+for K in {1..62}; do ./alder_kmer_test_table.sh $K 1000 fq no 1; done
+K=1..62,N=1000,T=4
+for K in {1..62}; do ./alder_kmer_test_table.sh $K 100000 fq no 4; done
+
+3. Table command with larger data test
+K=15..31,T=1
+./alder_kmer_test_table2.sh $K 10000 65535 fq no 10000 1000 1 3
+K=15..31,T=4
+for K in {32..186}; do ./alder_kmer_test_table2.sh $K 10000 65535 fq no 10000 1000 4 3; done
+HERE
+
+4. Count command test (.fa/.fq -> .tbl)
+K=15..63,T=1
+./alder_kmer_test_count.sh $K 10000 65535 fq no 10000 1000 1 3
+K=15..186,T=4
+for K in {32..186}; do ./alder_kmer_test_count.sh $K 10000 65535 fq no 10000 1000 4 3; done
+NEXT
+
+5. Maximum of unique test
+./alder_kmer_test_partition.sh 15 100000000 1 fq no 1 3
+
+6. Shuffle
+K=32..200
+for K in {32..99}; do ./alder_kmer_test_table3.sh $K 1000 fq no 10000 10 4 3 no; done
+HERE on upto 99 because of lack of disk space.
+for K in {32..99}; do ./alder_kmer_test_table3.sh $K 1000 fq no 10000 10 4 3 yes; done
+NEXT (partially)
+
+7. dsk's human data test using alder-kmer's list command
 
 
-Test: K=16
-$ simulate -k 16 --seed=1 --maxkmer=1000000
-$ mv outfile_0-0.par 0-0.par
-$ decode -k 16 0-0.par --progress
-$ cut -f 1 outfile.dec|sort|uniq|wc -l
-$ mv outfile-00.fa 1
-$ for i in {1..10}; do cat 1 >> outfile-00.fa; done
-$ count --use-partition -k 16 --nthread=2 --ni=1 --np=1 --nh=999786 0-0.par
+8. Multiple input files
 
+. FASTA
 
-Test: K=32
-$ simulate -k 32 --seed=1 --maxkmer=10000000
-$ partition -k 32 outfile-00.fa
-$ decode -k 32 outfile-0-0.par
-$ cut -f 1 outfile.dec|sort|uniq|wc -l
-$ table -k 32 --nthread=2 --ni=1 --np=1 --nh=14000000 outfile-0-0.par
+. gzip, bzip2
 
-Test: K=63
-$ simulate -k 63 --seed=1 --maxkmer=100000000
-$ partition -k 63 outfile-00.fa
-$ table -k 63 --nthread=4 --ni=1 --np=1 --nh=140000000 outfile_0-0.par
+. dsk's test data
 
-Test: K=64
-$ simulate -k 64 --seed=1 --maxkmer=100
-$ decode -k 64 outfile_0-0.par
-$ cut -f 1 outfile.dec |sort|uniq|wc -l
-$ for i in {1..1000000}; do cat outfile_0-0.par >> 1; done; mv 1 outfile_0-0.par
+. K=32 .. 186
 
-for i in {1..100}; do
-xxd -p -c 16 outfile_0-0.par | gshuf - | xxd -r -p - 1.par; cat 1.par >> 2.par
-done
-mv 2.par outfile_0-0.par
+. T=1 .. 128 (using pacman and lemming)
 
-$ table -k 64 --nthread=24 --ni=1 --np=1 --nh=140 outfile_0-0.par
+. Test of overflow of occurence (create a separate file of kmer of overflowed).
+.ofl file would contain encoded numbers just like .par file.
 
-*** FASTQ ****
+TODO
+3. Usage of table in percentage (should be 70%)
 
-Test: small data sets with a single thread
-alder_kmer_small.sh 1 10
-alder_kmer_small.sh 2 100
-alder_kmer_small.sh 3 200
-...
-alder_kmer_small.sh 15 10000
-alder_kmer_small.sh 16 1000
-for (( kmer = 1; kmer <= 16; kmer+=1 )); do
-  ./alder_kmer_test_small_parfile.sh $kmer 100000 fa
-  ./alder_kmer_test_small_parfile.sh $kmer 100000 fq
-done 2> result.txt
-
-Test: large data sets with a single thread
-alder_kmer_large.sh 16 100
-alder_kmer_large.sh 20 100
-alder_kmer_large.sh 24 100
-...
-alder_kmer_large.sh 64 100
-for (( kmer = 16; kmer <= 64; kmer+=4 )); do
-  alder_kmer_test_large_parfile.sh $kmer 100 fa
-  alder_kmer_test_large_parfile.sh $kmer 100 fq
-done 2> result.txt
-
-
-Test: large data sets (kmersize < 32) with multiple threads
-
-for (( kmer = 16; kmer <= 64; kmer+=1 )); do
-  alder_kmer_test_large_seqfile.sh $kmer 100 fa
-  alder_kmer_test_large_seqfile.sh $kmer 100 fq
-done 2> result.txt
-
-Test: K=32
-$ simulate -k 32 --seed=1 --maxkmer=10000000
-$ partition -k 32 outfile-00.fa
-$ decode -k 32 outfile-0-0.par
-$ cut -f 1 outfile.dec|sort|uniq|wc -l
-$ table -k 32 --nthread=2 --ni=1 --np=1 --nh=14000000 outfile-0-0.par
-
-
-Test: count
-
-for (( kmer = 16; kmer <= 64; kmer+=1 )); do
-  alder_kmer_test_large_count.sh $kmer 10000 fq 4
-  alder_kmer_test_large_count.sh $kmer 10000 fa 4
-done 2> result.txt
-
-
-
-
-End of Examples"
+### End of Examples ###"
 option "examples" - "Shows example runs of alder-kmer" flag off
 
 section "document"
@@ -218,6 +221,5 @@ Discussions
 
 References
 
-End of Document"
+### End of Document ###"
 option "document" - "Shows the helpful document for alder-kmer" flag off
-

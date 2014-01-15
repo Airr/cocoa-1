@@ -26,6 +26,9 @@ static const char *alder_kmer_cite_description =
 "Marcais and Kingsford. 2011 Bioinformatics 27:764-770.\n"
 "  A fast, lock-free approach for efficient parallel counting of occurrences of k-mers.";
 
+/**
+ *  This function prints the references of techniques used in alder-kmer.
+ */
 void alder_kmer_cite()
 {
     printf("%s\n", alder_kmer_cite_description);

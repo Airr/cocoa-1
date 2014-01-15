@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>2</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.education</string>
 	<key>LSMinimumSystemVersion</key>
@@ -30,6 +30,10 @@
 	<string>Copyright © 2013,2014 Sang Chul Choi. All rights reserved.</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
+	<key>CFBundleHelpBookFolder</key>
+	<string>alderg-kmerHelp.help</string>
+	<key>CFBundleHelpBookName</key>
+	<string>edu.uaf.iab.alderg-kmerhelp</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 </dict>

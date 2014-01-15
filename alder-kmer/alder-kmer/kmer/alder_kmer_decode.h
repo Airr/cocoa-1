@@ -37,6 +37,13 @@
 __BEGIN_DECLS
 
 int
+alder_kmer_decode2(int K,
+                   int progress_flag,
+                   struct bstrList *infile,
+                   const char *outdir,
+                   const char *outfile);
+
+int
 alder_kmer_decode(int K,
                   int progress_flag,
                   struct bstrList *infile,

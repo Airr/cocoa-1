@@ -19,62 +19,75 @@
 
 #include <stdio.h>
 #include <zlib.h>
+#include "bzlib.h"
+#include "alder_cmacro.h"
 #include "alder_file_exist.h"
 #include "alder_file_isgzip.h"
+#include "alder_file_isbzip2.h"
 #include "alder_file_isfastq.h"
 
-#define BUFLEN 16384
-
 /**
- * Return:
- * 1 if it is a FASTQ, 0 otherwise.
- * -1 if it does not exist or error.
+ *  This function tests whether a file is of FASTQ format.
+ *
+ *  @param fn file name
+ *
+ *  @return ALDER_YES if so, ALDER_NO otherwise.
  */
 int alder_file_isfastq(const char *fn)
 {
-    char buf[BUFLEN];
+    char buf[ALDER_BUFSIZE_100];
     int status = 0;
+    size_t readLen = 0;
+    
     int s = alder_file_exist(fn);
     if (s == 0) {
-        return -1;
+        return ALDER_NO;
     }
     s = alder_file_isgzip(fn);
+    int s2 = alder_file_isbzip2(fn);
     if (s == 1) {
         // open it with zlib.
         gzFile gz = gzopen(fn, "rb");
         if (gz == NULL) {
-            return -1;
+            return ALDER_NO;
         }
         int len = gzread(gz, buf, sizeof(buf));
         if (len < 0) {
             gzclose(gz);
-            return -1;
+            return ALDER_NO;
         }
-        if (len > 1) {
-            if (buf[0] == '@') {
-                status = 1;
-            } else {
-                status = 0;
-            }
-        } else {
-            status = -1;
-        }
+        readLen = len;
         gzclose(gz);
+    } else if (s2 == 1) {
+        // open it with bzlib.
+        BZFILE *bz = BZ2_bzopen(fn, "rb");
+        if (bz == NULL) {
+            return ALDER_NO;
+        }
+        int len = BZ2_bzread(bz, buf, sizeof(buf));
+        if (len < 0) {
+            BZ2_bzclose(bz);
+            return ALDER_NO;
+        }
+        readLen = len;
+        BZ2_bzclose(bz);
     } else {
         // open it with a regular fopen or open.
         FILE *fp = fopen(fn, "rb");
-        if (fp == NULL) return -1;
-        size_t len = fread(buf, sizeof(char), BUFLEN, fp);
-        if (len > 1) {
-            if (buf[0] == '@') {
-                status = 1;
-            } else {
-                status = 0;
-            }
-        } else {
-            status = -1;
-        }
+        if (fp == NULL) return ALDER_NO;
+        readLen = fread(buf, sizeof(char), sizeof(buf), fp);
         fclose(fp);
+    }
+    
+    /* I just check the first character. */
+    if (readLen > 1) {
+        if (buf[0] == '@') {
+            status = ALDER_YES;
+        } else {
+            status = ALDER_NO;
+        }
+    } else {
+        status = ALDER_NO;
     }
     
     return status;

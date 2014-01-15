@@ -94,6 +94,11 @@ static void
 alder_kmer_simulate_partition_flush(alder_kmer_simulate_partition_t *o,
                                     int i_ni, int i_np);
 
+static void
+alder_kmer_simulate_partition_write2(alder_kmer_simulate_partition_t *o,
+                                     alder_encode_number2_t *n1,
+                                     int i_ni, int i_np);
+
 static void random_0123(uint8_t *s, size_t n);
 static int reverse_complementary_0123(uint8_t *s, size_t n);
 
@@ -280,6 +285,10 @@ int alder_kmer_simulate(const char *outfile,
             int added = alder_hashtable_mcaspseudo_increment(cht,
                                                              ss->n,
                                                              s3->n);
+            if (added <= 0) {
+                fprintf(stderr, "Fatal - failed to add a kmer!\n");
+                goto cleanup;
+            }
             assert(added > 0);
             alder_kmer_simulate_partition_write(opart, ss, (int)i_ni, (int)i_np);
         } else {
@@ -440,18 +449,21 @@ int alder_kmer_simulate(const char *outfile,
     // Print the hash tables.
     bstring bht = bformat("%s/%s.tbl", outdir, outfile);
     FILE *fp = fopen(bdata(bht), "wb");
-    alder_hashtable_mcas_print_header_with_FILE(fp,
-                                                kmer_size,
-                                                hashtable_size,
-                                                number_iteration,
-                                                number_partition);
+    alder_hashtable_mcas_printHeaderToFILE(fp,
+                                           kmer_size,
+                                           hashtable_size,
+                                           number_iteration,
+                                           number_partition);
     for (int i_ni = 0; i_ni < number_iteration; i_ni++) {
         for (int i_np = 0; i_np < number_partition; i_np++) {
-            alder_hashtable_mcas_print_with_FILE(ht[i_np + i_ni * number_partition], fp);
+            assert(0);
+//            alder_hashtable_mcas_print_with_FILE(ht[i_np + i_ni * number_partition], fp);
         }
     }
+    
     XFCLOSE(fp);
     
+cleanup:
     /* Cleanup */
 #if !defined(NDEBUG)
     bdestroy(bseq_debug);
@@ -476,7 +488,8 @@ int alder_kmer_simulate(const char *outfile,
  *
  * 1. Each
  */
-int alder_kmer_simulate_woHashtable(const char *outfile,
+int alder_kmer_simulate_woHashtable(long version,
+                                    const char *outfile,
                                     const char *outdir,
                                     alder_format_type_t format,
                                     int number_file,
@@ -486,6 +499,9 @@ int alder_kmer_simulate_woHashtable(const char *outfile,
                                     int sequence_length,
                                     size_t maxkmer)
 {
+    if (version > 1) {
+        version = 2;
+    }
     int s = 0;
     
     ///////////////////////////////////////////////////////////////////////////
@@ -506,13 +522,22 @@ int alder_kmer_simulate_woHashtable(const char *outfile,
     alder_encode_number_t * s1 = NULL;
     alder_encode_number_t * s2 = NULL;
     alder_encode_number_t * s3 = NULL; // for res_key in mcas function.
+    alder_encode_number2_t * s21 = NULL;
+    alder_encode_number2_t * s22 = NULL;
     uint8_t *random_kmer = NULL;
     s1 = alder_encode_number_create_for_kmer(kmer_size);
     s2 = alder_encode_number_create_for_kmer(kmer_size);
     s3 = alder_encode_number_create_for_kmer(kmer_size);
+    s21 = alder_encode_number2_createWithKmer(kmer_size);
+    s22 = alder_encode_number2_createWithKmer(kmer_size);
     random_kmer = malloc(sizeof(*random_kmer) * kmer_size);
-    if (s1 == NULL || s2 == NULL || random_kmer == NULL) {
+    if (s1 == NULL || s2 == NULL || s3 == NULL ||
+        s21 == NULL || s22 == NULL ||
+        random_kmer == NULL) {
         XFREE(random_kmer);
+        alder_encode_number2_destroy(s22);
+        alder_encode_number2_destroy(s21);
+        alder_encode_number_destroy(s3);
         alder_encode_number_destroy(s2);
         alder_encode_number_destroy(s1);
         alder_kmer_simulate_partition_destroy(opart);
@@ -537,7 +562,7 @@ int alder_kmer_simulate_woHashtable(const char *outfile,
         int i_sequence_length = 0;
         size_t n_kmer = 0;
         while (n_kmer < maxkmer) {
-            if (n_kmer % 100000 == 0) {
+            if (n_kmer % 100000 == 1) {
                 alder_progress_step((i * maxkmer) + n_kmer,
                                     number_file * maxkmer,
                                     0);
@@ -549,11 +574,18 @@ int alder_kmer_simulate_woHashtable(const char *outfile,
                 i_seq++;
                 i_sequence_length = kmer_size - 1;
                 random_0123(random_kmer, kmer_size);
+                /* version 1 */
                 alder_encode_number_kmer(s1, random_kmer);
                 reverse_complementary_0123(random_kmer, kmer_size);
                 alder_encode_number_kmer(s2, random_kmer);
                 reverse_complementary_0123(random_kmer, kmer_size);
-                // Write the first k-1 letters.
+                /* version 2 */
+                alder_encode_number2_kmer(s21, random_kmer);
+                reverse_complementary_0123(random_kmer, kmer_size);
+                alder_encode_number2_kmer(s22, random_kmer);
+                reverse_complementary_0123(random_kmer, kmer_size);
+                
+                /* Write the first k-1 letters. */
                 if (format == ALDER_FORMAT_FASTA) {
                     fprintf(fpseq, ">%d\n", i_seq);
                 } else if (format == ALDER_FORMAT_FASTQ) {
@@ -568,6 +600,7 @@ int alder_kmer_simulate_woHashtable(const char *outfile,
             // Write the kmer to one of the partition files.
             int b1 = (int)Equilikely(0,3);
             int b2 = (b1 + 2) % 4;
+            /* version 1 */
             alder_encode_number_kmer_shift_left_with(s1, b1);
             alder_encode_number_kmer_shift_right_with(s2, b2);
             alder_encode_number_t *ss = NULL;
@@ -577,7 +610,25 @@ int alder_kmer_simulate_woHashtable(const char *outfile,
                                                    number_iteration,
                                                    number_partition);
             alder_hashtable_mcas_increment(ht, ss->n, s3->n, false);
-            alder_kmer_simulate_partition_write(opart, ss, (int)i_ni, (int)i_np);
+            /* version 2 */
+            alder_encode_number2_shiftLeftWith(s21, b1);
+            alder_encode_number2_shiftRightWith(s22, b2);
+            alder_encode_number2_t *s2s = NULL;
+            i_ni = 0;
+            i_np = 0;
+            alder_hashtable_mcas_select2(&s2s, &i_ni, &i_np, s21, s22,
+                                         number_iteration,
+                                         number_partition);
+            
+            if (version == 1) {
+                alder_kmer_simulate_partition_write(opart, ss,
+                                                    (int)i_ni, (int)i_np);
+            } else if (version == 2) {
+                alder_kmer_simulate_partition_write2(opart, s2s,
+                                                     (int)i_ni, (int)i_np);
+            } else {
+                assert(0);
+            }
             
             // End the current sequence, and start a new sequence.
             i_sequence_length++;
@@ -601,11 +652,15 @@ int alder_kmer_simulate_woHashtable(const char *outfile,
                 }
             }
         }
-        for (int i_ni = 0; i_ni < number_iteration; i_ni++) {
-            for (int i_np = 0; i_np < number_partition; i_np++) {
-                alder_kmer_simulate_partition_flush(opart, i_ni, i_np);
+        
+        if (version == 1) {
+            for (int i_ni = 0; i_ni < number_iteration; i_ni++) {
+                for (int i_np = 0; i_np < number_partition; i_np++) {
+                    alder_kmer_simulate_partition_flush(opart, i_ni, i_np);
+                }
             }
         }
+        
         // Tail of the sequence
         if (i_sequence_length > 0) {
             if (format == ALDER_FORMAT_FASTQ) {
@@ -797,6 +852,26 @@ void alder_kmer_simulate_partition_write(alder_kmer_simulate_partition_t *o,
     int nk = o->nk[k];
     alder_encode_number_packwrite(fp, n1, n2, &nk);
     o->nk[k] = nk;
+}
+
+void alder_kmer_simulate_partition_write2(alder_kmer_simulate_partition_t *o,
+                                          alder_encode_number2_t *n1,
+                                          int i_ni, int i_np)
+{
+    int k = i_ni * o->n_np + i_np;
+    FILE *fp = o->fp[k];
+    size_t ib = n1->b / 8;
+    size_t jb = n1->b % 8;
+    
+    /* Encode the Kmer ss. */
+    for (size_t i = 0; i < ib; i++) {
+        for (size_t j = 0; j < 8; j++) {
+            fwrite(&n1->n[i].key8[j], 1, 1, fp);
+        }
+    }
+    for (size_t j = 0; j < jb; j++) {
+        fwrite(&n1->n[ib].key8[j], 1, 1, fp);
+    }
 }
 
 /* This function flushes the content in the buffer.

@@ -46,12 +46,26 @@ typedef struct alder_fileseq_stat_struct {
 } alder_fileseq_stat_t;
 
 int alder_fileseq_stat(const char *fn, alder_fileseq_stat_t *buf, int k);
-int alder_fileseq_count_kmer_files(uint64_t *v, struct bstrList *infile, int k,
+int alder_fileseq_count_kmer_files(uint64_t *v, size_t *vFilesize,
+                                   struct bstrList *infile, int k,
                                    int progress_flag, int progressToError_flag);
-int alder_fileseq_count_kmer_file(uint64_t *v, const char *fn, int k,
+int alder_fileseq_count_kmer_file(uint64_t *v,
+                                  const char *fn, int k,
                                   size_t *curBufsize, size_t totalBufsize,
                                   int progress_flag,
                                   int progressToError_flag);
+
+int
+alder_fileseq_estimate_kmer_files(uint64_t *v, 
+                                  struct bstrList *infile, int k,
+                                  int progress_flag, int progressToError_flag);
+
+int
+alder_fileseq_estimate_kmer_file(uint64_t *v,
+                                 const char *fn, int k,
+                                 size_t *curBufsize, size_t totalBufsize,
+                                 int progress_flag,
+                                 int progressToError_flag);
 
 __END_DECLS
 

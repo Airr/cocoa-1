@@ -17,6 +17,9 @@
 
 @implementation AlderAppDelegate
 
+/**
+ *  This function updates disk space and available memory in the computer.
+ */
 - (void)update_disk_and_memory
 {
     unsigned long disk_space = 0;

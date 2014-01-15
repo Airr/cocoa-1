@@ -21,6 +21,24 @@
 #include "alder_file.h"
 #include "alder_fileseq_type.h"
 
+/**
+ *  This function determines the type of a DNA sequence file. 
+ *  I assume that the sequence is one of three formats: FASTA, FASTQ, or SEQ.
+ *  A file of SEQ format simply contains a DNA sequence per line.
+ *
+ *  @param fn file name
+ *
+ *  @return one of indicators of the following:
+ *    ALDER_FILETYPE_FASTA
+ *    ALDER_FILETYPE_FASTQ
+ *    ALDER_FILETYPE_SEQ
+ *    ALDER_FILETYPE_GZFASTA
+ *    ALDER_FILETYPE_GZFASTQ
+ *    ALDER_FILETYPE_GZSEQ
+ *    ALDER_FILETYPE_BZFASTA
+ *    ALDER_FILETYPE_BZFASTQ
+ *    ALDER_FILETYPE_BZSEQ
+ */
 int alder_fileseq_type(const char *fn)
 {
     int s = alder_file_isfasta(fn);
@@ -28,6 +46,10 @@ int alder_fileseq_type(const char *fn)
         s = alder_file_isgzip(fn);
         if (s == 1) {
             return ALDER_FILETYPE_GZFASTA;
+        }
+        s = alder_file_isbzip2(fn);
+        if (s == 1) {
+            return ALDER_FILETYPE_BZFASTA;
         } else {
             return ALDER_FILETYPE_FASTA;
         }
@@ -37,13 +59,24 @@ int alder_fileseq_type(const char *fn)
         s = alder_file_isgzip(fn);
         if (s == 1) {
             return ALDER_FILETYPE_GZFASTQ;
+        }
+        s = alder_file_isbzip2(fn);
+        if (s == 1) {
+            return ALDER_FILETYPE_BZFASTQ;
         } else {
             return ALDER_FILETYPE_FASTQ;
         }
     }
+    
+    // So, the file is neither of FASTA nor of FASTQ format.
+    // I'd assume that it contains a DNA sequence per line.
     s = alder_file_isgzip(fn);
     if (s == 1) {
         return ALDER_FILETYPE_GZSEQ;
+    }
+    s = alder_file_isbzip2(fn);
+    if (s == 1) {
+        return ALDER_FILETYPE_BZSEQ;
     } else {
         return ALDER_FILETYPE_SEQ;
     }

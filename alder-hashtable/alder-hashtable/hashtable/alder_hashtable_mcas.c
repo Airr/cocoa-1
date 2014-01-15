@@ -17,6 +17,10 @@
  * along with alder-hashtable.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#define _LARGEFILE64_SOURCE /* See feature_test_macros(7) */
+#include <sys/types.h>
+#include <unistd.h>
+
 #include <unistd.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -26,45 +30,38 @@
 #include <assert.h>
 #include <stdbool.h>
 #include "alder_cmacro.h"
+#include "alder_logger.h"
+#include "libdivide.h"
 #include "alder_hash.h"
 #include "alder_mcas_wf.h"
 #include "alder_encode.h"
 #include "alder_hashtable_mcas.h"
 
-static int
-alder_hashtable_mcas_large_open(const char *fn, int *fildes,
-                                int *K, int *S, uint64_t *Ni, uint64_t *Np);
-
-static int
-alder_hashtable_mcas_large_next(alder_hashtable_mcas_t *o, int fildes);
-
-static int
-alder_hashtable_mcas_next(alder_hashtable_mcas_t *o,
-                          alder_encode_number_t *key,
-                          uint16_t *value);
-static int
-alder_hashtable_mcas_push(alder_hashtable_mcas_t *o,
-                          alder_encode_number_t *key,
-                          uint16_t value);
-
-void
-alder_hashtable_mcas_large_close(int fildes);
-/* n is the size of the array on the current line.
- */
-struct alder_hashtable_mcas_struct {
-    int k;                      /* k-mer size                           */
-    int stride;                 /* stride in key                        */
-    size_t size;                /* number of elements in the hash table */
-    size_t index;               /* current index for iteration          */
-    uint64_t *empty_key;        /* n: stride - EMPTY key                */
-    uint64_t *key;              /* n: size x stride                     */
-    uint16_t *value;            /* n: size                              */
-};
 
 static BOOL pseudo_mcas3(int count, uint64_t *addressA,
                          uint64_t *oldA, uint64_t *newA, uint64_t *addressB);
 
-/* This function initializes variables of hashtable_mcas.
+
+int
+alder_hashtable_mcas_state(alder_hashtable_mcas_t *o)
+{
+    return o->state;
+}
+
+uint64_t
+alder_hashtable_mcas_i_np(alder_hashtable_mcas_t *o)
+{
+    return o->i_np;
+}
+
+/**
+ *  This function initializes variables of hashtable_mcas.
+ *
+ *  @param o    hash table
+ *  @param k    kmer size
+ *  @param size hash table size
+ *
+ *  @return void
  */
 static void
 alder_hashtable_mcas_init(alder_hashtable_mcas_t *o, int k, size_t size)
@@ -73,16 +70,19 @@ alder_hashtable_mcas_init(alder_hashtable_mcas_t *o, int k, size_t size)
     o->stride = ALDER_BYTESIZE_KMER(k,ALDER_NUMKMER_8BYTE);
     o->size = size;
     o->empty_key = NULL;
-//    o->res_key = NULL;
     o->key = NULL;
     o->value = NULL;
 }
 
-/* This function creates an open-addressing hash table.
+/**
+ *  This function creates an open-addressing hash table.
  *
- * 0x44 is used for an empty element in a hash table.
- * This way, I do not need to set a bit 63rd bit to 1 to denote that the slot
- * is occupied.
+ *  @param k    kmer size
+ *  @param size hash table size
+ *
+ *  @return hash table
+ *
+ *  0x44 is used for an empty element in a hash table.
  */
 alder_hashtable_mcas_t*
 alder_hashtable_mcas_create(int k, size_t size)
@@ -93,32 +93,83 @@ alder_hashtable_mcas_create(int k, size_t size)
     alder_hashtable_mcas_init(o, k, size);
     /* memory */
     o->empty_key = malloc(sizeof(*o->empty_key) * o->stride);
-    o->key = malloc(sizeof(*o->key) * o->size * o->stride);
-    o->value = malloc(sizeof(*o->value) * o->size);
+    o->key = malloc(sizeof(*o->key) * o->size * o->stride);   /* bigmem */
+    o->value = malloc(sizeof(*o->value) * o->size);           /* bigmem */
     if (o->empty_key == NULL || o->key == NULL || o->value == NULL) {
         alder_hashtable_mcas_destroy(o);
         return NULL;
     }
     memset(o->empty_key, 0x44, sizeof(*o->empty_key) * o->stride);
-//    memset(o->res_key, 0, sizeof(*o->res_key) * o->stride);
-    memset(o->key, 0x44, sizeof(*o->key) * o->size * o->stride);
-    memset(o->value, 0, sizeof(*o->value) * o->size);
+    alder_hashtable_mcas_reset(o);
     return o;
 }
 
+/**
+ *  This function computes the memmory size of a table.
+ *
+ *  @param K    kmer size
+ *  @param size number of elements
+ *
+ *  @return memmory size for a table
+ */
+size_t
+alder_hashtable_mcas_sizeof(int K, size_t size)
+{
+    size_t v = 0;
+    alder_hashtable_mcas_t ov;
+    int stride = ALDER_BYTESIZE_KMER(K,ALDER_NUMKMER_8BYTE);
+    v = (sizeof(&ov) + sizeof(ov) +
+         sizeof(*ov.empty_key) * stride +
+         sizeof(*ov.key) * stride * size +
+         sizeof(*ov.value) * size);
+    
+//    uint16_t *value; /* n: size                              */
+    
+    return v;
+}
+
+/**
+ *  This function computes the number of bytes for storing an element in a
+ *  table.
+ *
+ *  @param K    kmer size
+ *
+ *  @return element size in byte
+ */
+size_t
+alder_hashtable_mcas_element_sizeof(int K)
+{
+    alder_hashtable_mcas_t ov;
+    int stride = ALDER_BYTESIZE_KMER(K,ALDER_NUMKMER_8BYTE);
+    size_t v = (sizeof(*ov.key) * stride + sizeof(*ov.value));
+    return v;
+}
+
+/**
+ *  This function frees the hash table.
+ *
+ *  @param o hash table
+ */
 void
 alder_hashtable_mcas_destroy(alder_hashtable_mcas_t *o)
 {
     if (o != NULL) {
         XFREE(o->empty_key);
-//        XFREE(o->res_key);
         XFREE(o->key);
         XFREE(o->value);
         XFREE(o);
     }
 }
 
-/* This function resets the hash table.
+/*
+ */
+/**
+ *  This function resets the hash table. All of the keys are empty, and values
+ *  are zero.
+ *
+ *  @param o hash table
+ *
+ *  @return SUCESS
  */
 int
 alder_hashtable_mcas_reset(alder_hashtable_mcas_t *o)
@@ -146,12 +197,14 @@ alder_hashtable_mcas_key0(alder_hashtable_mcas_t *o, size_t p)
     return o->key[p * o->stride];
 }
 
-uint64_t
-alder_hashtable_mcas_key1(alder_hashtable_mcas_t *o, size_t p)
-{
-    return o->key[p * o->stride + 1];
-}
-
+/**
+ *  This function returns the key at p as a bstring.
+ *
+ *  @param o hash table
+ *  @param p position
+ *
+ *  @return bstring of the key
+ */
 bstring
 alder_hashtable_mcas_key(alder_hashtable_mcas_t *o, size_t p)
 {
@@ -164,9 +217,18 @@ alder_hashtable_mcas_key(alder_hashtable_mcas_t *o, size_t p)
     return bseq;
 }
 
-/* This function increments the hash.
- * returns
- * SUCCESS or FAIL
+#pragma mark increment
+
+/**
+ *  This function increments the hash. This is the main function in the hash
+ *  table.
+ *
+ *  @param o               hash table
+ *  @param key             key
+ *  @param res_key         auxilary key
+ *  @param isMultithreaded multi-threaded flag
+ *
+ *  @return SUCCESS or FAIL
  */
 int
 alder_hashtable_mcas_increment(alder_hashtable_mcas_t *o,
@@ -208,8 +270,6 @@ alder_hashtable_mcas_increment(alder_hashtable_mcas_t *o,
             assert(memcmp(res_key, o->empty_key, sizeof(*res_key)*o->stride));
             assert(memcmp(res_key, key, sizeof(*res_key)*o->stride));
             fprintf(stderr, "Fatal Error - hash table is full!\n");
-            // assert(0);
-            // abort();
             return ALDER_STATUS_ERROR;
         }
         
@@ -221,16 +281,14 @@ alder_hashtable_mcas_increment(alder_hashtable_mcas_t *o,
             cval = __sync_val_compare_and_swap(&o->value[x],
                                                (uint16_t)oval, (uint16_t)cval);
         }
-//        if (!(oval == 0 && cval == 0)) {
-//            fprintf(stderr, "oval: %d, cval: %d\n", oval, cval);
-//        }
-//        assert(oval == 0 && cval == 0 && o->value[x] == 1);
     } else {
         // single threaded open addressing hash table operation
+#if defined(USEMEMCPY)
         int isKeyFound = memcmp(o->key + x * o->stride, key,
                                 sizeof(*key) * o->stride);
         int isEmptyFound = memcmp(o->key + x * o->stride, o->empty_key,
                                   sizeof(*o->empty_key) * o->stride);
+        
         while (isEmptyFound != 0 && isKeyFound != 0 && tries <= o->size) {
             tries++;
             x = (x + 1) % o->size;
@@ -245,16 +303,71 @@ alder_hashtable_mcas_increment(alder_hashtable_mcas_t *o,
         if (isEmptyFound == 0) {
             memcpy(o->key + x * o->stride, key, sizeof(*key) * o->stride);
         }
+#else
+            /*****************************************************************/
+            /*                         OPTIMIZATION                          */
+            /*****************************************************************/
+        int isKeyFound = ALDER_YES;
+        int i;
+        size_t pos = x * o->stride;
+        for (i = 0; i < o->stride; i++) {
+            if (o->key[pos + i] != key[i]) {
+                isKeyFound = ALDER_NO;
+                break;
+            }
+        }
+        int isEmptyFound = ALDER_YES;
+        for (i = 0; i < o->stride; i++) {
+            if (o->key[pos + i] != ALDER_HASHTABLE_MCAS_EMPTYKEY) {
+                isEmptyFound = ALDER_NO;
+                break;
+            }
+        }
+        
+        while (isEmptyFound == ALDER_NO && isKeyFound == ALDER_NO && tries <= o->size) {
+            tries++;
+            x = (x + 1) % o->size;
+            size_t pos = x * o->stride;
+            isKeyFound = ALDER_YES;
+            for (i = 0; i < o->stride; i++) {
+                if (o->key[pos + i] != key[i]) {
+                    isKeyFound = ALDER_NO;
+                    break;
+                }
+            }
+            isEmptyFound = ALDER_YES;
+            for (i = 0; i < o->stride; i++) {
+                if (o->key[pos + i] != ALDER_HASHTABLE_MCAS_EMPTYKEY) {
+                    isEmptyFound = ALDER_NO;
+                    break;
+                }
+            }
+        }
+        if (o->size < tries) {
+            return ALDER_STATUS_ERROR;
+        }
+        if (isEmptyFound == ALDER_YES) {
+            memcpy(o->key + x * o->stride, key, sizeof(*key) * o->stride);
+        }
+            /*****************************************************************/
+            /*                         OPTIMIZATION                          */
+            /*****************************************************************/
+#endif
         o->value[x]++;
     }
     return ALDER_STATUS_SUCCESS;
 }
 
-/* This function increments the hash. 
- * returns
- * Number of occurences for the key.
+/**
+ *  This function increments the hash.
  *
- * WARN: This is not a thread-safe function.
+ *  WARN: This is not a thread-safe function.
+ *
+ *  @param o       hash table
+ *  @param key     key
+ *  @param res_key auxilary key
+ *
+ *  @return Number of occurences for the key.
  */
 int
 alder_hashtable_mcaspseudo_increment(alder_hashtable_mcas_t *o,
@@ -265,18 +378,18 @@ alder_hashtable_mcaspseudo_increment(alder_hashtable_mcas_t *o,
     
     uint64_t x = alder_hash_code01(key, o->stride) % o->size;
     size_t tries = 1;
-    BOOL succeeded = 0;
+//    BOOL succeeded = 0;
     
     tries = 1;
-    succeeded = pseudo_mcas3(o->stride, o->key + x * o->stride,
-                             o->empty_key, key, res_key);
+    pseudo_mcas3(o->stride, o->key + x * o->stride,
+                 o->empty_key, key, res_key);
     while (memcmp(res_key, o->empty_key, sizeof(*res_key)*o->stride) &&
            memcmp(res_key, key, sizeof(*res_key)*o->stride) &&
            tries <= o->size) {
         tries++;
         x = (x + 1) % o->size;
-        succeeded = pseudo_mcas3(o->stride, o->key + x * o->stride,
-                                 o->empty_key, key, res_key);
+        pseudo_mcas3(o->stride, o->key + x * o->stride,
+                     o->empty_key, key, res_key);
     }
     if (o->size < tries) {
         assert(memcmp(res_key, o->empty_key, sizeof(*res_key)*o->stride));
@@ -297,12 +410,16 @@ alder_hashtable_mcaspseudo_increment(alder_hashtable_mcas_t *o,
     return s;
 }
 
-
-/* This function checks whether it can increments the hash table.
- * returns
- * 1 if it can, otherwise 0.
+/**
+ *  This function checks whether it can increments the hash table.
  *
- * WARN: This is not thread-safe.
+ *  WARN: This is not thread-safe.
+ *
+ *  @param o       hash table
+ *  @param key     key
+ *  @param res_key auxiliary key
+ *
+ *  @return YES or NO
  */
 int
 alder_hashtable_mcaspseudo_can_increment(alder_hashtable_mcas_t *o,
@@ -327,7 +444,7 @@ alder_hashtable_mcaspseudo_can_increment(alder_hashtable_mcas_t *o,
     if (o->size < tries) {
         assert(memcmp(res_key, o->empty_key, sizeof(*res_key)*o->stride));
         assert(memcmp(res_key, key, sizeof(*res_key)*o->stride));
-        return 0;
+        return ALDER_NO;
     } else {
         // only if the original key was empty.
         assert(!memcmp(o->key + x * o->stride, key, sizeof(*key)*o->stride));
@@ -336,23 +453,33 @@ alder_hashtable_mcaspseudo_can_increment(alder_hashtable_mcas_t *o,
                                      key, o->empty_key, res_key);
             assert(succeeded == 1);
         }
-        return 1;
+        return ALDER_YES;
     }
 }
 
-/* This function mimics call_mcas3. This is not a thread-safe function.
- * Compare addressA and oldA.
- * If they are the same, addressA is replaced by newA, and addressB is by oldA.
- * Otherwise, addressA stays put, and addressB is replaced by addressA.
+/**
+ *  This function mimics call_mcas3. This is not a thread-safe function.
+ *  Compare addressA and oldA. If they are the same, addressA is replaced 
+ *  by newA, and addressB is by oldA. Otherwise, addressA stays put, and 
+ *  addressB is replaced by addressA.
  *
- * WARN: This is not thread-safe.
+ *  WARN: This is not thread-safe.
+ *
+ *  @param count    number of elements
+ *  @param addressA memory to be updated
+ *  @param oldA     old value
+ *  @param newA     new value
+ *  @param addressB auxiliary value
+ *
+ *  @return YES or NO
  */
-BOOL pseudo_mcas3(int count, uint64_t *addressA, uint64_t *oldA, uint64_t *newA,
-                  uint64_t *addressB)
+BOOL
+pseudo_mcas3(int count, uint64_t *addressA, uint64_t *oldA, uint64_t *newA,
+             uint64_t *addressB)
 {
-    BOOL isSuccess = 1;
+    BOOL isSuccess = ALDER_YES;
     if (memcmp(addressA, oldA, sizeof(*addressA) * count)) {
-        isSuccess = 0;
+        isSuccess = ALDER_NO;
     }
     memcpy(addressB, addressA, sizeof(*addressB) * count);
     if (isSuccess) {
@@ -361,7 +488,18 @@ BOOL pseudo_mcas3(int count, uint64_t *addressA, uint64_t *oldA, uint64_t *newA,
     return isSuccess;
 }
 
-/* This funciton searthes the hash table for the key, and returns its value.
+#pragma mark query
+
+/**
+ *  This funciton searthes the hash table for the key, and returns its value.
+ *
+ *  WARN: This is not thread-safe.
+ *
+ *  @param o     hash table
+ *  @param key   key
+ *  @param value return value
+ *
+ *  @return SUCCESS or FAIL
  */
 int
 alder_hashtable_mcaspseudo_find(alder_hashtable_mcas_t *o,
@@ -387,9 +525,14 @@ alder_hashtable_mcaspseudo_find(alder_hashtable_mcas_t *o,
     return ALDER_STATUS_SUCCESS;
 }
 
-/* This function returns the number of open slots in the hash table.
+/**
+ *  This function returns the number of open slots in the hash table.
  *
- * WARN: This is not thread-safe.
+ *  WARN: This is not thread-safe.
+ *
+ *  @param o hash table
+ *
+ *  @return number of empty slots
  */
 int
 alder_hashtable_mcaspseudo_number_open_slot(alder_hashtable_mcas_t *o)
@@ -403,7 +546,14 @@ alder_hashtable_mcaspseudo_number_open_slot(alder_hashtable_mcas_t *o)
     return v;
 }
 
-/* This function returns the maximum values in the value.
+/**
+ *  This function returns the maximum values in the value.
+ *
+ *  WARN: This is not thread-safe.
+ *
+ *  @param o hash table
+ *
+ *  @return maximum value
  */
 int
 alder_hashtable_mcaspseudo_maximum_count(alder_hashtable_mcas_t *o)
@@ -417,270 +567,386 @@ alder_hashtable_mcaspseudo_maximum_count(alder_hashtable_mcas_t *o)
     return (int)v;
 }
 
-/* This function prints the header of a hash table.
- * returns
- * SUCCESS or FAIL
+#pragma mark print
+
+/**
+ *  This function prints the header of a hash table.
+ *
+ *  @param fp             file pointer
+ *  @param kmer_size      kmer size
+ *  @param hashtable_size total number of elements in the hash table
+ *  @param n_ni           iterations
+ *  @param n_np           partitions
+ *
+ *  @return SUCCESS or FAIL
+ *
  * The header consists of 
  * 1. 4B: K-mer size
- * 2. 4B: hash table size
- * 3. 8B: number of iterations
- * 4. 8B: number of partitions
+ * 2. 8B: size of a hash table that are used for counting
+ * 3. 8B: number of iterations (ni)
+ * 4. 8B: number of partitions (np)
+ * 5. 8B: total number of elements
+ * 6. (8 x ni x np B): number of elements in each partition
  */
+#define ALDER_HASHTABLE_MCAS_OFFSET_NNH  4
+#define ALDER_HASHTABLE_MCAS_OFFSET_TNH 28
+#define ALDER_HASHTABLE_MCAS_OFFSET_ENH 36
 int
-alder_hashtable_mcas_print_header_with_FILE(FILE *fp,
-                                            int kmer_size,
-                                            int hashtable_size,
-                                            uint64_t n_ni,
-                                            uint64_t n_np)
+alder_hashtable_mcas_printHeaderToFILE(FILE *fp,
+                                       int kmer_size,
+                                       uint64_t n_nh,
+                                       uint64_t n_ni,
+                                       uint64_t n_np)
 {
     size_t s = 0;
     s = fwrite(&kmer_size, sizeof(kmer_size), 1, fp);
     if (s != 1) return ALDER_STATUS_ERROR;
-    fwrite(&hashtable_size, sizeof(hashtable_size), 1, fp);
+    fwrite(&n_nh, sizeof(n_nh), 1, fp);
     if (s != 1) return ALDER_STATUS_ERROR;
     fwrite(&n_ni, sizeof(n_ni), 1, fp);
     if (s != 1) return ALDER_STATUS_ERROR;
     fwrite(&n_np, sizeof(n_np), 1, fp);
     if (s != 1) return ALDER_STATUS_ERROR;
+    
+    uint64_t t_nh = 0;
+    fwrite(&t_nh, sizeof(t_nh), 1, fp);
+    if (s != 1) return ALDER_STATUS_ERROR;
+    
+    uint64_t v = 0;
+    for (uint64_t i = 0; i < n_ni; i++) {
+        for (uint64_t j = 0; j < n_np; j++) {
+            fwrite(&v, sizeof(v), 1, fp);
+            if (s != 1) return ALDER_STATUS_ERROR;
+        }
+    }
     return ALDER_STATUS_SUCCESS;
 }
 
-int
-alder_hashtable_mcas_print_with_FILE(alder_hashtable_mcas_t *o, FILE *fp)
-{
-    size_t s;
-    s = fwrite(o->empty_key, sizeof(*o->empty_key),  o->stride, fp);
-    if (s != o->stride) {
-        return 1;
-    }
-    s = fwrite(o->key, sizeof(*o->key), o->size * o->stride, fp);
-    if (s != o->size * o->stride) {
-        return 1;
-    }
-    s = fwrite(o->value, sizeof(*o->value), o->size, fp);
-    if (s != o->size) {
-        return 1;
-    }
-    return 0;
-}
-
-/* This function prints the hash table.
- * returns
- * the number of kmers (with count).
+/**
+ *  This function prints the body of a hash table.
+ *
+ *  @param o  hash table
+ *  @param fp file pointer
+ *
+ *  @return number of elements written to the file
  */
 int64_t
 alder_hashtable_mcas_printPackToFILE(alder_hashtable_mcas_t *o, FILE *fp)
 {
     int64_t v = 0;
-//    int k = o->k;
     size_t stride = o->stride;
     size_t size = o->size;
-    uint64_t *empty_key = o->empty_key;
+//    uint64_t *empty_key = o->empty_key;
     uint64_t *key = o->key;
+    
     uint16_t *value = o->value;
     alder_encode_number_t *m = alder_encode_number_create_for_kmer_view(o->k);
-    for (int i = 0; i < size; i++) {
-        // Print only key that is not empty.
-        size_t keypos = i * stride;
-        if (memcmp(key + keypos, empty_key, sizeof(*key)*stride)) {
-            size_t s = fwrite(key + keypos, sizeof(*key), stride, fp);
-            if (s != stride) {
-                return -1;
+    
+    /* NOTE: I am not sure whether this would be faster.      */
+    /*       Two for-loops are the same except the type of i. */
+    if (size <= UINT32_MAX) {
+        for (uint32_t i = 0; i < size; i++) {
+            // Print only key that is not empty.
+            size_t keypos = i * stride;
+            /*****************************************************************/
+            /*                         OPTIMIZATION                          */
+            /*****************************************************************/
+            int isSomeKey = ALDER_NO;
+            int i_stride;
+            for (i_stride = 0; i_stride < o->stride; i_stride++) {
+                if (key[keypos + i_stride] != ALDER_HASHTABLE_MCAS_EMPTYKEY) {
+                    isSomeKey = ALDER_YES;
+                    break;
+                }
             }
-            s = fwrite(value + i, sizeof(*value), 1, fp);
-            if (s != 1) {
-                return -1;
+            /*****************************************************************/
+            /*                         OPTIMIZATION                          */
+            /*****************************************************************/
+//            if (memcmp(key + keypos, empty_key, sizeof(*key)*stride)) {
+            if (isSomeKey == ALDER_YES) {
+                size_t s = fwrite(key + keypos, sizeof(*key), stride, fp);
+                if (s != stride) {
+                    return -1;
+                }
+                s = fwrite(value + i, sizeof(*value), 1, fp);
+                if (s != 1) {
+                    return -1;
+                }
+                s = fwrite(&i, sizeof(i), 1, fp);
+                if (s != 1) {
+                    return -1;
+                }
+                v++;
             }
-            v++;
+        }
+    } else {
+        for (size_t i = 0; i < size; i++) {
+            // Print only key that is not empty.
+            size_t keypos = i * stride;
+            /*****************************************************************/
+            /*                         OPTIMIZATION                          */
+            /*****************************************************************/
+            int isSomeKey = ALDER_NO;
+            int i_stride;
+            for (i_stride = 0; i_stride < o->stride; i_stride++) {
+                if (key[keypos + i_stride] != ALDER_HASHTABLE_MCAS_EMPTYKEY) {
+                    isSomeKey = ALDER_YES;
+                    break;
+                }
+            }
+            /*****************************************************************/
+            /*                         OPTIMIZATION                          */
+            /*****************************************************************/
+//            if (memcmp(key + keypos, empty_key, sizeof(*key)*stride)) {
+            if (isSomeKey == ALDER_YES) {
+                size_t s = fwrite(key + keypos, sizeof(*key), stride, fp);
+                if (s != stride) {
+                    return -1;
+                }
+                s = fwrite(value + i, sizeof(*value), 1, fp);
+                if (s != 1) {
+                    return -1;
+                }
+                s = fwrite(&i, sizeof(i), 1, fp);
+                if (s != 1) {
+                    return -1;
+                }
+                v++;
+            }
         }
     }
+    
     alder_encode_number_destroy_view(m);
     return v;
 }
 
+/**
+ *  This function writes the size of total elements in the table.
+ *
+ *  @param value 64-bit value
+ *  @param fp    file pointer
+ *
+ *  @return SUCCESS or FAIL
+ */
 int
 alder_hashtable_mcas_printPackToFILE_count(size_t value, FILE *fp)
 {
-    fseek(fp, 4, SEEK_SET);
-    int size = (int)value;
-    size_t s = fwrite(&value, sizeof(size), 1, fp);
+    
+    fseek(fp, ALDER_HASHTABLE_MCAS_OFFSET_TNH, SEEK_SET);
+    size_t s = fwrite(&value, sizeof(value), 1, fp);
     if (s != 1) {
-        return -1;
+        return ALDER_STATUS_ERROR;
     } else {
-        return 0;
+        return ALDER_STATUS_SUCCESS;
     }
 }
 
-
-/* This function prints the content of a hash table.
- * returns
- * number of empty slots in the hash table
+/**
+ *  This function writes the number of elements in the partition index by
+ *  iteration and partition.
+ *
+ *  @param fp    file pointer
+ *  @param value number of elements
+ *  @param i_ni  iteration index
+ *  @param i_np  partition index
+ *  @param n_np  number of partitions in an iteration
+ *
+ *  @return SUCCESS or FAIL
  */
-size_t alder_hashtable_mcas_print(alder_hashtable_mcas_t *o, FILE *fp)
+int
+alder_hashtable_mcas_printCountPerPartition(FILE *fp, size_t value,
+                                            uint64_t i_ni, uint64_t i_np,
+                                            uint64_t n_np)
 {
-    size_t v = 0;
-    alder_encode_number_t *m = alder_encode_number_create_for_kmer_view(o->k);
-    for (int i = 0; i < o->size; i++) {
-        // Print only key that is not empty.
-        if (memcmp(o->key + i * o->stride, o->empty_key, sizeof(*o->key)*o->stride)) {
-            // Print the key and its value.
-            m->n = o->key + i * o->stride;
-            alder_encode_number_print_in_DNA(fp, m);
-            fprintf(fp, "\t");
-            alder_encode_number_print_in_revDNA(fp, m);
-            fprintf(fp, "\t");
-            fprintf(fp, "%u\n", o->value[i]);
-        } else {
-            v++;
-        }
+    long pos = (ALDER_HASHTABLE_MCAS_OFFSET_ENH +
+                (i_ni * n_np + i_np) * sizeof(n_np));
+    long last = ftell(fp);
+    fseek(fp, pos, SEEK_SET);
+    size_t s = fwrite(&value, sizeof(value), 1, fp);
+    fseek(fp, last, SEEK_SET);
+    if (s != 1) {
+        return ALDER_STATUS_ERROR;
+    } else {
+        return ALDER_STATUS_SUCCESS;
     }
-    alder_encode_number_destroy_view(m);
-    return v;
 }
 
-/* 
+#pragma mark read
+
+
+/**
+ *  This function reads the header of a table file.
+ *
+ *  @param fn       file name
+ *  @param fildes_p file descriptor
+ *  @param K_p      kmer
+ *  @param nh_p     table size
+ *  @param ni_p     iterations
+ *  @param np_p     partitions
+ *  @param n_nhs_p  sizes for all partitions
+ *
+ *  @return SUCCESS or FAIL
  */
-static ssize_t
-read_large_bytes_kmer_file(alder_hashtable_mcas_t *o, size_t bufsize, int fildes)
+int
+open_table_header(const char *fn, int *fildes_p, int *K_p,
+                  uint64_t *nh_p, uint64_t *ni_p, uint64_t *np_p,
+                  uint64_t *tnh_p, uint64_t **n_nhs_p)
 {
-    // Kmer sequences
-    size_t keysize = (sizeof(*o->key) * o->stride);
-    bufsize = bufsize / keysize * keysize;
-    ssize_t totalRead = 0;
-    ssize_t r;
-    size_t nbyte = keysize * o->size;
-    
-    size_t cbyte = 0;
-    size_t rbyte = bufsize;
-    size_t sbyte = 0;
-    sbyte = rbyte < nbyte ? bufsize : nbyte;
-    
-    r = read(fildes, o->key, sbyte);
-    
-    if (r != sbyte && r == -1) {
-        fprintf(stderr, "Error - %s\n", strerror(errno));
-    }
-    totalRead += r;
-    while (rbyte < nbyte) {
-        cbyte = rbyte;
-        rbyte += bufsize;
-        sbyte = rbyte < nbyte ? bufsize : nbyte - cbyte;
-        
-        r = read(fildes, o->key + cbyte/sizeof(*o->key), sbyte);
-        
-        if (r != sbyte && r == -1) {
-            fprintf(stderr, "Error - %s\n", strerror(errno));
-        }
-        totalRead += r;
-    }
-    assert(totalRead == (ssize_t)nbyte);
-    return r;
-}
-
-static ssize_t
-read_large_bytes_count_file(alder_hashtable_mcas_t *o, size_t bufsize, int fildes)
-{
-    // Count sequences
-    size_t keysize = sizeof(*o->value);
-    bufsize = bufsize / keysize * keysize;
-    ssize_t totalRead = 0;
-    ssize_t r;
-    size_t nbyte = sizeof(*o->value) * o->size;
-    
-    size_t cbyte = 0;
-    size_t rbyte = bufsize;
-    size_t sbyte = 0;
-    sbyte = rbyte < nbyte ? bufsize : nbyte;
-    
-    r = read(fildes, o->value, sbyte);
-    if (r != sbyte && r == -1) {
-        fprintf(stderr, "Error - %s\n", strerror(errno));
-    }
-    totalRead += r;
-    while (rbyte < nbyte) {
-        cbyte = rbyte;
-        rbyte += bufsize;
-        sbyte = rbyte < nbyte ? bufsize : nbyte - cbyte;
-        
-        r = read(fildes, o->value + cbyte/sizeof(*o->value), sbyte);
-        if (r != sbyte && r == -1) {
-            fprintf(stderr, "Error - %s\n", strerror(errno));
-        }
-        totalRead += r;
-    }
-    assert(totalRead == (ssize_t)nbyte);
-    return r;
-}
-
-
-/* This function loads a hash table from a file.
- * returns
- * alder_hash_table_mcas_t on success
- * nil if an error occurs.
- * 
- * The hash table header consists of 
- * kmer size, hash table size, #_iteration, #_partition.
- */
-alder_hashtable_mcas_t * alder_hashtable_mcas_load(const char *fn,
-                                                   int isSummary)
-{
-    int fildes = open(fn, O_RDONLY);
-    if (fildes == -1) {
+    ssize_t readLen = 0;
+    *fildes_p = open(fn, O_RDWR); // O_RDONLY
+    if (*fildes_p == -1) {
         fprintf(stderr, "Error - openning file %s : %s\n", fn, strerror(errno));
-        return NULL;
+        return ALDER_STATUS_ERROR;
     }
-    int kmer_size;
-    int hashtable_size;
-    uint64_t n_ni;
-    uint64_t n_np;
-    read(fildes, &kmer_size, sizeof(kmer_size));
-    read(fildes, &hashtable_size, sizeof(hashtable_size));
-    read(fildes, &n_ni, sizeof(n_ni));
-    read(fildes, &n_np, sizeof(n_np));
-    int stride = ALDER_BYTESIZE_KMER(kmer_size,ALDER_NUMKMER_8BYTE);
-    uint64_t *empty_key = malloc(sizeof(*empty_key) * stride);
-    memset(empty_key,0,sizeof(*empty_key) * stride);
-    size_t bufsize = 1 << 23;
-    
-    alder_hashtable_mcas_t *o = alder_hashtable_mcas_create(kmer_size,
-                                                            hashtable_size);
-    size_t n_empty_slot = 0;
-    for (uint64_t i_ni = 0; i_ni < n_ni; i_ni++) {
-        for (uint64_t i_np = 0; i_np < n_np; i_np++) {
-            // Read a hash table.
-            ssize_t r = read(fildes, empty_key, sizeof(*empty_key) * stride);
-            if (r != sizeof(*empty_key) * stride) {
-                if (r == -1) {
-                    fprintf(stderr, "Error - %s\n", strerror(errno));
-                }
-            }
-            
-            r = read_large_bytes_kmer_file(o, bufsize, fildes);
-            r = read_large_bytes_count_file(o, bufsize, fildes);
-            
-            // Print or return it.
-            n_empty_slot += alder_hashtable_mcas_print(o, stdout);
-        }
+    readLen = read(*fildes_p, &(*K_p), sizeof(*K_p));
+    if (readLen != sizeof(*K_p) || *K_p <= 0) {
+        fprintf(stderr, "Error - failed to read K in file %s\n", fn);
+        close(*fildes_p);
+        return ALDER_STATUS_ERROR;
     }
-//    ssize_t r = read(fildes, empty_key, 1);
-//    assert(r == 0);
+    readLen = read(*fildes_p, &(*nh_p), sizeof(*nh_p));
+    if (readLen != sizeof(*nh_p) || *nh_p == 0) {
+        fprintf(stderr, "Error - failed to read Nh in file %s\n", fn);
+        close(*fildes_p);
+        return ALDER_STATUS_ERROR;
+    }
+    readLen = read(*fildes_p, &(*ni_p), sizeof(*ni_p));
+    if (readLen != sizeof(*ni_p) || *ni_p == 0) {
+        fprintf(stderr, "Error - failed to read Ni in file %s\n", fn);
+        close(*fildes_p);
+        return ALDER_STATUS_ERROR;
+    }
+    readLen = read(*fildes_p, &(*np_p), sizeof(*np_p));
+    if (readLen != sizeof(*np_p) || *np_p == 0) {
+        fprintf(stderr, "Error - failed to read Np in file %s\n", fn);
+        close(*fildes_p);
+        return ALDER_STATUS_ERROR;
+    }
+    readLen = read(*fildes_p, &(*tnh_p), sizeof(*tnh_p));
+    if (readLen != sizeof(*tnh_p) || *tnh_p == 0) {
+        fprintf(stderr, "Error - failed to read TNh in file %s\n", fn);
+        close(*fildes_p);
+        return ALDER_STATUS_ERROR;
+    }
     
-    XFREE(empty_key);
-    alder_hashtable_mcas_destroy(o);
-    close(fildes);
+    *n_nhs_p = malloc(sizeof(**n_nhs_p) * *ni_p * *np_p);
+    if (*n_nhs_p == NULL) {
+        fprintf(stderr,
+                "Error - not enough memory in reading a table file %s\n", fn);
+        close(*fildes_p);
+        return ALDER_STATUS_ERROR;
+    }
+    ssize_t len = read(*fildes_p, *n_nhs_p, sizeof(*n_nhs_p) * *ni_p * *np_p);
+    if (len != sizeof(*n_nhs_p) * *ni_p * *np_p) {
+        fprintf(stderr, "Error - no proper header of table file %s: %s\n",
+                fn, strerror(errno));
+        XFREE(*n_nhs_p);
+        close(*fildes_p);
+        return ALDER_STATUS_ERROR;
+    }
+    
+    uint64_t t_nh = 0;
+    for (uint64_t i = 0; i < (*ni_p) * (*np_p); i++) {
+        t_nh += (*n_nhs_p)[i];
+    }
+    if (t_nh != *tnh_p) {
+        fprintf(stderr,
+                "Error - Nh and sum of (ni x np)-many values are different.\n");
+        assert(0);
+        XFREE(*n_nhs_p);
+        close(*fildes_p);
+        return ALDER_STATUS_ERROR;
+    }
+    
+    return ALDER_STATUS_SUCCESS;
+}
+
+/**
+ *  This function loads a hash table from a file.
+ *
+ *  @param fn        table file name
+ *  @param isSummary summary flag; default 0.
+ *
+ *  @return SUCCESS or FAIL
+ *
+ *  The hash table header consists of
+ *  kmer size (4B), hash table size (8B), #_iteration (8B), #_partition (8B),
+ *  #_element in the table for each partition, and data.
+ */
+int
+alder_hashtable_mcas_load(const char *fn, int isSummary)
+{
+    int fildes;
+    int K;
+    uint64_t nh;
+    uint64_t ni;
+    uint64_t np;
+    uint64_t tnh;
+    uint64_t *n_nhs;
+    int s = open_table_header(fn, &fildes, &K, &nh, &ni, &np, &tnh, &n_nhs);
+    if (s != ALDER_STATUS_SUCCESS) {
+        fprintf(stderr, "Error - failed to open a table file %s: %s\n",
+                fn, strerror(errno));
+        return ALDER_STATUS_ERROR;
+    }
+    
+    alder_encode_number_t *key = alder_encode_number_create_for_kmer(K);
+    uint16_t value;
+    size_t pos;
+    int flag_nh64 = 0;
+    if (nh <= UINT32_MAX) {
+        flag_nh64 = 0;
+    } else {
+        flag_nh64 = 1;
+    }
+    for (uint64_t i_s = 0; i_s < tnh; i_s++) {
+        // Read each element: key and value.
+        alder_hashtable_mcas_nextFromFile(fildes, key, &value, &pos, flag_nh64);
+        // Print key and value.
+        alder_encode_number_print_in_DNA(stdout, key);
+        fprintf(stdout, "\t");
+        alder_encode_number_print_in_revDNA(stdout, key);
+        fprintf(stdout, "\t%d", value);
+        fprintf(stdout, "\t%zu\n", pos);
+        
+    }
+    alder_encode_number_destroy(key);
+    
+    s = alder_hashtable_mcas_large_close(fildes);
+    if (s != ALDER_STATUS_SUCCESS) {
+        fprintf(stderr, "Error - failed to read the end of a table file %s\n",
+                fn);
+        XFREE(n_nhs);
+        close(fildes);
+        return ALDER_STATUS_ERROR;
+    }
     
     if (isSummary) {
-        size_t n_total_slot = (size_t)hashtable_size * n_ni * n_np;
-        fprintf(stdout, "Kmer size           : %d\n", kmer_size);
-        fprintf(stdout, "Hash table size     : %d\n", hashtable_size);
-        fprintf(stdout, "Number of iteration : %llu\n", n_ni);
-        fprintf(stdout, "Number of partition : %llu\n", n_np);
-        fprintf(stdout, "Empty/Total slots = %zu/%zu (%0.1f%%)\n",
-                n_empty_slot, n_total_slot, (double)n_empty_slot * 100/(double)n_total_slot);
+        fprintf(stdout, "Kmer size           : %d\n", K);
+        fprintf(stdout, "Hash table size     : %llu\n", nh);
+        fprintf(stdout, "Number of iteration : %llu\n", ni);
+        fprintf(stdout, "Number of partition : %llu\n", np);
+        fprintf(stdout, "Number of elements  : %llu\n", tnh);
     }
-    return NULL;
+    
+    XFREE(n_nhs);
+    close(fildes);
+    return ALDER_STATUS_SUCCESS;
 }
 
+/**
+ *  This function selects one of two strands of a Kmer sequence.
+ *
+ *  @param ss               Kmer
+ *  @param i_ni             iteration
+ *  @param i_np             partition
+ *  @param s1               Kmer (forward)
+ *  @param s2               Kmer (reverse)
+ *  @param number_iteration number of iterations
+ *  @param number_partition number of partitions
+ *
+ *  This function is called when encoding Kmers.
+ */
 void
 alder_hashtable_mcas_select(alder_encode_number_t **ss,
                             uint64_t *i_ni,
@@ -699,517 +965,586 @@ alder_hashtable_mcas_select(alder_encode_number_t **ss,
     *i_np = hash_ss / number_iteration % number_partition;
 }
 
-/* This funciton searches the hash table in the file for the query.
- * returns
- * 0 on success
- * 1 otherwise
+void
+alder_hashtable_mcas_select2(alder_encode_number2_t **ss,
+                             uint64_t *i_ni,
+                             uint64_t *i_np,
+                             alder_encode_number2_t *s1,
+                             alder_encode_number2_t *s2,
+                             uint64_t number_iteration,
+                             uint64_t number_partition)
+{
+    uint64_t hash_s1 = alder_encode_number2_hash(s1);
+    uint64_t hash_s2 = alder_encode_number2_hash(s2);
+    uint64_t hash_ss = ALDER_MIN(hash_s1, hash_s2);
+    *ss = (hash_s1 < hash_s2) ? s1 : s2;
+    
+    *i_ni = hash_ss % number_iteration;
+    *i_np = hash_ss / number_iteration % number_partition;
+}
+
+/**
+ *  This function returns a position in a file.
+ *
+ *  @param table_size table size
+ *  @param h_size     hash table size
+ *  @param start      start
+ *  @param fildes     file descriptor
+ *  @param flag_nh64  flag for position
+ *  @param pos        position
+ *  @param key        key
+ *  @param ni         ni
+ *  @param np         np
+ *  @param i_ni       i_ni
+ *  @param i_np       i_np
+ *  @param nh         nh
+ *
+ *  @return position
+ */
+size_t
+next_position(int fildes,
+              uint64_t middle_index,
+              uint64_t table_size,
+              size_t h_size, off_t start,
+              int flag_nh64,
+              alder_encode_number_t *key, uint16_t *value,
+              uint64_t ni, uint64_t np,
+              uint64_t i_ni, uint64_t i_np, uint64_t nh)
+{
+    /* Search the section by a sort method. */
+    int s;
+//    off_t middle = start + middle_index * h_size;
+//    lseek(fildes, middle, SEEK_SET);
+    
+    size_t pos;
+    s = alder_hashtable_mcas_nextFromFile(fildes, key, value, &pos, flag_nh64);
+    assert(s == ALDER_STATUS_SUCCESS);
+#if !defined(NDEBUG)
+    uint64_t hash_key = alder_encode_number_hash(key);
+    uint64_t i_ni_key = hash_key % ni;
+    uint64_t i_np_key = hash_key / ni % np;
+    assert(i_ni == i_ni_key);
+    assert(i_np == i_np_key);
+#endif
+//    x = hash_key % nh;
+    return pos;
+}
+
+/**
+ *  This funciton searches the hash table in the file for the query.
+ *
+ *  @param fn    table file name
+ *  @param query query kmer sequence
+ *
+ *  @return SUCCESS or FAIL
  */
 int
 alder_hashtable_mcas_query(const char *fn,
                            const char *query)
 {
-    int fildes = open(fn, O_RDONLY);
-    if (fildes == -1) {
-        fprintf(stderr, "Error - openning file %s : %s\n", fn, strerror(errno));
+    int fildes;
+    int K;
+    uint64_t nh;
+    uint64_t ni;
+    uint64_t np;
+    uint64_t tnh;
+    uint64_t *n_nhs = NULL;
+    int s = open_table_header(fn, &fildes, &K, &nh, &ni, &np, &tnh, &n_nhs);
+    if (s != ALDER_STATUS_SUCCESS) {
+        fprintf(stderr, "Error - failed to open a table file %s: %s\n",
+                fn, strerror(errno));
         return ALDER_STATUS_ERROR;
     }
-    int kmer_size;
-    int hashtable_size;
-    uint64_t n_ni;
-    uint64_t n_np;
-    read(fildes, &kmer_size, sizeof(kmer_size));
-    read(fildes, &hashtable_size, sizeof(hashtable_size));
-    read(fildes, &n_ni, sizeof(n_ni));
-    read(fildes, &n_np, sizeof(n_np));
+    assert(n_nhs != NULL);
+    int flag_nh64 = 0;
+    if (nh <= UINT32_MAX) {
+        flag_nh64 = 0;
+    } else {
+        flag_nh64 = 1;
+    }
     
+    /* Choose a Kmer sequence. */
     bstring bq = bfromcstr(query);
-    if (bq->slen != kmer_size) {
+    if (bq->slen != K) {
+        fprintf(stderr, "Kmer length is not %d.\n", K);
+        XFREE(n_nhs);
+        close(fildes);
         return ALDER_STATUS_ERROR;
     }
-    
-    alder_encode_number_t *sq = alder_encode_number_create_for_kmer(kmer_size);
+    alder_encode_number_t *sq = alder_encode_number_create_for_kmer(K);
     alder_encode_number_kmer_with_char(sq, (char*)bq->data);
+    bdestroy(bq);
     alder_encode_number_t *s2 = alder_encode_number_create_rev(sq);
     alder_encode_number_t *ss = NULL;
     uint64_t i_ni = 0;
     uint64_t i_np = 0;
-    alder_hashtable_mcas_select(&ss, &i_ni, &i_np, sq, s2,
-                                n_ni, n_np);
+    alder_hashtable_mcas_select(&ss, &i_ni, &i_np, sq, s2, ni, np);
     
-    // skip
-    int stride = ALDER_BYTESIZE_KMER(kmer_size,ALDER_NUMKMER_8BYTE);
-    uint64_t *empty_key = malloc(sizeof(*empty_key) * stride);
-    memset(empty_key,0,sizeof(*empty_key) * stride);
-    size_t bufsize = 1 << 23;
+    size_t x = alder_encode_number_hash(ss) % nh;
+//    x = 104851588;
+    alder_log5("kmer: %s", query);
+    alder_log5("pos: %zu", x);
     
-    alder_hashtable_mcas_t *o = alder_hashtable_mcas_create(kmer_size,
-                                                            hashtable_size);
-    //
-    size_t hash_element_size = (stride * sizeof(uint64_t) +
-                                (sizeof(uint16_t)));
-    size_t offset = (sizeof(kmer_size) + sizeof(hashtable_size) +
-                     sizeof(n_ni) + sizeof(n_np) +
-                     hash_element_size * hashtable_size * (i_ni * n_np + i_np));
-    //
-    off_t s_f = lseek(fildes, offset, SEEK_SET);
+    /*************************************************************************/
+    /*                               SEARCH                                  */
+    /*************************************************************************/
     
-    // Read a hash table.
-    ssize_t r = read(fildes, empty_key, sizeof(*empty_key) * stride);
-    if (r != sizeof(*empty_key) * stride) {
-        if (r == -1) {
-            fprintf(stderr, "Error - %s\n", strerror(errno));
-        }
+    /* Find the start and end of i_ni/i_np table. */
+    int stride = ALDER_BYTESIZE_KMER(K,ALDER_NUMKMER_8BYTE);
+    size_t h_size;
+    if (nh <= UINT32_MAX) {
+        h_size = (stride * sizeof(uint64_t) + (sizeof(uint16_t)) + sizeof(uint32_t));
+    } else {
+        h_size = (stride * sizeof(uint64_t) + (sizeof(uint16_t)) + sizeof(uint64_t));
     }
-    r = read_large_bytes_kmer_file(o, bufsize, fildes);
-    r = read_large_bytes_count_file(o, bufsize, fildes);
-    // Find the key and return the value.
+    off_t start = ALDER_HASHTABLE_MCAS_OFFSET_ENH + ni * np * 8;
+    for (uint64_t i = 0; i < i_ni * np + i_np; i++) {
+        start += (n_nhs[i] * h_size);
+    }
+//    off_t end = start + n_nhs[i_ni * np + i_np] * h_size;
     
-    int value = -1;
-    alder_hashtable_mcaspseudo_find(o, ss->n, &value);
-    fprintf(stderr, "%d\n", value);
+    alder_encode_number_t *key = alder_encode_number_create_for_kmer(K);
+    uint64_t table_size = n_nhs[i_ni * np + i_np];
+    int64_t start_index = 0;
+    int64_t end_index = table_size;
+    
+    alder_log5("start: %lld", start);
+    alder_log5("end_index: %lld", end_index);
+    alder_log5("start_index: %lld", start_index);
     
     
-    XFREE(empty_key);
-    alder_hashtable_mcas_destroy(o);
+    size_t pos = (size_t)-1;
+    uint16_t value = 0;
+//    if (s != ALDER_STATUS_SUCCESS) {
+//        fprintf(stderr, "Error - failed to read an element in query.\n");
+//        close(fildes);
+//        alder_encode_number_destroy(s2);
+//        alder_encode_number_destroy(sq);
+//        bdestroy(bq);
+//        return ALDER_STATUS_ERROR;
+//    }
+    
+    int64_t middle_index = start_index - 1;
+    off_t middle = start;
+    lseek(fildes, middle, SEEK_SET);
+    alder_log5("middle index: %lld", middle_index);
+    alder_log5("middle: %lld", middle);
+    while (start_index <= end_index) {
+        int64_t new_middle_index = start_index + (end_index - start_index)/2;
+        if (new_middle_index == table_size) {
+            break;
+        }
+        middle = (new_middle_index - 1 - middle_index) * h_size;
+        lseek(fildes, middle, SEEK_CUR);
+        middle_index = new_middle_index;
+        alder_log5("middle index: %lld", middle_index);
+        alder_log5("middle: %lld", middle);
+        pos = next_position(fildes, middle_index,
+                            table_size, h_size, start, flag_nh64,
+                            key, &value,
+                            ni, np, i_ni, i_np, nh);
+        alder_log5("pos: %lld", pos);
+        if (pos == x) {
+            // Found!
+            alder_log5("pos: %lld == %lld", pos, x);
+            break;
+        } else if (pos < x) {
+            // middle replaces start.
+            start_index = middle_index + 1;
+            alder_log5("pos: %lld < %lld", pos, x);
+            alder_log5("start_index: %lld (%lld[middle_index] + 1)", start_index, middle_index);
+        } else {
+            // middle replaces end.
+            alder_log5("pos: %lld >= %lld", pos, x);
+            end_index = middle_index - 1;
+            alder_log5("start_index: %lld (%lld[middle_index] - 1)", start_index, middle_index);
+        }
+        
+    }
+    assert(pos < ((size_t)-1));
+    /*************************************************************************/
+    /*                               SEARCH                                  */
+    /*************************************************************************/
+    if (x == pos) {
+        // key
+        // value and pos
+        alder_encode_number_print_in_DNA(stderr, ss);
+        fprintf(stderr, "\n");
+        alder_encode_number_print_in_DNA(stderr, key);
+        fprintf(stderr, "\t%d\t", value);
+        fprintf(stderr, "%lld\n", middle_index);
+        // Now, check the key itself because pos can be the same for different
+        // keys.
+        size_t tries = 1;
+        while (memcmp(key->n, ss->n, key->s * sizeof(*key->n)) &&
+               tries <= table_size) {
+            tries++;
+            middle_index++;
+            if (middle_index == table_size) {
+                middle_index = 0;
+                lseek(fildes, start, SEEK_SET);
+            }
+            s = alder_hashtable_mcas_nextFromFile(fildes, key, &value, &pos, flag_nh64);
+            assert(s == ALDER_STATUS_SUCCESS);
+            
+            alder_encode_number_print_in_DNA(stderr, key);
+            fprintf(stderr, "\t%zu\n", pos);
+        }
+        if (table_size < tries) {
+            assert(0);
+        }
+//        // Found at middle_index!
+//        //
+//        lseek(fildes, -h_size, SEEK_CUR);
+//        s = alder_hashtable_mcas_updateFile(fildes, key, &value, &pos, flag_nh64);
+//        alder_encode_number_print_in_DNA(stderr, key);
+//        fprintf(stderr, "\t%d\t", value);
+//        fprintf(stderr, "%lld\n", middle_index);
+//        fprintf(stderr, "Found!\n");
+        
+    } else {
+        // Not found.
+        fprintf(stderr, "Not Found!\n");
+    }
+    assert(n_nhs != NULL);
+    /*************************************************************************/
+    /*                               SEARCH                                  */
+    /*************************************************************************/
+    
     close(fildes);
+    XFREE(n_nhs);
     alder_encode_number_destroy(s2);
     alder_encode_number_destroy(sq);
-    bdestroy(bq);
     return ALDER_STATUS_SUCCESS;
 }
 
-/* This function reads the kmer part in a hash table.
- */
-static int
-count_read_kmer(size_t *v, int K, size_t hashtablesize, int fildes)
-{
-    *v = 0;
-    size_t v_c = 0;
-    
-    // Kmer sequences
-    int stride = ALDER_BYTESIZE_KMER(K,ALDER_NUMKMER_8BYTE);
-    
-    // Empty key
-    uint64_t *empty_key = malloc(sizeof(empty_key) * stride);
-    if (empty_key == NULL) {
-        return ALDER_STATUS_ERROR;
-    }
-    memset(empty_key, 0x44, sizeof(*empty_key) * stride);
-    
-    // Prepare a buffer.
-    uint64_t *key = NULL;
-    size_t bufsize = 1 << 23;
-    size_t keysize = sizeof(*key) * stride;
-    bufsize = bufsize / keysize * keysize;
-    key = malloc(bufsize);
-    memset(key, 0, bufsize);
-    assert(bufsize % keysize == 0);
-    
-    // Start reading.
-    ssize_t totalRead = 0;
-    size_t nbyte = hashtablesize * keysize;
-    size_t rbyte = 0;
-    
-//    size_t cbyte = 0;
-//    size_t rbyte = bufsize;
-//    size_t sbyte = 0;
-//    sbyte = rbyte < nbyte ? bufsize : nbyte;
-//    r = read(fildes, key, sbyte);
-//    if (r != sbyte && r == -1) {
-//        fprintf(stderr, "Error - %s\n", strerror(errno));
-//    }
-//    assert(r % keysize == 0);
-//    size_t count_key = r / keysize;
-//    for (int i = 0; i < count_key; i++) {
-//        // Print only key that is not empty.
-//        if (memcmp(key + i * stride, empty_key, sizeof(*key)*stride)) {
-//            // Print the key and its value.
-//            v_c++;
-//        }
-//    }
-//    totalRead += r;
-    
-    while (rbyte < nbyte) {
-        size_t cbyte = rbyte;
-        rbyte += bufsize;
-        size_t sbyte = rbyte < nbyte ? bufsize : nbyte - cbyte;
-        
-        ssize_t r = read(fildes, key, sbyte);
-        if (r == -1) {
-            fprintf(stderr, "Error - %s\n", strerror(errno));
-            break;
-        }
-        assert(r >= 0);
-        assert(r % keysize == 0);
-        size_t count_key = r / keysize;
-        for (int i = 0; i < count_key; i++) {
-            // Print only key that is not empty.
-            if (memcmp(key + i * stride, empty_key, sizeof(*key)*stride)) {
-                // Print the key and its value.
-                v_c++;
-            }
-        }
-        
-        // See the key.
-        totalRead += r;
-    }
-    assert(totalRead == (ssize_t)nbyte);
-   
-    XFREE(empty_key);
-    XFREE(key);
-    *v = v_c;
-    return ALDER_STATUS_SUCCESS;
-}
-
-/* This function reads the value (count) parts in a hash table.
- */
-static int
-count_read_count(size_t *v, int K, size_t hashtablesize, int fildes)
-{
-    // Kmer sequences
-    int stride = 1;
-    
-    // Prepare a buffer.
-    uint16_t *value = NULL;
-    size_t bufsize = 1 << 23;
-    size_t valuesize = sizeof(*value) * stride;
-    bufsize = bufsize / valuesize * valuesize;
-    value = malloc(bufsize);
-    memset(value, 0, bufsize);
-    assert(bufsize % valuesize == 0);
-    
-    // Start reading.
-    ssize_t totalRead = 0;
-    ssize_t r;
-    size_t nbyte = hashtablesize * valuesize;
-    
-    size_t cbyte = 0;
-    size_t rbyte = bufsize;
-    size_t sbyte = 0;
-    sbyte = rbyte < nbyte ? bufsize : nbyte;
-    r = read(fildes, value, sbyte);
-    if (r != sbyte && r == -1) {
-        fprintf(stderr, "Error - %s\n", strerror(errno));
-    }
-    totalRead += r;
-    
-    while (rbyte < nbyte) {
-        cbyte = rbyte;
-        rbyte += bufsize;
-        sbyte = rbyte < nbyte ? bufsize : nbyte - cbyte;
-        
-        r = read(fildes, value, sbyte);
-        if (r != sbyte && r == -1) {
-            fprintf(stderr, "Error - %s\n", strerror(errno));
-            break;
-        }
-        assert(r % valuesize == 0);
-//        size_t count_value = r / valuesize;
-        
-//        for (int i = 0; i < count_value; i++) {
-//            // Print value that is not empty.
-//        }
-        
-        // See the key.
-        totalRead += r;
-    }
-    assert(totalRead == (ssize_t)nbyte);
-   
-    XFREE(value);
-//    *v = v_c;
-    return ALDER_STATUS_SUCCESS;
-}
-
-/* This function counts non-empty slots in a hash table.
+/**
+ *  This function just closes the input file.
  *
+ *  @param fildes file
+ *
+ *  @return SUCCESS on no data left, FAIL otherwise.
  */
 int
-alder_hashtable_mcas_count(const char *fn,
-                           size_t *volumn)
-{
-    int fildes = open(fn, O_RDONLY);
-    if (fildes == -1) {
-        fprintf(stderr, "Error - openning file %s : %s\n", fn, strerror(errno));
-        return ALDER_STATUS_ERROR;
-    }
-    int kmer_size;
-    int hashtable_size;
-    uint64_t n_ni;
-    uint64_t n_np;
-    read(fildes, &kmer_size, sizeof(kmer_size));
-    read(fildes, &hashtable_size, sizeof(hashtable_size));
-    read(fildes, &n_ni, sizeof(n_ni));
-    read(fildes, &n_np, sizeof(n_np));
-    int stride = ALDER_BYTESIZE_KMER(kmer_size,ALDER_NUMKMER_8BYTE);
-    uint64_t *empty_key = malloc(sizeof(*empty_key) * stride);
-    memset(empty_key,0,sizeof(*empty_key) * stride);
-//    size_t bufsize = 1 << 23;
-    
-    // Count non-empty slots.
-    size_t n_slot = 0;
-    for (uint64_t i_ni = 0; i_ni < n_ni; i_ni++) {
-        for (uint64_t i_np = 0; i_np < n_np; i_np++) {
-            // Read a hash table.
-            ssize_t r = read(fildes, empty_key, sizeof(*empty_key) * stride);
-            if (r != sizeof(*empty_key) * stride) {
-                if (r == -1) {
-                    fprintf(stderr, "Error - %s\n", strerror(errno));
-                }
-            }
-            size_t count_key = 0;
-            r = count_read_kmer(&count_key, kmer_size, hashtable_size, fildes);
-            r = count_read_count(NULL, kmer_size, hashtable_size, fildes);
-            n_slot += count_key;
-        }
-    }
-    
-    XFREE(empty_key);
-    close(fildes);
-    
-    size_t n_total_slot = (size_t)hashtable_size * n_ni * n_np;
-    fprintf(stdout, "Kmer size           : %d\n", kmer_size);
-    fprintf(stdout, "Hash table size     : %d\n", hashtable_size);
-    fprintf(stdout, "Number of iteration : %llu\n", n_ni);
-    fprintf(stdout, "Number of partition : %llu\n", n_np);
-    fprintf(stdout, "Slots/Total slots = %zu/%zu (%0.1f%%)\n",
-            n_slot, n_total_slot, (double)n_slot * 100/(double)n_total_slot);
-    
-    *volumn = n_slot;
-    return ALDER_STATUS_SUCCESS;
-}
-
-/* This function opens a hash table file and reads the header.
- * It closes the file descriptor.
- */
-int
-alder_hashtable_mcas_header(const char *fn,
-                            int *K, int *S, uint64_t *Ni, uint64_t *Np)
-{
-    int fildes = open(fn, O_RDONLY);
-    if (fildes == -1) {
-        fprintf(stderr, "Error - openning file %s : %s\n", fn, strerror(errno));
-        return ALDER_STATUS_ERROR;
-    }
-    read(fildes, K, sizeof(*K));
-    read(fildes, S, sizeof(*S));
-    read(fildes, Ni, sizeof(*Ni));
-    read(fildes, Np, sizeof(*Np));
-    close(fildes);
-    return ALDER_STATUS_SUCCESS;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-// Functions for command pack in alder-kmer
-///////////////////////////////////////////////////////////////////////////////
-
-int
-alder_hashtable_mcas_large_convert(alder_hashtable_mcas_t *dst,
-                                   alder_hashtable_mcas_t *src,
-                                   const char *fn,
-                                   uint64_t xi_np,
-                                   uint64_t xn_np)
-{
-    
-    // Open the input hash table.
-    int K = 0;
-    int S = 0;
-    uint64_t ni = 0;
-    uint64_t np = 0;
-    int fildes;
-    int s = alder_hashtable_mcas_large_open(fn, &fildes, &K, &S, &ni, &np);
-    if (s != ALDER_STATUS_SUCCESS) {
-        return s;
-    }
-    
-    alder_encode_number_t *key = alder_encode_number_create_for_kmer_view(K);
-    
-    // Reset the x hash table.
-    alder_hashtable_mcas_reset(dst);
-    
-    for (size_t i_ni = 0; i_ni < ni; i_ni++) {
-        for (size_t i_np = 0; i_np < np; i_np++) {
-            // Reset the main hash table.
-            alder_hashtable_mcas_reset(src);
-            // Extract each hash table over ni x np.
-            alder_hashtable_mcas_large_next(src, fildes);
-            
-            // Read each key and find its place in the current table,
-            // if the key belongs to this partition.
-            // Find each element and put it if it is in the current partition.
-            uint16_t value;
-            alder_hashtable_mcas_next(src, key, &value);
-            while (value != 0) {
-                uint64_t w_np = alder_encode_number_hash(key) % xn_np;
-                if (w_np == xi_np) {
-                    alder_hashtable_mcas_push(dst, key, value);
-                }
-                alder_hashtable_mcas_next(src, key, &value);
-            }
-        }
-    }
-    // Close the input hash table.
-    alder_hashtable_mcas_large_close(fildes);
-    alder_encode_number_destroy_view(key);
-
-    return s;
-}
-
-/* This function opens a hash table file and reads the header.
- * It does NOT close the file pointer.
- */
-int
-alder_hashtable_mcas_large_open(const char *fn, int *fildes,
-                                int *K, int *S, uint64_t *Ni, uint64_t *Np)
-{
-    *fildes = open(fn, O_RDONLY);
-    if (*fildes == -1) {
-        fprintf(stderr, "Error - openning file %s : %s\n", fn, strerror(errno));
-        return ALDER_STATUS_ERROR;
-    }
-    read(*fildes, K, sizeof(*K));
-    read(*fildes, S, sizeof(*S));
-    read(*fildes, Ni, sizeof(*Ni));
-    read(*fildes, Np, sizeof(*Np));
-    return ALDER_STATUS_SUCCESS;
-}
-
-int
-alder_hashtable_mcas_large_next(alder_hashtable_mcas_t *o, int fildes)
-{
-    size_t bufsize = 1 << 23;
-    // Read a hash table.
-    ssize_t r = read(fildes, o->empty_key, sizeof(*o->empty_key) * o->stride);
-    if (r != sizeof(*o->empty_key) * o->stride) {
-        if (r == -1) {
-            fprintf(stderr, "Error - %s\n", strerror(errno));
-        }
-        return ALDER_STATUS_ERROR;
-    }
-    
-    r = read_large_bytes_kmer_file(o, bufsize, fildes);
-    r = read_large_bytes_count_file(o, bufsize, fildes);
-    
-    o->index = 0;
-    return ALDER_STATUS_SUCCESS;
-}
-
-int
-alder_hashtable_mcas_next(alder_hashtable_mcas_t *o,
-                          alder_encode_number_t *key,
-                          uint16_t *value)
-{
-    // Start at the current index to check if the key is non-empty, and to
-    // return it.
-    uint64_t x1 = 1;
-    *value = 0;
-    while (o->index < o->size) {
-        key->n = o->key + o->index * o->stride;
-        if((key->n[0] >> 62) & x1) {
-            // no code: this key is empty.
-        } else {
-            *value = o->value[o->index];
-            o->index++;
-            break;
-        }
-        o->index++;
-    }
-    return ALDER_STATUS_SUCCESS;
-}
-
-int
-alder_hashtable_mcas_push(alder_hashtable_mcas_t *o,
-                          alder_encode_number_t *key,
-                          uint16_t value)
-{
-    // Insert the key and value in the hash table.
-    size_t tries = 1;
-    uint64_t x = alder_hash_code01(key->n, o->stride) % o->size;
-    // single threaded open addressing hash table operation
-    int isKeyFound = memcmp(o->key + x * o->stride, key->n,
-                            sizeof(*key->n) * o->stride);
-    int isEmptyFound = memcmp(o->key + x * o->stride, o->empty_key,
-                              sizeof(*o->empty_key) * o->stride);
-    while (isEmptyFound != 0 && isKeyFound != 0 && tries <= o->size) {
-        tries++;
-        x = (x + 1) % o->size;
-        isKeyFound = memcmp(o->key + x * o->stride, key->n,
-                            sizeof(*key->n) * o->stride);
-        isEmptyFound = memcmp(o->key + x * o->stride, o->empty_key,
-                              sizeof(*o->empty_key) * o->stride);
-    }
-    if (o->size < tries) {
-        return ALDER_STATUS_ERROR;
-    }
-    if (isEmptyFound == 0) {
-        memcpy(o->key + x * o->stride, key->n, sizeof(*key->n) * o->stride);
-    }
-    o->value[x] = value;
-    return ALDER_STATUS_SUCCESS;
-}
-
-void
 alder_hashtable_mcas_large_close(int fildes)
 {
     char c;
     ssize_t r = read(fildes, &c, sizeof(c));
-    assert(r == 0);
-    
     close(fildes);
+    if (r == 0) {
+        return ALDER_STATUS_SUCCESS;
+    } else {
+        return ALDER_STATUS_ERROR;
+    }
 }
 
+/**
+ *  This function reads three values from data part in the hash table file.
+ *
+ *  @param fildes    file
+ *  @param key       key
+ *  @param value     value
+ *  @param pos       position
+ *  @param flag_nh64 position (32bit) if 0, position (64bit) otherwise.
+ *
+ *  @return SUCCESS or FAIL
+ */
 int
 alder_hashtable_mcas_nextFromFile(int fildes,
                                   alder_encode_number_t *key,
-                                  uint16_t *value)
+                                  uint16_t *value,
+                                  size_t *pos,
+                                  int flag_nh64)
 {
     size_t keysize = sizeof(*key->n) * key->s;
     ssize_t r = read(fildes, key->n, keysize);
     if (r != keysize) {
+        *value = 0;
+        *pos = 0;
         return ALDER_STATUS_ERROR;
     }
     
     r = read(fildes, value, sizeof(*value));
     if (r != sizeof(*value)) {
+        *value = 0;
+        *pos = 0;
         return ALDER_STATUS_ERROR;
     }
     
+    if (flag_nh64 == 0) {
+        uint32_t v = 0;
+        r = read(fildes, &v, sizeof(v));
+        if (r != sizeof(v)) {
+            *value = 0;
+            *pos = 0;
+        }
+        *pos = v;
+    } else {
+        r = read(fildes, pos, sizeof(*pos));
+        if (r != sizeof(*pos)) {
+            *value = 0;
+            *pos = 0;
+        }
+    }
     return ALDER_STATUS_SUCCESS;
 }
 
+/**
+ *  This function decreases the value at a position in the table.
+ *
+ *  @param fildes    fildes
+ *  @param key       key
+ *  @param value     value
+ *  @param pos       pos
+ *  @param flag_nh64 flag for 64bit table
+ *
+ *  @return SUCCESS or FAIL
+ */
 int
-alder_hashtable_mcas_convertCountToHashTable(alder_hashtable_mcas_t *ht,
-                                             const char *fn,
-                                             uint64_t xi_np,
-                                             uint64_t xn_np)
+alder_hashtable_mcas_updateFile(int fildes,
+                                alder_encode_number_t *key,
+                                uint16_t *value,
+                                size_t *pos,
+                                int flag_nh64)
 {
-    // Read the header.
-    int K = 0;
-    int S = 0;
-    uint64_t ni = 0;
-    uint64_t np = 0;
-    int fildes;
-    int s = alder_hashtable_mcas_large_open(fn, &fildes, &K, &S, &ni, &np);
-    
-    if (s != ALDER_STATUS_SUCCESS) {
-        return s;
+    size_t keysize = sizeof(*key->n) * key->s;
+    ssize_t r = read(fildes, key->n, keysize);
+    if (r != keysize) {
+        *value = 0;
+        *pos = 0;
+        return ALDER_STATUS_ERROR;
     }
     
-    alder_encode_number_t *key = alder_encode_number_create_for_kmer(K);
-    
-    uint16_t value;
-    //
-    for (size_t i_s = 0; i_s < (size_t)S; i_s++) {
-        // Read each element: key and value.
-//            alder_hashtable_mcas_large_next(src, fildes);
-        alder_hashtable_mcas_nextFromFile(fildes, key, &value);
-        
-        alder_hashtable_mcas_push(ht, key, value);
-        
+    r = read(fildes, value, sizeof(*value));
+    if (r != sizeof(*value)) {
+        *value = 0;
+        *pos = 0;
+        return ALDER_STATUS_ERROR;
     }
-    alder_hashtable_mcas_large_close(fildes);
+    /* Decrease the value by 1. */
+    lseek(fildes, -2, SEEK_CUR);
+    *value = *value - 1;
+    r = write(fildes, value, sizeof(*value));
+    if (r != sizeof(*value)) {
+        *value = 0;
+        *pos = 0;
+        return ALDER_STATUS_ERROR;
+    }
     
-    alder_encode_number_destroy(key);
-    return 0;
+    if (flag_nh64 == 0) {
+        uint32_t v = 0;
+        r = read(fildes, &v, sizeof(v));
+        if (r != sizeof(v)) {
+            *value = 0;
+            *pos = 0;
+        }
+        *pos = v;
+    } else {
+        r = read(fildes, pos, sizeof(*pos));
+        if (r != sizeof(*pos)) {
+            *value = 0;
+            *pos = 0;
+        }
+    }
+    return ALDER_STATUS_SUCCESS;
 }
 
+
+#pragma mark match command
+
+/**
+ *  I need a function to search a table for a kmer. I need to update the table.
+ *  1. Open a table file.
+ *  2. Search the table for a kmer, and update the count or something in the
+ *     table.
+ *  3. Keep searching until the table is closed.
+ *  4. Close it.
+ */
+int
+alder_hashtable_mcas_find_open(const char *fn, int *fildes_p, int *K_p,
+                               uint64_t *nh_p, uint64_t *ni_p, uint64_t *np_p,
+                               uint64_t *tnh_p, uint64_t **n_nhs_p)
+{
+    int s = open_table_header(fn, fildes_p, K_p, nh_p, ni_p, np_p, tnh_p, n_nhs_p);
+    if (s != ALDER_STATUS_SUCCESS) {
+        fprintf(stderr, "Error - failed to open a table file %s: %s\n",
+                fn, strerror(errno));
+        return ALDER_STATUS_ERROR;
+    }
+    return s;
+}
+
+/**
+ *  This function finds a kmer and update the count of the kmer in the table.
+ *
+ *  @param fildes file descriptor
+ *  @param query  query kmer
+ *
+ *  @return YES or NO
+ */
+int
+alder_hashtable_mcas_find(int fildes,
+                          const char *query,
+                          int K,
+                          uint64_t nh,
+                          uint64_t ni,
+                          uint64_t np,
+                          uint64_t tnh,
+                          uint64_t *n_nhs)
+{
+    int s = ALDER_STATUS_SUCCESS;
+    
+//    int s = open_table_header(fn, &fildes, &K, &nh, &ni, &np, &tnh, &n_nhs);
+//    if (s != ALDER_STATUS_SUCCESS) {
+//        fprintf(stderr, "Error - failed to open a table file %s: %s\n",
+//                fn, strerror(errno));
+//        return ALDER_STATUS_ERROR;
+//    }
+    
+    assert(n_nhs != NULL);
+    int flag_nh64 = 0;
+    if (nh <= UINT32_MAX) {
+        flag_nh64 = 0;
+    } else {
+        flag_nh64 = 1;
+    }
+    
+    /* Choose a Kmer sequence. */
+    bstring bq = bfromcstr(query);
+    if (bq->slen != K) {
+        fprintf(stderr, "Kmer length is not %d.\n", K);
+        return ALDER_STATUS_ERROR;
+    }
+    alder_encode_number_t *sq = alder_encode_number_create_for_kmer(K);
+    alder_encode_number_kmer_with_char(sq, (char*)bq->data);
+    bdestroy(bq);
+    alder_encode_number_t *s2 = alder_encode_number_create_rev(sq);
+    alder_encode_number_t *ss = NULL;
+    uint64_t i_ni = 0;
+    uint64_t i_np = 0;
+    alder_hashtable_mcas_select(&ss, &i_ni, &i_np, sq, s2, ni, np);
+    
+    size_t x = alder_encode_number_hash(ss) % nh;
+//    x = 104851588;
+    
+    /*************************************************************************/
+    /*                               SEARCH                                  */
+    /*************************************************************************/
+    
+    /* Find the start and end of i_ni/i_np table. */
+    int stride = ALDER_BYTESIZE_KMER(K,ALDER_NUMKMER_8BYTE);
+    size_t h_size;
+    if (nh <= UINT32_MAX) {
+        h_size = (stride * sizeof(uint64_t) + (sizeof(uint16_t)) + sizeof(uint32_t));
+    } else {
+        h_size = (stride * sizeof(uint64_t) + (sizeof(uint16_t)) + sizeof(uint64_t));
+    }
+    off_t start = ALDER_HASHTABLE_MCAS_OFFSET_ENH + ni * np * 8;
+    for (uint64_t i = 0; i < i_ni * np + i_np; i++) {
+        start += (n_nhs[i] * h_size);
+    }
+//    off_t end = start + n_nhs[i_ni * np + i_np] * h_size;
+    
+    
+    alder_encode_number_t *key = alder_encode_number_create_for_kmer(K);
+    uint64_t table_size = n_nhs[i_ni * np + i_np];
+    int64_t start_index = 0;
+    int64_t end_index = table_size;
+    
+    size_t pos = (size_t)-1;
+    uint16_t value = 0;
+//    if (s != ALDER_STATUS_SUCCESS) {
+//        fprintf(stderr, "Error - failed to read an element in query.\n");
+//        close(fildes);
+//        alder_encode_number_destroy(s2);
+//        alder_encode_number_destroy(sq);
+//        bdestroy(bq);
+//        return ALDER_STATUS_ERROR;
+//    }
+    
+    int64_t middle_index = start_index - 1;
+    off_t middle = start;
+    lseek(fildes, middle, SEEK_SET);
+    while (start_index <= end_index) {
+        int64_t new_middle_index = start_index + (end_index - start_index)/2;
+        if (new_middle_index == table_size) {
+            break;
+        }
+        middle = (new_middle_index - 1 - middle_index) * h_size;
+        lseek(fildes, middle, SEEK_CUR);
+        middle_index = new_middle_index;
+        pos = next_position(fildes, middle_index,
+                            table_size, h_size, start, flag_nh64,
+                            key, &value,
+                            ni, np, i_ni, i_np, nh);
+        if (pos == x) {
+            // Found!
+            break;
+        } else if (pos < x) {
+            // middle replaces start.
+            start_index = middle_index + 1;
+        } else {
+            // middle replaces end.
+            end_index = middle_index - 1;
+        }
+        
+    }
+    assert(pos < ((size_t)-1));
+    /*************************************************************************/
+    /*                               SEARCH                                  */
+    /*************************************************************************/
+    if (x == pos) {
+        // key
+        // value and pos
+//        alder_encode_number_print_in_DNA(stderr, ss);
+//        fprintf(stderr, "\n");
+//        alder_encode_number_print_in_DNA(stderr, key);
+//        fprintf(stderr, "\t%d\t", value);
+//        fprintf(stderr, "%lld\n", middle_index);
+        // Now, check the key itself because pos can be the same for different
+        // keys.
+        size_t tries = 1;
+        while (memcmp(key->n, ss->n, key->s * sizeof(*key->n)) &&
+               tries <= table_size) {
+            tries++;
+            middle_index++;
+            if (middle_index == table_size) {
+                middle_index = 0;
+                lseek(fildes, start, SEEK_SET);
+            }
+            s = alder_hashtable_mcas_nextFromFile(fildes, key, &value, &pos, flag_nh64);
+            assert(s == ALDER_STATUS_SUCCESS);
+            
+//            alder_encode_number_print_in_DNA(stderr, key);
+//            fprintf(stderr, "\t%zu\n", pos);
+        }
+        if (table_size < tries) {
+            assert(0);
+        }
+        // Found at middle_index!
+        //
+        lseek(fildes, -h_size, SEEK_CUR);
+        s = alder_hashtable_mcas_updateFile(fildes, key, &value, &pos, flag_nh64);
+//        alder_encode_number_print_in_DNA(stderr, key);
+//        fprintf(stderr, "\t%d\t", value);
+//        fprintf(stderr, "%lld\n", middle_index);
+//        fprintf(stderr, "Found!\n");
+        s = ALDER_YES;
+        
+    } else {
+        // Not found.
+//        fprintf(stderr, "Not Found!\n");
+        s = ALDER_NO;
+    }
+    assert(n_nhs != NULL);
+    /*************************************************************************/
+    /*                               SEARCH                                  */
+    /*************************************************************************/
+    
+//    close(fildes);
+//    XFREE(n_nhs);
+    alder_encode_number_destroy(s2);
+    alder_encode_number_destroy(sq);
+    return s;
+}
 

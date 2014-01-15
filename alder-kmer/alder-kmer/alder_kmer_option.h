@@ -40,8 +40,6 @@ __BEGIN_DECLS
 typedef struct {
     int is_stdin;
     struct bstrList *infile;
-    struct bstrList *outfile;
-    bstring logfilename;
     struct bstrList *help;
     alder_format_type_t format;
     int64_t maxfile;

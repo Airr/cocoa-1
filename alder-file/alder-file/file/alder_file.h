@@ -42,6 +42,7 @@
 #include "alder_file_rm.h"
 #include "alder_file_size.h"
 #include "alder_file_format.h"
+#include "alder_file_isbzip2.h"
 
 #undef __BEGIN_DECLS
 #undef __END_DECLS

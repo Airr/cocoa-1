@@ -15,7 +15,6 @@
 		D0176DE41873AC9F007BAB14 /* alder_fastq_count_kmer.rl in Sources */ = {isa = PBXBuildFile; fileRef = D0CAED7E180CD19C00681CD0 /* alder_fastq_count_kmer.rl */; };
 		D0176E7F1873B10D007BAB14 /* alder_progress.c in Sources */ = {isa = PBXBuildFile; fileRef = D0176E7D1873B10D007BAB14 /* alder_progress.c */; };
 		D0176E801873B32A007BAB14 /* alder_fasta.rl in Sources */ = {isa = PBXBuildFile; fileRef = D0CAED76180CD19400681CD0 /* alder_fasta.rl */; };
-		D0176E821873E0B2007BAB14 /* alder_kmer_pack.c in Sources */ = {isa = PBXBuildFile; fileRef = D0176E811873E0B2007BAB14 /* alder_kmer_pack.c */; };
 		D0176F55187686B1007BAB14 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0176ECF18763349007BAB14 /* Cocoa.framework */; };
 		D0176F5B187686B1007BAB14 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D0176F59187686B1007BAB14 /* InfoPlist.strings */; };
 		D0176F5D187686B1007BAB14 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D0176F5C187686B1007BAB14 /* main.m */; };
@@ -116,6 +115,7 @@
 		D0399F801864C292007C505E /* alder_seq_write.c in Sources */ = {isa = PBXBuildFile; fileRef = D0399F7E1864C292007C505E /* alder_seq_write.c */; };
 		D0399F831864C2AC007C505E /* alder_file_format.c in Sources */ = {isa = PBXBuildFile; fileRef = D0399F811864C2AC007C505E /* alder_file_format.c */; };
 		D0399F9C1864CA3F007C505E /* alder_fileseq_write.c in Sources */ = {isa = PBXBuildFile; fileRef = D0399F9A1864CA3F007C505E /* alder_fileseq_write.c */; };
+		D040ED9418864C7400A57DE8 /* alder_kmer_match.c in Sources */ = {isa = PBXBuildFile; fileRef = D040ED9318864C7400A57DE8 /* alder_kmer_match.c */; };
 		D042D6831878E40500E598EA /* beach_chair.icns in Resources */ = {isa = PBXBuildFile; fileRef = D042D67D1878E40500E598EA /* beach_chair.icns */; };
 		D042D6841878E40500E598EA /* cocktail.icns in Resources */ = {isa = PBXBuildFile; fileRef = D042D67E1878E40500E598EA /* cocktail.icns */; };
 		D042D6851878E40500E598EA /* flip_flops.icns in Resources */ = {isa = PBXBuildFile; fileRef = D042D67F1878E40500E598EA /* flip_flops.icns */; };
@@ -124,17 +124,25 @@
 		D042D6881878E40500E598EA /* umbrella.icns in Resources */ = {isa = PBXBuildFile; fileRef = D042D6821878E40500E598EA /* umbrella.icns */; };
 		D042D68B1878E6FC00E598EA /* alderg-kmer-run.sh in Resources */ = {isa = PBXBuildFile; fileRef = D042D6891878E6FC00E598EA /* alderg-kmer-run.sh */; };
 		D042D68C1878E6FC00E598EA /* alderg-kmer-search.sh in Resources */ = {isa = PBXBuildFile; fileRef = D042D68A1878E6FC00E598EA /* alderg-kmer-search.sh */; };
-		D042D6921878EED400E598EA /* beach_chair_16x16.png in Resources */ = {isa = PBXBuildFile; fileRef = D042D68D1878EED400E598EA /* beach_chair_16x16.png */; };
-		D042D6931878EED400E598EA /* beach_chair_32x32.png in Resources */ = {isa = PBXBuildFile; fileRef = D042D68E1878EED400E598EA /* beach_chair_32x32.png */; };
-		D042D6941878EED400E598EA /* beach_chair_48x48.png in Resources */ = {isa = PBXBuildFile; fileRef = D042D68F1878EED400E598EA /* beach_chair_48x48.png */; };
-		D042D6951878EED400E598EA /* beach_chair_128x128.png in Resources */ = {isa = PBXBuildFile; fileRef = D042D6901878EED400E598EA /* beach_chair_128x128.png */; };
-		D042D6961878EED400E598EA /* beach_chair_256x256.png in Resources */ = {isa = PBXBuildFile; fileRef = D042D6911878EED400E598EA /* beach_chair_256x256.png */; };
 		D042D6981878EF7B00E598EA /* intro.txt in Resources */ = {isa = PBXBuildFile; fileRef = D042D6971878EF7B00E598EA /* intro.txt */; };
 		D042D69A1878EFD700E598EA /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = D042D6991878EFD700E598EA /* readme.txt */; };
 		D04F8CB618716B0400946B43 /* alder_seq_sample.c in Sources */ = {isa = PBXBuildFile; fileRef = D04F8CB418716B0400946B43 /* alder_seq_sample.c */; };
 		D04F8CBD18716B6100946B43 /* alder_fileseq_sample.c in Sources */ = {isa = PBXBuildFile; fileRef = D04F8CB718716B6100946B43 /* alder_fileseq_sample.c */; };
 		D04F8CBE18716B6100946B43 /* alder_fileseq_sequenceiterator.c in Sources */ = {isa = PBXBuildFile; fileRef = D04F8CB918716B6100946B43 /* alder_fileseq_sequenceiterator.c */; };
 		D04F8CBF18716B6100946B43 /* alder_fileseq_token.c in Sources */ = {isa = PBXBuildFile; fileRef = D04F8CBB18716B6100946B43 /* alder_fileseq_token.c */; };
+		D0503274187DF91300DBABAA /* alder_kmer_thread2.c in Sources */ = {isa = PBXBuildFile; fileRef = D0503273187DF91300DBABAA /* alder_kmer_thread2.c */; };
+		D0503276187E0FA800DBABAA /* alder_kmer_encode2.c in Sources */ = {isa = PBXBuildFile; fileRef = D0503275187E0FA800DBABAA /* alder_kmer_encode2.c */; };
+		D05BF7A71885D59300D0A187 /* alder_kmer_list.c in Sources */ = {isa = PBXBuildFile; fileRef = D05BF7A61885D59300D0A187 /* alder_kmer_list.c */; };
+		D05EFDD418855F09008D8CBC /* alder_kmer_encode3_more.c in Sources */ = {isa = PBXBuildFile; fileRef = D05EFDD318855F09008D8CBC /* alder_kmer_encode3_more.c */; settings = {COMPILER_FLAGS = "-O0"; }; };
+		D05EFDD718856285008D8CBC /* alder_kmer_thread3_more.c in Sources */ = {isa = PBXBuildFile; fileRef = D05EFDD618856285008D8CBC /* alder_kmer_thread3_more.c */; settings = {COMPILER_FLAGS = "-O0"; }; };
+		D07DA1CE187B70AA00637F89 /* alder_file_isbzip2.c in Sources */ = {isa = PBXBuildFile; fileRef = D07DA1CC187B70AA00637F89 /* alder_file_isbzip2.c */; };
+		D07DA1EA187B789900637F89 /* blocksort.c in Sources */ = {isa = PBXBuildFile; fileRef = D07DA1E1187B789900637F89 /* blocksort.c */; };
+		D07DA1EB187B789900637F89 /* bzlib.c in Sources */ = {isa = PBXBuildFile; fileRef = D07DA1E2187B789900637F89 /* bzlib.c */; };
+		D07DA1EC187B789900637F89 /* compress.c in Sources */ = {isa = PBXBuildFile; fileRef = D07DA1E5187B789900637F89 /* compress.c */; };
+		D07DA1ED187B789900637F89 /* crctable.c in Sources */ = {isa = PBXBuildFile; fileRef = D07DA1E6187B789900637F89 /* crctable.c */; };
+		D07DA1EE187B789900637F89 /* decompress.c in Sources */ = {isa = PBXBuildFile; fileRef = D07DA1E7187B789900637F89 /* decompress.c */; };
+		D07DA1EF187B789900637F89 /* huffman.c in Sources */ = {isa = PBXBuildFile; fileRef = D07DA1E8187B789900637F89 /* huffman.c */; };
+		D07DA1F0187B789900637F89 /* randtable.c in Sources */ = {isa = PBXBuildFile; fileRef = D07DA1E9187B789900637F89 /* randtable.c */; };
 		D07F06A2181B9EA900B79A06 /* alder_kmer_hashtable_cas.c in Sources */ = {isa = PBXBuildFile; fileRef = D07F069E181B9EA900B79A06 /* alder_kmer_hashtable_cas.c */; };
 		D07F06A3181B9EA900B79A06 /* alder_kmer_hashtable.c in Sources */ = {isa = PBXBuildFile; fileRef = D07F06A0181B9EA900B79A06 /* alder_kmer_hashtable.c */; };
 		D08AFDAF1818ACAC00D04508 /* alder_kmer_thread.c in Sources */ = {isa = PBXBuildFile; fileRef = D08AFDAE1818ACAC00D04508 /* alder_kmer_thread.c */; };
@@ -159,7 +167,6 @@
 		D0CAED92180CD19C00681CD0 /* alder_fastq_kseq_summary.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CAED81180CD19C00681CD0 /* alder_fastq_kseq_summary.c */; };
 		D0CAED93180CD19C00681CD0 /* alder_fastq_length.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CAED83180CD19C00681CD0 /* alder_fastq_length.c */; };
 		D0CAED94180CD19C00681CD0 /* alder_fastq_numbase.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CAED85180CD19C00681CD0 /* alder_fastq_numbase.c */; };
-		D0CAED95180CD19C00681CD0 /* alder_fastq_pair.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CAED87180CD19C00681CD0 /* alder_fastq_pair.c */; };
 		D0CAED96180CD19C00681CD0 /* alder_fastq_ragel.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CAED89180CD19C00681CD0 /* alder_fastq_ragel.c */; };
 		D0CAED97180CD19C00681CD0 /* alder_fastq_ragel_summary.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CAED8C180CD19C00681CD0 /* alder_fastq_ragel_summary.c */; };
 		D0CAEDC8180CD1F800681CD0 /* alder_logger.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CAED9A180CD1F800681CD0 /* alder_logger.c */; };
@@ -178,13 +185,6 @@
 		D0CAEDD5180CD1F800681CD0 /* printout.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CAEDC0180CD1F800681CD0 /* printout.c */; };
 		D0CAEDD6180CD1F800681CD0 /* ringbuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CAEDC3180CD1F800681CD0 /* ringbuffer.c */; };
 		D0CAEDD7180CD1F800681CD0 /* timestamp.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CAEDC5180CD1F800681CD0 /* timestamp.c */; };
-		D0CAEDEE180CD21600681CD0 /* alder_vector_interval.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CAEDDD180CD21600681CD0 /* alder_vector_interval.c */; };
-		D0CAEDEF180CD21600681CD0 /* alder_vector_pair.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CAEDDF180CD21600681CD0 /* alder_vector_pair.c */; };
-		D0CAEDF0180CD21600681CD0 /* alder_vector_palign.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CAEDE1180CD21600681CD0 /* alder_vector_palign.c */; };
-		D0CAEDF1180CD21600681CD0 /* gsl_vector_anchor.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CAEDE4180CD21600681CD0 /* gsl_vector_anchor.c */; };
-		D0CAEDF2180CD21600681CD0 /* gsl_vector_match.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CAEDE6180CD21600681CD0 /* gsl_vector_match.c */; };
-		D0CAEDF3180CD21600681CD0 /* gsl_vector_sam.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CAEDE8180CD21600681CD0 /* gsl_vector_sam.c */; };
-		D0CAEDF4180CD21600681CD0 /* gsl_vector_seqpair.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CAEDEA180CD21600681CD0 /* gsl_vector_seqpair.c */; };
 		D0DAE62D1819EB53004D4C81 /* alder_hashtable.c in Sources */ = {isa = PBXBuildFile; fileRef = D0DAE61B1819EB53004D4C81 /* alder_hashtable.c */; };
 		D0DAE62E1819EB53004D4C81 /* alder_hashtable_dsk.c in Sources */ = {isa = PBXBuildFile; fileRef = D0DAE61D1819EB53004D4C81 /* alder_hashtable_dsk.c */; };
 		D0DAE6C41819FC2E004D4C81 /* alder_bit.c in Sources */ = {isa = PBXBuildFile; fileRef = D0DAE6C21819FC2E004D4C81 /* alder_bit.c */; };
@@ -200,6 +200,8 @@
 		D0E53C981812193800C84089 /* alder_encode_number.c in Sources */ = {isa = PBXBuildFile; fileRef = D0E53C941812193800C84089 /* alder_encode_number.c */; };
 		D0E53C9C181219B300C84089 /* alder_hash.c in Sources */ = {isa = PBXBuildFile; fileRef = D0E53C9A181219B300C84089 /* alder_hash.c */; };
 		D0E53CA91814CEE500C84089 /* alder_encode_pack.c in Sources */ = {isa = PBXBuildFile; fileRef = D0E53CA71814CEE500C84089 /* alder_encode_pack.c */; };
+		D0EDBE7718810D05009BC514 /* alder_kmer_encode3.c in Sources */ = {isa = PBXBuildFile; fileRef = D0EDBE7618810D05009BC514 /* alder_kmer_encode3.c */; };
+		D0EDBE7918810E14009BC514 /* alder_kmer_thread3.c in Sources */ = {isa = PBXBuildFile; fileRef = D0EDBE7818810E14009BC514 /* alder_kmer_thread3.c */; };
 		D0F7F0891807768000B4BDDB /* alder_kmer_cite.c in Sources */ = {isa = PBXBuildFile; fileRef = D0F7F0881807768000B4BDDB /* alder_kmer_cite.c */; };
 		D0F7F08C1807768000B4BDDB /* alder_kmer_option.c in Sources */ = {isa = PBXBuildFile; fileRef = D0F7F08B1807768000B4BDDB /* alder_kmer_option.c */; };
 		D0F7F0921807768000B4BDDB /* alder-kmer.ggo in Sources */ = {isa = PBXBuildFile; fileRef = D0F7F0911807768000B4BDDB /* alder-kmer.ggo */; };
@@ -246,7 +248,7 @@
 				"$(DERIVED_FILE_DIR)/cmdline.c",
 				"$(DERIVED_FILE_DIR)/cmdline.h",
 			);
-			script = "cd \"$INPUT_FILE_DIR\"\n/usr/local/bin/gengetopt -i \"$INPUT_FILE_NAME\" --output-dir=\"$DERIVED_SOURCES_DIR\" --file-name=cmdline --unamed-opts --func-name=my_cmdline_parser --include-getopt --no-handle-help";
+			script = "cd \"$INPUT_FILE_DIR\"\n/usr/local/bin/gengetopt -i \"$INPUT_FILE_NAME\" --output-dir=\"$DERIVED_SOURCES_DIR\" --file-name=cmdline --unamed-opts --func-name=my_cmdline_parser --include-getopt --no-handle-help --no-help";
 		};
 /* End PBXBuildRule section */
 
@@ -276,14 +278,11 @@
 		D007D065181B1D1D002E6BFB /* alder_seq_streamer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_seq_streamer.h; sourceTree = "<group>"; };
 		D0176E7D1873B10D007BAB14 /* alder_progress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_progress.c; sourceTree = "<group>"; };
 		D0176E7E1873B10D007BAB14 /* alder_progress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_progress.h; sourceTree = "<group>"; };
-		D0176E811873E0B2007BAB14 /* alder_kmer_pack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_kmer_pack.c; sourceTree = "<group>"; };
-		D0176E831873E0B9007BAB14 /* alder_kmer_pack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_kmer_pack.h; sourceTree = "<group>"; };
 		D0176ECF18763349007BAB14 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		D0176ED218763349007BAB14 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		D0176ED318763349007BAB14 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		D0176ED418763349007BAB14 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D0176EF418763349007BAB14 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		D0176F07187633B3007BAB14 /* retired.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = retired.c; sourceTree = "<group>"; };
 		D0176F54187686B1007BAB14 /* alderg-kmer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "alderg-kmer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0176F58187686B1007BAB14 /* alderg-kmer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "alderg-kmer-Info.plist"; sourceTree = "<group>"; };
 		D0176F5A187686B1007BAB14 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -526,6 +525,8 @@
 		D0399F821864C2AC007C505E /* alder_file_format.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_format.h; sourceTree = "<group>"; };
 		D0399F9A1864CA3F007C505E /* alder_fileseq_write.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_fileseq_write.c; sourceTree = "<group>"; };
 		D0399F9B1864CA3F007C505E /* alder_fileseq_write.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_fileseq_write.h; sourceTree = "<group>"; };
+		D040ED9318864C7400A57DE8 /* alder_kmer_match.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_kmer_match.c; sourceTree = "<group>"; };
+		D040ED9518864C7F00A57DE8 /* alder_kmer_match.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_kmer_match.h; sourceTree = "<group>"; };
 		D042D67D1878E40500E598EA /* beach_chair.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = beach_chair.icns; sourceTree = "<group>"; };
 		D042D67E1878E40500E598EA /* cocktail.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = cocktail.icns; sourceTree = "<group>"; };
 		D042D67F1878E40500E598EA /* flip_flops.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = flip_flops.icns; sourceTree = "<group>"; };
@@ -534,11 +535,6 @@
 		D042D6821878E40500E598EA /* umbrella.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = umbrella.icns; sourceTree = "<group>"; };
 		D042D6891878E6FC00E598EA /* alderg-kmer-run.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "alderg-kmer-run.sh"; sourceTree = "<group>"; };
 		D042D68A1878E6FC00E598EA /* alderg-kmer-search.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "alderg-kmer-search.sh"; sourceTree = "<group>"; };
-		D042D68D1878EED400E598EA /* beach_chair_16x16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beach_chair_16x16.png; sourceTree = "<group>"; };
-		D042D68E1878EED400E598EA /* beach_chair_32x32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beach_chair_32x32.png; sourceTree = "<group>"; };
-		D042D68F1878EED400E598EA /* beach_chair_48x48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beach_chair_48x48.png; sourceTree = "<group>"; };
-		D042D6901878EED400E598EA /* beach_chair_128x128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beach_chair_128x128.png; sourceTree = "<group>"; };
-		D042D6911878EED400E598EA /* beach_chair_256x256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beach_chair_256x256.png; sourceTree = "<group>"; };
 		D042D6971878EF7B00E598EA /* intro.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = intro.txt; sourceTree = "<group>"; };
 		D042D6991878EFD700E598EA /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		D04F8CB318712D3F00946B43 /* cmake */ = {isa = PBXFileReference; lastKnownFileType = folder; path = cmake; sourceTree = "<group>"; };
@@ -550,17 +546,37 @@
 		D04F8CBA18716B6100946B43 /* alder_fileseq_sequenceiterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_fileseq_sequenceiterator.h; sourceTree = "<group>"; };
 		D04F8CBB18716B6100946B43 /* alder_fileseq_token.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_fileseq_token.c; sourceTree = "<group>"; };
 		D04F8CBC18716B6100946B43 /* alder_fileseq_token.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_fileseq_token.h; sourceTree = "<group>"; };
-		D04F8CDD18723CF400946B43 /* alder_kmer_test_small_parfile.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = alder_kmer_test_small_parfile.sh; sourceTree = "<group>"; };
-		D04F8CDE187243E400946B43 /* alder_kmer_test_large_parfile.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = alder_kmer_test_large_parfile.sh; sourceTree = "<group>"; };
-		D04F8CDF1872783C00946B43 /* alder_kmer_test_large_seqfile.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = alder_kmer_test_large_seqfile.sh; sourceTree = "<group>"; };
-		D04F8CE018728A9700946B43 /* alder_kmer_test_large_count.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = alder_kmer_test_large_count.sh; sourceTree = "<group>"; };
+		D04F8CDD18723CF400946B43 /* alder_kmer_test_table.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = alder_kmer_test_table.sh; sourceTree = "<group>"; };
+		D04F8CE018728A9700946B43 /* alder_kmer_test_count.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = alder_kmer_test_count.sh; sourceTree = "<group>"; };
+		D0503273187DF91300DBABAA /* alder_kmer_thread2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_kmer_thread2.c; sourceTree = "<group>"; };
+		D0503275187E0FA800DBABAA /* alder_kmer_encode2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_kmer_encode2.c; sourceTree = "<group>"; };
+		D05BF7A61885D59300D0A187 /* alder_kmer_list.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_kmer_list.c; sourceTree = "<group>"; };
+		D05BF7A81885D59F00D0A187 /* alder_kmer_list.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_kmer_list.h; sourceTree = "<group>"; };
+		D05EFDD218855EE3008D8CBC /* alder_kmer_encode3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_kmer_encode3.h; sourceTree = "<group>"; };
+		D05EFDD318855F09008D8CBC /* alder_kmer_encode3_more.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_kmer_encode3_more.c; sourceTree = "<group>"; };
+		D05EFDD51885627B008D8CBC /* alder_kmer_thread3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_kmer_thread3.h; sourceTree = "<group>"; };
+		D05EFDD618856285008D8CBC /* alder_kmer_thread3_more.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_kmer_thread3_more.c; sourceTree = "<group>"; };
 		D06BE1C918209FBD0007688A /* alder_fileseq_kmer.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = alder_fileseq_kmer.pdf; sourceTree = "<group>"; };
+		D07DA07718795CC500637F89 /* alderg-kmerHelp */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "alderg-kmerHelp"; sourceTree = "<group>"; };
+		D07DA1CC187B70AA00637F89 /* alder_file_isbzip2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_isbzip2.c; sourceTree = "<group>"; };
+		D07DA1CD187B70AA00637F89 /* alder_file_isbzip2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_isbzip2.h; sourceTree = "<group>"; };
+		D07DA1E1187B789900637F89 /* blocksort.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = blocksort.c; sourceTree = "<group>"; };
+		D07DA1E2187B789900637F89 /* bzlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bzlib.c; sourceTree = "<group>"; };
+		D07DA1E3187B789900637F89 /* bzlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bzlib.h; sourceTree = "<group>"; };
+		D07DA1E4187B789900637F89 /* bzlib_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bzlib_private.h; sourceTree = "<group>"; };
+		D07DA1E5187B789900637F89 /* compress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = compress.c; sourceTree = "<group>"; };
+		D07DA1E6187B789900637F89 /* crctable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = crctable.c; sourceTree = "<group>"; };
+		D07DA1E7187B789900637F89 /* decompress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = decompress.c; sourceTree = "<group>"; };
+		D07DA1E8187B789900637F89 /* huffman.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = huffman.c; sourceTree = "<group>"; };
+		D07DA1E9187B789900637F89 /* randtable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = randtable.c; sourceTree = "<group>"; };
+		D07DA1F1187D519400637F89 /* alder_kmer_retired.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = alder_kmer_retired.c; sourceTree = "<group>"; };
 		D07F069E181B9EA900B79A06 /* alder_kmer_hashtable_cas.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_kmer_hashtable_cas.c; sourceTree = "<group>"; };
 		D07F069F181B9EA900B79A06 /* alder_kmer_hashtable_cas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_kmer_hashtable_cas.h; sourceTree = "<group>"; };
 		D07F06A0181B9EA900B79A06 /* alder_kmer_hashtable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_kmer_hashtable.c; sourceTree = "<group>"; };
 		D07F06A1181B9EA900B79A06 /* alder_kmer_hashtable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_kmer_hashtable.h; sourceTree = "<group>"; };
 		D08AFDAE1818ACAC00D04508 /* alder_kmer_thread.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_kmer_thread.c; sourceTree = "<group>"; };
 		D08AFDB01818ACB100D04508 /* alder_kmer_thread.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_kmer_thread.h; sourceTree = "<group>"; };
+		D09142251884C187007BCBFB /* libdivide.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libdivide.h; sourceTree = "<group>"; };
 		D09A6B41181FAFE100234CF3 /* alder_file_rm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_rm.c; sourceTree = "<group>"; };
 		D09A6B42181FAFE100234CF3 /* alder_file_rm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_rm.h; sourceTree = "<group>"; };
 		D09A6B47182030F900234CF3 /* alder_logger_error.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_logger_error.h; sourceTree = "<group>"; };
@@ -612,8 +628,6 @@
 		D0CAED84180CD19C00681CD0 /* alder_fastq_length.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_fastq_length.h; sourceTree = "<group>"; };
 		D0CAED85180CD19C00681CD0 /* alder_fastq_numbase.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_fastq_numbase.c; sourceTree = "<group>"; };
 		D0CAED86180CD19C00681CD0 /* alder_fastq_numbase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_fastq_numbase.h; sourceTree = "<group>"; };
-		D0CAED87180CD19C00681CD0 /* alder_fastq_pair.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_fastq_pair.c; sourceTree = "<group>"; };
-		D0CAED88180CD19C00681CD0 /* alder_fastq_pair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_fastq_pair.h; sourceTree = "<group>"; };
 		D0CAED89180CD19C00681CD0 /* alder_fastq_ragel.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_fastq_ragel.c; sourceTree = "<group>"; };
 		D0CAED8A180CD19C00681CD0 /* alder_fastq_ragel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_fastq_ragel.h; sourceTree = "<group>"; };
 		D0CAED8B180CD19C00681CD0 /* alder_fastq_ragel.rl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = alder_fastq_ragel.rl; sourceTree = "<group>"; };
@@ -665,23 +679,6 @@
 		D0CAEDC5180CD1F800681CD0 /* timestamp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = timestamp.c; sourceTree = "<group>"; };
 		D0CAEDC6180CD1F800681CD0 /* timestamp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = timestamp.h; sourceTree = "<group>"; };
 		D0CAEDC7180CD1F800681CD0 /* types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = types.h; sourceTree = "<group>"; };
-		D0CAEDDA180CD21600681CD0 /* alder_gsl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_gsl.h; sourceTree = "<group>"; };
-		D0CAEDDC180CD21600681CD0 /* alder_vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_vector.h; sourceTree = "<group>"; };
-		D0CAEDDD180CD21600681CD0 /* alder_vector_interval.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_vector_interval.c; sourceTree = "<group>"; };
-		D0CAEDDE180CD21600681CD0 /* alder_vector_interval.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_vector_interval.h; sourceTree = "<group>"; };
-		D0CAEDDF180CD21600681CD0 /* alder_vector_pair.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_vector_pair.c; sourceTree = "<group>"; };
-		D0CAEDE0180CD21600681CD0 /* alder_vector_pair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_vector_pair.h; sourceTree = "<group>"; };
-		D0CAEDE1180CD21600681CD0 /* alder_vector_palign.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_vector_palign.c; sourceTree = "<group>"; };
-		D0CAEDE2180CD21600681CD0 /* alder_vector_palign.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_vector_palign.h; sourceTree = "<group>"; };
-		D0CAEDE3180CD21600681CD0 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
-		D0CAEDE4180CD21600681CD0 /* gsl_vector_anchor.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gsl_vector_anchor.c; sourceTree = "<group>"; };
-		D0CAEDE5180CD21600681CD0 /* gsl_vector_anchor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gsl_vector_anchor.h; sourceTree = "<group>"; };
-		D0CAEDE6180CD21600681CD0 /* gsl_vector_match.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gsl_vector_match.c; sourceTree = "<group>"; };
-		D0CAEDE7180CD21600681CD0 /* gsl_vector_match.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gsl_vector_match.h; sourceTree = "<group>"; };
-		D0CAEDE8180CD21600681CD0 /* gsl_vector_sam.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gsl_vector_sam.c; sourceTree = "<group>"; };
-		D0CAEDE9180CD21600681CD0 /* gsl_vector_sam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gsl_vector_sam.h; sourceTree = "<group>"; };
-		D0CAEDEA180CD21600681CD0 /* gsl_vector_seqpair.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gsl_vector_seqpair.c; sourceTree = "<group>"; };
-		D0CAEDEB180CD21600681CD0 /* gsl_vector_seqpair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gsl_vector_seqpair.h; sourceTree = "<group>"; };
 		D0DAE61B1819EB53004D4C81 /* alder_hashtable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_hashtable.c; sourceTree = "<group>"; };
 		D0DAE61C1819EB53004D4C81 /* alder_hashtable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_hashtable.h; sourceTree = "<group>"; };
 		D0DAE61D1819EB53004D4C81 /* alder_hashtable_dsk.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_hashtable_dsk.c; sourceTree = "<group>"; };
@@ -719,6 +716,13 @@
 		D0E53C9B181219B300C84089 /* alder_hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_hash.h; sourceTree = "<group>"; };
 		D0E53CA71814CEE500C84089 /* alder_encode_pack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_encode_pack.c; sourceTree = "<group>"; };
 		D0E53CA81814CEE500C84089 /* alder_encode_pack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_encode_pack.h; sourceTree = "<group>"; };
+		D0EDBE741880C3BE009BC514 /* alder_kmer_test_partition.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = alder_kmer_test_partition.sh; sourceTree = "<group>"; };
+		D0EDBE751880DA7E009BC514 /* alder_kmer_test_table2.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = alder_kmer_test_table2.sh; sourceTree = "<group>"; };
+		D0EDBE7618810D05009BC514 /* alder_kmer_encode3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_kmer_encode3.c; sourceTree = "<group>"; };
+		D0EDBE7818810E14009BC514 /* alder_kmer_thread3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_kmer_thread3.c; sourceTree = "<group>"; };
+		D0EDBE7A1882A0AB009BC514 /* alder_kmer_test_table3.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = alder_kmer_test_table3.sh; sourceTree = "<group>"; };
+		D0EDBE7B188391AE009BC514 /* cmdline.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = cmdline.c; sourceTree = "<group>"; };
+		D0EDBE7C188391AE009BC514 /* cmdline.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cmdline.h; sourceTree = "<group>"; };
 		D0F7F0851807768000B4BDDB /* alder-kmer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "alder-kmer"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0F7F0881807768000B4BDDB /* alder_kmer_cite.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = alder_kmer_cite.c; sourceTree = "<group>"; };
 		D0F7F08A1807768000B4BDDB /* alder_kmer_cite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_kmer_cite.h; sourceTree = "<group>"; };
@@ -1170,11 +1174,6 @@
 		D042D67C1878E3BE00E598EA /* Resource Files */ = {
 			isa = PBXGroup;
 			children = (
-				D042D68D1878EED400E598EA /* beach_chair_16x16.png */,
-				D042D68E1878EED400E598EA /* beach_chair_32x32.png */,
-				D042D68F1878EED400E598EA /* beach_chair_48x48.png */,
-				D042D6901878EED400E598EA /* beach_chair_128x128.png */,
-				D042D6911878EED400E598EA /* beach_chair_256x256.png */,
 				D042D67D1878E40500E598EA /* beach_chair.icns */,
 				D042D67E1878E40500E598EA /* cocktail.icns */,
 				D042D67F1878E40500E598EA /* flip_flops.icns */,
@@ -1185,6 +1184,23 @@
 				D042D6991878EFD700E598EA /* readme.txt */,
 			);
 			name = "Resource Files";
+			sourceTree = "<group>";
+		};
+		D07DA1E0187B789900637F89 /* bzip2 */ = {
+			isa = PBXGroup;
+			children = (
+				D07DA1E1187B789900637F89 /* blocksort.c */,
+				D07DA1E2187B789900637F89 /* bzlib.c */,
+				D07DA1E3187B789900637F89 /* bzlib.h */,
+				D07DA1E4187B789900637F89 /* bzlib_private.h */,
+				D07DA1E5187B789900637F89 /* compress.c */,
+				D07DA1E6187B789900637F89 /* crctable.c */,
+				D07DA1E7187B789900637F89 /* decompress.c */,
+				D07DA1E8187B789900637F89 /* huffman.c */,
+				D07DA1E9187B789900637F89 /* randtable.c */,
+			);
+			name = bzip2;
+			path = "../../alder-bzip2/alder-bzip2/bzip2";
 			sourceTree = "<group>";
 		};
 		D0CAEC40180A803300681CD0 /* rng */ = {
@@ -1269,8 +1285,6 @@
 				D0CAED84180CD19C00681CD0 /* alder_fastq_length.h */,
 				D0CAED85180CD19C00681CD0 /* alder_fastq_numbase.c */,
 				D0CAED86180CD19C00681CD0 /* alder_fastq_numbase.h */,
-				D0CAED87180CD19C00681CD0 /* alder_fastq_pair.c */,
-				D0CAED88180CD19C00681CD0 /* alder_fastq_pair.h */,
 				D0CAED89180CD19C00681CD0 /* alder_fastq_ragel.c */,
 				D0CAED8A180CD19C00681CD0 /* alder_fastq_ragel.h */,
 				D0CAED8B180CD19C00681CD0 /* alder_fastq_ragel.rl */,
@@ -1349,31 +1363,6 @@
 				D0CAEDC7180CD1F800681CD0 /* types.h */,
 			);
 			path = nglogc;
-			sourceTree = "<group>";
-		};
-		D0CAEDD8180CD21600681CD0 /* vector */ = {
-			isa = PBXGroup;
-			children = (
-				D0CAEDDA180CD21600681CD0 /* alder_gsl.h */,
-				D0CAEDDC180CD21600681CD0 /* alder_vector.h */,
-				D0CAEDDD180CD21600681CD0 /* alder_vector_interval.c */,
-				D0CAEDDE180CD21600681CD0 /* alder_vector_interval.h */,
-				D0CAEDDF180CD21600681CD0 /* alder_vector_pair.c */,
-				D0CAEDE0180CD21600681CD0 /* alder_vector_pair.h */,
-				D0CAEDE1180CD21600681CD0 /* alder_vector_palign.c */,
-				D0CAEDE2180CD21600681CD0 /* alder_vector_palign.h */,
-				D0CAEDE3180CD21600681CD0 /* CMakeLists.txt */,
-				D0CAEDE4180CD21600681CD0 /* gsl_vector_anchor.c */,
-				D0CAEDE5180CD21600681CD0 /* gsl_vector_anchor.h */,
-				D0CAEDE6180CD21600681CD0 /* gsl_vector_match.c */,
-				D0CAEDE7180CD21600681CD0 /* gsl_vector_match.h */,
-				D0CAEDE8180CD21600681CD0 /* gsl_vector_sam.c */,
-				D0CAEDE9180CD21600681CD0 /* gsl_vector_sam.h */,
-				D0CAEDEA180CD21600681CD0 /* gsl_vector_seqpair.c */,
-				D0CAEDEB180CD21600681CD0 /* gsl_vector_seqpair.h */,
-			);
-			name = vector;
-			path = "../../alder-vector/alder-vector/vector";
 			sourceTree = "<group>";
 		};
 		D0DAE61A1819EB53004D4C81 /* hashtable */ = {
@@ -1478,7 +1467,10 @@
 		D0F7F0871807768000B4BDDB /* alder-kmer */ = {
 			isa = PBXGroup;
 			children = (
+				D0EDBE7B188391AE009BC514 /* cmdline.c */,
+				D0EDBE7C188391AE009BC514 /* cmdline.h */,
 				D0F7F0931807768000B4BDDB /* main.c */,
+				D07DA07718795CC500637F89 /* alderg-kmerHelp */,
 				D0F7F0911807768000B4BDDB /* alder-kmer.ggo */,
 				D0F7F0951807768000B4BDDB /* alder_kmer.1 */,
 				D0F7F0881807768000B4BDDB /* alder_kmer_cite.c */,
@@ -1487,6 +1479,7 @@
 				D0F7F08D1807768000B4BDDB /* alder_kmer_option.h */,
 				D0DAE6C11819FC2E004D4C81 /* bit */,
 				D0F7F0FB1809D4C400B4BDDB /* bstrlib */,
+				D07DA1E0187B789900637F89 /* bzip2 */,
 				D0F7F10E1809D4D500B4BDDB /* cmacro */,
 				D04F8CB318712D3F00946B43 /* cmake */,
 				D0399F601863EDD0007C505E /* dna */,
@@ -1504,11 +1497,10 @@
 				D01E1CA118617E6400E17848 /* mcas */,
 				D01E1D9B186255F100E17848 /* p99 */,
 				D0176E7C1873B10D007BAB14 /* progress */,
-				D0176F07187633B3007BAB14 /* retired.c */,
 				D0CAEC40180A803300681CD0 /* rng */,
 				D0DAE771181A7F2C004D4C81 /* seq */,
 				D01E1C481860CF0700E17848 /* token */,
-				D0CAEDD8180CD21600681CD0 /* vector */,
+				D07DA1F1187D519400637F89 /* alder_kmer_retired.c */,
 			);
 			path = "alder-kmer";
 			sourceTree = "<group>";
@@ -1516,6 +1508,8 @@
 		D0F7F0D21809D4BB00B4BDDB /* file */ = {
 			isa = PBXGroup;
 			children = (
+				D07DA1CC187B70AA00637F89 /* alder_file_isbzip2.c */,
+				D07DA1CD187B70AA00637F89 /* alder_file_isbzip2.h */,
 				D0F7F0D31809D4BB00B4BDDB /* alder_file.c */,
 				D0F7F0D41809D4BB00B4BDDB /* alder_file.h */,
 				D0CAEC87180BF5FA00681CD0 /* alder_file_availablediskspace.c */,
@@ -1593,6 +1587,7 @@
 		D0F7F10E1809D4D500B4BDDB /* cmacro */ = {
 			isa = PBXGroup;
 			children = (
+				D09142251884C187007BCBFB /* libdivide.h */,
 				D0F7F10F1809D4D500B4BDDB /* alder_cmacro.h */,
 				D0F7F1101809D4D500B4BDDB /* alder_node_function_item_int_source.h */,
 				D0F7F1111809D4D500B4BDDB /* alder_node_function_tuple2_source.h */,
@@ -1625,23 +1620,34 @@
 				D0F7F1251809D55200B4BDDB /* alder_kmer.h */,
 				D0BDE4591867FA2900653359 /* alder_kmer_count.c */,
 				D0BDE45B1867FA2E00653359 /* alder_kmer_count.h */,
+				D01E6F8618696B3000AD1C9A /* alder_kmer_decode.c */,
+				D01E6F8818696B3500AD1C9A /* alder_kmer_decode.h */,
 				D0BDE45C18680ED000653359 /* alder_kmer_encode.c */,
 				D0BDE45E18680ED700653359 /* alder_kmer_encode.h */,
+				D0503275187E0FA800DBABAA /* alder_kmer_encode2.c */,
+				D0EDBE7618810D05009BC514 /* alder_kmer_encode3.c */,
+				D05EFDD218855EE3008D8CBC /* alder_kmer_encode3.h */,
+				D05EFDD318855F09008D8CBC /* alder_kmer_encode3_more.c */,
 				D0054C83181CADB3007A4C00 /* alder_kmer_report.c */,
 				D0054C85181CADB8007A4C00 /* alder_kmer_report.h */,
 				D0CAEC4B180A80CE00681CD0 /* alder_kmer_simulate.c */,
 				D0CAEC4D180A80D500681CD0 /* alder_kmer_simulate.h */,
+				D04F8CE018728A9700946B43 /* alder_kmer_test_count.sh */,
+				D0EDBE741880C3BE009BC514 /* alder_kmer_test_partition.sh */,
+				D04F8CDD18723CF400946B43 /* alder_kmer_test_table.sh */,
+				D0EDBE751880DA7E009BC514 /* alder_kmer_test_table2.sh */,
+				D0EDBE7A1882A0AB009BC514 /* alder_kmer_test_table3.sh */,
 				D08AFDAE1818ACAC00D04508 /* alder_kmer_thread.c */,
 				D08AFDB01818ACB100D04508 /* alder_kmer_thread.h */,
 				D09A6B4A18204CC600234CF3 /* alder_kmer_thread.pdf */,
-				D01E6F8618696B3000AD1C9A /* alder_kmer_decode.c */,
-				D01E6F8818696B3500AD1C9A /* alder_kmer_decode.h */,
-				D04F8CDD18723CF400946B43 /* alder_kmer_test_small_parfile.sh */,
-				D04F8CDE187243E400946B43 /* alder_kmer_test_large_parfile.sh */,
-				D04F8CDF1872783C00946B43 /* alder_kmer_test_large_seqfile.sh */,
-				D04F8CE018728A9700946B43 /* alder_kmer_test_large_count.sh */,
-				D0176E811873E0B2007BAB14 /* alder_kmer_pack.c */,
-				D0176E831873E0B9007BAB14 /* alder_kmer_pack.h */,
+				D0503273187DF91300DBABAA /* alder_kmer_thread2.c */,
+				D0EDBE7818810E14009BC514 /* alder_kmer_thread3.c */,
+				D05EFDD51885627B008D8CBC /* alder_kmer_thread3.h */,
+				D05EFDD618856285008D8CBC /* alder_kmer_thread3_more.c */,
+				D05BF7A61885D59300D0A187 /* alder_kmer_list.c */,
+				D05BF7A81885D59F00D0A187 /* alder_kmer_list.h */,
+				D040ED9318864C7400A57DE8 /* alder_kmer_match.c */,
+				D040ED9518864C7F00A57DE8 /* alder_kmer_match.h */,
 			);
 			path = kmer;
 			sourceTree = "<group>";
@@ -1656,6 +1662,7 @@
 				D0176F50187686B1007BAB14 /* Sources */,
 				D0176F51187686B1007BAB14 /* Frameworks */,
 				D0176F52187686B1007BAB14 /* Resources */,
+				D07DA0721879034D00637F89 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1673,6 +1680,7 @@
 				D0F7F0811807768000B4BDDB /* Sources */,
 				D0F7F0821807768000B4BDDB /* Frameworks */,
 				D0F7F0831807768000B4BDDB /* CopyFiles */,
+				D07DA0711878FE1A00637F89 /* ShellScript */,
 			);
 			buildRules = (
 				D0CAED98180CD1AB00681CD0 /* PBXBuildRule */,
@@ -1732,19 +1740,14 @@
 				D042D6851878E40500E598EA /* flip_flops.icns in Resources */,
 				D042D6981878EF7B00E598EA /* intro.txt in Resources */,
 				D02033E1187760ED00A193DB /* security.txt in Resources */,
-				D042D6961878EED400E598EA /* beach_chair_256x256.png in Resources */,
 				D042D6871878E40500E598EA /* surfboard.icns in Resources */,
 				D042D68B1878E6FC00E598EA /* alderg-kmer-run.sh in Resources */,
-				D042D6931878EED400E598EA /* beach_chair_32x32.png in Resources */,
 				D02034211877610600A193DB /* INSTALL in Resources */,
-				D042D6941878EED400E598EA /* beach_chair_48x48.png in Resources */,
 				D0176F61187686B1007BAB14 /* Credits.rtf in Resources */,
 				D02033DB187760ED00A193DB /* bstrlib.txt in Resources */,
 				D042D6881878E40500E598EA /* umbrella.icns in Resources */,
-				D042D6951878EED400E598EA /* beach_chair_128x128.png in Resources */,
 				D02033DD187760ED00A193DB /* CMakeLists.txt in Resources */,
 				D042D6841878E40500E598EA /* cocktail.icns in Resources */,
-				D042D6921878EED400E598EA /* beach_chair_16x16.png in Resources */,
 				D02034171877610600A193DB /* AUTHORS in Resources */,
 				D02034151877610600A193DB /* CMakeLists.txt in Resources */,
 				D0176F67187686B1007BAB14 /* MainMenu.xib in Resources */,
@@ -1758,6 +1761,35 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D07DA0711878FE1A00637F89 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#if [ ${CONFIGURATION} == \"Release\" ]; then\nAPPLEDOC_PATH=`which appledoc`\nif [ $APPLEDOC_PATH ]; then\n$APPLEDOC_PATH \\\n--project-name ${PRODUCT_NAME} \\\n--project-company \"Sang Chul Choi\" \\\n--company-id \"edu.uaf.iab\" \\\n--output ${PRODUCT_NAME}Docs \\\n--keep-undocumented-objects \\\n--keep-undocumented-members \\\n--keep-intermediate-files \\\n--no-repeat-first-par \\\n--no-warn-invalid-crossref \\\n--exit-threshold 2 \\\n${PROJECT_DIR}/${PRODUCT_NAME}\nfi;\n#fi;\n\nGGO_FILE_NAME=${PROJECT_DIR}/${PRODUCT_NAME}/alder-kmer.ggo\nGGO_OUTFILE_NAME=${PROJECT_DIR}/${PRODUCT_NAME}\n/usr/local/bin/gengetopt -i \"$GGO_FILE_NAME\" --output-dir=\"$GGO_OUTFILE_NAME\" --file-name=cmdline --unamed-opts --func-name=my_cmdline_parser --include-getopt --no-handle-help --no-help";
+		};
+		D07DA0721879034D00637F89 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#if [ ${CONFIGURATION} == \"Release\" ]; then\nAPPLEDOC_PATH=`which appledoc`\nif [ $APPLEDOC_PATH ]; then\n$APPLEDOC_PATH \\\n--project-name ${PRODUCT_NAME} \\\n--project-company \"Sang Chul Choi\" \\\n--company-id \"edu.uaf.iab\" \\\n--output ${PRODUCT_NAME}Docs \\\n--keep-undocumented-objects \\\n--keep-undocumented-members \\\n--keep-intermediate-files \\\n--no-repeat-first-par \\\n--no-warn-invalid-crossref \\\n--exit-threshold 2 \\\n${PROJECT_DIR}/${PRODUCT_NAME}\nfi;\n#fi;";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D0176F50187686B1007BAB14 /* Sources */ = {
@@ -1826,7 +1858,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0CAED95180CD19C00681CD0 /* alder_fastq_pair.c in Sources */,
 				D0399F801864C292007C505E /* alder_seq_write.c in Sources */,
 				D0CAEDCF180CD1F800681CD0 /* log_record.c in Sources */,
 				D01E1C461860CEF000E17848 /* alder_fasta_sequenceiterator.c in Sources */,
@@ -1837,10 +1868,10 @@
 				D0CAEDC8180CD1F800681CD0 /* alder_logger.c in Sources */,
 				D02035191877AFB500A193DB /* lcfg_static.c in Sources */,
 				D09A6B49182032E700234CF3 /* alder_logger_error.c in Sources */,
+				D07DA1F0187B789900637F89 /* randtable.c in Sources */,
 				D0CAEDCB180CD1F800681CD0 /* flf_log.c in Sources */,
 				D0DAE6C41819FC2E004D4C81 /* alder_bit.c in Sources */,
 				D0176E801873B32A007BAB14 /* alder_fasta.rl in Sources */,
-				D0CAEDF3180CD21600681CD0 /* gsl_vector_sam.c in Sources */,
 				D01E1DDB186255F100E17848 /* p99_special.c in Sources */,
 				D0399F831864C2AC007C505E /* alder_file_format.c in Sources */,
 				D0CAED96180CD19C00681CD0 /* alder_fastq_ragel.c in Sources */,
@@ -1848,20 +1879,22 @@
 				D0CAED8F180CD19C00681CD0 /* alder_fastq.c in Sources */,
 				D0CAEC85180B7BE900681CD0 /* alder_file_sequencefilesize.c in Sources */,
 				D0CAEDD5180CD1F800681CD0 /* printout.c in Sources */,
+				D0EDBE7918810E14009BC514 /* alder_kmer_thread3.c in Sources */,
 				D0399F7A1864C27A007C505E /* alder_fastq_write.c in Sources */,
-				D0CAEDF4180CD21600681CD0 /* gsl_vector_seqpair.c in Sources */,
 				D0F7F0941807768000B4BDDB /* main.c in Sources */,
 				D0CAED93180CD19C00681CD0 /* alder_fastq_length.c in Sources */,
 				D0DAE62E1819EB53004D4C81 /* alder_hashtable_dsk.c in Sources */,
 				D0CAEDCE180CD1F800681CD0 /* flf_logtrace.c in Sources */,
 				D0CAEDD7180CD1F800681CD0 /* timestamp.c in Sources */,
 				D0E53CA91814CEE500C84089 /* alder_encode_pack.c in Sources */,
-				D0176E821873E0B2007BAB14 /* alder_kmer_pack.c in Sources */,
 				D0CAEDD6180CD1F800681CD0 /* ringbuffer.c in Sources */,
 				D01E1C3E1860CEAE00E17848 /* alder_kseq_sequenceiterator.c in Sources */,
+				D05EFDD718856285008D8CBC /* alder_kmer_thread3_more.c in Sources */,
 				D0F7F10D1809D4C400B4BDDB /* bstrmore.c in Sources */,
 				D007D055181AF8C3002E6BFB /* alder_fileseq_streamer.c in Sources */,
+				D07DA1ED187B789900637F89 /* crctable.c in Sources */,
 				D04F8CBE18716B6100946B43 /* alder_fileseq_sequenceiterator.c in Sources */,
+				D07DA1EF187B789900637F89 /* huffman.c in Sources */,
 				D0E53C9C181219B300C84089 /* alder_hash.c in Sources */,
 				D0BDE46D1868817F00653359 /* alder_fasta_chunk.c in Sources */,
 				D0DAE6DF181A726D004D4C81 /* alder_file_sysctl.c in Sources */,
@@ -1869,8 +1902,10 @@
 				D0CAEC86180B7BE900681CD0 /* alder_file_size.c in Sources */,
 				D0CAEC48180A803300681CD0 /* alder_rng.c in Sources */,
 				D0CAEDD4180CD1F800681CD0 /* nflf_logtrace.c in Sources */,
+				D07DA1EA187B789900637F89 /* blocksort.c in Sources */,
 				D0E53C8D1812192100C84089 /* alder_fasta_kmer.c in Sources */,
 				D0F7F0F91809D4BB00B4BDDB /* alder_file_whatformat.c in Sources */,
+				D05EFDD418855F09008D8CBC /* alder_kmer_encode3_more.c in Sources */,
 				D0F7F1261809D55200B4BDDB /* alder_kmer.c in Sources */,
 				D0CAEDD2180CD1F800681CD0 /* nflf_logarray.c in Sources */,
 				D02035181877AFB500A193DB /* alder_lcfg_kmer.c in Sources */,
@@ -1880,19 +1915,21 @@
 				D07F06A3181B9EA900B79A06 /* alder_kmer_hashtable.c in Sources */,
 				D007D053181AF259002E6BFB /* alder_file_availableopenfiles.c in Sources */,
 				D04F8CBD18716B6100946B43 /* alder_fileseq_sample.c in Sources */,
+				D07DA1EC187B789900637F89 /* compress.c in Sources */,
 				D0F7F0F71809D4BB00B4BDDB /* alder_file_isstdin.c in Sources */,
 				D01E1C411860CEDD00E17848 /* alder_fastq_sequenceiterator.c in Sources */,
-				D0CAEDF2180CD21600681CD0 /* gsl_vector_match.c in Sources */,
 				D0F7F10A1809D4C400B4BDDB /* bsafe.c in Sources */,
 				D09A6B43181FAFE100234CF3 /* alder_file_rm.c in Sources */,
 				D0F7F0F81809D4BB00B4BDDB /* alder_file_numline.c in Sources */,
 				D0CAEC84180B7BE900681CD0 /* alder_file_isfastq.c in Sources */,
-				D0CAEDEE180CD21600681CD0 /* alder_vector_interval.c in Sources */,
 				D0399F631863EDD0007C505E /* alder_dna.c in Sources */,
 				D01E1C471860CEF000E17848 /* alder_fasta_token.c in Sources */,
 				D0CAEDCD180CD1F800681CD0 /* flf_logerror.c in Sources */,
 				D0BDE45A1867FA2900653359 /* alder_kmer_count.c in Sources */,
 				D0F7F0F61809D4BB00B4BDDB /* alder_file_isgzip.c in Sources */,
+				D0503276187E0FA800DBABAA /* alder_kmer_encode2.c in Sources */,
+				D0503274187DF91300DBABAA /* alder_kmer_thread2.c in Sources */,
+				D07DA1CE187B70AA00637F89 /* alder_file_isbzip2.c in Sources */,
 				D0CAEDD0180CD1F800681CD0 /* logger.c in Sources */,
 				D0BDE45D18680ED000653359 /* alder_kmer_encode.c in Sources */,
 				D0F7F0F41809D4BB00B4BDDB /* alder_file_isfasta.c in Sources */,
@@ -1902,8 +1939,11 @@
 				D0CAEC49180A803300681CD0 /* rngs.c in Sources */,
 				D0E53C881812190500C84089 /* alder_fileseq_type.c in Sources */,
 				D0F7F0EE1809D4BB00B4BDDB /* alder_file.c in Sources */,
+				D07DA1EB187B789900637F89 /* bzlib.c in Sources */,
+				D0EDBE7718810D05009BC514 /* alder_kmer_encode3.c in Sources */,
+				D05BF7A71885D59300D0A187 /* alder_kmer_list.c in Sources */,
 				D01E6F8718696B3000AD1C9A /* alder_kmer_decode.c in Sources */,
-				D0CAEDF0180CD21600681CD0 /* alder_vector_palign.c in Sources */,
+				D07DA1EE187B789900637F89 /* decompress.c in Sources */,
 				D01E1C4E1860CF0700E17848 /* alder_token_dna.c in Sources */,
 				D0BDE46A1868817200653359 /* alder_fileseq_chunk.c in Sources */,
 				D01E1C3D1860CEAE00E17848 /* alder_kseq.c in Sources */,
@@ -1911,7 +1951,6 @@
 				D01E6F821869165600AD1C9A /* alder_fastq_chunk.c in Sources */,
 				D0E53C8E1812192100C84089 /* alder_fasta_streamer.c in Sources */,
 				D0CAEC4A180A803300681CD0 /* rvgs.c in Sources */,
-				D0CAEDEF180CD21600681CD0 /* alder_vector_pair.c in Sources */,
 				D0E53C971812193800C84089 /* alder_encode_kmer.c in Sources */,
 				D0F7F0F31809D4BB00B4BDDB /* alder_file_isbinary.c in Sources */,
 				D007D066181B1D1D002E6BFB /* alder_seq_streamer.c in Sources */,
@@ -1928,6 +1967,7 @@
 				D0F7F0891807768000B4BDDB /* alder_kmer_cite.c in Sources */,
 				D007D063181B1CBB002E6BFB /* alder_fastq_streamer.c in Sources */,
 				D0DAE62D1819EB53004D4C81 /* alder_hashtable.c in Sources */,
+				D040ED9418864C7400A57DE8 /* alder_kmer_match.c in Sources */,
 				D020351E1877B29800A193DB /* alder_lcfg_read.c in Sources */,
 				D020351B1877B27400A193DB /* alder_lcfg_write.c in Sources */,
 				D0CAEC4C180A80CE00681CD0 /* alder_kmer_simulate.c in Sources */,
@@ -1943,7 +1983,6 @@
 				D0F7F0F11809D4BB00B4BDDB /* alder_file_firstline.c in Sources */,
 				D0176E7F1873B10D007BAB14 /* alder_progress.c in Sources */,
 				D0CAEDD1180CD1F800681CD0 /* nflf_log.c in Sources */,
-				D0CAEDF1180CD21600681CD0 /* gsl_vector_anchor.c in Sources */,
 				D0E53C981812193800C84089 /* alder_encode_number.c in Sources */,
 				D0399F7D1864C284007C505E /* alder_fasta_write.c in Sources */,
 				D0DAE774181A7F2C004D4C81 /* alder_seq.c in Sources */,
@@ -2091,14 +2130,9 @@
 		D0F7F09A1807768000B4BDDB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "-I/usr/local/include";
-				OTHER_LDFLAGS = (
-					"-L/usr/local/lib",
-					"-lgsl",
-					"-lgslcblas",
-					"-lz",
-				);
+				OTHER_LDFLAGS = "-lz";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -2106,17 +2140,15 @@
 		D0F7F09B1807768000B4BDDB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = (
 					"-I/usr/local/include",
 					"-DNDEBUG",
 				);
-				OTHER_LDFLAGS = (
-					"-L/usr/local/lib",
-					"-lgsl",
-					"-lgslcblas",
-					"-lz",
-				);
+				OTHER_LDFLAGS = "-lz";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

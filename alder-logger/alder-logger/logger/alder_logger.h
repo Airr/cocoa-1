@@ -55,6 +55,8 @@ __BEGIN_DECLS
  * with greater numbers as you want to see them in much
  * detail of the program flow.
  */
+#if !defined(NDEBUG)
+
 #define alder_log0(formatStr, ...) \
 logc_log(MAIN_LOGGER, LOG_SILENT, formatStr, ## __VA_ARGS__)
 #define alder_log(formatStr, ...) \
@@ -91,6 +93,39 @@ logc_logArrayInfo(MAIN_LOGGER, desc, array, len)
 logc_logArrayFine(MAIN_LOGGER, desc, array, len)
 #define alder_loga5(desc, array, len) \
 logc_logArrayFinest(MAIN_LOGGER, desc, array, len)
+
+#else
+
+#define alder_log0(formatStr, ...) \
+logc_log(MAIN_LOGGER, LOG_SILENT, formatStr, ## __VA_ARGS__)
+#define alder_log(formatStr, ...) \
+logc_log(MAIN_LOGGER, LOG_BASIC, formatStr, ## __VA_ARGS__)
+#define alder_log2(formatStr, ...) \
+logc_log(MAIN_LOGGER, LOG_WARNING, formatStr, ## __VA_ARGS__)
+#define alder_log3(formatStr, ...)
+#define alder_log4(formatStr, ...)
+#define alder_log5(formatStr, ...)
+
+#define alder_loge0(err, formatStr, ...) \
+logc_logError(ERROR_LOGGER, LOG_SILENT, err, formatStr, ## __VA_ARGS__)
+#define alder_loge(err, formatStr, ...) \
+logc_logError(ERROR_LOGGER, LOG_BASIC, err, formatStr, ## __VA_ARGS__)
+#define alder_loge2(err, formatStr, ...) \
+logc_logError(ERROR_LOGGER, LOG_WARNING, err, formatStr, ## __VA_ARGS__)
+#define alder_loge3(err, formatStr, ...)
+#define alder_loge4(err, formatStr, ...)
+#define alder_loge5(err, formatStr, ...)
+
+#define alder_loga(desc, array, len) \
+logc_logArrayBasic(MAIN_LOGGER, desc, array, len)
+#define alder_loga2(desc, array, len) \
+logc_logArrayWarning(MAIN_LOGGER, desc, array, len)
+#define alder_loga3(desc, array, len)
+#define alder_loga4(desc, array, len)
+#define alder_loga5(desc, array, len)
+
+#endif
+
 
 int alder_logger_initialize (const char *mainLoggerFilename, logc_logLevel_t l);
 void alder_logger_finalize ();

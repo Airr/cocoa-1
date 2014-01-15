@@ -93,7 +93,7 @@ int64_t alder_fasta_position_by_saindex(const alder_fasta_t *af, int64_t positio
 // Kmer
 int alder_fasta_count_kmer(const char *fn, int kmer_size,
                            size_t *curBufsize, size_t totalBufsize,
-                           uint64_t *volume,
+                           uint64_t *volume, 
                            int progress_flag,
                            int progressToError_flag);
 

@@ -26,6 +26,7 @@
 #include <zlib.h>
 #include <fcntl.h>
 #include <stdint.h>
+#include "bzlib.h"
 #include "bstrlib.h"
 #include "alder_logger.h"
 #include "alder_cmacro.h"
@@ -135,15 +136,16 @@ alder_fasta_chunk(size_t *lenBuf, char *buf, size_t sizeBuf,
     }
     
     int lenRead;
-    if (gz_flag) {
+    if (gz_flag == 1) {
         lenRead = gzread((gzFile)fx, startBuf,
                          (unsigned)(sizeof(*buf)*(sizeBuf - *lenBuf2)));
+    } else if (gz_flag == 2) {
+        lenRead = BZ2_bzread((BZFILE*)fx, startBuf,
+                             (unsigned)(sizeof(*buf)*(sizeBuf - *lenBuf2)));
     } else {
         lenRead = (int) read((int)((intptr_t)fx), startBuf,
                              sizeof(*buf)*(sizeBuf - *lenBuf2));
-//    size_t lenRead = fread(startBuf, sizeof(*buf), sizeBuf - *lenBuf2, fp);
     }
-    
     
     if (lenRead == 0) {
         // check if this is error or end of file

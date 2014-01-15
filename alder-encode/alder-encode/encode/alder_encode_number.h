@@ -37,6 +37,32 @@
 
 __BEGIN_DECLS
 
+typedef union {
+    uint8_t key8[8];
+    uint64_t key64;
+} alder_encode_64to8_t;
+
+typedef struct alder_encode_number2_struct {
+    alder_encode_64to8_t *n;              /* number of 64-bit elements */
+    int s;                                /* size of n                 */
+    int k;                                /* kmer size                 */
+    int b;                                /* size of valid bytes       */
+} alder_encode_number2_t;
+
+int alder_encode_number2_test();
+alder_encode_number2_t * alder_encode_number2_createWithKmer(int kmer_size);
+void alder_encode_number2_destroy(alder_encode_number2_t *o);
+void alder_encode_number2_reset(alder_encode_number2_t *o);
+int alder_encode_number2_shiftLeftWith(alder_encode_number2_t *o, int b);
+int alder_encode_number2_shiftRightWith(alder_encode_number2_t *o, int b);
+uint64_t alder_encode_number2_hash(alder_encode_number2_t *o);
+int alder_encode_number2_log(alder_encode_number2_t *o);
+size_t alder_encode_number2_adjustBufferSizeForKmer(int K, size_t s);
+int alder_encode_number2_kmer(alder_encode_number2_t *o, uint8_t *kmer);
+int alder_encode_number2_bytesize(int K);
+
+#pragma mark version1
+
 /* This struct is for a large number encoding a kmer.
  */
 typedef struct alder_encode_number_struct {

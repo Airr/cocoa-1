@@ -1,20 +1,11 @@
+
+
 # TODO
 
-. alder_fasta_count_kmer
-. alder_fastq_count_kmer
+bzip2 feature.
 
-. MCAS implementation in Mac OSX.
-. MCAS implementation for Mac OSX, and ARSC.
-. Report better, but how?.
-. FASTQ, FASTA, and SEQ Parser - a thorough test
-
-#
-
-alder_kmer_count
-alder_kmer_count_per_partition
-alder_kmer_thread_kmerrw_create
-
-# Don't know what to do?
+From bzip2:
+Return values: 0 for a normal exit, 1 for environmental problems (file not found, invalid flags, I/O errors, etc.), 2 to indicate a corrupt compressed file, 3 for an internal consistency error (eg, bug) which caused bzip2 to panic.
 
 ## To change the command line options.
 See alder_kmer_option.c and alder-kmer.ggo.
@@ -22,6 +13,16 @@ See alder_kmer_option.c and alder-kmer.ggo.
 ## To change the behavior of the program depending on command line options.
 Use options in main.c.
 
+# Useful
+
+Encoding and decoding kmers by using C union:
+http://mbed.org/questions/1277/Union-of-a-uint64_t-and-uint8_t8-array-g/
+
+Measure time of execution:
+http://www.harvestsoft.net/measure.htm
+
+Faster division:
+http://libdivide.com/documentation.html
 
 
 # Introduction
@@ -69,9 +70,11 @@ http://gcc.gnu.org/onlinedocs/gcc-4.3.5/gcc/Atomic-Builtins.html#Atomic-Builtins
 To count A,C,G,T in a file
 grep -o . a-00.seq | sort | uniq -ic
 
-# Retired options
-
-option "number-kmers" - "Number of kmers" long typestr="number" default="10" optional
-details="The maximum number of kmers and effectively the length of a long sequence.
-The maximum value is 9223372036854775807 because of its long type."
-
+# Create Help Book
+1. Edit files in alderg-kmerHelp.
+2. Rename it by appending .help extension.
+3. Delete help book cache.
+$ rm -rf /Users/goshng/Library/Caches/com.apple.helpd
+4. Open Help Indexer.
+5. Load alderg-kmerHelp.help/Contents/Resources/en.lproj, and create the index.
+6. Add the help book to Supporting Files in alderg-kmer project.

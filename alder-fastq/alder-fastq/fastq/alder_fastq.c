@@ -39,7 +39,7 @@ alder_fastq_t * alder_fastq_open(const char *fn)
 {
     int fp = -1;
     int isGzip = 0;
-    gzFile fpgz;
+    gzFile fpgz = Z_NULL;
     if (fn == NULL) {
         fp = STDIN_FILENO;
     } else {
@@ -123,7 +123,7 @@ kseq_t * alder_fastq_init (const char *fn)
 {
     int fp = -1;
     int isGzip = 0;
-    gzFile fpgz;
+    gzFile fpgz = Z_NULL;
     if (fn == NULL) {
         fp = STDIN_FILENO;
     } else {

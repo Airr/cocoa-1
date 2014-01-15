@@ -20,18 +20,55 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/poll.h>
+#include "alder_cmacro.h"
 #include "alder_file_isstdin.h"
 
 /* This function tests if there is any standard input to the program.
  * returns
  * 0 if no standard input, otherwise non-zero.
  */
+/**
+ *  This function checks if there is any standard input.
+ *  WARN: You must use fildes to read the standard input since calling this
+ *        function.
+ *
+ *  @return YES or NO.
+ */
 int alder_file_isstdin()
 {
-    struct pollfd fds;
-    int ret;
-    fds.fd = 0; /* this is STDIN */
-    fds.events = POLLIN;
-    ret = poll(&fds, 1, 0);
+    int timeout = 100; // wait 100ms
+    struct pollfd fd;
+    fd.fd = 0;
+    fd.events = POLLIN;
+    fd.revents = 0;
+    int s = poll(&fd, 1, timeout);
+    if (s > 0 && ((fd.revents & POLLIN) != 0))  {
+        // got some data
+        s = ALDER_YES;
+    } else {
+        // check for error
+        s = ALDER_NO;
+    }
+    
+    return s;
+}
+
+/**
+ *  This function checks if there is any standard input. 
+ *  WARN: You must use FILE* to read the standard input since calling this
+ *        function.
+ *
+ *  @return YES or NO.
+ */
+int alder_file_isstdin_FILE()
+{
+    int ret = ALDER_YES;
+    int c = getchar();
+    if (ferror(stdin)) {
+        ret = ALDER_NO;
+    } else {
+        ungetc(c, stdin);
+        ret = ALDER_YES;
+    }
     return ret;
 }

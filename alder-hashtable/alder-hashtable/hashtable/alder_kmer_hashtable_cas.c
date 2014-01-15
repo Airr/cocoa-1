@@ -45,6 +45,7 @@ alder_kmer_hashtable_cas_t * alder_kmer_hashtable_cas_create (int k,
     o->value = malloc(sizeof(*o->value) * o->size);
     if (o->key == NULL || o->value == NULL) {
         alder_kmer_hashtable_cas_destroy(o);
+        return NULL;
     }
     memset(o->key,0,sizeof(*o->key) * o->size * o->stride);
     memset(o->value,0,sizeof(*o->value) * o->size);

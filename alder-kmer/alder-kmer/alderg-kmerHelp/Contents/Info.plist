@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en-us</string>
+	<key>CFBundleIdentifier</key>
+	<string>edu.uaf.iab.alderg-kmerhelp</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>AlderKmerHelp</string>
+	<key>CFBundlePackageType</key>
+	<string>BNDL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>3108.0</string>
+	<key>CFBundleSignature</key>
+	<string>hbwr</string>
+	<key>CFBundleVersion</key>
+	<string>414.26</string>
+	<key>HPDBookAccessPath</key>
+	<string>Alder Kmer Help.html</string>
+	<key>HPDBookIconPath</key>
+	<string>media/beach_chair_16x16.png</string>
+	<key>HPDBookIndexPath</key>
+	<string>en.lproj.helpindex</string>
+	<key>HPDBookKBProduct</key>
+	<string></string>
+	<key>HPDBookTitle</key>
+	<string>Alder Kmer Help</string>
+	<key>HPDBookKBURL</key>
+	<string></string>
+	<key>HPDBookRemoteURL</key>
+	<string></string>
+	<key>HPDBookType</key>
+	<string>3</string>
+</dict>
+</plist>

@@ -100,6 +100,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <zlib.h>
+#include "bzlib.h"
 #include "alder_logger.h"
 #include "alder_file.h"
 #include "alder_cmacro.h"
@@ -1423,7 +1424,8 @@ readwriter_open_infile
 (alder_kmer_readwriter_t *o)
 {
     int fp = -1;
-    gzFile fpgz;
+    gzFile fpgz = NULL;
+    BZFILE *fpbz = NULL;
     assert(o != NULL);
     assert(o->infile != NULL);
     assert(o->infile->qty > 0);
@@ -1438,6 +1440,8 @@ readwriter_open_infile
     if (o->fx != NULL) {
         if (o->type_infile & ALDER_FILETYPE_GZ) {
             gzclose(o->fx);
+        } else if (o->type_infile & ALDER_FILETYPE_BZ) {
+            BZ2_bzclose(o->fx);
         } else {
             close((int)((intptr_t)o->fx));
         }
@@ -1457,16 +1461,20 @@ readwriter_open_infile
 #endif
         if (o->type_infile & ALDER_FILETYPE_GZ) {
             fpgz = gzopen(fn, "r");
+        } else if (o->type_infile & ALDER_FILETYPE_BZ) {
+            fpbz = BZ2_bzopen(fn, "r");
         } else {
             fp = open(fn, O_RDONLY);
         }
-        if (fp < 0 && fpgz == Z_NULL) {
+        if (fp < 0 && fpgz == Z_NULL && fpbz == NULL) {
             alder_loge(ALDER_ERR_FILE, "cannot open file %s - %s",
                        fn, strerror(errno));
             return ALDER_STATUS_ERROR;
         }
         if (o->type_infile & ALDER_FILETYPE_GZ) {
             o->fx = fpgz;
+        } else if (o->type_infile & ALDER_FILETYPE_BZ) {
+            o->fx = fpbz;
         } else {
             o->fx = (void *)(intptr_t)fp;
         }
@@ -1666,7 +1674,7 @@ alder_kmer_encode_token(alder_kmer_encoder_t *e)
 //        assert(0);
         return 5;
     }
-    if (e->type_infile == ALDER_FILETYPE_FASTA) {
+    if (e->type_infile & ALDER_FILETYPE_ISFASTA) {
         if (c == '>' || c == '\n') {
             while (c != '\n') {
                 c = e->inbuf[e->i_inbuf++];
@@ -1678,7 +1686,7 @@ alder_kmer_encode_token(alder_kmer_encoder_t *e)
                 return 5;
             }
         }
-    } else if (e->type_infile == ALDER_FILETYPE_FASTQ) {
+    } else if (e->type_infile & ALDER_FILETYPE_ISFASTQ) {
         if (c == '@') {
             // header
             while (c != '\n') {
@@ -1706,7 +1714,7 @@ alder_kmer_encode_token(alder_kmer_encoder_t *e)
             }
         }
     } else {
-        assert(e->type_infile == ALDER_FILETYPE_SEQ);
+        assert(e->type_infile & ALDER_FILETYPE_ISSEQ);
         if (c == '\n') {
             if (e->i_inbuf < e->end_inbuf) {
                 // no code.

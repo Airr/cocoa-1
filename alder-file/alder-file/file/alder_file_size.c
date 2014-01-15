@@ -25,6 +25,7 @@
 #include <errno.h>
 #include <string.h>
 #include <stdint.h>
+#include "alder_cmacro.h"
 #include "bstrmore.h"
 #include "alder_file_size.h"
 
@@ -57,4 +58,40 @@ int alder_totalfile_size(struct bstrList *infile, size_t *size)
     }
     return 0;
 }
+
+/**
+ *  This function returns the uncompressed file size of a gzipped file.
+ *  WARN: This is not a reliable way of computing the uncompressed file size.
+ *  http://stackoverflow.com/questions/9209138/uncompressed-file-size-using-zlibs-gzip-file-access-function
+ *
+ *  @param path file name
+ *  @param size return value
+ *
+ *  @return SUCCESS or FAIL
+ */
+int alder_file_size_gz(const char *path, size_t *size)
+{
+    unsigned char b1;
+    unsigned char b2;
+    unsigned char b3;
+    unsigned char b4;
+    
+    FILE *fp = fopen(path, "rb");
+    if(fp == NULL) {
+        fprintf(stderr, "Error - failed to open file %s: %s",
+                path, strerror(errno));
+        return ALDER_STATUS_ERROR;
+    }
+    fseek(fp, SEEK_END, 4);
+    fread(&b4, sizeof(b4), 1, fp);
+    fread(&b3, sizeof(b3), 1, fp);
+    fread(&b2, sizeof(b2), 1, fp);
+    fread(&b1, sizeof(b1), 1, fp);
+    XFCLOSE(fp);
+    
+    int val = (b1 << 24) | (b2 << 16) + (b3 << 8) + b4;
+    *size = (unsigned long)(val);
+    return 0;
+}
+
 

@@ -88,7 +88,7 @@ int alder_fileseq_streamer(int *len_content, char *buf, char *buf2,
     // and set to NULL.
     // FIXME: close file if nothing to read.
     
-    return 0;
+    return s;
 }
 
 int alder_fileseq_streamer_print(char *buf, size_t buf_size)

@@ -25,7 +25,8 @@
 #include "alder_kmer_simulate.h"
 #include "alder_kmer_count.h"
 #include "alder_kmer_decode.h"
-#include "alder_kmer_pack.h"
+#include "alder_kmer_list.h"
+#include "alder_kmer_match.h"
 
 #undef __BEGIN_DECLS
 #undef __END_DECLS

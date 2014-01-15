@@ -75,20 +75,6 @@
                                     <action selector="open:" target="494" id="dMJ-Ee-Tzb"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Open Recent" id="124">
-                                <menu key="submenu" title="Open Recent" systemMenu="recentDocuments" id="125">
-                                    <items>
-                                        <menuItem title="Clear Menu" id="126">
-                                            <connections>
-                                                <action selector="clearRecentDocuments:" target="-1" id="127"/>
-                                            </connections>
-                                        </menuItem>
-                                    </items>
-                                </menu>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="79">
-                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                            </menuItem>
                             <menuItem title="Save…" keyEquivalent="s" id="75">
                                 <connections>
                                     <action selector="save:" target="494" id="xUI-Pv-bKa"/>
@@ -151,7 +137,7 @@
                         <items>
                             <menuItem title="alderg-kmer Help" keyEquivalent="?" id="492">
                                 <connections>
-                                    <action selector="showHelp:" target="-1" id="493"/>
+                                    <action selector="showHelp:" target="-1" id="ugH-Hb-8eN"/>
                                 </connections>
                             </menuItem>
                         </items>
@@ -210,20 +196,20 @@
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </box>
                     <scrollView fixedFrame="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wjh-jF-RUd">
-                        <rect key="frame" x="392" y="54" width="154" height="232"/>
+                        <rect key="frame" x="392" y="54" width="154" height="242"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <clipView key="contentView" ambiguous="YES" misplaced="YES" id="aeS-fi-s55">
-                            <rect key="frame" x="1" y="1" width="152" height="230"/>
+                            <rect key="frame" x="1" y="1" width="152" height="240"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textView ambiguous="YES" importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="CXu-rm-uOG">
-                                    <rect key="frame" x="0.0" y="0.0" width="178" height="230"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="178" height="240"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="152" height="230"/>
+                                    <size key="minSize" width="152" height="240"/>
                                     <size key="maxSize" width="543" height="10000000"/>
                                     <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="152" height="230"/>
+                                    <size key="minSize" width="152" height="240"/>
                                     <size key="maxSize" width="543" height="10000000"/>
                                 </textView>
                             </subviews>
@@ -234,7 +220,7 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="aoi-C6-W5w">
-                            <rect key="frame" x="137" y="1" width="16" height="230"/>
+                            <rect key="frame" x="137" y="1" width="16" height="240"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
@@ -344,7 +330,7 @@
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a4z-1A-hwS">
                         <rect key="frame" x="173" y="437" width="63" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" title="0GB" drawsBackground="YES" id="fmh-Ir-kim">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" title="0GB" drawsBackground="YES" id="fmh-Ir-kim">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -371,7 +357,7 @@
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cvA-JR-Mth">
                         <rect key="frame" x="173" y="412" width="63" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" title="0GB" drawsBackground="YES" id="DSp-Nm-TL3">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" title="0GB" drawsBackground="YES" id="DSp-Nm-TL3">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -658,7 +644,7 @@
                         </connections>
                     </button>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RB6-iO-zJ8">
-                        <rect key="frame" x="107" y="385" width="43" height="22"/>
+                        <rect key="frame" x="107" y="387" width="43" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" title="0" drawsBackground="YES" id="brQ-M4-GAi">
                             <font key="font" metaFont="system"/>
@@ -670,7 +656,7 @@
                         </connections>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4PM-g4-g57">
-                        <rect key="frame" x="18" y="390" width="71" height="17"/>
+                        <rect key="frame" x="18" y="392" width="71" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="CPU cores:" id="0M6-c6-Mxt">
                             <font key="font" metaFont="system"/>
@@ -679,7 +665,7 @@
                         </textFieldCell>
                     </textField>
                     <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="00c-lK-Wbh">
-                        <rect key="frame" x="150" y="382" width="19" height="27"/>
+                        <rect key="frame" x="150" y="384" width="19" height="27"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <stepperCell key="cell" continuous="YES" alignment="left" maxValue="100" id="7E5-Rp-aTI"/>
                         <connections>
@@ -713,7 +699,6 @@
                 <outlet property="mload" destination="1v8-2E-suf" id="W3e-XD-LVO"/>
                 <outlet property="mnew" destination="82" id="JcO-Cp-3LN"/>
                 <outlet property="mopen" destination="72" id="5No-fb-PsX"/>
-                <outlet property="mopenrecent" destination="124" id="rQW-Ad-rhM"/>
                 <outlet property="msave" destination="75" id="Q6V-hB-jCQ"/>
                 <outlet property="msearch" destination="PeE-c4-pb2" id="2gn-ji-OMF"/>
                 <outlet property="n_ni" destination="F1r-hC-r6k" id="JFN-ZI-gcs"/>

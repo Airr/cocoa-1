@@ -47,7 +47,8 @@ int alder_kmer_simulate(const char *outfile,
                         int hashtable_maxcount,
                         int hashtable_size);
 
-int alder_kmer_simulate_woHashtable(const char *outfile,
+int alder_kmer_simulate_woHashtable(long version,
+                                    const char *outfile,
                                     const char *outdir,
                                     alder_format_type_t format,
                                     int number_file,

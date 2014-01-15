@@ -27,6 +27,447 @@
 #include "alder_hash.h"
 #include "alder_encode_number.h"
 
+#define ALDER_ENCODE_NUMBER2_LSB2     0x0000000000000003      // x3
+#define ALDER_ENCODE_NUMBER2_MSB2_NOT 0x3FFFFFFFFFFFFFFF      // ~(x3 << 62)
+// reset 2 msb bits at 62, 61.
+#define ALDER_ENCODE_NUMBER2_MSB4_NOT 0xCFFFFFFFFFFFFFFF      // ~(x3 << 60);
+#define ALDER_ENCODE_NUMBER2_MSB2     0xC000000000000000
+
+// ~(x3 << k * 2);
+static uint64_t alder_encode_number2_2not[31] = {
+    0xFFFFFFFFFFFFFFFC,
+    0xFFFFFFFFFFFFFFF3,
+    0xFFFFFFFFFFFFFFCF,
+    0xFFFFFFFFFFFFFF3F,
+    0xFFFFFFFFFFFFFCFF,
+    0xFFFFFFFFFFFFF3FF,
+    0xFFFFFFFFFFFFCFFF,
+    0xFFFFFFFFFFFF3FFF,
+    0xFFFFFFFFFFFCFFFF,
+    0xFFFFFFFFFFF3FFFF,
+    0xFFFFFFFFFFCFFFFF,
+    0xFFFFFFFFFF3FFFFF,
+    0xFFFFFFFFFCFFFFFF,
+    0xFFFFFFFFF3FFFFFF,
+    0xFFFFFFFFCFFFFFFF,
+    0xFFFFFFFF3FFFFFFF,
+    0xFFFFFFFCFFFFFFFF,
+    0xFFFFFFF3FFFFFFFF,
+    0xFFFFFFCFFFFFFFFF,
+    0xFFFFFF3FFFFFFFFF,
+    0xFFFFFCFFFFFFFFFF,
+    0xFFFFF3FFFFFFFFFF,
+    0xFFFFCFFFFFFFFFFF,
+    0xFFFF3FFFFFFFFFFF,
+    0xFFFCFFFFFFFFFFFF,
+    0xFFF3FFFFFFFFFFFF,
+    0xFFCFFFFFFFFFFFFF,
+    0xFF3FFFFFFFFFFFFF,
+    0xFCFFFFFFFFFFFFFF,
+    0xF3FFFFFFFFFFFFFF,
+    0xCFFFFFFFFFFFFFFF
+};
+
+// int k = o->k % ALDER_NUMKMER_8BYTE;
+// k upto 999.
+static int alder_encode_number2_mod31[1000] = {
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    0, 1, 2, 3, 4, 5, 6, 7
+};
+
+// Copy from alder_bit.c
+static uint64_t alder_bit_kmer2number_matrix[32][4] = {
+    {0x0000000000000000, 0x0000000000000001, 0x0000000000000002, 0x0000000000000003},
+    {0x0000000000000000, 0x0000000000000004, 0x0000000000000008, 0x000000000000000C},
+    {0x0000000000000000, 0x0000000000000010, 0x0000000000000020, 0x0000000000000030},
+    {0x0000000000000000, 0x0000000000000040, 0x0000000000000080, 0x00000000000000C0},
+    {0x0000000000000000, 0x0000000000000100, 0x0000000000000200, 0x0000000000000300},
+    {0x0000000000000000, 0x0000000000000400, 0x0000000000000800, 0x0000000000000C00},
+    {0x0000000000000000, 0x0000000000001000, 0x0000000000002000, 0x0000000000003000},
+    {0x0000000000000000, 0x0000000000004000, 0x0000000000008000, 0x000000000000C000},
+    {0x0000000000000000, 0x0000000000010000, 0x0000000000020000, 0x0000000000030000},
+    {0x0000000000000000, 0x0000000000040000, 0x0000000000080000, 0x00000000000C0000},
+    {0x0000000000000000, 0x0000000000100000, 0x0000000000200000, 0x0000000000300000},
+    {0x0000000000000000, 0x0000000000400000, 0x0000000000800000, 0x0000000000C00000},
+    {0x0000000000000000, 0x0000000001000000, 0x0000000002000000, 0x0000000003000000},
+    {0x0000000000000000, 0x0000000004000000, 0x0000000008000000, 0x000000000C000000},
+    {0x0000000000000000, 0x0000000010000000, 0x0000000020000000, 0x0000000030000000},
+    {0x0000000000000000, 0x0000000040000000, 0x0000000080000000, 0x00000000C0000000},
+    {0x0000000000000000, 0x0000000100000000, 0x0000000200000000, 0x0000000300000000},
+    {0x0000000000000000, 0x0000000400000000, 0x0000000800000000, 0x0000000C00000000},
+    {0x0000000000000000, 0x0000001000000000, 0x0000002000000000, 0x0000003000000000},
+    {0x0000000000000000, 0x0000004000000000, 0x0000008000000000, 0x000000C000000000},
+    {0x0000000000000000, 0x0000010000000000, 0x0000020000000000, 0x0000030000000000},
+    {0x0000000000000000, 0x0000040000000000, 0x0000080000000000, 0x00000C0000000000},
+    {0x0000000000000000, 0x0000100000000000, 0x0000200000000000, 0x0000300000000000},
+    {0x0000000000000000, 0x0000400000000000, 0x0000800000000000, 0x0000C00000000000},
+    {0x0000000000000000, 0x0001000000000000, 0x0002000000000000, 0x0003000000000000},
+    {0x0000000000000000, 0x0004000000000000, 0x0008000000000000, 0x000C000000000000},
+    {0x0000000000000000, 0x0010000000000000, 0x0020000000000000, 0x0030000000000000},
+    {0x0000000000000000, 0x0040000000000000, 0x0080000000000000, 0x00C0000000000000},
+    {0x0000000000000000, 0x0100000000000000, 0x0200000000000000, 0x0300000000000000},
+    {0x0000000000000000, 0x0400000000000000, 0x0800000000000000, 0x0C00000000000000},
+    {0x0000000000000000, 0x1000000000000000, 0x2000000000000000, 0x3000000000000000},
+    {0x0000000000000000, 0x4000000000000000, 0x8000000000000000, 0xC000000000000000}
+};
+
+#pragma mark version2
+
+int alder_encode_number2_test()
+{
+
+    alder_encode_number2_t *n1 = alder_encode_number2_createWithKmer(4);
+    
+    n1->n[0].key8[0] = 1;
+    n1->n[0].key8[1] = 2;
+    
+    fprintf(stdout, "%llu\n", n1->n[0].key64);
+    
+    alder_encode_number2_reset(n1);
+    n1->n[0].key64 = 312;
+    for (int i = 0; i < 8; i++) {
+        fprintf(stdout, "[%d] %d\n", i, n1->n[0].key8[i]);
+    }
+    alder_encode_number2_destroy(n1);
+    
+    for (int i = 1; i < 64; i++) {
+        int b = alder_encode_number2_bytesize(i);
+        n1 = alder_encode_number2_createWithKmer(i);
+        fprintf(stdout, "[%02d] %d - (kmer) %d\n", i, b, n1->b);
+        alder_encode_number2_destroy(n1);
+    }
+    return 0;
+}
+
+alder_encode_number2_t * alder_encode_number2_createWithKmer(int kmer_size)
+{
+    int n_uint64 = ALDER_BYTESIZE_KMER(kmer_size,ALDER_NUMKMER_8BYTE);
+    alder_encode_number2_t *o = malloc(sizeof(*o)*n_uint64);
+    ALDER_RETURN_NULL_IF_NULL(o);
+    memset(o, 0, sizeof(*o)*n_uint64);
+    o->n = malloc(sizeof(*o->n)*n_uint64);
+    if (o->n == NULL) {
+        alder_encode_number2_destroy(o);
+        return NULL;
+    }
+    memset(o->n, 0, sizeof(*o->n) * n_uint64);
+    o->s = n_uint64;
+    o->k = kmer_size;
+    
+    o->b = alder_encode_number2_bytesize(kmer_size);
+    
+//    // x = 1 -> 0, 2 -> 0, ..., 30 -> 0, 31 -> 0, 32 -> 1, ...
+//    int x;
+//    if (kmer_size % ALDER_NUMKMER_8BYTE) {
+//        x = kmer_size / ALDER_NUMKMER_8BYTE;
+//    } else {
+//        x = kmer_size / ALDER_NUMKMER_8BYTE - 1;
+//    }
+//    assert(x == n_uint64 - 1);
+//    // y = 1 -> 1, 2 -> 2, ..., 30 -> 30, 31 -> 31, 32 -> 1, ...
+//    int y;
+//    if (kmer_size % ALDER_NUMKMER_8BYTE) {
+//        y = kmer_size % ALDER_NUMKMER_8BYTE;
+//    } else {
+//        y = ALDER_NUMKMER_8BYTE;
+//    }
+////    assert(y == ((kmer_size - 1) % ALDER_NUMKMER_8BYTE));
+//    o->b = ALDER_BYTESIZE_KMER(y,4) + x * 8;
+    return o;
+}
+
+void alder_encode_number2_destroy(alder_encode_number2_t *o)
+{
+    if (o != NULL) {
+        XFREE(o->n);
+        XFREE(o);
+    }
+}
+
+int alder_encode_number2_bytesize(int K)
+{
+    int x = ALDER_BYTESIZE_KMER(K,ALDER_NUMKMER_8BYTE) - 1;
+//    int y = (K - 1) % ALDER_NUMKMER_8BYTE;
+    int y = K % ALDER_NUMKMER_8BYTE ? K % ALDER_NUMKMER_8BYTE : ALDER_NUMKMER_8BYTE;
+    int b = ALDER_BYTESIZE_KMER(y,4) + x * 8;
+    return b;
+}
+
+/**
+ *  This function adjusts the size of a buffer so that encoded kmers can fit
+ *  to the buffer.
+ *
+ *  @param kmer_size kmer size
+ *  @param size_buf  buffer size
+ *
+ *  @return adjusted buffer size
+ */
+size_t
+alder_encode_number2_adjustBufferSizeForKmer(int K, size_t s)
+{
+    int b = alder_encode_number2_bytesize(K);
+    s = s / b * b;
+    return s;
+}
+
+/**
+ *  This function resets the value of the number.
+ *
+ *  @param o number
+ */
+void alder_encode_number2_reset(alder_encode_number2_t *o)
+{
+    memset(o->n, 0, sizeof(*o->n) * o->s);
+}
+
+int alder_encode_number2_shiftLeftWith(alder_encode_number2_t *o, int b)
+{
+#if !defined(ALDER_ORIGINAL)
+    uint64_t carryover = b;
+    for (int i = 0; i < o->s; i++) {
+        uint64_t ni = o->n[i].key64;
+        uint64_t msb2 = ni & ALDER_ENCODE_NUMBER2_MSB2;
+        uint64_t msb4 = (ni >> 60) & ALDER_ENCODE_NUMBER2_LSB2;
+        
+        ni <<= 2;
+        // Reset the left-most character to null: used to be here.
+        ni &= ALDER_ENCODE_NUMBER2_MSB2_NOT;  // reset 2 msb bits.
+        o->n[i].key64 = ni | msb2 | carryover; // replace 2 lsb bits with carryover.
+                                               // replace 2 msb bits with msb2.
+        carryover = msb4;
+    }
+    // Reset the left-most character to null.
+    int k;
+    if (o->k <= 999) {
+        k = alder_encode_number2_mod31[o->k];
+    } else {
+        k = o->k % ALDER_NUMKMER_8BYTE;
+    }
+    o->n[o->s - 1].key64 &= alder_encode_number2_2not[k];
+#else
+    const uint64_t x3 = 3;
+    uint64_t carryover = b;
+    for (int i = 0; i < o->s; i++) {
+        uint64_t ni = o->n[i].key64;
+        uint64_t msb2 = (ni >> 62) & x3;
+        uint64_t msb4 = (ni >> 60) & x3;
+        ni <<= 2;
+        // Reset the left-most character to null.
+        if (i == o->s - 1) {
+            int k = o->k % ALDER_NUMKMER_8BYTE;
+            ni &= ~(x3 << k * 2);       // reset 2 bits.
+        }
+        ni |= carryover;    // replace 2 lsb bits with carryover.
+        ni &= ~(x3 << 62);  // reset 2 msb bits.
+        ni |= (msb2 << 62); // replace 2 msb bits with msb2.
+        carryover = msb4;
+        o->n[i].key64 = ni;
+    }
+#endif
+    return 0;
+}
+
+int alder_encode_number2_shiftRightWith(alder_encode_number2_t *o, int b)
+{
+#if !defined(ALDER_ORIGINAL)
+    uint64_t carryover;
+    for (int i = 0; i < o->s; i++) {
+        if (i == o->s - 1) {
+            carryover = b;
+        } else {
+            uint64_t ni2 = o->n[i+1].key64;
+            carryover = ni2 & ALDER_ENCODE_NUMBER2_LSB2;
+        }
+        
+        uint64_t ni = o->n[i].key64;
+        uint64_t msb2 = ni & ALDER_ENCODE_NUMBER2_MSB2;
+        ni >>= 2;
+        
+        int k;
+        if (i < o->s - 1) {
+//            ni &= ALDER_ENCODE_NUMBER2_MSB4_NOT; // reset 2 msb bits at 62, 61.
+            k = 30;
+        } else {
+            if (o->k <= 999) {
+                k = alder_encode_number2_mod31[o->k - 1];
+            } else {
+                k = (o->k - 1) % ALDER_NUMKMER_8BYTE;
+            }
+        }
+        ni = ni & alder_encode_number2_2not[k] & ALDER_ENCODE_NUMBER2_MSB2_NOT;  // reset 2 msb bits.
+        o->n[i].key64 = ni | alder_bit_kmer2number_matrix[k][carryover] | msb2;
+    }
+#else
+    const uint64_t x3 = 3;
+    uint64_t carryover;
+    for (int i = 0; i < o->s; i++) {
+        if (i == o->s - 1) {
+            carryover = b;
+        } else {
+            uint64_t ni2 = o->n[i+1].key64;
+            uint64_t lsb2 = ni2 & x3;
+            carryover = lsb2;
+        }
+        
+        uint64_t ni = o->n[i].key64;
+        uint64_t msb2 = (ni >> 62) & x3;
+        ni >>= 2;
+        
+        if (i == o->s - 1) {
+            int k = (o->k - 1) % ALDER_NUMKMER_8BYTE;
+            ni &= ~(x3 << k * 2);       // reset 2 bits.
+            ni |= (carryover << k * 2); // replace them with carryover.
+        } else {
+            ni &= ~(x3 << 60);       // reset 2 msb bits at 62, 61.
+            ni |= (carryover << 60); // replace them with carryover.
+        }
+        
+        ni &= ~(x3 << 62);  // reset 2 msb bits.
+        ni |= (msb2 << 62); // replace 2 msb bits with msb2.
+        
+        o->n[i].key64 = ni;
+    }
+#endif
+    return 0;
+}
+
+uint64_t alder_encode_number2_hash(alder_encode_number2_t *o)
+{
+    return alder_hash_code01(*(uint64_t**)&o->n, o->s);
+//    uint64_t x = alder_hash_code00((*(uint64_t**)&o->n)[0]);
+//    for (int i = 1; i < o->s; i++) {
+//        x += (i * alder_hash_code00(o->n[i].key64));
+//    }
+//    return x;
+}
+
+int alder_encode_number2_kmer(alder_encode_number2_t *o, uint8_t *kmer)
+{
+    int kmer_size = o->k;
+    int ni = o->s - 1;
+    uint64_t x = 0;
+    for (int i = 0; i < kmer_size; i++) {
+        x |= (uint64_t)kmer[i];
+        if ((kmer_size - i - 1) % ALDER_NUMKMER_8BYTE == 0) {
+            o->n[ni--].key64 = x;
+            x = 0;
+        } else {
+            x <<= 2;
+        }
+    }
+    assert(ni == -1);
+    return 0;
+}
+
+/**
+ *  This function prints the encoded number in a meaningful way.
+ *
+ *  @param o encoded number
+ *
+ *  @return SUCCESS or FAIL
+ */
+int alder_encode_number2_log(alder_encode_number2_t *o)
+{
+    int kmer_size = o->k;
+    
+    uint64_t x1 = 1;
+    bstring s = bfromcstr("");
+    for (int i = o->s - 1; i >= 0; i--) {
+        uint64_t x = o->n[i].key64;
+        bconchar(s, '\n');
+        bconchar(s, '[');
+        bconchar(s, i + 48);
+        bconchar(s, ']');
+        for (int j = 63; j >= 0; j--) {
+            if ((j + 1) % 8 == 0) {
+                bconchar(s, ' ');
+            }
+            if (((x >> j) & x1) == x1) {
+                bconchar(s, '1');
+            } else {
+                bconchar(s, '0');
+            }
+        }
+    }
+    alder_log4("n: %s", bdata(s));
+    
+    int kmer_pos = kmer_size % ALDER_NUMKMER_8BYTE;
+    uint64_t x3 = 3;
+    btrunc(s, 0);
+    for (int i = o->s - 1; i >= 0; i--) {
+        uint64_t x = o->n[i].key64;
+        bconchar(s, '\n');
+        bconchar(s, '[');
+        bconchar(s, i + 48);
+        bconchar(s, ']');
+        for (int j = 31; j >= 0; j--) {
+            if ((j + 1) % 8 == 0) {
+                bconchar(s, ' ');
+            }
+            uint64_t xc = (x >> j*2) & x3;
+            if (j == 31) {
+                if (xc == 0) {
+                    bconchar(s, 'O');
+                } else {
+                    bconchar(s, 'X');
+                }
+            } else {
+                if (i < o->s - 1 || kmer_pos > j) {
+                    if (xc == 0) {
+                        bconchar(s, 'A');
+                    } else if (xc == 1) {
+                        bconchar(s, 'C');
+                    } else if (xc == 2) {
+                        bconchar(s, 'T');
+                    } else if (xc == 3) {
+                        bconchar(s, 'G');
+                    }
+                } else {
+                    bconchar(s, '?');
+                }
+            }
+        }
+    }
+    alder_log4("n: %s", bdata(s));
+    bdestroy(s);
+    return 0;
+}
+
+
+
+#pragma mark version1
+
 /* This function tests features of alder_encode_number.
  * returns
  * 0 on success
@@ -50,8 +491,8 @@ int alder_encode_number_test()
     bdestroy(bkmer);
     alder_encode_number_destroy(n1);
     
-    uint64_t x = 10347427875802419272LLU;
-    x = x % 23;
+//    uint64_t x = 10347427875802419272LLU;
+//    x = x % 23;
     
     // AGAGAACATCTTGATATAAAGTGTA
     // TACACTTTATATCAAGATGTTCTCT
@@ -304,6 +745,87 @@ void alder_encode_number_destroy_view(alder_encode_number_t *o)
  * j_n is the index of the current bit.
  */
 void alder_encode_number_packwrite_buffer(uint8_t *buf, size_t *pn_buf,
+                                          alder_encode_number_t *n1,
+                                          alder_encode_number_t *n2,
+                                          int *pnk)
+{
+//    alder_encode_number_print_in_DNA(stdout, n1); fputc('\n', stdout);
+//    alder_encode_number_print_in_DNA(stdout, n2); fputc('\n', stdout);
+    // . Take ones from n2 and ...
+    // . Take ones from n1.
+    // http://www.codechef.com/wiki/tutorial-bitwise-operations
+    size_t n_buf = *pn_buf;
+    int nk = *pnk;
+    unsigned char x = 0;
+    int i_x = 0;
+    int l_n2 = nk * 2;
+    while (l_n2 > 0) {
+        int i_n = l_n2 % ALDER_NUMBIT_KMER_8BYTE ? l_n2 / ALDER_NUMBIT_KMER_8BYTE : l_n2 / ALDER_NUMBIT_KMER_8BYTE - 1;
+        uint64_t n = n2->n[i_n];
+        int j_n = l_n2 % ALDER_NUMBIT_KMER_8BYTE ? l_n2 % ALDER_NUMBIT_KMER_8BYTE - 1 : ALDER_NUMBIT_KMER_8BYTE - 1;
+
+        if (i_x == 8) {
+            assert(0);
+            *(buf + n_buf) = x;
+            n_buf++;
+            i_x = 0;
+            x = 0;
+        }
+
+        if (i_x < 8) {
+            if (n & (1ULL << j_n)) {     // Check if (j_n)-th bit is on.
+                x |= 1 << (7 - i_x);     // Set the (7 - i_x)-th bit on.
+            }
+            i_x++;
+        }
+        l_n2--;
+    }
+
+    // Now, we need to do this for n1. I use the carried-over number x.
+    // x 
+    // i_x
+    int l_n1 = n1->k * 2;
+    while (l_n1 > 0) {
+        int i_n = l_n1 % ALDER_NUMBIT_KMER_8BYTE ? l_n1 / ALDER_NUMBIT_KMER_8BYTE : l_n1 / ALDER_NUMBIT_KMER_8BYTE - 1;
+        uint64_t n = n1->n[i_n];
+        int j_n = l_n1 % ALDER_NUMBIT_KMER_8BYTE ? l_n1 % ALDER_NUMBIT_KMER_8BYTE - 1 : ALDER_NUMBIT_KMER_8BYTE - 1;
+
+        if (i_x == 8) {
+            *(buf + n_buf) = x;
+//            fprintf(stdout, "%x ", x);
+            n_buf++;
+            i_x = 0;
+            x = 0;
+        }
+
+        if (i_x < 8) {
+            if (n & (1ULL << j_n)) {     // Check if (j_n)-th bit is on.
+                x |= 1 << (7 - i_x);     // Set the (7 - i_x)-th bit on.
+            }
+            i_x++;
+        }
+        l_n1--;
+    }
+    if (i_x == 8) {
+        *(buf + n_buf) = x;
+        n_buf++;
+        i_x = 0;
+        x = 0;
+    }
+    
+    // Now, I have i_x and x. I need to put it back to n2.
+    n2->n[0] = 0;
+    for (int i = 0; i < i_x; i++) {
+        if (x & (0x01 << (7 - i))) {
+            n2->n[0] |= (1ULL << (i_x - i - 1));
+        }
+    }
+    assert(i_x % 2 == 0);
+    *pnk = i_x / 2;
+    *pn_buf = n_buf;
+}
+
+void alder_encode_number_packwrite_buffer_WORKING_VERSION1(uint8_t *buf, size_t *pn_buf,
                                           alder_encode_number_t *n1,
                                           alder_encode_number_t *n2,
                                           int *pnk)
@@ -921,11 +1443,12 @@ int alder_encode_number_copy_in_revDNA(char *s1, alder_encode_number_t *o)
  */
 uint64_t alder_encode_number_hash(alder_encode_number_t *o)
 {
-    uint64_t x = alder_hash_code00(o->n[0]);
-    for (int i = 1; i < o->s; i++) {
-        x += (i * alder_hash_code00(o->n[i]));
-    }
-    return x;
+//    uint64_t x = alder_hash_code00(o->n[0]);
+//    for (int i = 1; i < o->s; i++) {
+//        x += (i * alder_hash_code00(o->n[i]));
+//    }
+//    return x;
+    return alder_hash_code01(o->n, o->s);
 }
 
 /*

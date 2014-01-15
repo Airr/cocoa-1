@@ -40,14 +40,14 @@ int alder_fastq_length(const char* fn, int64_t *n1, int64_t *n2)
     } else {
         status = alder_fastq_length_file(fn, n1, n2);
     }
-    return 0;
+    return status;
 }
 
 int alder_fastq_length_gzip(const char* fn, int64_t *n1, int64_t *n2)
 {
     int fp = -1;
     int isGzip = 0;
-    gzFile fpgz;
+    gzFile fpgz = Z_NULL;
     isGzip = alder_file_isgzip(fn);
     if (isGzip == 1) {
         fpgz = gzopen(fn, "r");

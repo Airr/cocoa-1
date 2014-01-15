@@ -33,7 +33,7 @@ int alder_fastq_ragel_summary(struct bstrList *fs, struct bstrList *ofs)
     for (size_t i = 0; i < fs->qty; i++) {
         int fp = -1;
         int isGzip = 0;
-        gzFile fpgz;
+        gzFile fpgz = Z_NULL;
         isGzip = alder_file_isgzip(bdata(fs->entry[i]));
         if (isGzip == 1) {
             fpgz = gzopen(bdata(fs->entry[i]), "r");
@@ -64,7 +64,7 @@ int alder_fastq_ragel_summary(struct bstrList *fs, struct bstrList *ofs)
         if (fs != NULL) {
             if (isGzip == 0) {
                 close(fp);
-            } else {
+            } else if (fpgz != Z_NULL) {
                 gzclose(fpgz);
             }
         }

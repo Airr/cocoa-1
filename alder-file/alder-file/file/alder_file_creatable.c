@@ -35,7 +35,7 @@ static char * alder_path_basedir(const char *fn)
     char *dn = calloc(len_fn+1, sizeof(char));
     memcpy(dn, fn, len_fn);
     int k = (int)len_fn;
-    for (k = (int)len_fn; k >= 0; k--) {
+    for (; k >= 0; k--) {
         if (dn[k] == '/') {
             break;
         }
@@ -63,6 +63,7 @@ int alder_file_creatable(const char *fn)
     
     int status = alder_file_exist(fn);
     if (status == 1) {
+        free(dn);
         return -1;
     }
     

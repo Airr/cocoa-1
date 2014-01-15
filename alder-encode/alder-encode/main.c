@@ -42,6 +42,10 @@ int main(int argc, char * argv[])
         alder_encode_number_test();
     }
     
+    if (args_info.number2_flag) {
+        alder_encode_number2_test();
+    }
+    
 //    if (args_info.kmer_given) {
 //        alder_encode_kmer_t *kmerEncoder =
 //        alder_encode_kmer_create((int)args_info.kmer_arg,

@@ -33,6 +33,7 @@ char *slurp(const char *file, size_t *len) {
     int fd;
     if (stat(file, &s) == -1) {
         fprintf(stderr,"can't stat %s: %s\n", file, strerror(errno));
+        *len = 0;
         return NULL;
     }
     *len = s.st_size;
@@ -44,6 +45,7 @@ char *slurp(const char *file, size_t *len) {
     if (buf) {
         if (read(fd, buf,*len) != *len) {
             fprintf(stderr,"incomplete read\n");
+            free(buf);
             return NULL;
         }
     }
@@ -63,7 +65,7 @@ int alder_seq_count_kmer(const char *fn, int kmer_size, uint64_t *volume)
 {
     uint64_t n = 0;
     char *buf;
-    size_t len;;
+    size_t len;
     
     buf = slurp(fn, &len);
     

@@ -104,11 +104,11 @@ int alder_fastq_streamer(int *len_content, char *buf, char *buf2,
     assert(at_character == '@');
     ungetc(at_character, fp);
     
-    if (i_header < kmer_size) {
-        end_buf = 0;
-    } else {
-        end_buf = (int)i_header;
-    }
+//    if (i_header < kmer_size) {
+//        end_buf = 0;
+//    } else {
+//        end_buf = (int)i_header;
+//    }
     
     return 0;
 }

@@ -500,6 +500,9 @@ void bstrVectorAddBstring(struct bstrList *sl, bstring b)
 {
     if (sl->qty >= sl->mlen - 1) {
         int s = bstrListAlloc(sl, sl->mlen*2);
+        if (s != BSTR_OK) {
+            return;
+        }
         assert(s == BSTR_OK);
     }
     sl->entry[sl->qty] = b;

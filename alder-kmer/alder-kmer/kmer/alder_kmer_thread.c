@@ -180,12 +180,6 @@ kmerrw_streamer(alder_kmer_kmerrw_t* o);
 //static size_t
 //adjust_buffer_size_for_packed_kmer(int kmer_size, size_t size_buf);
 
-static size_t buffer_size_for_packed_kmer(int n_thread,
-                                          int kmer_size,
-                                          long memory_available,
-                                          uint64_t np,
-                                          size_t nh,
-                                          size_t parfilesize);
 
 static void
 let_all_counters_exit(alder_kmer_kmerrw_t *a,
@@ -215,6 +209,8 @@ static pthread_cond_t *kmerrw2counter_cv;
 static int selected_counter;
 static void *kmerrw(void *t);
 static void *counter(void *t);
+
+#pragma mark main
 
 /* This function creates `n_thread' threads to read `n_np' partitioned files in
  * `outdir' with k-mers of size being `kmer_size' and to create a count table.
@@ -465,18 +461,19 @@ static void *kmerrw(void *t)
         XFCLOSE(a->fpin);
         alder_log5("kmerrw(): saving the hash table (partition:%d)", i_np);
         
-        if (a->nopack_flag) {
-            s = alder_hashtable_mcas_print_with_FILE(a->ht, a->fpout);
-            if (s != 0) {
-                alder_loge(ALDER_ERR_HASH, "cannot save the hash table");
-            }
-        } else {
-            s_status = alder_hashtable_mcas_printPackToFILE(a->ht, a->fpout);
-            if (s_status < 0) {
-                alder_loge(ALDER_ERR_HASH, "cannot save the hash table");
-            }
-            s_count += s_status;
+        /* Print the elements in the current partition. */
+        s_status = alder_hashtable_mcas_printPackToFILE(a->ht, a->fpout);
+        if (s_status < 0) {
+            alder_loge(ALDER_ERR_HASH, "cannot save the hash table");
         }
+        s_count += s_status;
+        /* Print the number of elements in the current partition. */
+        s = alder_hashtable_mcas_printCountPerPartition(a->fpout,
+                                                        s_status,
+                                                        a->i_ni,
+                                                        i_np,
+                                                        a->n_np);
+        assert(s == ALDER_STATUS_SUCCESS);
         
         let_all_counters_wait(a);
     }
@@ -869,7 +866,7 @@ int alder_kmer_kmrwc_open_partition(alder_kmer_kmerrw_t *o, uint64_t i_np)
                         o->i_ni, i_np);
         if (bfpar == NULL) return ALDER_STATUS_ERROR;
     } else {
-        assert(o->i_ni == -1);
+//        assert(o->i_ni == -1);
         bfpar = bstrcpy(o->infile->entry[i_np]);
         if (bfpar == NULL) return ALDER_STATUS_ERROR;
     }
@@ -918,13 +915,13 @@ size_t buffer_size_for_packed_kmer(int n_thread,
                                    size_t nh,
                                    size_t parfilesize)
 {
-    int stride = ALDER_BYTESIZE_KMER(kmer_size,ALDER_NUMKMER_8BYTE);
-    size_t z_memory_available = memory_available * ALDER_MB2BYTE;
-    size_t z_hashtable_size = (sizeof(uint64_t) * stride + sizeof(uint16_t)) * nh;
-    
-    size_t size_buf = (z_memory_available - z_hashtable_size) / (n_thread + 1);
-    
-    size_buf = parfilesize/np/n_thread*2;
+//    int stride = ALDER_BYTESIZE_KMER(kmer_size,ALDER_NUMKMER_8BYTE);
+//    size_t z_memory_available = memory_available * ALDER_MB2BYTE;
+//    size_t z_hashtable_size = (sizeof(uint64_t) * stride + sizeof(uint16_t)) * nh;
+//    
+//    size_t size_buf = (z_memory_available - z_hashtable_size) / (n_thread + 1);
+
+    size_t size_buf = parfilesize/np/n_thread*2;
     if (size_buf > (1 << 26)) {
         size_buf = 1 << 26;
     }

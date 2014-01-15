@@ -390,7 +390,7 @@ alder_hashtable_dsk_t * alder_hashtable_dsk_load(const char *fn)
     XFREE(empty_key);
     alder_hashtable_dsk_destroy(o);
     close(fildes);
-    return o;
+    return NULL;
 }
 
 

@@ -129,7 +129,7 @@ alder_fasta_sequenceiterator_open(alder_fasta_sequenceiterator_t *o,
 {
     int fp = -1;
     int isGzip = 0;
-    gzFile fpgz;
+    gzFile fpgz = Z_NULL;
     if (fn == NULL) {
         fp = STDIN_FILENO;
     } else {

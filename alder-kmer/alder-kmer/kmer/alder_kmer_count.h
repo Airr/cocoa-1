@@ -37,7 +37,8 @@
 __BEGIN_DECLS
 
 int
-alder_kmer_count(int K, long totalmaxkmer, long D, long M, long F,
+alder_kmer_count(long version,
+                 int K, long totalmaxkmer, long D, long M, long F,
                  long sizeInbuffer,
                  long sizeOutbuffer,
                  int n_ni, int n_np,
@@ -53,7 +54,8 @@ alder_kmer_count(int K, long totalmaxkmer, long D, long M, long F,
                  const char *outfile);
 
 int
-alder_kmer_count_withPartition(int i_ni, int K, long D, long M, long F,
+alder_kmer_count_withPartition(long version,
+                               int i_ni, int K, long M, long F,
                                long sizeInbuffer,
                                long sizeOutbuffer,
                                int n_ni, int n_np,
@@ -66,7 +68,8 @@ alder_kmer_count_withPartition(int i_ni, int K, long D, long M, long F,
                                const char *outfile);
 
 int
-alder_kmer_partition(int K, long D, long M, long F,
+alder_kmer_partition(long version,
+                     int K, long D, long M, long F,
                      long sizeInbuffer,
                      long sizeOutbuffer,
                      int n_ni, int n_np,
@@ -77,12 +80,6 @@ alder_kmer_partition(int K, long D, long M, long F,
                      struct bstrList *infile, const char *outdir,
                      const char *outfile);
 
-int
-alder_hashtable_mcas_print_header_with_FILE(FILE *fp,
-                                            int kmer_size,
-                                            int hashtable_size,
-                                            uint64_t n_ni,
-                                            uint64_t n_np);
 
 
 __END_DECLS

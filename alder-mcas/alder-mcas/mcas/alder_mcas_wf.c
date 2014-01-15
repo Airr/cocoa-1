@@ -13,7 +13,9 @@
  * bool call_mcas(int count, void **address, void *old_v, void *new_v, ...){
  */
 #include "alder_mcas_wf.h"
+#ifndef NDEBUG
 #define NDEBUG
+#endif
 #ifndef INLINE
 #define INLINE static inline
 #endif
@@ -407,7 +409,9 @@ INLINE BOOL shouldReplace(void *expectedValue, void *mch_m){
 void cleanup_mcas(CasRow *mcas, BOOL passed, CasRow * lastRow){
 	//Acquire address
     
+#ifdef DEBUG
 	void **omcas=(void **)mcas;
+#endif
 	for(mcas=mcas; mcas <= lastRow; mcas++){
 		void *mch=mcas->mch;
 		if(mch == (void *)~(0x0)){

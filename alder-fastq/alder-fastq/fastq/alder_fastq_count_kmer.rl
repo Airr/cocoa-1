@@ -20,12 +20,11 @@
 #include <zlib.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "alder_cmacro.h"
+#include "bzlib.h"
 #include "alder_file.h"
 #include "alder_progress.h"
 #include "alder_fastq_count_kmer.h"
-
-/* 8MB */
-#define BUFSIZE 8388608
 
 /* See https://github.com/lomereiter/bioragel/blob/master/examples/d/fastq.rl
  */
@@ -58,125 +57,94 @@
     write data;
 }%%
 
-static int alder_fastq_count_kmer_file(const char *fn, int kmer_size,
-                                       size_t *curBufsize, size_t totalBufsize,
-                                       uint64_t *volume,
-                                       int progress_flag,
-                                       int progressToError_flag);
-static int alder_fastq_count_kmer_gzip(const char *fn, int kmer_size,
-                                       size_t *curBufsize, size_t totalBufsize,
-                                       uint64_t *volume,
-                                       int progress_flag,
-                                       int progressToError_flag);
 
-/* This function counts kmers (size of kmer_size) in a fastq file.
- * returns
- * 0 on success
- * 1 if an error occurs.
+/**
+ *  This funciton counts the number of DNA letters to compute the maximum
+ *  number of Kmers in the file.
+ *
+ *  @param fn                   file name
+ *  @param kmer_size            kmer size
+ *  @param curBufsize           for displaying progress
+ *  @param totalBufsize         for displaying progress
+ *  @param volume               number of kmer
+ *  @param progress_flag        progress
+ *  @param progressToError_flag progress to std err
+ *
+ *  @return SUCCESS or FAIL
  */
 int alder_fastq_count_kmer(const char *fn, int kmer_size,
                            size_t *curBufsize, size_t totalBufsize,
                            uint64_t *volume,
                            int progress_flag, int progressToError_flag)
 {
-    int s = alder_file_isgzip(fn);
-    if (s) {
-        alder_fastq_count_kmer_gzip(fn, kmer_size, curBufsize, totalBufsize,
-                                    volume, progress_flag, progressToError_flag);
+    %% machine fastqKmer;
+    int cs;
+    
+    int isGzip = alder_file_isgzip(fn);
+    int isBzip = alder_file_isbzip2(fn);
+    *volume = 0;
+    uint64_t t1 = 0;
+    
+    gzFile fpgz = Z_NULL;
+    BZFILE *fpbz = NULL;
+    FILE *fp = NULL;
+    
+    if (isGzip == ALDER_YES) {
+        fpgz = gzopen(fn, "r");
+    } else if (isBzip == ALDER_YES) {
+        fpbz = BZ2_bzopen(fn, "r");
     } else {
-        alder_fastq_count_kmer_file(fn, kmer_size, curBufsize, totalBufsize,
-                                    volume, progress_flag, progressToError_flag);
+        fp = fopen(fn, "r");
     }
-    return s;
-}
-
-static int alder_fastq_count_kmer_file(const char *fn, int kmer_size,
-                                       size_t *curBufsize, size_t totalBufsize,
-                                       uint64_t *volume,
-                                       int progress_flag,
-                                       int progressToError_flag)
-{
-    %% machine fastqKmer;
-    int cs;
-    char *buf = malloc(sizeof(*buf) * BUFSIZE);
-    memset(buf,0,sizeof(*buf) * BUFSIZE);
-    *volume = 0;
-    uint64_t t1 = 0;
-    
-    FILE *fp = fopen(fn, "r");
-    if (fp == NULL) {
+    if (fpgz == Z_NULL && fpbz == NULL && fp == NULL) {
         fprintf(stderr, "Error: could not open %s\n", fn);
         return 1;
     }
+    char *buf = malloc(sizeof(*buf) * ALDER_BUFSIZE_8MB);
+    memset(buf,0,sizeof(*buf) * ALDER_BUFSIZE_8MB);
+    
     %% write init;
     while ( 1 ) {
         char *p;
         char *pe;
         char *eof;
-        size_t len = fread(buf, sizeof(char), BUFSIZE, fp);
+        int len;
+        
+        if (totalBufsize <= *curBufsize) {
+            break;
+        }
+        if (isGzip == ALDER_YES) {
+            len = gzread(fpgz, buf, ALDER_BUFSIZE_8MB);
+        } else if (isBzip == ALDER_YES) {
+            len = BZ2_bzread(fpbz, buf, ALDER_BUFSIZE_8MB);
+        } else {
+            len = (int)fread(buf, sizeof(char), ALDER_BUFSIZE_8MB, fp);
+        }
+        if (len <= 0) {
+            break;
+        }
         *curBufsize += len;
         if (progress_flag) {
             alder_progress_step(*curBufsize, totalBufsize, progressToError_flag);
         }
-        if (len == 0) {
-            break;
-        }
+        
         p = buf;
         pe = buf + len;
-        if (len < BUFSIZE) {
+        if (len < ALDER_BUFSIZE_8MB) {
             eof = pe;
         }
         %% write exec;
     }
-    fclose(fp);
-    free(buf);
-    return 0;
-}
-
-static int alder_fastq_count_kmer_gzip(const char *fn, int kmer_size,
-                                       size_t *curBufsize, size_t totalBufsize,
-                                       uint64_t *volume,
-                                       int progress_flag,
-                                       int progressToError_flag)
-{
-    %% machine fastqKmer;
-    int cs;
-    char *buf = malloc(sizeof(*buf) * BUFSIZE);
-    memset(buf,0,sizeof(*buf) * BUFSIZE);
-    *volume = 0;
-    uint64_t t1 = 0;
     
-    gzFile fp = gzopen(fn, "r");
-//    FILE *fp = fopen(fn, "r");
-    if (fp == NULL) {
-        fprintf(stderr, "Error: could not open %s\n", fn);
-        return 1;
+    if (isGzip == ALDER_YES) {
+        gzclose(fpgz);
+        fpgz = Z_NULL;
+    } else if (isBzip == ALDER_YES) {
+        BZ2_bzclose(fpbz);
+        fpbz = NULL;
+    } else {
+        XFCLOSE(fp);
     }
-    %% write init;
-    while ( 1 ) {
-        char *p;
-        char *pe;
-        char *eof;
-        int len = gzread ((gzFile)fp, buf, BUFSIZE);
-//        size_t len = fread(buf, sizeof(char), BUFSIZE, fp);
-        *curBufsize += len;
-        if (progress_flag) {
-            alder_progress_step(*curBufsize, totalBufsize, progressToError_flag);
-        }
-        if (len < 0) {
-            break;
-        } else if (len == 0) {
-            break;
-        }
-        p = buf;
-        pe = buf + len;
-        if (len < BUFSIZE) {
-            eof = pe;
-        }
-        %% write exec;
-    }
-    gzclose(fp);
-//    fclose(fp);
     free(buf);
     return 0;
 }

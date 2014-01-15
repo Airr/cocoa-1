@@ -8,3 +8,4 @@ option "log" - "Log file" string typestr="file" default="alder-encode.log" optio
 option "kmer" - "Encode kmer" long typestr="1-128" default="1" optional
 option "seq" - "A sequence" string typestr="ACGT..." default="ACGT" optional
 option "number" - "Test of number" flag off
+option "number2" - "Test of number version2" flag off

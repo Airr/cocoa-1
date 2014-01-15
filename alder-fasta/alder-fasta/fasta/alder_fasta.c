@@ -26,7 +26,6 @@
 #include "alder_file.h"
 #include "bstrmore.h"
 #include "alder_fasta.h"
-//#include <gsl/gsl_errno.h>
 
 #define BUFSIZE 1000000
 enum { GFFELEMENTSIZE = 100 };

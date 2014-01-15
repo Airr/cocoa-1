@@ -18,34 +18,35 @@
 */
 
 #include <stdio.h>
+#include "alder_cmacro.h"
 #include "alder_file_isgzip.h"
 
 /**
- * Return:
- * -1 could not open the file fn.
- * 1  file fn is a gzip file.
- * 0  file fn is not a gzip file.
- * 0  file fn is nil.
+ *  This function tests whether a file is gzipped.
+ *
+ *  @param fn file name
+ *
+ *  @return YES if so, NO otherwise.
  */
 int alder_file_isgzip(const char *fn)
 {
     if (fn == NULL) {
-        return 0;
+        return ALDER_FILE_NO;
     }
     FILE *fp = fopen(fn, "rb");
     if (fp == NULL) {
-        return -1;
+        return ALDER_FILE_NO;
     }
     unsigned char c1, c2;
     size_t n = fread (&c1, sizeof (char), 1, fp);
-    if (n != 1) return -1;
+    if (n != 1) return ALDER_FILE_NO;
     n = fread (&c2, sizeof (char), 1, fp);
-    if (n != 1) return -1;
+    if (n != 1) return ALDER_FILE_NO;
     fclose(fp);
     
     if (c1 == 0x1f && c2 == 0x8b) {
-        return 1;
+        return ALDER_FILE_YES;
     } else {
-        return 0;
+        return ALDER_FILE_NO;
     }
 }

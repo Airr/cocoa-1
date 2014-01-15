@@ -50,6 +50,13 @@ inline char alder_dna_int2char(int i)
     }
 }
 
+/**
+ *  This function returns the integer for a nucleotide letter.
+ *
+ *  @param c A, C, T, or G.
+ *
+ *  @return 0 (A), 1 (C), 2 (T), 3 (G), 4 otherwise.
+ */
 inline int alder_dna_char2int(char c)
 {
     switch (c) {

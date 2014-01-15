@@ -58,7 +58,52 @@ int alder_kmer_count_iteration(FILE *fpout,
                                const char *outfile);
 
 
+int alder_kmer_count_iteration2(FILE *fpout,
+                               int n_thread,
+                               int i_ni,
+                               int kmer_size,
+                               long memory_available,
+                               long sizeInbuffer,
+                               uint64_t n_ni,
+                               uint64_t n_np,
+                               size_t n_nh,
+                               size_t totalfilesize,
+                               size_t *n_byte,
+                               size_t *n_hash,
+                               int progress_flag,
+                               int progressToError_flag,
+                               int nopack_flag,
+                               struct bstrList *infile,
+                               const char *outdir,
+                               const char *outfile);
 
+int alder_kmer_count_iteration3(FILE *fpout,
+                               int n_thread,
+                               int i_ni,
+                               int kmer_size,
+                               long memory_available,
+                               long sizeInbuffer,
+                               uint64_t n_ni,
+                               uint64_t n_np,
+                               size_t n_nh,
+                               size_t totalfilesize,
+                               size_t *n_byte,
+                               size_t *n_hash,
+                               int progress_flag,
+                               int progressToError_flag,
+                               int nopack_flag,
+                               struct bstrList *infile,
+                               const char *outdir,
+                               const char *outfile);
+
+#pragma mark common
+
+size_t buffer_size_for_packed_kmer(int n_thread,
+                                   int kmer_size,
+                                   long memory_available,
+                                   uint64_t np,
+                                   size_t nh,
+                                   size_t parfilesize);
 __END_DECLS
 
 
