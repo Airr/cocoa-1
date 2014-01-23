@@ -117,6 +117,8 @@
 #include "alder_hashtable_mcas.h"
 #include "alder_kmer_encode.h"
 
+#define ALDER_KMER_SECONDARY_BUFFER_SIZE         1000
+
 typedef struct alder_kmer_encoder_struct alder_kmer_encoder_t;
 typedef struct alder_kmer_readwriter_struct alder_kmer_readwriter_t;
 

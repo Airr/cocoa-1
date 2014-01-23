@@ -95,6 +95,7 @@
  *  sub buffer is denoted by size_subinbuf and size_suboutbuf.
  */
 
+#define ALDER_KMER_SECONDARY_BUFFER_SIZE         1000
 #define ALDER_KMER_ENCODER2_OUTBUFFER_HEADER     1
 #define ALDER_KMER_ENCODER2_OUTSUBBUFFER_HEADER  8
 

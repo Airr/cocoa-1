@@ -76,7 +76,8 @@ int main(int argc, char * argv[])
         alder_file_memory_test();
     }
     if (args_info.io_flag) {
-        alder_file_io_test01();
+        alder_file_io_test03(args_info.inputs[0]);
+//        alder_file_io_test01();
 //        alder_file_io_test();
     }
     

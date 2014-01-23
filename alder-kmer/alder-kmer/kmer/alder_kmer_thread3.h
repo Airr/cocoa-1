@@ -66,13 +66,16 @@ struct alder_kmer_thread3_struct {
     int lock_reader;
     int lock_writer;
     /* reader */
+    size_t next_lenbuf;
+    uint8_t *next_inbuf;         /* inbuf - input buffer                     */
+    
     size_t reader_lenbuf;
     int reader_i_parfile;
     
     /* buffer */
+    size_t size_subinbuf;        /* size of each divided buffer              */
     size_t size_inbuf;           /* size_inbuf - size of the input buffer    */
     size_t n_subbuf;             /* number of divided buffers in inbuf       */
-    size_t size_subinbuf;        /* size of each divided buffer              */
     uint8_t *inbuf;              /* inbuf - input buffer                     */
     int *n_blockByReader;        /* [n_np] input buffer blocks               */
     int *n_blockByCounter;       /* [n_np] input buffer blocks               */

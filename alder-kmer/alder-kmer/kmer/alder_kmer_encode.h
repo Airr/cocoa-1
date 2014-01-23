@@ -100,6 +100,41 @@ alder_kmer_encode3(int n_thread,
                    const char *outdir,
                    const char *outfile);
 
+int
+alder_kmer_encode4(int n_thread,
+                   int i_iteration,
+                   int kmer_size,
+                   long disk_space,
+                   long memory_available,
+                   long sizeInbuffer,
+                   long sizeOutbuffer,
+                   uint64_t n_iteration,
+                   uint64_t n_partition,
+                   size_t totalfilesize,
+                   size_t *n_byte,
+                   int progress_flag,
+                   int progressToError_flag,
+                   struct bstrList *infile,
+                   const char *outdir,
+                   const char *outfile);
+
+int
+alder_kmer_encode5(int n_thread,
+                   int i_iteration,
+                   int kmer_size,
+                   long disk_space,
+                   long memory_available,
+                   long sizeInbuffer,
+                   long sizeOutbuffer,
+                   uint64_t n_iteration,
+                   uint64_t n_partition,
+                   size_t totalfilesize,
+                   size_t *n_byte,
+                   int progress_flag,
+                   int progressToError_flag,
+                   struct bstrList *infile,
+                   const char *outdir,
+                   const char *outfile);
 __END_DECLS
 
 

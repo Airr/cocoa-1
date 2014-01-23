@@ -40,12 +40,58 @@ alder_hash_test_00()
     for (int i = 0; i < 1 << len; i++) {
         n[0]++;
         n[1]++;
-        alder_hash_code02(n, N);
+//        alder_hash_code02(n, N);
     }
    
    
 //    printf("n: %llu\n", v);
 }
+
+void alder_hash_test_01()
+{
+    uint64_t n[N] = {1313141,314234};
+    
+    int len = 28;
+//    for (int i = 0; i < 1 << len; i++) {
+    for (int i = 0; i < 1; i++) {
+        n[0]++;
+        alder_hash_code03(n[0]);
+    }
+    uint64_t y = 1313141232332LLU;
+    uint64_t x = alder_hash_code03(y);
+    printf("[3] %llu -> %llu\n", y, x);
+    uint64_t x2 = alder_hash_code04(x);
+    printf("[4] %llu -> %llu\n", x, x2);
+}
+
+void alder_hash_test_02()
+{
+    uint64_t y = 1313141232332LLU;
+    uint64_t tablesize = (1LLU << 31) + 2323;
+    
+    for (uint64_t i = 0; i < 1LLU << 37; i++) {
+//        uint64_t x = alder_hash_code03(y);
+        uint64_t x = y;
+        uint64_t z = x % tablesize;
+        z = z + i;
+//        uint64_t z = x & (tablesize - 1);
+    }
+//    uint64_t z = x % tablesize;
+//    printf("z: %llu\n", z);
+//    z = x & (tablesize - 1);
+//    printf("z: %llu\n", z);
+    
+}
+
+
+
+
+
+
+
+
+
+
 
 
 

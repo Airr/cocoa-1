@@ -621,6 +621,35 @@ alder_hashtable_mcas_printHeaderToFILE(FILE *fp,
     }
     return ALDER_STATUS_SUCCESS;
 }
+int
+alder_hashtable_mcas_printHeaderToFD(int fd,
+                                     int kmer_size,
+                                     uint64_t n_nh,
+                                     uint64_t n_ni,
+                                     uint64_t n_np)
+{
+    uint64_t t_nh = 0;
+    uint64_t v = 0;
+    ssize_t s = 0;
+    s = write(fd, &kmer_size, sizeof(kmer_size));
+    if (s != sizeof(kmer_size)) return ALDER_STATUS_ERROR;
+    s = write(fd, &n_nh, sizeof(n_nh));
+    if (s != sizeof(n_nh)) return ALDER_STATUS_ERROR;
+    s = write(fd, &n_ni, sizeof(n_ni));
+    if (s != sizeof(n_ni)) return ALDER_STATUS_ERROR;
+    s = write(fd, &n_np, sizeof(n_np));
+    if (s != sizeof(n_np)) return ALDER_STATUS_ERROR;
+    s = write(fd, &t_nh, sizeof(t_nh));
+    if (s != sizeof(t_nh)) return ALDER_STATUS_ERROR;
+    for (uint64_t i = 0; i < n_ni; i++) {
+        for (uint64_t j = 0; j < n_np; j++) {
+            s = write(fd, &v, sizeof(v));
+            if (s != sizeof(v)) return ALDER_STATUS_ERROR;
+        }
+    }
+   
+    return ALDER_STATUS_SUCCESS;
+}
 
 /**
  *  This function prints the body of a hash table.
@@ -652,12 +681,18 @@ alder_hashtable_mcas_printPackToFILE(alder_hashtable_mcas_t *o, FILE *fp)
             /*                         OPTIMIZATION                          */
             /*****************************************************************/
             int isSomeKey = ALDER_NO;
-            int i_stride;
-            for (i_stride = 0; i_stride < o->stride; i_stride++) {
-                if (key[keypos + i_stride] != ALDER_HASHTABLE_MCAS_EMPTYKEY) {
-                    isSomeKey = ALDER_YES;
-                    break;
-                }
+            
+//            int i_stride;
+//            for (i_stride = 0; i_stride < o->stride; i_stride++) {
+//                
+//                if (key[keypos + i_stride] != ALDER_HASHTABLE_MCAS_EMPTYKEY) {
+//                    isSomeKey = ALDER_YES;
+//                    break;
+//                }
+//            }
+            
+            if (value[i] > 0) {
+                isSomeKey = ALDER_YES;
             }
             /*****************************************************************/
             /*                         OPTIMIZATION                          */
@@ -687,12 +722,15 @@ alder_hashtable_mcas_printPackToFILE(alder_hashtable_mcas_t *o, FILE *fp)
             /*                         OPTIMIZATION                          */
             /*****************************************************************/
             int isSomeKey = ALDER_NO;
-            int i_stride;
-            for (i_stride = 0; i_stride < o->stride; i_stride++) {
-                if (key[keypos + i_stride] != ALDER_HASHTABLE_MCAS_EMPTYKEY) {
-                    isSomeKey = ALDER_YES;
-                    break;
-                }
+//            int i_stride;
+//            for (i_stride = 0; i_stride < o->stride; i_stride++) {
+//                if (key[keypos + i_stride] != ALDER_HASHTABLE_MCAS_EMPTYKEY) {
+//                    isSomeKey = ALDER_YES;
+//                    break;
+//                }
+//            }
+            if (value[i] > 0) {
+                isSomeKey = ALDER_YES;
             }
             /*****************************************************************/
             /*                         OPTIMIZATION                          */
@@ -720,6 +758,75 @@ alder_hashtable_mcas_printPackToFILE(alder_hashtable_mcas_t *o, FILE *fp)
     return v;
 }
 
+int64_t
+alder_hashtable_mcas_printPackToFD(alder_hashtable_mcas_t *o,
+                                   int fd,
+                                   size_t bufsize)
+{
+    int64_t v = 0;
+    size_t stride = o->stride;
+    size_t size = o->size;
+    uint64_t *key = o->key;
+    uint16_t *value = o->value;
+    size_t i_buf = 0;
+    size_t size_key = sizeof(*key) * stride;
+    size_t size_value = sizeof(*value);
+    size_t size_index = sizeof(uint32_t);
+    if (size <=  UINT32_MAX) {
+        size_index = sizeof(uint32_t);
+    } else {
+        size_index = sizeof(size_t);
+    }
+    size_t size_element = size_key + size_value + size_index;
+    uint8_t *buf = malloc(bufsize + size_element);
+    alder_encode_number_t *m = alder_encode_number_create_for_kmer_view(o->k);
+    
+    /* NOTE: I am not sure whether this would be faster.      */
+    /*       Two for-loops are the same except the type of i. */
+    if (size <= UINT32_MAX) {
+        for (uint32_t i = 0; i < size; i++) {
+            if (i_buf > bufsize) {
+                write(fd, buf, i_buf);
+                i_buf = 0;
+            }
+            if (value[i] > 0) {
+                size_t keypos = i * stride;
+                memcpy(buf + i_buf, key + keypos, size_key);
+                i_buf += size_key;
+                to_uint16(buf + i_buf, 0) = value[i];
+                i_buf += size_value;
+                to_uint32(buf + i_buf, 0) = i;
+                i_buf += size_index;
+                v++;
+            }
+        }
+    } else {
+        for (size_t i = 0; i < size; i++) {
+            if (i_buf > bufsize) {
+                write(fd, buf, i_buf);
+                i_buf = 0;
+            }
+            if (value[i] > 0) {
+                size_t keypos = i * stride;
+                memcpy(buf + i_buf, key + keypos, size_key);
+                i_buf += size_key;
+                to_uint16(buf + i_buf, 0) = value[i];
+                i_buf += size_value;
+                to_size(buf + i_buf, 0) = i;
+                i_buf += size_index;
+                v++;
+            }
+        }
+    }
+    if (i_buf > 0) {
+        write(fd, buf, i_buf);
+    }
+    
+    XFREE(buf);
+    alder_encode_number_destroy_view(m);
+    return v;
+}
+
 /**
  *  This function writes the size of total elements in the table.
  *
@@ -739,6 +846,21 @@ alder_hashtable_mcas_printPackToFILE_count(size_t value, FILE *fp)
     } else {
         return ALDER_STATUS_SUCCESS;
     }
+}
+int
+alder_hashtable_mcas_printPackToFD_count(size_t value, int fd)
+{
+    off_t tnh_r = lseek(fd, ALDER_HASHTABLE_MCAS_OFFSET_TNH, SEEK_SET);
+    if (tnh_r != ALDER_HASHTABLE_MCAS_OFFSET_TNH) {
+        assert(0);
+        return ALDER_STATUS_ERROR;
+    }
+    ssize_t s = write(fd, &value, sizeof(value));
+    if (s != sizeof(value)) {
+        assert(0);
+        return ALDER_STATUS_ERROR;
+    }
+    return ALDER_STATUS_SUCCESS;
 }
 
 /**
@@ -770,6 +892,37 @@ alder_hashtable_mcas_printCountPerPartition(FILE *fp, size_t value,
         return ALDER_STATUS_SUCCESS;
     }
 }
+int
+alder_hashtable_mcas_printCountPerPartitionFD(int fd, size_t value,
+                                              uint64_t i_ni, uint64_t i_np,
+                                              uint64_t n_np)
+{
+    off_t pos = (ALDER_HASHTABLE_MCAS_OFFSET_ENH +
+                (i_ni * n_np + i_np) * sizeof(n_np));
+    off_t last = lseek(fd, 0, SEEK_CUR);
+    if (last == -1) {
+        // Error.
+        return ALDER_STATUS_ERROR;
+    }
+    off_t pos_r = lseek(fd, pos, SEEK_SET);
+    assert(pos_r == pos);
+    if (pos_r != pos) {
+        // Error.
+        return ALDER_STATUS_ERROR;
+    }
+    ssize_t s = write(fd, &value, sizeof(value));
+    if (s != sizeof(value)) {
+        // Error.
+        return ALDER_STATUS_ERROR;
+    }
+    off_t last_r = lseek(fd, last, SEEK_SET);
+    if (last_r != last) {
+        // Error.
+        return ALDER_STATUS_ERROR;
+    }
+    return ALDER_STATUS_SUCCESS;
+}
+
 
 #pragma mark read
 

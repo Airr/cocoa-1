@@ -1,9 +1,9 @@
 package "alder-kmer"
 version "0.1"
-purpose "alder-kmer counts kmers in a nucleotide sequence data set."
+purpose "alder-kmer counts kmers in a sequence data set of FASTQ and FASTA files."
 usage "alder-kmer [command] [OPTIONS]... [FILES]..."
 description
-"alder-kmer allows arbitrary size of kmer using multiple CPUs. The first argument of the alder-kmer is a command, which is one of the strings: `count', `report', `simulate', `partition', `decode', and `table'. Use option --detailed-help to see options for more commands. Options may require arguments. `INT' is a positive number unless stated otherwise. `STRING' is a string. `FILENAME' and `DIRECTORY' are strings that could be found or created in the file system that you run alder-kmer on."
+"alder-kmer allows arbitrary size of kmer using multiple CPUs. The first argument of the alder-kmer is a command, which is one of the strings: `count', `report', `simulate', `partition', `decode', `table', `list', `match', `binary', `uncompress', and `inspect'. Use option --help to see options for each command; e.g., alder-kmer count --help. Options may require arguments. `INT' is a positive number unless stated otherwise. `STRING' is a string of characters. `FILENAME' and `DIRECTORY' are strings that could be found or created in the file system that you run alder-kmer on."
 
 option "help" h "Print help of the program, or a command: e.g., alder-kmer count -h" flag off
 option "detailed-help" - "Print help, including all details" flag off
@@ -63,8 +63,20 @@ option "list" - "List kmers in a text file. Options: kmer, seqlen" flag off
 
 section "match"
 sectiondesc="This command compares a table file and a set of input files. A set of sequence data can be given as either standard input or input files."
-option "match" - "Compare ." flag off
+option "match" - "Compare a table file and input sequence data." flag off
 option "tabfile" - "a table file" string typestr="FILENAME" default="outfile.tbl" optional
+
+section "binary"
+sectiondesc="This command converts input sequence data to a alder-kmer binary file."
+option "binary" - "Create a binary file from sequence file." flag off
+
+section "uncompress"
+sectiondesc="This command converts an alder-kmer binary file to a simple form of sequence file."
+option "uncompress" - "Create a simple form of a sequence file from an alder-kmer binary file." flag off
+
+section "inspect"
+sectiondesc="This command inspects the computer that alder-kmer runs on."
+option "inspect" - "inspect command" flag off
 
 section "more"
 option "cite" - "Print reference papers" optional hidden
@@ -74,14 +86,17 @@ option "progress" - "Display progress" flag off
 option "loglevel" - "Log level" long typestr="level" values="0","1","2","3","4","5" default="1" optional
 option "progress-to-stderr" - "Display progress number to stdandard error" flag off
 option "totalmaxkmer" - "Skip counting maximum number of kmers in data, and use this number" long typestr="INT" default="0" optional
-option "select-version" - "Select a version" long typestr="INT" default="3" values="1","2","3" optional
+option "select-version" - "Select a version" long typestr="INT" default="5" values="1","2","3","4","5" optional
+option "bin-outdir" - "binary file output directory" string typestr="DIRECTORY" default="." optional
+option "par-outdir" - "partition files output directory" string typestr="DIRECTORY" default="." optional
+option "tab-outdir" - "table file output directory" string typestr="DIRECTORY" default="." optional
 
 section "exit"
 sectiondesc="The alder-kmer exit 0 on success, and >0 if an error occurs. The command `simulate' returns 0 if all of the Kmers occur only once, otherwise >0."
 option "exit" - "dummy" flag off
 
 section "examples"
-sectiondesc="The alder-kmer can take files of different formats depending on the given command argument. Let's see the format of files that alder-kmer is concerned of.
+sectiondesc="The alder-kmer can take files of different formats depending on the given command argument.
 
 *** FILE FORMAT ***
 
@@ -91,9 +106,12 @@ FASTQ: See http://en.wikipedia.org/wiki/FASTQ_format for the format. Command `si
 
 TAB: This is a binary file format for files created by alder-kmer `count' command. It contains a list of entries, of which each consists of a kmer, its occurence, and the index. The index value could be used to search the table for a particular kmer. Another command named `table' can create a table file from a partition file.
 
+BIN: Alder-kmer converts a set of input sequence files to a .bin file. A binary file tends to be smaller in size, which allows alder-kmer to read a whole input in each iteration more quickly than read sequence files. A binary file is not created if only one iteration is estimated to be needed.
+
 PAR: This is a binary file format for a partition. See Rizk et al. (2013) for details of partitions. A file of the format contains kmer sequences of the same kmer size. Commands `count'. `simulate', and `partition' can create partition files.
 
 DEC: This is a text file format of partition files. It simply prints one kmer per line.
+
 
 *** COUNT ***
 
@@ -138,7 +156,15 @@ To create the report file from a partition file, type in:
 $ table outfile-0-0.par
 This would create an output file named outfile.tbl.
 
-*** Testing ***
+*** MATCH ***
+
+*** BINARY ***
+
+*** UNCOMPRESS ***
+
+*** INSPECT ***
+
+*** EXAMPLES ***
 
 Let's consider these variables in testing.
 K: kmer size
@@ -187,6 +213,8 @@ NEXT (partially)
 
 8. Multiple input files
 
+. lz4
+
 . FASTA
 
 . gzip, bzip2
@@ -210,8 +238,47 @@ section "document"
 sectiondesc="Title
 
 Abstract
+Counting K-mers in a nucleotide sequence data set is a basic step in further analyses of the data. Computing environments can be diverse from personal computers to high-end super computers. Diverse computing environments are equiped with different limiting factors in terms of disk space, available memory, and CPUs. Computing costs time and enerage. Efficient use of available resources is important. I could have saved time and spend the spare time on something else. Someone else could have used the resources for their use. If disk space is cheaper than memory in computing environments such as personal computers, using disk space would be beneficial. Disk space may not be available in some high-end super computing environments, but more computer memory could be available. I experiment with counting K-mers in different computing environments to address which resources are limiting factors.
 
 Introduction
+
+
+
+
+Limited factors.
+1. Disk space. Usually disk space is unlimited. In high-end computing facilities, disk space tends to be more expensive than memory or available CPUs. Reading and writing compressed files can be crucial in this disk space limited computing environment.
+2. Memory. Loading all of the sequence data in a single memory would allow me to bypass the generation of partition files, and directly create a resulting table file.
+3. CPU cores. I cannot compensate limited memory by multiple CPUs.
+
+Limted disk
+
+Input data - 460g (uncompressed) 130g (gz compressed) 100g (bz2 compressed) 130g (lz4 compressed)
+disk space - 100m, 1g, 10g, 100g, 1000g
+memory     - 100m, 1g, 2g, 4g, 8g, 16g, 32g, 64g, (128g, 256g, 512g, 1024g, 2048g)
+CPU        - 1, 2, 4, 8, 24, 16, 32, 64, 128
+K          - 1 ... 256
+
+Phases (compress, partition, table)
+1. compress  - sequence data to a binary file
+2. partition - a binary file to multiple partition files
+3. table     - partition files to a table file
+
+1. A single iteration - partition and table
+2. large memory - compress and table
+
+If the available memory is large enough to load a whole data set, I could bypass the partition step and write the table directly.
+
+I would avoid comparing alder-kmer with dsk or kmc because they are similar in many ways. Besides, they are not as popular as Jellyfish. The CAS is a key difference from dsk or kmc. I want to make a case that CAS with dsk or kmc scheme would improve the disk-streaming kmer counting method in the computing speed.
+
+Differences from Jellyfish, dsk, kmc
+1. Jellyfish - a table is made per partition
+2. dsk - uses lock-free scheme or Jellyfish approach if more memory is available
+3. kmc - uses lock-free scheme
+
+Commons with Jellyfish, dsk, kmc
+1. Jellyfish - using CAS
+2. dsk - same when the memory is limited
+3. kmc - delicate multi-threaded design
 
 Methods
 
@@ -221,5 +288,31 @@ Discussions
 
 References
 
+
+Jellyfish
+
+Marçais, G. & Kingsford, C. A fast, lock-free approach for efficient parallel counting of occurrences of k-mers. Bioinformatics, Department of Computer Science, University of Maryland, College Park, MD 20742, USA. gmarcais@umd.edu, 2011, 27, 764-770
+
+dsk (minia)
+
+Rizk, G.; Lavenier, D. & Chikhi, R. DSK: k-mer counting with very low memory usage. Bioinformatics, Algorizk, 75013 Paris, France., 2013, 29, 652-653
+
+kmc
+
+Deorowicz, S.; Debudaj-Grabysz, A. & Grabowski, S. Disk-based k-mer counting on a PC. BMC Bioinformatics, Institute of Informatics, Silesian University of Technology, Akademicka 16, 44-100 Gliwice, Poland. sebastian.deorowicz@polsl.pl, 2013, 14, 160
+
+BFCounter
+
+Melsted, Pá. & Pritchard, J. K. Efficient counting of k-mers in DNA sequences using a bloom filter. BMC Bioinformatics, Department of Human Genetics, The University of Chicago, Chicago, IL 60637, USA. pmelsted@gmail.com, 2011, 12, 333
+
+khmer
+
+Pell, J.; Hintze, A.; Canino-Koning, R.; Howe, A.; Tiedje, J. M. & Brown, C. T. Scaling metagenome sequence assembly with probabilistic de Bruijn graphs Proceedings of the National Academy of Sciences, National Acad Sciences, 2012, 109, 13272-13277
+https://github.com/ctb/khmer
+
+de Bruijn graphs
+
+Compeau, P. E.; Pevzner, P. A. & Tesler, G. How to apply de Bruijn graphs to genome assembly Nature biotechnology, Nature Publishing Group, 2011, 29, 987-991
+
 ### End of Document ###"
-option "document" - "Shows the helpful document for alder-kmer" flag off
+option "document" - "Shows the document for alder-kmer" flag off

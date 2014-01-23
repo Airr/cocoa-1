@@ -125,11 +125,17 @@ struct gengetopt_args_info
   const char *table_help; /**< @brief Partition file help description.  */
   int list_flag;	/**< @brief List kmers in a text file. Options: kmer, seqlen (default=off).  */
   const char *list_help; /**< @brief List kmers in a text file. Options: kmer, seqlen help description.  */
-  int match_flag;	/**< @brief Compare . (default=off).  */
-  const char *match_help; /**< @brief Compare . help description.  */
+  int match_flag;	/**< @brief Compare a table file and input sequence data. (default=off).  */
+  const char *match_help; /**< @brief Compare a table file and input sequence data. help description.  */
   char * tabfile_arg;	/**< @brief a table file (default='outfile.tbl').  */
   char * tabfile_orig;	/**< @brief a table file original value given at command line.  */
   const char *tabfile_help; /**< @brief a table file help description.  */
+  int binary_flag;	/**< @brief Create a binary file from sequence file. (default=off).  */
+  const char *binary_help; /**< @brief Create a binary file from sequence file. help description.  */
+  int uncompress_flag;	/**< @brief Create a simple form of a sequence file from an alder-kmer binary file. (default=off).  */
+  const char *uncompress_help; /**< @brief Create a simple form of a sequence file from an alder-kmer binary file. help description.  */
+  int inspect_flag;	/**< @brief inspect command (default=off).  */
+  const char *inspect_help; /**< @brief inspect command help description.  */
   const char *cite_help; /**< @brief Print reference papers help description.  */
   char * log_arg;	/**< @brief Log file using option outfile (default='outfile.log').  */
   char * log_orig;	/**< @brief Log file using option outfile original value given at command line.  */
@@ -144,15 +150,24 @@ struct gengetopt_args_info
   long totalmaxkmer_arg;	/**< @brief Skip counting maximum number of kmers in data, and use this number (default='0').  */
   char * totalmaxkmer_orig;	/**< @brief Skip counting maximum number of kmers in data, and use this number original value given at command line.  */
   const char *totalmaxkmer_help; /**< @brief Skip counting maximum number of kmers in data, and use this number help description.  */
-  long select_version_arg;	/**< @brief Select a version (default='3').  */
+  long select_version_arg;	/**< @brief Select a version (default='5').  */
   char * select_version_orig;	/**< @brief Select a version original value given at command line.  */
   const char *select_version_help; /**< @brief Select a version help description.  */
+  char * bin_outdir_arg;	/**< @brief binary file output directory (default='.').  */
+  char * bin_outdir_orig;	/**< @brief binary file output directory original value given at command line.  */
+  const char *bin_outdir_help; /**< @brief binary file output directory help description.  */
+  char * par_outdir_arg;	/**< @brief partition files output directory (default='.').  */
+  char * par_outdir_orig;	/**< @brief partition files output directory original value given at command line.  */
+  const char *par_outdir_help; /**< @brief partition files output directory help description.  */
+  char * tab_outdir_arg;	/**< @brief table file output directory (default='.').  */
+  char * tab_outdir_orig;	/**< @brief table file output directory original value given at command line.  */
+  const char *tab_outdir_help; /**< @brief table file output directory help description.  */
   int exit_flag;	/**< @brief dummy (default=off).  */
   const char *exit_help; /**< @brief dummy help description.  */
   int examples_flag;	/**< @brief Shows example runs of alder-kmer (default=off).  */
   const char *examples_help; /**< @brief Shows example runs of alder-kmer help description.  */
-  int document_flag;	/**< @brief Shows the helpful document for alder-kmer (default=off).  */
-  const char *document_help; /**< @brief Shows the helpful document for alder-kmer help description.  */
+  int document_flag;	/**< @brief Shows the document for alder-kmer (default=off).  */
+  const char *document_help; /**< @brief Shows the document for alder-kmer help description.  */
   
   unsigned int version_given ;	/**< @brief Whether version was given.  */
   unsigned int help_given ;	/**< @brief Whether help was given.  */
@@ -190,6 +205,9 @@ struct gengetopt_args_info
   unsigned int list_given ;	/**< @brief Whether list was given.  */
   unsigned int match_given ;	/**< @brief Whether match was given.  */
   unsigned int tabfile_given ;	/**< @brief Whether tabfile was given.  */
+  unsigned int binary_given ;	/**< @brief Whether binary was given.  */
+  unsigned int uncompress_given ;	/**< @brief Whether uncompress was given.  */
+  unsigned int inspect_given ;	/**< @brief Whether inspect was given.  */
   unsigned int cite_given ;	/**< @brief Whether cite was given.  */
   unsigned int log_given ;	/**< @brief Whether log was given.  */
   unsigned int progress_given ;	/**< @brief Whether progress was given.  */
@@ -197,6 +215,9 @@ struct gengetopt_args_info
   unsigned int progress_to_stderr_given ;	/**< @brief Whether progress-to-stderr was given.  */
   unsigned int totalmaxkmer_given ;	/**< @brief Whether totalmaxkmer was given.  */
   unsigned int select_version_given ;	/**< @brief Whether select-version was given.  */
+  unsigned int bin_outdir_given ;	/**< @brief Whether bin-outdir was given.  */
+  unsigned int par_outdir_given ;	/**< @brief Whether par-outdir was given.  */
+  unsigned int tab_outdir_given ;	/**< @brief Whether tab-outdir was given.  */
   unsigned int exit_given ;	/**< @brief Whether exit was given.  */
   unsigned int examples_given ;	/**< @brief Whether examples was given.  */
   unsigned int document_given ;	/**< @brief Whether document was given.  */

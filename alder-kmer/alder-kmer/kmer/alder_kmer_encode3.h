@@ -67,11 +67,11 @@ struct alder_kmer_encoder3_struct {
     int reader_i_infile;
     
     /* buffer */
+    size_t n_subbuf;           /* number of divided buffers in inbuf         */
+    size_t size_subinbuf;      /* size of each divided buffer                */
     size_t size_inbuf;         /* size_inbuf - size of the inbuf             */
     size_t size_inbuf2;        /* size_inbuf2 - size of the inbuf2           */
     size_t size_outbuf;        /* size_outbuf - size of the output buffer    */
-    size_t n_subbuf;           /* number of divided buffers in inbuf         */
-    size_t size_subinbuf;      /* size of each divided buffer                */
     size_t size_suboutbuf;     /* per thread: size of each sub out buffer    */
     size_t size_suboutbuf2;    /* per partition: size of each sub out buffer */
     uint8_t *inbuf;            /* [size_inbuf] inbuf - input buffer          */

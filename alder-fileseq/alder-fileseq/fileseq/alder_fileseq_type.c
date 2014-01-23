@@ -74,6 +74,11 @@ int alder_fileseq_type(const char *fn)
     if (s == 1) {
         return ALDER_FILETYPE_GZSEQ;
     }
+    s = alder_file_islz4(fn);
+    if (s == 1) {
+        return ALDER_FILETYPE_LZFASTQ;
+//        return ALDER_FILETYPE_LZSEQ;
+    }
     s = alder_file_isbzip2(fn);
     if (s == 1) {
         return ALDER_FILETYPE_BZSEQ;

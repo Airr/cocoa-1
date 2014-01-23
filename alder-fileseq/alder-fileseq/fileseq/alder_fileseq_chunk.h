@@ -35,6 +35,8 @@
 
 __BEGIN_DECLS
 
+#define BUFSIZE (1 << 16)
+
 int
 alder_fileseq_chunk(size_t *lenBuf, char *buf, size_t sizeBuf,
                     size_t *lenBuf2, char *buf2, size_t sizeBuf2,

@@ -112,34 +112,44 @@ static void alder_kmer_cmdline_parser_print_help_init(alder_kmer_option_t *o,
     bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[52]);
     bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[53]);
     bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[54]);
-    bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[55]);
+//    bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[55]);// binary
     bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[56]);
-//    bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[57]);// internal use
-//    bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[58]);// internal use
-//    bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[59]);// internal use
-//    bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[60]);// internal use
-    bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[61]);
+    bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[57]);
+//    bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[58]);// uncompress
+    bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[59]);
+    bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[60]);
+//    bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[61]);// inspect
     bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[62]);
-//    bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[63]);//exit
-    bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[64]);
-    bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[65]);
-//    bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[66]);//example
+//    bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[63]);// internal use
+//    bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[64]);// internal use
+//    bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[65]);// internal use
+//    bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[66]);// internal use
     bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[67]);
     bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[68]);
-//    bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[69]);//doc
+    bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[69]);
+    bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[70]);
+    bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[71]);
+    bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[72]);
+    bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[73]);
+    bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[74]);
+//    bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[75]);//exit
+    bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[76]);
+    bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[77]);
+//    bstrVectorAdd(o->help, gengetopt_args_info_detailed_help[78]);//example
 }
 
 /* This function prints the default help message.
  */
 static void alder_kmer_cmdline_parser_print_help (alder_kmer_option_t *o)
 {
-    if (strlen(gengetopt_args_info_purpose) > 0)
-        printf("%s\n", gengetopt_args_info_purpose);
+    printf("%s\n", gengetopt_args_info_purpose);
     
-    if (strlen(gengetopt_args_info_usage) > 0)
-        printf("\n%s\n", gengetopt_args_info_usage);
+    printf("\n%s\n", gengetopt_args_info_usage);
     
     printf("\n");
+    
+    printf("%s\n\n", gengetopt_args_info_description);
+    
     
     printf("%s\n", bdata(o->help->entry[0]));
     printf("%s\n", bdata(o->help->entry[1]));
@@ -148,9 +158,9 @@ static void alder_kmer_cmdline_parser_print_help (alder_kmer_option_t *o)
 //    printf("%s\n", bdata(o->help->entry[4]));
     printf("%s\n", bdata(o->help->entry[5]));
     printf("%s\n", bdata(o->help->entry[6]));
-    printf("%s\n", bdata(o->help->entry[7]));
+//    printf("%s\n", bdata(o->help->entry[7]));
     printf("%s\n", bdata(o->help->entry[8]));
-    printf("%s\n", bdata(o->help->entry[9]));
+//    printf("%s\n", bdata(o->help->entry[9]));
     printf("%s\n", bdata(o->help->entry[10]));
     printf("%s\n", bdata(o->help->entry[11]));
     printf("%s\n", bdata(o->help->entry[12]));
@@ -183,6 +193,11 @@ static void alder_kmer_cmdline_parser_print_detailed_help (alder_kmer_option_t *
     for (int i = 0; i < o->help->qty; i++) {
         printf("%s\n", bdata(o->help->entry[i]));
     }
+}
+
+static void alder_kmer_cmdline_parser_print_doc_help (alder_kmer_option_t *o)
+{
+    printf("%s\n", gengetopt_args_info_detailed_help[80]);
 }
 
 static void
@@ -309,6 +324,39 @@ static void alder_kmer_cmdline_parser_print_match_help (alder_kmer_option_t *o)
     }
 }
 
+static void alder_kmer_cmdline_parser_print_binary_help (alder_kmer_option_t *o)
+{
+    printf("Usage: alder-kmer binary [-ofilename|--outfile=filename]\n"
+           "         [--outdir=directory] [FILES]...\n");
+    
+    int a[3] = {53,13,14};
+    for (int i = 0; i < sizeof(a)/sizeof(a[0]); i++) {
+        printf("%s\n", gengetopt_args_info_detailed_help[a[i]]);
+    }
+}
+
+static void alder_kmer_cmdline_parser_print_uncompress_help (alder_kmer_option_t *o)
+{
+    printf("Usage: alder-kmer uncompress [-ofilename|--outfile=filename]\n"
+           "         [--outdir=directory] [FILE]\n");
+    
+    int a[3] = {56,13,14};
+    for (int i = 0; i < sizeof(a)/sizeof(a[0]); i++) {
+        printf("%s\n", gengetopt_args_info_detailed_help[a[i]]);
+    }
+}
+
+static void alder_kmer_cmdline_parser_print_inspect_help (alder_kmer_option_t *o)
+{
+    printf("Usage: alder-kmer inspect [-ofilename|--outfile=filename]\n"
+           "         [--outdir=directory] [FILE]\n");
+    
+    int a[3] = {59,13,14};
+    for (int i = 0; i < sizeof(a)/sizeof(a[0]); i++) {
+        printf("%s\n", gengetopt_args_info_detailed_help[a[i]]);
+    }
+}
+
 
 /* This function converts gengetopt to alder_kmer_option just for my
  * convenience.
@@ -327,6 +375,11 @@ int alder_kmer_option_init(alder_kmer_option_t *o,
         status = 1;
         return status;
     }
+    if (a->document_flag) {
+        alder_kmer_cmdline_parser_print_doc_help (o);
+        return ALDER_STATUS_ERROR;
+    }
+    
     if (a->maxkmer_arg > MAXKMER) {
         fprintf(stderr,
                 "Error: maxcount of slots in a hash table greater than %d\n",
@@ -398,8 +451,8 @@ int alder_kmer_option_init(alder_kmer_option_t *o,
 //        my_cmdline_parser_print_version ();
 //        printf("%s\n", a->help_help);
         printf("Usage: alder-kmer [command] -h\n");
-        printf("Available commands: count, report, simulate, partition, "
-               "decode, table, and list.\n");
+        printf("Available commands: count, report, simulate, partition, decode,\n"
+               "                    table, list, binary, uncompress, and inspect.\n");
         status = 1;
         return status;
     } else if (a->inputs_num == 0 && a->help_given) {
@@ -422,6 +475,9 @@ int alder_kmer_option_init(alder_kmer_option_t *o,
     a->table_flag = 0;
     a->list_flag = 0;
     a->match_flag = 0;
+    a->binary_flag = 0;
+    a->uncompress_flag = 0;
+    a->inspect_flag = 0;
     if (!strcmp(a->inputs[0], "count") || *a->inputs[0] == 'c') {
         a->count_flag = 1;
     } else if (!strcmp(a->inputs[0], "report") || *a->inputs[0] == 'r') {
@@ -438,6 +494,12 @@ int alder_kmer_option_init(alder_kmer_option_t *o,
         a->list_flag = 1;
     } else if (!strcmp(a->inputs[0], "match") || *a->inputs[0] == 'm') {
         a->match_flag = 1;
+    } else if (!strcmp(a->inputs[0], "binary") || *a->inputs[0] == 'b') {
+        a->binary_flag = 1;
+    } else if (!strcmp(a->inputs[0], "uncompress") || *a->inputs[0] == 'u') {
+        a->uncompress_flag = 1;
+    } else if (!strcmp(a->inputs[0], "inspect") || *a->inputs[0] == 'i') {
+        a->inspect_flag = 1;
     } else {
         fprintf(stderr, "Error: the first argument must be a command.\n");
         fprintf(stderr, "Suggestion: use one of the following commands.\n");
@@ -489,6 +551,18 @@ int alder_kmer_option_init(alder_kmer_option_t *o,
         return status;
     } else if (a->match_flag && a->help_given) {
         alder_kmer_cmdline_parser_print_match_help(o);
+        status = 1;
+        return status;
+    } else if (a->binary_flag && a->help_given) {
+        alder_kmer_cmdline_parser_print_binary_help(o);
+        status = 1;
+        return status;
+    } else if (a->uncompress_flag && a->help_given) {
+        alder_kmer_cmdline_parser_print_uncompress_help(o);
+        status = 1;
+        return status;
+    } else if (a->inspect_flag && a->help_given) {
+        alder_kmer_cmdline_parser_print_inspect_help(o);
         status = 1;
         return status;
     }

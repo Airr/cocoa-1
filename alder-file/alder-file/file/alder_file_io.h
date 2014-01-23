@@ -37,6 +37,12 @@ __BEGIN_DECLS
 
 void alder_file_io_test();
 void alder_file_io_test01();
+void alder_file_io_test02();
+void alder_file_io_test03(const char *fn);
+
+int alder_file_io_best_buffer_size(const char *fn,
+                                   size_t *best_write_buffer_size,
+                                   size_t *best_read_buffer_size);
 
 __END_DECLS
 

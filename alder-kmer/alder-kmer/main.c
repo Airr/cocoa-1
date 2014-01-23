@@ -29,13 +29,13 @@
 #include "alder_kmer_option.h" 
 
 /**
- *  This function is the main function where main commands are called via
+ *  This function is the main function where commands are called via
  *  other functions in the kmer library.
  *
  *  @param argc argc
  *  @param argv argv
  *
- *  @return program exit value
+ *  @return program exit value (0 on SUCCESS, otherwise other values)
  */
 int main(int argc, char * argv[])
 {
@@ -59,6 +59,45 @@ int main(int argc, char * argv[])
     } else {
         alder_logger_initialize(args_info.log_arg, LOG_SILENT);
         alder_logger_error_initialize(LOG_BASIC);
+    }
+    ///////////////////////////////////////////////////////////////////////////
+    // Inspect:
+    if (args_info.inspect_flag) {
+        alder_kmer_inspect(option.infile,
+                           args_info.outdir_arg,
+                           args_info.outfile_arg);
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////
+    // Binary:
+    if (args_info.binary_flag) {
+        size_t n_byte = 0;
+        s = alder_kmer_binary(args_info.select_version_arg,
+                              (int)args_info.kmer_arg,
+                              args_info.disk_arg,
+                              (int)args_info.nthread_arg,
+                              0,
+                              &n_byte,
+                              args_info.progress_flag,
+                              args_info.progress_to_stderr_flag,
+                              option.infile,
+                              args_info.outdir_arg,
+                              args_info.outfile_arg);
+    }
+    ///////////////////////////////////////////////////////////////////////////
+    // Uncompress:
+    if (args_info.uncompress_flag) {
+        if (args_info.select_version_arg == 5) {
+            alder_kmer_uncompress2(args_info.progress_flag,
+                                   option.infile,
+                                   args_info.outdir_arg,
+                                   args_info.outfile_arg);
+        } else {
+            alder_kmer_uncompress(args_info.progress_flag,
+                                  option.infile,
+                                  args_info.outdir_arg,
+                                  args_info.outfile_arg);
+        }
     }
     
     ///////////////////////////////////////////////////////////////////////////

@@ -27,6 +27,9 @@
 #include "alder_kmer_decode.h"
 #include "alder_kmer_list.h"
 #include "alder_kmer_match.h"
+#include "alder_kmer_binary.h"
+#include "alder_kmer_uncompress.h"
+#include "alder_kmer_inspect.h"
 
 #undef __BEGIN_DECLS
 #undef __END_DECLS

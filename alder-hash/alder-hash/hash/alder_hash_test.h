@@ -36,6 +36,8 @@
 __BEGIN_DECLS
 
 void alder_hash_test_00();
+void alder_hash_test_01();
+void alder_hash_test_02();
 
 __END_DECLS
 

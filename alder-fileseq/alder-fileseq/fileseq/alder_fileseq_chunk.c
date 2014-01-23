@@ -70,6 +70,21 @@ alder_fileseq_chunk(size_t *lenBuf, char *buf, size_t sizeBuf,
                                   lenBuf2, buf2, sizeBuf2, kmer_size - 1, fx, 0);
         }
         /**
+         *  lz4 format
+         */
+        else if (type == ALDER_FILETYPE_LZFASTA) {
+            assert(0);
+            s = alder_fasta_chunk(lenBuf, buf, sizeBuf,
+                                  lenBuf2, buf2, sizeBuf2, kmer_size - 1, fx, 3);
+        } else if (type == ALDER_FILETYPE_LZFASTQ) {
+            s = alder_fastq_chunk(lenBuf, buf, sizeBuf,
+                                  lenBuf2, buf2, sizeBuf2, fx, 3);
+        } else if (type == ALDER_FILETYPE_LZSEQ) {
+            assert(0);
+            s = alder_fasta_chunk(lenBuf, buf, sizeBuf,
+                                  lenBuf2, buf2, sizeBuf2, kmer_size - 1, fx, 3);
+        }
+        /**
          *  gzip format
          */
         else if (type == ALDER_FILETYPE_GZFASTA) {

@@ -78,6 +78,14 @@ void alder_file(const char *fn)
         printf("  is not writable.\n");
     }
     
+    s = alder_file_islz4(fn);
+    if (s) {
+        printf("  is lz4 format.\n");
+    } else {
+        printf("  is not lz4 format.\n");
+    }
+    
+    
     s = alder_file_isbzip2(fn);
     if (s) {
         printf("  is bzip2 format.\n");

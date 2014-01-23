@@ -198,7 +198,6 @@ int alder_logger_initialize (const char *mainLoggerFilename,
     int s = 0;
 #if defined(NDEBUG)
     s = remove(mainLoggerFilename);
-    
     logc_registerLogger(MAIN_LOGGER, FILEOUT, l);
     logc_error_t status = logc_setLogfile(MAIN_LOGGER, mainLoggerFilename);
     if (status != LOG_ERR_OK) {

@@ -59,8 +59,9 @@
  *  inbuf: There are [n_subbuf]-many sub buffers. The main inbuf does not have
  *         any header. But, each sub buffer does;
  *         state (1B) type_infile (1B), curbuf (8B), and length (8B).
- *         So, the body start at 18B. The number of sub buffers is determined
- *         by the number of threads.
+ *         So, the body start at 18B. 
+ *         18B + BUFSIZE + inbuf2 (ALDER_KMER_SECONDARY_BUFFER_SIZE)
+ *
  *  outbuf: There are [n_subbuf]-many sub buffers. The main outbuf does not
  *          have any header, but each sub buffer does: state (1B). The number
  *          of sub buffers is determined by the numer of threads. Each sub
@@ -75,6 +76,7 @@
 
 static int encoder_id_counter = 0;
 
+#define ALDER_KMER_SECONDARY_BUFFER_SIZE         1000
 #define ALDER_KMER_ENCODER3_OUTBUFFER_HEADER     1
 #define ALDER_KMER_ENCODER3_OUTSUBBUFFER_HEADER  8
 
@@ -159,11 +161,12 @@ alder_kmer_encoder3_create(int n_encoder,
     o->reader_lenbuf2 = 0;
     o->reader_type_infile = 0;
     o->reader_i_infile = 0;
-    o->size_inbuf = (size_t)(memory_available << 19);
-    o->size_inbuf2 = ALDER_KMER_SECONDARY_BUFFER_SIZE;
-    o->size_outbuf = (size_t)(memory_available << 19);
     o->n_subbuf = n_encoder;
-    o->size_subinbuf = o->size_inbuf / o->n_subbuf;
+    o->size_inbuf2 = ALDER_KMER_SECONDARY_BUFFER_SIZE;
+    o->size_subinbuf = ALDER_KMER_ENCODER3_INBUFFER_BODY + BUFSIZE + o->size_inbuf2;
+    o->size_inbuf = o->size_subinbuf * o->n_subbuf;
+    o->size_outbuf = (size_t)(memory_available << 20);
+    
     o->size_suboutbuf = o->size_outbuf / o->n_subbuf;
     o->size_suboutbuf2 = (o->size_suboutbuf -  ALDER_KMER_ENCODER3_OUTBUFFER_HEADER) / n_partition;
     o->size_suboutbuf2_body = o->size_suboutbuf2 - ALDER_KMER_ENCODER3_OUTSUBBUFFER_HEADER;
@@ -667,6 +670,7 @@ static int read_from_sequence_file(alder_kmer_encoder3_t *a, int encoder_id)
     inbuf[ALDER_KMER_ENCODER3_INBUFFER_TYPE_INFILE] = a->reader_type_infile;
     uint8_t *inbuf_body = inbuf + ALDER_KMER_ENCODER3_INBUFFER_BODY;
     size_t size_body = a->size_subinbuf - ALDER_KMER_ENCODER3_INBUFFER_BODY;
+    assert(size_body == BUFSIZE + ALDER_KMER_SECONDARY_BUFFER_SIZE);
     s = alder_fileseq_chunk(&a->reader_lenbuf,
                             (char*)inbuf_body,
                             size_body,

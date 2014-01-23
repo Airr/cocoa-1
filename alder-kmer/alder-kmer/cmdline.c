@@ -24,13 +24,13 @@
 
 #include "cmdline.h"
 
-const char *gengetopt_args_info_purpose = "alder-kmer counts kmers in a nucleotide sequence data set.";
+const char *gengetopt_args_info_purpose = "alder-kmer counts kmers in a sequence data set of FASTQ and FASTA files.";
 
 const char *gengetopt_args_info_usage = "Usage: alder-kmer [command] [OPTIONS]... [FILES]...";
 
 const char *gengetopt_args_info_versiontext = "";
 
-const char *gengetopt_args_info_description = "alder-kmer allows arbitrary size of kmer using multiple CPUs. The first\nargument of the alder-kmer is a command, which is one of the strings: `count',\n`report', `simulate', `partition', `decode', and `table'. Use option\n--detailed-help to see options for more commands. Options may require\narguments. `INT' is a positive number unless stated otherwise. `STRING' is a\nstring. `FILENAME' and `DIRECTORY' are strings that could be found or created\nin the file system that you run alder-kmer on.";
+const char *gengetopt_args_info_description = "alder-kmer allows arbitrary size of kmer using multiple CPUs. The first\nargument of the alder-kmer is a command, which is one of the strings: `count',\n`report', `simulate', `partition', `decode', `table', `list', `match',\n`binary', `uncompress', and `inspect'. Use option --help to see options for\neach command; e.g., alder-kmer count --help. Options may require arguments.\n`INT' is a positive number unless stated otherwise. `STRING' is a string of\ncharacters. `FILENAME' and `DIRECTORY' are strings that could be found or\ncreated in the file system that you run alder-kmer on.";
 
 const char *gengetopt_args_info_detailed_help[] = {
   "  -V, --version                Print version and exit",
@@ -84,8 +84,17 @@ const char *gengetopt_args_info_detailed_help[] = {
   "      --list                   List kmers in a text file. Options: kmer, seqlen\n                                 (default=off)",
   "\nmatch:",
   "  This command compares a table file and a set of input files. A set of\n  sequence data can be given as either standard input or input files.",
-  "      --match                  Compare .  (default=off)",
+  "      --match                  Compare a table file and input sequence data.\n                                 (default=off)",
   "      --tabfile=FILENAME       a table file  (default=`outfile.tbl')",
+  "\nbinary:",
+  "  This command converts input sequence data to a alder-kmer binary file.",
+  "      --binary                 Create a binary file from sequence file.\n                                 (default=off)",
+  "\nuncompress:",
+  "  This command converts an alder-kmer binary file to a simple form of sequence\n  file.",
+  "      --uncompress             Create a simple form of a sequence file from an\n                                 alder-kmer binary file.  (default=off)",
+  "\ninspect:",
+  "  This command inspects the computer that alder-kmer runs on.",
+  "      --inspect                inspect command  (default=off)",
   "\nmore:",
   "      --cite                   Print reference papers",
   "      --log[=file]             Log file using option outfile\n                                 (default=`outfile.log')",
@@ -93,16 +102,19 @@ const char *gengetopt_args_info_detailed_help[] = {
   "      --loglevel=level         Log level  (possible values=\"0\", \"1\", \"2\",\n                                 \"3\", \"4\", \"5\" default=`1')",
   "      --progress-to-stderr     Display progress number to stdandard error\n                                 (default=off)",
   "      --totalmaxkmer=INT       Skip counting maximum number of kmers in data,\n                                 and use this number  (default=`0')",
-  "      --select-version=INT     Select a version  (possible values=\"1\", \"2\",\n                                 \"3\" default=`3')",
+  "      --select-version=INT     Select a version  (possible values=\"1\", \"2\",\n                                 \"3\", \"4\", \"5\" default=`5')",
+  "      --bin-outdir=DIRECTORY   binary file output directory  (default=`.')",
+  "      --par-outdir=DIRECTORY   partition files output directory  (default=`.')",
+  "      --tab-outdir=DIRECTORY   table file output directory  (default=`.')",
   "\nexit:",
   "  The alder-kmer exit 0 on success, and >0 if an error occurs. The command\n  `simulate' returns 0 if all of the Kmers occur only once, otherwise >0.",
   "      --exit                   dummy  (default=off)",
   "\nexamples:",
-  "  The alder-kmer can take files of different formats depending on the given\n  command argument. Let's see the format of files that alder-kmer is concerned\n  of.\n\n  *** FILE FORMAT ***\n\n  FASTA: See http://en.wikipedia.org/wiki/FASTA_format for the format. Command\n  `simulate' can create fasta-format files.\n\n  FASTQ: See http://en.wikipedia.org/wiki/FASTQ_format for the format. Command\n  `simulate' can create fastq-format files.\n\n  TAB: This is a binary file format for files created by alder-kmer `count'\n  command. It contains a list of entries, of which each consists of a kmer, its\n  occurence, and the index. The index value could be used to search the table\n  for a particular kmer. Another command named `table' can create a table file\n  from a partition file.\n\n  PAR: This is a binary file format for a partition. See Rizk et al. (2013) for\n  details of partitions. A file of the format contains kmer sequences of the\n  same kmer size. Commands `count'. `simulate', and `partition' can create\n  partition files.\n\n  DEC: This is a text file format of partition files. It simply prints one kmer\n  per line.\n\n  *** COUNT ***\n\n  Use one of the commands to execute alder-kmer. When demontrating usages of\n  alder-kmer, the first argument being always a command, I omit alder-kmer. For\n  instance, to count kmer of size 1 in file a.fa you can type in the following\n  command:\n  $ ./alder-kmer count a.fa\n  Instead, we write as follows:\n  $ count a.fa\n  So, please, always prepend the command with `alder-kmer'. If you need a test\n  sequence file, then see a following section to learn how to use `simulate'\n  command, which would create sequence files.\n\n  To count kmers (K=2) in a sequence file, using option -k, type in:\n  $ count -k 2 a.fa\n  This would create an output file named outfile.tbl.\n\n  *** REPORT ***\n\n  To list kmers and their occurences in a created hash table, type in:\n  $ report outfile.tbl\n\n  *** SIMULATE ***\n\n  Create a sequence file using `simulate' command.\n  $ simulate --seed=1\n  The command runs with default options. See the secion `simulate' command\n  above for detail or type in:\n  $ simulate -h\n  to learn options and default values of the command. The `simulate' command\n  would create a sequence file (outfile-00.fa) and a partition file\n  (outfile_0-0.par).\n\n  *** PARTITION ***\n\n  Let's recover the same partition file, which is a part of command `count'\n  using command `partition'.\n  $ partition outfile-00.fa\n  Because this command is part of simulation, it uses more options in command\n  `simulate' than those in `count'. The command would create a partition file:\n  outfile-0-0.par. This file and outfile_0-0.par should be same.  The partition\n  file contains kmers in bytes, which can be decoded by using command `decode'\n  with the partition file.\n\n  *** DECODE ***\n\n  To convert a partition file to a text file, type in:\n  $ decode outfile-0-0.par\n  The `decode' command generates an out file with .dec extension.\n\n  *** TABLE ***\n\n  To create the report file from a partition file, type in:\n  $ table outfile-0-0.par\n  This would create an output file named outfile.tbl.\n\n  *** Testing ***\n\n  Let's consider these variables in testing.\n  K: kmer size\n  N: number of unique kmers (MAX of N=10^8)\n  M: occurence of each unique kmer\n  T: number of threads\n\n  1. Partition command test without consistency check (.fa/.fq -> .par)\n  K=1..62,N=10000,M=65535,T=1 \n  ./alder_kmer_test_partition.sh $K 10000 65535 fq no 1 3\n  K=1..62,N=10000,M=65535,T=4 (1 hour)\n  for K in {1..62}; do ./alder_kmer_test_partition.sh $K 10000 65535 fq no 4 3;\n  done\n\n  2. Table command test (.par -> .tbl)\n  K=1..62,N=1000,T=1\n  for K in {1..62}; do ./alder_kmer_test_table.sh $K 1000 fq no 1; done\n  K=1..62,N=1000,T=4\n  for K in {1..62}; do ./alder_kmer_test_table.sh $K 100000 fq no 4; done\n\n  3. Table command with larger data test\n  K=15..31,T=1\n  ./alder_kmer_test_table2.sh $K 10000 65535 fq no 10000 1000 1 3\n  K=15..31,T=4\n  for K in {32..186}; do ./alder_kmer_test_table2.sh $K 10000 65535 fq no 10000\n  1000 4 3; done\n  HERE\n\n  4. Count command test (.fa/.fq -> .tbl)\n  K=15..63,T=1\n  ./alder_kmer_test_count.sh $K 10000 65535 fq no 10000 1000 1 3\n  K=15..186,T=4\n  for K in {32..186}; do ./alder_kmer_test_count.sh $K 10000 65535 fq no 10000\n  1000 4 3; done\n  NEXT\n\n  5. Maximum of unique test\n  ./alder_kmer_test_partition.sh 15 100000000 1 fq no 1 3\n\n  6. Shuffle\n  K=32..200\n  for K in {32..99}; do ./alder_kmer_test_table3.sh $K 1000 fq no 10000 10 4 3\n  no; done\n  HERE on upto 99 because of lack of disk space.\n  for K in {32..99}; do ./alder_kmer_test_table3.sh $K 1000 fq no 10000 10 4 3\n  yes; done\n  NEXT (partially)\n\n  7. dsk's human data test using alder-kmer's list command\n\n\n  8. Multiple input files\n\n  . FASTA\n\n  . gzip, bzip2\n\n  . dsk's test data\n\n  . K=32 .. 186\n\n  . T=1 .. 128 (using pacman and lemming)\n\n  . Test of overflow of occurence (create a separate file of kmer of\n  overflowed).\n  .ofl file would contain encoded numbers just like .par file.\n\n  TODO\n  3. Usage of table in percentage (should be 70%)\n\n  ### End of Examples ###",
+  "  The alder-kmer can take files of different formats depending on the given\n  command argument.\n\n  *** FILE FORMAT ***\n\n  FASTA: See http://en.wikipedia.org/wiki/FASTA_format for the format. Command\n  `simulate' can create fasta-format files.\n\n  FASTQ: See http://en.wikipedia.org/wiki/FASTQ_format for the format. Command\n  `simulate' can create fastq-format files.\n\n  TAB: This is a binary file format for files created by alder-kmer `count'\n  command. It contains a list of entries, of which each consists of a kmer, its\n  occurence, and the index. The index value could be used to search the table\n  for a particular kmer. Another command named `table' can create a table file\n  from a partition file.\n\n  BIN: Alder-kmer converts a set of input sequence files to a .bin file. A\n  binary file tends to be smaller in size, which allows alder-kmer to read a\n  whole input in each iteration more quickly than read sequence files. A binary\n  file is not created if only one iteration is estimated to be needed.\n\n  PAR: This is a binary file format for a partition. See Rizk et al. (2013) for\n  details of partitions. A file of the format contains kmer sequences of the\n  same kmer size. Commands `count'. `simulate', and `partition' can create\n  partition files.\n\n  DEC: This is a text file format of partition files. It simply prints one kmer\n  per line.\n\n\n  *** COUNT ***\n\n  Use one of the commands to execute alder-kmer. When demontrating usages of\n  alder-kmer, the first argument being always a command, I omit alder-kmer. For\n  instance, to count kmer of size 1 in file a.fa you can type in the following\n  command:\n  $ ./alder-kmer count a.fa\n  Instead, we write as follows:\n  $ count a.fa\n  So, please, always prepend the command with `alder-kmer'. If you need a test\n  sequence file, then see a following section to learn how to use `simulate'\n  command, which would create sequence files.\n\n  To count kmers (K=2) in a sequence file, using option -k, type in:\n  $ count -k 2 a.fa\n  This would create an output file named outfile.tbl.\n\n  *** REPORT ***\n\n  To list kmers and their occurences in a created hash table, type in:\n  $ report outfile.tbl\n\n  *** SIMULATE ***\n\n  Create a sequence file using `simulate' command.\n  $ simulate --seed=1\n  The command runs with default options. See the secion `simulate' command\n  above for detail or type in:\n  $ simulate -h\n  to learn options and default values of the command. The `simulate' command\n  would create a sequence file (outfile-00.fa) and a partition file\n  (outfile_0-0.par).\n\n  *** PARTITION ***\n\n  Let's recover the same partition file, which is a part of command `count'\n  using command `partition'.\n  $ partition outfile-00.fa\n  Because this command is part of simulation, it uses more options in command\n  `simulate' than those in `count'. The command would create a partition file:\n  outfile-0-0.par. This file and outfile_0-0.par should be same.  The partition\n  file contains kmers in bytes, which can be decoded by using command `decode'\n  with the partition file.\n\n  *** DECODE ***\n\n  To convert a partition file to a text file, type in:\n  $ decode outfile-0-0.par\n  The `decode' command generates an out file with .dec extension.\n\n  *** TABLE ***\n\n  To create the report file from a partition file, type in:\n  $ table outfile-0-0.par\n  This would create an output file named outfile.tbl.\n\n  *** MATCH ***\n\n  *** BINARY ***\n\n  *** UNCOMPRESS ***\n\n  *** INSPECT ***\n\n  *** EXAMPLES ***\n\n  Let's consider these variables in testing.\n  K: kmer size\n  N: number of unique kmers (MAX of N=10^8)\n  M: occurence of each unique kmer\n  T: number of threads\n\n  1. Partition command test without consistency check (.fa/.fq -> .par)\n  K=1..62,N=10000,M=65535,T=1 \n  ./alder_kmer_test_partition.sh $K 10000 65535 fq no 1 3\n  K=1..62,N=10000,M=65535,T=4 (1 hour)\n  for K in {1..62}; do ./alder_kmer_test_partition.sh $K 10000 65535 fq no 4 3;\n  done\n\n  2. Table command test (.par -> .tbl)\n  K=1..62,N=1000,T=1\n  for K in {1..62}; do ./alder_kmer_test_table.sh $K 1000 fq no 1; done\n  K=1..62,N=1000,T=4\n  for K in {1..62}; do ./alder_kmer_test_table.sh $K 100000 fq no 4; done\n\n  3. Table command with larger data test\n  K=15..31,T=1\n  ./alder_kmer_test_table2.sh $K 10000 65535 fq no 10000 1000 1 3\n  K=15..31,T=4\n  for K in {32..186}; do ./alder_kmer_test_table2.sh $K 10000 65535 fq no 10000\n  1000 4 3; done\n  HERE\n\n  4. Count command test (.fa/.fq -> .tbl)\n  K=15..63,T=1\n  ./alder_kmer_test_count.sh $K 10000 65535 fq no 10000 1000 1 3\n  K=15..186,T=4\n  for K in {32..186}; do ./alder_kmer_test_count.sh $K 10000 65535 fq no 10000\n  1000 4 3; done\n  NEXT\n\n  5. Maximum of unique test\n  ./alder_kmer_test_partition.sh 15 100000000 1 fq no 1 3\n\n  6. Shuffle\n  K=32..200\n  for K in {32..99}; do ./alder_kmer_test_table3.sh $K 1000 fq no 10000 10 4 3\n  no; done\n  HERE on upto 99 because of lack of disk space.\n  for K in {32..99}; do ./alder_kmer_test_table3.sh $K 1000 fq no 10000 10 4 3\n  yes; done\n  NEXT (partially)\n\n  7. dsk's human data test using alder-kmer's list command\n\n\n  8. Multiple input files\n\n  . lz4\n\n  . FASTA\n\n  . gzip, bzip2\n\n  . dsk's test data\n\n  . K=32 .. 186\n\n  . T=1 .. 128 (using pacman and lemming)\n\n  . Test of overflow of occurence (create a separate file of kmer of\n  overflowed).\n  .ofl file would contain encoded numbers just like .par file.\n\n  TODO\n  3. Usage of table in percentage (should be 70%)\n\n  ### End of Examples ###",
   "      --examples               Shows example runs of alder-kmer  (default=off)",
   "\ndocument:",
-  "  Title\n\n  Abstract\n\n  Introduction\n\n  Methods\n\n  Results\n\n  Discussions\n\n  References\n\n  ### End of Document ###",
-  "      --document               Shows the helpful document for alder-kmer\n                                 (default=off)",
+  "  Title\n\n  Abstract\n  Counting K-mers in a nucleotide sequence data set is a basic step in further\n  analyses of the data. Computing environments can be diverse from personal\n  computers to high-end super computers. Diverse computing environments are\n  equiped with different limiting factors in terms of disk space, available\n  memory, and CPUs. Computing costs time and enerage. Efficient use of\n  available resources is important. I could have saved time and spend the spare\n  time on something else. Someone else could have used the resources for their\n  use. If disk space is cheaper than memory in computing environments such as\n  personal computers, using disk space would be beneficial. Disk space may not\n  be available in some high-end super computing environments, but more computer\n  memory could be available. I experiment with counting K-mers in different\n  computing environments to address which resources are limiting factors.\n\n  Introduction\n\n\n\n\n  Limited factors.\n  1. Disk space. Usually disk space is unlimited. In high-end computing\n  facilities, disk space tends to be more expensive than memory or available\n  CPUs. Reading and writing compressed files can be crucial in this disk space\n  limited computing environment.\n  2. Memory. Loading all of the sequence data in a single memory would allow me\n  to bypass the generation of partition files, and directly create a resulting\n  table file.\n  3. CPU cores. I cannot compensate limited memory by multiple CPUs.\n\n  Limted disk\n\n  Input data - 460g (uncompressed) 130g (gz compressed) 100g (bz2 compressed)\n  130g (lz4 compressed)\n  disk space - 100m, 1g, 10g, 100g, 1000g\n  memory     - 100m, 1g, 2g, 4g, 8g, 16g, 32g, 64g, (128g, 256g, 512g, 1024g,\n  2048g)\n  CPU        - 1, 2, 4, 8, 24, 16, 32, 64, 128\n  K          - 1 ... 256\n\n  Phases (compress, partition, table)\n  1. compress  - sequence data to a binary file\n  2. partition - a binary file to multiple partition files\n  3. table     - partition files to a table file\n\n  1. A single iteration - partition and table\n  2. large memory - compress and table\n\n  If the available memory is large enough to load a whole data set, I could\n  bypass the partition step and write the table directly.\n\n  I would avoid comparing alder-kmer with dsk or kmc because they are similar\n  in many ways. Besides, they are not as popular as Jellyfish. The CAS is a key\n  difference from dsk or kmc. I want to make a case that CAS with dsk or kmc\n  scheme would improve the disk-streaming kmer counting method in the computing\n  speed.\n\n  Differences from Jellyfish, dsk, kmc\n  1. Jellyfish - a table is made per partition\n  2. dsk - uses lock-free scheme or Jellyfish approach if more memory is\n  available\n  3. kmc - uses lock-free scheme\n\n  Commons with Jellyfish, dsk, kmc\n  1. Jellyfish - using CAS\n  2. dsk - same when the memory is limited\n  3. kmc - delicate multi-threaded design\n\n  Methods\n\n  Results\n\n  Discussions\n\n  References\n\n\n  Jellyfish\n\n  Marçais, G. & Kingsford, C. A fast, lock-free approach for efficient\n  parallel counting of occurrences of k-mers. Bioinformatics, Department of\n  Computer Science, University of Maryland, College Park, MD 20742, USA.\n  gmarcais@umd.edu, 2011, 27, 764-770\n\n  dsk (minia)\n\n  Rizk, G.; Lavenier, D. & Chikhi, R. DSK: k-mer counting with very low memory\n  usage. Bioinformatics, Algorizk, 75013 Paris, France., 2013, 29, 652-653\n\n  kmc\n\n  Deorowicz, S.; Debudaj-Grabysz, A. & Grabowski, S. Disk-based k-mer counting\n  on a PC. BMC Bioinformatics, Institute of Informatics, Silesian University of\n  Technology, Akademicka 16, 44-100 Gliwice, Poland.\n  sebastian.deorowicz@polsl.pl, 2013, 14, 160\n\n  BFCounter\n\n  Melsted, Pá. & Pritchard, J. K. Efficient counting of k-mers in DNA\n  sequences using a bloom filter. BMC Bioinformatics, Department of Human\n  Genetics, The University of Chicago, Chicago, IL 60637, USA.\n  pmelsted@gmail.com, 2011, 12, 333\n\n  khmer\n\n  Pell, J.; Hintze, A.; Canino-Koning, R.; Howe, A.; Tiedje, J. M. & Brown, C.\n  T. Scaling metagenome sequence assembly with probabilistic de Bruijn graphs\n  Proceedings of the National Academy of Sciences, National Acad Sciences,\n  2012, 109, 13272-13277\n  https://github.com/ctb/khmer\n\n  de Bruijn graphs\n\n  Compeau, P. E.; Pevzner, P. A. & Tesler, G. How to apply de Bruijn graphs to\n  genome assembly Nature biotechnology, Nature Publishing Group, 2011, 29,\n  987-991\n\n  ### End of Document ###",
+  "      --document               Shows the document for alder-kmer  (default=off)",
     0
 };
 static void
@@ -177,11 +189,23 @@ init_full_help_array(void)
   gengetopt_args_info_full_help[66] = gengetopt_args_info_detailed_help[67];
   gengetopt_args_info_full_help[67] = gengetopt_args_info_detailed_help[68];
   gengetopt_args_info_full_help[68] = gengetopt_args_info_detailed_help[69];
-  gengetopt_args_info_full_help[69] = 0; 
+  gengetopt_args_info_full_help[69] = gengetopt_args_info_detailed_help[70];
+  gengetopt_args_info_full_help[70] = gengetopt_args_info_detailed_help[71];
+  gengetopt_args_info_full_help[71] = gengetopt_args_info_detailed_help[72];
+  gengetopt_args_info_full_help[72] = gengetopt_args_info_detailed_help[73];
+  gengetopt_args_info_full_help[73] = gengetopt_args_info_detailed_help[74];
+  gengetopt_args_info_full_help[74] = gengetopt_args_info_detailed_help[75];
+  gengetopt_args_info_full_help[75] = gengetopt_args_info_detailed_help[76];
+  gengetopt_args_info_full_help[76] = gengetopt_args_info_detailed_help[77];
+  gengetopt_args_info_full_help[77] = gengetopt_args_info_detailed_help[78];
+  gengetopt_args_info_full_help[78] = gengetopt_args_info_detailed_help[79];
+  gengetopt_args_info_full_help[79] = gengetopt_args_info_detailed_help[80];
+  gengetopt_args_info_full_help[80] = gengetopt_args_info_detailed_help[81];
+  gengetopt_args_info_full_help[81] = 0; 
   
 }
 
-const char *gengetopt_args_info_full_help[70];
+const char *gengetopt_args_info_full_help[82];
 
 static void
 init_help_array(void)
@@ -239,26 +263,38 @@ init_help_array(void)
   gengetopt_args_info_help[50] = gengetopt_args_info_detailed_help[51];
   gengetopt_args_info_help[51] = gengetopt_args_info_detailed_help[52];
   gengetopt_args_info_help[52] = gengetopt_args_info_detailed_help[53];
-  gengetopt_args_info_help[53] = gengetopt_args_info_detailed_help[55];
-  gengetopt_args_info_help[54] = gengetopt_args_info_detailed_help[56];
-  gengetopt_args_info_help[55] = gengetopt_args_info_detailed_help[57];
-  gengetopt_args_info_help[56] = gengetopt_args_info_detailed_help[58];
-  gengetopt_args_info_help[57] = gengetopt_args_info_detailed_help[59];
-  gengetopt_args_info_help[58] = gengetopt_args_info_detailed_help[60];
-  gengetopt_args_info_help[59] = gengetopt_args_info_detailed_help[61];
-  gengetopt_args_info_help[60] = gengetopt_args_info_detailed_help[62];
-  gengetopt_args_info_help[61] = gengetopt_args_info_detailed_help[63];
+  gengetopt_args_info_help[53] = gengetopt_args_info_detailed_help[54];
+  gengetopt_args_info_help[54] = gengetopt_args_info_detailed_help[55];
+  gengetopt_args_info_help[55] = gengetopt_args_info_detailed_help[56];
+  gengetopt_args_info_help[56] = gengetopt_args_info_detailed_help[57];
+  gengetopt_args_info_help[57] = gengetopt_args_info_detailed_help[58];
+  gengetopt_args_info_help[58] = gengetopt_args_info_detailed_help[59];
+  gengetopt_args_info_help[59] = gengetopt_args_info_detailed_help[60];
+  gengetopt_args_info_help[60] = gengetopt_args_info_detailed_help[61];
+  gengetopt_args_info_help[61] = gengetopt_args_info_detailed_help[62];
   gengetopt_args_info_help[62] = gengetopt_args_info_detailed_help[64];
   gengetopt_args_info_help[63] = gengetopt_args_info_detailed_help[65];
   gengetopt_args_info_help[64] = gengetopt_args_info_detailed_help[66];
   gengetopt_args_info_help[65] = gengetopt_args_info_detailed_help[67];
   gengetopt_args_info_help[66] = gengetopt_args_info_detailed_help[68];
   gengetopt_args_info_help[67] = gengetopt_args_info_detailed_help[69];
-  gengetopt_args_info_help[68] = 0; 
+  gengetopt_args_info_help[68] = gengetopt_args_info_detailed_help[70];
+  gengetopt_args_info_help[69] = gengetopt_args_info_detailed_help[71];
+  gengetopt_args_info_help[70] = gengetopt_args_info_detailed_help[72];
+  gengetopt_args_info_help[71] = gengetopt_args_info_detailed_help[73];
+  gengetopt_args_info_help[72] = gengetopt_args_info_detailed_help[74];
+  gengetopt_args_info_help[73] = gengetopt_args_info_detailed_help[75];
+  gengetopt_args_info_help[74] = gengetopt_args_info_detailed_help[76];
+  gengetopt_args_info_help[75] = gengetopt_args_info_detailed_help[77];
+  gengetopt_args_info_help[76] = gengetopt_args_info_detailed_help[78];
+  gengetopt_args_info_help[77] = gengetopt_args_info_detailed_help[79];
+  gengetopt_args_info_help[78] = gengetopt_args_info_detailed_help[80];
+  gengetopt_args_info_help[79] = gengetopt_args_info_detailed_help[81];
+  gengetopt_args_info_help[80] = 0; 
   
 }
 
-const char *gengetopt_args_info_help[69];
+const char *gengetopt_args_info_help[81];
 
 typedef enum {ARG_NO
   , ARG_FLAG
@@ -282,7 +318,7 @@ my_cmdline_parser_required2 (struct gengetopt_args_info *args_info, const char *
 
 const char *my_cmdline_parser_format_values[] = {"fasta", "fastq", "fa", "fq", "seq", 0}; /*< Possible values for format. */
 const char *my_cmdline_parser_loglevel_values[] = {"0", "1", "2", "3", "4", "5", 0}; /*< Possible values for loglevel. */
-const char *my_cmdline_parser_select_version_values[] = {"1", "2", "3", 0}; /*< Possible values for select-version. */
+const char *my_cmdline_parser_select_version_values[] = {"1", "2", "3", "4", "5", 0}; /*< Possible values for select-version. */
 
 static char *
 gengetopt_strdup (const char *s);
@@ -326,6 +362,9 @@ void clear_given (struct gengetopt_args_info *args_info)
   args_info->list_given = 0 ;
   args_info->match_given = 0 ;
   args_info->tabfile_given = 0 ;
+  args_info->binary_given = 0 ;
+  args_info->uncompress_given = 0 ;
+  args_info->inspect_given = 0 ;
   args_info->cite_given = 0 ;
   args_info->log_given = 0 ;
   args_info->progress_given = 0 ;
@@ -333,6 +372,9 @@ void clear_given (struct gengetopt_args_info *args_info)
   args_info->progress_to_stderr_given = 0 ;
   args_info->totalmaxkmer_given = 0 ;
   args_info->select_version_given = 0 ;
+  args_info->bin_outdir_given = 0 ;
+  args_info->par_outdir_given = 0 ;
+  args_info->tab_outdir_given = 0 ;
   args_info->exit_given = 0 ;
   args_info->examples_given = 0 ;
   args_info->document_given = 0 ;
@@ -397,6 +439,9 @@ void clear_args (struct gengetopt_args_info *args_info)
   args_info->match_flag = 0;
   args_info->tabfile_arg = gengetopt_strdup ("outfile.tbl");
   args_info->tabfile_orig = NULL;
+  args_info->binary_flag = 0;
+  args_info->uncompress_flag = 0;
+  args_info->inspect_flag = 0;
   args_info->log_arg = gengetopt_strdup ("outfile.log");
   args_info->log_orig = NULL;
   args_info->progress_flag = 0;
@@ -405,8 +450,14 @@ void clear_args (struct gengetopt_args_info *args_info)
   args_info->progress_to_stderr_flag = 0;
   args_info->totalmaxkmer_arg = 0;
   args_info->totalmaxkmer_orig = NULL;
-  args_info->select_version_arg = 3;
+  args_info->select_version_arg = 5;
   args_info->select_version_orig = NULL;
+  args_info->bin_outdir_arg = gengetopt_strdup (".");
+  args_info->bin_outdir_orig = NULL;
+  args_info->par_outdir_arg = gengetopt_strdup (".");
+  args_info->par_outdir_orig = NULL;
+  args_info->tab_outdir_arg = gengetopt_strdup (".");
+  args_info->tab_outdir_orig = NULL;
   args_info->exit_flag = 0;
   args_info->examples_flag = 0;
   args_info->document_flag = 0;
@@ -454,16 +505,22 @@ void init_args_info(struct gengetopt_args_info *args_info)
   args_info->list_help = gengetopt_args_info_detailed_help[48] ;
   args_info->match_help = gengetopt_args_info_detailed_help[51] ;
   args_info->tabfile_help = gengetopt_args_info_detailed_help[52] ;
-  args_info->cite_help = gengetopt_args_info_detailed_help[54] ;
-  args_info->log_help = gengetopt_args_info_detailed_help[55] ;
-  args_info->progress_help = gengetopt_args_info_detailed_help[56] ;
-  args_info->loglevel_help = gengetopt_args_info_detailed_help[57] ;
-  args_info->progress_to_stderr_help = gengetopt_args_info_detailed_help[58] ;
-  args_info->totalmaxkmer_help = gengetopt_args_info_detailed_help[59] ;
-  args_info->select_version_help = gengetopt_args_info_detailed_help[60] ;
-  args_info->exit_help = gengetopt_args_info_detailed_help[63] ;
-  args_info->examples_help = gengetopt_args_info_detailed_help[66] ;
-  args_info->document_help = gengetopt_args_info_detailed_help[69] ;
+  args_info->binary_help = gengetopt_args_info_detailed_help[55] ;
+  args_info->uncompress_help = gengetopt_args_info_detailed_help[58] ;
+  args_info->inspect_help = gengetopt_args_info_detailed_help[61] ;
+  args_info->cite_help = gengetopt_args_info_detailed_help[63] ;
+  args_info->log_help = gengetopt_args_info_detailed_help[64] ;
+  args_info->progress_help = gengetopt_args_info_detailed_help[65] ;
+  args_info->loglevel_help = gengetopt_args_info_detailed_help[66] ;
+  args_info->progress_to_stderr_help = gengetopt_args_info_detailed_help[67] ;
+  args_info->totalmaxkmer_help = gengetopt_args_info_detailed_help[68] ;
+  args_info->select_version_help = gengetopt_args_info_detailed_help[69] ;
+  args_info->bin_outdir_help = gengetopt_args_info_detailed_help[70] ;
+  args_info->par_outdir_help = gengetopt_args_info_detailed_help[71] ;
+  args_info->tab_outdir_help = gengetopt_args_info_detailed_help[72] ;
+  args_info->exit_help = gengetopt_args_info_detailed_help[75] ;
+  args_info->examples_help = gengetopt_args_info_detailed_help[78] ;
+  args_info->document_help = gengetopt_args_info_detailed_help[81] ;
   
 }
 
@@ -597,6 +654,12 @@ my_cmdline_parser_release (struct gengetopt_args_info *args_info)
   free_string_field (&(args_info->loglevel_orig));
   free_string_field (&(args_info->totalmaxkmer_orig));
   free_string_field (&(args_info->select_version_orig));
+  free_string_field (&(args_info->bin_outdir_arg));
+  free_string_field (&(args_info->bin_outdir_orig));
+  free_string_field (&(args_info->par_outdir_arg));
+  free_string_field (&(args_info->par_outdir_orig));
+  free_string_field (&(args_info->tab_outdir_arg));
+  free_string_field (&(args_info->tab_outdir_orig));
   
   
   for (i = 0; i < args_info->inputs_num; ++i)
@@ -745,6 +808,12 @@ my_cmdline_parser_dump(FILE *outfile, struct gengetopt_args_info *args_info)
     write_into_file(outfile, "match", 0, 0 );
   if (args_info->tabfile_given)
     write_into_file(outfile, "tabfile", args_info->tabfile_orig, 0);
+  if (args_info->binary_given)
+    write_into_file(outfile, "binary", 0, 0 );
+  if (args_info->uncompress_given)
+    write_into_file(outfile, "uncompress", 0, 0 );
+  if (args_info->inspect_given)
+    write_into_file(outfile, "inspect", 0, 0 );
   if (args_info->cite_given)
     write_into_file(outfile, "cite", 0, 0 );
   if (args_info->log_given)
@@ -759,6 +828,12 @@ my_cmdline_parser_dump(FILE *outfile, struct gengetopt_args_info *args_info)
     write_into_file(outfile, "totalmaxkmer", args_info->totalmaxkmer_orig, 0);
   if (args_info->select_version_given)
     write_into_file(outfile, "select-version", args_info->select_version_orig, my_cmdline_parser_select_version_values);
+  if (args_info->bin_outdir_given)
+    write_into_file(outfile, "bin-outdir", args_info->bin_outdir_orig, 0);
+  if (args_info->par_outdir_given)
+    write_into_file(outfile, "par-outdir", args_info->par_outdir_orig, 0);
+  if (args_info->tab_outdir_given)
+    write_into_file(outfile, "tab-outdir", args_info->tab_outdir_orig, 0);
   if (args_info->exit_given)
     write_into_file(outfile, "exit", 0, 0 );
   if (args_info->examples_given)
@@ -1712,6 +1787,9 @@ my_cmdline_parser_internal (
         { "list",	0, NULL, 0 },
         { "match",	0, NULL, 0 },
         { "tabfile",	1, NULL, 0 },
+        { "binary",	0, NULL, 0 },
+        { "uncompress",	0, NULL, 0 },
+        { "inspect",	0, NULL, 0 },
         { "cite",	0, NULL, 0 },
         { "log",	2, NULL, 0 },
         { "progress",	0, NULL, 0 },
@@ -1719,6 +1797,9 @@ my_cmdline_parser_internal (
         { "progress-to-stderr",	0, NULL, 0 },
         { "totalmaxkmer",	1, NULL, 0 },
         { "select-version",	1, NULL, 0 },
+        { "bin-outdir",	1, NULL, 0 },
+        { "par-outdir",	1, NULL, 0 },
+        { "tab-outdir",	1, NULL, 0 },
         { "exit",	0, NULL, 0 },
         { "examples",	0, NULL, 0 },
         { "document",	0, NULL, 0 },
@@ -2166,7 +2247,7 @@ my_cmdline_parser_internal (
               goto failure;
           
           }
-          /* Compare ..  */
+          /* Compare a table file and input sequence data..  */
           else if (strcmp (long_options[option_index].name, "match") == 0)
           {
           
@@ -2188,6 +2269,42 @@ my_cmdline_parser_internal (
                 &(local_args_info.tabfile_given), optarg, 0, "outfile.tbl", ARG_STRING,
                 check_ambiguity, override, 0, 0,
                 "tabfile", '-',
+                additional_error))
+              goto failure;
+          
+          }
+          /* Create a binary file from sequence file..  */
+          else if (strcmp (long_options[option_index].name, "binary") == 0)
+          {
+          
+          
+            if (update_arg((void *)&(args_info->binary_flag), 0, &(args_info->binary_given),
+                &(local_args_info.binary_given), optarg, 0, 0, ARG_FLAG,
+                check_ambiguity, override, 1, 0, "binary", '-',
+                additional_error))
+              goto failure;
+          
+          }
+          /* Create a simple form of a sequence file from an alder-kmer binary file..  */
+          else if (strcmp (long_options[option_index].name, "uncompress") == 0)
+          {
+          
+          
+            if (update_arg((void *)&(args_info->uncompress_flag), 0, &(args_info->uncompress_given),
+                &(local_args_info.uncompress_given), optarg, 0, 0, ARG_FLAG,
+                check_ambiguity, override, 1, 0, "uncompress", '-',
+                additional_error))
+              goto failure;
+          
+          }
+          /* inspect command.  */
+          else if (strcmp (long_options[option_index].name, "inspect") == 0)
+          {
+          
+          
+            if (update_arg((void *)&(args_info->inspect_flag), 0, &(args_info->inspect_given),
+                &(local_args_info.inspect_given), optarg, 0, 0, ARG_FLAG,
+                check_ambiguity, override, 1, 0, "inspect", '-',
                 additional_error))
               goto failure;
           
@@ -2279,9 +2396,51 @@ my_cmdline_parser_internal (
           
             if (update_arg( (void *)&(args_info->select_version_arg), 
                  &(args_info->select_version_orig), &(args_info->select_version_given),
-                &(local_args_info.select_version_given), optarg, my_cmdline_parser_select_version_values, "3", ARG_LONG,
+                &(local_args_info.select_version_given), optarg, my_cmdline_parser_select_version_values, "5", ARG_LONG,
                 check_ambiguity, override, 0, 0,
                 "select-version", '-',
+                additional_error))
+              goto failure;
+          
+          }
+          /* binary file output directory.  */
+          else if (strcmp (long_options[option_index].name, "bin-outdir") == 0)
+          {
+          
+          
+            if (update_arg( (void *)&(args_info->bin_outdir_arg), 
+                 &(args_info->bin_outdir_orig), &(args_info->bin_outdir_given),
+                &(local_args_info.bin_outdir_given), optarg, 0, ".", ARG_STRING,
+                check_ambiguity, override, 0, 0,
+                "bin-outdir", '-',
+                additional_error))
+              goto failure;
+          
+          }
+          /* partition files output directory.  */
+          else if (strcmp (long_options[option_index].name, "par-outdir") == 0)
+          {
+          
+          
+            if (update_arg( (void *)&(args_info->par_outdir_arg), 
+                 &(args_info->par_outdir_orig), &(args_info->par_outdir_given),
+                &(local_args_info.par_outdir_given), optarg, 0, ".", ARG_STRING,
+                check_ambiguity, override, 0, 0,
+                "par-outdir", '-',
+                additional_error))
+              goto failure;
+          
+          }
+          /* table file output directory.  */
+          else if (strcmp (long_options[option_index].name, "tab-outdir") == 0)
+          {
+          
+          
+            if (update_arg( (void *)&(args_info->tab_outdir_arg), 
+                 &(args_info->tab_outdir_orig), &(args_info->tab_outdir_given),
+                &(local_args_info.tab_outdir_given), optarg, 0, ".", ARG_STRING,
+                check_ambiguity, override, 0, 0,
+                "tab-outdir", '-',
                 additional_error))
               goto failure;
           
@@ -2310,7 +2469,7 @@ my_cmdline_parser_internal (
               goto failure;
           
           }
-          /* Shows the helpful document for alder-kmer.  */
+          /* Shows the document for alder-kmer.  */
           else if (strcmp (long_options[option_index].name, "document") == 0)
           {
           

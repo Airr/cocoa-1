@@ -52,7 +52,6 @@ enum {
 
 /* Numbers */
 #define ALDER_HASHTABLE_MCAS_EMPTYKEY 4919131752989213764LLU
-#define ALDER_KMER_SECONDARY_BUFFER_SIZE 1000
 #define ALDER_LOG_TEXTWIDTH -21
 #define BLOCKSIZE 256
 #define ALDER_NUMKMER_8BYTE 31
@@ -122,6 +121,8 @@ typedef void alder_print_func (FILE *, const void *);
 #pragma mark buffer
 
 #define to_uint64(buffer,n) (*(uint64_t*)(buffer + n))
+#define to_uint32(buffer,n) (*(uint32_t*)(buffer + n))
+#define to_uint16(buffer,n) (*(uint16_t*)(buffer + n))
 #define to_size(buffer,n) (*(size_t*)(buffer + n))
 
 __END_DECLS

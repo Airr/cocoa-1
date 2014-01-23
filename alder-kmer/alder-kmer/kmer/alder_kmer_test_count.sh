@@ -23,7 +23,7 @@ version=$9
 # Check arguments.
 if [ $# -lt 2 ]; then
 echo "kmersize maxkmer are required arguments."
-echo "alder_kmer_table2.sh kmersize maxkmer duplicate format compress disk memory nthread version"
+echo "alder_kmer_count.sh kmersize maxkmer duplicate format compress disk memory nthread version"
 echo "kmersize  : number between 1-64"
 echo "maxkmer   : number (1000-)"
 echo "duplicate : number (1-)"
@@ -32,11 +32,18 @@ echo "compress  : [no|gz|bz2]"
 echo "disk      : number (default:1000MB)"
 echo "memory    : number (default:100MB)"
 echo "nthread   : number (default:1)"
-echo "version   : 1,2,3"
+echo "version   : 1,2,3,4,5"
 echo "e.g.,"
-echo "$ ./alder_kmer_test_table2.sh 25 50000 65535 fq no 10000 1000 1 2"
+echo "$ ./alder_kmer_test_count.sh 25 50000 65535 fq no 10000 1000 1 5"
 echo "About 9GB"
-exit
+echo -n "Do you want to run it with default options [y] and press [ENTER]: "
+read response
+if [ "$response" == "y" ]; then
+  kmersize=25
+  maxkmer=50000
+else
+  exit
+fi
 fi
 
 if [ -z "$3" ]; then
@@ -44,7 +51,7 @@ if [ -z "$3" ]; then
 fi
 
 if [ -z "$4" ]; then
-  format=fa
+  format=fq
 fi
 
 if [ -z "$5" ]; then
@@ -52,11 +59,11 @@ if [ -z "$5" ]; then
 fi
 
 if [ -z "$6" ]; then
-  disk=1000
+  disk=10000
 fi
 
 if [ -z "$7" ]; then
-  memory=100
+  memory=1000
 fi
 
 if [ -z "$8" ]; then
@@ -64,7 +71,7 @@ if [ -z "$8" ]; then
 fi
 
 if [ -z "$9" ]; then
-  version=3
+  version=5
 fi
 
 
@@ -151,7 +158,7 @@ echo "File outfile.$format size after x65535: $((seqfilesize / 10**6)) MB."
 ###############################################################################
 measure_start_time
 echo "counting ..."
-command="./alder-kmer count -k $kmersize --select-version=$version --progress --disk=$disk --memory=$memory --nthread=$nthread --log outfile.$format$zip"
+command="./alder-kmer count -k $kmersize --no-delete --select-version=$version --progress --disk=$disk --memory=$memory --nthread=$nthread --log outfile.$format$zip"
 run_command
 if [ $? -ne 0 ]; then
   echo "Crash!"
@@ -201,6 +208,7 @@ if [ $(cut -f 3 outfile.1|uniq) != "$duplicate" ]; then
   exit
 fi
 echo "Passed!"
+exit
 
 ###############################################################################
 # Compare the sequence data and table file

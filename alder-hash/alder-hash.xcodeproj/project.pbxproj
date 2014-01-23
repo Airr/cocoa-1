@@ -81,6 +81,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D00DAE6A188A12FE00CAE24C /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		D0914227188518C9007BCBFB /* blocksort.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = blocksort.c; sourceTree = "<group>"; };
 		D0914228188518C9007BCBFB /* bzlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bzlib.c; sourceTree = "<group>"; };
 		D0914229188518C9007BCBFB /* bzlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bzlib.h; sourceTree = "<group>"; };
@@ -220,6 +221,7 @@
 		D0E53BEB181200E700C84089 = {
 			isa = PBXGroup;
 			children = (
+				D00DAE6A188A12FE00CAE24C /* README */,
 				D0E53BF6181200E700C84089 /* alder-hash */,
 				D0E53BF5181200E700C84089 /* Products */,
 			);

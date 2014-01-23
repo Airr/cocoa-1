@@ -225,3 +225,76 @@ alder_kseq_sequenceiterator_token(alder_kseq_sequenceiterator_t *o)
     return token;
 }
 
+
+static int dna_char2int_ACTG[128] = {
+    4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,
+    4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,
+    4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,
+    4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,
+    4,0,4,1,4,4,4,3,4,4,4,4,4,4,4,4,
+    4,4,4,4,2,4,4,4,4,4,4,4,4,4,4,4,
+    4,0,4,1,4,4,4,3,4,4,4,4,4,4,4,4,
+    4,4,4,4,2,4,4,4,4,4,4,4,4,4,4,4
+};
+
+/**
+ *  This function returns a token from a FASTQ file.
+ *  0,1,2,3 for A,C,T,G. NOTE: A (0), C (1), T (2), G (3). T is 2 not 3.
+ *  4 for any other; means the end of a sequence
+ *  5 for End of File.
+ *
+ *  @param o sequence iterator
+ *
+ *  @return token
+ */
+int
+alder_kseq_sequenceiterator_tokenACTG(alder_kseq_sequenceiterator_t *o)
+{
+    int token = ALDER_TOKEN_DNA_SIZE + 1;
+    
+    if (o->state == alder_kseq_sequenceiterator_state_begin) {
+        // read a sequence.
+        int status = alder_kseq_read(o->seq);
+        if (status > 0) {
+            o->state = alder_kseq_sequenceiterator_state_open;
+            o->iSeq = 0;
+            assert(o->iSeq < o->seq->seq.l);
+        } else {
+            // End of File.
+            o->state = alder_kseq_sequenceiterator_state_end;
+            token = ALDER_TOKEN_DNA_SIZE + 1;
+        }
+    }
+    
+    if (o->state == alder_kseq_sequenceiterator_state_open) {
+        if (o->iSeq < o->seq->seq.l) {
+//            token = alder_token_dna_token_of(o->seq->seq.s[o->iSeq]);
+            token = dna_char2int_ACTG[o->seq->seq.s[o->iSeq]];
+            o->iSeq++;
+            if (token == ALDER_TOKEN_DNA_SIZE) {
+                while (token == ALDER_TOKEN_DNA_SIZE &&
+                       o->iSeq < o->seq->seq.l) {
+//                    token = alder_token_dna_token_of(o->seq->seq.s[o->iSeq]);
+                    token = dna_char2int_ACTG[o->seq->seq.s[o->iSeq]];
+                    o->iSeq++;
+                }
+                // case: ...ACNNN
+                if (token == ALDER_TOKEN_DNA_SIZE) {
+                    assert(o->iSeq == o->seq->seq.l);
+                    o->state = alder_kseq_sequenceiterator_state_begin;
+                }
+                // case: ...ANNNA
+                // case: ...ANNAC
+                else {
+                    o->iSeq--;
+                }
+                token = ALDER_TOKEN_DNA_SIZE;
+            }
+        } else {
+            token = ALDER_TOKEN_DNA_SIZE;
+            o->state = alder_kseq_sequenceiterator_state_begin;
+        }
+    }
+    
+    return token;
+}

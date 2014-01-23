@@ -269,6 +269,8 @@ again:
     return 0;
 }
 
+// #define BUFSIZE (1 << 16)
+#define BUFSIZE (1 << 16)
 int
 alder_fastq_chunk(size_t *lenBuf, char *buf, size_t sizeBuf,
                   size_t *lenBuf2, char *buf2, size_t sizeBuf2,
@@ -281,6 +283,7 @@ alder_fastq_chunk(size_t *lenBuf, char *buf, size_t sizeBuf,
     if (*lenBuf2 > 0) {
         memcpy(buf, buf2, sizeof(*buf) * (*lenBuf2));
         alder_loga4("buf0", (uint8_t*)buf, (*lenBuf2));
+        assert(buf[0] == '@');
     }
     int lenRead;
     if (gz_flag == 1) {
@@ -289,9 +292,24 @@ alder_fastq_chunk(size_t *lenBuf, char *buf, size_t sizeBuf,
     } else if (gz_flag == 2) {
         lenRead = BZ2_bzread((BZFILE*)fx, startBuf,
                              (unsigned)(sizeof(*buf)*(sizeBuf - *lenBuf2)));
-    } else {
+    } else if (gz_flag == 3) {
+        // fill the buf with content from a lz4-format file.
+        // LZ2_lzread
+        // FIXME
+//        lenRead = LZ2_lzread((LZFILE*)fx, startBuf,
+//                             (unsigned)(sizeof(*buf)*(BUFSIZE)));
         lenRead = (int) read((int)((intptr_t)fx), startBuf,
-                             sizeof(*buf)*(sizeBuf - *lenBuf2));
+                             sizeof(*buf)*(BUFSIZE));
+//        if (lenRead == -1) {
+//            alder_loge(ALDER_ERR_FILE, "failed to read a fastq.lz4 file: %s",
+//                       strerror(errno));
+//            assert(lenRead != -1);
+//        }
+    } else {
+//        lenRead = (int) read((int)((intptr_t)fx), startBuf,
+//                             sizeof(*buf)*(sizeBuf - *lenBuf2));
+        lenRead = (int) read((int)((intptr_t)fx), startBuf,
+                             sizeof(*buf)*(BUFSIZE));
         if (lenRead == -1) {
             alder_loge(ALDER_ERR_FILE, "failed to read a fastq file: %s",
                        strerror(errno));
@@ -316,7 +334,8 @@ alder_fastq_chunk(size_t *lenBuf, char *buf, size_t sizeBuf,
             *lenBuf2 = 0;
             return ALDER_STATUS_ERROR;
         }
-    } else if ((size_t)lenRead < sizeBuf - *lenBuf2) {
+//    } else if ((size_t)lenRead < sizeBuf - *lenBuf2) {
+    } else if ((size_t)lenRead < BUFSIZE) {
         // I'd reach the end of the file.
 #if !defined(NDEBUG)
         bstring bbuf = blk2bstr(buf, (int)(*lenBuf2 + lenRead));
@@ -331,7 +350,8 @@ alder_fastq_chunk(size_t *lenBuf, char *buf, size_t sizeBuf,
 #endif
     } else {
         // 2
-        assert(lenRead + *lenBuf2 == sizeBuf);
+//        assert(lenRead + *lenBuf2 == sizeBuf);
+        assert(lenRead == BUFSIZE);
 #if !defined(NDEBUG)
         bstring bbuf = blk2bstr(buf, (int)(*lenBuf2 + lenRead));
         alder_log5("buf1 (%02d): %s", blength(bbuf), bdata(bbuf));

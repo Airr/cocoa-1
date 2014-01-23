@@ -123,17 +123,31 @@ alder_hashtable_mcas_printHeaderToFILE(FILE *fp,
                                        uint64_t hashtable_size,
                                        uint64_t n_ni,
                                        uint64_t n_np);
+int
+alder_hashtable_mcas_printHeaderToFD(int fd,
+                                     int kmer_size,
+                                     uint64_t n_nh,
+                                     uint64_t n_ni,
+                                     uint64_t n_np);
 
 int64_t
 alder_hashtable_mcas_printPackToFILE(alder_hashtable_mcas_t *o, FILE *fp);
+int64_t
+alder_hashtable_mcas_printPackToFD(alder_hashtable_mcas_t *o, int fd, size_t bufsize);
 
 int
 alder_hashtable_mcas_printCountPerPartition(FILE *fp, size_t value,
                                             uint64_t i_ni, uint64_t i_np,
                                             uint64_t n_np);
+int
+alder_hashtable_mcas_printCountPerPartitionFD(int fd, size_t value,
+                                              uint64_t i_ni, uint64_t i_np,
+                                              uint64_t n_np);
 
 int
 alder_hashtable_mcas_printPackToFILE_count(size_t value, FILE *fp);
+int
+alder_hashtable_mcas_printPackToFD_count(size_t value, int fd);
 
 int
 alder_hashtable_mcas_load(const char *fn, int isSummary);

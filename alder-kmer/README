@@ -1,3 +1,30 @@
+# BUG
+
+binary might not work yet.
+
+# Versions
+
+Ver1. Using lock/wait threads
+encode thread
+
+Ver2. A dedicated set of reader and writer.
+encode2, thread2
+
+Ver3. Neither reader nor writer - a single thread of reader/writer/encoder
+encode3, thread3
+
+
+Ver4. Fixed-size input and output buffers.
+encode4, thread4
+Limited memmory, and enough disk space, single iteration
+
+Ver5. Compressed sequence files or using .bin files.
+binary2, encode5, thread4
+Limited memory, and limited disk space, multiple iterations
+
+Ver6. Load a whole data in memory and keeping counting 
+binary3, thread5
+Enough memory, and disk space does not matter as long as a resulting table can fit to the disk space
 
 
 # TODO

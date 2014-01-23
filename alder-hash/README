@@ -1,0 +1,10 @@
+
+https://gist.github.com/badboy/6267743
+http://naml.us/blog/tag/thomas-wang
+
+Power of 2 Hash Table Size
+
+Programmer uses hash table size that is power of 2 because address calculation can be performed very quickly. The integer hash function can be used to post condition the output of a marginal quality hash function before the final address calculation is done.
+
+addr = inthash(marginal_hash_value) & (tablesize - 1);
+Using the inlined version of the integer hash function is faster than doing a remaindering operation with a prime number! An integer remainder operation may take up to 18 cycles or longer to complete, depending on machine architecture.

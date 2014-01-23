@@ -58,6 +58,9 @@ alder_kseq_sequenceiterator_open(alder_kseq_sequenceiterator_t *o,
 int
 alder_kseq_sequenceiterator_token(alder_kseq_sequenceiterator_t *o);
 
+int
+alder_kseq_sequenceiterator_tokenACTG(alder_kseq_sequenceiterator_t *o);
+
 __END_DECLS
 
 

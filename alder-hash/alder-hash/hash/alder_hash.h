@@ -37,6 +37,8 @@ __BEGIN_DECLS
 uint64_t alder_hash_code00(uint64_t key);
 uint64_t alder_hash_code01(uint64_t *n, int s);
 uint64_t alder_hash_code02(uint64_t *n, int s);
+uint64_t alder_hash_code03(uint64_t n);
+uint64_t alder_hash_code04(uint64_t n);
 
 __END_DECLS
 

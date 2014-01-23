@@ -36,18 +36,21 @@ int alder_progress_step(unsigned long cstep, unsigned long tstep, int tostderr)
         start = time(NULL);
     }
     tick++;
-    int progress = (int)((double)(cstep) * 100
-                         /
-                         (double)(tstep));
-    if (tostderr) {
-        fprintf(stderr,"%d\n", progress);
-        fflush(stderr);
-    } else {
-        end = time(NULL);
-        double elapsed = difftime(end, start);
-        double remaining = elapsed * (tstep / cstep - 1) / 3600.0;
-        fprintf(stdout,"\rProgress: %d%% %.1f (hours)", progress, remaining);
-        fflush(stdout);
+    if (tick % 10000 == 0) {
+        int progress = (int)((double)(cstep) * 100
+                             /
+                             (double)(tstep));
+        if (tostderr) {
+            fprintf(stderr,"%d\n", progress);
+            fflush(stderr);
+        } else {
+            end = time(NULL);
+            double elapsed = difftime(end, start);
+            double remaining = elapsed * (tstep / cstep - 1) / 3600.0;
+            fprintf(stdout,"\rProgress: %d%% %.1f (hours)", progress, remaining);
+            //        fprintf(stdout,"\rProgress: %d%% %.1f (seconds)", progress, remaining);
+            fflush(stdout);
+        }
     }
     return 0;
 }

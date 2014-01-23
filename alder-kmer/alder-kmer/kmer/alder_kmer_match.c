@@ -109,7 +109,7 @@ alder_kmer_match(int progress_flag,
     
     /* Parsing input stream. */
     int lines = 0;
-	size_t n_kmer = 0;
+//	size_t n_kmer = 0;
 	size_t bytes_read;
 	size_t len_remaining = 0;
     uint8_t *sbuf = buf;

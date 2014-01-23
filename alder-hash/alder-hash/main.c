@@ -36,7 +36,9 @@ int main(int argc, char * argv[])
         exit(1);
     }
     
-    alder_hash_test_00();
+//    alder_hash_test_00();
+//    alder_hash_test_01();
+    alder_hash_test_02();
     
     my_cmdline_parser_free(&args_info);
     alder_hash_option_free(&option);

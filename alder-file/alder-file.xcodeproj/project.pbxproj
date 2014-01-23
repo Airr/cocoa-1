@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		D0322180185BBD1000C6F241 /* alder_file_io.c in Sources */ = {isa = PBXBuildFile; fileRef = D032217F185BBD1000C6F241 /* alder_file_io.c */; };
 		D0399F651864BEDE007C505E /* alder_file_format.c in Sources */ = {isa = PBXBuildFile; fileRef = D0399F641864BEDE007C505E /* alder_file_format.c */; };
+		D076061F188B07F500F3EE09 /* alder_progress.c in Sources */ = {isa = PBXBuildFile; fileRef = D076061D188B07F500F3EE09 /* alder_progress.c */; };
+		D076067A188B6D3F00F3EE09 /* alder_file_islz4.c in Sources */ = {isa = PBXBuildFile; fileRef = D0760679188B6D3F00F3EE09 /* alder_file_islz4.c */; };
 		D07DA1CA187B6A7600637F89 /* alder_file_isbzip2.c in Sources */ = {isa = PBXBuildFile; fileRef = D07DA1C9187B6A7600637F89 /* alder_file_isbzip2.c */; };
 		D07DA1D9187B71F700637F89 /* blocksort.c in Sources */ = {isa = PBXBuildFile; fileRef = D07DA1D0187B71F700637F89 /* blocksort.c */; };
 		D07DA1DA187B71F700637F89 /* bzlib.c in Sources */ = {isa = PBXBuildFile; fileRef = D07DA1D1187B71F700637F89 /* bzlib.c */; };
@@ -94,6 +96,11 @@
 		D0322181185BBD1B00C6F241 /* alder_file_io.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_file_io.h; sourceTree = "<group>"; };
 		D0399F641864BEDE007C505E /* alder_file_format.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_format.c; sourceTree = "<group>"; };
 		D0399F661864BEE7007C505E /* alder_file_format.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_file_format.h; sourceTree = "<group>"; };
+		D076061D188B07F500F3EE09 /* alder_progress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_progress.c; sourceTree = "<group>"; };
+		D076061E188B07F500F3EE09 /* alder_progress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_progress.h; sourceTree = "<group>"; };
+		D0760620188B26E300F3EE09 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		D0760679188B6D3F00F3EE09 /* alder_file_islz4.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_islz4.c; sourceTree = "<group>"; };
+		D076067B188B6D4C00F3EE09 /* alder_file_islz4.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_file_islz4.h; sourceTree = "<group>"; };
 		D07DA1C9187B6A7600637F89 /* alder_file_isbzip2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_isbzip2.c; sourceTree = "<group>"; };
 		D07DA1CB187B6A8300637F89 /* alder_file_isbzip2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_file_isbzip2.h; sourceTree = "<group>"; };
 		D07DA1D0187B71F700637F89 /* blocksort.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = blocksort.c; sourceTree = "<group>"; };
@@ -202,6 +209,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D076061C188B07F500F3EE09 /* progress */ = {
+			isa = PBXGroup;
+			children = (
+				D076061D188B07F500F3EE09 /* alder_progress.c */,
+				D076061E188B07F500F3EE09 /* alder_progress.h */,
+			);
+			name = progress;
+			path = "../../alder-progress/alder-progress/progress";
+			sourceTree = "<group>";
+		};
 		D07DA1CF187B71F700637F89 /* bzip2 */ = {
 			isa = PBXGroup;
 			children = (
@@ -222,6 +239,7 @@
 		D0C5A3CD17D9699400C1E004 = {
 			isa = PBXGroup;
 			children = (
+				D0760620188B26E300F3EE09 /* README */,
 				D0C5A3D817D9699400C1E004 /* alder-file */,
 				D0C5A3D717D9699400C1E004 /* Products */,
 			);
@@ -238,6 +256,7 @@
 		D0C5A3D817D9699400C1E004 /* alder-file */ = {
 			isa = PBXGroup;
 			children = (
+				D076061C188B07F500F3EE09 /* progress */,
 				D07DA1CF187B71F700637F89 /* bzip2 */,
 				D0DAE6C5181A6F03004D4C81 /* cmacro */,
 				D0CAEC5E180B517A00681CD0 /* bstrlib */,
@@ -336,6 +355,8 @@
 				D091159317E02ED100700BF2 /* alder_file_isfile.h */,
 				D0E8945D17DC101300E9E65E /* alder_file_isgzip.c */,
 				D0E8945E17DC101300E9E65E /* alder_file_isgzip.h */,
+				D0760679188B6D3F00F3EE09 /* alder_file_islz4.c */,
+				D076067B188B6D4C00F3EE09 /* alder_file_islz4.h */,
 				D0E8945F17DC101300E9E65E /* alder_file_isstdin.c */,
 				D0E8946017DC101300E9E65E /* alder_file_isstdin.h */,
 				D0E53BAA1810F07E00C84089 /* alder_file_mkdir.c */,
@@ -387,7 +408,7 @@
 		D0C5A3CE17D9699400C1E004 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Sang Chul Choi";
 			};
 			buildConfigurationList = D0C5A3D117D9699400C1E004 /* Build configuration list for PBXProject "alder-file" */;
@@ -435,6 +456,7 @@
 				D0CAEC70180B517A00681CD0 /* bstrmore.c in Sources */,
 				D0E8946317DC101300E9E65E /* alder_file_isstdin.c in Sources */,
 				D0E8946F17DC107000E9E65E /* alder_file.c in Sources */,
+				D076067A188B6D3F00F3EE09 /* alder_file_islz4.c in Sources */,
 				D0CAEC6E180B517A00681CD0 /* bstraux.c in Sources */,
 				D07DA1DF187B71F700637F89 /* randtable.c in Sources */,
 				D091158C17E0282F00700BF2 /* alder_file_numline.c in Sources */,
@@ -449,6 +471,7 @@
 				D0322180185BBD1000C6F241 /* alder_file_io.c in Sources */,
 				D07DA1DD187B71F700637F89 /* decompress.c in Sources */,
 				D07DA1DE187B71F700637F89 /* huffman.c in Sources */,
+				D076061F188B07F500F3EE09 /* alder_progress.c in Sources */,
 				D091159517E0311700700BF2 /* alder_file_isbinary.c in Sources */,
 				D07DA1DB187B71F700637F89 /* compress.c in Sources */,
 			);
@@ -461,7 +484,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -493,7 +515,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_CONSTANT_CONVERSION = YES;

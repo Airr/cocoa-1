@@ -312,6 +312,13 @@ uint64_t alder_bit_all_1_with_left_zero_of(int n)
     return alder_bit_right_1s_array[64 - n];
 }
 
+/**
+ *  This is the function in the dsk (Rizk et al. 2013).
+ *
+ *  @param lkmer kmer type
+ *
+ *  @return kmer
+ */
 kmer_t alder_bit_hash(kmer_t lkmer)
 {
     // some hashing to uniformize repartition
