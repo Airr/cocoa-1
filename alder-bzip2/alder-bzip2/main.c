@@ -7,12 +7,13 @@
 //
 
 #include <stdio.h>
+#include "alder_bzip2.h"
 
 int main(int argc, const char * argv[])
 {
+    
+    alder_bzip2_decompress(argv[1], argv[2]);
 
-    // insert code here...
-    printf("Hello, World!\n");
     return 0;
 }
 

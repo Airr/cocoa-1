@@ -28,6 +28,7 @@
 #include "alder_dna.h"
 #include "alder_progress.h"
 #include "alder_file_size.h"
+#include "alder_kmer_binary.h"
 #include "alder_kmer_uncompress.h"
 
 #define BUFSIZE (1 << 16)
@@ -69,7 +70,7 @@ alder_kmer_uncompress(int progress_flag,
         
         size_t cur_buf = 0;
         while (cur_buf < size_buf) {
-            uint16_t len = to_uint16(buffer, cur_buf + 12);
+            uint16_t len = to_uint16(buffer, cur_buf + ALDER_KMER_BINARY_READBLOCK_BODY);
             cur_buf += sizeof(len);
             int e_counter = 0;
             uint8_t e_byte = 0;
@@ -80,7 +81,7 @@ alder_kmer_uncompress(int progress_flag,
                     cur_buf++;
                 }
                 if (e_counter == 0) {
-                    e_byte = buffer[cur_buf + 12];
+                    e_byte = buffer[cur_buf + ALDER_KMER_BINARY_READBLOCK_BODY];
                 }
                 e_counter++;
                 
@@ -139,12 +140,12 @@ void alder_kmer_binary_buffer_destroy(alder_kmer_binary_stream_t *o)
  *  @param len_buf length of the buffer (0 means no input)
  *
  *  cur_buf is the position of a pointer to a byte to decode
- *          (12th pos in buffer).
+ *          (16th or ALDER_KMER_BINARY_READBLOCK_BODY pos in buffer).
  *  e_counter rotates 0,1,2,3.
  *  e_byte is a byte value to decode.
  *  i_len is the index of an encoded sequence.
  *  len is the length of an encoded sequence.
- *  size_buf is the length of valid buffer from the 12th position.
+ *  size_buf is the length of valid buffer from the 16th position.
  *
  */
 void alder_kmer_binary_buffer_open(alder_kmer_binary_stream_t *bs_p,
@@ -160,8 +161,10 @@ void alder_kmer_binary_buffer_open(alder_kmer_binary_stream_t *bs_p,
     bs_p->i_len = 0;
     bs_p->cur_buf = 0;
     
-    bs_p->size_buf = to_size(buffer, 4);
-    bs_p->len = to_uint16(bs_p->buf, bs_p->cur_buf + 12);
+    // Used to be 4, 12
+    // Now, they are 8 and 16. See alder_kmer_binary.h
+    bs_p->size_buf = to_size(buffer, ALDER_KMER_BINARY_READBLOCK_LEN);
+    bs_p->len = to_uint16(bs_p->buf, bs_p->cur_buf + ALDER_KMER_BINARY_READBLOCK_BODY);
     
     bs_p->cur_buf = sizeof(bs_p->len);
 }
@@ -193,7 +196,7 @@ int alder_kmer_binary_buffer_read(alder_kmer_binary_stream_t *bs_p,
         }
         
         if (bs_p->e_counter == 0) {
-            bs_p->e_byte = bs_p->buf[bs_p->cur_buf + 12];
+            bs_p->e_byte = bs_p->buf[bs_p->cur_buf + ALDER_KMER_BINARY_READBLOCK_BODY];
         }
         bs_p->e_counter++;
         token = (bs_p->e_byte >> (8 - 2*bs_p->e_counter)) & 3;
@@ -210,7 +213,7 @@ int alder_kmer_binary_buffer_read(alder_kmer_binary_stream_t *bs_p,
             return 5;
         }
         
-        bs_p->len = to_uint16(bs_p->buf, bs_p->cur_buf + 12);
+        bs_p->len = to_uint16(bs_p->buf, bs_p->cur_buf + ALDER_KMER_BINARY_READBLOCK_BODY);
         bs_p->cur_buf += sizeof(bs_p->len);
         bs_p->e_counter = 0;
         bs_p->e_byte = 0;
@@ -247,7 +250,7 @@ alder_kmer_uncompress2(int progress_flag,
     
     size_t total_size;
     alder_file_size(fn, &total_size);
-    unsigned long total_read = 0;
+//    unsigned long total_read = 0;
     
     ssize_t left_to_read = (ssize_t) total_size;
     size_t count = size_buf;

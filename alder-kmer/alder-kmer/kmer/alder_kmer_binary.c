@@ -61,8 +61,8 @@
 #define ALDER_KMER_BINARY_OUTBUFFER_LENGTH     8
 #define ALDER_KMER_BINARY_OUTBUFFER_BODY       16
 
-#define ALDER_KMER_BINARY_READBLOCK_LEN        4
-#define ALDER_KMER_BINARY_READBLOCK_BODY       12
+//#define ALDER_KMER_BINARY_READBLOCK_LEN        4
+//#define ALDER_KMER_BINARY_READBLOCK_BODY       12
 
 #define ALDER_KMER_BINARY_FILETYPE_FASTA       1
 #define ALDER_KMER_BINARY_FILETYPE_FASTQ       2
@@ -75,7 +75,10 @@
 #define ALDER_KMER_BINARY_INBUFFER_STATE_4     4 // AAANNAA or AAANNNN
 
 
-typedef int (*binary_t)(long version,
+typedef int (*binary_t)(
+void *ptr, size_t size, size_t subsize,
+uint64_t *n_kmer, uint64_t *n_dna, uint64_t *n_seq,
+long version,
 int K, long D,
 int n_nt,
 size_t totalfilesize,
@@ -305,125 +308,125 @@ static int open_infile (alder_kmer_binary_t *o, int i_infile)
     return ALDER_STATUS_SUCCESS;
 }
 
-/**
- *  This function returns 0,1,2,3 for DNA.
- *
- *  @param e binary
- *
- *  @return int
- *  0,1,2,3 for A,C,T,G.
- *  4 for others.
- *  5 for the end of buffer.
- */
-static int
-alder_kmer_binary_token(size_t *curbuf, uint8_t *inbuf, size_t lenbuf,
-                        int type_infile)
-{
-    char c;
-    size_t vcurbuf = *curbuf;
-#if !defined(NDEBUG)
-    if (vcurbuf % 10000 == 0) {
-        alder_log4("i_inbuf(%zu): %zu", lenbuf, vcurbuf);
-    }
-#endif
-    if (vcurbuf < lenbuf) {
-        c = inbuf[vcurbuf++];
-    } else {
-        //        assert(0);
-        *curbuf = vcurbuf;
-        return 5;
-    }
-    if (type_infile == ALDER_KMER_BINARY_FILETYPE_FASTA) {
-        if (c == '>' || c == '\n') {
-            /*****************************************************************/
-            /*                          OPTIMIZATION                         */
-            /*****************************************************************/
-            if (c == '>') {
-                uint8_t *cinbuf = memchr(inbuf + vcurbuf, '\n', lenbuf - vcurbuf);
-                vcurbuf = (size_t)(cinbuf - inbuf + 1);
-            }
-            //            while (c != '\n') {
-            //                c = inbuf[vcurbuf++];
-            //            }
-            /*****************************************************************/
-            /*                          OPTIMIZATION                         */
-            /*****************************************************************/
-            
-            if (vcurbuf < lenbuf) {
-                c = inbuf[vcurbuf++];
-            } else {
-                //                e->n_byte += *curbuf;
-                *curbuf = vcurbuf;
-                return 5;
-            }
-        }
-    } else if (type_infile == ALDER_KMER_BINARY_FILETYPE_FASTQ) {
-        if (c == '@') {
-            // header
-            /*****************************************************************/
-            /*                          OPTIMIZATION                         */
-            /*****************************************************************/
-            uint8_t *cinbuf = memchr(inbuf + vcurbuf, '\n', lenbuf - vcurbuf);
-            vcurbuf = (size_t)(cinbuf - inbuf + 1);
-            //            while (c != '\n') {
-            //                c = inbuf[vcurbuf++];
-            //            }
-            /*****************************************************************/
-            /*                          OPTIMIZATION                         */
-            /*****************************************************************/
-            
-            c = inbuf[vcurbuf++];
-            assert(c != '\n');
-        } else if (c == '\n') {
-            // +
-            c = inbuf[vcurbuf++];
-            assert(c == '+');
-            
-            /*****************************************************************/
-            /*                          OPTIMIZATION                         */
-            /*****************************************************************/
-            uint8_t *cinbuf = memchr(inbuf + vcurbuf, '\n', lenbuf - vcurbuf);
-            vcurbuf = (size_t)(cinbuf - inbuf + 1);
-            cinbuf = memchr(inbuf + vcurbuf, '\n', lenbuf - vcurbuf);
-            vcurbuf = (size_t)(cinbuf - inbuf + 1);
-            //            while (c != '\n') {
-            //                c = inbuf[vcurbuf++];
-            //            }
-            // quality score
-            //            c = inbuf[vcurbuf++];
-            //            while (c != '\n') {
-            //                c = inbuf[vcurbuf++];
-            //            }
-            /*****************************************************************/
-            /*                          OPTIMIZATION                         */
-            /*****************************************************************/
-            
-            if (vcurbuf < lenbuf) {
-                c = 'X';
-            } else {
-                //                e->n_byte += e->i_inbuf;
-                *curbuf = vcurbuf;
-                return 5;
-            }
-        }
-    } else {
-        assert(type_infile == ALDER_KMER_BINARY_FILETYPE_SEQ);
-        if (c == '\n') {
-            if (vcurbuf < lenbuf) {
-                // no code.
-            } else {
-                //                e->n_byte += e->i_inbuf;
-                *curbuf = vcurbuf;
-                return 5;
-            }
-        }
-    }
-    
-    *curbuf = vcurbuf;
-    return dna_char2int[c];
-    //    int ci = alder_dna_char2int(c);
-    //    return ci;
-}
+///**
+// *  This function returns 0,1,2,3 for DNA.
+// *
+// *  @param e binary
+// *
+// *  @return int
+// *  0,1,2,3 for A,C,T,G.
+// *  4 for others.
+// *  5 for the end of buffer.
+// */
+//static int
+//alder_kmer_binary_token(size_t *curbuf, uint8_t *inbuf, size_t lenbuf,
+//                        int type_infile)
+//{
+//    char c;
+//    size_t vcurbuf = *curbuf;
+//#if !defined(NDEBUG)
+//    if (vcurbuf % 10000 == 0) {
+//        alder_log4("i_inbuf(%zu): %zu", lenbuf, vcurbuf);
+//    }
+//#endif
+//    if (vcurbuf < lenbuf) {
+//        c = inbuf[vcurbuf++];
+//    } else {
+//        //        assert(0);
+//        *curbuf = vcurbuf;
+//        return 5;
+//    }
+//    if (type_infile == ALDER_KMER_BINARY_FILETYPE_FASTA) {
+//        if (c == '>' || c == '\n') {
+//            /*****************************************************************/
+//            /*                          OPTIMIZATION                         */
+//            /*****************************************************************/
+//            if (c == '>') {
+//                uint8_t *cinbuf = memchr(inbuf + vcurbuf, '\n', lenbuf - vcurbuf);
+//                vcurbuf = (size_t)(cinbuf - inbuf + 1);
+//            }
+//            //            while (c != '\n') {
+//            //                c = inbuf[vcurbuf++];
+//            //            }
+//            /*****************************************************************/
+//            /*                          OPTIMIZATION                         */
+//            /*****************************************************************/
+//            
+//            if (vcurbuf < lenbuf) {
+//                c = inbuf[vcurbuf++];
+//            } else {
+//                //                e->n_byte += *curbuf;
+//                *curbuf = vcurbuf;
+//                return 5;
+//            }
+//        }
+//    } else if (type_infile == ALDER_KMER_BINARY_FILETYPE_FASTQ) {
+//        if (c == '@') {
+//            // header
+//            /*****************************************************************/
+//            /*                          OPTIMIZATION                         */
+//            /*****************************************************************/
+//            uint8_t *cinbuf = memchr(inbuf + vcurbuf, '\n', lenbuf - vcurbuf);
+//            vcurbuf = (size_t)(cinbuf - inbuf + 1);
+//            //            while (c != '\n') {
+//            //                c = inbuf[vcurbuf++];
+//            //            }
+//            /*****************************************************************/
+//            /*                          OPTIMIZATION                         */
+//            /*****************************************************************/
+//            
+//            c = inbuf[vcurbuf++];
+//            assert(c != '\n');
+//        } else if (c == '\n') {
+//            // +
+//            c = inbuf[vcurbuf++];
+//            assert(c == '+');
+//            
+//            /*****************************************************************/
+//            /*                          OPTIMIZATION                         */
+//            /*****************************************************************/
+//            uint8_t *cinbuf = memchr(inbuf + vcurbuf, '\n', lenbuf - vcurbuf);
+//            vcurbuf = (size_t)(cinbuf - inbuf + 1);
+//            cinbuf = memchr(inbuf + vcurbuf, '\n', lenbuf - vcurbuf);
+//            vcurbuf = (size_t)(cinbuf - inbuf + 1);
+//            //            while (c != '\n') {
+//            //                c = inbuf[vcurbuf++];
+//            //            }
+//            // quality score
+//            //            c = inbuf[vcurbuf++];
+//            //            while (c != '\n') {
+//            //                c = inbuf[vcurbuf++];
+//            //            }
+//            /*****************************************************************/
+//            /*                          OPTIMIZATION                         */
+//            /*****************************************************************/
+//            
+//            if (vcurbuf < lenbuf) {
+//                c = 'X';
+//            } else {
+//                //                e->n_byte += e->i_inbuf;
+//                *curbuf = vcurbuf;
+//                return 5;
+//            }
+//        }
+//    } else {
+//        assert(type_infile == ALDER_KMER_BINARY_FILETYPE_SEQ);
+//        if (c == '\n') {
+//            if (vcurbuf < lenbuf) {
+//                // no code.
+//            } else {
+//                //                e->n_byte += e->i_inbuf;
+//                *curbuf = vcurbuf;
+//                return 5;
+//            }
+//        }
+//    }
+//    
+//    *curbuf = vcurbuf;
+//    return dna_char2int[c];
+//    //    int ci = alder_dna_char2int(c);
+//    //    return ci;
+//}
 
 #pragma mark main
 
@@ -444,7 +447,9 @@ alder_kmer_binary_token(size_t *curbuf, uint8_t *inbuf, size_t lenbuf,
  *  @return SUCCESS or FAIL
  */
 int
-alder_kmer_binary(long version,
+alder_kmer_binary(void *ptr, size_t size, size_t subsize,
+                  uint64_t *n_kmer, uint64_t *n_dna, uint64_t *n_seq,
+                  long version,
                   int K, long D,
                   int n_nt,
                   size_t totalfilesize,
@@ -461,7 +466,9 @@ alder_kmer_binary(long version,
     } else {
         binary = &alder_kmer_binary1;
     }
-    int s = (*binary)(version,
+    int s = (*binary)(ptr, size, subsize,
+                      n_kmer, n_dna, n_seq,
+                      version,
                       K, D,
                       n_nt,
                       totalfilesize,
@@ -473,15 +480,17 @@ alder_kmer_binary(long version,
 }
 
 int
-alder_kmer_binary1(long version,
-                  int K, long D,
-                  int n_nt,
-                  size_t totalfilesize,
-                  size_t *n_byte,
-                  int progress_flag,
-                  int progressToError_flag,
-                  struct bstrList *infile, const char *outdir,
-                  const char *outfile)
+alder_kmer_binary1(void *ptr, size_t size, size_t subsize,
+                   uint64_t *n_kmer, uint64_t *n_dna, uint64_t *n_seq,
+                   long version,
+                   int K, long D,
+                   int n_nt,
+                   size_t totalfilesize,
+                   size_t *n_byte,
+                   int progress_flag,
+                   int progressToError_flag,
+                   struct bstrList *infile, const char *outdir,
+                   const char *outfile)
 {
     alder_log5("preparing for making a binary file...");
     n_nt = 1;

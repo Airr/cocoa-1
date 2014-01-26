@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D019F22918924369002AA064 /* alder_bzip2.c in Sources */ = {isa = PBXBuildFile; fileRef = D019F22818924369002AA064 /* alder_bzip2.c */; };
 		D07DA0851879ED6F00637F89 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = D07DA0841879ED6F00637F89 /* main.c */; };
 		D07DA0871879ED6F00637F89 /* alder_bzip2.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = D07DA0861879ED6F00637F89 /* alder_bzip2.1 */; };
 		D07DA0961879F02600637F89 /* blocksort.c in Sources */ = {isa = PBXBuildFile; fileRef = D07DA08E1879F02600637F89 /* blocksort.c */; };
@@ -32,6 +33,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D019F22818924369002AA064 /* alder_bzip2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_bzip2.c; sourceTree = "<group>"; };
+		D019F22A18924374002AA064 /* alder_bzip2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_bzip2.h; sourceTree = "<group>"; };
 		D07DA0811879ED6F00637F89 /* alder-bzip2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "alder-bzip2"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D07DA0841879ED6F00637F89 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		D07DA0861879ED6F00637F89 /* alder_bzip2.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = alder_bzip2.1; sourceTree = "<group>"; };
@@ -97,6 +100,8 @@
 				D07DA0931879F02600637F89 /* decompress.c */,
 				D07DA0941879F02600637F89 /* huffman.c */,
 				D07DA0951879F02600637F89 /* randtable.c */,
+				D019F22818924369002AA064 /* alder_bzip2.c */,
+				D019F22A18924374002AA064 /* alder_bzip2.h */,
 			);
 			path = bzip2;
 			sourceTree = "<group>";
@@ -152,6 +157,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D019F22918924369002AA064 /* alder_bzip2.c in Sources */,
 				D07DA09A1879F02600637F89 /* decompress.c in Sources */,
 				D07DA09C1879F02600637F89 /* randtable.c in Sources */,
 				D07DA09B1879F02600637F89 /* huffman.c in Sources */,
@@ -269,6 +275,7 @@
 				D07DA08C1879ED6F00637F89 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

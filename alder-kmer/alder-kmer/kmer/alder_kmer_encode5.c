@@ -398,125 +398,125 @@ static int open_infile (alder_kmer_encoder5_t *o, int i_infile)
     return ALDER_STATUS_SUCCESS;
 }
 
-/**
- *  This function returns 0,1,2,3 for DNA.
- *
- *  @param e encoder
- *
- *  @return int
- *  0,1,2,3 for A,C,T,G.
- *  4 for others.
- *  5 for the end of buffer.
- */
-static int
-alder_kmer_encode5_token(size_t *curbuf, uint8_t *inbuf, size_t lenbuf,
-                         int type_infile)
-{
-    char c;
-    size_t vcurbuf = *curbuf;
-#if !defined(NDEBUG)
-    if (vcurbuf % 10000 == 0) {
-        alder_log4("i_inbuf(%zu): %zu", lenbuf, vcurbuf);
-    }
-#endif
-    if (vcurbuf < lenbuf) {
-        c = inbuf[vcurbuf++];
-    } else {
-        //        assert(0);
-        *curbuf = vcurbuf;
-        return 5;
-    }
-    if (type_infile == ALDER_KMER_ENCODER5_FILETYPE_FASTA) {
-        if (c == '>' || c == '\n') {
-            /*****************************************************************/
-            /*                          OPTIMIZATION                         */
-            /*****************************************************************/
-            if (c == '>') {
-                uint8_t *cinbuf = memchr(inbuf + vcurbuf, '\n', lenbuf - vcurbuf);
-                vcurbuf = (size_t)(cinbuf - inbuf + 1);
-            }
-            //            while (c != '\n') {
-            //                c = inbuf[vcurbuf++];
-            //            }
-            /*****************************************************************/
-            /*                          OPTIMIZATION                         */
-            /*****************************************************************/
-            
-            if (vcurbuf < lenbuf) {
-                c = inbuf[vcurbuf++];
-            } else {
-                //                e->n_byte += *curbuf;
-                *curbuf = vcurbuf;
-                return 5;
-            }
-        }
-    } else if (type_infile == ALDER_KMER_ENCODER5_FILETYPE_FASTQ) {
-        if (c == '@') {
-            // header
-            /*****************************************************************/
-            /*                          OPTIMIZATION                         */
-            /*****************************************************************/
-            uint8_t *cinbuf = memchr(inbuf + vcurbuf, '\n', lenbuf - vcurbuf);
-            vcurbuf = (size_t)(cinbuf - inbuf + 1);
-            //            while (c != '\n') {
-            //                c = inbuf[vcurbuf++];
-            //            }
-            /*****************************************************************/
-            /*                          OPTIMIZATION                         */
-            /*****************************************************************/
-            
-            c = inbuf[vcurbuf++];
-            assert(c != '\n');
-        } else if (c == '\n') {
-            // +
-            c = inbuf[vcurbuf++];
-            assert(c == '+');
-            
-            /*****************************************************************/
-            /*                          OPTIMIZATION                         */
-            /*****************************************************************/
-            uint8_t *cinbuf = memchr(inbuf + vcurbuf, '\n', lenbuf - vcurbuf);
-            vcurbuf = (size_t)(cinbuf - inbuf + 1);
-            cinbuf = memchr(inbuf + vcurbuf, '\n', lenbuf - vcurbuf);
-            vcurbuf = (size_t)(cinbuf - inbuf + 1);
-            //            while (c != '\n') {
-            //                c = inbuf[vcurbuf++];
-            //            }
-            // quality score
-            //            c = inbuf[vcurbuf++];
-            //            while (c != '\n') {
-            //                c = inbuf[vcurbuf++];
-            //            }
-            /*****************************************************************/
-            /*                          OPTIMIZATION                         */
-            /*****************************************************************/
-            
-            if (vcurbuf < lenbuf) {
-                c = 'X';
-            } else {
-                //                e->n_byte += e->i_inbuf;
-                *curbuf = vcurbuf;
-                return 5;
-            }
-        }
-    } else {
-        assert(type_infile == ALDER_KMER_ENCODER5_FILETYPE_SEQ);
-        if (c == '\n') {
-            if (vcurbuf < lenbuf) {
-                // no code.
-            } else {
-                //                e->n_byte += e->i_inbuf;
-                *curbuf = vcurbuf;
-                return 5;
-            }
-        }
-    }
-    
-    *curbuf = vcurbuf;
-    return dna_char2int[c];
-    //    int ci = alder_dna_char2int(c);
-    //    return ci;
-}
+///**
+// *  This function returns 0,1,2,3 for DNA.
+// *
+// *  @param e encoder
+// *
+// *  @return int
+// *  0,1,2,3 for A,C,T,G.
+// *  4 for others.
+// *  5 for the end of buffer.
+// */
+//static int
+//alder_kmer_encode5_token(size_t *curbuf, uint8_t *inbuf, size_t lenbuf,
+//                         int type_infile)
+//{
+//    char c;
+//    size_t vcurbuf = *curbuf;
+//#if !defined(NDEBUG)
+//    if (vcurbuf % 10000 == 0) {
+//        alder_log4("i_inbuf(%zu): %zu", lenbuf, vcurbuf);
+//    }
+//#endif
+//    if (vcurbuf < lenbuf) {
+//        c = inbuf[vcurbuf++];
+//    } else {
+//        //        assert(0);
+//        *curbuf = vcurbuf;
+//        return 5;
+//    }
+//    if (type_infile == ALDER_KMER_ENCODER5_FILETYPE_FASTA) {
+//        if (c == '>' || c == '\n') {
+//            /*****************************************************************/
+//            /*                          OPTIMIZATION                         */
+//            /*****************************************************************/
+//            if (c == '>') {
+//                uint8_t *cinbuf = memchr(inbuf + vcurbuf, '\n', lenbuf - vcurbuf);
+//                vcurbuf = (size_t)(cinbuf - inbuf + 1);
+//            }
+//            //            while (c != '\n') {
+//            //                c = inbuf[vcurbuf++];
+//            //            }
+//            /*****************************************************************/
+//            /*                          OPTIMIZATION                         */
+//            /*****************************************************************/
+//            
+//            if (vcurbuf < lenbuf) {
+//                c = inbuf[vcurbuf++];
+//            } else {
+//                //                e->n_byte += *curbuf;
+//                *curbuf = vcurbuf;
+//                return 5;
+//            }
+//        }
+//    } else if (type_infile == ALDER_KMER_ENCODER5_FILETYPE_FASTQ) {
+//        if (c == '@') {
+//            // header
+//            /*****************************************************************/
+//            /*                          OPTIMIZATION                         */
+//            /*****************************************************************/
+//            uint8_t *cinbuf = memchr(inbuf + vcurbuf, '\n', lenbuf - vcurbuf);
+//            vcurbuf = (size_t)(cinbuf - inbuf + 1);
+//            //            while (c != '\n') {
+//            //                c = inbuf[vcurbuf++];
+//            //            }
+//            /*****************************************************************/
+//            /*                          OPTIMIZATION                         */
+//            /*****************************************************************/
+//            
+//            c = inbuf[vcurbuf++];
+//            assert(c != '\n');
+//        } else if (c == '\n') {
+//            // +
+//            c = inbuf[vcurbuf++];
+//            assert(c == '+');
+//            
+//            /*****************************************************************/
+//            /*                          OPTIMIZATION                         */
+//            /*****************************************************************/
+//            uint8_t *cinbuf = memchr(inbuf + vcurbuf, '\n', lenbuf - vcurbuf);
+//            vcurbuf = (size_t)(cinbuf - inbuf + 1);
+//            cinbuf = memchr(inbuf + vcurbuf, '\n', lenbuf - vcurbuf);
+//            vcurbuf = (size_t)(cinbuf - inbuf + 1);
+//            //            while (c != '\n') {
+//            //                c = inbuf[vcurbuf++];
+//            //            }
+//            // quality score
+//            //            c = inbuf[vcurbuf++];
+//            //            while (c != '\n') {
+//            //                c = inbuf[vcurbuf++];
+//            //            }
+//            /*****************************************************************/
+//            /*                          OPTIMIZATION                         */
+//            /*****************************************************************/
+//            
+//            if (vcurbuf < lenbuf) {
+//                c = 'X';
+//            } else {
+//                //                e->n_byte += e->i_inbuf;
+//                *curbuf = vcurbuf;
+//                return 5;
+//            }
+//        }
+//    } else {
+//        assert(type_infile == ALDER_KMER_ENCODER5_FILETYPE_SEQ);
+//        if (c == '\n') {
+//            if (vcurbuf < lenbuf) {
+//                // no code.
+//            } else {
+//                //                e->n_byte += e->i_inbuf;
+//                *curbuf = vcurbuf;
+//                return 5;
+//            }
+//        }
+//    }
+//    
+//    *curbuf = vcurbuf;
+//    return dna_char2int[c];
+//    //    int ci = alder_dna_char2int(c);
+//    //    return ci;
+//}
 
 #pragma mark main
 
@@ -963,7 +963,7 @@ static void *encoder(void *t)
     size_t c_inbuffer = a->n_encoder;
     size_t c_outbuffer = encoder_id;
     
-    size_t debug_counter = 0;
+//    size_t debug_counter = 0;
     
     /* Reader variables */
     alder_encode_number2_t * m1 = NULL;

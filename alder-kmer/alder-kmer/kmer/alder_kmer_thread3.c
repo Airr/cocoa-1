@@ -365,6 +365,7 @@ int alder_kmer_count_iteration3(FILE *fpout,
                                 int kmer_size,
                                 long memory_available,
                                 long sizeInbuffer,
+                                long sizeOutbuffer,
                                 uint64_t n_ni,
                                 uint64_t n_np,
                                 size_t n_nh,
@@ -778,10 +779,12 @@ static void *counter(void *t)
                 m->n[i] = inbuf_body_uint64[i];
                 x += 8;
             }
-            for (size_t j = 0; j < jb; j++) {
-                m2->n[ib].key8[j] = inbuf_body[x++];
+            if (jb > 0) {
+                for (size_t j = 0; j < jb; j++) {
+                    m2->n[ib].key8[j] = inbuf_body[x++];
+                }
+                m->n[ib] = m2->n[ib].key64;
             }
-            m->n[ib] = m2->n[ib].key64;
             
 //            for (size_t i = 0; i < ib; i++) {
 //                for (size_t j = 0; j < 8; j++) {

@@ -193,7 +193,7 @@ Bool handle_compress ( lz_stream* strm )
 /*---------------------------------------------------*/
 int LZ_API(LZ4_lzCompress) (lz_stream *strm, int action)
 {
-    Bool progress;
+//    Bool progress;
     return LZ_OK; /*--not reached--*/
 }
 
@@ -228,7 +228,7 @@ int LZ_API(LZ4_lzDecompressInit)
 /*---------------------------------------------------*/
 int LZ_API(LZ4_lzDecompress) ( lz_stream *strm )
 {
-    Bool    corrupt;
+//    Bool    corrupt;
     return 0;  /*NOTREACHED*/
 }
 

@@ -256,22 +256,22 @@ alder_kmer_thread4_create(FILE *fpout,
     /* memory */
     o->boutfile = bfromcstr(outfile);
     o->boutdir = bfromcstr(outdir);
-    o->n_blockByCounter = malloc(sizeof(*o->n_blockByCounter) * n_np);
     o->n_blockByReader = malloc(sizeof(*o->n_blockByReader) * n_np);
+    o->n_blockByCounter = malloc(sizeof(*o->n_blockByCounter) * n_np);
     o->inbuf = malloc(sizeof(*o->inbuf) * o->size_inbuf); /* bigmem */
     o->next_inbuf = malloc(sizeof(*o->inbuf) * o->b); /* bigmem */
     o->ht = malloc(sizeof(*o->ht) * o->n_ht);
-    if (o->ht == NULL || o->boutdir == NULL || o->inbuf == NULL ||
-        o->next_inbuf == NULL ||
-        o->n_blockByReader == NULL || o->n_blockByCounter == NULL) {
+    if (o->boutfile == NULL || o->boutdir == NULL || 
+        o->n_blockByReader == NULL || o->n_blockByCounter == NULL ||
+        o->inbuf == NULL || o->next_inbuf == NULL || o->ht == NULL) {
         alder_kmer_thread4_destroy(o);
         return NULL;
     }
+    memset(o->n_blockByReader, 0, sizeof(*o->n_blockByReader) * n_np);
+    memset(o->n_blockByCounter, 0, sizeof(*o->n_blockByCounter) * n_np);
     memset(o->inbuf,0,sizeof(*o->inbuf) * o->size_inbuf);
     memset(o->next_inbuf,0,sizeof(*o->next_inbuf) * o->b);
     memset(o->ht,0,sizeof(*o->ht) * o->n_ht);
-    memset(o->n_blockByCounter, 0, sizeof(*o->n_blockByCounter) * n_np);
-    memset(o->n_blockByReader, 0, sizeof(*o->n_blockByReader) * n_np);
     assert(o->fpin == NULL);
     
     for (size_t i = 0; i < o->n_ht; i++) {
@@ -369,6 +369,7 @@ int alder_kmer_count_iteration4(FILE *fpout,
                                 int kmer_size,
                                 long memory_available,
                                 long sizeInbuffer,
+                                long sizeOutbuffer,
                                 uint64_t n_ni,
                                 uint64_t n_np,
                                 size_t n_nh,
@@ -767,10 +768,12 @@ static void *counter(void *t)
                 m->n[i] = inbuf_body_uint64[i];
                 x += 8;
             }
-            for (size_t j = 0; j < jb; j++) {
-                m2->n[ib].key8[j] = inbuf_body[x++];
+            if (jb > 0) {
+                for (size_t j = 0; j < jb; j++) {
+                    m2->n[ib].key8[j] = inbuf_body[x++];
+                }
+                m->n[ib] = m2->n[ib].key64;
             }
-            m->n[ib] = m2->n[ib].key64;
             
             //            for (size_t i = 0; i < ib; i++) {
             //                for (size_t j = 0; j < 8; j++) {

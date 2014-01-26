@@ -40,6 +40,14 @@ void alder_kmer_inspect(struct bstrList *infile,
                         const char *outdir,
                         const char *outfile);
 
+int alder_kmer_inspect_estimate_nkmer(uint64_t *v,
+                                      int K,
+                                      struct bstrList *infile);
+int alder_kmer_inspect_estimate_buffer_size(size_t *read_log2size,
+                                            size_t *write_log2size,
+                                            const char *outdir,
+                                            const char *outfile);
+
 __END_DECLS
 
 

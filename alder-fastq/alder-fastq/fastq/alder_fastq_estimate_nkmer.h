@@ -1,7 +1,7 @@
 /**
- * This file, alder_fastq.h, is part of alder-fastq.
+ * This file, alder_fastq_estimate_nkmer.h, is part of alder-fastq.
  *
- * Copyright 2013 by Sang Chul Choi
+ * Copyright 2014 by Sang Chul Choi
  *
  * alder-fastq is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,21 +15,12 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with alder-fastq.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
-#ifndef alder_fastq_alder_fastq_h
-#define alder_fastq_alder_fastq_h
+#ifndef alder_kmer_alder_fastq_estimate_nkmer_h
+#define alder_kmer_alder_fastq_estimate_nkmer_h
 
-#include "alder_kseq.h"
-#include "alder_fastq_kseq_summary.h"
-#include "alder_fastq_ragel_summary.h"
-#include "alder_fastq_concat.h"
-#include "alder_fastq_numbase.h"
-#include "alder_fastq_length.h"
-#include "alder_fastq_count_kmer.h"
-#include "alder_fastq_sequenceiterator.h"
-#include "alder_fastq_chunk.h"
-#include "alder_fastq_estimate_nkmer.h"
+#include <stdint.h>
 
 #undef __BEGIN_DECLS
 #undef __END_DECLS
@@ -44,22 +35,11 @@
 
 __BEGIN_DECLS
 
-typedef struct {
-    int type; // 0: regular file, 1: gzipped file
-    void *f;
-    kseq_t *seq;
-} alder_fastq_t;
-
-kseq_t * alder_fastq_init (const char *fn);
-
-alder_fastq_t * alder_fastq_open(const char *fn);
-kseq_t * alder_fastq_read(alder_fastq_t *f);
-void alder_fastq_close(alder_fastq_t *f);
-
-
-
+int alder_fastq_estimate_nkmer(uint64_t *v,
+                               int kmer_size,
+                               const char *fn);
 
 __END_DECLS
 
 
-#endif /* alder_fastq_alder_fastq_h */
+#endif /* alder_kmer_alder_fastq_estimate_nkmer_h */

@@ -71,8 +71,8 @@ const char *gengetopt_args_info_detailed_help[] = {
   "\npartition:",
   "  This command converts sequence files to partition files. Use options of\n  command `simulate': --kmer, --nthread, --outfile, --outdir, --ni, and --np.\n  You can use options: --disk and --memory to set automatically --ni and --np,\n  but to use --disk and --memmory you must set --ni=-1 and --np=-1 or negative\n  values. Otherwise, --ni and --np values in `simulate' command would be used.\n  The --memory option value will be still used for acquiring buffers for\n  reading sequence files and writing partition files. Large memory would\n  increase the speed of `partition' command. On the contrary, the value in\n  --disk does not affect the buffer, and the performance of `partition' command\n  would be the same for different values of --disk, which would change the size\n  of --ni and --np if --ni=-1 and --np=-1. See the reference by Rizk, et al.\n  (2013) for details using option --cite.",
   "      --partition              Create a partition file  (default=off)",
-  "      --inbuffer=number        Size of input buffer  (default=`0')",
-  "      --outbuffer=INT          Size of output buffer  (default=`0')",
+  "      --inbuffer=INT           Size of input buffer in log2  (default=`0')",
+  "      --outbuffer=INT          Size of output buffer in log2  (default=`0')",
   "\ndecode:",
   "  This command converts a partition file to a sequence file. Available options\n  include --kmer, --outfile, and --outdir.",
   "      --decode                 Decode a partition file  (default=off)",
@@ -102,7 +102,7 @@ const char *gengetopt_args_info_detailed_help[] = {
   "      --loglevel=level         Log level  (possible values=\"0\", \"1\", \"2\",\n                                 \"3\", \"4\", \"5\" default=`1')",
   "      --progress-to-stderr     Display progress number to stdandard error\n                                 (default=off)",
   "      --totalmaxkmer=INT       Skip counting maximum number of kmers in data,\n                                 and use this number  (default=`0')",
-  "      --select-version=INT     Select a version  (possible values=\"1\", \"2\",\n                                 \"3\", \"4\", \"5\" default=`5')",
+  "      --select-version=INT     Select a version  (possible values=\"0\", \"4\",\n                                 \"5\", \"6\" default=`0')",
   "      --bin-outdir=DIRECTORY   binary file output directory  (default=`.')",
   "      --par-outdir=DIRECTORY   partition files output directory  (default=`.')",
   "      --tab-outdir=DIRECTORY   table file output directory  (default=`.')",
@@ -318,7 +318,7 @@ my_cmdline_parser_required2 (struct gengetopt_args_info *args_info, const char *
 
 const char *my_cmdline_parser_format_values[] = {"fasta", "fastq", "fa", "fq", "seq", 0}; /*< Possible values for format. */
 const char *my_cmdline_parser_loglevel_values[] = {"0", "1", "2", "3", "4", "5", 0}; /*< Possible values for loglevel. */
-const char *my_cmdline_parser_select_version_values[] = {"1", "2", "3", "4", "5", 0}; /*< Possible values for select-version. */
+const char *my_cmdline_parser_select_version_values[] = {"0", "4", "5", "6", 0}; /*< Possible values for select-version. */
 
 static char *
 gengetopt_strdup (const char *s);
@@ -450,7 +450,7 @@ void clear_args (struct gengetopt_args_info *args_info)
   args_info->progress_to_stderr_flag = 0;
   args_info->totalmaxkmer_arg = 0;
   args_info->totalmaxkmer_orig = NULL;
-  args_info->select_version_arg = 5;
+  args_info->select_version_arg = 0;
   args_info->select_version_orig = NULL;
   args_info->bin_outdir_arg = gengetopt_strdup (".");
   args_info->bin_outdir_orig = NULL;
@@ -2183,7 +2183,7 @@ my_cmdline_parser_internal (
               goto failure;
           
           }
-          /* Size of input buffer.  */
+          /* Size of input buffer in log2.  */
           else if (strcmp (long_options[option_index].name, "inbuffer") == 0)
           {
           
@@ -2197,7 +2197,7 @@ my_cmdline_parser_internal (
               goto failure;
           
           }
-          /* Size of output buffer.  */
+          /* Size of output buffer in log2.  */
           else if (strcmp (long_options[option_index].name, "outbuffer") == 0)
           {
           
@@ -2396,7 +2396,7 @@ my_cmdline_parser_internal (
           
             if (update_arg( (void *)&(args_info->select_version_arg), 
                  &(args_info->select_version_orig), &(args_info->select_version_given),
-                &(local_args_info.select_version_given), optarg, my_cmdline_parser_select_version_values, "5", ARG_LONG,
+                &(local_args_info.select_version_given), optarg, my_cmdline_parser_select_version_values, "0", ARG_LONG,
                 check_ambiguity, override, 0, 0,
                 "select-version", '-',
                 additional_error))

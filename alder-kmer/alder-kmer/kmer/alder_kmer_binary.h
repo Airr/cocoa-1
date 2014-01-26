@@ -36,8 +36,15 @@
 
 __BEGIN_DECLS
 
+#define ALDER_KMER_BINARY_READBLOCK_I_NP       0
+#define ALDER_KMER_BINARY_READBLOCK_TYPE       4
+#define ALDER_KMER_BINARY_READBLOCK_LEN        8
+#define ALDER_KMER_BINARY_READBLOCK_BODY       16
+
 int
-alder_kmer_binary(long version,
+alder_kmer_binary(void *ptr, size_t size, size_t subsize,
+                  uint64_t *n_kmer, uint64_t *n_dna, uint64_t *n_seq,
+                  long version,
                   int K, long D,
                   int n_nt,
                   size_t totalfilesize,
@@ -48,7 +55,9 @@ alder_kmer_binary(long version,
                   const char *outfile);
 
 int
-alder_kmer_binary1(long version,
+alder_kmer_binary1(void *ptr, size_t size, size_t subsize,
+                   uint64_t *n_kmer, uint64_t *n_dna, uint64_t *n_seq,
+                   long version,
                    int K, long D,
                    int n_nt,
                    size_t totalfilesize,
@@ -59,7 +68,22 @@ alder_kmer_binary1(long version,
                    const char *outfile);
 
 int
-alder_kmer_binary2(long version,
+alder_kmer_binary2(void *ptr, size_t size, size_t subsize,
+                   uint64_t *n_kmer, uint64_t *n_dna, uint64_t *n_seq,
+                   long version,
+                   int K, long D,
+                   int n_nt,
+                   size_t totalfilesize,
+                   size_t *n_byte,
+                   int progress_flag,
+                   int progressToError_flag,
+                   struct bstrList *infile, const char *outdir,
+                   const char *outfile);
+
+int
+alder_kmer_binary3(void *ptr, size_t size, size_t subsize,
+                   uint64_t *n_kmer, uint64_t *n_dna, uint64_t *n_seq,
+                   long version,
                    int K, long D,
                    int n_nt,
                    size_t totalfilesize,

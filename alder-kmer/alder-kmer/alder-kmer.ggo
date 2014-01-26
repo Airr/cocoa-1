@@ -46,8 +46,8 @@ details="Enter a positive integer seed (9 digits or less)."
 section "partition"
 sectiondesc="This command converts sequence files to partition files. Use options of command `simulate': --kmer, --nthread, --outfile, --outdir, --ni, and --np. You can use options: --disk and --memory to set automatically --ni and --np, but to use --disk and --memmory you must set --ni=-1 and --np=-1 or negative values. Otherwise, --ni and --np values in `simulate' command would be used. The --memory option value will be still used for acquiring buffers for reading sequence files and writing partition files. Large memory would increase the speed of `partition' command. On the contrary, the value in --disk does not affect the buffer, and the performance of `partition' command would be the same for different values of --disk, which would change the size of --ni and --np if --ni=-1 and --np=-1. See the reference by Rizk, et al. (2013) for details using option --cite."
 option "partition" - "Create a partition file" flag off dependon="outfile"
-option "inbuffer" - "Size of input buffer" long typestr="number" default="0" optional
-option "outbuffer" - "Size of output buffer" long typestr="INT" default="0" optional
+option "inbuffer" - "Size of input buffer in log2" long typestr="INT" default="0" optional
+option "outbuffer" - "Size of output buffer in log2" long typestr="INT" default="0" optional
 
 section "decode"
 sectiondesc="This command converts a partition file to a sequence file. Available options include --kmer, --outfile, and --outdir."
@@ -86,7 +86,7 @@ option "progress" - "Display progress" flag off
 option "loglevel" - "Log level" long typestr="level" values="0","1","2","3","4","5" default="1" optional
 option "progress-to-stderr" - "Display progress number to stdandard error" flag off
 option "totalmaxkmer" - "Skip counting maximum number of kmers in data, and use this number" long typestr="INT" default="0" optional
-option "select-version" - "Select a version" long typestr="INT" default="5" values="1","2","3","4","5" optional
+option "select-version" - "Select a version" long typestr="INT" default="0" values="0","4","5","6" optional
 option "bin-outdir" - "binary file output directory" string typestr="DIRECTORY" default="." optional
 option "par-outdir" - "partition files output directory" string typestr="DIRECTORY" default="." optional
 option "tab-outdir" - "table file output directory" string typestr="DIRECTORY" default="." optional

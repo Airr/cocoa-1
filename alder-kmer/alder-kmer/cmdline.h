@@ -113,12 +113,12 @@ struct gengetopt_args_info
   const char *seed_help; /**< @brief random seed help description.  */
   int partition_flag;	/**< @brief Create a partition file (default=off).  */
   const char *partition_help; /**< @brief Create a partition file help description.  */
-  long inbuffer_arg;	/**< @brief Size of input buffer (default='0').  */
-  char * inbuffer_orig;	/**< @brief Size of input buffer original value given at command line.  */
-  const char *inbuffer_help; /**< @brief Size of input buffer help description.  */
-  long outbuffer_arg;	/**< @brief Size of output buffer (default='0').  */
-  char * outbuffer_orig;	/**< @brief Size of output buffer original value given at command line.  */
-  const char *outbuffer_help; /**< @brief Size of output buffer help description.  */
+  long inbuffer_arg;	/**< @brief Size of input buffer in log2 (default='0').  */
+  char * inbuffer_orig;	/**< @brief Size of input buffer in log2 original value given at command line.  */
+  const char *inbuffer_help; /**< @brief Size of input buffer in log2 help description.  */
+  long outbuffer_arg;	/**< @brief Size of output buffer in log2 (default='0').  */
+  char * outbuffer_orig;	/**< @brief Size of output buffer in log2 original value given at command line.  */
+  const char *outbuffer_help; /**< @brief Size of output buffer in log2 help description.  */
   int decode_flag;	/**< @brief Decode a partition file (default=off).  */
   const char *decode_help; /**< @brief Decode a partition file help description.  */
   int table_flag;	/**< @brief Partition file (default=off).  */
@@ -150,7 +150,7 @@ struct gengetopt_args_info
   long totalmaxkmer_arg;	/**< @brief Skip counting maximum number of kmers in data, and use this number (default='0').  */
   char * totalmaxkmer_orig;	/**< @brief Skip counting maximum number of kmers in data, and use this number original value given at command line.  */
   const char *totalmaxkmer_help; /**< @brief Skip counting maximum number of kmers in data, and use this number help description.  */
-  long select_version_arg;	/**< @brief Select a version (default='5').  */
+  long select_version_arg;	/**< @brief Select a version (default='0').  */
   char * select_version_orig;	/**< @brief Select a version original value given at command line.  */
   const char *select_version_help; /**< @brief Select a version help description.  */
   char * bin_outdir_arg;	/**< @brief binary file output directory (default='.').  */

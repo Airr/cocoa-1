@@ -35,6 +35,7 @@
 #include "alder_hash.h"
 #include "alder_mcas_wf.h"
 #include "alder_encode.h"
+#include "libdivide.h"
 #include "alder_hashtable_mcas.h"
 
 
@@ -72,6 +73,7 @@ alder_hashtable_mcas_init(alder_hashtable_mcas_t *o, int k, size_t size)
     o->empty_key = NULL;
     o->key = NULL;
     o->value = NULL;
+    o->fast_size = libdivide_u64_gen((uint64_t)size);
 }
 
 /**
@@ -105,6 +107,56 @@ alder_hashtable_mcas_create(int k, size_t size)
 }
 
 /**
+ *  This function uses already allocated memory to assign (not allocate) 
+ *  a table to that memory. This function does not accompany a destroy 
+ *  function because of no memory allocation.
+ *
+ *  @param K        kmer size
+ *  @param size     table size
+ *  @param mem      memory location
+ *  @param mem_size available memory size
+ *
+ *  @return table
+ */
+alder_hashtable_mcas_t*
+alder_hashtable_mcas_createWithMemory(int K, size_t size,
+                                      void *mem, size_t mem_size)
+{
+    size_t required_size = alder_hashtable_mcas_sizeof(K, size);
+    if (mem_size != required_size) {
+        alder_loge(ALDER_ERR_MEMORY, "Bug: table memory requirement is not met.");
+        return NULL;
+    }
+    void *d = mem;
+    alder_log("BEGIN: %p", d);
+    
+    /* memory */
+    alder_hashtable_mcas_t *o = (alder_hashtable_mcas_t*)d;
+    alder_log("mem table pointer: %zu", sizeof(*o));
+    d += sizeof(*o);
+    memset(o, 0, sizeof(*o));
+    alder_hashtable_mcas_init(o, K, size);
+    o->empty_key = d;
+    alder_log("empty_key: %p", d);
+    d += sizeof(*o->empty_key) * o->stride;
+    o->key = d;
+    alder_log("key: %p", d);
+    d += sizeof(*o->key) * o->size * o->stride;
+    o->value = d;
+    alder_log("value: %p", d);
+    d += sizeof(*o->value) * o->size;
+    alder_log("END: %p", d);
+    if (o->empty_key == NULL || o->key == NULL || o->value == NULL) {
+        assert(0);
+        alder_loge(ALDER_ERR_MEMORY, "Bug: table memory allocation failed.");
+        return NULL;
+    }
+    memset(o->empty_key, 0x44, sizeof(*o->empty_key) * o->stride);
+    alder_hashtable_mcas_reset(o);
+    return o;
+}
+
+/**
  *  This function computes the memmory size of a table.
  *
  *  @param K    kmer size
@@ -118,7 +170,9 @@ alder_hashtable_mcas_sizeof(int K, size_t size)
     size_t v = 0;
     alder_hashtable_mcas_t ov;
     int stride = ALDER_BYTESIZE_KMER(K,ALDER_NUMKMER_8BYTE);
-    v = (sizeof(&ov) + sizeof(ov) +
+    // FIXME: check this if there is a problem.
+//    v = (sizeof(&ov) + sizeof(ov) +
+    v = (sizeof(ov) +
          sizeof(*ov.empty_key) * stride +
          sizeof(*ov.key) * stride * size +
          sizeof(*ov.value) * size);
@@ -127,6 +181,28 @@ alder_hashtable_mcas_sizeof(int K, size_t size)
     
     return v;
 }
+
+/**
+ *  This function computes the number of elements in a table that would fit to
+ *  the given memory size.
+ *
+ *  @param K        kmer size
+ *  @param mem_size memory size
+ *
+ *  @return number of elements in a table
+ */
+size_t
+alder_hashtable_mcas_size_with_available_memory(int K, size_t mem_size)
+{
+    size_t v = mem_size;
+    alder_hashtable_mcas_t ov;
+    int stride = ALDER_BYTESIZE_KMER(K,ALDER_NUMKMER_8BYTE);
+//    size_t x = sizeof(ov); 64
+    v -= (sizeof(ov) + sizeof(*ov.empty_key) * stride);
+    v /= (sizeof(*ov.key) * stride + sizeof(*ov.value));
+    return v;
+}
+
 
 /**
  *  This function computes the number of bytes for storing an element in a
@@ -219,24 +295,26 @@ alder_hashtable_mcas_key(alder_hashtable_mcas_t *o, size_t p)
 
 #pragma mark increment
 
-/**
- *  This function increments the hash. This is the main function in the hash
- *  table.
- *
- *  @param o               hash table
- *  @param key             key
- *  @param res_key         auxilary key
- *  @param isMultithreaded multi-threaded flag
- *
- *  @return SUCCESS or FAIL
- */
 int
-alder_hashtable_mcas_increment(alder_hashtable_mcas_t *o,
-                               uint64_t *key,
-                               uint64_t *res_key,
-                               bool isMultithreaded)
+alder_hashtable_mcas_increment_with_hashcode(alder_hashtable_mcas_t *o,
+                                             uint64_t *key,
+                                             uint64_t x,
+                                             uint64_t *res_key,
+                                             bool isMultithreaded)
 {
-    uint64_t x = alder_hash_code01(key, o->stride) % o->size;
+//    uint64_t x = alder_hash_code01(key, o->stride) % o->size;
+    
+//    x = x % o->size;
+    
+#if !defined(NDEBUG)
+    uint64_t y = x % o->size;
+#endif
+    uint64_t x_over_size = libdivide_u64_do(x, &o->fast_size);
+    x = x - x_over_size * o->size;
+#if !defined(NDEBUG)
+    assert(x == y);
+#endif
+    
     size_t tries = 1;
     BOOL succeeded = 0;
     if (isMultithreaded) {
@@ -356,6 +434,27 @@ alder_hashtable_mcas_increment(alder_hashtable_mcas_t *o,
         o->value[x]++;
     }
     return ALDER_STATUS_SUCCESS;
+}
+/**
+ *  This function increments the hash. This is the main function in the hash
+ *  table.
+ *
+ *  @param o               hash table
+ *  @param key             key
+ *  @param res_key         auxilary key
+ *  @param isMultithreaded multi-threaded flag
+ *
+ *  @return SUCCESS or FAIL
+ */
+int
+alder_hashtable_mcas_increment(alder_hashtable_mcas_t *o,
+                               uint64_t *key,
+                               uint64_t *res_key,
+                               bool isMultithreaded)
+{
+    uint64_t x = alder_hash_code01(key, o->stride) % o->size;
+    return alder_hashtable_mcas_increment_with_hashcode(o, key, x, res_key,
+                                                        isMultithreaded);
 }
 
 /**
@@ -589,6 +688,7 @@ alder_hashtable_mcaspseudo_maximum_count(alder_hashtable_mcas_t *o)
  * 6. (8 x ni x np B): number of elements in each partition
  */
 #define ALDER_HASHTABLE_MCAS_OFFSET_NNH  4
+#define ALDER_HASHTABLE_MCAS_OFFSET_NP  20
 #define ALDER_HASHTABLE_MCAS_OFFSET_TNH 28
 #define ALDER_HASHTABLE_MCAS_OFFSET_ENH 36
 int
@@ -790,6 +890,7 @@ alder_hashtable_mcas_printPackToFD(alder_hashtable_mcas_t *o,
                 i_buf = 0;
             }
             if (value[i] > 0) {
+//                assert(value[i] == 5000);
                 size_t keypos = i * stride;
                 memcpy(buf + i_buf, key + keypos, size_key);
                 i_buf += size_key;
@@ -862,6 +963,35 @@ alder_hashtable_mcas_printPackToFD_count(size_t value, int fd)
     }
     return ALDER_STATUS_SUCCESS;
 }
+
+int
+alder_hashtable_mcas_printPackToFD_np(uint64_t value, int fd)
+{
+    off_t pos = (ALDER_HASHTABLE_MCAS_OFFSET_NP);
+    off_t last = lseek(fd, 0, SEEK_CUR);
+    if (last == -1) {
+        // Error.
+        return ALDER_STATUS_ERROR;
+    }
+    off_t pos_r = lseek(fd, pos, SEEK_SET);
+    assert(pos_r == pos);
+    if (pos_r != pos) {
+        // Error.
+        return ALDER_STATUS_ERROR;
+    }
+    ssize_t s = write(fd, &value, sizeof(value));
+    if (s != sizeof(value)) {
+        // Error.
+        return ALDER_STATUS_ERROR;
+    }
+    off_t last_r = lseek(fd, last, SEEK_SET);
+    if (last_r != last) {
+        // Error.
+        return ALDER_STATUS_ERROR;
+    }
+    return ALDER_STATUS_SUCCESS;
+}
+
 
 /**
  *  This function writes the number of elements in the partition index by

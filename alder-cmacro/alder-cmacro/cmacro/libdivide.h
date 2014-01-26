@@ -1,3 +1,6 @@
+
+#ifndef alder_cmacro_libdivide_h
+#define alder_cmacro_libdivide_h
 /* libdivide.h
    Copyright 2010 ridiculous_fish
 */
@@ -1300,3 +1303,5 @@ __m128i operator/(__m128i numer, const divider<int_type, ALGO> & denom) {
 } //close namespace libdivide
 } //close anonymous namespace
 #endif
+
+#endif /* alder_cmacro_libdivide_h */

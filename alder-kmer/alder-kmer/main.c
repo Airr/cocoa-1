@@ -72,7 +72,12 @@ int main(int argc, char * argv[])
     // Binary:
     if (args_info.binary_flag) {
         size_t n_byte = 0;
-        s = alder_kmer_binary(args_info.select_version_arg,
+        uint64_t n_kmer = 0;
+        uint64_t n_dna = 0;
+        uint64_t n_seq = 0;
+        s = alder_kmer_binary(NULL, 0, 0,
+                              &n_kmer, &n_dna, &n_seq,
+                              args_info.select_version_arg,
                               (int)args_info.kmer_arg,
                               args_info.disk_arg,
                               (int)args_info.nthread_arg,
@@ -125,6 +130,7 @@ int main(int argc, char * argv[])
                              args_info.outdir_arg,
                              args_info.outfile_arg);
     }
+    
     ///////////////////////////////////////////////////////////////////////////
     // Partition:
     if (args_info.partition_flag) {

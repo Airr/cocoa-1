@@ -65,15 +65,21 @@ int main(int argc, char * argv[])
     if (args_info.kmer_given) {
         for (int i = 0; i < option.infile->qty; i++) {
             uint64_t v = 0;
-            if (args_info.use_ragel_flag) {
-                alder_fasta_count_kmer(bdata(option.infile->entry[i]),
-                                       (int)args_info.kmer_arg, &v);
-            } else {
-                size_t vz = 0;
-                alder_fasta_kmer_count(bdata(option.infile->entry[i]),
-                                       (int)args_info.kmer_arg, &vz);
-                v = (uint64_t)vz;
-            }
+            alder_fasta_estimate_nkmer(&v, (int)args_info.kmer_arg,
+                                       bdata(option.infile->entry[i]));
+            
+            
+//            if (args_info.use_ragel_flag) {
+//                
+////                alder_fasta_count_kmer(bdata(option.infile->entry[i]),
+////                                       (int)args_info.kmer_arg, &v);
+//                
+//            } else {
+//                size_t vz = 0;
+//                alder_fasta_kmer_count(bdata(option.infile->entry[i]),
+//                                       (int)args_info.kmer_arg, &vz);
+//                v = (uint64_t)vz;
+//            }
             fprintf(stdout, "File: %s\n", bdata(option.infile->entry[i]));
             fprintf(stdout, "Kmer: %llu\n", v);
         }

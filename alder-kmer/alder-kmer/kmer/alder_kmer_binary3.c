@@ -1,5 +1,5 @@
 /**
- * This file, alder_kmer_binary2.c, is part of alder-kmer.
+ * This file, alder_kmer_binary3.c, is part of alder-kmer.
  *
  * Copyright 2014 by Sang Chul Choi
  *
@@ -17,9 +17,6 @@
  * along with alder-kmer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-//#define ALDER_KMER_BINARY_READBLOCK_LEN        4
-//#define ALDER_KMER_BINARY_READBLOCK_BODY       12
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -27,8 +24,8 @@
 #include "bstrlib.h"
 #include "alder_token_dna.h"
 #include "alder_logger.h"
-#include "alder_kmer_binary.h"
 #include "alder_kseq_sequenceiterator.h"
+#include "alder_kmer_binary.h"
 
 /**
  *  dna2byte[DNA][POS].
@@ -40,9 +37,20 @@ static uint8_t dna2byte[4][4] = {
     {0xC0,0x30,0x0C,0x03}
 };
 
+/**
+ *  This function copies some of outbuf to fpout. See write_to_binary2.
+ *
+ *  @param size_outbuf  fixed size of outbuf
+ *  @param opos_e_len_p ?
+ *  @param e_len        ?
+ *  @param outbuf       outbuf
+ *  @param spareOutbuf  spare buf
+ *  @param fpout        destination buffer
+ *  @param cur_outbuf_p ?
+ */
 static
-void write_to_binary2(size_t size_outbuf, size_t *opos_e_len_p, uint16_t e_len,
-                      uint8_t *outbuf, uint8_t *spareOutbuf, FILE *fpout,
+void write_to_binary3(size_t size_outbuf, size_t *opos_e_len_p, uint16_t e_len,
+                      uint8_t **outbuf, uint8_t *spareOutbuf,
                       size_t *cur_outbuf_p)
 {
     /* Length check! */
@@ -55,104 +63,49 @@ void write_to_binary2(size_t size_outbuf, size_t *opos_e_len_p, uint16_t e_len,
     /* Save the part that would not be written. */
     unused = size_outbuf - *opos_e_len_p;
     if (unused > 0) {
-        memcpy(spareOutbuf, outbuf + *opos_e_len_p, unused);
+        memcpy(spareOutbuf, *outbuf + *opos_e_len_p, unused);
     }
     
-    to_size(outbuf, ALDER_KMER_BINARY_READBLOCK_LEN) = *opos_e_len_p - ALDER_KMER_BINARY_READBLOCK_BODY;
-    size_t written = fwrite(outbuf, size_outbuf, 1, fpout);
-    if (written != 1) {
-        fprintf(stderr, "Error - write to the bin file.\n");
-        abort();
-    }
+    to_size(*outbuf, ALDER_KMER_BINARY_READBLOCK_LEN) = *opos_e_len_p - ALDER_KMER_BINARY_READBLOCK_BODY;
+    
+    ///////////////////////////////////////////////////////////////////////////
+    // THIS IS THE ONLY DIFFERENT PART FROM write_to_binary2.
+//    memcpy(fpout, outbuf, size_outbuf);
+    *outbuf += size_outbuf;
+    //
+    ///////////////////////////////////////////////////////////////////////////
+    
     /* Restore the saved part if any. */
     if (unused > 0) {
-        memcpy(outbuf + ALDER_KMER_BINARY_READBLOCK_BODY,
+        memcpy(*outbuf + ALDER_KMER_BINARY_READBLOCK_BODY,
                spareOutbuf, unused);
     }
     *cur_outbuf_p = (ALDER_KMER_BINARY_READBLOCK_BODY + (*cur_outbuf_p - *opos_e_len_p));
     *opos_e_len_p = ALDER_KMER_BINARY_READBLOCK_BODY;
 }
 
-//static
-//void write_to_binary(size_t size_outbuf, size_t *opos_e_len_p, uint16_t e_len,
-//                     uint8_t *outbuf, uint8_t *spareOutbuf, FILE *fpout,
-//                     size_t *cur_outbuf_p)
-//{
-//    /* Length check! */
-//    size_t unused = 0;
-//    size_t overused = 0;
-//    if (size_outbuf > *opos_e_len_p) {
-//        unused = size_outbuf - *opos_e_len_p;
-//    } else {
-//        overused = *opos_e_len_p - size_outbuf;
-//    }
-//    assert(overused <= sizeof(e_len) + 1);
-//    if (unused > 0) {
-//        memcpy(spareOutbuf, outbuf + *opos_e_len_p, unused);
-//        memset(outbuf + *opos_e_len_p, 0xFF, unused);
-//    }
-//    
-//    to_size(outbuf, ALDER_KMER_BINARY_READBLOCK_LEN) = *opos_e_len_p - ALDER_KMER_BINARY_READBLOCK_BODY;
-//
-//    size_t written = fwrite(outbuf, size_outbuf, 1, fpout);
-//#if !defined(NDEBUG)
-//    alder_loga("A", outbuf, size_outbuf);
-//    if (unused > 0) {
-//        alder_loga("S", spareOutbuf, unused);
-//    }
-//#endif
-//    if (written != 1) {
-//        fprintf(stderr, "Error - write to the bin file.\n");
-//        abort();
-//    }
-//    if (unused > 0) {
-//        memcpy(outbuf + ALDER_KMER_BINARY_READBLOCK_BODY,
-//               spareOutbuf, unused);
-//#if !defined(NDEBUG)
-//        alder_loga("B", outbuf, size_outbuf);
-//#endif
-//    } else {
-//    }
-//    *cur_outbuf_p = (ALDER_KMER_BINARY_READBLOCK_BODY +
-//                     (*cur_outbuf_p - *opos_e_len_p));
-//    *opos_e_len_p = ALDER_KMER_BINARY_READBLOCK_BODY;
-//}
-
-static FILE * open_outfile(const char *outfile, const char *outdir)
-{
-    /* Open an output file. */
-    bstring bfpar = bformat("%s/%s.bin", outdir, outfile);
-    if (bfpar == NULL) {
-        return NULL;
-    }
-    FILE *fpout = fopen(bdata(bfpar), "wb");
-    if (fpout == NULL) {
-        bdestroy(bfpar);
-        return NULL;
-    }
-    bdestroy(bfpar);
-    return fpout;
-}
-
 /**
- *  This function converts sequence files to a binary file.
+ *  This function reads a set of sequence data to create a buffer.
  *
+ *  @param ptr                  pointer to the memory         <- relevant
+ *  @param size                 size of the memory            <- relevant
+ *  @param subsize              block size of the memory      <- relevant
  *  @param version              version
  *  @param K                    kmer size
  *  @param D                    disk space
- *  @param n_nt                 number of threads
+ *  @param n_nt                 number of thread
  *  @param totalfilesize        total file size
- *  @param n_byte               n byte
+ *  @param n_byte               ending position in the buffer <- relevant
  *  @param progress_flag        progress
  *  @param progressToError_flag progress to stderr
- *  @param infile               infile
- *  @param outdir               out directory
- *  @param outfile              out file prefix
+ *  @param infile               input files                   <- relevant
+ *  @param outdir               output directory
+ *  @param outfile              output file prefix
  *
  *  @return SUCCESS or FAIL
  */
 int
-alder_kmer_binary2(void *ptr, size_t size, size_t subsize,
+alder_kmer_binary3(void *ptr, size_t size, size_t subsize,
                    uint64_t *n_kmer, uint64_t *n_dna, uint64_t *n_seq,
                    long version,
                    int K, long D,
@@ -165,10 +118,10 @@ alder_kmer_binary2(void *ptr, size_t size, size_t subsize,
                    const char *outfile)
 {
     alder_log("Binary command version: %ld", version);
-    FILE *fpout = open_outfile(outfile, outdir);
-    if (fpout == NULL) {
-        return ALDER_STATUS_ERROR;
-    }
+    *n_kmer = 0;
+    *n_dna = 0;
+    *n_seq = 0;
+    *n_byte = 0;
     
     /* Open kstream for tokens. */
     alder_kseq_sequenceiterator_t *fiter =
@@ -178,13 +131,20 @@ alder_kmer_binary2(void *ptr, size_t size, size_t subsize,
     uint8_t e_byte = 0;
     uint16_t e_len = 0;
     int e_4counter = 0;
-    size_t size_outbuf = (1 << 16);
-//    size_t size_outbuf = ALDER_KMER_BINARY_READBLOCK_BODY + 9;
+    size_t size_outbuf = subsize;
+    assert(subsize > ALDER_KMER_BINARY_READBLOCK_BODY);
+    //    size_t size_outbuf = ALDER_KMER_BINARY_READBLOCK_BODY + 9;
     uint8_t *spareOutbuf = NULL;
     spareOutbuf = malloc(size_outbuf);
-    uint8_t *outbuf = NULL;
-    outbuf = malloc(size_outbuf + sizeof(e_len) + 1);
-    memcpy(outbuf, "FSTQ", ALDER_KMER_BINARY_READBLOCK_LEN);
+    
+    
+    /**
+     *  outbuf: 4B [lock], 4B [FSTQ], 8B [block length]
+     */
+    uint8_t *outbuf = ptr;
+//    outbuf = malloc(size_outbuf + sizeof(e_len) + 1);
+//    memset(outbuf, 0, sizeof(uint32_t));
+    memcpy(outbuf + ALDER_KMER_BINARY_READBLOCK_TYPE, "FSTQ", 4);
     size_t cur_outbuf = ALDER_KMER_BINARY_READBLOCK_BODY;
     size_t opos_e_len = cur_outbuf;
     cur_outbuf += sizeof(e_len);
@@ -216,6 +176,12 @@ alder_kmer_binary2(void *ptr, size_t size, size_t subsize,
                     assert(e_byte == 0);
                     assert(e_4counter == 0);
                     to_uint16(outbuf, opos_e_len) = e_len;
+                    if (K <= e_len) {
+                        *n_kmer += (e_len + 1 - K);
+                    }
+                    (*n_seq)++;
+                    *n_dna += (uint64_t)e_len;
+                    
                     e_len = 0;
                     
                     ///////////////////////////////////////////////////////////
@@ -230,8 +196,8 @@ alder_kmer_binary2(void *ptr, size_t size, size_t subsize,
             }
             
             if (cur_outbuf >= size_outbuf) {
-                write_to_binary2(size_outbuf, &opos_e_len, e_len, outbuf,
-                                 spareOutbuf, fpout, &cur_outbuf);
+                write_to_binary3(size_outbuf, &opos_e_len, e_len, &outbuf,
+                                 spareOutbuf, &cur_outbuf);
             }
             
             if (d > ALDER_TOKEN_DNA_SIZE) {
@@ -247,19 +213,14 @@ alder_kmer_binary2(void *ptr, size_t size, size_t subsize,
     // if there are any sequences in the output buffer.
     if (opos_e_len > ALDER_KMER_BINARY_READBLOCK_BODY) {
         assert(cur_outbuf < size_outbuf);
-        write_to_binary2(size_outbuf, &opos_e_len, e_len, outbuf,
-                         spareOutbuf, fpout, &cur_outbuf);
+        write_to_binary3(size_outbuf, &opos_e_len, e_len, &outbuf,
+                         spareOutbuf, &cur_outbuf);
     }
     
+    *n_byte = (outbuf - (uint8_t*)ptr);
     
-    XFREE(outbuf);
+//    XFREE(outbuf);
     XFREE(spareOutbuf);
     alder_kseq_sequenceiterator_destroy(fiter);
     return 0;
 }
-
-
-
-
-
-

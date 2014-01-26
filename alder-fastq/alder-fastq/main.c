@@ -67,8 +67,8 @@ int main(int argc, char * argv[])
     if (args_info.kmer_given) {
         for (int i = 0; i < option.infile->qty; i++) {
             uint64_t v = 0;
-            alder_fastq_count_kmer(bdata(option.infile->entry[i]),
-                                   (int)args_info.kmer_arg, &v);
+            alder_fastq_estimate_nkmer(&v, (int)args_info.kmer_arg,
+                                       bdata(option.infile->entry[i]));
             fprintf(stdout, "File: %s\n", bdata(option.infile->entry[i]));
             fprintf(stdout, "Kmer: %llu\n", v);
         }

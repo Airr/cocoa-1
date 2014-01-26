@@ -443,7 +443,17 @@ int alder_kmer_option_init(alder_kmer_option_t *o,
     
     /* Adjust the disk and memory sizes. */
     a->disk_arg *= a->load_disk_arg;
+    if (a->disk_arg < 10) {
+        fprintf(stderr, "Error: disk space is less than 10MB.\n");
+        fprintf(stderr, "Suggestion: use --disk to set a larger value.\n");
+        return ALDER_STATUS_ERROR;
+    }
     a->memory_arg *= a->load_memory_arg;
+    if (a->memory_arg < 2) {
+        fprintf(stderr, "Error: memory is less than 2MB.\n");
+        fprintf(stderr, "Suggestion: use --memory to set a larger value.\n");
+        return ALDER_STATUS_ERROR;
+    }
     
     /* Initialize the help message. */
     alder_kmer_cmdline_parser_print_help_init(o,a);

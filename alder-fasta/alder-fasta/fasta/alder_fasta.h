@@ -27,6 +27,7 @@
 #include "alder_fasta_streamer.h"
 #include "alder_fasta_sequenceiterator.h"
 #include "alder_fasta_chunk.h"
+#include "alder_fasta_estimate_nkmer.h"
 
 #undef __BEGIN_DECLS
 #undef __END_DECLS

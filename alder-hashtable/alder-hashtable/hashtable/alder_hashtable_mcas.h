@@ -24,6 +24,7 @@
 #include <stdbool.h>
 #include "bstrlib.h"
 #include "alder_encode_number.h"
+#include "libdivide.h"
 
 #undef __BEGIN_DECLS
 #undef __END_DECLS
@@ -49,6 +50,7 @@ struct alder_hashtable_mcas_struct {
     int k;                      /* k-mer size                           */
     int stride;                 /* stride in key                        */
     size_t size;                /* number of elements in the hash table */
+    struct libdivide_u64_t fast_size;
     size_t index;               /* current index for iteration          */
     int state;                  /* 1 unfinished, 2 finished, 3 locked   */
     uint64_t i_np;              /* partition index                      */
@@ -66,8 +68,15 @@ alder_hashtable_mcas_element_sizeof(int K);
 size_t
 alder_hashtable_mcas_sizeof(int k, size_t size);
 
+size_t
+alder_hashtable_mcas_size_with_available_memory(int K, size_t mem_size);
+
 alder_hashtable_mcas_t*
 alder_hashtable_mcas_create(int k, size_t size);
+
+alder_hashtable_mcas_t*
+alder_hashtable_mcas_createWithMemory(int k, size_t size,
+                                      void *mem, size_t mem_size);
 
 void
 alder_hashtable_mcas_destroy(alder_hashtable_mcas_t *o);
@@ -76,10 +85,18 @@ int
 alder_hashtable_mcas_reset(alder_hashtable_mcas_t *o);
 
 int
+alder_hashtable_mcas_increment_with_hashcode(alder_hashtable_mcas_t *o,
+                                             uint64_t *key,
+                                             uint64_t x,
+                                             uint64_t *res_key,
+                                             bool isMultithreaded);
+
+int
 alder_hashtable_mcas_increment(alder_hashtable_mcas_t *o,
                                uint64_t *key,
                                uint64_t *res_key,
                                bool isMultithreaded);
+
 int
 alder_hashtable_mcas_state(alder_hashtable_mcas_t *o);
 
@@ -148,6 +165,9 @@ int
 alder_hashtable_mcas_printPackToFILE_count(size_t value, FILE *fp);
 int
 alder_hashtable_mcas_printPackToFD_count(size_t value, int fd);
+
+int
+alder_hashtable_mcas_printPackToFD_np(uint64_t value, int fd);
 
 int
 alder_hashtable_mcas_load(const char *fn, int isSummary);

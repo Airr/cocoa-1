@@ -1,10 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
    LastUpgradeVersion = "0500"
-   version = "1.3">
+   version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
+      <PreActions>
+         <ExecutionAction
+            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
+            <ActionContent
+               title = "Run Script"
+               scriptText = "DIR=${PROJECT_DIR}/${PRODUCT_NAME}/fasta&#10;INFILE_BASE=alder_fasta_estimate_nkmer&#10;&#10;INFILE=${DIR}/${INFILE_BASE}.rl&#10;&#10;OUTFILE=${DIR}/${INFILE_BASE}.c&#10;&#10;/usr/local/bin/ragel &quot;$INFILE&quot; -o &quot;$OUTFILE&quot;&#10;">
+               <EnvironmentBuildable>
+                  <BuildableReference
+                     BuildableIdentifier = "primary"
+                     BlueprintIdentifier = "D0C5A38817D8FCCA00C1E004"
+                     BuildableName = "alder-fasta"
+                     BlueprintName = "alder-fasta"
+                     ReferencedContainer = "container:alder-fasta.xcodeproj">
+                  </BuildableReference>
+               </EnvironmentBuildable>
+            </ActionContent>
+         </ExecutionAction>
+      </PreActions>
       <BuildActionEntries>
          <BuildActionEntry
             buildForTesting = "YES"

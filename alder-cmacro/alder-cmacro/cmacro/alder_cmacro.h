@@ -116,7 +116,7 @@ typedef void alder_print_func (FILE *, const void *);
 #define ALDER_YES 1
 #define ALDER_NO  0
 #define ALDER_BUFSIZE_100 100
-#define ALDER_BUFSIZE_8MB 8388608
+#define ALDER_BUFSIZE_8MB (1LLU << 25)
 
 #pragma mark buffer
 

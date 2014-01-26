@@ -158,7 +158,7 @@ echo "File outfile.$format size after x65535: $((seqfilesize / 10**6)) MB."
 ###############################################################################
 measure_start_time
 echo "counting ..."
-command="./alder-kmer count -k $kmersize --no-delete --select-version=$version --progress --disk=$disk --memory=$memory --nthread=$nthread --log outfile.$format$zip"
+command="./alder-kmer count -k $kmersize --select-version=$version --progress --disk=$disk --memory=$memory --nthread=$nthread --log outfile.$format$zip"
 run_command
 if [ $? -ne 0 ]; then
   echo "Crash!"
