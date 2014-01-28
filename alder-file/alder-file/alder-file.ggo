@@ -26,3 +26,7 @@ option "memory" - "Display momory info" flag off
 
 section "IO"
 option "io" - "Read and write files" flag off
+
+section "std in/out"
+option "stdin" - "Read from STDIN" flag off
+option "stdout" - "Write to STDOUT" flag off

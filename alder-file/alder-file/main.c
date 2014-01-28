@@ -81,6 +81,13 @@ int main(int argc, char * argv[])
 //        alder_file_io_test();
     }
     
+    if (args_info.stdin_flag) {
+        alder_file_io_stdin();
+    }
+    if (args_info.stdout_flag) {
+        alder_file_io_stdout();
+    }
+    
     alder_file_option_free(&option);
     my_cmdline_parser_free(&args_info);
     return 0;

@@ -44,98 +44,28 @@ __BEGIN_DECLS
 int
 alder_kmer_binary(void *ptr, size_t size, size_t subsize,
                   uint64_t *n_kmer, uint64_t *n_dna, uint64_t *n_seq,
-                  long version,
-                  int K, long D,
-                  int n_nt,
-                  size_t totalfilesize,
+                  size_t *totalfilesize,
                   size_t *n_byte,
+                  long version,
+                  int K, long D, long M, long min_M_table, long max_M_table,
+                  int n_nt,
                   int progress_flag,
                   int progressToError_flag,
                   struct bstrList *infile, const char *outdir,
                   const char *outfile);
 
 int
-alder_kmer_binary1(void *ptr, size_t size, size_t subsize,
+alder_kmer_binary5(void *ptr, size_t size, size_t subsize,
                    uint64_t *n_kmer, uint64_t *n_dna, uint64_t *n_seq,
-                   long version,
-                   int K, long D,
-                   int n_nt,
-                   size_t totalfilesize,
+                   size_t *totalfilesize,
                    size_t *n_byte,
+                   long version,
+                   int K, long D, long M, long min_M_table, long max_M_table,
+                   int n_nt,
                    int progress_flag,
                    int progressToError_flag,
                    struct bstrList *infile, const char *outdir,
                    const char *outfile);
-
-int
-alder_kmer_binary2(void *ptr, size_t size, size_t subsize,
-                   uint64_t *n_kmer, uint64_t *n_dna, uint64_t *n_seq,
-                   long version,
-                   int K, long D,
-                   int n_nt,
-                   size_t totalfilesize,
-                   size_t *n_byte,
-                   int progress_flag,
-                   int progressToError_flag,
-                   struct bstrList *infile, const char *outdir,
-                   const char *outfile);
-
-int
-alder_kmer_binary3(void *ptr, size_t size, size_t subsize,
-                   uint64_t *n_kmer, uint64_t *n_dna, uint64_t *n_seq,
-                   long version,
-                   int K, long D,
-                   int n_nt,
-                   size_t totalfilesize,
-                   size_t *n_byte,
-                   int progress_flag,
-                   int progressToError_flag,
-                   struct bstrList *infile, const char *outdir,
-                   const char *outfile);
-
-typedef struct alder_kmer_binary_struct alder_kmer_binary_t;
-
-/* Readwriter thread accesses this type.
- */
-struct alder_kmer_binary_struct {
-    /* info */
-    int k;                     /* k - kmer size                              */
-    int n_binary;              /* 1                                          */
-    
-    /* infile */
-    ssize_t len_read;
-    int i_infile;
-    
-    /* buffer */
-    uint8_t inbuf_type_infile; /* type of input file in the buffer           */
-    size_t size_fixed_inbuf;   /* fixed size of a buffer                     */
-    size_t size_fixed_outbuf;
-    size_t size_inbuf;         /* size_inbuf - size of the inbuf             */
-    size_t size_outbuf;        /* size_outbuf - size of the output buffer    */
-    uint8_t *inbuf;            /* [size_inbuf] inbuf - input buffer          */
-    uint8_t *outbuf;           /* [size_outbuf] outbuf - output buff         */
-    
-    /* file */
-    struct bstrList *infile;   /* (not own) input files                      */
-    void *fx;                  /* fx - input file pointer                    */
-    int type_infile;           /* type of input file                         */
-    FILE *fpout;               /* n_np: fpout - output file pointers         */
-    bstring dout;              /* output directory                           */
-    
-    /* progress */
-    size_t totalFilesize;      /* total file size                            */
-    int progress_flag;
-    int progressToError_flag;
-    
-    /* stat */
-    uint64_t n_byte;           /* number of bytes sent                       */
-    uint64_t n_kmer;           /* number of Kmers written to an out file     */
-};
-
-void alder_kmer_binary_lock_reader(alder_kmer_binary_t *a, int binary_id);
-void alder_kmer_binary_unlock_reader(alder_kmer_binary_t *a, int binary_id);
-void alder_kmer_binary_lock_writer(alder_kmer_binary_t *a);
-void alder_kmer_binary_unlock_writer(alder_kmer_binary_t *a);
 
 __END_DECLS
 

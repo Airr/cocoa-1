@@ -890,7 +890,7 @@ alder_hashtable_mcas_printPackToFD(alder_hashtable_mcas_t *o,
                 i_buf = 0;
             }
             if (value[i] > 0) {
-//                assert(value[i] == 5000);
+//                assert(value[i] == 1000);
                 size_t keypos = i * stride;
                 memcpy(buf + i_buf, key + keypos, size_key);
                 i_buf += size_key;

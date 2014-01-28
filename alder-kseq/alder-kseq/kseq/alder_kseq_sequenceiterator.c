@@ -114,7 +114,9 @@ alder_kseq_sequenceiterator_close(alder_kseq_sequenceiterator_t *o)
         alder_kseq_destroy(o->seq);
         o->seq = NULL;
         if (o->type == 0) {
-            close((int)((intptr_t)o->f));
+            if (((intptr_t)o->f) != STDIN_FILENO) {
+                close((int)((intptr_t)o->f));
+            }
         } else {
             gzclose(o->f);
         }

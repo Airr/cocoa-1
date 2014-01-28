@@ -32,9 +32,9 @@ echo "compress  : [no|gz|bz2]"
 echo "disk      : number (default:1000MB)"
 echo "memory    : number (default:100MB)"
 echo "nthread   : number (default:1)"
-echo "version   : 1,2,3,4,5"
+echo "version   : 1,2,3"
 echo "e.g.,"
-echo "$ ./alder_kmer_test_count.sh 25 50000 65535 fq no 10000 1000 1 5"
+echo "$ ./alder_kmer_test_count.sh 25 50000 65535 fq no 10000 1000 1 3"
 echo "About 9GB"
 echo -n "Do you want to run it with default options [y] and press [ENTER]: "
 read response
@@ -71,7 +71,7 @@ if [ -z "$8" ]; then
 fi
 
 if [ -z "$9" ]; then
-  version=5
+  version=6
 fi
 
 
@@ -136,7 +136,7 @@ measure_end_time() {
 touch START
 echo "simulating a kmer count data ..."
 
-command="./alder-kmer simulate -k $kmersize --select-version=$version --seed=1 --format=$format --maxkmer=$maxkmer"
+command="./alder-kmer simulate -k $kmersize --select-version=$version --seed=1 --format=$format --maxkmer=$maxkmer --outfile=outfile"
 run_command
 if [ $? -ne 0 ]; then
   echo "Multiple occurences of some kmer! Try to increase the kmer size >$kmersize!"
@@ -162,7 +162,7 @@ command="./alder-kmer count -k $kmersize --select-version=$version --progress --
 run_command
 if [ $? -ne 0 ]; then
   echo "Crash!"
-  touch "crash-partition-$kmersize"
+  touch "crash-count-$kmersize"
   exit
 fi
 echo "  created file: outfile.tbl"
@@ -186,7 +186,7 @@ fi
 echo -n "checking number of kmers... "
 lines=$(wc -l < outfile.1)
 if [ $lines -ne $maxkmer ]; then
-  echoerr "K=$kmersize, format=$format Test failed because are different."
+  echoerr "K=$kmersize, format=$format Test failed because maxkmer is not $maxkmer."
   touch "error1-$kmersize"
   exit
 fi
@@ -203,7 +203,7 @@ if [ $nuniquekmer -ne 1 ]; then
   exit
 fi
 if [ $(cut -f 3 outfile.1|uniq) != "$duplicate" ]; then
-  echoerr "K=$kmersize, format=$format Test failed because are different."
+  echoerr "K=$kmersize, format=$format Test failed because $duplicate duplicates are different."
   touch "error3-$kmersize"
   exit
 fi

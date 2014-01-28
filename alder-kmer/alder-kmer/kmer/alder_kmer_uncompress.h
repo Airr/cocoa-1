@@ -55,6 +55,7 @@ alder_kmer_uncompress(int progress_flag,
 int
 alder_kmer_uncompress2(int progress_flag,
                        struct bstrList *infile,
+                       unsigned int outfile_given,
                        const char *outdir,
                        const char *outfile);
 __END_DECLS

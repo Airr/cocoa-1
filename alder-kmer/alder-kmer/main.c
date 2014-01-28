@@ -60,50 +60,6 @@ int main(int argc, char * argv[])
         alder_logger_initialize(args_info.log_arg, LOG_SILENT);
         alder_logger_error_initialize(LOG_BASIC);
     }
-    ///////////////////////////////////////////////////////////////////////////
-    // Inspect:
-    if (args_info.inspect_flag) {
-        alder_kmer_inspect(option.infile,
-                           args_info.outdir_arg,
-                           args_info.outfile_arg);
-    }
-    
-    ///////////////////////////////////////////////////////////////////////////
-    // Binary:
-    if (args_info.binary_flag) {
-        size_t n_byte = 0;
-        uint64_t n_kmer = 0;
-        uint64_t n_dna = 0;
-        uint64_t n_seq = 0;
-        s = alder_kmer_binary(NULL, 0, 0,
-                              &n_kmer, &n_dna, &n_seq,
-                              args_info.select_version_arg,
-                              (int)args_info.kmer_arg,
-                              args_info.disk_arg,
-                              (int)args_info.nthread_arg,
-                              0,
-                              &n_byte,
-                              args_info.progress_flag,
-                              args_info.progress_to_stderr_flag,
-                              option.infile,
-                              args_info.outdir_arg,
-                              args_info.outfile_arg);
-    }
-    ///////////////////////////////////////////////////////////////////////////
-    // Uncompress:
-    if (args_info.uncompress_flag) {
-        if (args_info.select_version_arg == 5) {
-            alder_kmer_uncompress2(args_info.progress_flag,
-                                   option.infile,
-                                   args_info.outdir_arg,
-                                   args_info.outfile_arg);
-        } else {
-            alder_kmer_uncompress(args_info.progress_flag,
-                                  option.infile,
-                                  args_info.outdir_arg,
-                                  args_info.outfile_arg);
-        }
-    }
     
     ///////////////////////////////////////////////////////////////////////////
     // Count:
@@ -113,6 +69,8 @@ int main(int argc, char * argv[])
                              args_info.totalmaxkmer_arg,
                              args_info.disk_arg,
                              args_info.memory_arg,
+                             args_info.min_table_memory_arg,
+                             args_info.max_table_memory_arg,
                              option.maxfile,
                              args_info.inbuffer_arg,
                              args_info.outbuffer_arg,
@@ -122,11 +80,12 @@ int main(int argc, char * argv[])
                              (int)args_info.nthread_arg,
                              args_info.progress_flag,
                              args_info.progress_to_stderr_flag,
-                             0, //args_info.no_pack_flag,
+                             args_info.only_init_flag,
                              args_info.no_delete_flag,
                              args_info.no_partition_flag,
                              args_info.no_count_flag,
                              option.infile,
+                             args_info.outfile_given,
                              args_info.outdir_arg,
                              args_info.outfile_arg);
     }
@@ -138,6 +97,8 @@ int main(int argc, char * argv[])
                                  (int)args_info.kmer_arg,
                                  args_info.disk_arg,
                                  args_info.memory_arg,
+                                 args_info.min_table_memory_arg,
+                                 args_info.max_table_memory_arg,
                                  option.maxfile,
                                  args_info.inbuffer_arg,
                                  args_info.outbuffer_arg,
@@ -148,6 +109,7 @@ int main(int argc, char * argv[])
                                  args_info.progress_flag,
                                  args_info.progress_to_stderr_flag,
                                  option.infile,
+                                 args_info.outfile_given,
                                  args_info.outdir_arg,
                                  args_info.outfile_arg);
     }
@@ -171,17 +133,18 @@ int main(int argc, char * argv[])
 //                                           args_info.no_pack_flag,
                                            0,
                                            option.infile,
+                                           args_info.outfile_given,
                                            args_info.outdir_arg,
                                            args_info.outfile_arg);
     }
     
     ///////////////////////////////////////////////////////////////////////////
-    // Report:
+    // Report/Dump:
     if (args_info.report_flag) {
         if (args_info.query_given) {
             s = alder_kmer_report(bdata(option.infile->entry[0]),
                                   args_info.summary_flag,
-                                  args_info.query_arg);
+                                  args_info.sequence_arg);
         } else {
             s = alder_kmer_report(bdata(option.infile->entry[0]),
                                   args_info.summary_flag,
@@ -194,51 +157,31 @@ int main(int argc, char * argv[])
     if (args_info.simulate_flag) {
         PlantSeeds(args_info.seed_arg);
         SelectStream(1);
-        if (args_info.maxkmer_given) {
-            s = alder_kmer_simulate_woHashtable(args_info.select_version_arg,
-                                                args_info.outfile_arg,
-                                                args_info.outdir_arg,
-                                                option.format,
-                                                (int)args_info.nf_arg,
-                                                (int)args_info.ni_arg,
-                                                (int)args_info.np_arg,
-                                                (int)args_info.kmer_arg,
-                                                (int)args_info.seqlen_arg,
-                                                (size_t)args_info.maxkmer_arg);
-        } else {
-            assert(0);
-            abort();
-            s = alder_kmer_simulate(args_info.outfile_arg,
-                                    args_info.outdir_arg,
-                                    option.format,
-                                    (int)args_info.nf_arg,
-                                    (int)args_info.ni_arg,
-                                    (int)args_info.np_arg,
-                                    (int)args_info.kmer_arg,
-                                    (int)args_info.seqlen_arg,
-                                    (int)args_info.maxkmer_arg,
-                                    (int)args_info.nh_arg);
-        }
+        s = alder_kmer_simulate_woHashtable(args_info.select_version_arg,
+                                            args_info.outfile_given,
+                                            args_info.with_parfile_flag,
+                                            args_info.outfile_arg,
+                                            args_info.outdir_arg,
+                                            option.format,
+                                            (int)args_info.nf_arg,
+                                            (int)args_info.ni_arg,
+                                            (int)args_info.np_arg,
+                                            (int)args_info.kmer_arg,
+                                            (int)args_info.seqlen_arg,
+                                            (size_t)args_info.maxkmer_arg,
+                                            args_info.progress_flag,
+                                            1);
     }
     
     ///////////////////////////////////////////////////////////////////////////
-    // Decode:
+    // Decode/Kmer:
     if (args_info.decode_flag) {
-        if (args_info.select_version_arg == 1) {
-            s = alder_kmer_decode((int)args_info.kmer_arg,
-                                  args_info.progress_flag,
-                                  option.infile,
-                                  args_info.outdir_arg,
-                                  args_info.outfile_arg);
-        } else if (args_info.select_version_arg >= 2) {
-            s = alder_kmer_decode2((int)args_info.kmer_arg,
-                                   args_info.progress_flag,
-                                   option.infile,
-                                   args_info.outdir_arg,
-                                   args_info.outfile_arg);
-        } else {
-            assert(0);
-        }
+        s = alder_kmer_decode2((int)args_info.kmer_arg,
+                               args_info.progress_flag,
+                               option.infile,
+                               args_info.outfile_given,
+                               args_info.outdir_arg,
+                               args_info.outfile_arg);
     }
     
     ///////////////////////////////////////////////////////////////////////////
@@ -263,7 +206,49 @@ int main(int argc, char * argv[])
                              args_info.outfile_arg);
     }
     
+    ///////////////////////////////////////////////////////////////////////////
+    // Uncompress:
+    if (args_info.uncompress_flag) {
+        alder_kmer_uncompress2(args_info.progress_flag,
+                               option.infile,
+                               args_info.outfile_given,
+                               args_info.outdir_arg,
+                               args_info.outfile_arg);
+    }
     
+    ///////////////////////////////////////////////////////////////////////////
+    // Binary:
+    if (args_info.binary_flag) {
+        size_t n_byte = 0;
+        uint64_t n_kmer = 0;
+        uint64_t n_dna = 0;
+        uint64_t n_seq = 0;
+        size_t n_totalfilesize = 0;
+        s = alder_kmer_binary(NULL, 0, 0,
+                              &n_kmer, &n_dna, &n_seq,
+                              &n_totalfilesize,
+                              &n_byte,
+                              args_info.select_version_arg,
+                              (int)args_info.kmer_arg,
+                              args_info.disk_arg,
+                              args_info.memory_arg,
+                              args_info.min_table_memory_arg,
+                              args_info.max_table_memory_arg,
+                              (int)args_info.nthread_arg,
+                              args_info.progress_flag,
+                              args_info.progress_to_stderr_flag,
+                              option.infile,
+                              args_info.outdir_arg,
+                              args_info.outfile_arg);
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////
+    // Inspect:
+    if (args_info.inspect_flag) {
+        alder_kmer_inspect(option.infile,
+                           args_info.outdir_arg,
+                           args_info.outfile_arg);
+    }
     ///////////////////////////////////////////////////////////////////////////
     // Cleanup!
     alder_logger_finalize();

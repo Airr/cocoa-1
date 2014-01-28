@@ -72,22 +72,28 @@ struct gengetopt_args_info
   char * outdir_arg;	/**< @brief output directory (default='.').  */
   char * outdir_orig;	/**< @brief output directory original value given at command line.  */
   const char *outdir_help; /**< @brief output directory help description.  */
-  long nh_arg;	/**< @brief number of elements in a hash table (default='10').  */
-  char * nh_orig;	/**< @brief number of elements in a hash table original value given at command line.  */
-  const char *nh_help; /**< @brief number of elements in a hash table help description.  */
-  int no_partition_flag;	/**< @brief Use partitions not sequence files. (default=off).  */
-  const char *no_partition_help; /**< @brief Use partitions not sequence files. help description.  */
-  int no_count_flag;	/**< @brief Do only partitions not counting. (default=off).  */
-  const char *no_count_help; /**< @brief Do only partitions not counting. help description.  */
+  long nh_arg;	/**< @brief number of hash elements (default='10').  */
+  char * nh_orig;	/**< @brief number of hash elements original value given at command line.  */
+  const char *nh_help; /**< @brief number of hash elements help description.  */
+  int no_partition_flag;	/**< @brief Skip partitioning sequence files. (default=off).  */
+  const char *no_partition_help; /**< @brief Skip partitioning sequence files. help description.  */
+  int no_count_flag;	/**< @brief Skip counting. (default=off).  */
+  const char *no_count_help; /**< @brief Skip counting. help description.  */
   int no_delete_flag;	/**< @brief Do not delete partition files; on with --no-count (default=off).  */
   const char *no_delete_help; /**< @brief Do not delete partition files; on with --no-count help description.  */
   int report_flag;	/**< @brief Report the count table (default=off).  */
   const char *report_help; /**< @brief Report the count table help description.  */
   int summary_flag;	/**< @brief Display summary of the table (default=off).  */
   const char *summary_help; /**< @brief Display summary of the table help description.  */
-  char * query_arg;	/**< @brief Query a kmer DNA sequence.  */
-  char * query_orig;	/**< @brief Query a kmer DNA sequence original value given at command line.  */
-  const char *query_help; /**< @brief Query a kmer DNA sequence help description.  */
+  int fasta_flag;	/**< @brief fasta format: >count newline kmer (default=off).  */
+  const char *fasta_help; /**< @brief fasta format: >count newline kmer help description.  */
+  int no_tab_flag;	/**< @brief Space separator (default=off).  */
+  const char *no_tab_help; /**< @brief Space separator help description.  */
+  int query_flag;	/**< @brief dummy (default=off).  */
+  const char *query_help; /**< @brief dummy help description.  */
+  char * sequence_arg;	/**< @brief Query a kmer DNA sequence.  */
+  char * sequence_orig;	/**< @brief Query a kmer DNA sequence original value given at command line.  */
+  const char *sequence_help; /**< @brief Query a kmer DNA sequence help description.  */
   int simulate_flag;	/**< @brief Simulate k-mer data (default=off).  */
   const char *simulate_help; /**< @brief Simulate k-mer data help description.  */
   long maxkmer_arg;	/**< @brief number of kmers in a file (default='1000').  */
@@ -150,9 +156,9 @@ struct gengetopt_args_info
   long totalmaxkmer_arg;	/**< @brief Skip counting maximum number of kmers in data, and use this number (default='0').  */
   char * totalmaxkmer_orig;	/**< @brief Skip counting maximum number of kmers in data, and use this number original value given at command line.  */
   const char *totalmaxkmer_help; /**< @brief Skip counting maximum number of kmers in data, and use this number help description.  */
-  long select_version_arg;	/**< @brief Select a version (default='0').  */
-  char * select_version_orig;	/**< @brief Select a version original value given at command line.  */
-  const char *select_version_help; /**< @brief Select a version help description.  */
+  long select_version_arg;	/**< @brief Select a version of kmer counting: 0 for automatic selction, 1 for skipping binary file creation (dsk mode with a single iteration), 2 for binary file creation (dsk mode), and 3 for loading a whole input data on the memory (msk or memory streaming kmer mode). (default='0').  */
+  char * select_version_orig;	/**< @brief Select a version of kmer counting: 0 for automatic selction, 1 for skipping binary file creation (dsk mode with a single iteration), 2 for binary file creation (dsk mode), and 3 for loading a whole input data on the memory (msk or memory streaming kmer mode). original value given at command line.  */
+  const char *select_version_help; /**< @brief Select a version of kmer counting: 0 for automatic selction, 1 for skipping binary file creation (dsk mode with a single iteration), 2 for binary file creation (dsk mode), and 3 for loading a whole input data on the memory (msk or memory streaming kmer mode). help description.  */
   char * bin_outdir_arg;	/**< @brief binary file output directory (default='.').  */
   char * bin_outdir_orig;	/**< @brief binary file output directory original value given at command line.  */
   const char *bin_outdir_help; /**< @brief binary file output directory help description.  */
@@ -162,6 +168,42 @@ struct gengetopt_args_info
   char * tab_outdir_arg;	/**< @brief table file output directory (default='.').  */
   char * tab_outdir_orig;	/**< @brief table file output directory original value given at command line.  */
   const char *tab_outdir_help; /**< @brief table file output directory help description.  */
+  long mer_len_arg;	/**< @brief k-mer size (default='1').  */
+  char * mer_len_orig;	/**< @brief k-mer size original value given at command line.  */
+  const char *mer_len_help; /**< @brief k-mer size help description.  */
+  int canonical_flag;	/**< @brief Count both strand (default=off).  */
+  const char *canonical_help; /**< @brief Count both strand help description.  */
+  long lower_count_arg;	/**< @brief minimum count (default='1').  */
+  char * lower_count_orig;	/**< @brief minimum count original value given at command line.  */
+  const char *lower_count_help; /**< @brief minimum count help description.  */
+  long upper_count_arg;	/**< @brief maximum count (default='65535').  */
+  char * upper_count_orig;	/**< @brief maximum count original value given at command line.  */
+  const char *upper_count_help; /**< @brief maximum count help description.  */
+  long size_arg;	/**< @brief hash size (default='1').  */
+  char * size_orig;	/**< @brief hash size original value given at command line.  */
+  const char *size_help; /**< @brief hash size help description.  */
+  long threads_arg;	/**< @brief number of threads (default='1').  */
+  char * threads_orig;	/**< @brief number of threads original value given at command line.  */
+  const char *threads_help; /**< @brief number of threads help description.  */
+  char * output_arg;	/**< @brief prefix of output files (default='outfile').  */
+  char * output_orig;	/**< @brief prefix of output files original value given at command line.  */
+  const char *output_help; /**< @brief prefix of output files help description.  */
+  int with_reverse_flag;	/**< @brief Print reverse complementary sequences (default=off).  */
+  const char *with_reverse_help; /**< @brief Print reverse complementary sequences help description.  */
+  int with_index_flag;	/**< @brief Print index values (default=off).  */
+  const char *with_index_help; /**< @brief Print index values help description.  */
+  int only_init_flag;	/**< @brief Do not execute counting, but the initialization (default=off).  */
+  const char *only_init_help; /**< @brief Do not execute counting, but the initialization help description.  */
+  int with_parfile_flag;	/**< @brief Create par files as well as sequence files. (default=off).  */
+  const char *with_parfile_help; /**< @brief Create par files as well as sequence files. help description.  */
+  long min_table_memory_arg;	/**< @brief min memory of a part table (default='100').  */
+  char * min_table_memory_orig;	/**< @brief min memory of a part table original value given at command line.  */
+  const char *min_table_memory_help; /**< @brief min memory of a part table help description.  */
+  long max_table_memory_arg;	/**< @brief max memory of a part table (default='1000').  */
+  char * max_table_memory_orig;	/**< @brief max memory of a part table original value given at command line.  */
+  const char *max_table_memory_help; /**< @brief max memory of a part table help description.  */
+  int release_flag;	/**< @brief Release mode (default=on).  */
+  const char *release_help; /**< @brief Release mode help description.  */
   int exit_flag;	/**< @brief dummy (default=off).  */
   const char *exit_help; /**< @brief dummy help description.  */
   int examples_flag;	/**< @brief Shows example runs of alder-kmer (default=off).  */
@@ -188,7 +230,10 @@ struct gengetopt_args_info
   unsigned int no_delete_given ;	/**< @brief Whether no-delete was given.  */
   unsigned int report_given ;	/**< @brief Whether report was given.  */
   unsigned int summary_given ;	/**< @brief Whether summary was given.  */
+  unsigned int fasta_given ;	/**< @brief Whether fasta was given.  */
+  unsigned int no_tab_given ;	/**< @brief Whether no-tab was given.  */
   unsigned int query_given ;	/**< @brief Whether query was given.  */
+  unsigned int sequence_given ;	/**< @brief Whether sequence was given.  */
   unsigned int simulate_given ;	/**< @brief Whether simulate was given.  */
   unsigned int maxkmer_given ;	/**< @brief Whether maxkmer was given.  */
   unsigned int format_given ;	/**< @brief Whether format was given.  */
@@ -218,6 +263,20 @@ struct gengetopt_args_info
   unsigned int bin_outdir_given ;	/**< @brief Whether bin-outdir was given.  */
   unsigned int par_outdir_given ;	/**< @brief Whether par-outdir was given.  */
   unsigned int tab_outdir_given ;	/**< @brief Whether tab-outdir was given.  */
+  unsigned int mer_len_given ;	/**< @brief Whether mer-len was given.  */
+  unsigned int canonical_given ;	/**< @brief Whether canonical was given.  */
+  unsigned int lower_count_given ;	/**< @brief Whether lower-count was given.  */
+  unsigned int upper_count_given ;	/**< @brief Whether upper-count was given.  */
+  unsigned int size_given ;	/**< @brief Whether size was given.  */
+  unsigned int threads_given ;	/**< @brief Whether threads was given.  */
+  unsigned int output_given ;	/**< @brief Whether output was given.  */
+  unsigned int with_reverse_given ;	/**< @brief Whether with-reverse was given.  */
+  unsigned int with_index_given ;	/**< @brief Whether with-index was given.  */
+  unsigned int only_init_given ;	/**< @brief Whether only-init was given.  */
+  unsigned int with_parfile_given ;	/**< @brief Whether with-parfile was given.  */
+  unsigned int min_table_memory_given ;	/**< @brief Whether min-table-memory was given.  */
+  unsigned int max_table_memory_given ;	/**< @brief Whether max-table-memory was given.  */
+  unsigned int release_given ;	/**< @brief Whether release was given.  */
   unsigned int exit_given ;	/**< @brief Whether exit was given.  */
   unsigned int examples_given ;	/**< @brief Whether examples was given.  */
   unsigned int document_given ;	/**< @brief Whether document was given.  */

@@ -1,5 +1,15 @@
 # BUG
 
+# Introduction
+1. I will introduce a method for counting k-mer with arbitrary size of k by
+combining methods of Rizk et al. (2013), and Marcais and Kingsford (2011). 
+The point of the paper is the usage of multi-word CAS in counting k-mer.
+2. I will introduce a method of counting k-mer upto 32 by
+methods of Rizk et al. (2013), and Marcais and Kingsford (2011).
+The point of the paper is the usage of CAS n counting k-mer by loading a whole
+data into a memory.
+
+
 binary might not work yet.
 
 # Versions
@@ -51,11 +61,6 @@ http://www.harvestsoft.net/measure.htm
 Faster division:
 http://libdivide.com/documentation.html
 
-
-# Introduction
-I will introduce a method for counting k-mer with arbitrary size of k by
-combining methods of Rizk et al. (2013), and Marcais and Kingsford (2011). 
-The point of the paper is the usage of multi-word CAS in counting k-mer.
 
 # Procedure
 1. Read a file in format of sequence only text file, fasta, fastq.

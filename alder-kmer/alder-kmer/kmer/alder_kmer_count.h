@@ -38,7 +38,9 @@ __BEGIN_DECLS
 
 int
 alder_kmer_count(long version,
-                 int K, long totalmaxkmer, long D, long M, long F,
+                 int K, long totalmaxkmer, long D, long M,
+                 long min_M_table, long max_M_table,
+                 long F,
                  long sizeInbuffer,
                  long sizeOutbuffer,
                  int n_ni, int n_np,
@@ -50,7 +52,9 @@ alder_kmer_count(long version,
                  int no_delete_partition_flag,
                  int no_partition_flag,
                  int do_partition_flag,
-                 struct bstrList *infile, const char *outdir,
+                 struct bstrList *infile,
+                 unsigned int outfile_given,
+                 const char *outdir,
                  const char *outfile);
 
 int
@@ -64,12 +68,16 @@ alder_kmer_count_withPartition(long version,
                                int progress_flag,
                                int progressToError_flag,
                                int nopack_flag,
-                               struct bstrList *infile, const char *outdir,
+                               struct bstrList *infile,
+                               unsigned int outfile_given,
+                               const char *outdir,
                                const char *outfile);
 
 int
 alder_kmer_partition(long version,
-                     int K, long D, long M, long F,
+                     int K, long D, long M,
+                     long min_M_table, long max_M_table,
+                     long F,
                      long sizeInbuffer,
                      long sizeOutbuffer,
                      int n_ni, int n_np,
@@ -77,7 +85,9 @@ alder_kmer_partition(long version,
                      int n_nt,
                      int progress_flag,
                      int progressToError_flag,
-                     struct bstrList *infile, const char *outdir,
+                     struct bstrList *infile,
+                     unsigned int outfile_given,
+                     const char *outdir,
                      const char *outfile);
 
 

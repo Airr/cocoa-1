@@ -44,25 +44,36 @@ int
 alder_kmer_decode2(int K,
                    int progress_flag,
                    struct bstrList *infile,
+                   unsigned int outfile_given,
                    const char *outdir,
                    const char *outfile)
 {
-    size_t totalFilesize;
+//    size_t totalFilesize;
     size_t lenBuf = 0;
     size_t sizeBuf = 1 << 23; /* 8 MB */
     
     sizeBuf = (int)alder_encode_number2_adjustBufferSizeForKmer(K, sizeBuf);
-    alder_totalfile_size(infile, &totalFilesize);
+    
+//    alder_totalfile_size(infile, &totalFilesize);
     
     bstring bfn = bformat("%s/%s.dec", outdir, outfile);
-    FILE *fpout = fopen(bdata(bfn), "w");
-    ALDER_RETURN_ERROR_IF_NULL(fpout, ALDER_STATUS_ERROR);
+    if (bfn == NULL) {
+        alder_loge(ALDER_ERR_FILE, "failed to decode kmers");
+        return ALDER_STATUS_ERROR;
+    }
+    FILE *fpout = stdout;
+    if (outfile_given) {
+        fpout = fopen(bdata(bfn), "w");
+    }
     
     uint8_t *buf = malloc(sizeof(*buf) * sizeBuf);
     alder_encode_number2_t *m2 = alder_encode_number2_createWithKmer(K);
     alder_encode_number_t *m = alder_encode_number_create_for_kmer(K);
     if (m == NULL || m2 == NULL || buf == NULL) {
         alder_loge(ALDER_ERR_MEMORY, "Fatal - counter(): not enough memory");
+        if (outfile_given) {
+            XFCLOSE(fpout);
+        }
         bdestroy(bfn);
         alder_encode_number_destroy(m);
         alder_encode_number2_destroy(m2);
@@ -74,22 +85,40 @@ alder_kmer_decode2(int K,
     size_t ib = m2->b / 8;
     size_t jb = m2->b % 8;
 
+    int i_start = 0;
+    if (infile->qty == 0) {
+        i_start = -1;
+    }
     size_t i_totalFilesize = 0;
-    for (int i_file = 0; i_file < infile->qty; i_file++) {
-        FILE *fp = fopen(bdata(infile->entry[i_file]), "rb");
-        if (fp == NULL) {
-            alder_loge(ALDER_ERR_FILE, "failed to open file: %s",
-                       bdata(infile->entry[i_file]));
-            break;
+    for (int i_file = i_start; i_file < infile->qty; i_file++) {
+        
+        FILE *fp = NULL;
+        if (i_file == -1) {
+            fp = stdin;
+        } else {
+            fp = fopen(bdata(infile->entry[i_file]), "rb");
+            if (fp == NULL) {
+                alder_loge(ALDER_ERR_FILE, "failed to open %s",
+                           bdata(infile->entry[i_file]));
+                if (outfile_given) {
+                    XFCLOSE(fpout);
+                }
+                bdestroy(bfn);
+                alder_encode_number_destroy(m);
+                alder_encode_number2_destroy(m2);
+                XFREE(buf);
+                return ALDER_STATUS_ERROR;
+            }
         }
         
         lenBuf = 1;
         while (lenBuf > 0) {
             lenBuf = fread(buf, sizeof(*buf), sizeBuf, fp);
             i_totalFilesize += lenBuf;
-            if (progress_flag) {
-                alder_progress_step(i_totalFilesize, totalFilesize, 0);
-            }
+            
+//            if (progress_flag) {
+//                alder_progress_step(i_totalFilesize, totalFilesize, 0);
+//            }
             
             assert(lenBuf % m2->b == 0);
             uint64_t n_kmer = lenBuf / m2->b;
@@ -113,17 +142,21 @@ alder_kmer_decode2(int K,
             }
             
         }
-        XFCLOSE(fp);
+        if (i_file >= 0) {
+            XFCLOSE(fp);
+        }
     }
-    if (progress_flag) {
-        alder_progress_end(0);
-    }
+//    if (progress_flag) {
+//        alder_progress_end(1);
+//    }
     
     bdestroy(bfn);
     alder_encode_number_destroy(m);
     alder_encode_number2_destroy(m2);
     XFREE(buf);
-    XFCLOSE(fpout);
+    if (outfile_given) {
+        XFCLOSE(fpout);
+    }
     return ALDER_STATUS_SUCCESS;
 }
 

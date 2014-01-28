@@ -119,31 +119,31 @@ static int counter_id_counter = 0;
 
 static void *counter(void *t);
 
-/**
- *  This function creates a bstring of a partition file name.
- *  The caller is responsible for freeing the bstring.
- *
- *  @param o    counter
- *  @param i_np partition index
- *
- *  @return partition file name or NULL
- */
-static bstring
-filename_partition(alder_kmer_thread5_t *o, uint64_t i_np)
-{
-    /* File name setup */
-    bstring bfpar = NULL;
-    if (o->infile == NULL) {
-        bfpar = bformat("%s/%s-%llu-%llu.par",
-                        bdata(o->boutdir), bdata(o->boutfile),
-                        o->i_ni, i_np);
-        if (bfpar == NULL) return NULL;
-    } else {
-        bfpar = bstrcpy(o->infile->entry[i_np]);
-        if (bfpar == NULL) return NULL;
-    }
-    return bfpar;
-}
+///**
+// *  This function creates a bstring of a partition file name.
+// *  The caller is responsible for freeing the bstring.
+// *
+// *  @param o    counter
+// *  @param i_np partition index
+// *
+// *  @return partition file name or NULL
+// */
+//static bstring
+//filename_partition(alder_kmer_thread5_t *o, uint64_t i_np)
+//{
+//    /* File name setup */
+//    bstring bfpar = NULL;
+//    if (o->infile == NULL) {
+//        bfpar = bformat("%s/%s-%llu-%llu.par",
+//                        bdata(o->boutdir), bdata(o->boutfile),
+//                        o->i_ni, i_np);
+//        if (bfpar == NULL) return NULL;
+//    } else {
+//        bfpar = bstrcpy(o->infile->entry[i_np]);
+//        if (bfpar == NULL) return NULL;
+//    }
+//    return bfpar;
+//}
 
 static void
 alder_kmer_thread5_destroy(alder_kmer_thread5_t *o)
@@ -154,7 +154,7 @@ alder_kmer_thread5_destroy(alder_kmer_thread5_t *o)
 //            alder_hashtable_mcas_destroy(o->ht[i]); <- freed by XFREE(inbuf)
 //        }
         XFREE(o->ht);
-        XFREE(o->inbuf);
+//        XFREE(o->inbuf);
         XFREE(o->n_blockByReader);
         XFREE(o->n_blockByCounter);
         XFREE(o->cur_inbuf);
@@ -181,6 +181,8 @@ alder_kmer_thread5_create(FILE *fpout,
                           int progress_flag,
                           int progressToError_flag,
                           int nopack_flag,
+                          uint8_t *inbuf,
+                          size_t size_data,
                           struct bstrList *infile,
                           const char *outdir,
                           const char *outfile)
@@ -208,10 +210,10 @@ alder_kmer_thread5_create(FILE *fpout,
     o->cur_i_np = NULL;
     o->size_subinbuf = sizeInbuffer;
     o->size_inbuf = ((size_t)memory_available << 20);
-    o->inbuf = NULL;
+    o->inbuf = inbuf;
     o->n_blockByReader = NULL;
     o->n_blockByCounter = NULL;
-    o->size_data = 0;
+    o->size_data = size_data;
     o->size_writebuffer = sizeOutbuffer;
     o->n_ht = n_counter == 1 ? 1 : 2;
     o->main_i_np = 0;
@@ -236,7 +238,7 @@ alder_kmer_thread5_create(FILE *fpout,
     o->cur_i_np = malloc(sizeof(*o->cur_i_np) * n_counter);
     o->n_blockByReader = malloc(sizeof(*o->n_blockByReader) * o->n_ht);
     o->n_blockByCounter = malloc(sizeof(*o->n_blockByCounter) * o->n_ht);
-    o->inbuf = malloc(sizeof(*o->inbuf) * o->size_inbuf); /* bigmem */
+//    o->inbuf = malloc(sizeof(*o->inbuf) * o->size_inbuf); /* bigmem */
     o->ht = malloc(sizeof(*o->ht) * o->n_ht);
     if (o->boutfile == NULL || o->boutdir == NULL ||
         o->cur_inbuf == NULL || o->cur_i_np == NULL ||
@@ -249,7 +251,7 @@ alder_kmer_thread5_create(FILE *fpout,
     memset(o->cur_i_np, 0, sizeof(*o->cur_i_np) * n_counter);
     memset(o->n_blockByReader, 0, sizeof(*o->n_blockByReader) * o->n_ht);
     memset(o->n_blockByCounter, 0, sizeof(*o->n_blockByCounter) * o->n_ht);
-    memset(o->inbuf,0,sizeof(*o->inbuf) * o->size_inbuf);
+//    memset(o->inbuf,0,sizeof(*o->inbuf) * o->size_inbuf);
     memset(o->ht,0,sizeof(*o->ht) * o->n_ht);
     
     alder_log5("Finish - Creating alder_kmer_kmerrw_t...");
@@ -361,6 +363,8 @@ int alder_kmer_count_iteration5(FILE *fpout,
                                 int progress_flag,
                                 int progressToError_flag,
                                 int nopack_flag,
+                                uint8_t *inbuf, // size_inbuf from memory
+                                size_t size_data,
                                 struct bstrList *infile,
                                 const char *outdir,
                                 const char *outfile)
@@ -389,6 +393,8 @@ int alder_kmer_count_iteration5(FILE *fpout,
                               progress_flag,
                               progressToError_flag,
                               nopack_flag,
+                              inbuf,
+                              size_data,
                               infile,
                               outdir,
                               outfile);
@@ -396,22 +402,6 @@ int alder_kmer_count_iteration5(FILE *fpout,
         alder_loge(ALDER_ERR_MEMORY, "failed to creat counter threads.");
         return ALDER_STATUS_ERROR;
     }
-    
-    // Loading a whole input data.
-    // Use binary3.
-    s = alder_kmer_binary3(data->inbuf, data->size_inbuf, data->size_subinbuf,
-                           &data->n_kmer, &data->n_dna, &data->n_seq,
-                           3, // version 3
-                           K,
-                           0, // D,
-                           0, // n_nt
-                           totalfilesize,
-                           &data->size_data,
-                           progress_flag,
-                           progressToError_flag,
-                           infile, outdir,
-                           outfile);
-    // another create.
     alder_kmer_thread5_setup(data);
     
     // Counting.

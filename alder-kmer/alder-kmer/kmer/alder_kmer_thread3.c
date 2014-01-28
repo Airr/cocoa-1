@@ -375,6 +375,8 @@ int alder_kmer_count_iteration3(FILE *fpout,
                                 int progress_flag,
                                 int progressToError_flag,
                                 int nopack_flag,
+                                uint8_t *inbuf,
+                                size_t size_data,
                                 struct bstrList *infile,
                                 const char *outdir,
                                 const char *outfile)

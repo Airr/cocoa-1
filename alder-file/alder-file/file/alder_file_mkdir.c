@@ -23,6 +23,7 @@
 #include "bstrlib.h"
 #include "alder_cmacro.h"
 #include "alder_file_exist.h"
+#include "alder_file_isfile.h"
 #include "alder_file_getcwd.h"
 #include "alder_file_mkdir.h"
 
@@ -80,6 +81,13 @@ int alder_file_mkdir(const char *path)
     s = alder_file_exist(bdata(bpath));
     if (s == 0) {
         if(mkdir(bdata(bpath), mode) == -1 && errno != EEXIST) {
+            bdestroy(bpath);
+            return ALDER_STATUS_ERROR;
+        }
+    } else {
+        s = alder_file_isfile(bdata(bpath));
+        if (s == 1) {
+            fprintf(stderr, "Not a directory: %s\n", bdata(bpath));
             bdestroy(bpath);
             return ALDER_STATUS_ERROR;
         }

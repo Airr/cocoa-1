@@ -1032,7 +1032,7 @@ static void *encoder(void *t)
                 for (int i = 0; i < a->k - 1; i++) {
                     token = alder_kmer_encode4_token(&curbuf, inbuf_body,
                                                      lenbuf, type_infile);
-                    printf("[%zu] %d\n", debug_counter++, token);
+//                    printf("[%zu] %d\n", debug_counter++, token);
                     if (token >= 4) break;
                     int b1 = token;
                     int b2 = (b1 + 2) % 4;
@@ -1063,7 +1063,7 @@ static void *encoder(void *t)
             /* 4. Form a Kmer and its reverse complementary. */
             token = alder_kmer_encode4_token(&curbuf, inbuf_body,
                                              lenbuf, type_infile);
-            printf("[%zu] %d\n", debug_counter++, token);
+//            printf("[%zu] %d\n", debug_counter++, token);
             if (token >= 4) continue;
             alder_log5("token: %d", token);
             int b1 = token;

@@ -34,6 +34,44 @@
 #include "bstrlib.h"
 #include "alder_file_io.h"
 
+/**
+ *  Standard in and out test
+ */
+void alder_file_io_stdout()
+{
+    int d = 0;
+    int d3[3];
+    d3[0] = 0;
+    d3[1] = 1;
+    d3[2] = 2;
+    while (d < 5) {
+        d++;
+        d3[0] += 100;
+        d3[1] += 1000;
+        d3[2] += 10000;
+        write(STDOUT_FILENO, d3, sizeof(d)*3);
+        sleep(1);
+//        close(STDOUT_FILENO);
+    }
+}
+
+void alder_file_io_stdin()
+{
+    int d = 0;
+    int d2[2];
+    
+    ssize_t s = 1;
+    while (s > 0) {
+        s = read(STDIN_FILENO, d2, sizeof(d)*2);
+        if (s > 0) {
+            fprintf(stdout, "d0: %d\n", d2[0]);
+            fprintf(stdout, "d1: %d\n", d2[1]);
+        }
+        fprintf(stdout, "s: %ld\n", s);
+    }
+}
+
+
 /* This function tests functions for writing and reading KFM binary files.
  *
  * Pos(hex) Size Description

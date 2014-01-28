@@ -489,6 +489,8 @@ cleanup:
  * 1. Each
  */
 int alder_kmer_simulate_woHashtable(long version,
+                                    unsigned int outfile_given,
+                                    int with_parfile_flag,
                                     const char *outfile,
                                     const char *outdir,
                                     alder_format_type_t format,
@@ -497,9 +499,11 @@ int alder_kmer_simulate_woHashtable(long version,
                                     int number_partition,
                                     int kmer_size,
                                     int sequence_length,
-                                    size_t maxkmer)
+                                    size_t maxkmer,
+                                    int progress_flag,
+                                    int progressToError_flag)
 {
-    if (version > 1) {
+    if (version != 1) {
         version = 2;
     }
     int s = 0;
@@ -512,10 +516,14 @@ int alder_kmer_simulate_woHashtable(long version,
     
     ///////////////////////////////////////////////////////////////////////////
     // Open parition files.
-    alder_kmer_simulate_partition_t * opart =
-    alder_kmer_simulate_partition_create(outfile, outdir, kmer_size,
-                                         number_iteration, number_partition);
-    if (opart == NULL) return ALDER_STATUS_ERROR;
+    alder_kmer_simulate_partition_t * opart = NULL;
+    if (with_parfile_flag == 1) {
+        opart = alder_kmer_simulate_partition_create(outfile, outdir,
+                                                     kmer_size,
+                                                     number_iteration,
+                                                     number_partition);
+        if (opart == NULL) return ALDER_STATUS_ERROR;
+    }
     
     ///////////////////////////////////////////////////////////////////////////
     // Two kmer sequences.
@@ -548,7 +556,6 @@ int alder_kmer_simulate_woHashtable(long version,
     int i_seq = 0;
     for (int i = 0; i < number_file; i++) {
         
-        
         bstring bfilename;
         if (format == ALDER_FORMAT_FASTA) {
             bfilename = bformat("%s/%s-%02d.fa", outdir, outfile, i);
@@ -557,15 +564,21 @@ int alder_kmer_simulate_woHashtable(long version,
         } else {
             bfilename = bformat("%s/%s-%02d.seq", outdir, outfile, i);
         }
-        FILE *fpseq = fopen(bdata(bfilename), "w");
+        
+        FILE *fpseq = NULL;
+        if (number_file == 1 && outfile_given == 0) {
+            fpseq = stdout;
+        } else {
+            fpseq = fopen(bdata(bfilename), "w");
+        }
         
         int i_sequence_length = 0;
         size_t n_kmer = 0;
         while (n_kmer < maxkmer) {
-            if (n_kmer % 100000 == 1) {
+            if (progress_flag == 1 && n_kmer % 100000 == 1) {
                 alder_progress_step((i * maxkmer) + n_kmer,
                                     number_file * maxkmer,
-                                    0);
+                                    progressToError_flag);
             }
             n_kmer++;
             
@@ -620,14 +633,16 @@ int alder_kmer_simulate_woHashtable(long version,
                                          number_iteration,
                                          number_partition);
             
-            if (version == 1) {
-                alder_kmer_simulate_partition_write(opart, ss,
-                                                    (int)i_ni, (int)i_np);
-            } else if (version == 2) {
-                alder_kmer_simulate_partition_write2(opart, s2s,
-                                                     (int)i_ni, (int)i_np);
-            } else {
-                assert(0);
+            if (opart != NULL) {
+                if (version == 1) {
+                    alder_kmer_simulate_partition_write(opart, ss,
+                                                        (int)i_ni, (int)i_np);
+                } else if (version == 2) {
+                    alder_kmer_simulate_partition_write2(opart, s2s,
+                                                         (int)i_ni, (int)i_np);
+                } else {
+                    assert(0);
+                }
             }
             
             // End the current sequence, and start a new sequence.
@@ -653,7 +668,7 @@ int alder_kmer_simulate_woHashtable(long version,
             }
         }
         
-        if (version == 1) {
+        if (opart != NULL && version == 1) {
             for (int i_ni = 0; i_ni < number_iteration; i_ni++) {
                 for (int i_np = 0; i_np < number_partition; i_np++) {
                     alder_kmer_simulate_partition_flush(opart, i_ni, i_np);
@@ -674,10 +689,17 @@ int alder_kmer_simulate_woHashtable(long version,
             fputc('\n', fpseq);
         }
         
-        XFCLOSE(fpseq);
+        if (number_file == 1 && outfile_given == 0) {
+            // No code.
+        } else {
+            XFCLOSE(fpseq);
+        }
         bdestroy(bfilename);
     }
-    alder_progress_end(0);
+    
+    if (progress_flag == 1) {
+        alder_progress_end(progressToError_flag);
+    }
 
     int max_count = alder_hashtable_mcaspseudo_maximum_count(ht);
     if (max_count == 1) {

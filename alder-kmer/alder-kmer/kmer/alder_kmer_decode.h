@@ -40,6 +40,7 @@ int
 alder_kmer_decode2(int K,
                    int progress_flag,
                    struct bstrList *infile,
+                   unsigned int outfile_given,
                    const char *outdir,
                    const char *outfile);
 

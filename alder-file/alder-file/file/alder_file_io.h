@@ -39,6 +39,8 @@ void alder_file_io_test();
 void alder_file_io_test01();
 void alder_file_io_test02();
 void alder_file_io_test03(const char *fn);
+void alder_file_io_stdin();
+void alder_file_io_stdout();
 
 int alder_file_io_best_buffer_size(const char *fn,
                                    size_t *best_write_buffer_size,

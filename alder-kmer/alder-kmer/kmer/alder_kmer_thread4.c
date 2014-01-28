@@ -379,6 +379,8 @@ int alder_kmer_count_iteration4(FILE *fpout,
                                 int progress_flag,
                                 int progressToError_flag,
                                 int nopack_flag,
+                                uint8_t *inbuf,
+                                size_t size_data,
                                 struct bstrList *infile,
                                 const char *outdir,
                                 const char *outfile)
@@ -667,6 +669,8 @@ static void *counter(void *t)
     size_t ib = m2->b / 8;
     size_t jb = m2->b % 8;
     
+    size_t debug_counter = 0;
+    
     /* Let's read inputs, and skip writing table files. */
     size_t c_inbuffer = a->n_subbuf;
     size_t c_table = a->n_ht;
@@ -758,6 +762,8 @@ static void *counter(void *t)
         uint64_t n_kmer = lenbuf / m2->b;
         size_t x = 0;
         for (uint64_t i_kmer = 0; i_kmer < n_kmer; i_kmer++) {
+
+            debug_counter++;
             
             /*****************************************************************/
             /*                         OPTIMIZATION                          */
@@ -820,6 +826,8 @@ static void *counter(void *t)
     alder_encode_number_destroy(m);
     alder_encode_number2_destroy(m2);
     alder_log("counter(%d): END", counter_id);
+    
+    printf("debug counter: %zu\n",debug_counter++);
     pthread_exit(NULL);
 }
 

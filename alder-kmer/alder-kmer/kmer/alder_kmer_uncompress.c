@@ -26,6 +26,7 @@
 #include "alder_cmacro.h"
 #include "bstrlib.h"
 #include "alder_dna.h"
+#include "alder_logger.h"
 #include "alder_progress.h"
 #include "alder_file_size.h"
 #include "alder_kmer_binary.h"
@@ -230,65 +231,134 @@ int alder_kmer_binary_buffer_read(alder_kmer_binary_stream_t *bs_p,
 static int int2char[6] = { 'A', 'C', 'T', 'G', '\n', '\n' };
     
 /**
- *  Works with version 5.
+ *  This function converts binary files to simple sequences.
+ *
+ *  @param progress_flag progress
+ *  @param infile        infile
+ *  @param outfile_given outfile is given flag
+ *  @param outdir        output directory
+ *  @param outfile       outfile name
+ *
+ *  @return SUCCESS or FAIL
  */
 int
 alder_kmer_uncompress2(int progress_flag,
                        struct bstrList *infile,
+                       unsigned int outfile_given,
                        const char *outdir,
                        const char *outfile)
 {
-    char * fn = bdata(infile->entry[0]);
-    time_t start = time(NULL);
-    int fd = open(bdata(infile->entry[0]), O_RDONLY, 0666);
-    
-    fprintf(stderr, "version2\n");
-    
-//    size_t size_buf = 21;
     size_t size_buf = 1 << 16;
     uint8_t *buffer = malloc(size_buf);
-    
-    size_t total_size;
-    alder_file_size(fn, &total_size);
-//    unsigned long total_read = 0;
-    
-    ssize_t left_to_read = (ssize_t) total_size;
-    size_t count = size_buf;
-    while (left_to_read > 0) {
-        if (left_to_read < count) {
-            count = left_to_read;
-        }
-        ssize_t read_len = read(fd, buffer, count);
-        /* An error occurred; bail. */
-        if (read_len == -1)
-            break;
-        else /* Keep count of how much more we need to write. */
-            left_to_read -= read_len;
-        
-        
-        ///////////////////////////////////////////////////////////////////////
-        //
-        int token = -1;
-        alder_kmer_binary_stream_t bs;
-        alder_kmer_binary_buffer_open(&bs, buffer, read_len);
-        while (token < 5) {
-            token = alder_kmer_binary_buffer_read(&bs, NULL);
-            putc(int2char[token], stdout);
-        }
-//        putc('\n', stdout);
-        //
-        ///////////////////////////////////////////////////////////////////////
-        
-//        total_read = total_size - left_to_read;
-//        alder_progress_step((unsigned long) total_read,
-//                            (unsigned long) total_size, 0);
+    if (buffer == NULL) {
+        alder_loge(ALDER_ERR_MEMORY, "failed to uncompress");
+        return ALDER_STATUS_ERROR;
     }
-    assert (left_to_read == 0);
+    bstring boutfile = bformat("%s/%s.seq", outdir, outfile);
+    if (boutfile == NULL) {
+        alder_loge(ALDER_ERR_FILE, "failed to uncompress");
+        XFREE(buffer);
+        return ALDER_STATUS_ERROR;
+    }
     
-    close(fd);
+    int ofd = STDOUT_FILENO;
+    if (outfile_given) {
+        ofd = open(bdata(boutfile), O_WRONLY | O_CREAT | O_TRUNC, 0666);
+        if (ofd == -1) {
+            alder_loge(ALDER_ERR_FILE, "failed to open %s", bdata(boutfile));
+            bdestroy(boutfile);
+            XFREE(buffer);
+            return ALDER_STATUS_ERROR;
+        }
+    }
+    
+    int i_start = 0;
+    if (infile->qty == 0) {
+        i_start = -1;
+    }
+    for (int i = i_start; i < infile->qty; i++) {
+        int fd;
+        if (i == -1) {
+            fd = STDIN_FILENO;
+        } else {
+            fd = open(bdata(infile->entry[i]), O_RDONLY, 0666);
+            if (fd == -1) {
+                alder_loge(ALDER_ERR_FILE, "failed to open %s",
+                           bdata(infile->entry[i]));
+                bdestroy(boutfile);
+                XFREE(buffer);
+                return ALDER_STATUS_ERROR;
+            }
+        }
+        
+        while (1) {
+            ssize_t left_to_read = size_buf;
+            size_t read_len = 0;
+            while (left_to_read > 0) {
+                ssize_t cur_read_len = read(fd, buffer + read_len, left_to_read);
+                if (cur_read_len == 0) {
+                    break;
+                }
+                read_len += cur_read_len;
+                left_to_read -= cur_read_len;
+            }
+            
+            if (read_len == size_buf) {
+                assert(read_len == size_buf);
+                int token = -1;
+                alder_kmer_binary_stream_t bs;
+                alder_kmer_binary_buffer_open(&bs, buffer, read_len);
+                while (token < 5) {
+                    token = alder_kmer_binary_buffer_read(&bs, NULL);
+                    char c = int2char[token];
+                    write(ofd, &c, 1);
+                }
+            } else {
+                break;
+            }
+        }
+        
+        
+//        size_t total_size = 0;
+//        alder_file_size(bdata(infile->entry[i]), &total_size);
+//        
+//        ssize_t left_to_read = (ssize_t) total_size;
+//        size_t count = size_buf;
+//        while (left_to_read > 0) {
+//            if (left_to_read < count) {
+//                count = left_to_read;
+//            }
+//            ssize_t read_len = read(fd, buffer, count);
+//            /* An error occurred; bail. */
+//            if (read_len == -1) {
+//                alder_loge(ALDER_ERR_FILE, "failed to read %s",
+//                           bdata(infile->entry[i]));
+//                bdestroy(boutfile);
+//                XFREE(buffer);
+//                return ALDER_STATUS_ERROR;
+//            } else  {
+//                /* Keep count of how much more we need to write. */
+//                left_to_read -= read_len;
+//            }
+//            
+//            int token = -1;
+//            alder_kmer_binary_stream_t bs;
+//            alder_kmer_binary_buffer_open(&bs, buffer, read_len);
+//            while (token < 5) {
+//                token = alder_kmer_binary_buffer_read(&bs, NULL);
+//                char c = int2char[token];
+//                write(ofd, &c, 1);
+////                putc(int2char[token], stdout);
+//            }
+//        }
+//        assert (left_to_read == 0);
+        
+        if (i >= 0) {
+            close(fd);
+        }
+    }
+    
     free(buffer);
-    time_t end = time(NULL);
-    double elapsed = difftime(end, start);
-    return elapsed;
+    bdestroy(boutfile);
     return 0;
 }
