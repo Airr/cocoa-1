@@ -556,6 +556,7 @@ alder_kmer_encode4(int n_encoder,
                    size_t *n_byte,
                    int progress_flag,
                    int progressToError_flag,
+                   unsigned int binfile_given,
                    struct bstrList *infile,
                    const char *outdir,
                    const char *outfile)
@@ -939,7 +940,7 @@ static void *encoder(void *t)
     size_t c_inbuffer = a->n_encoder;
     size_t c_outbuffer = encoder_id;
     
-    size_t debug_counter = 0;
+//    size_t debug_counter = 0;
     
     /* Reader variables */
     alder_encode_number2_t * m1 = NULL;

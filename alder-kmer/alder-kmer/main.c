@@ -39,6 +39,7 @@
  */
 int main(int argc, char * argv[])
 {
+    time_t start = time(NULL);
     int s = ALDER_STATUS_SUCCESS;
     int isExitWithHelp = 0;
     alder_kmer_option_t option;
@@ -60,6 +61,7 @@ int main(int argc, char * argv[])
         alder_logger_initialize(args_info.log_arg, LOG_SILENT);
         alder_logger_error_initialize(LOG_BASIC);
     }
+    alder_log("START: %s", ctime(&start));
     
     ///////////////////////////////////////////////////////////////////////////
     // Count:
@@ -108,6 +110,9 @@ int main(int argc, char * argv[])
                                  (int)args_info.nthread_arg,
                                  args_info.progress_flag,
                                  args_info.progress_to_stderr_flag,
+                                 args_info.use_seqfile_flag,
+                                 args_info.binfile_arg,
+                                 args_info.binfile_given,
                                  option.infile,
                                  args_info.outfile_given,
                                  args_info.outdir_arg,
@@ -116,26 +121,28 @@ int main(int argc, char * argv[])
     ///////////////////////////////////////////////////////////////////////////
     // Table:
     if (args_info.table_flag) {
-        s = alder_kmer_count_withPartition(args_info.select_version_arg,
-                                           0, // -1, why -1?
-                                           (int)args_info.kmer_arg,
-//                                           args_info.disk_arg,
-                                           args_info.memory_arg,
-                                           option.maxfile,
-                                           args_info.inbuffer_arg,
-                                           args_info.outbuffer_arg,
-                                           (int)args_info.ni_arg,
-                                           (int)args_info.np_arg,
-                                           (int)args_info.nh_arg,
-                                           (int)args_info.nthread_arg,
-                                           args_info.progress_flag,
-                                           args_info.progress_to_stderr_flag,
-//                                           args_info.no_pack_flag,
-                                           0,
-                                           option.infile,
-                                           args_info.outfile_given,
-                                           args_info.outdir_arg,
-                                           args_info.outfile_arg);
+        s = alder_kmer_table(args_info.select_version_arg,
+                             0, // -1, why -1?
+                             (int)args_info.kmer_arg,
+                             // args_info.disk_arg,
+                             args_info.memory_arg,
+                             option.maxfile,
+                             args_info.inbuffer_arg,
+                             args_info.outbuffer_arg,
+                             (int)args_info.ni_arg,
+                             (int)args_info.np_arg,
+                             (int)args_info.nh_arg,
+                             (int)args_info.nthread_arg,
+                             args_info.progress_flag,
+                             args_info.progress_to_stderr_flag,
+                             // args_info.no_pack_flag,
+                             0,
+                             args_info.parfile_arg,
+                             args_info.parfile_given,
+                             option.infile,
+                             args_info.outfile_given,
+                             args_info.outdir_arg,
+                             args_info.outfile_arg);
     }
     
     ///////////////////////////////////////////////////////////////////////////
@@ -224,22 +231,27 @@ int main(int argc, char * argv[])
         uint64_t n_dna = 0;
         uint64_t n_seq = 0;
         size_t n_totalfilesize = 0;
-        s = alder_kmer_binary(NULL, 0, 0,
-                              &n_kmer, &n_dna, &n_seq,
-                              &n_totalfilesize,
-                              &n_byte,
-                              args_info.select_version_arg,
-                              (int)args_info.kmer_arg,
-                              args_info.disk_arg,
-                              args_info.memory_arg,
-                              args_info.min_table_memory_arg,
-                              args_info.max_table_memory_arg,
-                              (int)args_info.nthread_arg,
-                              args_info.progress_flag,
-                              args_info.progress_to_stderr_flag,
-                              option.infile,
-                              args_info.outdir_arg,
-                              args_info.outfile_arg);
+        if (args_info.select_version_arg == 3) {
+            size_t subsize = 1 << 16;
+            s = alder_kmer_binary(NULL, 0, subsize,
+                                  &n_kmer, &n_dna, &n_seq,
+                                  &n_totalfilesize,
+                                  &n_byte,
+                                  args_info.select_version_arg,
+                                  (int)args_info.kmer_arg,
+                                  args_info.disk_arg,
+                                  args_info.memory_arg,
+                                  args_info.min_table_memory_arg,
+                                  args_info.max_table_memory_arg,
+                                  (int)args_info.nsplit_arg,
+                                  args_info.progress_flag,
+                                  args_info.progress_to_stderr_flag,
+                                  option.infile,
+                                  args_info.outdir_arg,
+                                  args_info.outfile_arg);
+        } else {
+            alder_loge(ALDER_ERR, "Only version 4 is implemented!");
+        }
     }
     
     ///////////////////////////////////////////////////////////////////////////
@@ -258,6 +270,12 @@ int main(int argc, char * argv[])
     }
     my_cmdline_parser_free(&args_info);
     alder_kmer_option_free(&option);
+    
+    time_t end = time(NULL);
+    alder_log("END: %s", ctime(&end));
+    double run_time = difftime(end, start);
+    alder_log("END: %.f (s) = %.f (m) = %.f (h)", run_time, run_time/60, run_time/3600);
+    
     return s;
 }
 

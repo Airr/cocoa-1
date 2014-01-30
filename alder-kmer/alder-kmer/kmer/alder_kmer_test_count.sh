@@ -32,9 +32,9 @@ echo "compress  : [no|gz|bz2]"
 echo "disk      : number (default:1000MB)"
 echo "memory    : number (default:100MB)"
 echo "nthread   : number (default:1)"
-echo "version   : 1,2,3"
+echo "version   : 1,2,3,4"
 echo "e.g.,"
-echo "$ ./alder_kmer_test_count.sh 25 50000 65535 fq no 10000 1000 1 3"
+echo "$ ./alder_kmer_test_count.sh 25 50000 65535 fq no 10000 1000 1 4"
 echo "About 9GB"
 echo -n "Do you want to run it with default options [y] and press [ENTER]: "
 read response
@@ -71,7 +71,7 @@ if [ -z "$8" ]; then
 fi
 
 if [ -z "$9" ]; then
-  version=6
+  version=4
 fi
 
 
@@ -152,6 +152,23 @@ multiply_file outfile-00.$format outfile.$format $duplicate
 seqfilesize=$(stat outfile.$format | cut -d" " -f 8)
 echo "File outfile.$format size after x65535: $((seqfilesize / 10**6)) MB."
 
+if [ "$compress" == "gz" ]; then
+  echo "creating a compressed file using gzip... "
+  command="gzip outfile.$format"
+  run_command
+  echo "done!"
+  zip=.gz
+elif [ "$compress" == "bz2" ]; then
+  echo "creating a compressed file using bzip2... "
+  command="bzip2 outfile.$format"
+  run_command
+  echo "done!"
+  zip=.bz2
+else
+  zip=""
+fi
+echo "  created file: outfile-00.$format$zip"
+echo "  created file: outfile_0-0.par"
 
 ###############################################################################
 # Sequence to Table or (Counting...)

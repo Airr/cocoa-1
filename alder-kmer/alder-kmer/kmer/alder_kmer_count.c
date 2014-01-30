@@ -49,31 +49,11 @@ size_t totalfilesize,
 size_t *n_byte,
 int progress_flag,
 int progressToError_flag,
+unsigned int binfile_given,
 struct bstrList *infile,
 const char *outdir,
 const char *outfile);
 
-typedef int (*count_t)(FILE *fpout,
-int n_counter,
-int i_ni,
-int kmer_size,
-long memory_available,
-long sizeInbuffer,
-long sizeOutbuffer,
-uint64_t n_ni,
-uint64_t n_np,
-size_t n_nh,
-size_t totalfilesize,
-size_t *n_byte,
-size_t *n_hash,
-int progress_flag,
-int progressToError_flag,
-int nopack_flag,
-uint8_t *inbuf,
-size_t size_data,
-struct bstrList *infile,
-const char *outdir,
-const char *outfile);
 
 static
 void write_config1(const char *outfile, const char *outdir, int K,
@@ -126,6 +106,20 @@ void write_config2(const char *outfile, const char *outdir, size_t n_hash)
  *
  *  It also determines which version of counting kmer is used.
  *  1. Estimate memory requirement first.
+ *
+ *  To display the progress
+ *  Version 6. reading input files, and processing the binary file of them.
+ *  They could be done in two ways.
+ *    1. total input file size
+ *    2. total data buffer x np
+ *  Version 5. reading input files to create the binary file of them, and
+ *  processing the binary file x ni times
+ *    1. total input file size
+ *    2. binary file x ni
+ *  Version 4. reading input files, and processing partition files x np times
+ *    1. total input file size
+ *    2. [np] partition files
+ *  NOTE. I would use the input file size only at this stage.
  *
  *  [return parameters]
  *  @param version             version of counting is determined
@@ -296,45 +290,10 @@ alder_kmer_count_init(int force_version, long *version,
     
     /* Inbuffer and outbuffer size */
     assert(*sizeInbuffer == (1 << 16) && *sizeOutbuffer == (1 << 20));
-//    if (*sizeInbuffer == 0 || *sizeOutbuffer == 0) {
-//        //
-//        *sizeInbuffer = 16;
-//        *sizeOutbuffer = 20;
-//    } else {
-//        alder_kmer_inspect_estimate_buffer_size((size_t*)sizeInbuffer,
-//                                                (size_t*)sizeOutbuffer,
-//                                                outdir,
-//                                                outfile);
-//    }
-//    *sizeInbuffer = 1LLU << *sizeInbuffer;
-//    *sizeOutbuffer = 1LLU << *sizeOutbuffer;
     
-    ///////////////////////////////////////////////////////////////////////////
-    // To display the progress
-    // Version 6. reading input files, and processing the binary file of them.
-    //            They could be done in two ways.
-    //            1. total input file size
-    //            2. total data buffer x np
-    // Version 5. reading input files to create the binary file of them, and
-    //            processing the binary file x ni times
-    //            1. total input file size
-    //            2. binary file x ni
-    // Version 4. reading input files, and processing partition files x np times
-    //            1. total input file size
-    //            2. [np] partition files
-    // NOTE. I would use the input file size only at this stage.
-    ///////////////////////////////////////////////////////////////////////////
     
     /* Compute total file sizes for processing. */
     alder_totalfile_size(infile, _S_filesize);
-    
-    //    if (!no_partition_flag && !no_count_flag) {
-    //        *_S_filesize = (*_S_filesize) * N_ni + size_total_kmer;
-    //    } else if (!no_partition_flag && no_count_flag) {
-    //        *_S_filesize = (*_S_filesize) * N_ni;
-    //    } else if (no_partition_flag && !no_count_flag) {
-    //        *_S_filesize = size_total_kmer;
-    //    }
     
     /* Total file size per iteration. */
     uint64_t filesizePerIteration = (uint64_t)((double)size_total_kmer / (double)N_ni);
@@ -405,7 +364,7 @@ alder_kmer_count_init6(int force_version, long *version,
                        struct bstrList *infile, const char *outdir,
                        const char *outfile)
 {
-    assert(*version == 5 || *version == 6);
+    assert(*version == 3 || *version == 6 || *version == 6);
     
     assert(n_kmer > 0);
     
@@ -447,7 +406,7 @@ alder_kmer_count_init6(int force_version, long *version,
         }
     } else {
         // Version won't change.
-        if (*version == 5) {
+        if (*version == 3 || *version == 5) {
             size_M_table = size_M;
         } else if (*version == 6) {
             if (size_total_data < size_M) {
@@ -469,18 +428,31 @@ alder_kmer_count_init6(int force_version, long *version,
             assert(0);
         }
     }
-    if (n_nt > 1) {
+    if (n_nt > 1 && *version == 5) {
         N_nh = ((size_t)size_M_table/2) / size_element_table;
-    } else if (n_nt == 1) {
+    } else {
         N_nh = ((size_t)size_M_table) / size_element_table;
     }
-    size_t N_nh_point7 = (size_t)((double)N_nh * 7.0 / 10.0);
+    size_t N_nh_point7 = (size_t)((double)N_nh * ALDER_HASHTABLE_LOAD);
+    if (*version == 6) {
+        N_ni = 1;
+    }
     N_np = (uint64_t)((double)n_kmer / (double)N_ni / (double)N_nh_point7);
     N_np = N_np == 0 ? 1 : N_np;
     if (*version == 5) {
         if (N_np > (uint64_t)F) {
             N_np = (uint64_t)F;
             N_ni = (uint64_t)(((double)n_kmer / (double)N_np / (double)N_nh_point7));
+            alder_loge(ALDER_ERR,
+                       "maximum of number of open files is limited: "
+                       "number of iterations is increased.");
+        }
+    } else if (*version == 3) {
+        size_t n_file = N_np * n_nt;
+        if (n_file > (size_t)F) {
+            N_np = n_file / n_nt;
+            N_ni = (uint64_t)(((double)n_kmer / (double)N_np / (double)N_nh_point7));
+            assert(N_ni > 0);
             alder_loge(ALDER_ERR,
                        "maximum of number of open files is limited: "
                        "number of iterations is increased.");
@@ -558,46 +530,6 @@ alder_kmer_count_init6(int force_version, long *version,
 
 
 static int
-alder_kmer_count_withPartition_init(size_t *_S_filesize,
-                                    int K,
-                                    size_t n_nh,
-                                    int n_thread,
-                                    struct bstrList *infile,
-                                    const char *outdir,
-                                    const char *outfile)
-{
-    uint64_t v = 0;
-    alder_log3("Start counting Kmers using partition files ...");
-    /* Compute total file sizes. */
-    size_t totalFilesize = 0;
-    for (int i = 0; i < infile->qty; i++) {
-        size_t filesize = 0;
-        alder_file_size(bdata(infile->entry[i]), &filesize);
-        totalFilesize += filesize;
-    }
-    *_S_filesize = totalFilesize;
-    
-    int width = ALDER_LOG_TEXTWIDTH;
-    alder_log("*** Kmer counting setup ***");
-    alder_log("%*s %d", width, "Kmer size:", K);
-    alder_log("%*s N/A", width, "Disk space (MB):");
-    alder_log("%*s N/A", width, "Memory space (MB):");
-    for (int i = 0; i < infile->qty; i++) {
-        alder_log2("%*s [%d] %s", width, "Input file:", i + 1, bdata(infile->entry[i]));
-    }
-    alder_log("%*s %zu", width, "Total file size (B):", totalFilesize);
-    alder_log("%*s %llu", width, "Number of Kmers:", v);
-    alder_log("%*s N/A", width, "Number of iterations:");
-    alder_log("%*s N/A", width, "Number of partitions:");
-    alder_log("%*s %zu", width, "Hash table size:", n_nh);
-    alder_log("%*s %d", width, "Number of threads:", n_thread);
-    alder_log("%*s %s/%s.%s", width, "Count table file:",
-              outdir, outfile, ALDER_KMER_TABLE_EXTENSION);
-    
-    return ALDER_STATUS_SUCCESS;
-}
-
-static int
 open_table_file(long version,
                 FILE **fpout_p,
                 unsigned int outfile_given,
@@ -620,17 +552,10 @@ open_table_file(long version,
         }
         // This is the place to write the header part of the hash count table.
         alder_log5("writing the header of the hash count table ...");
-        if (version < 4) {
-            s = alder_hashtable_mcas_printHeaderToFILE(*fpout_p,
-                                                       K,
-                                                       (uint64_t)N_nh,
-                                                       N_ni, N_np);
-        } else {
-            s = alder_hashtable_mcas_printHeaderToFD(fileno(*fpout_p),
-                                                     K,
-                                                     (uint64_t)N_nh,
-                                                     N_ni, N_np);
-        }
+        s = alder_hashtable_mcas_printHeaderToFD(fileno(*fpout_p),
+                                                 K,
+                                                 (uint64_t)N_nh,
+                                                 N_ni, N_np);
         ALDER_RETURN_ERROR_UNLESS_SUCCESSFUL(s, ALDER_STATUS_ERROR);
     }
     bdestroy(bht);
@@ -638,16 +563,29 @@ open_table_file(long version,
 }
 
 static int
-alder_kmer_count_delete_partitionfile(int i_ni,
+alder_kmer_count_delete_partitionfile(long version,
+                                      int i_ni,
                                       int n_np,
+                                      int n_nt,
                                       const char *outdir,
                                       const char *outfile)
 {
-    for (int i = 0; i < n_np; i++) {
-        bstring bfpar = bformat("%s/%s-%llu-%llu.par", outdir, outfile,
-                                i_ni, i);
-        alder_file_rm(bdata(bfpar));
-        bdestroy(bfpar);
+    if (version == 3) {
+        for (int i = 0; i < n_np; i++) {
+            for (int j = 0; j < n_nt; j++) {
+                bstring bfpar = bformat("%s/%s-%llu-%llu-%d.par",
+                                        outdir, outfile, i_ni, i, j);
+                alder_file_rm(bdata(bfpar));
+                bdestroy(bfpar);
+            }
+        }
+    } else if (version == 5) {
+        for (int i = 0; i < n_np; i++) {
+            bstring bfpar = bformat("%s/%s-%llu-%llu.par", outdir, outfile,
+                                    i_ni, i);
+            alder_file_rm(bdata(bfpar));
+            bdestroy(bfpar);
+        }
     }
     return ALDER_STATUS_SUCCESS;
 }
@@ -661,21 +599,30 @@ alder_kmer_count_delete_partitionfile(int i_ni,
  *  @return infile list
  */
 static struct bstrList*
-binfilename(const char *outfile, const char *outdir)
+binfilename(long version, int n_nt, const char *outfile, const char *outdir)
 {
     struct bstrList *binfile = NULL;
-    bstring bfpar = bformat("%s/%s.bin", outdir, outfile);
-    if (bfpar == NULL) {
-        return NULL;
+    bstring bfpar = NULL;
+    if (version == 3) {
+        binfile = bstrVectorCreate(n_nt);
+        for (int i = 0; i < n_nt; i++) {
+            binfile->entry[i] = bformat("%s/%s-%d.bin", outdir, outfile, i);
+        }
+        binfile->qty = n_nt;
+    } else {
+        bfpar = bformat("%s/%s.bin", outdir, outfile);
+        if (bfpar == NULL) {
+            return NULL;
+        }
+        binfile = bstrListCreate();
+        if (binfile == NULL) {
+            bdestroy(bfpar);
+            return NULL;
+        }
+        binfile->entry[0] = bfpar;
+        binfile->mlen = 1;
+        binfile->qty = 1;
     }
-    binfile = bstrListCreate();
-    if (binfile == NULL) {
-        bdestroy(bfpar);
-        return NULL;
-    }
-    binfile->entry[0] = bfpar;
-    binfile->mlen = 1;
-    binfile->qty = 1;
     return binfile;
 }
 
@@ -687,8 +634,8 @@ binfilename(const char *outfile, const char *outdir)
  *  @param outfile         outfile
  *  @param outdir          outdir
  */
-void estimate_buffer_size(long *sizeInbuffer_p, long *sizeOutbuffer_p,
-                          const char *outfile, const char *outdir)
+void alder_kmer_estimate_buffer_size(long *sizeInbuffer_p, long *sizeOutbuffer_p,
+                                     const char *outfile, const char *outdir)
 {
     if (*sizeInbuffer_p == 0 || *sizeOutbuffer_p == 0) {
         *sizeInbuffer_p = 16;
@@ -756,22 +703,194 @@ alder_kmer_count(long version,
                  const char *outdir,
                  const char *outfile)
 {
-    assert(version == 0 || version == 4 || version == 5 || version == 6);
-    int force_version = 0;
-    if (version > 0) {
-        force_version = 1;
-    }
-    
+    time_t start;
+    time_t end;
+    double run_time;
     encode_t encode;
     count_t count;
+    int s = ALDER_STATUS_SUCCESS;
+    uint64_t N_ni = 0;
+    uint64_t N_np = 0;
+    size_t N_nh = 0;
+    size_t bin_filesize = 0;
+    size_t size_data = 0;
+    uint64_t n_kmer = 0;
+    uint64_t n_dna = 0;
+    uint64_t n_seq = 0;
     
-    /* Inbuffer and outbuffer size */
-    estimate_buffer_size(&sizeInbuffer, &sizeOutbuffer, outfile, outdir);
+    size_t S_filesize = 0;
+    int flag_nh64 = 0;
     
-    if (version == 4 && infile->qty == 0) {
-        version = 5;
+    FILE *fpout = NULL;
+    
+    time(&start);
+    
+    struct bstrList *cinfile = NULL;
+    struct bstrList *binfile = binfilename(version, n_nt, outfile, outdir);
+    uint8_t *inbuf = NULL;
+    
+    size_t n_hash = 0;
+    size_t n_byte = 0;
+    
+    int force_version = version > 0 ? 1 : 0;
+//    size_t size_inbuf = 0; // computed using available memory
+    
+    assert(version == 3);
+    
+    alder_kmer_estimate_buffer_size(&sizeInbuffer, &sizeOutbuffer, outfile, outdir);
+    
+    // n_kmer, n_dna, n_seq, bin_filesize
+    s = alder_kmer_binary3(NULL, 0, sizeInbuffer,
+                           &n_kmer, &n_dna, &n_seq, &bin_filesize, &size_data,
+                           version, K, D, M, min_M_table, max_M_table, n_nt,
+                           progress_flag, progressToError_flag,
+                           infile, outdir, outfile);
+    
+    // N_ni, N_np, N_nh
+    s = alder_kmer_count_init6(force_version, &version,
+                               &N_ni, &N_np, &N_nh,
+                               &bin_filesize, &flag_nh64,
+                               &sizeInbuffer, &sizeOutbuffer,
+                               K, n_kmer, D,
+                               M, min_M_table, max_M_table,
+                               F,
+                               n_ni, n_np, n_nh, n_nt,
+                               progress_flag, progressToError_flag,
+                               no_partition_flag, no_count_flag,
+                               nopack_flag, infile, outdir,
+                               outfile);
+    
+    time(&end);
+    run_time = difftime(end, start);
+    alder_log("Binary: %.f (s) = %.f (m) = %.1f (h)", run_time, run_time/60, run_time/3600);
+    
+    ///////////////////////////////////////////////////////////////////////////
+    //
+    ///////////////////////////////////////////////////////////////////////////
+    
+    s = open_table_file(version, &fpout, outfile_given, outfile, outdir,
+                        K, N_np, N_ni, N_nh, no_count_flag);
+    if (s != ALDER_STATUS_SUCCESS) {
+        alder_loge(ALDER_ERR_FILE, "Failed to open a table file: %s/%s.tbl",
+                   outdir, outfile);
+        if (version == 5) {
+            bstrListDestroy(binfile);
+        }
+        return ALDER_STATUS_ERROR;
+    }
+    alder_log("*** Kmer count ***");
+    
+    // DSK approach.
+    for (int i = 0; i < N_ni; i++) {
+        if (!no_partition_flag) {
+            assert(version != 6);
+            unsigned int binfile_given = 0;
+            // Encode kmer: runs on nt-many threads.
+            alder_log3("encoding iteration %d ...", i);
+            if (version == 3) {
+                encode = &alder_kmer_encode3;
+                binfile_given = 1;
+                cinfile = binfile;
+            } else if (version == 4) {
+                encode = &alder_kmer_encode4;
+                cinfile = infile;
+            } else if (version == 5) {
+                encode = &alder_kmer_encode5;
+                cinfile = binfile;
+            } else {
+                alder_loge(ALDER_ERR, "Bug: report it!");
+                return ALDER_STATUS_ERROR;
+            }
+            time(&start);
+            (*encode)(n_nt, i, K, D, M, sizeInbuffer, sizeOutbuffer,
+                      N_ni, N_np, S_filesize, &n_byte,
+                      progress_flag, progressToError_flag,
+                      binfile_given,
+                      cinfile, outdir, outfile);
+            time(&end);
+            run_time = difftime(end, start);
+            alder_log("Encoding: %.f (s) = %.f (m) = %.1f (h)", run_time, run_time/60, run_time/3600);
+        }
+        
+        if (!no_count_flag) {
+            // Count and save: runs on nt-many threads.
+            alder_log3("counting iteration %d ...", i);
+            size_t i_n_hash = 0;
+            if (version == 3) {
+                count = &alder_kmer_count_iteration3;
+                cinfile = NULL;
+            } else if (version == 4 || version == 5) {
+                count = &alder_kmer_count_iteration4;
+                cinfile = NULL;
+            } else {
+                assert(version == 6);
+                count = &alder_kmer_count_iteration5;
+                n_byte = n_kmer;
+            }
+            time(&start);
+            (*count)(fpout, n_nt, i, K, M, sizeInbuffer, sizeOutbuffer,
+                     N_ni, N_np, N_nh, S_filesize, &n_byte, &i_n_hash,
+                     progress_flag, progressToError_flag, nopack_flag,
+                     inbuf, size_data, cinfile, outdir, outfile);
+            time(&end);
+            run_time = difftime(end, start);
+            alder_log("Counting: %.f (s) = %.f (m) = %.1f (h)", run_time, run_time/60, run_time/3600);
+            n_hash += i_n_hash;
+            
+            if (!no_delete_partition_flag) {
+                alder_log3("deleting partition files in iteration %d ...", i);
+                alder_kmer_count_delete_partitionfile(version, i, (int)N_np, n_nt,
+                                                      outdir, outfile);
+            }
+        }
+    }
+    if (!no_count_flag) {
+        s = alder_hashtable_mcas_printPackToFD_count(n_hash, fileno(fpout));
+        assert(s == ALDER_STATUS_SUCCESS);
+        XFCLOSE(fpout);
     }
     
+    if ((!no_count_flag && !nopack_flag) || version == 6) {
+        write_config2(outfile, outdir, n_hash);
+    }
+    
+    if (progress_flag) {
+        alder_progress_end(progressToError_flag);
+    }
+    
+    bstrListDestroy(binfile);
+    if (version == 6) {
+        XFREE(inbuf);
+    }
+    
+    alder_log5("Counting Kmers has been finished!");
+    return ALDER_STATUS_SUCCESS;
+}
+
+
+int
+alder_kmer_count_old(long version,
+                 int K, long totalmaxkmer, long D, long M,
+                 long min_M_table, long max_M_table,
+                 long F,
+                 long sizeInbuffer,
+                 long sizeOutbuffer,
+                 int n_ni, int n_np,
+                 int n_nh,
+                 int n_nt,
+                 int progress_flag,
+                 int progressToError_flag,
+                 int nopack_flag,
+                 int no_delete_partition_flag,
+                 int no_partition_flag,
+                 int no_count_flag,
+                 struct bstrList *infile,
+                 unsigned int outfile_given,
+                 const char *outdir,
+                 const char *outfile)
+{
+    encode_t encode;
+    count_t count;
     int s = ALDER_STATUS_SUCCESS;
     uint64_t N_ni = 0;
     uint64_t N_np = 0;
@@ -782,10 +901,8 @@ alder_kmer_count(long version,
     size_t n_hash = 0;
     size_t n_byte = 0;
     size_t bin_filesize = 0;
-    
-    /* binary4 */
     struct bstrList *cinfile = NULL;
-    struct bstrList *binfile = binfilename(outfile, outdir);
+    struct bstrList *binfile = binfilename(version, n_nt, outfile, outdir);
     uint8_t *inbuf = NULL;
     size_t size_inbuf = 0; // computed using available memory
     size_t size_data = 0;
@@ -793,7 +910,18 @@ alder_kmer_count(long version,
     uint64_t n_dna = 0;
     uint64_t n_seq = 0;
     
-    /* Check the STDIN. */
+    assert(version == 0 || version == 3 || version == 4 || version == 5 || version == 6);
+    int force_version = 0;
+    if (version > 0) {
+        force_version = 1;
+    }
+    
+    if (version == 4 && infile->qty == 0) {
+        alder_loge(ALDER_ERR, "Version 4 cannot be run without input files.");
+        return ALDER_STATUS_ERROR;
+    }
+    alder_kmer_estimate_buffer_size(&sizeInbuffer, &sizeOutbuffer, outfile, outdir);
+    
     if (infile->qty > 0) {
         s = alder_kmer_count_init(force_version, &version, &N_ni, &N_np, &N_nh,
                                   &S_filesize,
@@ -805,9 +933,9 @@ alder_kmer_count(long version,
                                   no_partition_flag, no_count_flag,
                                   nopack_flag, infile, outdir, outfile);
     }
-    assert(version == 4 || version == 5 || version == 6);
+    assert(version == 3 || version == 4 || version == 5 || version == 6);
     
-    if (version == 5 || version == 6) {
+    if (version == 3 || version == 5 || version == 6) {
         
         size_inbuf = ((size_t)M << 20);
         inbuf = malloc(sizeof(*inbuf) * size_inbuf);
@@ -825,19 +953,23 @@ alder_kmer_count(long version,
                                0, // n_nt
                                progress_flag, progressToError_flag,
                                infile, outdir, outfile);
-        
         if (s == ALDER_STATUS_SUCCESS) {
-            // Choose one of the versions: 5 or 6.
-            // Initialize ni, np, nh.
-            if (bin_filesize > 0 && size_data == 0) {
-                // version 5
-                version = 5;
-            } else if (bin_filesize == 0 && size_data > 0) {
-                // version 6
-                version = 6;
-                bin_filesize = size_data;
+            if (force_version) {
+                // No change of version.
+                if (bin_filesize == 0 && size_data > 0) {
+                    bin_filesize = size_data;
+                }
             } else {
-                assert(0);
+                if (bin_filesize > 0 && size_data == 0) {
+                    // version 5
+                    version = 5;
+                } else if (bin_filesize == 0 && size_data > 0) {
+                    // version 6
+                    version = 6;
+                    bin_filesize = size_data;
+                } else {
+                    assert(0);
+                }
             }
             s = alder_kmer_count_init6(force_version, &version,
                                        &N_ni, &N_np, &N_nh,
@@ -888,9 +1020,13 @@ alder_kmer_count(long version,
     for (int i = 0; i < N_ni; i++) {
         if (!no_partition_flag) {
             assert(version != 6);
+            unsigned int binfile_given = 1;
             // Encode kmer: runs on nt-many threads.
             alder_log3("encoding iteration %d ...", i);
-            if (version == 4) {
+            if (version == 3) {
+                encode = &alder_kmer_encode3;
+                cinfile = binfile;
+            } else if (version == 4) {
                 encode = &alder_kmer_encode4;
                 cinfile = infile;
             } else if (version == 5) {
@@ -903,6 +1039,7 @@ alder_kmer_count(long version,
             (*encode)(n_nt, i, K, D, M, sizeInbuffer, sizeOutbuffer,
                       N_ni, N_np, S_filesize, &n_byte,
                       progress_flag, progressToError_flag,
+                      binfile_given,
                       cinfile, outdir, outfile);
         }
         
@@ -910,13 +1047,16 @@ alder_kmer_count(long version,
             // Count and save: runs on nt-many threads.
             alder_log3("counting iteration %d ...", i);
             size_t i_n_hash = 0;
-            
-            if (version == 4 || version == 5) {
+            if (version == 3) {
+                count = &alder_kmer_count_iteration3;
+                cinfile = NULL;
+            } else if (version == 4 || version == 5) {
                 count = &alder_kmer_count_iteration4;
                 cinfile = NULL;
             } else {
                 assert(version == 6);
                 count = &alder_kmer_count_iteration5;
+                n_byte = n_kmer;
             }
             (*count)(fpout, n_nt, i, K, M, sizeInbuffer, sizeOutbuffer,
                      N_ni, N_np, N_nh, S_filesize, &n_byte, &i_n_hash,
@@ -926,7 +1066,7 @@ alder_kmer_count(long version,
             
             if (!no_delete_partition_flag) {
                 alder_log3("deleting partition files in iteration %d ...", i);
-                alder_kmer_count_delete_partitionfile(i, (int)N_np,
+                alder_kmer_count_delete_partitionfile(version, i, (int)N_np, n_nt,
                                                       outdir, outfile);
             }
         }
@@ -953,134 +1093,3 @@ alder_kmer_count(long version,
     alder_log5("Counting Kmers has been finished!");
     return ALDER_STATUS_SUCCESS;
 }
-
-int
-alder_kmer_partition(long version,
-                     int K, long D, long M,
-                     long min_M_table, long max_M_table,
-                     long F,
-                     long sizeInbuffer,
-                     long sizeOutbuffer,
-                     int n_ni, int n_np,
-                     int n_nh,
-                     int n_nt,
-                     int progress_flag,
-                     int progressToError_flag,
-                     struct bstrList *infile,
-                     unsigned int outfile_given,
-                     const char *outdir,
-                     const char *outfile)
-{
-    
-    int s = ALDER_STATUS_SUCCESS;
-    s = alder_kmer_count(version, K, 0, D,
-                         M, min_M_table, max_M_table,
-                         F,
-                         sizeInbuffer,
-                         sizeOutbuffer,
-                         n_ni, n_np,
-                         n_nh,
-                         n_nt,
-                         progress_flag,
-                         progressToError_flag,
-                         1, // int nopack_flag,
-                         1, // int no_delete_partition_flag,
-                         0, // int no_partition_flag,
-                         1, // int no_count_flag,
-                         infile,
-                         outfile_given,
-                         outdir,
-                         outfile);
-    return s;
-}
-
-/* This function uses partition files to create a hash table of counts.
- *
- * What should be fixed?
- * 1. n_nh
- */
-int
-alder_kmer_count_withPartition(long version,
-                               int i_ni, int K, long M, long F,
-                               long sizeInbuffer,
-                               long sizeOutbuffer,
-                               int n_ni, int n_np,
-                               int n_nh,
-                               int n_thread,
-                               int progress_flag,
-                               int progressToError_flag,
-                               int nopack_flag,
-                               struct bstrList *infile,
-                               unsigned int outfile_given,
-                               const char *outdir,
-                               const char *outfile)
-{
-    int s = ALDER_STATUS_SUCCESS;
-    count_t count;
-    uint64_t N_ni = 1;
-    uint64_t N_np = infile->qty;
-    size_t N_nh = n_nh;
-    size_t S_filesize;
-    size_t n_hash = 0;
-    size_t n_byte = 0;
-    alder_kmer_count_withPartition_init(&S_filesize, K, N_nh, n_thread,
-                                        infile, outdir, outfile);
-    
-    FILE *fpout = NULL;
-    s = open_table_file(version, &fpout, outfile_given, outfile, outdir,
-                        K, N_np, N_ni, N_nh, 0);
-    if (s != ALDER_STATUS_SUCCESS) {
-        alder_loge(1, "Failed to open a table file.");
-        return ALDER_STATUS_ERROR;
-    }
-    alder_log("*** Kmer count using partition files ***");
-    // Count and save: runs on nt-many threads.
-    if (version == 1) {
-        count = &alder_kmer_count_iteration;
-    } else if (version == 2) {
-        count = &alder_kmer_count_iteration2;
-    } else if (version == 3) {
-        count = &alder_kmer_count_iteration3;
-    } else if (version == 4 || version == 5) {
-        count = &alder_kmer_count_iteration4;
-    } else {
-        fprintf(stderr, "No alder_kmer_count_iteration4 for version > 5\n");
-        count = NULL;
-        assert(0);
-        abort();
-    }
-    (*count)(fpout,
-             n_thread,
-             i_ni,
-             K,
-             M,
-             sizeInbuffer,
-             sizeOutbuffer,
-             N_ni,
-             N_np,
-             N_nh,
-             S_filesize,
-             &n_byte,
-             &n_hash,
-             progress_flag,
-             progressToError_flag,
-             nopack_flag,
-             NULL,
-             0,
-             infile,
-             outdir,
-             outfile);
-    
-    
-    s = alder_hashtable_mcas_printPackToFILE_count(n_hash, fpout);
-    
-    XFCLOSE(fpout);
-    
-    if (progress_flag) {
-        alder_progress_end(progressToError_flag);
-    }
-    
-    alder_log5("Counting Kmers has been finished!");
-    return s;
-}
-

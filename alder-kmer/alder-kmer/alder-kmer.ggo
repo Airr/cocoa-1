@@ -3,7 +3,7 @@ version "0.1"
 purpose "alder-kmer counts kmers in a sequence data set of FASTQ and FASTA files."
 usage "alder-kmer [command] [OPTIONS]... [FILES]..."
 description
-"alder-kmer allows arbitrary size of kmer using multiple CPUs. The first argument of the alder-kmer is a command, which is one of the strings: `count', `dump', `query', `simulate', `partition', `kmer', `table', `list', `match', `binary', `uncompress', and `inspect'. Use option --help to see options for each command; e.g., alder-kmer count --help. Options may require arguments. `INT' is a positive number unless stated otherwise. `STRING' is a string of characters. `FILENAME' and `DIRECTORY' are strings that could be found or created in the file system that you run alder-kmer on. These are common options, which are followed by commands and their main options."
+"alder-kmer allows arbitrary size of kmer using multiple CPUs with compare-and-swap (CAS) instructions. The first argument of the alder-kmer is a command, which is one of the strings: `count', `dump', `query', `simulate', `partition', `kmer', `table', `list', `match', `binary', `uncompress', and `inspect'. Use option --help to see options for each command; e.g., alder-kmer count --help. Options may require arguments. `INT' is a positive number unless stated otherwise. `STRING' is a string of characters. `FILENAME' and `DIRECTORY' are strings that could be found or created in the file system that you run alder-kmer on. These are common options, which are followed by commands and their main options."
 
 option "help" h "Print help of the program, or a command: e.g., alder-kmer count -h" flag off
 option "detailed-help" - "Print help, including all details" flag off
@@ -18,7 +18,7 @@ option "load-disk" - "fraction of disk" double typestr="0 < x < 1" default="1.0"
 option "memory" - "maximum memory" long typestr="N MB" default="10" optional
 option "load-memory" - "fraction of memory" double typestr="0 < x < 1" default="1.0" optional
 option "nthread" t "number of threads" long typestr="INT>=1" default="1" optional
-option "outfile" o "prefix of output files" string typestr="FILENAME" default="outfile" optional
+option "outfile" o "prefix of output files" string typestr="STRING" default="outfile" optional
 option "outdir" - "output directory" string typestr="DIRECTORY" default="." optional
 
 option "nh" - "number of hash elements" long typestr="INT" default="10" optional
@@ -51,7 +51,7 @@ option "seed" - "random seed" long typestr="INT < 10^9" default="-1" optional
 details="Enter a positive integer seed (9 digits or less)."
 
 section "partition"
-sectiondesc="This command converts sequence files to partition files. Use options of command `simulate': --kmer, --nthread, --outfile, --outdir, --ni, and --np. You can use options: --disk and --memory to set automatically --ni and --np, but to use --disk and --memmory you must set --ni=-1 and --np=-1 or negative values. Otherwise, --ni and --np values in `simulate' command would be used. The --memory option value will be still used for acquiring buffers for reading sequence files and writing partition files. Large memory would increase the speed of `partition' command. On the contrary, the value in --disk does not affect the buffer, and the performance of `partition' command would be the same for different values of --disk, which would change the size of --ni and --np if --ni=-1 and --np=-1. See the reference by Rizk, et al. (2013) for details using option --cite."
+sectiondesc="This command converts sequence files to partition files. By default, it takes binary files; use option --use-fileseq if you want to use sequence files. To take a series of binary files, use option --binfile=STRING; STRING-0.bin to STRING-(#thread - 1).bin files are used as input files. Use options of command `simulate': --kmer, --nthread, --outfile, --outdir, --ni, and --np. You can use options: --disk and --memory to set automatically --ni and --np, but to use --disk and --memmory you must set --ni=-1 and --np=-1 or negative values. Otherwise, --ni and --np values in `simulate' command would be used. The --memory option value will be still used for acquiring buffers for reading sequence files and writing partition files. Large memory would increase the speed of `partition' command. On the contrary, the value in --disk does not affect the buffer, and the performance of `partition' command would be the same for different values of --disk, which would change the size of --ni and --np if --ni=-1 and --np=-1. See the reference by Rizk, et al. (2013) for details using option --cite."
 option "partition" - "Create a partition file" flag off dependon="outfile"
 option "inbuffer" - "Size of input buffer in log2" long typestr="INT" default="0" optional
 option "outbuffer" - "Size of output buffer in log2" long typestr="INT" default="0" optional
@@ -61,7 +61,7 @@ sectiondesc="This command converts a partition file to a kmer sequence file. Ava
 option "decode" - "Decode a partition file" flag off dependon="outfile"
 
 section "table"
-sectiondesc="This command converts partition files to a table file. Use the following options: --kmer, --nh, --nthread, and provide at least one partition file as an input file."
+sectiondesc="This command converts partition files to a table file. Use the following options: --kmer, --nh, --nthread, and provide at least one partition file as an input file. A series of partition files can be used with option --parfile=x; x-a-b-c.par is a partition file for iteration a, partition b, and thread c."
 option "table" - "Partition file" flag off dependon="outfile"
 
 section "list"
@@ -94,7 +94,7 @@ option "loglevel" - "Log level" long typestr="level" values="0","1","2","3","4",
 
 option "progress-to-stderr" - "Display progress number to stdandard error" flag off
 option "totalmaxkmer" - "Skip counting maximum number of kmers in data, and use this number" long typestr="INT" default="0" optional
-option "select-version" - "Select a version of kmer counting: 0 for automatic selction, 1 for skipping binary file creation (dsk mode with a single iteration), 2 for binary file creation (dsk mode), and 3 for loading a whole input data on the memory (msk or memory streaming kmer mode)." long typestr="INT" default="0" values="0","1","2","3" optional
+option "select-version" - "Select a version of kmer counting: 0 for automatic selction, 1 for skipping binary file creation (dsk mode with a single iteration), 2 for binary file creation (dsk mode), 3 for loading a whole input data on the memory (msk or memory streaming kmer mode), and 4 for splitting a binary file." long typestr="INT" default="4" values="0","1","2","3","4" optional
 option "bin-outdir" - "binary file output directory" string typestr="DIRECTORY" default="." optional
 option "par-outdir" - "partition files output directory" string typestr="DIRECTORY" default="." optional
 option "tab-outdir" - "table file output directory" string typestr="DIRECTORY" default="." optional
@@ -105,7 +105,7 @@ option "lower-count" L "minimum count" long typestr="INT" default="1" optional
 option "upper-count" U "maximum count" long typestr="INT" default="65535" optional
 option "size" - "hash size" long typestr="INT" default="1" optional
 option "threads" - "number of threads" long typestr="INT>=1" default="1" optional
-option "output" - "prefix of output files" string typestr="FILENAME" default="outfile" optional
+option "output" - "prefix of output files" string typestr="STRING" default="outfile" optional
 
 option "with-reverse" - "Print reverse complementary sequences" flag off
 option "with-index" - "Print index values" flag off
@@ -113,7 +113,10 @@ option "only-init" - "Do not execute counting, but the initialization" flag off
 option "with-parfile" - "Create par files as well as sequence files." flag off
 option "min-table-memory" - "min memory of a part table" long typestr="INT" default="100" optional
 option "max-table-memory" - "max memory of a part table" long typestr="INT" default="1000" optional
-
+option "nsplit" - "split binary files" long typestr="INT" default="1" optional
+option "use-seqfile" - "Use FASTQ or FASTA" flag off
+option "binfile" - "prefix of binary files" string typestr="STRING" default="outfile" optional
+option "parfile" - "prefix of partition files" string typestr="STRING" default="outfile" optional
 
 option "release" - "Release mode" flag on
 
@@ -258,8 +261,21 @@ NEXT (partially)
 . Test of overflow of occurence (create a separate file of kmer of overflowed).
 .ofl file would contain encoded numbers just like .par file.
 
+
 TODO
 3. Usage of table in percentage (should be 70%)
+
+
+Simpel Check of version 3
+./alder-kmer s -k 25 --maxkmer=100000 -o outfile
+./alder-kmer binary outfile-00.fq
+./alder-kmer partition -k 25 --binfile=outfile --nthread=1
+./alder-kmer kmer -k 25 outfile-0-0-0.par -o outfile
+cut -f 1 outfile.dec|sort|uniq -c|awk 'BEGIN{OFS=FS=\" \"} {tmp=$1;$1=$2;$2=tmp;print}' > outfile.2
+./alder-kmer table -k 25 --parfile=outfile --nthread=1
+./alder-kmer d outfile.tbl > outfile.1
+cut -f 1 outfile.1|sort|uniq -c|awk 'BEGIN{OFS=FS=\" \"} {tmp=$1;$1=$2;$2=tmp;print}' > outfile.1.2
+diff outfile.1.2 outfile.2
 
 ### End of Examples ###"
 option "examples" - "Shows example runs of alder-kmer" flag off

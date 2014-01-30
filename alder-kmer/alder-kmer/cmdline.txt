@@ -10,7 +10,7 @@
   "      --memory=N MB            maximum memory  (default=`10')",
   "      --load-memory=0 < x < 1  fraction of memory  (default=`1.0')",
   "  -t, --nthread=INT>=1         number of threads  (default=`1')",
-  "  -o, --outfile=FILENAME       prefix of output files  (default=`outfile')",
+  "  -o, --outfile=STRING         prefix of output files  (default=`outfile')",
   "      --outdir=DIRECTORY       output directory  (default=`.')",
   "      --nh=INT                 number of hash elements  (default=`10')",
   "      --no-partition           Skip partitioning sequence files.  (default=off)",
@@ -38,7 +38,7 @@
   "      --seed=INT < 10^9        random seed  (default=`-1')",
   "  Enter a positive integer seed (9 digits or less).",
   "\npartition:",
-  "  This command converts sequence files to partition files. Use options of\n  command `simulate': --kmer, --nthread, --outfile, --outdir, --ni, and --np.\n  You can use options: --disk and --memory to set automatically --ni and --np,\n  but to use --disk and --memmory you must set --ni=-1 and --np=-1 or negative\n  values. Otherwise, --ni and --np values in `simulate' command would be used.\n  The --memory option value will be still used for acquiring buffers for\n  reading sequence files and writing partition files. Large memory would\n  increase the speed of `partition' command. On the contrary, the value in\n  --disk does not affect the buffer, and the performance of `partition' command\n  would be the same for different values of --disk, which would change the size\n  of --ni and --np if --ni=-1 and --np=-1. See the reference by Rizk, et al.\n  (2013) for details using option --cite.",
+  "  This command converts sequence files to partition files. By default, it takes\n  binary files; use option --use-fileseq if you want to use sequence files. To\n  take a series of binary files, use option --binfile=STRING; STRING-0.bin to\n  STRING-(#thread - 1).bin files are used as input files. Use options of\n  command `simulate': --kmer, --nthread, --outfile, --outdir, --ni, and --np.\n  You can use options: --disk and --memory to set automatically --ni and --np,\n  but to use --disk and --memmory you must set --ni=-1 and --np=-1 or negative\n  values. Otherwise, --ni and --np values in `simulate' command would be used.\n  The --memory option value will be still used for acquiring buffers for\n  reading sequence files and writing partition files. Large memory would\n  increase the speed of `partition' command. On the contrary, the value in\n  --disk does not affect the buffer, and the performance of `partition' command\n  would be the same for different values of --disk, which would change the size\n  of --ni and --np if --ni=-1 and --np=-1. See the reference by Rizk, et al.\n  (2013) for details using option --cite.",
   "      --partition              Create a partition file  (default=off)",
   "      --inbuffer=INT           Size of input buffer in log2  (default=`0')",
   "      --outbuffer=INT          Size of output buffer in log2  (default=`0')",
@@ -46,7 +46,7 @@
   "  This command converts a partition file to a kmer sequence file. Available\n  options include --kmer, --outfile, and --outdir. Use the following commands\n  to convert the decoded kmers to a dumped table.\n  $cut -f 1 outfile.dec|sort|uniq -c|awk 'BEGIN{OFS=FS=\" \"}\n  {tmp=$1;$1=$2;$2=tmp;print}' > outfile.2",
   "      --decode                 Decode a partition file  (default=off)",
   "\ntable:",
-  "  This command converts partition files to a table file. Use the following\n  options: --kmer, --nh, --nthread, and provide at least one partition file as\n  an input file.",
+  "  This command converts partition files to a table file. Use the following\n  options: --kmer, --nh, --nthread, and provide at least one partition file as\n  an input file. A series of partition files can be used with option\n  --parfile=x; x-a-b-c.par is a partition file for iteration a, partition b,\n  and thread c.",
   "      --table                  Partition file  (default=off)",
   "\nlist:",
   "  This command lists kmer sequences in a fastq file. Kmer sequences should have\n  the four letters of A, C, G, and T. Any other characters, even a, c, g, or t,\n  are considered not a valid DNA letter. Available options include kmer,\n  seqlen.",
@@ -71,7 +71,7 @@
   "      --loglevel=level         Log level  (possible values=\"0\", \"1\", \"2\",\n                                 \"3\", \"4\", \"5\" default=`1')",
   "      --progress-to-stderr     Display progress number to stdandard error\n                                 (default=off)",
   "      --totalmaxkmer=INT       Skip counting maximum number of kmers in data,\n                                 and use this number  (default=`0')",
-  "      --select-version=INT     Select a version of kmer counting: 0 for\n                                 automatic selction, 1 for skipping binary file\n                                 creation (dsk mode with a single iteration), 2\n                                 for binary file creation (dsk mode), and 3 for\n                                 loading a whole input data on the memory (msk\n                                 or memory streaming kmer mode).  (possible\n                                 values=\"0\", \"1\", \"2\", \"3\" default=`0')",
+  "      --select-version=INT     Select a version of kmer counting: 0 for\n                                 automatic selction, 1 for skipping binary file\n                                 creation (dsk mode with a single iteration), 2\n                                 for binary file creation (dsk mode), 3 for\n                                 loading a whole input data on the memory (msk\n                                 or memory streaming kmer mode), and 4 for\n                                 splitting a binary file.  (possible\n                                 values=\"0\", \"1\", \"2\", \"3\", \"4\"\n                                 default=`4')",
   "      --bin-outdir=DIRECTORY   binary file output directory  (default=`.')",
   "      --par-outdir=DIRECTORY   partition files output directory  (default=`.')",
   "      --tab-outdir=DIRECTORY   table file output directory  (default=`.')",
@@ -81,19 +81,23 @@
   "  -U, --upper-count=INT        maximum count  (default=`65535')",
   "      --size=INT               hash size  (default=`1')",
   "      --threads=INT>=1         number of threads  (default=`1')",
-  "      --output=FILENAME        prefix of output files  (default=`outfile')",
+  "      --output=STRING          prefix of output files  (default=`outfile')",
   "      --with-reverse           Print reverse complementary sequences\n                                 (default=off)",
   "      --with-index             Print index values  (default=off)",
   "      --only-init              Do not execute counting, but the initialization\n                                 (default=off)",
   "      --with-parfile           Create par files as well as sequence files.\n                                 (default=off)",
   "      --min-table-memory=INT   min memory of a part table  (default=`100')",
   "      --max-table-memory=INT   max memory of a part table  (default=`1000')",
+  "      --nsplit=INT             split binary files  (default=`1')",
+  "      --use-seqfile            Use FASTQ or FASTA  (default=off)",
+  "      --binfile=STRING         prefix of binary files  (default=`outfile')",
+  "      --parfile=STRING         prefix of partition files  (default=`outfile')",
   "      --release                Release mode  (default=on)",
   "\nexit:",
   "  The alder-kmer exit 0 on success, and >0 if an error occurs. The command\n  `simulate' returns 0 if all of the Kmers occur only once, otherwise >0.",
   "      --exit                   dummy  (default=off)",
   "\nexamples:",
-  "  The alder-kmer can take files of different formats depending on the given\n  command argument.\n\n  *** FILE FORMAT ***\n\n  FASTA: See http://en.wikipedia.org/wiki/FASTA_format for the format. Command\n  `simulate' can create fasta-format files.\n\n  FASTQ: See http://en.wikipedia.org/wiki/FASTQ_format for the format. Command\n  `simulate' can create fastq-format files.\n\n  TAB: This is a binary file format for files created by alder-kmer `count'\n  command. It contains a list of entries, of which each consists of a kmer, its\n  occurence, and the index. The index value could be used to search the table\n  for a particular kmer. Another command named `table' can create a table file\n  from a partition file.\n\n  BIN: Alder-kmer converts a set of input sequence files to a .bin file. A\n  binary file tends to be smaller in size, which allows alder-kmer to read a\n  whole input in each iteration more quickly than read sequence files. A binary\n  file is not created if only one iteration is estimated to be needed.\n\n  PAR: This is a binary file format for a partition. See Rizk et al. (2013) for\n  details of partitions. A file of the format contains kmer sequences of the\n  same kmer size. Commands `count'. `simulate', and `partition' can create\n  partition files.\n\n  DEC: This is a text file format of partition files. It simply prints one kmer\n  per line.\n\n  *** COUNT ***\n\n  Use one of the commands to execute alder-kmer. When demontrating usages of\n  alder-kmer, the first argument being always a command, I omit alder-kmer. For\n  instance, to count kmer of size 1 in file a.fa you can type in the following\n  command:\n  $ ./alder-kmer count a.fa\n  Instead, we write as follows:\n  $ count a.fa\n  So, please, always prepend the command with `alder-kmer'. If you need a test\n  sequence file, then see a following section to learn how to use `simulate'\n  command, which would create sequence files.\n\n  To count kmers (K=2) in a sequence file, using option -k, type in:\n  $ count -k 2 a.fa\n  This would create an output file named outfile.tbl.\n\n  *** REPORT ***\n\n  To list kmers and their occurences in a created hash table, type in:\n  $ report outfile.tbl\n\n  *** SIMULATE ***\n\n  Create a sequence file using `simulate' command.\n  $ simulate --seed=1\n  The command runs with default options. See the secion `simulate' command\n  above for detail or type in:\n  $ simulate -h\n  to learn options and default values of the command. The `simulate' command\n  would create a sequence file (outfile-00.fa) and a partition file\n  (outfile_0-0.par).\n\n  *** PARTITION ***\n\n  Let's recover the same partition file, which is a part of command `count'\n  using command `partition'.\n  $ partition outfile-00.fa\n  Because this command is part of simulation, it uses more options in command\n  `simulate' than those in `count'. The command would create a partition file:\n  outfile-0-0.par. This file and outfile_0-0.par should be same.  The partition\n  file contains kmers in bytes, which can be decoded by using command `decode'\n  with the partition file.\n\n  *** DECODE ***\n\n  To convert a partition file to a text file, type in:\n  $ decode outfile-0-0.par\n  The `decode' command generates an out file with .dec extension.\n\n  *** TABLE ***\n\n  To create the report file from a partition file, type in:\n  $ table outfile-0-0.par\n  This would create an output file named outfile.tbl.\n\n  *** LIST ***\n\n  *** MATCH ***\n\n  *** BINARY ***\n\n  *** UNCOMPRESS ***\n\n  $ ./alder-kmer u outfile.bin | md5\n  $ cat outfile.bin | ./alder-kmer u | md5\n\n  *** INSPECT ***\n\n  *** EXAMPLES ***\n\n  Let's consider these variables in testing.\n  K: kmer size\n  N: number of unique kmers (MAX of N=10^8)\n  M: occurence of each unique kmer\n  T: number of threads\n\n  1. Partition command test without consistency check (.fa/.fq -> .par)\n  K=1..62,N=10000,M=65535,T=1 \n  ./alder_kmer_test_partition.sh $K 10000 65535 fq no 1 3\n  K=1..62,N=10000,M=65535,T=4 (1 hour)\n  for K in {1..62}; do ./alder_kmer_test_partition.sh $K 10000 65535 fq no 4 3;\n  done\n\n  2. Table command test (.par -> .tbl)\n  K=1..62,N=1000,T=1\n  for K in {1..62}; do ./alder_kmer_test_table.sh $K 1000 fq no 1; done\n  K=1..62,N=1000,T=4\n  for K in {1..62}; do ./alder_kmer_test_table.sh $K 100000 fq no 4; done\n\n  3. Table command with larger data test\n  K=15..31,T=1\n  ./alder_kmer_test_table2.sh $K 10000 65535 fq no 10000 1000 1 3\n  K=15..31,T=4\n  for K in {32..186}; do ./alder_kmer_test_table2.sh $K 10000 65535 fq no 10000\n  1000 4 3; done\n  HERE\n\n  4. Count command test (.fa/.fq -> .tbl)\n  K=15..63,T=1\n  ./alder_kmer_test_count.sh $K 10000 65535 fq no 10000 1000 1 3\n  K=15..186,T=4\n  for K in {32..186}; do ./alder_kmer_test_count.sh $K 10000 65535 fq no 10000\n  1000 4 3; done\n  NEXT\n\n  5. Maximum of unique test\n  ./alder_kmer_test_partition.sh 15 100000000 1 fq no 1 3\n\n  6. Shuffle\n  K=32..200\n  for K in {32..99}; do ./alder_kmer_test_table3.sh $K 1000 fq no 10000 10 4 3\n  no; done\n  HERE on upto 99 because of lack of disk space.\n  for K in {32..99}; do ./alder_kmer_test_table3.sh $K 1000 fq no 10000 10 4 3\n  yes; done\n  NEXT (partially)\n\n  7. dsk's human data test using alder-kmer's list command\n\n\n  8. Multiple input files\n\n  . lz4\n\n  . FASTA\n\n  . gzip, bzip2\n\n  . dsk's test data\n\n  . K=32 .. 186\n\n  . T=1 .. 128 (using pacman and lemming)\n\n  . Test of overflow of occurence (create a separate file of kmer of\n  overflowed).\n  .ofl file would contain encoded numbers just like .par file.\n\n  TODO\n  3. Usage of table in percentage (should be 70%)\n\n  ### End of Examples ###",
+  "  The alder-kmer can take files of different formats depending on the given\n  command argument.\n\n  *** FILE FORMAT ***\n\n  FASTA: See http://en.wikipedia.org/wiki/FASTA_format for the format. Command\n  `simulate' can create fasta-format files.\n\n  FASTQ: See http://en.wikipedia.org/wiki/FASTQ_format for the format. Command\n  `simulate' can create fastq-format files.\n\n  TAB: This is a binary file format for files created by alder-kmer `count'\n  command. It contains a list of entries, of which each consists of a kmer, its\n  occurence, and the index. The index value could be used to search the table\n  for a particular kmer. Another command named `table' can create a table file\n  from a partition file.\n\n  BIN: Alder-kmer converts a set of input sequence files to a .bin file. A\n  binary file tends to be smaller in size, which allows alder-kmer to read a\n  whole input in each iteration more quickly than read sequence files. A binary\n  file is not created if only one iteration is estimated to be needed.\n\n  PAR: This is a binary file format for a partition. See Rizk et al. (2013) for\n  details of partitions. A file of the format contains kmer sequences of the\n  same kmer size. Commands `count'. `simulate', and `partition' can create\n  partition files.\n\n  DEC: This is a text file format of partition files. It simply prints one kmer\n  per line.\n\n  *** COUNT ***\n\n  Use one of the commands to execute alder-kmer. When demontrating usages of\n  alder-kmer, the first argument being always a command, I omit alder-kmer. For\n  instance, to count kmer of size 1 in file a.fa you can type in the following\n  command:\n  $ ./alder-kmer count a.fa\n  Instead, we write as follows:\n  $ count a.fa\n  So, please, always prepend the command with `alder-kmer'. If you need a test\n  sequence file, then see a following section to learn how to use `simulate'\n  command, which would create sequence files.\n\n  To count kmers (K=2) in a sequence file, using option -k, type in:\n  $ count -k 2 a.fa\n  This would create an output file named outfile.tbl.\n\n  *** REPORT ***\n\n  To list kmers and their occurences in a created hash table, type in:\n  $ report outfile.tbl\n\n  *** SIMULATE ***\n\n  Create a sequence file using `simulate' command.\n  $ simulate --seed=1\n  The command runs with default options. See the secion `simulate' command\n  above for detail or type in:\n  $ simulate -h\n  to learn options and default values of the command. The `simulate' command\n  would create a sequence file (outfile-00.fa) and a partition file\n  (outfile_0-0.par).\n\n  *** PARTITION ***\n\n  Let's recover the same partition file, which is a part of command `count'\n  using command `partition'.\n  $ partition outfile-00.fa\n  Because this command is part of simulation, it uses more options in command\n  `simulate' than those in `count'. The command would create a partition file:\n  outfile-0-0.par. This file and outfile_0-0.par should be same.  The partition\n  file contains kmers in bytes, which can be decoded by using command `decode'\n  with the partition file.\n\n  *** DECODE ***\n\n  To convert a partition file to a text file, type in:\n  $ decode outfile-0-0.par\n  The `decode' command generates an out file with .dec extension.\n\n  *** TABLE ***\n\n  To create the report file from a partition file, type in:\n  $ table outfile-0-0.par\n  This would create an output file named outfile.tbl.\n\n  *** LIST ***\n\n  *** MATCH ***\n\n  *** BINARY ***\n\n  *** UNCOMPRESS ***\n\n  $ ./alder-kmer u outfile.bin | md5\n  $ cat outfile.bin | ./alder-kmer u | md5\n\n  *** INSPECT ***\n\n  *** EXAMPLES ***\n\n  Let's consider these variables in testing.\n  K: kmer size\n  N: number of unique kmers (MAX of N=10^8)\n  M: occurence of each unique kmer\n  T: number of threads\n\n  1. Partition command test without consistency check (.fa/.fq -> .par)\n  K=1..62,N=10000,M=65535,T=1 \n  ./alder_kmer_test_partition.sh $K 10000 65535 fq no 1 3\n  K=1..62,N=10000,M=65535,T=4 (1 hour)\n  for K in {1..62}; do ./alder_kmer_test_partition.sh $K 10000 65535 fq no 4 3;\n  done\n\n  2. Table command test (.par -> .tbl)\n  K=1..62,N=1000,T=1\n  for K in {1..62}; do ./alder_kmer_test_table.sh $K 1000 fq no 1; done\n  K=1..62,N=1000,T=4\n  for K in {1..62}; do ./alder_kmer_test_table.sh $K 100000 fq no 4; done\n\n  3. Table command with larger data test\n  K=15..31,T=1\n  ./alder_kmer_test_table2.sh $K 10000 65535 fq no 10000 1000 1 3\n  K=15..31,T=4\n  for K in {32..186}; do ./alder_kmer_test_table2.sh $K 10000 65535 fq no 10000\n  1000 4 3; done\n  HERE\n\n  4. Count command test (.fa/.fq -> .tbl)\n  K=15..63,T=1\n  ./alder_kmer_test_count.sh $K 10000 65535 fq no 10000 1000 1 3\n  K=15..186,T=4\n  for K in {32..186}; do ./alder_kmer_test_count.sh $K 10000 65535 fq no 10000\n  1000 4 3; done\n  NEXT\n\n  5. Maximum of unique test\n  ./alder_kmer_test_partition.sh 15 100000000 1 fq no 1 3\n\n  6. Shuffle\n  K=32..200\n  for K in {32..99}; do ./alder_kmer_test_table3.sh $K 1000 fq no 10000 10 4 3\n  no; done\n  HERE on upto 99 because of lack of disk space.\n  for K in {32..99}; do ./alder_kmer_test_table3.sh $K 1000 fq no 10000 10 4 3\n  yes; done\n  NEXT (partially)\n\n  7. dsk's human data test using alder-kmer's list command\n\n\n  8. Multiple input files\n\n  . lz4\n\n  . FASTA\n\n  . gzip, bzip2\n\n  . dsk's test data\n\n  . K=32 .. 186\n\n  . T=1 .. 128 (using pacman and lemming)\n\n  . Test of overflow of occurence (create a separate file of kmer of\n  overflowed).\n  .ofl file would contain encoded numbers just like .par file.\n\n\n  TODO\n  3. Usage of table in percentage (should be 70%)\n\n\n  Simpel Check of version 3\n  ./alder-kmer s -k 25 --maxkmer=100000 -o outfile\n  ./alder-kmer binary outfile-00.fq\n  ./alder-kmer partition -k 25 --binfile=outfile --nthread=1\n  ./alder-kmer kmer -k 25 outfile-0-0-0.par -o outfile\n  cut -f 1 outfile.dec|sort|uniq -c|awk 'BEGIN{OFS=FS=\" \"}\n  {tmp=$1;$1=$2;$2=tmp;print}' > outfile.2\n  ./alder-kmer table -k 25 --parfile=outfile --nthread=1\n  ./alder-kmer d outfile.tbl > outfile.1\n  cut -f 1 outfile.1|sort|uniq -c|awk 'BEGIN{OFS=FS=\" \"}\n  {tmp=$1;$1=$2;$2=tmp;print}' > outfile.1.2\n  diff outfile.1.2 outfile.2\n\n  ### End of Examples ###",
   "      --examples               Shows example runs of alder-kmer  (default=off)",
   "\ndocument:",
   "  Title\n\n  Abstract\n  Counting K-mers in a nucleotide sequence data set is a basic step in further\n  analyses of the data. Computing environments can be diverse from personal\n  computers to high-end super computers. Diverse computing environments are\n  equiped with different limiting factors in terms of disk space, available\n  memory, and CPUs. Computing costs time and enerage. Efficient use of\n  available resources is important. I could have saved time and spend the spare\n  time on something else. Someone else could have used the resources for their\n  use. If disk space is cheaper than memory in computing environments such as\n  personal computers, using disk space would be beneficial. Disk space may not\n  be available in some high-end super computing environments, but more computer\n  memory could be available. I experiment with counting K-mers in different\n  computing environments to address which resources are limiting factors.\n\n  Introduction\n\n\n\n\n  Limited factors.\n  1. Disk space. Usually disk space is unlimited. In high-end computing\n  facilities, disk space tends to be more expensive than memory or available\n  CPUs. Reading and writing compressed files can be crucial in this disk space\n  limited computing environment.\n  2. Memory. Loading all of the sequence data in a single memory would allow me\n  to bypass the generation of partition files, and directly create a resulting\n  table file.\n  3. CPU cores. I cannot compensate limited memory by multiple CPUs.\n\n  Limted disk\n\n  Input data - 460g (uncompressed) 130g (gz compressed) 100g (bz2 compressed)\n  130g (lz4 compressed)\n  disk space - 100m, 1g, 10g, 100g, 1000g\n  memory     - 100m, 1g, 2g, 4g, 8g, 16g, 32g, 64g, (128g, 256g, 512g, 1024g,\n  2048g)\n  CPU        - 1, 2, 4, 8, 24, 16, 32, 64, 128\n  K          - 1 ... 256\n\n  Phases (compress, partition, table)\n  1. compress  - sequence data to a binary file\n  2. partition - a binary file to multiple partition files\n  3. table     - partition files to a table file\n\n  1. A single iteration - partition and table\n  2. large memory - compress and table\n\n  If the available memory is large enough to load a whole data set, I could\n  bypass the partition step and write the table directly.\n\n  I would avoid comparing alder-kmer with dsk or kmc because they are similar\n  in many ways. Besides, they are not as popular as Jellyfish. The CAS is a key\n  difference from dsk or kmc. I want to make a case that CAS with dsk or kmc\n  scheme would improve the disk-streaming kmer counting method in the computing\n  speed.\n\n  Differences from Jellyfish, dsk, kmc\n  1. Jellyfish - a table is made per partition\n  2. dsk - uses lock-free scheme or Jellyfish approach if more memory is\n  available\n  3. kmc - uses lock-free scheme\n\n  Commons with Jellyfish, dsk, kmc\n  1. Jellyfish - using CAS\n  2. dsk - same when the memory is limited\n  3. kmc - delicate multi-threaded design\n\n  Methods\n\n  Results\n\n  Discussions\n\n  References\n\n\n  Jellyfish\n\n  Marçais, G. & Kingsford, C. A fast, lock-free approach for efficient\n  parallel counting of occurrences of k-mers. Bioinformatics, Department of\n  Computer Science, University of Maryland, College Park, MD 20742, USA.\n  gmarcais@umd.edu, 2011, 27, 764-770\n\n  dsk (minia)\n\n  Rizk, G.; Lavenier, D. & Chikhi, R. DSK: k-mer counting with very low memory\n  usage. Bioinformatics, Algorizk, 75013 Paris, France., 2013, 29, 652-653\n\n  kmc\n\n  Deorowicz, S.; Debudaj-Grabysz, A. & Grabowski, S. Disk-based k-mer counting\n  on a PC. BMC Bioinformatics, Institute of Informatics, Silesian University of\n  Technology, Akademicka 16, 44-100 Gliwice, Poland.\n  sebastian.deorowicz@polsl.pl, 2013, 14, 160\n\n  BFCounter\n\n  Melsted, Pá. & Pritchard, J. K. Efficient counting of k-mers in DNA\n  sequences using a bloom filter. BMC Bioinformatics, Department of Human\n  Genetics, The University of Chicago, Chicago, IL 60637, USA.\n  pmelsted@gmail.com, 2011, 12, 333\n\n  khmer\n\n  Pell, J.; Hintze, A.; Canino-Koning, R.; Howe, A.; Tiedje, J. M. & Brown, C.\n  T. Scaling metagenome sequence assembly with probabilistic de Bruijn graphs\n  Proceedings of the National Academy of Sciences, National Acad Sciences,\n  2012, 109, 13272-13277\n  https://github.com/ctb/khmer\n\n  de Bruijn graphs\n\n  Compeau, P. E.; Pevzner, P. A. & Tesler, G. How to apply de Bruijn graphs to\n  genome assembly Nature biotechnology, Nature Publishing Group, 2011, 29,\n  987-991\n\n  ### End of Document ###",
@@ -203,11 +207,15 @@ init_full_help_array(void)
   gengetopt_args_info_full_help[97] = gengetopt_args_info_detailed_help[98];
   gengetopt_args_info_full_help[98] = gengetopt_args_info_detailed_help[99];
   gengetopt_args_info_full_help[99] = gengetopt_args_info_detailed_help[100];
-  gengetopt_args_info_full_help[100] = 0; 
+  gengetopt_args_info_full_help[100] = gengetopt_args_info_detailed_help[101];
+  gengetopt_args_info_full_help[101] = gengetopt_args_info_detailed_help[102];
+  gengetopt_args_info_full_help[102] = gengetopt_args_info_detailed_help[103];
+  gengetopt_args_info_full_help[103] = gengetopt_args_info_detailed_help[104];
+  gengetopt_args_info_full_help[104] = 0; 
   
 }
 
-const char *gengetopt_args_info_full_help[101];
+const char *gengetopt_args_info_full_help[105];
 
 static void
 init_help_array(void)
@@ -311,11 +319,15 @@ init_help_array(void)
   gengetopt_args_info_help[96] = gengetopt_args_info_detailed_help[98];
   gengetopt_args_info_help[97] = gengetopt_args_info_detailed_help[99];
   gengetopt_args_info_help[98] = gengetopt_args_info_detailed_help[100];
-  gengetopt_args_info_help[99] = 0; 
+  gengetopt_args_info_help[99] = gengetopt_args_info_detailed_help[101];
+  gengetopt_args_info_help[100] = gengetopt_args_info_detailed_help[102];
+  gengetopt_args_info_help[101] = gengetopt_args_info_detailed_help[103];
+  gengetopt_args_info_help[102] = gengetopt_args_info_detailed_help[104];
+  gengetopt_args_info_help[103] = 0; 
   
 }
 
-const char *gengetopt_args_info_help[100];
+const char *gengetopt_args_info_help[104];
 
 typedef enum {ARG_NO
   , ARG_FLAG
@@ -339,7 +351,7 @@ my_cmdline_parser_required2 (struct gengetopt_args_info *args_info, const char *
 
 const char *my_cmdline_parser_format_values[] = {"fasta", "fastq", "fa", "fq", "seq", 0}; /*< Possible values for format. */
 const char *my_cmdline_parser_loglevel_values[] = {"0", "1", "2", "3", "4", "5", 0}; /*< Possible values for loglevel. */
-const char *my_cmdline_parser_select_version_values[] = {"0", "1", "2", "3", 0}; /*< Possible values for select-version. */
+const char *my_cmdline_parser_select_version_values[] = {"0", "1", "2", "3", "4", 0}; /*< Possible values for select-version. */
 
 static char *
 gengetopt_strdup (const char *s);
@@ -412,6 +424,10 @@ void clear_given (struct gengetopt_args_info *args_info)
   args_info->with_parfile_given = 0 ;
   args_info->min_table_memory_given = 0 ;
   args_info->max_table_memory_given = 0 ;
+  args_info->nsplit_given = 0 ;
+  args_info->use_seqfile_given = 0 ;
+  args_info->binfile_given = 0 ;
+  args_info->parfile_given = 0 ;
   args_info->release_given = 0 ;
   args_info->exit_given = 0 ;
   args_info->examples_given = 0 ;
@@ -491,7 +507,7 @@ void clear_args (struct gengetopt_args_info *args_info)
   args_info->progress_to_stderr_flag = 0;
   args_info->totalmaxkmer_arg = 0;
   args_info->totalmaxkmer_orig = NULL;
-  args_info->select_version_arg = 0;
+  args_info->select_version_arg = 4;
   args_info->select_version_orig = NULL;
   args_info->bin_outdir_arg = gengetopt_strdup (".");
   args_info->bin_outdir_orig = NULL;
@@ -520,6 +536,13 @@ void clear_args (struct gengetopt_args_info *args_info)
   args_info->min_table_memory_orig = NULL;
   args_info->max_table_memory_arg = 1000;
   args_info->max_table_memory_orig = NULL;
+  args_info->nsplit_arg = 1;
+  args_info->nsplit_orig = NULL;
+  args_info->use_seqfile_flag = 0;
+  args_info->binfile_arg = gengetopt_strdup ("outfile");
+  args_info->binfile_orig = NULL;
+  args_info->parfile_arg = gengetopt_strdup ("outfile");
+  args_info->parfile_orig = NULL;
   args_info->release_flag = 1;
   args_info->exit_flag = 0;
   args_info->examples_flag = 0;
@@ -597,10 +620,14 @@ void init_args_info(struct gengetopt_args_info *args_info)
   args_info->with_parfile_help = gengetopt_args_info_detailed_help[88] ;
   args_info->min_table_memory_help = gengetopt_args_info_detailed_help[89] ;
   args_info->max_table_memory_help = gengetopt_args_info_detailed_help[90] ;
-  args_info->release_help = gengetopt_args_info_detailed_help[91] ;
-  args_info->exit_help = gengetopt_args_info_detailed_help[94] ;
-  args_info->examples_help = gengetopt_args_info_detailed_help[97] ;
-  args_info->document_help = gengetopt_args_info_detailed_help[100] ;
+  args_info->nsplit_help = gengetopt_args_info_detailed_help[91] ;
+  args_info->use_seqfile_help = gengetopt_args_info_detailed_help[92] ;
+  args_info->binfile_help = gengetopt_args_info_detailed_help[93] ;
+  args_info->parfile_help = gengetopt_args_info_detailed_help[94] ;
+  args_info->release_help = gengetopt_args_info_detailed_help[95] ;
+  args_info->exit_help = gengetopt_args_info_detailed_help[98] ;
+  args_info->examples_help = gengetopt_args_info_detailed_help[101] ;
+  args_info->document_help = gengetopt_args_info_detailed_help[104] ;
   
 }
 
@@ -749,6 +776,11 @@ my_cmdline_parser_release (struct gengetopt_args_info *args_info)
   free_string_field (&(args_info->output_orig));
   free_string_field (&(args_info->min_table_memory_orig));
   free_string_field (&(args_info->max_table_memory_orig));
+  free_string_field (&(args_info->nsplit_orig));
+  free_string_field (&(args_info->binfile_arg));
+  free_string_field (&(args_info->binfile_orig));
+  free_string_field (&(args_info->parfile_arg));
+  free_string_field (&(args_info->parfile_orig));
   
   
   for (i = 0; i < args_info->inputs_num; ++i)
@@ -955,6 +987,14 @@ my_cmdline_parser_dump(FILE *outfile, struct gengetopt_args_info *args_info)
     write_into_file(outfile, "min-table-memory", args_info->min_table_memory_orig, 0);
   if (args_info->max_table_memory_given)
     write_into_file(outfile, "max-table-memory", args_info->max_table_memory_orig, 0);
+  if (args_info->nsplit_given)
+    write_into_file(outfile, "nsplit", args_info->nsplit_orig, 0);
+  if (args_info->use_seqfile_given)
+    write_into_file(outfile, "use-seqfile", 0, 0 );
+  if (args_info->binfile_given)
+    write_into_file(outfile, "binfile", args_info->binfile_orig, 0);
+  if (args_info->parfile_given)
+    write_into_file(outfile, "parfile", args_info->parfile_orig, 0);
   if (args_info->release_given)
     write_into_file(outfile, "release", 0, 0 );
   if (args_info->exit_given)
@@ -1939,6 +1979,10 @@ my_cmdline_parser_internal (
         { "with-parfile",	0, NULL, 0 },
         { "min-table-memory",	1, NULL, 0 },
         { "max-table-memory",	1, NULL, 0 },
+        { "nsplit",	1, NULL, 0 },
+        { "use-seqfile",	0, NULL, 0 },
+        { "binfile",	1, NULL, 0 },
+        { "parfile",	1, NULL, 0 },
         { "release",	0, NULL, 0 },
         { "exit",	0, NULL, 0 },
         { "examples",	0, NULL, 0 },
@@ -2619,14 +2663,14 @@ my_cmdline_parser_internal (
               goto failure;
           
           }
-          /* Select a version of kmer counting: 0 for automatic selction, 1 for skipping binary file creation (dsk mode with a single iteration), 2 for binary file creation (dsk mode), and 3 for loading a whole input data on the memory (msk or memory streaming kmer mode)..  */
+          /* Select a version of kmer counting: 0 for automatic selction, 1 for skipping binary file creation (dsk mode with a single iteration), 2 for binary file creation (dsk mode), 3 for loading a whole input data on the memory (msk or memory streaming kmer mode), and 4 for splitting a binary file..  */
           else if (strcmp (long_options[option_index].name, "select-version") == 0)
           {
           
           
             if (update_arg( (void *)&(args_info->select_version_arg), 
                  &(args_info->select_version_orig), &(args_info->select_version_given),
-                &(local_args_info.select_version_given), optarg, my_cmdline_parser_select_version_values, "0", ARG_LONG,
+                &(local_args_info.select_version_given), optarg, my_cmdline_parser_select_version_values, "4", ARG_LONG,
                 check_ambiguity, override, 0, 0,
                 "select-version", '-',
                 additional_error))
@@ -2789,6 +2833,60 @@ my_cmdline_parser_internal (
                 &(local_args_info.max_table_memory_given), optarg, 0, "1000", ARG_LONG,
                 check_ambiguity, override, 0, 0,
                 "max-table-memory", '-',
+                additional_error))
+              goto failure;
+          
+          }
+          /* split binary files.  */
+          else if (strcmp (long_options[option_index].name, "nsplit") == 0)
+          {
+          
+          
+            if (update_arg( (void *)&(args_info->nsplit_arg), 
+                 &(args_info->nsplit_orig), &(args_info->nsplit_given),
+                &(local_args_info.nsplit_given), optarg, 0, "1", ARG_LONG,
+                check_ambiguity, override, 0, 0,
+                "nsplit", '-',
+                additional_error))
+              goto failure;
+          
+          }
+          /* Use FASTQ or FASTA.  */
+          else if (strcmp (long_options[option_index].name, "use-seqfile") == 0)
+          {
+          
+          
+            if (update_arg((void *)&(args_info->use_seqfile_flag), 0, &(args_info->use_seqfile_given),
+                &(local_args_info.use_seqfile_given), optarg, 0, 0, ARG_FLAG,
+                check_ambiguity, override, 1, 0, "use-seqfile", '-',
+                additional_error))
+              goto failure;
+          
+          }
+          /* prefix of binary files.  */
+          else if (strcmp (long_options[option_index].name, "binfile") == 0)
+          {
+          
+          
+            if (update_arg( (void *)&(args_info->binfile_arg), 
+                 &(args_info->binfile_orig), &(args_info->binfile_given),
+                &(local_args_info.binfile_given), optarg, 0, "outfile", ARG_STRING,
+                check_ambiguity, override, 0, 0,
+                "binfile", '-',
+                additional_error))
+              goto failure;
+          
+          }
+          /* prefix of partition files.  */
+          else if (strcmp (long_options[option_index].name, "parfile") == 0)
+          {
+          
+          
+            if (update_arg( (void *)&(args_info->parfile_arg), 
+                 &(args_info->parfile_orig), &(args_info->parfile_given),
+                &(local_args_info.parfile_given), optarg, 0, "outfile", ARG_STRING,
+                check_ambiguity, override, 0, 0,
+                "parfile", '-',
                 additional_error))
               goto failure;
           

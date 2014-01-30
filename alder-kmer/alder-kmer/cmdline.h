@@ -156,9 +156,9 @@ struct gengetopt_args_info
   long totalmaxkmer_arg;	/**< @brief Skip counting maximum number of kmers in data, and use this number (default='0').  */
   char * totalmaxkmer_orig;	/**< @brief Skip counting maximum number of kmers in data, and use this number original value given at command line.  */
   const char *totalmaxkmer_help; /**< @brief Skip counting maximum number of kmers in data, and use this number help description.  */
-  long select_version_arg;	/**< @brief Select a version of kmer counting: 0 for automatic selction, 1 for skipping binary file creation (dsk mode with a single iteration), 2 for binary file creation (dsk mode), and 3 for loading a whole input data on the memory (msk or memory streaming kmer mode). (default='0').  */
-  char * select_version_orig;	/**< @brief Select a version of kmer counting: 0 for automatic selction, 1 for skipping binary file creation (dsk mode with a single iteration), 2 for binary file creation (dsk mode), and 3 for loading a whole input data on the memory (msk or memory streaming kmer mode). original value given at command line.  */
-  const char *select_version_help; /**< @brief Select a version of kmer counting: 0 for automatic selction, 1 for skipping binary file creation (dsk mode with a single iteration), 2 for binary file creation (dsk mode), and 3 for loading a whole input data on the memory (msk or memory streaming kmer mode). help description.  */
+  long select_version_arg;	/**< @brief Select a version of kmer counting: 0 for automatic selction, 1 for skipping binary file creation (dsk mode with a single iteration), 2 for binary file creation (dsk mode), 3 for loading a whole input data on the memory (msk or memory streaming kmer mode), and 4 for splitting a binary file. (default='4').  */
+  char * select_version_orig;	/**< @brief Select a version of kmer counting: 0 for automatic selction, 1 for skipping binary file creation (dsk mode with a single iteration), 2 for binary file creation (dsk mode), 3 for loading a whole input data on the memory (msk or memory streaming kmer mode), and 4 for splitting a binary file. original value given at command line.  */
+  const char *select_version_help; /**< @brief Select a version of kmer counting: 0 for automatic selction, 1 for skipping binary file creation (dsk mode with a single iteration), 2 for binary file creation (dsk mode), 3 for loading a whole input data on the memory (msk or memory streaming kmer mode), and 4 for splitting a binary file. help description.  */
   char * bin_outdir_arg;	/**< @brief binary file output directory (default='.').  */
   char * bin_outdir_orig;	/**< @brief binary file output directory original value given at command line.  */
   const char *bin_outdir_help; /**< @brief binary file output directory help description.  */
@@ -202,6 +202,17 @@ struct gengetopt_args_info
   long max_table_memory_arg;	/**< @brief max memory of a part table (default='1000').  */
   char * max_table_memory_orig;	/**< @brief max memory of a part table original value given at command line.  */
   const char *max_table_memory_help; /**< @brief max memory of a part table help description.  */
+  long nsplit_arg;	/**< @brief split binary files (default='1').  */
+  char * nsplit_orig;	/**< @brief split binary files original value given at command line.  */
+  const char *nsplit_help; /**< @brief split binary files help description.  */
+  int use_seqfile_flag;	/**< @brief Use FASTQ or FASTA (default=off).  */
+  const char *use_seqfile_help; /**< @brief Use FASTQ or FASTA help description.  */
+  char * binfile_arg;	/**< @brief prefix of binary files (default='outfile').  */
+  char * binfile_orig;	/**< @brief prefix of binary files original value given at command line.  */
+  const char *binfile_help; /**< @brief prefix of binary files help description.  */
+  char * parfile_arg;	/**< @brief prefix of partition files (default='outfile').  */
+  char * parfile_orig;	/**< @brief prefix of partition files original value given at command line.  */
+  const char *parfile_help; /**< @brief prefix of partition files help description.  */
   int release_flag;	/**< @brief Release mode (default=on).  */
   const char *release_help; /**< @brief Release mode help description.  */
   int exit_flag;	/**< @brief dummy (default=off).  */
@@ -276,6 +287,10 @@ struct gengetopt_args_info
   unsigned int with_parfile_given ;	/**< @brief Whether with-parfile was given.  */
   unsigned int min_table_memory_given ;	/**< @brief Whether min-table-memory was given.  */
   unsigned int max_table_memory_given ;	/**< @brief Whether max-table-memory was given.  */
+  unsigned int nsplit_given ;	/**< @brief Whether nsplit was given.  */
+  unsigned int use_seqfile_given ;	/**< @brief Whether use-seqfile was given.  */
+  unsigned int binfile_given ;	/**< @brief Whether binfile was given.  */
+  unsigned int parfile_given ;	/**< @brief Whether parfile was given.  */
   unsigned int release_given ;	/**< @brief Whether release was given.  */
   unsigned int exit_given ;	/**< @brief Whether exit was given.  */
   unsigned int examples_given ;	/**< @brief Whether examples was given.  */

@@ -559,6 +559,7 @@ alder_kmer_encode5(int n_encoder,
                    size_t *n_byte,
                    int progress_flag,
                    int progressToError_flag,
+                   unsigned int binfile_given,
                    struct bstrList *infile,
                    const char *outdir,
                    const char *outfile)

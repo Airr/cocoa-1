@@ -1087,30 +1087,41 @@ open_table_header(const char *fn, int *fildes_p, int *K_p,
         close(*fildes_p);
         return ALDER_STATUS_ERROR;
     }
+    int width = ALDER_LOG_TEXTWIDTH;
+    alder_log("*** Table of alder-kmer ***");
+    alder_log("%*s %d", width, "K:", *K_p);
+    
     readLen = read(*fildes_p, &(*nh_p), sizeof(*nh_p));
     if (readLen != sizeof(*nh_p) || *nh_p == 0) {
         fprintf(stderr, "Error - failed to read Nh in file %s\n", fn);
         close(*fildes_p);
         return ALDER_STATUS_ERROR;
     }
+    alder_log("%*s %llu", width, "nh:", *nh_p);
+    
     readLen = read(*fildes_p, &(*ni_p), sizeof(*ni_p));
     if (readLen != sizeof(*ni_p) || *ni_p == 0) {
         fprintf(stderr, "Error - failed to read Ni in file %s\n", fn);
         close(*fildes_p);
         return ALDER_STATUS_ERROR;
     }
+    alder_log("%*s %llu", width, "ni:", *ni_p);
+    
     readLen = read(*fildes_p, &(*np_p), sizeof(*np_p));
     if (readLen != sizeof(*np_p) || *np_p == 0) {
         fprintf(stderr, "Error - failed to read Np in file %s\n", fn);
         close(*fildes_p);
         return ALDER_STATUS_ERROR;
     }
+    alder_log("%*s %llu", width, "np:", *np_p);
+    
     readLen = read(*fildes_p, &(*tnh_p), sizeof(*tnh_p));
     if (readLen != sizeof(*tnh_p) || *tnh_p == 0) {
         fprintf(stderr, "Error - failed to read TNh in file %s\n", fn);
         close(*fildes_p);
         return ALDER_STATUS_ERROR;
     }
+    alder_log("%*s %llu", width, "tnh:", *tnh_p);
     
     *n_nhs_p = malloc(sizeof(**n_nhs_p) * *ni_p * *np_p);
     if (*n_nhs_p == NULL) {
@@ -1130,6 +1141,7 @@ open_table_header(const char *fn, int *fildes_p, int *K_p,
     
     uint64_t t_nh = 0;
     for (uint64_t i = 0; i < (*ni_p) * (*np_p); i++) {
+        alder_log("%*s %llu", width, "nh(%llu):", i, (*n_nhs_p)[i]);
         t_nh += (*n_nhs_p)[i];
     }
     if (t_nh != *tnh_p) {

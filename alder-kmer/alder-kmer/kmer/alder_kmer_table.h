@@ -1,7 +1,7 @@
 /**
- * This file, alder_kmer.h, is part of alder-kmer.
+ * This file, alder_kmer_table.h, is part of alder-kmer.
  *
- * Copyright 2013 by Sang Chul Choi
+ * Copyright 2014 by Sang Chul Choi
  *
  * alder-kmer is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,22 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with alder-kmer.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef alder_kmer_alder_kmer_h
-#define alder_kmer_alder_kmer_h
+
+#ifndef alder_kmer_alder_kmer_table_h
+#define alder_kmer_alder_kmer_table_h
 
 #include <stdint.h>
-#include "alder_kmer_report.h"
-#include "alder_kmer_thread.h"
-#include "alder_kmer_simulate.h"
-#include "alder_kmer_count.h"
-#include "alder_kmer_decode.h"
-#include "alder_kmer_list.h"
-#include "alder_kmer_match.h"
-#include "alder_kmer_binary.h"
-#include "alder_kmer_uncompress.h"
-#include "alder_kmer_partition.h"
-#include "alder_kmer_inspect.h"
-#include "alder_kmer_table.h"
 
 #undef __BEGIN_DECLS
 #undef __END_DECLS
@@ -46,17 +35,26 @@
 
 __BEGIN_DECLS
 
-enum {
-    ALDER_KMER_SUCCESS = 0,
-    ALDER_KMER_ERROR = 1,
-    ALDER_KMER_ERROR_MEMORY = 2,
-    ALDER_KMER_ERROR_FILE = 3,
-    ALDER_KMER_ERROR_FILENOTEXIST = 4
-};
-
 int
-alder_kmer_test();
+alder_kmer_table(long version,
+                 int i_ni, int K, long M, long F,
+                 long sizeInbuffer,
+                 long sizeOutbuffer,
+                 int n_ni, int n_np,
+                 int n_nh,
+                 int n_thread,
+                 int progress_flag,
+                 int progressToError_flag,
+                 int nopack_flag,
+                 const char *parfile,
+                 unsigned int parfile_given,
+                 struct bstrList *infile,
+                 unsigned int outfile_given,
+                 const char *outdir,
+                 const char *outfile);
+
 
 __END_DECLS
 
-#endif /* alder_kmer_alder_kmer_h */
+
+#endif /* alder_kmer_alder_kmer_table_h */

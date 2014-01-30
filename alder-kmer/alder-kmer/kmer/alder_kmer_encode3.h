@@ -52,22 +52,25 @@ typedef struct alder_kmer_encoder3_struct alder_kmer_encoder3_t;
 struct alder_kmer_encoder3_struct {
     /* info */
     int k;                     /* k - kmer size                              */
+    int b;                     /* bytes for a kmer                           */
     uint64_t n_ni;             /* n_ni - number of iteration                 */
     uint64_t n_np;             /* number of iteration                        */
     uint64_t i_ni;             /* iteration index                            */
     int n_encoder;             /* n_encoder - number of encoder threads      */
     
     /* lock */
-    int lock_reader;
-    int lock_writer;
+//    int *lock_partition;
+    
     /* reader */
-    size_t reader_lenbuf;
-    size_t reader_lenbuf2;
+    size_t *reader_lenbuf;
+    
     uint8_t reader_type_infile;
-    int reader_i_infile;
+    int *reader_i_infile;
     
     /* buffer */
-    size_t n_subbuf;           /* number of divided buffers in inbuf         */
+    size_t size_fixedoutbuffer;/* output buffer size                         */
+    size_t size_fixedinbuffer; /* input buffer size                          */
+    //    size_t n_subbuf;           /* number of divided buffers in inbuf         */
     size_t size_subinbuf;      /* size of each divided buffer                */
     size_t size_inbuf;         /* size_inbuf - size of the inbuf             */
     size_t size_inbuf2;        /* size_inbuf2 - size of the inbuf2           */
@@ -82,7 +85,8 @@ struct alder_kmer_encoder3_struct {
     
     /* file */
     struct bstrList *infile;   /* (not own) input files                      */
-    void *fx;                  /* fx - input file pointer                    */
+    void **fx;                 /* [n_encoder] fx - input file pointer        */
+    
     int type_infile;           /* type of input file                         */
     FILE **fpout;              /* n_np: fpout - output file pointers         */
     bstring dout;              /* output directory                           */
@@ -93,6 +97,8 @@ struct alder_kmer_encoder3_struct {
     int progressToError_flag;
     
     /* stat */
+    uint64_t *n_i_byte;        /* [n_encoder] number of bytes sent           */
+    
     uint64_t n_byte;           /* number of bytes sent                       */
     uint64_t n_kmer;           /* number of Kmers written to an out file     */
     uint64_t n_letter;         /* number of DNA letters processed            */
@@ -102,10 +108,10 @@ struct alder_kmer_encoder3_struct {
     int flag;                  /* status for readwriter                      */
 };
 
-void alder_kmer_encoder_lock_reader(alder_kmer_encoder3_t *a, int encoder_id);
-void alder_kmer_encoder_unlock_reader(alder_kmer_encoder3_t *a, int encoder_id);
-void alder_kmer_encoder_lock_writer(alder_kmer_encoder3_t *a);
-void alder_kmer_encoder_unlock_writer(alder_kmer_encoder3_t *a);
+//void alder_kmer_encoder3_lock_reader(alder_kmer_encoder3_t *a, int encoder_id);
+//void alder_kmer_encoder3_unlock_reader(alder_kmer_encoder3_t *a, int encoder_id);
+//void alder_kmer_encoder3_lock_writer(alder_kmer_encoder3_t *a, int part_id);
+//void alder_kmer_encoder3_unlock_writer(alder_kmer_encoder3_t *a, int part_id);
 
 __END_DECLS
 

@@ -50,6 +50,9 @@ enum {
 /* Strings */
 #define ALDER_KMER_TABLE_EXTENSION "tbl"
 
+/* Hash Table */
+#define ALDER_HASHTABLE_LOAD 0.75
+
 /* Numbers */
 #define ALDER_HASHTABLE_MCAS_EMPTYKEY 4919131752989213764LLU
 #define ALDER_LOG_TEXTWIDTH -21

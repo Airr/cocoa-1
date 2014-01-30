@@ -56,7 +56,7 @@ size_t *totalfilesize,
 size_t *n_byte,
 long version,
 int K, long D, long M, long min_M_table, long max_M_table,
-int n_nt,
+long nsplit,
 int progress_flag,
 int progressToError_flag,
 struct bstrList *infile, const char *outdir,
@@ -64,17 +64,29 @@ const char *outfile);
 
 /**
  *  This function converts a set of sequence data to a binary file before
- *  starting the procedure of counting Kmers.
+ *  starting the procedure of counting Kmers. Data can be loaded on the memory
+ *  or can be created in a file.
  *
- *  @param version             version
- *  @param K                   kmer size
- *  @param D                   disk space
- *  @param n_nt                number of threads available
- *  @param progress_flag       progress
- *  @param progressToErro_flag progress to stderr
- *  @param infile              input files
- *  @param outdir              out directory
- *  @param outfile             output file name prefix
+ *  @param ptr                  memory for the binary data
+ *  @param size                 size of the memory, ptr
+ *  @param subsize              block size of the binary data
+ *  @param n_kmer               [return] total number of kmer in the input
+ *  @param n_dna                [return] total number of valid DNA characters
+ *  @param n_seq                [return] total number of sequences
+ *  @param totalfilesize        [return] size of a file if the file is created
+ *  @param n_byte               [return] size of data if ptr is filled
+ *  @param version              ?
+ *  @param K                    kmer size
+ *  @param D                    disk space
+ *  @param M                    memory available
+ *  @param min_M_table          min memory for a table
+ *  @param max_M_table          max memory for a table
+ *  @param nsplit               number of splits of a binary file
+ *  @param progress_flag        progress
+ *  @param progressToError_flag progress to stderr
+ *  @param infile               infile
+ *  @param outdir               outdir
+ *  @param outfile              outfile name
  *
  *  @return SUCCESS or FAIL
  */
@@ -85,7 +97,7 @@ alder_kmer_binary(void *ptr, size_t size, size_t subsize,
                   size_t *n_byte,
                   long version,
                   int K, long D, long M, long min_M_table, long max_M_table,
-                  int n_nt,
+                  long nsplit,
                   int progress_flag,
                   int progressToError_flag,
                   struct bstrList *infile, const char *outdir,
@@ -93,14 +105,18 @@ alder_kmer_binary(void *ptr, size_t size, size_t subsize,
 {
     binary_t binary;
     
-    binary = &alder_kmer_binary5;
+    if (version == 3) {
+        binary = &alder_kmer_binary3;
+    } else {
+        binary = &alder_kmer_binary5;
+    }
     int s = (*binary)(ptr, size, subsize,
                       n_kmer, n_dna, n_seq,
                       totalfilesize,
                       n_byte,
                       version,
                       K, D, M, min_M_table, max_M_table,
-                      n_nt,
+                      nsplit,
                       progress_flag,
                       progressToError_flag,
                       infile, outdir, outfile);

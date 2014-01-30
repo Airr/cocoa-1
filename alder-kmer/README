@@ -1,4 +1,11 @@
-# BUG
+At this point, Feb 29 2014, I failed to make a point of using CAS in DSK's method. It is not easy, but I'd have to move on. Before moving on, I will finalize the project.
+
+# TODO
+
+Use only version 3.
+Use gzip.
+Streamline the code using version 3.
+
 
 # Introduction
 1. I will introduce a method for counting k-mer with arbitrary size of k by
@@ -14,14 +21,12 @@ binary might not work yet.
 
 # Versions
 
-Ver1. Using lock/wait threads
-encode thread
+The first three versions are not of use any more, and they are retired. Instead, I've replaced version 3 with another one, which could have been version 7.
 
-Ver2. A dedicated set of reader and writer.
-encode2, thread2
+Ver3. Split the binary file, partition files, and runs with multiple threads.
+alder_kmer_encode5 -> alder_kmer_encode3
+alder_kmer_count_iteration4 -> alder_kmer_count_iteration3
 
-Ver3. Neither reader nor writer - a single thread of reader/writer/encoder
-encode3, thread3
 
 Ver4. Fixed-size input and output buffers.
 encode4, thread4
@@ -37,12 +42,6 @@ Enough memory, and disk space does not matter as long as a resulting table can f
 
 Use inspect to determine which version can be used.
 
-# TODO
-
-bzip2 feature.
-
-From bzip2:
-Return values: 0 for a normal exit, 1 for environmental problems (file not found, invalid flags, I/O errors, etc.), 2 to indicate a corrupt compressed file, 3 for an internal consistency error (eg, bug) which caused bzip2 to panic.
 
 ## To change the command line options.
 See alder_kmer_option.c and alder-kmer.ggo.

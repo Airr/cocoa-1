@@ -62,15 +62,15 @@ struct alder_kmer_thread3_struct {
     uint64_t n_np;               /* n_np - number of partition               */
     int n_counter;               /* n_counter - number of counter threads    */
     
-    /* lock */
-    int lock_reader;
-    int lock_writer;
     /* reader */
-    size_t next_lenbuf;
-    uint8_t *next_inbuf;         /* inbuf - input buffer                     */
+    uint8_t **next_inbuf;        /* inbuf - input buffer                     */
     
-    size_t reader_lenbuf;
-    int reader_i_parfile;
+    size_t *next_lenbuf;
+    size_t *reader_lenbuf;
+    int *reader_i_parfile;
+    
+    size_t size_readbuffer;      /* buffer size for writing table            */
+    size_t size_writebuffer;     /* buffer size for writing table            */
     
     /* buffer */
     size_t size_subinbuf;        /* size of each divided buffer              */
@@ -90,9 +90,11 @@ struct alder_kmer_thread3_struct {
     FILE *fpout;                 /* (not own) count table output file pointer*/
     bstring boutfile;            /* outfile name                             */
     bstring boutdir;             /* out directory                            */
-    FILE *fpin;                  /* partition input file pointer             */
+    
+    FILE **fpin;                 /* partition input file pointer             */
     
     /* stat */
+    size_t *n_i_byte; 
     size_t n_byte;
     size_t n_kmer;
     size_t n_hash;
@@ -106,11 +108,11 @@ struct alder_kmer_thread3_struct {
     int status;                /* status of counter's buffers                */
 };
 
-void alder_kmer_counter_lock_reader(alder_kmer_thread3_t *a);
-void alder_kmer_counter_unlock_reader(alder_kmer_thread3_t *a);
-void alder_kmer_counter_lock_writer(alder_kmer_thread3_t *a, uint64_t i_np);
-void alder_kmer_counter_unlock_writer(alder_kmer_thread3_t *a);
-void alder_kmer_counter_increment_n_block(alder_kmer_thread3_t *a, uint64_t i_np);
+void alder_kmer_counter3_lock_reader(alder_kmer_thread3_t *a);
+void alder_kmer_counter3_unlock_reader(alder_kmer_thread3_t *a);
+void alder_kmer_counter3_lock_writer(alder_kmer_thread3_t *a, uint64_t i_np);
+void alder_kmer_counter3_unlock_writer(alder_kmer_thread3_t *a);
+void alder_kmer_counter3_increment_n_block(alder_kmer_thread3_t *a, uint64_t i_np);
 
 __END_DECLS
 

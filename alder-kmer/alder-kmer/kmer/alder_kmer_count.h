@@ -36,6 +36,28 @@
 
 __BEGIN_DECLS
 
+typedef int (*count_t)(FILE *fpout,
+int n_counter,
+int i_ni,
+int kmer_size,
+long memory_available,
+long sizeInbuffer,
+long sizeOutbuffer,
+uint64_t n_ni,
+uint64_t n_np,
+size_t n_nh,
+size_t totalfilesize,
+size_t *n_byte,
+size_t *n_hash,
+int progress_flag,
+int progressToError_flag,
+int nopack_flag,
+uint8_t *inbuf,
+size_t size_data,
+struct bstrList *infile,
+const char *outdir,
+const char *outfile);
+
 int
 alder_kmer_count(long version,
                  int K, long totalmaxkmer, long D, long M,
@@ -57,40 +79,8 @@ alder_kmer_count(long version,
                  const char *outdir,
                  const char *outfile);
 
-int
-alder_kmer_count_withPartition(long version,
-                               int i_ni, int K, long M, long F,
-                               long sizeInbuffer,
-                               long sizeOutbuffer,
-                               int n_ni, int n_np,
-                               int n_nh,
-                               int n_thread,
-                               int progress_flag,
-                               int progressToError_flag,
-                               int nopack_flag,
-                               struct bstrList *infile,
-                               unsigned int outfile_given,
-                               const char *outdir,
-                               const char *outfile);
-
-int
-alder_kmer_partition(long version,
-                     int K, long D, long M,
-                     long min_M_table, long max_M_table,
-                     long F,
-                     long sizeInbuffer,
-                     long sizeOutbuffer,
-                     int n_ni, int n_np,
-                     int n_nh,
-                     int n_nt,
-                     int progress_flag,
-                     int progressToError_flag,
-                     struct bstrList *infile,
-                     unsigned int outfile_given,
-                     const char *outdir,
-                     const char *outfile);
-
-
+void alder_kmer_estimate_buffer_size(long *sizeInbuffer_p, long *sizeOutbuffer_p,
+                                     const char *outfile, const char *outdir);
 
 __END_DECLS
 

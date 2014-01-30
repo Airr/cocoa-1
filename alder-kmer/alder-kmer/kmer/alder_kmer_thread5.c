@@ -95,66 +95,18 @@ static int counter_id_counter = 0;
 #define ALDER_KMER_COUNTER5_INBUFFER_LENGTH      9
 #define ALDER_KMER_COUNTER5_INBUFFER_BODY        17
 
-/* from alder_kmer_encode5.c */
-#define ALDER_KMER_SECONDARY_BUFFER_SIZE         1000
-#define ALDER_KMER_ENCODER5_OUTBUFFER_HEADER     1
-#define ALDER_KMER_ENCODER5_OUTSUBBUFFER_HEADER  8
-
-//
-#define ALDER_KMER_ENCODER5_OUTBUFFER_BODY       8
-
-#define ALDER_KMER_ENCODER5_OUTBUFFER_A          0
-#define ALDER_KMER_ENCODER5_OUTBUFFER_B          8
-#define ALDER_KMER_ENCODER5_OUTBUFFER_C          16
-
-#define ALDER_KMER_ENCODER5_INBUFFER_TYPE_INFILE 1
-#define ALDER_KMER_ENCODER5_INBUFFER_CURRENT     2
-#define ALDER_KMER_ENCODER5_INBUFFER_LENGTH      10
-#define ALDER_KMER_ENCODER5_INBUFFER_BODY        18
-#define ALDER_KMER_ENCODER5_FILETYPE_FASTA       1
-#define ALDER_KMER_ENCODER5_FILETYPE_FASTQ       2
-#define ALDER_KMER_ENCODER5_FILETYPE_SEQ         3
-#define ALDER_KMER_ENCODER5_FILETYPE_BINARY      4
-
-
 static void *counter(void *t);
 
-///**
-// *  This function creates a bstring of a partition file name.
-// *  The caller is responsible for freeing the bstring.
-// *
-// *  @param o    counter
-// *  @param i_np partition index
-// *
-// *  @return partition file name or NULL
-// */
-//static bstring
-//filename_partition(alder_kmer_thread5_t *o, uint64_t i_np)
-//{
-//    /* File name setup */
-//    bstring bfpar = NULL;
-//    if (o->infile == NULL) {
-//        bfpar = bformat("%s/%s-%llu-%llu.par",
-//                        bdata(o->boutdir), bdata(o->boutfile),
-//                        o->i_ni, i_np);
-//        if (bfpar == NULL) return NULL;
-//    } else {
-//        bfpar = bstrcpy(o->infile->entry[i_np]);
-//        if (bfpar == NULL) return NULL;
-//    }
-//    return bfpar;
-//}
-
+/**
+ *  This function frees the memory for the counter.
+ *
+ *  @param o counter
+ */
 static void
 alder_kmer_thread5_destroy(alder_kmer_thread5_t *o)
 {
     if (o != NULL) {
-        /* o->infile is not owned. */
-//        for (size_t i = 0; i < o->n_ht; i++) {
-//            alder_hashtable_mcas_destroy(o->ht[i]); <- freed by XFREE(inbuf)
-//        }
         XFREE(o->ht);
-//        XFREE(o->inbuf);
         XFREE(o->n_blockByReader);
         XFREE(o->n_blockByCounter);
         XFREE(o->cur_inbuf);
@@ -223,8 +175,8 @@ alder_kmer_thread5_create(FILE *fpout,
     o->fpout = fpout;
     o->boutfile = NULL;
     o->boutdir = NULL;
-    o->n_byte = n_byte;
-    o->n_kmer = 0;
+    o->n_byte = 0;
+    o->n_kmer = n_byte;
     o->n_hash = 0;
     o->totalFilesize = totalfilesize;
     o->progress_flag = progress_flag;
@@ -289,6 +241,10 @@ alder_kmer_thread5_setup(alder_kmer_thread5_t *o)
     o->n_np = o->n_np == 0 ? 1 : o->n_np;
 
     /* */
+    alder_log("data size: %llu (MB)", (o->size_data >> 20));
+    alder_log("memory for a table: %llu (MB)", (memory_space_each_table >> 20));
+    alder_log("n_kmer: %llu", o->n_kmer);
+    alder_log("n_nh70: %llu", n_nh_point7);
     alder_log("Change of partitions: %llu -> %llu", prev_n_np, o->n_np);
     lseek(fileno(o->fpout), 0, SEEK_SET);
     alder_hashtable_mcas_printHeaderToFD(fileno(o->fpout),
@@ -336,7 +292,7 @@ static pthread_mutex_t mutex_write;
  *  @param n_np                 partitions
  *  @param n_nh                 hash table size
  *  @param totalfilesize        total file size
- *  @param n_byte               return number of bytes
+ *  @param n_byte               number of kmer not bytes
  *  @param n_hash               return number of kmers
  *  @param progress_flag        progress
  *  @param progressToError_flag progress to std err
@@ -358,7 +314,7 @@ int alder_kmer_count_iteration5(FILE *fpout,
                                 uint64_t n_np,
                                 size_t n_nh,
                                 size_t totalfilesize,
-                                size_t *n_byte,
+                                size_t *n_kmer,
                                 size_t *n_hash,
                                 int progress_flag,
                                 int progressToError_flag,
@@ -389,7 +345,7 @@ int alder_kmer_count_iteration5(FILE *fpout,
                               n_np,
                               n_nh,
                               totalfilesize,
-                              *n_byte,
+                              *n_kmer,
                               progress_flag,
                               progressToError_flag,
                               nopack_flag,
@@ -439,7 +395,7 @@ int alder_kmer_count_iteration5(FILE *fpout,
     }
     
 cleanup:
-    *n_byte = data->n_byte;
+    *n_kmer = data->n_byte;
     *n_hash = data->n_hash;
     /* Cleanup */
     pthread_attr_destroy(&attr);
