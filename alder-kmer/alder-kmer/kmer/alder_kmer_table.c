@@ -52,17 +52,10 @@ open_table_file(long version,
         }
         // This is the place to write the header part of the hash count table.
         alder_log5("writing the header of the hash count table ...");
-        if (version < 3) {
-            s = alder_hashtable_mcas_printHeaderToFILE(*fpout_p,
-                                                       K,
-                                                       (uint64_t)N_nh,
-                                                       N_ni, N_np);
-        } else {
-            s = alder_hashtable_mcas_printHeaderToFD(fileno(*fpout_p),
-                                                     K,
-                                                     (uint64_t)N_nh,
-                                                     N_ni, N_np);
-        }
+        s = alder_hashtable_mcas_printHeaderToFD(fileno(*fpout_p),
+                                                 K,
+                                                 (uint64_t)N_nh,
+                                                 N_ni, N_np);
         ALDER_RETURN_ERROR_UNLESS_SUCCESSFUL(s, ALDER_STATUS_ERROR);
     }
     bdestroy(bht);
@@ -110,10 +103,19 @@ alder_kmer_count_withPartition_init(size_t *_S_filesize,
 }
 
 static bstring
-filename_partition(const char *parfile, int i_ni, int i_np, int counter_id)
+filename_partition_with_thread(const char *parfile, int i_ni, int i_np, int counter_id)
 {
     /* File name setup */
     bstring bfpar = bformat("%s-%llu-%llu-%d.par", parfile, i_ni, i_np, counter_id);
+    if (bfpar == NULL) return NULL;
+    return bfpar;
+}
+
+static bstring
+filename_partition(const char *parfile, int i_ni, int i_np)
+{
+    /* File name setup */
+    bstring bfpar = bformat("%s-%llu-%llu.par", parfile, i_ni, i_np);
     if (bfpar == NULL) return NULL;
     return bfpar;
 }
@@ -128,23 +130,29 @@ filename_partition(const char *parfile, int i_ni, int i_np, int counter_id)
  *
  *  @return table size if successful, otherwise 0
  */
-size_t compute_nh_firstparfile(const char *parfile, int n_thread, int K)
+size_t compute_nh_firstparfile(long version , const char *parfile, int n_thread, int K)
 {
     /* */
     size_t N_nh = 0;
     size_t size_parfile = 0;
-    for (int i = 0; i < n_thread; i++) {
-        bstring bpar = filename_partition(parfile, 0, 0, i);
-        if (bpar == NULL) {
-            return 0;
-        }
-        size_t size_one_parfile = 0;
-        alder_file_size(bdata(bpar), &size_one_parfile);
+    if (version == 2) {
+        bstring bpar = filename_partition(parfile, 0, 0);
+        alder_file_size(bdata(bpar), &size_parfile);
         bdestroy(bpar);
-        size_parfile += size_one_parfile;
+    } else {
+        for (int i = 0; i < n_thread; i++) {
+            bstring bpar = filename_partition_with_thread(parfile, 0, 0, i);
+            if (bpar == NULL) {
+                return 0;
+            }
+            size_t size_one_parfile = 0;
+            alder_file_size(bdata(bpar), &size_one_parfile);
+            bdestroy(bpar);
+            size_parfile += size_one_parfile;
+        }
     }
     int b = alder_encode_number2_bytesize(K);
-    N_nh = (size_t)((double)size_parfile / (double)b / 0.7);
+    N_nh = (size_t)((double)size_parfile / (double)b / ALDER_HASHTABLE_LOAD);
     return N_nh;
 }
 
@@ -189,10 +197,10 @@ alder_kmer_table(long version,
                                         infile, outdir, outfile);
     
     
-    if (parfile_given) {
+    if (parfile_given == 1) {
         N_ni = n_ni;
         N_np = n_np;
-        N_nh = compute_nh_firstparfile(parfile, n_thread, K);
+        N_nh = compute_nh_firstparfile(version, parfile, n_thread, K);
         if (N_nh == 0) {
             return ALDER_STATUS_ERROR;
         }
@@ -207,7 +215,9 @@ alder_kmer_table(long version,
     }
     alder_log("*** Kmer count using partition files ***");
     // Count and save: runs on nt-many threads.
-    if (version == 3) {
+    if (version == 2) {
+        count = &alder_kmer_count_iteration2;
+    } else if (version == 3) {
         count = &alder_kmer_count_iteration3;
     } else if (version == 4 || version == 5) {
         count = &alder_kmer_count_iteration4;

@@ -46,82 +46,24 @@ alder_kmer_partition(long version,
                      const char *outfile)
 {
     int s = ALDER_STATUS_SUCCESS;
-    if (version == 3) {
-        //
-        s = alder_kmer_partition3(version,
-                                  K, D, M,
-                                  min_M_table, max_M_table,
-                                  F,
-                                  sizeInbuffer,
-                                  sizeOutbuffer,
-                                  n_ni, n_np,
-                                  n_nh,
-                                  n_nt,
-                                  progress_flag,
-                                  progressToError_flag,
-                                  0,
-                                  binfile,
-                                  binfile_given,
-                                  infile,
-                                  outfile_given,
-                                  outdir,
-                                  outfile);
-    } else {
-        //
-        s = alder_kmer_count(version, K, 0, D,
-                             M, min_M_table, max_M_table,
-                             F,
-                             sizeInbuffer,
-                             sizeOutbuffer,
-                             n_ni, n_np,
-                             n_nh,
-                             n_nt,
-                             progress_flag,
-                             progressToError_flag,
-                             1, // int nopack_flag,
-                             1, // int no_delete_partition_flag,
-                             0, // int no_partition_flag,
-                             1, // int no_count_flag,
-                             infile,
-                             outfile_given,
-                             outdir,
-                             outfile);
-    }
-    return s;
-}
-
-
-int
-alder_kmer_partition3(long version,
-                      int K, long D, long M,
-                      long min_M_table, long max_M_table,
-                      long F,
-                      long sizeInbuffer,
-                      long sizeOutbuffer,
-                      int n_ni, int n_np,
-                      int n_nh,
-                      int n_nt,
-                      int progress_flag,
-                      int progressToError_flag,
-                      int use_seqfile,
-                      const char *binfile,
-                      unsigned int binfile_given,
-                      struct bstrList *infile,
-                      unsigned int outfile_given,
-                      const char *outdir,
-                      const char *outfile)
-{
-    int s = ALDER_STATUS_SUCCESS;
+    
     size_t n_byte = 0;
     size_t S_filesize = 0;
-    
     sizeInbuffer = 1 << 16;
     sizeOutbuffer = 1 << 20;
-    s = alder_kmer_encode3(n_nt, 0, K, D, M, sizeInbuffer, sizeOutbuffer,
-                           n_ni, n_np, S_filesize, &n_byte,
-                           progress_flag, progressToError_flag,
-                           binfile_given, infile, outdir, outfile);
     
+    if (version == 2) {
+        //
+        s = alder_kmer_encode2(n_nt, 0, K, D, M, sizeInbuffer, sizeOutbuffer,
+                               n_ni, n_np, S_filesize, &n_byte,
+                               progress_flag, progressToError_flag,
+                               binfile_given, infile, outdir, outfile);
+    } else if (version == 3) {
+        s = alder_kmer_encode3(n_nt, 0, K, D, M, sizeInbuffer, sizeOutbuffer,
+                               n_ni, n_np, S_filesize, &n_byte,
+                               progress_flag, progressToError_flag,
+                               binfile_given, infile, outdir, outfile);
+    }
     return s;
 }
 

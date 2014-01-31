@@ -56,6 +56,22 @@ static FILE * open_outfile_i(const char *outfile, const char *outdir, int idx)
     return fpout;
 }
 
+static FILE * open_outfile(const char *outfile, const char *outdir)
+{
+    /* Open an output file. */
+    bstring bfpar = bformat("%s/%s.bin", outdir, outfile);
+    if (bfpar == NULL) {
+        return NULL;
+    }
+    FILE *fpout = fopen(bdata(bfpar), "wb");
+    if (fpout == NULL) {
+        bdestroy(bfpar);
+        return NULL;
+    }
+    bdestroy(bfpar);
+    return fpout;
+}
+
 
 /**
  *  This function writes the outbuf to file.
@@ -149,19 +165,26 @@ alder_kmer_binary3(void *ptr, size_t total_size, size_t subsize,
     *n_seq = 0;
     *n_byte = 0;
     
-    assert(version == 3);
+    assert(version == 2 || version == 3);
     assert(ptr == NULL);
     assert(total_size == 0);
     assert(nsplit > 0);
+    if (version == 2) {
+        nsplit = 1;
+    }
     fpout = malloc(sizeof(*fpout) * nsplit);
     if (fpout == NULL) {
         return ALDER_STATUS_ERROR;
     }
     memset(fpout, 0, sizeof(*fpout) * nsplit);
-    for (int i = 0; i < nsplit; i++) {
-        fpout[i] = open_outfile_i(outfile, outdir, i);
-        if (fpout[i] == NULL) {
-            return ALDER_STATUS_ERROR;
+    if (version == 2) {
+        fpout[0] = open_outfile(outfile, outdir);
+    } else {
+        for (int i = 0; i < nsplit; i++) {
+            fpout[i] = open_outfile_i(outfile, outdir, i);
+            if (fpout[i] == NULL) {
+                return ALDER_STATUS_ERROR;
+            }
         }
     }
     
@@ -287,7 +310,12 @@ alder_kmer_binary3(void *ptr, size_t total_size, size_t subsize,
     /* Calcuate the size of all of the binary files. */
     *totalfilesize = 0;
     for (int i = 0; i < nsplit; i++) {
-        bstring bfpar = bformat("%s/%s-%d.bin", outdir, outfile, i);
+        bstring bfpar;
+        if (version == 2) {
+            bfpar = bformat("%s/%s.bin", outdir, outfile);
+        } else {
+            bfpar = bformat("%s/%s-%d.bin", outdir, outfile, i);
+        }
         if (bfpar == NULL) {
             XFREE(outbuf);
             XFREE(spareOutbuf);

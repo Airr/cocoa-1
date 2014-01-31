@@ -364,7 +364,7 @@ alder_kmer_count_init6(int force_version, long *version,
                        struct bstrList *infile, const char *outdir,
                        const char *outfile)
 {
-    assert(*version == 3 || *version == 6 || *version == 6);
+    assert(*version == 2 || *version == 3 || *version == 5 || *version == 6);
     
     assert(n_kmer > 0);
     
@@ -735,7 +735,7 @@ alder_kmer_count(long version,
     int force_version = version > 0 ? 1 : 0;
 //    size_t size_inbuf = 0; // computed using available memory
     
-    assert(version == 3);
+    assert(version == 2 || version == 3);
     
     alder_kmer_estimate_buffer_size(&sizeInbuffer, &sizeOutbuffer, outfile, outdir);
     
@@ -787,7 +787,11 @@ alder_kmer_count(long version,
             unsigned int binfile_given = 0;
             // Encode kmer: runs on nt-many threads.
             alder_log3("encoding iteration %d ...", i);
-            if (version == 3) {
+            if (version == 2) {
+                encode = &alder_kmer_encode2;
+                binfile_given = 1;
+                cinfile = binfile;
+            } else if (version == 3) {
                 encode = &alder_kmer_encode3;
                 binfile_given = 1;
                 cinfile = binfile;
@@ -802,11 +806,15 @@ alder_kmer_count(long version,
                 return ALDER_STATUS_ERROR;
             }
             time(&start);
-            (*encode)(n_nt, i, K, D, M, sizeInbuffer, sizeOutbuffer,
+            s = (*encode)(n_nt, i, K, D, M, sizeInbuffer, sizeOutbuffer,
                       N_ni, N_np, S_filesize, &n_byte,
                       progress_flag, progressToError_flag,
                       binfile_given,
                       cinfile, outdir, outfile);
+            if (s != ALDER_STATUS_SUCCESS) {
+                alder_loge(ALDER_ERR, "Encoder (iter %d) has failed: %d", i);
+                return ALDER_STATUS_ERROR;
+            }
             time(&end);
             run_time = difftime(end, start);
             alder_log("Encoding: %.f (s) = %.f (m) = %.1f (h)", run_time, run_time/60, run_time/3600);
@@ -816,7 +824,10 @@ alder_kmer_count(long version,
             // Count and save: runs on nt-many threads.
             alder_log3("counting iteration %d ...", i);
             size_t i_n_hash = 0;
-            if (version == 3) {
+            if (version == 2) {
+                count = &alder_kmer_count_iteration2;
+                cinfile = NULL;
+            } else if (version == 3) {
                 count = &alder_kmer_count_iteration3;
                 cinfile = NULL;
             } else if (version == 4 || version == 5) {
@@ -828,10 +839,14 @@ alder_kmer_count(long version,
                 n_byte = n_kmer;
             }
             time(&start);
-            (*count)(fpout, n_nt, i, K, M, sizeInbuffer, sizeOutbuffer,
-                     N_ni, N_np, N_nh, S_filesize, &n_byte, &i_n_hash,
-                     progress_flag, progressToError_flag, nopack_flag,
-                     inbuf, size_data, cinfile, outdir, outfile);
+            s = (*count)(fpout, n_nt, i, K, M, sizeInbuffer, sizeOutbuffer,
+                         N_ni, N_np, N_nh, S_filesize, &n_byte, &i_n_hash,
+                         progress_flag, progressToError_flag, nopack_flag,
+                         inbuf, size_data, cinfile, outdir, outfile);
+            if (s != ALDER_STATUS_SUCCESS) {
+                alder_loge(ALDER_ERR, "Counter (iter %d) has failed: %i");
+                return ALDER_STATUS_ERROR;
+            }
             time(&end);
             run_time = difftime(end, start);
             alder_log("Counting: %.f (s) = %.f (m) = %.1f (h)", run_time, run_time/60, run_time/3600);

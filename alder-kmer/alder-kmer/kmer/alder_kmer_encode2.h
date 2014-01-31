@@ -1,5 +1,5 @@
 /**
- * This file, alder_kmer_encode5.h, is part of alder-kmer.
+ * This file, alder_kmer_encode2.h, is part of alder-kmer.
  *
  * Copyright 2014 by Sang Chul Choi
  *
@@ -17,10 +17,11 @@
  * along with alder-kmer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef alder_kmer_alder_kmer_encode5_h
-#define alder_kmer_alder_kmer_encode5_h
+#ifndef alder_kmer_alder_kmer_encode2_h
+#define alder_kmer_alder_kmer_encode2_h
 
 #include <stdint.h>
+#include <unistd.h>
 #include "bstrlib.h"
 
 #undef __BEGIN_DECLS
@@ -36,11 +37,11 @@
 
 __BEGIN_DECLS
 
-typedef struct alder_kmer_encoder5_struct alder_kmer_encoder5_t;
+typedef struct alder_kmer_encoder2_struct alder_kmer_encoder2_t;
 
 /* Readwriter thread accesses this type.
  */
-struct alder_kmer_encoder5_struct {
+struct alder_kmer_encoder2_struct {
     /* info */
     int k;                     /* k - kmer size                              */
     int b;                     /* bytes for a kmer                           */
@@ -50,14 +51,12 @@ struct alder_kmer_encoder5_struct {
     int n_encoder;             /* n_encoder - number of encoder threads      */
     
     /* reader */
-    size_t reader_lenbuf;
-    size_t reader_lenbuf2;
-    uint8_t reader_type_infile;
-    int reader_i_infile;
+    size_t *reader_lenbuf;
+    size_t *reader_i_infile;
     
     /* buffer */
     size_t size_fixedoutbuffer;/* buffer size for output                     */
-    //    size_t n_subbuf;           /* number of divided buffers in inbuf         */
+    size_t size_fixedinbuffer; /* input buffer size                          */
     size_t size_subinbuf;      /* size of each divided buffer                */
     size_t size_inbuf;         /* size_inbuf - size of the inbuf             */
     size_t size_inbuf2;        /* size_inbuf2 - size of the inbuf2           */
@@ -73,8 +72,7 @@ struct alder_kmer_encoder5_struct {
     
     /* file */
     struct bstrList *infile;   /* (not own) input files                      */
-    void *fx;                  /* fx - input file pointer                    */
-    int type_infile;           /* type of input file                         */
+    void **fx;                 /* [n_encoder] fx - input file pointer        */
     FILE **fpout;              /* n_np: fpout - output file pointers         */
     bstring dout;              /* output directory                           */
     
@@ -84,6 +82,9 @@ struct alder_kmer_encoder5_struct {
     int progressToError_flag;
     
     /* stat */
+    uint64_t n_t_byte_not_last;/* number of bytes for encoders not last      */
+    uint64_t n_t_byte_last;    /* number of bytes for the last encoders      */
+    uint64_t *n_i_byte;        /* [n_encoder] number of bytes sent           */
     uint64_t n_byte;           /* number of bytes sent                       */
     uint64_t n_kmer;           /* number of Kmers written to an out file     */
     uint64_t n_letter;         /* number of DNA letters processed            */
@@ -93,12 +94,8 @@ struct alder_kmer_encoder5_struct {
     int flag;                  /* status for readwriter                      */
 };
 
-//void alder_kmer_encoder5_lock_reader(alder_kmer_encoder5_t *a, int encoder_id);
-//void alder_kmer_encoder5_unlock_reader(alder_kmer_encoder5_t *a, int encoder_id);
-//void alder_kmer_encoder5_lock_writer(alder_kmer_encoder5_t *a, int part_id);
-//void alder_kmer_encoder5_unlock_writer(alder_kmer_encoder5_t *a, int part_id);
 
 __END_DECLS
 
 
-#endif /* alder_kmer_alder_kmer_encode5_h */
+#endif /* alder_kmer_alder_kmer_encode2_h */

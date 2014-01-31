@@ -94,7 +94,7 @@ option "loglevel" - "Log level" long typestr="level" values="0","1","2","3","4",
 
 option "progress-to-stderr" - "Display progress number to stdandard error" flag off
 option "totalmaxkmer" - "Skip counting maximum number of kmers in data, and use this number" long typestr="INT" default="0" optional
-option "select-version" - "Select a version of kmer counting: 0 for automatic selction, 1 for skipping binary file creation (dsk mode with a single iteration), 2 for binary file creation (dsk mode), 3 for loading a whole input data on the memory (msk or memory streaming kmer mode), and 4 for splitting a binary file." long typestr="INT" default="4" values="0","1","2","3","4" optional
+option "select-version" - "Select a version of kmer counting: 0 for automatic selction, 1 for skipping binary file creation (dsk mode with a single iteration), 2 for binary file creation (dsk mode), 3 for loading a whole input data on the memory (msk or memory streaming kmer mode), and 4 for splitting a binary file." long typestr="INT" default="5" values="0","1","2","3","4","5" optional
 option "bin-outdir" - "binary file output directory" string typestr="DIRECTORY" default="." optional
 option "par-outdir" - "partition files output directory" string typestr="DIRECTORY" default="." optional
 option "tab-outdir" - "table file output directory" string typestr="DIRECTORY" default="." optional

@@ -116,13 +116,13 @@ static void alder_kmer_cmdline_parser_print_detailed_help (alder_kmer_option_t *
 
 static void alder_kmer_cmdline_parser_print_examples_help (alder_kmer_option_t *o)
 {
-    printf("%s\n", gengetopt_args_info_detailed_help[99]);
+    printf("%s\n", gengetopt_args_info_detailed_help[100]);
 }
 
 
 static void alder_kmer_cmdline_parser_print_doc_help (alder_kmer_option_t *o)
 {
-    printf("%s\n", gengetopt_args_info_detailed_help[102]);
+    printf("%s\n", gengetopt_args_info_detailed_help[103]);
 }
 
 static void
@@ -396,12 +396,15 @@ int alder_kmer_option_init(alder_kmer_option_t *o,
             case 4:
                 a->select_version_arg = 3;
                 break;
+            case 5:
+                a->select_version_arg = 2;
+                break;
             default:
                 a->select_version_arg = 0;
                 break;
         }
     }
-    assert(3 <= a->select_version_arg && a->select_version_arg <= 6);
+    assert(2 <= a->select_version_arg && a->select_version_arg <= 6);
     if (strcmp(a->outdir_arg,".")) {
         int s = alder_file_mkdir(a->outdir_arg);
         if (s != ALDER_STATUS_SUCCESS) {
@@ -600,18 +603,31 @@ int alder_kmer_option_init(alder_kmer_option_t *o,
         o->infile->qty = (int)a->nthread_arg;
         assert(o->infile->qty <= o->infile->mlen);
     } else if (a->parfile_given) {
-        int n_infile = (int)(a->nthread_arg * a->ni_arg * a->np_arg);
-        o->infile = bstrVectorCreate(n_infile);
-        for (int i = 0; i < (int)a->ni_arg; i++) {
-            for (int j = 0; j < (int)a->np_arg; j++) {
-                for (int k = 0; k < (int)a->nthread_arg; k++) {
-                    int i_infile = k + j * (int)a->nthread_arg + i * (int)(a->nthread_arg * a->np_arg);
-                    o->infile->entry[i_infile] = bformat("%s-%d-%d-%d.par",
-                                                         a->parfile_arg, i, j, k);
+        int n_infile = 0;
+        if (a->select_version_arg == 2) {
+            n_infile = (int)(a->ni_arg * a->np_arg);
+            o->infile = bstrVectorCreate(n_infile);
+            for (int i = 0; i < (int)a->ni_arg; i++) {
+                for (int j = 0; j < (int)a->np_arg; j++) {
+                    int i_infile = j + i * (int)(a->np_arg);
+                    o->infile->entry[i_infile] = bformat("%s-%d-%d.par",
+                                                         a->parfile_arg, i, j);
+                }
+            }
+        } else {
+            n_infile = (int)(a->nthread_arg * a->ni_arg * a->np_arg);
+            o->infile = bstrVectorCreate(n_infile);
+            for (int i = 0; i < (int)a->ni_arg; i++) {
+                for (int j = 0; j < (int)a->np_arg; j++) {
+                    for (int k = 0; k < (int)a->nthread_arg; k++) {
+                        int i_infile = k + j * (int)a->nthread_arg + i * (int)(a->nthread_arg * a->np_arg);
+                        o->infile->entry[i_infile] = bformat("%s-%d-%d-%d.par",
+                                                             a->parfile_arg, i, j, k);
+                    }
                 }
             }
         }
-        o->infile->qty = (int)a->nthread_arg;
+        o->infile->qty = n_infile;
         assert(o->infile->qty <= o->infile->mlen);
     } else {
         if (a->inputs_num > 0) o->infile = bstrVectorCreate((int)(a->inputs_num));

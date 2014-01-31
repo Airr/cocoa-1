@@ -48,7 +48,6 @@
 
 #include "alder_kmer_binary.h"
 
-
 typedef int (*binary_t)(
 void *ptr, size_t size, size_t subsize,
 uint64_t *n_kmer, uint64_t *n_dna, uint64_t *n_seq,
@@ -105,7 +104,9 @@ alder_kmer_binary(void *ptr, size_t size, size_t subsize,
 {
     binary_t binary;
     
-    if (version == 3) {
+    if (version == 2) {
+        binary = &alder_kmer_binary3;
+    } else if (version == 3) {
         binary = &alder_kmer_binary3;
     } else {
         binary = &alder_kmer_binary5;

@@ -71,7 +71,7 @@
   "      --loglevel=level         Log level  (possible values=\"0\", \"1\", \"2\",\n                                 \"3\", \"4\", \"5\" default=`1')",
   "      --progress-to-stderr     Display progress number to stdandard error\n                                 (default=off)",
   "      --totalmaxkmer=INT       Skip counting maximum number of kmers in data,\n                                 and use this number  (default=`0')",
-  "      --select-version=INT     Select a version of kmer counting: 0 for\n                                 automatic selction, 1 for skipping binary file\n                                 creation (dsk mode with a single iteration), 2\n                                 for binary file creation (dsk mode), 3 for\n                                 loading a whole input data on the memory (msk\n                                 or memory streaming kmer mode), and 4 for\n                                 splitting a binary file.  (possible\n                                 values=\"0\", \"1\", \"2\", \"3\", \"4\"\n                                 default=`4')",
+  "      --select-version=INT     Select a version of kmer counting: 0 for\n                                 automatic selction, 1 for skipping binary file\n                                 creation (dsk mode with a single iteration), 2\n                                 for binary file creation (dsk mode), 3 for\n                                 loading a whole input data on the memory (msk\n                                 or memory streaming kmer mode), and 4 for\n                                 splitting a binary file.  (possible\n                                 values=\"0\", \"1\", \"2\", \"3\", \"4\",\n                                 \"5\" default=`5')",
   "      --bin-outdir=DIRECTORY   binary file output directory  (default=`.')",
   "      --par-outdir=DIRECTORY   partition files output directory  (default=`.')",
   "      --tab-outdir=DIRECTORY   table file output directory  (default=`.')",
@@ -351,7 +351,7 @@ my_cmdline_parser_required2 (struct gengetopt_args_info *args_info, const char *
 
 const char *my_cmdline_parser_format_values[] = {"fasta", "fastq", "fa", "fq", "seq", 0}; /*< Possible values for format. */
 const char *my_cmdline_parser_loglevel_values[] = {"0", "1", "2", "3", "4", "5", 0}; /*< Possible values for loglevel. */
-const char *my_cmdline_parser_select_version_values[] = {"0", "1", "2", "3", "4", 0}; /*< Possible values for select-version. */
+const char *my_cmdline_parser_select_version_values[] = {"0", "1", "2", "3", "4", "5", 0}; /*< Possible values for select-version. */
 
 static char *
 gengetopt_strdup (const char *s);
@@ -507,7 +507,7 @@ void clear_args (struct gengetopt_args_info *args_info)
   args_info->progress_to_stderr_flag = 0;
   args_info->totalmaxkmer_arg = 0;
   args_info->totalmaxkmer_orig = NULL;
-  args_info->select_version_arg = 4;
+  args_info->select_version_arg = 5;
   args_info->select_version_orig = NULL;
   args_info->bin_outdir_arg = gengetopt_strdup (".");
   args_info->bin_outdir_orig = NULL;
@@ -2670,7 +2670,7 @@ my_cmdline_parser_internal (
           
             if (update_arg( (void *)&(args_info->select_version_arg), 
                  &(args_info->select_version_orig), &(args_info->select_version_given),
-                &(local_args_info.select_version_given), optarg, my_cmdline_parser_select_version_values, "4", ARG_LONG,
+                &(local_args_info.select_version_given), optarg, my_cmdline_parser_select_version_values, "5", ARG_LONG,
                 check_ambiguity, override, 0, 0,
                 "select-version", '-',
                 additional_error))

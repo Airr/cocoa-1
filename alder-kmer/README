@@ -23,9 +23,19 @@ binary might not work yet.
 
 The first three versions are not of use any more, and they are retired. Instead, I've replaced version 3 with another one, which could have been version 7.
 
+Ver2. 
+binary2 (~binary3 single bin), encode2 (~encode5 use lseek), thread2 (~thread4 use lseek and single table)
+encode2, thread2 :  I might consider alternative file representations for the input, such using asynchronous I/O and read from multiple points in the file in parallel.
+binary2 (just modify binary3)
+encode2 = separate infile (~encode3), writing one parfile (~encode5), but read from multiple points in a binfile I wll start from encode5 and get some part of codes from encode3.
+thread2 = separate parfile (~thread3), writing one table (~thread3), but read from multiple points in a parfile.
+
+
+
 Ver3. Split the binary file, partition files, and runs with multiple threads.
 alder_kmer_encode5 -> alder_kmer_encode3
 alder_kmer_count_iteration4 -> alder_kmer_count_iteration3
+binary3, encode3, thread3
 
 
 Ver4. Fixed-size input and output buffers.
@@ -37,7 +47,7 @@ binary2, encode5, thread4
 Limited memory, and limited disk space, multiple iterations
 
 Ver6. Load a whole data in memory and keeping counting 
-binary3, thread5
+binary5, thread5
 Enough memory, and disk space does not matter as long as a resulting table can fit to the disk space
 
 Use inspect to determine which version can be used.
@@ -50,6 +60,8 @@ See alder_kmer_option.c and alder-kmer.ggo.
 Use options in main.c.
 
 # Useful
+Maximum number of open filehandles per process on OSX
+http://stackoverflow.com/questions/5377450/maximum-number-of-open-filehandles-per-process-on-osx-and-how-to-increase
 
 Encoding and decoding kmers by using C union:
 http://mbed.org/questions/1277/Union-of-a-uint64_t-and-uint8_t8-array-g/

@@ -231,7 +231,8 @@ int main(int argc, char * argv[])
         uint64_t n_dna = 0;
         uint64_t n_seq = 0;
         size_t n_totalfilesize = 0;
-        if (args_info.select_version_arg == 3) {
+        if (args_info.select_version_arg == 2 ||
+            args_info.select_version_arg == 3) {
             size_t subsize = 1 << 16;
             s = alder_kmer_binary(NULL, 0, subsize,
                                   &n_kmer, &n_dna, &n_seq,
@@ -250,7 +251,7 @@ int main(int argc, char * argv[])
                                   args_info.outdir_arg,
                                   args_info.outfile_arg);
         } else {
-            alder_loge(ALDER_ERR, "Only version 4 is implemented!");
+            alder_loge(ALDER_ERR, "Only version 4 or 5 is implemented!");
         }
     }
     

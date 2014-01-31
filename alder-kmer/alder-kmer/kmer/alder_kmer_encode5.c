@@ -129,7 +129,6 @@ alder_kmer_encoder5_destroy (alder_kmer_encoder5_t *o)
         XFREE(o->outbuf);
         XFREE(o->inbuf2);
         XFREE(o->inbuf);
-        XFREE(o->lock_partition);
         bdestroy(o->dout);
         XFREE(o);
     }
@@ -172,8 +171,6 @@ alder_kmer_encoder5_create(int n_encoder,
     o->n_np = n_partition;
     o->i_ni = i_iteration;
     o->n_encoder = n_encoder;
-    o->lock_reader = ALDER_KMER_ENCODER5_READER_UNLOCK;
-    o->lock_writer = ALDER_KMER_ENCODER5_WRITER_UNLOCK;
     o->reader_lenbuf = 0;
     o->reader_lenbuf2 = 0;
     o->reader_type_infile = 0;
@@ -247,13 +244,11 @@ alder_kmer_encoder5_create(int n_encoder,
     
     /* Memory */
     o->dout = bfromcstr(outdir);
-    o->lock_partition = malloc(sizeof(*o->lock_partition) * n_partition);
     o->encoder_remaining_outbuf = malloc(sizeof(*o->encoder_remaining_outbuf) * n_partition);
     o->inbuf = malloc(sizeof(*o->inbuf) * o->size_inbuf);    /* bigmem */
     o->inbuf2 = malloc(sizeof(*o->inbuf2) * o->size_inbuf2);
     o->outbuf = malloc(sizeof(*o->outbuf) * o->size_outbuf); /* bigmem */
     if (o->dout == NULL ||
-        o->lock_partition == NULL ||
         o->encoder_remaining_outbuf == NULL ||
         o->inbuf == NULL ||
         o->inbuf2 == NULL ||
@@ -261,7 +256,6 @@ alder_kmer_encoder5_create(int n_encoder,
         alder_kmer_encoder5_destroy(o);
         return NULL;
     }
-    memset(o->lock_partition, 0, sizeof(*o->lock_partition) * n_partition);
     memset(o->encoder_remaining_outbuf, 0, sizeof(*o->encoder_remaining_outbuf) * n_partition);
     memset(o->inbuf, 0, sizeof(*o->inbuf) * o->size_inbuf);
     memset(o->inbuf2, 0, sizeof(*o->inbuf2) * o->size_inbuf2);
