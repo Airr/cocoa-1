@@ -38,6 +38,7 @@ __BEGIN_DECLS
 typedef struct alder_kmer_binary_stream_struct alder_kmer_binary_stream_t;
 
 alder_kmer_binary_stream_t* alder_kmer_binary_buffer_create();
+
 void alder_kmer_binary_buffer_destroy(alder_kmer_binary_stream_t *o);
 
 void alder_kmer_binary_buffer_open(alder_kmer_binary_stream_t *bs_p,
@@ -49,15 +50,9 @@ int alder_kmer_binary_buffer_read(alder_kmer_binary_stream_t *bs_p,
 int
 alder_kmer_uncompress(int progress_flag,
                       struct bstrList *infile,
+                      unsigned int outfile_given,
                       const char *outdir,
                       const char *outfile);
-
-int
-alder_kmer_uncompress2(int progress_flag,
-                       struct bstrList *infile,
-                       unsigned int outfile_given,
-                       const char *outdir,
-                       const char *outfile);
 __END_DECLS
 
 

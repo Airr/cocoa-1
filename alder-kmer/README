@@ -2,10 +2,12 @@ At this point, Feb 29 2014, I failed to make a point of using CAS in DSK's metho
 
 # TODO
 
-Use only version 3.
+Sequential reads could be better than distributed reads.
+Use only version 2.
 Use gzip.
 Streamline the code using version 3.
 
+Delete a parfile when its reading is done by all of the threads.
 
 # Introduction
 1. I will introduce a method for counting k-mer with arbitrary size of k by
@@ -22,6 +24,11 @@ binary might not work yet.
 # Versions
 
 The first three versions are not of use any more, and they are retired. Instead, I've replaced version 3 with another one, which could have been version 7.
+
+Ver7. Back to sequential reads with CAS in partitioning stage.
+binary3
+encoder7 (~encoder5)
+thread7 (~thread4)
 
 Ver2. 
 binary2 (~binary3 single bin), encode2 (~encode5 use lseek), thread2 (~thread4 use lseek and single table)

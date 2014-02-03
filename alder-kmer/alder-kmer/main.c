@@ -61,7 +61,8 @@ int main(int argc, char * argv[])
         alder_logger_initialize(args_info.log_arg, LOG_SILENT);
         alder_logger_error_initialize(LOG_BASIC);
     }
-    alder_log("START: %s", ctime(&start));
+//    alder_log("START: %s", ctime(&start));
+    alder_log("START: %.*s", (int)(strlen(ctime(&start))-1), ctime(&start));
     
     ///////////////////////////////////////////////////////////////////////////
     // Count:
@@ -164,31 +165,31 @@ int main(int argc, char * argv[])
     if (args_info.simulate_flag) {
         PlantSeeds(args_info.seed_arg);
         SelectStream(1);
-        s = alder_kmer_simulate_woHashtable(args_info.select_version_arg,
-                                            args_info.outfile_given,
-                                            args_info.with_parfile_flag,
-                                            args_info.outfile_arg,
-                                            args_info.outdir_arg,
-                                            option.format,
-                                            (int)args_info.nf_arg,
-                                            (int)args_info.ni_arg,
-                                            (int)args_info.np_arg,
-                                            (int)args_info.kmer_arg,
-                                            (int)args_info.seqlen_arg,
-                                            (size_t)args_info.maxkmer_arg,
-                                            args_info.progress_flag,
-                                            1);
+        s = alder_kmer_simulate(args_info.select_version_arg,
+                                args_info.outfile_given,
+                                args_info.with_parfile_flag,
+                                args_info.outfile_arg,
+                                args_info.outdir_arg,
+                                option.format,
+                                (int)args_info.nf_arg,
+                                (int)args_info.ni_arg,
+                                (int)args_info.np_arg,
+                                (int)args_info.kmer_arg,
+                                (int)args_info.seqlen_arg,
+                                (size_t)args_info.maxkmer_arg,
+                                args_info.progress_flag,
+                                args_info.progress_to_stderr_flag);
     }
     
     ///////////////////////////////////////////////////////////////////////////
     // Decode/Kmer:
     if (args_info.decode_flag) {
-        s = alder_kmer_decode2((int)args_info.kmer_arg,
-                               args_info.progress_flag,
-                               option.infile,
-                               args_info.outfile_given,
-                               args_info.outdir_arg,
-                               args_info.outfile_arg);
+        s = alder_kmer_decode((int)args_info.kmer_arg,
+                              args_info.progress_flag,
+                              option.infile,
+                              args_info.outfile_given,
+                              args_info.outdir_arg,
+                              args_info.outfile_arg);
     }
     
     ///////////////////////////////////////////////////////////////////////////
@@ -216,11 +217,11 @@ int main(int argc, char * argv[])
     ///////////////////////////////////////////////////////////////////////////
     // Uncompress:
     if (args_info.uncompress_flag) {
-        alder_kmer_uncompress2(args_info.progress_flag,
-                               option.infile,
-                               args_info.outfile_given,
-                               args_info.outdir_arg,
-                               args_info.outfile_arg);
+        alder_kmer_uncompress(args_info.progress_flag,
+                              option.infile,
+                              args_info.outfile_given,
+                              args_info.outdir_arg,
+                              args_info.outfile_arg);
     }
     
     ///////////////////////////////////////////////////////////////////////////
@@ -231,6 +232,10 @@ int main(int argc, char * argv[])
         uint64_t n_dna = 0;
         uint64_t n_seq = 0;
         size_t n_totalfilesize = 0;
+        if (args_info.select_version_arg == 2 ||
+            args_info.select_version_arg == 7) {
+            args_info.select_version_arg = 2;
+        }
         if (args_info.select_version_arg == 2 ||
             args_info.select_version_arg == 3) {
             size_t subsize = 1 << 16;
@@ -262,6 +267,14 @@ int main(int argc, char * argv[])
                            args_info.outdir_arg,
                            args_info.outfile_arg);
     }
+    
+    ///////////////////////////////////////////////////////////////////////////
+    // Timing:
+    time_t end = time(NULL);
+    alder_log("END: %s", ctime(&end));
+    double run_time = difftime(end, start);
+    alder_log("END: %.f (s) = %.f (m) = %.f (h)", run_time, run_time/60, run_time/3600);
+    
     ///////////////////////////////////////////////////////////////////////////
     // Cleanup!
     alder_logger_finalize();
@@ -271,12 +284,6 @@ int main(int argc, char * argv[])
     }
     my_cmdline_parser_free(&args_info);
     alder_kmer_option_free(&option);
-    
-    time_t end = time(NULL);
-    alder_log("END: %s", ctime(&end));
-    double run_time = difftime(end, start);
-    alder_log("END: %.f (s) = %.f (m) = %.f (h)", run_time, run_time/60, run_time/3600);
-    
     return s;
 }
 

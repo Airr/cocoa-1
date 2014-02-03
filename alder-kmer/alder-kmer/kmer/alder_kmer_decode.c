@@ -41,20 +41,18 @@
  *  @return SUCCESS or FAIL
  */
 int
-alder_kmer_decode2(int K,
-                   int progress_flag,
-                   struct bstrList *infile,
-                   unsigned int outfile_given,
-                   const char *outdir,
-                   const char *outfile)
+alder_kmer_decode(int K,
+                  int progress_flag,
+                  struct bstrList *infile,
+                  unsigned int outfile_given,
+                  const char *outdir,
+                  const char *outfile)
 {
-//    size_t totalFilesize;
     size_t lenBuf = 0;
     size_t sizeBuf = 1 << 23; /* 8 MB */
     
     sizeBuf = (int)alder_encode_number2_adjustBufferSizeForKmer(K, sizeBuf);
     
-//    alder_totalfile_size(infile, &totalFilesize);
     
     bstring bfn = bformat("%s/%s.dec", outdir, outfile);
     if (bfn == NULL) {
@@ -62,8 +60,12 @@ alder_kmer_decode2(int K,
         return ALDER_STATUS_ERROR;
     }
     FILE *fpout = stdout;
+    int progressToError_flag = 1;
     if (outfile_given) {
         fpout = fopen(bdata(bfn), "w");
+        progressToError_flag  = 0;
+    } else {
+        progress_flag = 0;
     }
     
     uint8_t *buf = malloc(sizeof(*buf) * sizeBuf);
@@ -85,11 +87,18 @@ alder_kmer_decode2(int K,
     size_t ib = m2->b / 8;
     size_t jb = m2->b % 8;
 
+    size_t total_filesize = 0;
     int i_start = 0;
     if (infile->qty == 0) {
+        assert(progress_flag == 0);
         i_start = -1;
+    } else {
+        alder_totalfile_size(infile, &total_filesize);
     }
     size_t i_totalFilesize = 0;
+    if (progress_flag == 1) {
+        alder_progress_start(1);
+    }
     for (int i_file = i_start; i_file < infile->qty; i_file++) {
         
         FILE *fp = NULL;
@@ -115,10 +124,10 @@ alder_kmer_decode2(int K,
         while (lenBuf > 0) {
             lenBuf = fread(buf, sizeof(*buf), sizeBuf, fp);
             i_totalFilesize += lenBuf;
-            
-//            if (progress_flag) {
-//                alder_progress_step(i_totalFilesize, totalFilesize, 0);
-//            }
+            if (progress_flag) {
+                alder_progress_step(i_totalFilesize, total_filesize,
+                                    progressToError_flag);
+            }
             
             assert(lenBuf % m2->b == 0);
             uint64_t n_kmer = lenBuf / m2->b;
@@ -146,9 +155,9 @@ alder_kmer_decode2(int K,
             XFCLOSE(fp);
         }
     }
-//    if (progress_flag) {
-//        alder_progress_end(1);
-//    }
+    if (progress_flag) {
+        alder_progress_end(progressToError_flag);
+    }
     
     bdestroy(bfn);
     alder_encode_number_destroy(m);
@@ -160,76 +169,3 @@ alder_kmer_decode2(int K,
     return ALDER_STATUS_SUCCESS;
 }
 
-/* This function decodes a partition file to create its original sequence
- * file. 
- *
- * 1. I'd simply convert the partition file to a file with Kmer sequences.
- * 2. Or, I could recover the original sequence file.
- */
-int
-alder_kmer_decode(int K,
-                  int progress_flag,
-                  struct bstrList *infile,
-                  const char *outdir,
-                  const char *outfile)
-{
-    size_t lenBuf = 0;
-    size_t sizeBuf = 1 << 23;
-    
-    sizeBuf = (int)alder_encode_number_adjust_buffer_size_for_packed_kmer
-    (K, sizeBuf);
-    
-    /* Compute total file sizes. */
-    size_t totalFilesize = 0;
-    for (int i = 0; i < infile->qty; i++) {
-        size_t filesize = 0;
-        alder_file_size(bdata(infile->entry[i]), &filesize);
-        totalFilesize += filesize;
-    }
-    
-    bstring bfn = bformat("%s/%s.dec", outdir, outfile);
-    FILE *fpout = fopen(bdata(bfn), "w");
-    if (fpout == NULL) {
-        bdestroy(bfn);
-        return ALDER_STATUS_ERROR;
-    }
-    char *buf = malloc(sizeof(*buf) * sizeBuf);
-    memset(buf, 0, sizeof(*buf) * sizeBuf);
-    alder_encode_number_t *m = alder_encode_number_create_for_kmer(K);
-    
-    size_t i_totalFilesize = 0;
-    for (int i = 0; i < infile->qty; i++) {
-        FILE *fp = fopen(bdata(infile->entry[i]), "rb");
-        lenBuf = fread(buf, sizeof(*buf), sizeBuf, fp);
-        i_totalFilesize += lenBuf;
-        while (lenBuf > 0) {
-            uint8_t *inbuf = (uint8_t*)buf;
-            uint8_t *cbuf = inbuf;
-            int i_8bit = 7;
-            uint64_t n_kmer = 4 * lenBuf / K;
-            for (uint64_t i = 0; i < n_kmer; i++) {
-                cbuf = alder_encode_number_kmer_with_packed(m, cbuf, &i_8bit);
-                if (K < 4 && m->n[0] == 0) {
-                    break;
-                }
-                alder_encode_number_print_DNA_and_hash(m, fpout);
-            }
-            lenBuf = fread(buf, sizeof(*buf), sizeBuf, fp);
-            i_totalFilesize += lenBuf;
-            if (progress_flag) {
-                alder_progress_step(i_totalFilesize, totalFilesize, 0);
-            }
-        }
-        XFCLOSE(fp);
-    }
-    if (progress_flag) {
-        alder_progress_end(0);
-    }
-    
-    
-    bdestroy(bfn);
-    alder_encode_number_destroy(m);
-    XFREE(buf);
-    XFCLOSE(fpout);
-    return ALDER_STATUS_SUCCESS;
-}

@@ -34,12 +34,12 @@ option "fasta" - "fasta format: >count newline kmer" flag off
 option "no-tab" - "Space separator" flag off
 
 section "query"
-sectiondesc="Query a count table in a kmer count table; this is given by option --tabfile or the default name can be changed using option --outfile. A string of DNA sequence can be given with option --sequence, or a set of DNA sequences can be given by FASTA or FASTQ files."
+sectiondesc="NOT WORKING or BUGs - Query a count table in a kmer count table; this is given by option --tabfile or the default name can be changed using option --outfile. A string of DNA sequence can be given with option --sequence, or a set of DNA sequences can be given by FASTA or FASTQ files."
 option "query" - "dummy" flag off
 option "sequence" - "Query a kmer DNA sequence" string typestr="sequence" optional
 
 section "simulate"
-sectiondesc="There are no input files for `simulate' command. Use --kmer to specifiy the length of kmer sequences. By default, a sequence file would be written to stdout if --nf option is given with 1 or a single sequence file is requested. Set the number of kmers using --maxkmer. FASTQ or FASTA files can be generated. A simple sequence file can also be created. Use --outfile and --outdir options to create files.  The command can generate sequence and partition files. Use --nf to change the number of files. Total number of parition files with .par extension is equal to ni x np where ni is given by option --ni and np is by --np.  See the reference papers for details using option --cite. Data size is limited by the number of kmers. Data size can also be limited by kmer size; e.g., however large the hash table size is, the number of slots would be two if kmer size is 1. If kmer size is very large, it is likely to have unique kmers."
+sectiondesc="This command creates FASTQ files for testing alder-kmer. Use commands `list' or `binary' to work with generated FASTQ files. There are no input files for `simulate' command. By default, a sequence file would be written to STDOUT if --nf option is given with 1 or a single sequence file is requested. Override this feature by using option --outfile. First, use --kmer to specifiy the length of kmer sequences. Set the number of kmers using --maxkmer. Use --nf to change the number of files. Turn on --with-parfile option to create partition files as well. Total number of parition files with .par extension is equal to ni x np where ni is given by option --ni and np.  See the reference papers using option --cite."
 option "simulate" - "Simulate k-mer data" flag off
 option "maxkmer" - "number of kmers in a file" long typestr="INT < 10^8" default="1000" optional
 option "format" - "generated sequence file format" string typestr="STRING" default="fastq" values="fasta","fastq","fa","fq","seq" enum optional
@@ -51,7 +51,7 @@ option "seed" - "random seed" long typestr="INT < 10^9" default="-1" optional
 details="Enter a positive integer seed (9 digits or less)."
 
 section "partition"
-sectiondesc="This command converts sequence files to partition files. By default, it takes binary files; use option --use-fileseq if you want to use sequence files. To take a series of binary files, use option --binfile=STRING; STRING-0.bin to STRING-(#thread - 1).bin files are used as input files. Use options of command `simulate': --kmer, --nthread, --outfile, --outdir, --ni, and --np. You can use options: --disk and --memory to set automatically --ni and --np, but to use --disk and --memmory you must set --ni=-1 and --np=-1 or negative values. Otherwise, --ni and --np values in `simulate' command would be used. The --memory option value will be still used for acquiring buffers for reading sequence files and writing partition files. Large memory would increase the speed of `partition' command. On the contrary, the value in --disk does not affect the buffer, and the performance of `partition' command would be the same for different values of --disk, which would change the size of --ni and --np if --ni=-1 and --np=-1. See the reference by Rizk, et al. (2013) for details using option --cite."
+sectiondesc="This command converts a binary file to partition files. By default, it takes binary files; use option --use-fileseq if you want to use sequence files. To take a series of binary files, use option --binfile=STRING; STRING-0.bin to STRING-(#thread - 1).bin files are used as input files. Use options of command `simulate': --kmer, --nthread, --outfile, --outdir, --ni, and --np. You can use options: --disk and --memory to set automatically --ni and --np, but to use --disk and --memmory you must set --ni=-1 and --np=-1 or negative values. Otherwise, --ni and --np values in `simulate' command would be used. The --memory option value will be still used for acquiring buffers for reading sequence files and writing partition files. Large memory would increase the speed of `partition' command. On the contrary, the value in --disk does not affect the buffer, and the performance of `partition' command would be the same for different values of --disk, which would change the size of --ni and --np if --ni=-1 and --np=-1. See the reference by Rizk, et al. (2013) for details using option --cite."
 option "partition" - "Create a partition file" flag off dependon="outfile"
 option "inbuffer" - "Size of input buffer in log2" long typestr="INT" default="0" optional
 option "outbuffer" - "Size of output buffer in log2" long typestr="INT" default="0" optional
@@ -65,16 +65,16 @@ sectiondesc="This command converts partition files to a table file. Use the foll
 option "table" - "Partition file" flag off dependon="outfile"
 
 section "list"
-sectiondesc="This command lists kmer sequences in a fastq file. Kmer sequences should have the four letters of A, C, G, and T. Any other characters, even a, c, g, or t, are considered not a valid DNA letter. Available options include kmer, seqlen."
+sectiondesc="This command lists kmer sequences in a fastq file. Kmer sequences should have the four letters of A, C, G, and T (a, c, g, or t). Any other characters are considered not a valid DNA letter. Invalid characters would end a sequence, and let the command restart a new sequence if there are more DNA letters that follow. Available options include kmer. It does not check the content of a FASTQ file, and may have side-effects if other formats are provided. It reads STDIN or a file. If option --outfile is used, a file with .lst extension is created instead of being sent to STDOUT"
 option "list" - "List kmers in a text file. Options: kmer, seqlen" flag off
 
 section "match"
-sectiondesc="This command compares a table file and a set of input files. A set of sequence data can be given as either standard input or input files."
+sectiondesc="NOT WORKING or BUGs - This command compares a table file and a set of input files. A set of sequence data can be given as either standard input or input files."
 option "match" - "Compare a table file and input sequence data." flag off
 option "tabfile" - "a table file" string typestr="FILENAME" default="outfile.tbl" optional
 
 section "binary"
-sectiondesc="This command converts input sequence data to a alder-kmer binary file."
+sectiondesc="This command converts sequence files to a alder-kmer binary file. Use command uncompress to decode a binary file."
 option "binary" - "Create a binary file from sequence file." flag off
 
 section "uncompress"
@@ -94,7 +94,7 @@ option "loglevel" - "Log level" long typestr="level" values="0","1","2","3","4",
 
 option "progress-to-stderr" - "Display progress number to stdandard error" flag off
 option "totalmaxkmer" - "Skip counting maximum number of kmers in data, and use this number" long typestr="INT" default="0" optional
-option "select-version" - "Select a version of kmer counting: 0 for automatic selction, 1 for skipping binary file creation (dsk mode with a single iteration), 2 for binary file creation (dsk mode), 3 for loading a whole input data on the memory (msk or memory streaming kmer mode), and 4 for splitting a binary file." long typestr="INT" default="5" values="0","1","2","3","4","5" optional
+option "select-version" - "Select a version of kmer counting: 0 for automatic selction, 1 for skipping binary file creation (dsk mode with a single iteration), 2 for binary file creation (dsk mode), 3 for loading a whole input data on the memory (msk or memory streaming kmer mode), 4 for splitting a binary file, 5 for distributed reading, and 7 for sequential read with CAS encoding." long typestr="INT" default="7" values="0","1","2","3","4","5","7" optional
 option "bin-outdir" - "binary file output directory" string typestr="DIRECTORY" default="." optional
 option "par-outdir" - "partition files output directory" string typestr="DIRECTORY" default="." optional
 option "tab-outdir" - "table file output directory" string typestr="DIRECTORY" default="." optional
@@ -121,7 +121,7 @@ option "parfile" - "prefix of partition files" string typestr="STRING" default="
 option "release" - "Release mode" flag on
 
 section "exit"
-sectiondesc="The alder-kmer exit 0 on success, and >0 if an error occurs. The command `simulate' returns 0 if all of the Kmers occur only once, otherwise >0."
+sectiondesc="The alder-kmer exit 0 on success, and >0 if an error occurs. The command `simulate' returns 0 if all of the Kmers occur only once and --nf=1, otherwise >0. If option --nf is set to 2 or more, then the exit status from `simulate' is invalid."
 option "exit" - "dummy" flag off
 
 section "examples"
@@ -133,103 +133,140 @@ FASTA: See http://en.wikipedia.org/wiki/FASTA_format for the format. Command `si
 
 FASTQ: See http://en.wikipedia.org/wiki/FASTQ_format for the format. Command `simulate' can create fastq-format files.
 
-TAB: This is a binary file format for files created by alder-kmer `count' command. It contains a list of entries, of which each consists of a kmer, its occurence, and the index. The index value could be used to search the table for a particular kmer. Another command named `table' can create a table file from a partition file.
+TAB: The command `count' creates a table file, which contains a list of entries, of which each consists of a kmer, its occurence, and the index. The index value could be used to search the table for a particular kmer. Another command named `table' can create a table file from a partition file.
 
-BIN: Alder-kmer converts a set of input sequence files to a .bin file. A binary file tends to be smaller in size, which allows alder-kmer to read a whole input in each iteration more quickly than read sequence files. A binary file is not created if only one iteration is estimated to be needed.
+BIN: A set of input sequence files is converted to a .bin file. A binary file tends to be smaller in size, which allows alder-kmer to read a whole input in each iteration more quickly than read sequence files.
 
 PAR: This is a binary file format for a partition. See Rizk et al. (2013) for details of partitions. A file of the format contains kmer sequences of the same kmer size. Commands `count'. `simulate', and `partition' can create partition files.
 
 DEC: This is a text file format of partition files. It simply prints one kmer per line.
 
-*** COUNT ***
+*** COMMANDS ***
 
-Use one of the commands to execute alder-kmer. When demontrating usages of alder-kmer, the first argument being always a command, I omit alder-kmer. For instance, to count kmer of size 1 in file a.fa you can type in the following command:
-$ ./alder-kmer count a.fa
+Use one of the commands to execute alder-kmer; `count', `query', `dump', and a few more for debugging. When demontrating usages of alder-kmer in the following, the first argument is a command; I omit alder-kmer. For instance, to count kmer of size 1 in file a.fa you can type in the following command:
+$ ./alder-kmer simulate > a.fq
+$ ./alder-kmer count a.fq
+$ ./alder-kmer dump outfile.tbl
+T	A	513	89936814
+C	G	487	357654460
 Instead, we write as follows:
-$ count a.fa
-So, please, always prepend the command with `alder-kmer'. If you need a test sequence file, then see a following section to learn how to use `simulate' command, which would create sequence files.
+$ simulate > a.fq
+$ count a.fq
+$ dump outfile.tbl
+Prepend the command with `alder-kmer'. If you need a test sequence file, then see a following section to learn how to use `simulate' command, which would create sequence files.
+
+*** COUNT ***
 
 To count kmers (K=2) in a sequence file, using option -k, type in:
 $ count -k 2 a.fa
-This would create an output file named outfile.tbl.
+This would create an output file named outfile.tbl. Crate 10 fastq files and count kmers in the files by typing in:
+$ simulate -k 25 --maxkmer=100000 --nf=10 --progress
+$ count -k 25 outfile*.fq
 
-*** REPORT ***
+*** REPORT/DUMP ***
 
-To list kmers and their occurences in a created hash table, type in:
+To display kmers and their occurences in a created hash table, type in:
 $ report outfile.tbl
 
 *** SIMULATE ***
 
-Create a sequence file using `simulate' command.
-$ simulate --seed=1
+To generate a sequence file using `simulate' command, type in:
+$ simulate
 The command runs with default options. See the secion `simulate' command above for detail or type in:
 $ simulate -h
-to learn options and default values of the command. The `simulate' command would create a sequence file (outfile-00.fa) and a partition file (outfile_0-0.par).
+to learn options and default values of the command. The `simulate' command would create a sequence file.
+
+*** BINARY ***
+
+To create a binary file from a set of FASTQ files, type in:
+$ simulate -k 25 --maxkmer=1000000 --nf=10 --progress
+$ binary *.fq
+
+*** UNCOMPRESS ***
+
+To see the content of a binary file, type in:
+$ uncompress outfile.bin
 
 *** PARTITION ***
 
-Let's recover the same partition file, which is a part of command `count' using command `partition'.
-$ partition outfile-00.fa
-Because this command is part of simulation, it uses more options in command `simulate' than those in `count'. The command would create a partition file: outfile-0-0.par. This file and outfile_0-0.par should be same.  The partition file contains kmers in bytes, which can be decoded by using command `decode' with the partition file.
+Let us recover the same partition file, which is a part of command `count' using command `partition'.
+$ partition -k 25 outfile.bin
+Because this command is part of simulation, it uses more options in command `simulate' than those in `count'. The command would create a partition file: outfile-0-0.par. The partition file contains kmers in bytes, which can be decoded by using command `decode' or `kmer' with the partition file.
 
-*** DECODE ***
+*** DECODE/KMER ***
 
 To convert a partition file to a text file, type in:
-$ decode outfile-0-0.par
-The `decode' command generates an out file with .dec extension.
+$ kmer -k 25 outfile-0-0.par
+The `decode' command generates kmers in STDOUT.
 
 *** TABLE ***
 
 To create the report file from a partition file, type in:
-$ table outfile-0-0.par
-This would create an output file named outfile.tbl.
+$ table -k 25 outfile-0-0.par
+This would create an output file named outfile.tbl. To display th content of the table file, type in:
+$ dump outfile.tbl
 
 *** LIST ***
 
+To list kmers in a FASTQ file, type in:
+$ list -k 25 outfile-0-0.fq
+
 *** MATCH ***
 
-*** BINARY ***
-
-*** UNCOMPRESS ***
-
-$ ./alder-kmer u outfile.bin | md5
-$ cat outfile.bin | ./alder-kmer u | md5
+To compare a table and a set of sequence files, type in:
+$ match --tabfile=outfile.tbl outfile-0-0.fq
 
 *** INSPECT ***
+
+To inspect your computer, type in:
+$ inspect
+
+*** QUERY ***
+
+!!! NOT WORKING YET !!!
+$ query
 
 *** EXAMPLES ***
 
 Let's consider these variables in testing.
 K: kmer size
 N: number of unique kmers (MAX of N=10^8)
-M: occurence of each unique kmer
+F: occurence of each unique kmer
 T: number of threads
+D: disk space
+M: memory required
 
-1. Partition command test without consistency check (.fa/.fq -> .par)
+1. Count command test (.fa/.fq -> .tbl)
+K=15..200,T=1,N=1000,F=65535,D=100,M=10
+for K in {15..200}; do ./alder_kmer_test_count.sh $K 1000 65535 fq no 100 10 1; done
+K=15..200,T=2
+for K in {15..200}; do ./alder_kmer_test_count.sh $K 1000 65535 fq no 100 10 2; done
+HERE
+K=15..200,T=4
+for K in {15..200}; do ./alder_kmer_test_count.sh $K 1000 65535 fq no 100 10 4; done
+TRY the single again
+K=15..200,T=1
+for K in {15..63}; do ./alder_kmer_test_count.sh $K 1000 65535 fq no 100 10 1; done
+
+1. Binary command test
+
+2. Partition command test without consistency check (.fa/.fq -> .par)
 K=1..62,N=10000,M=65535,T=1 
-./alder_kmer_test_partition.sh $K 10000 65535 fq no 1 3
+./alder_kmer_test_partition.sh $K 10000 65535 fq no 1
 K=1..62,N=10000,M=65535,T=4 (1 hour)
 for K in {1..62}; do ./alder_kmer_test_partition.sh $K 10000 65535 fq no 4 3; done
 
-2. Table command test (.par -> .tbl)
+3. Table command test (.par -> .tbl)
 K=1..62,N=1000,T=1
 for K in {1..62}; do ./alder_kmer_test_table.sh $K 1000 fq no 1; done
 K=1..62,N=1000,T=4
 for K in {1..62}; do ./alder_kmer_test_table.sh $K 100000 fq no 4; done
 
-3. Table command with larger data test
+4. Table command with larger data test
 K=15..31,T=1
 ./alder_kmer_test_table2.sh $K 10000 65535 fq no 10000 1000 1 3
 K=15..31,T=4
 for K in {32..186}; do ./alder_kmer_test_table2.sh $K 10000 65535 fq no 10000 1000 4 3; done
-HERE
-
-4. Count command test (.fa/.fq -> .tbl)
-K=15..63,T=1
-./alder_kmer_test_count.sh $K 10000 65535 fq no 10000 1000 1 3
-K=15..186,T=4
-for K in {32..186}; do ./alder_kmer_test_count.sh $K 10000 65535 fq no 10000 1000 4 3; done
-NEXT
 
 5. Maximum of unique test
 ./alder_kmer_test_partition.sh 15 100000000 1 fq no 1 3
@@ -257,6 +294,7 @@ NEXT (partially)
 . K=32 .. 186
 
 . T=1 .. 128 (using pacman and lemming)
+No need to do this because multiple-threads are not helpful in DSK method.
 
 . Test of overflow of occurence (create a separate file of kmer of overflowed).
 .ofl file would contain encoded numbers just like .par file.

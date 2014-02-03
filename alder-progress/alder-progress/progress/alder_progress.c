@@ -27,29 +27,41 @@
 #include <stdio.h>
 #include <time.h>
 
+static int tick = 0;
+static int tick_frequency = 10;
+static int prev_progress = -1;
+static time_t start;
+static time_t end;
+
+void alder_progress_start(int n_frequency)
+{
+    start = time(NULL);
+    tick_frequency = n_frequency;
+}
+
+void alder_progress_frequency(int n_frequency)
+{
+    tick_frequency = n_frequency;
+}
+
 int alder_progress_step(unsigned long cstep, unsigned long tstep, int tostderr)
 {
-    static int tick = 0;
-    static time_t start;
-    static time_t end;
-    if (tick == 0) {
-        start = time(NULL);
-    }
     tick++;
-    if (tick % 10000 == 0) {
-        int progress = (int)((double)(cstep) * 100
+    if (tick % tick_frequency == 0) {
+        int progress = (int)((double)(cstep) * 100.0
                              /
                              (double)(tstep));
-        if (tostderr) {
-            fprintf(stderr,"%d\n", progress);
-            fflush(stderr);
-        } else {
-            end = time(NULL);
-            double elapsed = difftime(end, start);
-            double remaining = elapsed * (tstep / cstep - 1) / 3600.0;
-            fprintf(stdout,"\rProgress: %d%% %.1f (hours)", progress, remaining);
-            //        fprintf(stdout,"\rProgress: %d%% %.1f (seconds)", progress, remaining);
-            fflush(stdout);
+        if (prev_progress < progress) {
+            if (tostderr) {
+                fprintf(stderr,"%d\n", progress);
+                fflush(stderr);
+            } else if (cstep > 0) {
+                end = time(NULL);
+                double elapsed = difftime(end, start);
+                double remaining = elapsed * (tstep / cstep - 1) / 3600.0;
+                fprintf(stdout,"\rProgress: %d%% %.1f (hours)", progress, remaining);
+                fflush(stdout);
+            }
         }
     }
     return 0;

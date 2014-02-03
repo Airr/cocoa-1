@@ -1,7 +1,7 @@
 /**
  * This file, alder_encode_number.c, is part of alder-encode.
  *
- * Copyright 2013 by Sang Chul Choi
+ * Copyright 2013,2014 by Sang Chul Choi
  *
  * alder-encode is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -257,13 +257,14 @@ int alder_encode_number2_shiftLeftWith(alder_encode_number2_t *o, int b)
     uint64_t carryover = b;
     for (int i = 0; i < o->s; i++) {
         uint64_t ni = o->n[i].key64;
-        uint64_t msb2 = ni & ALDER_ENCODE_NUMBER2_MSB2;
+//        uint64_t msb2 = ni & ALDER_ENCODE_NUMBER2_MSB2;
         uint64_t msb4 = (ni >> 60) & ALDER_ENCODE_NUMBER2_LSB2;
         
         ni <<= 2;
         // Reset the left-most character to null: used to be here.
         ni &= ALDER_ENCODE_NUMBER2_MSB2_NOT;  // reset 2 msb bits.
-        o->n[i].key64 = ni | msb2 | carryover; // replace 2 lsb bits with carryover.
+//        o->n[i].key64 = ni | msb2 | carryover; // replace 2 lsb bits with carryover.
+        o->n[i].key64 = ni | carryover; // replace 2 lsb bits with carryover.
                                                // replace 2 msb bits with msb2.
         carryover = msb4;
     }
@@ -274,7 +275,9 @@ int alder_encode_number2_shiftLeftWith(alder_encode_number2_t *o, int b)
     } else {
         k = o->k % ALDER_NUMKMER_8BYTE;
     }
-    o->n[o->s - 1].key64 &= alder_encode_number2_2not[k];
+    if (k != 0) {
+        o->n[o->s - 1].key64 &= alder_encode_number2_2not[k];
+    }
 #else
     const uint64_t x3 = 3;
     uint64_t carryover = b;
@@ -365,11 +368,6 @@ int alder_encode_number2_shiftRightWith(alder_encode_number2_t *o, int b)
 uint64_t alder_encode_number2_hash(alder_encode_number2_t *o)
 {
     return alder_hash_code01(*(uint64_t**)&o->n, o->s);
-//    uint64_t x = alder_hash_code00((*(uint64_t**)&o->n)[0]);
-//    for (int i = 1; i < o->s; i++) {
-//        x += (i * alder_hash_code00(o->n[i].key64));
-//    }
-//    return x;
 }
 
 int alder_encode_number2_kmer(alder_encode_number2_t *o, uint8_t *kmer)
@@ -1443,84 +1441,9 @@ int alder_encode_number_copy_in_revDNA(char *s1, alder_encode_number_t *o)
  */
 uint64_t alder_encode_number_hash(alder_encode_number_t *o)
 {
-//    uint64_t x = alder_hash_code00(o->n[0]);
-//    for (int i = 1; i < o->s; i++) {
-//        x += (i * alder_hash_code00(o->n[i]));
-//    }
-//    return x;
     return alder_hash_code01(o->n, o->s);
 }
 
-/*
-static uint64_t alder_bit_kmer2number_matrix[32][4] = {
-    {0x0000000000000000, 0x0000000000000001, 0x0000000000000002, 0x0000000000000003},
-    {0x0000000000000000, 0x0000000000000004, 0x0000000000000008, 0x000000000000000C},
-    {0x0000000000000000, 0x0000000000000010, 0x0000000000000020, 0x0000000000000030},
-    {0x0000000000000000, 0x0000000000000040, 0x0000000000000080, 0x00000000000000C0},
-    {0x0000000000000000, 0x0000000000000100, 0x0000000000000200, 0x0000000000000300},
-    {0x0000000000000000, 0x0000000000000400, 0x0000000000000800, 0x0000000000000C00},
-    {0x0000000000000000, 0x0000000000001000, 0x0000000000002000, 0x0000000000003000},
-    {0x0000000000000000, 0x0000000000004000, 0x0000000000008000, 0x000000000000C000},
-    {0x0000000000000000, 0x0000000000010000, 0x0000000000020000, 0x0000000000030000},
-    {0x0000000000000000, 0x0000000000040000, 0x0000000000080000, 0x00000000000C0000},
-    {0x0000000000000000, 0x0000000000100000, 0x0000000000200000, 0x0000000000300000},
-    {0x0000000000000000, 0x0000000000400000, 0x0000000000800000, 0x0000000000C00000},
-    {0x0000000000000000, 0x0000000001000000, 0x0000000002000000, 0x0000000003000000},
-    {0x0000000000000000, 0x0000000004000000, 0x0000000008000000, 0x000000000C000000},
-    {0x0000000000000000, 0x0000000010000000, 0x0000000020000000, 0x0000000030000000},
-    {0x0000000000000000, 0x0000000040000000, 0x0000000080000000, 0x00000000C0000000},
-    {0x0000000000000000, 0x0000000100000000, 0x0000000200000000, 0x0000000300000000},
-    {0x0000000000000000, 0x0000000400000000, 0x0000000800000000, 0x0000000C00000000},
-    {0x0000000000000000, 0x0000001000000000, 0x0000002000000000, 0x0000003000000000},
-    {0x0000000000000000, 0x0000004000000000, 0x0000008000000000, 0x000000C000000000},
-    {0x0000000000000000, 0x0000010000000000, 0x0000020000000000, 0x0000030000000000},
-    {0x0000000000000000, 0x0000040000000000, 0x0000080000000000, 0x00000C0000000000},
-    {0x0000000000000000, 0x0000100000000000, 0x0000200000000000, 0x0000300000000000},
-    {0x0000000000000000, 0x0000400000000000, 0x0000800000000000, 0x0000C00000000000},
-    {0x0000000000000000, 0x0001000000000000, 0x0002000000000000, 0x0003000000000000},
-    {0x0000000000000000, 0x0004000000000000, 0x0008000000000000, 0x000C000000000000},
-    {0x0000000000000000, 0x0010000000000000, 0x0020000000000000, 0x0030000000000000},
-    {0x0000000000000000, 0x0040000000000000, 0x0080000000000000, 0x00C0000000000000},
-    {0x0000000000000000, 0x0100000000000000, 0x0200000000000000, 0x0300000000000000},
-    {0x0000000000000000, 0x0400000000000000, 0x0800000000000000, 0x0C00000000000000},
-    {0x0000000000000000, 0x1000000000000000, 0x2000000000000000, 0x3000000000000000},
-    {0x0000000000000000, 0x4000000000000000, 0x8000000000000000, 0xC000000000000000}
-};
-*/
-
-//static uint64_t alder_encode_number_kmer_shift_left_with_array[31] = {
-//    0x3FFFFFFFFFFFFFFF,
-//    0x0000000000000003,
-//    0x000000000000000F,
-//    0x000000000000003F,
-//    0x00000000000000FF,
-//    0x00000000000003FF,
-//    0x0000000000000FFF,
-//    0x0000000000003FFF,
-//    0x000000000000FFFF,
-//    0x000000000003FFFF,
-//    0x00000000000FFFFF,
-//    0x00000000003FFFFF,
-//    0x0000000000FFFFFF,
-//    0x0000000003FFFFFF,
-//    0x000000000FFFFFFF,
-//    0x000000003FFFFFFF,
-//    0x00000000FFFFFFFF,
-//    0x00000003FFFFFFFF,
-//    0x0000000FFFFFFFFF,
-//    0x0000003FFFFFFFFF,
-//    0x000000FFFFFFFFFF,
-//    0x000003FFFFFFFFFF,
-//    0x00000FFFFFFFFFFF,
-//    0x00003FFFFFFFFFFF,
-//    0x0000FFFFFFFFFFFF,
-//    0x0003FFFFFFFFFFFF,
-//    0x000FFFFFFFFFFFFF,
-//    0x003FFFFFFFFFFFFF,
-//    0x00FFFFFFFFFFFFFF,
-//    0x03FFFFFFFFFFFFFF,
-//    0x0FFFFFFFFFFFFFFF
-//};
 
 /* This function shift-left the number.
  *
@@ -1925,133 +1848,3 @@ alder_encode_number_adjust_buffer_size_for_packed_kmer
 
     return size_buf;
 }
-
-///////////////////////////////////////////////////////////////////////////////
-// Retired functions.
-///////////////////////////////////////////////////////////////////////////////
-
-/* This function shifts the kmer one base left.
- *
- * 1. Shift the first (the highest order) element left by 2.
- *    000132
- *      ^
- *    00132?
- * 2. Mask the highest base.
- *    00032?
- *      ^ 
- * 3. Find the carryover (C).
- * 4. Replace the the lowest order element by the carryover.
- *    00032C.
- *
- * FIXME:
- */
-//int alder_encode_number_kmer_shift_left_with(alder_encode_number_t *o, int b)
-//{
-//    int s = o->s;
-//    for (int i = 0; i < s; i++) {
-//        uint64_t x = o->n[s-i-1] << 2;
-//        uint64_t carryover;
-//        if (i == 0) {
-//            // FIXME: 31 does not work.
-//            int k = o->k % ALDER_NUMKMER_8BYTE;
-////            x &= alder_encode_number_kmer_shift_left_with_array[k];
-//            x &= ~(1LLU << (k * 2 + 1));
-//            x &= ~(1LLU << k * 2);
-//        } else {
-////            x &= 0x3FFFFFFFFFFFFFFF;
-//            x &= ~(1LLU << (ALDER_NUMBIT_KMER_8BYTE + 1));
-//            x &= ~(1LLU << ALDER_NUMBIT_KMER_8BYTE);
-//        }
-//        
-//        if (i == s - 1) {
-//            carryover = b;
-//        } else {
-//            carryover = (o->n[s-i-2] >> 60) & 3LLU;
-//        }
-//        
-//        if (carryover == 0) {
-//            // No code.
-//            x &= ~(1LLU << 1);
-//            x &= ~(1LLU);
-//        } else if (carryover == 1) {
-//            // 01
-//            x &= ~(1LLU << 1);
-//            x |= 1LLU;
-//        } else if (carryover == 2) {
-//            // 10
-//            x |= 1LLU << 1;
-//            x &= ~(1LLU);
-//        } else if (carryover == 3) {
-//            // 11
-//            x |= 1LLU << 1;
-//            x |= 1LLU;
-//        }
-////        x = x & (1 << 2);
-////        x |= 3LLU;
-////        x &= carryover;
-//        o->n[s-i-1] = x;
-//    }
-//    return 0;
-//}
-
-/* This function shifts a kmer one base right.
- *
- * 1. Shift the last (the lowest order) element right by 2.
- *    000132
- *      ^
- *    ?00013   2 -> carry
- * 2. Mask the hiest base
- *    000013
- * 3. Replace the highest order by the carryover.
- *    C00013
- */
-//int alder_encode_number_kmer_shift_right_with(alder_encode_number_t *o, int b)
-//{
-//    int s = o->s;
-//    for (int i = 0; i < o->s; i++) {
-//        uint64_t x = o->n[i] >> 2;
-//        uint64_t carryover;
-//        if (i == o->s - 1) {
-//            int k = o->k % ALDER_NUMKMER_8BYTE;
-//            x &= alder_encode_number_kmer_shift_left_with_array[k];
-//        } else {
-//            x &= 0x3FFFFFFFFFFFFFFF;
-//        }
-//        
-//        int k;
-//        if (i == s - 1) {
-//            k = o->k % ALDER_NUMKMER_8BYTE;
-//            if (k == 0) {
-//                k = 30;
-//            } else {
-//                k--;
-//            }
-//            carryover = b;
-//        } else {
-//            k = 30;
-//            carryover = o->n[i+1] & 3LLU;
-//        }
-//        
-//        if (carryover == 0) {
-//            // 00
-//            x &= ~(1LLU << (2 * k + 1));
-//            x &= ~(1LLU << (2 * k));
-//        } else if (carryover == 1) {
-//            // 01
-//            x &= ~(1LLU << (2 * k + 1));
-//            x |= 1LLU << (2 * k);
-//        } else if (carryover == 2) {
-//            // 10
-//            x |= 1LLU << (2 * k + 1);
-//            x &= ~(1LLU << (2 * k));
-//        } else if (carryover == 3) {
-//            // 11
-//            x |= 1LLU << (2 * k + 1);
-//            x |= 1LLU << (2 * k);
-//        }
-//        
-//        o->n[i] = x;
-//    }
-//    return 0;
-//}
-

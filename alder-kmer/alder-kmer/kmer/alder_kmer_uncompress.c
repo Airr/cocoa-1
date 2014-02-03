@@ -34,82 +34,6 @@
 
 #define BUFSIZE (1 << 16)
 
-int
-alder_kmer_uncompress(int progress_flag,
-                      struct bstrList *infile,
-                      const char *outdir,
-                      const char *outfile)
-{
-    char * fn = bdata(infile->entry[0]);
-    time_t start = time(NULL);
-    int fd = open(bdata(infile->entry[0]), O_RDONLY, 0666);
-    
-//    uint8_t *buffer = malloc(21);
-    uint8_t *buffer = malloc(BUFSIZE);
-    
-    size_t total_size;
-    alder_file_size(fn, &total_size);
-    unsigned long total_read = 0;
-    
-    ssize_t left_to_read = (ssize_t) total_size;
-    size_t count = BUFSIZE;
-    while (left_to_read > 0) {
-        if (left_to_read < count) {
-            count = left_to_read;
-        }
-        ssize_t read_len = read(fd, buffer, count);
-        /* An error occurred; bail. */
-        if (read_len == -1)
-            break;
-        else /* Keep count of how much more we need to write. */
-            left_to_read -= read_len;
-        
-        ///////////////////////////////////////////////////////////////////////
-        //
-//        uint32_t type_buf = to_uint32(buffer, 0);
-        size_t size_buf = to_size(buffer, 4);
-        
-        size_t cur_buf = 0;
-        while (cur_buf < size_buf) {
-            uint16_t len = to_uint16(buffer, cur_buf + ALDER_KMER_BINARY_READBLOCK_BODY);
-            cur_buf += sizeof(len);
-            int e_counter = 0;
-            uint8_t e_byte = 0;
-            for (uint16_t j = 0; j < len; j++) {
-                
-                if (e_counter == 4) {
-                    e_counter = 0;
-                    cur_buf++;
-                }
-                if (e_counter == 0) {
-                    e_byte = buffer[cur_buf + ALDER_KMER_BINARY_READBLOCK_BODY];
-                }
-                e_counter++;
-                
-                int a = (e_byte >> (8 - 2*e_counter)) & 3;
-                char c = alder_dna_int2char(a);
-                putc(c, stdout);
-            }
-            cur_buf++;
-            putc('\n', stdout);
-        }
-        //
-        ///////////////////////////////////////////////////////////////////////
-        
-        total_read = total_size - left_to_read;
-        alder_progress_step((unsigned long) total_read,
-                            (unsigned long) total_size, 0);
-    }
-    assert (left_to_read == 0);
-    
-    close(fd);
-    free(buffer);
-    time_t end = time(NULL);
-    double elapsed = difftime(end, start);
-    return elapsed;
-    return 0;
-}
-
 struct alder_kmer_binary_stream_struct {
     size_t len_buf;
     uint8_t *buf;
@@ -242,11 +166,11 @@ static int int2char[6] = { 'A', 'C', 'T', 'G', '\n', '\n' };
  *  @return SUCCESS or FAIL
  */
 int
-alder_kmer_uncompress2(int progress_flag,
-                       struct bstrList *infile,
-                       unsigned int outfile_given,
-                       const char *outdir,
-                       const char *outfile)
+alder_kmer_uncompress(int progress_flag,
+                      struct bstrList *infile,
+                      unsigned int outfile_given,
+                      const char *outdir,
+                      const char *outfile)
 {
     size_t size_buf = 1 << 16;
     uint8_t *buffer = malloc(size_buf);
@@ -317,41 +241,6 @@ alder_kmer_uncompress2(int progress_flag,
                 break;
             }
         }
-        
-        
-//        size_t total_size = 0;
-//        alder_file_size(bdata(infile->entry[i]), &total_size);
-//        
-//        ssize_t left_to_read = (ssize_t) total_size;
-//        size_t count = size_buf;
-//        while (left_to_read > 0) {
-//            if (left_to_read < count) {
-//                count = left_to_read;
-//            }
-//            ssize_t read_len = read(fd, buffer, count);
-//            /* An error occurred; bail. */
-//            if (read_len == -1) {
-//                alder_loge(ALDER_ERR_FILE, "failed to read %s",
-//                           bdata(infile->entry[i]));
-//                bdestroy(boutfile);
-//                XFREE(buffer);
-//                return ALDER_STATUS_ERROR;
-//            } else  {
-//                /* Keep count of how much more we need to write. */
-//                left_to_read -= read_len;
-//            }
-//            
-//            int token = -1;
-//            alder_kmer_binary_stream_t bs;
-//            alder_kmer_binary_buffer_open(&bs, buffer, read_len);
-//            while (token < 5) {
-//                token = alder_kmer_binary_buffer_read(&bs, NULL);
-//                char c = int2char[token];
-//                write(ofd, &c, 1);
-////                putc(int2char[token], stdout);
-//            }
-//        }
-//        assert (left_to_read == 0);
         
         if (i >= 0) {
             close(fd);

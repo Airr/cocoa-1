@@ -150,18 +150,14 @@ void alder_kmer_inspect(struct bstrList *infile,
                         const char *outdir,
                         const char *outfile)
 {
-    int s;
     // Read files test.
     bstring bfn = bformat("%s/%s.ins", outdir, outfile);
-//    size_t s = alder_file_io_best_write_buffer_size(bdata(bfn));
-//    printf("Write buffer size in log2: %zu\n", s);
     
     size_t write_log2size = 0;
     size_t read_log2size = 0;
-    
-    s = alder_file_io_best_buffer_size(bdata(bfn),
-                                       &write_log2size,
-                                       &read_log2size);
+    alder_file_io_best_buffer_size(bdata(bfn),
+                                   &write_log2size,
+                                   &read_log2size);
     
     if (write_log2size < read_log2size) {
         read_log2size = write_log2size;
@@ -171,3 +167,4 @@ void alder_kmer_inspect(struct bstrList *infile,
     
     bdestroy(bfn);
 }
+

@@ -1,5 +1,5 @@
 /**
- * This file, alder_kmer_thread3.h, is part of alder-kmer.
+ * This file, alder_kmer_thread7.h, is part of alder-kmer.
  *
  * Copyright 2014 by Sang Chul Choi
  *
@@ -17,8 +17,8 @@
  * along with alder-kmer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef alder_kmer_alder_kmer_thread3_h
-#define alder_kmer_alder_kmer_thread3_h
+#ifndef alder_kmer_alder_kmer_thread7_h
+#define alder_kmer_alder_kmer_thread7_h
 
 #include <stdint.h>
 #include "bstrlib.h"
@@ -37,23 +37,14 @@
 
 __BEGIN_DECLS
 
-enum {
-    ALDER_KMER_COUNTER3_READER_UNLOCK      = 9,
-    ALDER_KMER_COUNTER3_READER_LOCK        = 10,
-    ALDER_KMER_COUNTER3_READER_RELEASE     = 11,
-    ALDER_KMER_COUNTER3_WRITER_UNLOCK      = 12,
-    ALDER_KMER_COUNTER3_WRITER_LOCK        = 13,
-    ALDER_KMER_COUNTER3_WRITER_RELEASE     = 14
-};
-
 #pragma mark struct
 
-typedef struct alder_kmer_thread3_struct
-alder_kmer_thread3_t;
+typedef struct alder_kmer_thread7_struct
+alder_kmer_thread7_t;
 
 /* Readwriter thread accesses this type.
  */
-struct alder_kmer_thread3_struct {
+struct alder_kmer_thread7_struct {
     /* info */
     int k;                       /* k - kmer size                            */
     int b;                       /* b - bytes for the kmer size              */
@@ -63,19 +54,17 @@ struct alder_kmer_thread3_struct {
     int n_counter;               /* n_counter - number of counter threads    */
     
     /* reader */
-    uint8_t **next_inbuf;        /* inbuf - input buffer                     */
+    size_t next_lenbuf;
+    uint8_t *next_inbuf;         /* inbuf - input buffer                     */
+    size_t reader_lenbuf;
+    int reader_i_parfile;
     
-    size_t *next_lenbuf;
-    size_t *reader_lenbuf;
-    int *reader_i_parfile;
-    
+    /* buffer */
     size_t size_readbuffer;      /* buffer size for writing table            */
     size_t size_writebuffer;     /* buffer size for writing table            */
     
-    /* buffer */
     size_t size_subinbuf;        /* size of each divided buffer              */
     size_t size_inbuf;           /* size_inbuf - size of the input buffer    */
-    size_t n_subbuf;             /* number of divided buffers in inbuf       */
     uint8_t *inbuf;              /* inbuf - input buffer                     */
     int *n_blockByReader;        /* [n_np] input buffer blocks               */
     int *n_blockByCounter;       /* [n_np] input buffer blocks               */
@@ -90,31 +79,30 @@ struct alder_kmer_thread3_struct {
     FILE *fpout;                 /* (not own) count table output file pointer*/
     bstring boutfile;            /* outfile name                             */
     bstring boutdir;             /* out directory                            */
-    
-    FILE **fpin;                 /* partition input file pointer             */
+    FILE *fpin;                  /* partition input file pointer             */
     
     /* stat */
-    size_t *n_i_byte; 
+    size_t *n_t_byte;          /* number of bytes for each turn of partition */
+    size_t *n_i_byte;          /* number of bytes in each iteration          */
+    size_t *n_i_kmer;          /* number of kmer in each iteration           */
     size_t n_byte;
     size_t n_kmer;
     size_t n_hash;
+    size_t n_total_kmer;       /* total number of kmers to be processed      */
+    size_t n_current_kmer;     /* number of kmers processed so far           */
+    
     size_t totalFilesize;      /* total file size                            */
     int progress_flag;         /* flag for progress bar                      */
     int progressToError_flag;  /* flag for progress bar                      */
-    int nopack_flag;           /* flag for no pack operation                 */
     
     /* flag */
     bool isMultithreaded;      /* are there other counters?                  */
     int status;                /* status of counter's buffers                */
 };
 
-void alder_kmer_counter3_lock_reader(alder_kmer_thread3_t *a);
-void alder_kmer_counter3_unlock_reader(alder_kmer_thread3_t *a);
-void alder_kmer_counter3_lock_writer(alder_kmer_thread3_t *a, uint64_t i_np);
-void alder_kmer_counter3_unlock_writer(alder_kmer_thread3_t *a);
-void alder_kmer_counter3_increment_n_block(alder_kmer_thread3_t *a, uint64_t i_np);
+void alder_kmer_thread7_increment_n_block(alder_kmer_thread7_t *a, uint64_t i_np);
 
 __END_DECLS
 
 
-#endif /* alder_kmer_alder_kmer_thread3_h */
+#endif /* alder_kmer_alder_kmer_thread7_h */

@@ -58,6 +58,9 @@ alder_kmer_encode2(int n_thread,
                    uint64_t n_partition,
                    size_t totalfilesize,
                    size_t *n_byte,
+                   size_t *n_kmer,
+                   size_t n_total_kmer,
+                   size_t *n_current_kmer,
                    int progress_flag,
                    int progressToError_flag,
                    unsigned int binfile_given,
@@ -65,9 +68,8 @@ alder_kmer_encode2(int n_thread,
                    const char *outdir,
                    const char *outfile);
 
-
 int
-alder_kmer_encode3(int n_thread,
+alder_kmer_encode7(int n_thread,
                    int i_iteration,
                    int kmer_size,
                    long disk_space,
@@ -78,6 +80,9 @@ alder_kmer_encode3(int n_thread,
                    uint64_t n_partition,
                    size_t totalfilesize,
                    size_t *n_byte,
+                   size_t *n_kmer,
+                   size_t n_total_kmer,
+                   size_t *n_current_kmer,
                    int progress_flag,
                    int progressToError_flag,
                    unsigned int binfile_given,
@@ -85,44 +90,6 @@ alder_kmer_encode3(int n_thread,
                    const char *outdir,
                    const char *outfile);
 
-
-int
-alder_kmer_encode4(int n_thread,
-                   int i_iteration,
-                   int kmer_size,
-                   long disk_space,
-                   long memory_available,
-                   long sizeInbuffer,
-                   long sizeOutbuffer,
-                   uint64_t n_iteration,
-                   uint64_t n_partition,
-                   size_t totalfilesize,
-                   size_t *n_byte,
-                   int progress_flag,
-                   int progressToError_flag,
-                   unsigned int binfile_given,
-                   struct bstrList *infile,
-                   const char *outdir,
-                   const char *outfile);
-
-int
-alder_kmer_encode5(int n_thread,
-                   int i_iteration,
-                   int kmer_size,
-                   long disk_space,
-                   long memory_available,
-                   long sizeInbuffer,
-                   long sizeOutbuffer,
-                   uint64_t n_iteration,
-                   uint64_t n_partition,
-                   size_t totalfilesize,
-                   size_t *n_byte,
-                   int progress_flag,
-                   int progressToError_flag,
-                   unsigned int binfile_given,
-                   struct bstrList *infile,
-                   const char *outdir,
-                   const char *outfile);
 __END_DECLS
 
 

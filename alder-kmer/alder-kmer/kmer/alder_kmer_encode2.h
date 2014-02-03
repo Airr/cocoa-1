@@ -1,7 +1,7 @@
 /**
  * This file, alder_kmer_encode2.h, is part of alder-kmer.
  *
- * Copyright 2014 by Sang Chul Choi
+ * Copyright 2013,2014 by Sang Chul Choi
  *
  * alder-kmer is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -85,9 +85,12 @@ struct alder_kmer_encoder2_struct {
     uint64_t n_t_byte_not_last;/* number of bytes for encoders not last      */
     uint64_t n_t_byte_last;    /* number of bytes for the last encoders      */
     uint64_t *n_i_byte;        /* [n_encoder] number of bytes sent           */
+    uint64_t *n_i_kmer;        /* [n_encoder] number of kmers                */
     uint64_t n_byte;           /* number of bytes sent                       */
     uint64_t n_kmer;           /* number of Kmers written to an out file     */
     uint64_t n_letter;         /* number of DNA letters processed            */
+    uint64_t n_total_kmer;     /* total number of kmers need to processed    */
+    uint64_t n_current_kmer;   /* current number of kmers processed          */
     
     /* flag */
     int status;                /* status of encoder's buffers                */

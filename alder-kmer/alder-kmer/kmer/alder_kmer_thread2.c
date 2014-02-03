@@ -84,13 +84,16 @@
 
 static int counter_id_counter = 0;
 
+#define ALDER_KMER_COUNTER2_NO_INPUT  2
+#define ALDER_KMER_COUNTER2_ONE_INPUT 3
+
 
 #define ALDER_KMER_COUNTER2_INBUFFER_I_NP        1
 #define ALDER_KMER_COUNTER2_INBUFFER_LENGTH      9
 #define ALDER_KMER_COUNTER2_INBUFFER_BODY        17
 
 
-static void compute_offset_parfile(size_t *offset_parfile, const char *fn, alder_kmer_thread2_t *o, int counter_id);
+static int compute_offset_parfile(size_t *offset_parfile, const char *fn, alder_kmer_thread2_t *o, int counter_id);
 static void *counter(void *t);
 
 /**
@@ -142,19 +145,19 @@ compute_number_block(alder_kmer_thread2_t *o, uint64_t i_np)
     /* Compute the number of buffer blocks in the file. */
     size_t file_size = 0;
     alder_file_size(bdata(bfpar), &file_size);
+    
 //    assert(file_size % o->size_readbuffer == 0);
-    size_t n_block = ALDER_BYTESIZE_KMER(file_size,o->size_readbuffer);
-    size_t n_i_block = ALDER_BYTESIZE_KMER(n_block,o->n_counter);
-//    size_t offset_parfile = i * n_i_block * o->size_readbuffer;
-    o->n_t_byte_not_last = n_i_block * o->size_readbuffer;
-    o->n_t_byte_last = (n_block - n_i_block * (o->n_counter - 1)) * o->size_readbuffer;
-    alder_log("binfile size: %zu", file_size);
-    alder_log("n block:      %zu", n_block);
-    alder_log("n_i_block:    %zu", n_i_block);
-    for (int i = 0; i < o->n_counter; i++) {
-        size_t offset_binfile = i * n_i_block * o->size_readbuffer;
-        alder_log("offset (%d): %zu", i, offset_binfile);
-    }
+//    size_t n_block = ALDER_BYTESIZE_KMER(file_size,o->size_readbuffer);
+//    size_t n_i_block = ALDER_BYTESIZE_KMER(n_block,o->n_counter);
+//    o->n_t_byte_not_last = n_i_block * o->size_readbuffer;
+//    o->n_t_byte_last = file_size - (n_i_block * (o->n_counter - 1)) * o->size_readbuffer;
+//    alder_log3("parfile size: %zu", file_size);
+//    alder_log3("n block:      %zu", n_block);
+//    alder_log3("n_i_block:    %zu", n_i_block);
+//    for (int i = 0; i < o->n_counter; i++) {
+//        size_t offset_binfile = i * n_i_block * o->size_readbuffer;
+//        alder_log3("offset (%d): %zu", i, offset_binfile);
+//    }
     
     o->n_blockByReader[i_np] = (int)ALDER_BYTESIZE_KMER(file_size,o->size_readbuffer);
     bdestroy(bfpar);
@@ -168,27 +171,34 @@ compute_number_block(alder_kmer_thread2_t *o, uint64_t i_np)
  *
  *  @return SUCCESS or FAIL
  */
-static int
-compute_parfilesize_first(alder_kmer_thread2_t *o)
-{
-    o->totalFilesize = 0;
-    for (int i_np = 0; i_np < o->n_np; i_np++) {
-        bstring bfpar = filename_partition(o, i_np);
-        if (bfpar == NULL) {
-            return ALDER_STATUS_ERROR;
-        }
-        /* Compute the number of buffer blocks in the file. */
-        size_t file_size = 0;
-        if (o->n_counter == 1) {
-            alder_file_size(bdata(bfpar), &file_size);
-        } else {
-            compute_offset_parfile(&file_size, bdata(bfpar), o, 1);
-        }
-        o->totalFilesize += file_size;
-        bdestroy(bfpar);
-    }
-    return ALDER_STATUS_SUCCESS;
-}
+//static int
+//compute_parfilesize_first(alder_kmer_thread2_t *o)
+//{
+//    int s;
+//    o->totalFilesize = 0;
+//    for (int i_np = 0; i_np < o->n_np; i_np++) {
+//        bstring bfpar = filename_partition(o, i_np);
+//        if (bfpar == NULL) {
+//            return ALDER_STATUS_ERROR;
+//        }
+//        /* Compute the number of buffer blocks in the file. */
+//        size_t file_size = 0;
+//        if (o->n_counter == 1) {
+//            alder_file_size(bdata(bfpar), &file_size);
+//        } else {
+//            s = compute_offset_parfile(&file_size, bdata(bfpar), o, 1);
+//            if (s != ALDER_STATUS_SUCCESS) {
+//                alder_loge(ALDER_ERR, "failed to compute parfile: %s",
+//                           bdata(bfpar));
+//                bdestroy(bfpar);
+//                return s;
+//            }
+//        }
+//        o->totalFilesize += file_size;
+//        bdestroy(bfpar);
+//    }
+//    return ALDER_STATUS_SUCCESS;
+//}
 
 
 
@@ -211,6 +221,7 @@ alder_kmer_thread2_destroy(alder_kmer_thread2_t *o)
         XFREE(o->n_blockByCounter);
         XFREE(o->next_lenbuf);
         XFREE(o->n_i_byte);
+        XFREE(o->n_t_byte);
         XFREE(o->reader_i_parfile);
         XFREE(o->reader_lenbuf);
         bdestroy(o->boutdir);
@@ -232,6 +243,8 @@ alder_kmer_thread2_create(FILE *fpout,
                           size_t n_nh,
                           size_t totalfilesize,
                           size_t n_byte,
+                          size_t n_total_kmer,
+                          size_t n_current_kmer,
                           int progress_flag,
                           int progressToError_flag,
                           int nopack_flag,
@@ -264,7 +277,6 @@ alder_kmer_thread2_create(FILE *fpout,
     o->reader_i_parfile = NULL;
     o->size_subinbuf = ALDER_KMER_COUNTER2_INBUFFER_BODY + o->size_readbuffer + o->b;
     o->size_inbuf = o->size_subinbuf * n_counter;
-    o->n_subbuf = n_counter;
     o->inbuf = NULL;
     o->n_blockByReader = NULL;
     o->n_blockByCounter = NULL;
@@ -279,10 +291,14 @@ alder_kmer_thread2_create(FILE *fpout,
     o->boutfile = NULL;
     o->boutdir = NULL;
     o->fpin = NULL;
+    o->n_t_byte = NULL;
     o->n_i_byte = NULL;
+    o->n_i_kmer = NULL;
     o->n_byte = n_byte;
     o->n_kmer = 0;
     o->n_hash = 0;
+    o->n_total_kmer = n_total_kmer;
+    o->n_current_kmer = n_current_kmer;
     o->totalFilesize = totalfilesize;
     o->progress_flag = progress_flag;
     o->progressToError_flag = progressToError_flag;
@@ -290,23 +306,23 @@ alder_kmer_thread2_create(FILE *fpout,
     o->isMultithreaded = (n_counter > 1);
     o->status = 0;
     
-    
-    
     /* memory */
     o->boutfile = bfromcstr(outfile);
     o->boutdir = bfromcstr(outdir);
     o->fpin = malloc(sizeof(*o->fpin) * n_counter);
+    o->n_t_byte = malloc(sizeof(*o->n_t_byte) * n_counter);
     o->n_i_byte = malloc(sizeof(*o->n_i_byte) * n_counter);
+    o->n_i_kmer = malloc(sizeof(*o->n_i_kmer) * n_counter);
     o->next_lenbuf = malloc(sizeof(*o->next_lenbuf) * n_counter);
     o->reader_lenbuf = malloc(sizeof(*o->reader_lenbuf) * n_counter);
     o->reader_i_parfile = malloc(sizeof(*o->reader_i_parfile) * n_counter);
-    o->n_blockByReader = malloc(sizeof(*o->n_blockByReader) * n_np);
-    o->n_blockByCounter = malloc(sizeof(*o->n_blockByCounter) * n_np);
+    o->n_blockByReader = malloc(sizeof(*o->n_blockByReader) * (n_np+1));
+    o->n_blockByCounter = malloc(sizeof(*o->n_blockByCounter) * (n_np+1));
     o->inbuf = malloc(sizeof(*o->inbuf) * o->size_inbuf); /* bigmem */
     o->next_inbuf = malloc(sizeof(*o->next_inbuf) * n_counter);// o->b);
     o->ht = malloc(sizeof(*o->ht) * o->n_ht);
     if (o->boutfile == NULL || o->boutdir == NULL ||
-        o->n_i_byte == NULL ||
+        o->n_i_kmer == NULL || o->n_i_byte == NULL || o->n_t_byte == NULL ||
         o->next_lenbuf == NULL || o->fpin == NULL ||
         o->reader_lenbuf == NULL || o->reader_i_parfile == NULL ||
         o->n_blockByReader == NULL || o->n_blockByCounter == NULL ||
@@ -314,13 +330,15 @@ alder_kmer_thread2_create(FILE *fpout,
         alder_kmer_thread2_destroy(o);
         return NULL;
     }
-    memset(o->fpin, 0, sizeof(o->fpin) * n_counter);
-    memset(o->n_i_byte, 0, sizeof(o->n_i_byte) * n_counter);
-    memset(o->next_lenbuf, 0, sizeof(o->next_lenbuf) * n_counter);
-    memset(o->reader_lenbuf, 0, sizeof(o->reader_lenbuf) * n_counter);
-    memset(o->reader_i_parfile, 0, sizeof(o->reader_i_parfile) * n_counter);
-    memset(o->n_blockByReader, 0, sizeof(*o->n_blockByReader) * n_np);
-    memset(o->n_blockByCounter, 0, sizeof(*o->n_blockByCounter) * n_np);
+    memset(o->fpin, 0, sizeof(*o->fpin) * n_counter);
+    memset(o->n_t_byte, 0, sizeof(*o->n_t_byte) * n_counter);
+    memset(o->n_i_byte, 0, sizeof(*o->n_i_byte) * n_counter);
+    memset(o->n_i_kmer, 0, sizeof(*o->n_i_kmer) * n_counter);
+    memset(o->next_lenbuf, 0, sizeof(*o->next_lenbuf) * n_counter);
+    memset(o->reader_lenbuf, 0, sizeof(*o->reader_lenbuf) * n_counter);
+    memset(o->reader_i_parfile, 0, sizeof(*o->reader_i_parfile) * n_counter);
+    memset(o->n_blockByReader, 0, sizeof(*o->n_blockByReader) * (n_np+1));
+    memset(o->n_blockByCounter, 0, sizeof(*o->n_blockByCounter) * (n_np+1));
     memset(o->inbuf,0,sizeof(*o->inbuf) * o->size_inbuf);
     memset(o->next_inbuf,0,sizeof(*o->next_inbuf) * n_counter); // * o->b);
     memset(o->ht,0,sizeof(*o->ht) * o->n_ht);
@@ -341,14 +359,16 @@ alder_kmer_thread2_create(FILE *fpout,
     }
     
     /* Compute the number of input buffer blocks. */
+    o->n_blockByReader[n_np] = 0;
     for (uint64_t i_np = 0; i_np < o->n_np; i_np++) {
         int s = compute_number_block(o, i_np);
         if (s != ALDER_STATUS_SUCCESS) {
             alder_loge(ALDER_ERR_THREAD,
                        "faild to open a partition file");
         }
+        o->n_blockByReader[n_np] += o->n_blockByReader[i_np];
     }
-    compute_parfilesize_first(o);
+//    compute_parfilesize_first(o);
     
     alder_log5("Finish - Creating alder_kmer_kmerrw_t...");
     return o;
@@ -360,18 +380,57 @@ static int close_parfile (alder_kmer_thread2_t *o, int counter_id)
 {
     assert(o != NULL);
     XFCLOSE(o->fpin[counter_id]);
+//    alder_file_rm();
+    
+    
+    
     return ALDER_STATUS_SUCCESS;
 }
 
-static void compute_offset_parfile(size_t *offset_parfile, const char *fn, alder_kmer_thread2_t *o, int counter_id)
+/**
+ *  This function find the offset in a partition file for each counter.
+ *
+ *  @param offset_parfile [return] offset
+ *  @param fn             partition file name
+ *  @param o              counter
+ *  @param counter_id     counter id
+ *
+ *  @return SUCCESS if each counter has input.
+ *          ALDER_KMER_COUNTER2_NO_INPUT if parfile is zero.
+ *          ALDER_KMER_COUNTER2_ONE_INPUT if only one counter will have input.
+ */
+static int compute_offset_parfile(size_t *offset_parfile, const char *fn, alder_kmer_thread2_t *o, int counter_id)
 {
     // Find the offset, and move the file pointer to the offset.
+    int s = ALDER_STATUS_SUCCESS;
     size_t parfilesize = 0;
     alder_file_size(fn, &parfilesize);
-//    assert(parfilesize % o->size_readbuffer == 0);
     size_t n_block = ALDER_BYTESIZE_KMER(parfilesize,o->size_readbuffer);
-    size_t n_i_block = ALDER_BYTESIZE_KMER(n_block,o->n_counter);
-    *offset_parfile = counter_id * n_i_block * o->size_readbuffer;
+    size_t n_i_block = n_block / o->n_counter;  // ALDER_BYTESIZE_KMER(n_block,o->n_counter);
+//    if (n_i_block == 0) {
+//        alder_loge(ALDER_ERR, "Too small data; use larger data or use a single thread");
+//        return ALDER_STATUS_ERROR;
+//    }
+    
+    o->n_t_byte_not_last = n_i_block * o->size_readbuffer;
+    o->n_t_byte_last = parfilesize - (n_i_block * (o->n_counter - 1)) * o->size_readbuffer;
+    
+    if (n_i_block > 0) {
+        assert(parfilesize > (n_i_block * (o->n_counter - 1)) * o->size_readbuffer);
+        *offset_parfile = counter_id * n_i_block * o->size_readbuffer;
+        s = ALDER_STATUS_SUCCESS;
+    } else if (parfilesize == 0) {
+        assert(o->n_t_byte_not_last == 0);
+        assert(o->n_t_byte_last == 0);
+        *offset_parfile = SIZE_T_MAX;
+        s = ALDER_KMER_COUNTER2_NO_INPUT;
+    } else {
+        assert(o->n_t_byte_not_last == 0);
+        assert(o->n_t_byte_last > 0);
+        *offset_parfile = 0;
+        s = ALDER_KMER_COUNTER2_ONE_INPUT;
+    }
+    return s;
 }
 
 /**
@@ -381,7 +440,7 @@ static void compute_offset_parfile(size_t *offset_parfile, const char *fn, alder
  *  @param o    counter
  *  @param i_np partition index
  *
- *  @return SUCCESS or FAIL
+ *  @return SUCCESS or FAIL or ALDER_KMER_COUNTER2_NOINPUT (2)
  */
 static int
 open_parfile(alder_kmer_thread2_t *o, int counter_id)
@@ -395,22 +454,41 @@ open_parfile(alder_kmer_thread2_t *o, int counter_id)
     
     /* Open a file */
     assert(o->fpin[counter_id] == NULL);
-    alder_log2("reader(): openning a partition file %s", bdata(bfpar));
+    alder_log3("reader(): openning a partition file %s", bdata(bfpar));
     o->fpin[counter_id] = fopen(bdata(bfpar), "rb");
-    fcntl(fileno(o->fpin[counter_id]), F_RDAHEAD, 1); // FIXME: profile it.
+//    fcntl(fileno(o->fpin[counter_id]), F_RDAHEAD, 1); // FIXME: profile it.
     if (o->fpin[counter_id] == NULL) {
-        alder_loge(ALDER_ERR_FILE, "cannot open the input file %s - %s",
+        alder_loge(ALDER_ERR_FILE, "failed to open the input file %s - %s",
                    bdata(bfpar), strerror(errno));
         bdestroy(bfpar);
         return ALDER_STATUS_ERROR;
     }
     /* Find the offset and move to the offset. */
     size_t offset_parfile = 0;
-    compute_offset_parfile(&offset_parfile, bdata(bfpar), o, counter_id);
-    lseek(fileno(o->fpin[counter_id]), (off_t)offset_parfile, SEEK_SET);
-    
+    int s = compute_offset_parfile(&offset_parfile, bdata(bfpar), o, counter_id);
+//    if (s != ALDER_STATUS_SUCCESS) {
+//        alder_loge(ALDER_ERR, "failed to open parfile: %s",
+//                   bdata(bfpar));
+//        bdestroy(bfpar);
+//        return s;
+//    }
+    if (s == ALDER_STATUS_SUCCESS) {
+        lseek(fileno(o->fpin[counter_id]), (off_t)offset_parfile, SEEK_SET);
+    } else if (s == ALDER_KMER_COUNTER2_NO_INPUT) {
+        assert(offset_parfile == SIZE_T_MAX);
+        // No code.
+    } else if (s == ALDER_KMER_COUNTER2_ONE_INPUT && counter_id == o->n_counter - 1) {
+        assert(offset_parfile == 0);
+        lseek(fileno(o->fpin[counter_id]), (off_t)offset_parfile, SEEK_SET);
+    } else if (s == ALDER_KMER_COUNTER2_ONE_INPUT && counter_id < o->n_counter - 1) {
+        assert(offset_parfile == 0);
+        // No code.
+    } else {
+        assert(0);
+        abort();
+    }
     bdestroy(bfpar);
-    return ALDER_STATUS_SUCCESS;
+    return s;
 }
 
 
@@ -453,7 +531,10 @@ int alder_kmer_count_iteration2(FILE *fpout,
                                 size_t n_nh,
                                 size_t totalfilesize,
                                 size_t *n_byte,
+                                size_t *n_kmer,
                                 size_t *n_hash,
+                                size_t n_total_kmer,
+                                size_t *n_current_kmer,
                                 int progress_flag,
                                 int progressToError_flag,
                                 int nopack_flag,
@@ -483,6 +564,8 @@ int alder_kmer_count_iteration2(FILE *fpout,
                                                            n_nh,
                                                            totalfilesize,
                                                            *n_byte,
+                                                           n_total_kmer,
+                                                           *n_current_kmer,
                                                            progress_flag,
                                                            progressToError_flag,
                                                            nopack_flag,
@@ -529,16 +612,25 @@ int alder_kmer_count_iteration2(FILE *fpout,
     }
     
 cleanup:
-    *n_byte = data->n_byte;
-    *n_hash = data->n_hash;
+    
     /* Cleanup */
     pthread_attr_destroy(&attr);
     XFREE(threads);
     
+    data->n_byte  = 0;
     for (int i = 0; i < n_counter; i++) {
         data->n_byte += data->n_i_byte[i];
     }
-    *n_byte = data->n_byte;
+    data->n_kmer = 0;
+    for (int i = 0; i < n_counter; i++) {
+        data->n_kmer += data->n_i_kmer[i];
+    }
+    alder_log2("counter()[%d] Kmers: %zu", i_ni, data->n_kmer);
+    alder_log2("counter()[%d) Bytes: %zu", i_ni, data->n_byte);
+    *n_byte += data->n_byte;
+    *n_kmer += data->n_kmer;
+    *n_hash = data->n_hash;
+    *n_current_kmer += data->n_kmer;
     alder_kmer_thread2_destroy(data);
     alder_log5("Counting Kmers has been finished with %d threads.", n_thread);
     return 0;
@@ -606,7 +698,16 @@ write_tabfile(alder_kmer_thread2_t *a, size_t c_table, uint64_t i_np)
     
     /* Change the main i_np; all of the waiting threads will restart. */
     a->main_i_np++;
-    alder_log2("main_i_np++: %zu", a->main_i_np);
+    alder_log3("main_i_np++: %zu", a->main_i_np);
+    
+    if (a->progress_flag) {
+        size_t c = a->n_current_kmer;
+        for (int i = 0; i < a->n_counter; i++) {
+            c += a->n_i_kmer[i];
+        }
+        alder_progress_step(c, a->n_total_kmer, a->progressToError_flag);
+    }
+    
     return a->n_ht;
 }
 
@@ -616,14 +717,14 @@ write_tabfile(alder_kmer_thread2_t *a, size_t c_table, uint64_t i_np)
  *  @param a          counter
  *  @param counter_id counter id
  *
- *  @return counter_id
+ *  @return counter_id if there is more to read in a partition, otherise 
+ *          n_counter
  */
 static __attribute__ ((noinline)) int
-read_parfile(alder_kmer_thread2_t *a, int counter_id)
+read_parfile(alder_kmer_thread2_t *a, int counter_id, int is_last_read)
 {
     int s;
     //    alder_kmer_counter4_lock_reader(a);
-    size_t c_inbuffer = counter_id;
     
     if (a->reader_lenbuf[counter_id] == 0) {
         if (a->reader_i_parfile[counter_id] > 0) {
@@ -631,19 +732,28 @@ read_parfile(alder_kmer_thread2_t *a, int counter_id)
         }
         if (a->reader_i_parfile[counter_id] < a->n_np) {
             s = open_parfile(a, counter_id);
-            assert(s == ALDER_STATUS_SUCCESS);
+            assert(s != ALDER_STATUS_ERROR);
             a->reader_i_parfile[counter_id]++;
+            
+            if ((s == ALDER_KMER_COUNTER2_NO_INPUT) ||
+                       (s == ALDER_KMER_COUNTER2_ONE_INPUT && counter_id < a->n_counter - 1)) {
+                uint8_t *inbuf = a->inbuf + counter_id * a->size_subinbuf;
+                to_uint64(inbuf,ALDER_KMER_COUNTER2_INBUFFER_I_NP) = a->reader_i_parfile[counter_id] - 1;
+                to_size(inbuf,ALDER_KMER_COUNTER2_INBUFFER_LENGTH) = 0;
+                a->reader_lenbuf[counter_id] = 0;
+                return a->n_counter;
+            }
         } else {
             // No more input file to read.
             //            alder_kmer_counter4_unlock_reader(a);
-            return (int)a->n_subbuf;
+            return a->n_counter;
         }
     }
     
     /* Read a block of input buffer. */
     ssize_t lenbuf = 0;
     // goshngbuffer
-    uint8_t *inbuf = a->inbuf + c_inbuffer * a->size_subinbuf;
+    uint8_t *inbuf = a->inbuf + counter_id * a->size_subinbuf;
     uint8_t *inbuf_body = inbuf + ALDER_KMER_COUNTER2_INBUFFER_BODY;
     size_t cur_next_lenbuf = a->next_lenbuf[counter_id];
     if (a->next_lenbuf[counter_id] > 0) {
@@ -659,6 +769,9 @@ read_parfile(alder_kmer_thread2_t *a, int counter_id)
                inbuf_body + lenbuf - a->next_lenbuf[counter_id],
                a->next_lenbuf[counter_id]);
         a->reader_lenbuf[counter_id] = cur_next_lenbuf + lenbuf - a->next_lenbuf[counter_id];
+    } else if (lenbuf > 0 && a->b == 1) {
+        a->next_lenbuf[counter_id] = 0;
+        a->reader_lenbuf[counter_id] = lenbuf;
     } else if (lenbuf == 0) {
         assert(cur_next_lenbuf == 0);
         a->reader_lenbuf[counter_id] = lenbuf;
@@ -675,14 +788,23 @@ read_parfile(alder_kmer_thread2_t *a, int counter_id)
     assert(a->reader_lenbuf[counter_id] % a->b == 0);
     
     /* Progress */
-    a->n_i_byte[counter_id] += lenbuf;
-    if (counter_id == 0) {
-        if (a->progress_flag) {
-            alder_progress_step(a->n_i_byte[counter_id], a->totalFilesize,
-                                a->progressToError_flag);
+    a->n_t_byte[counter_id] += lenbuf;
+    if (counter_id < a->n_counter - 1) {
+        // No the last one
+        if (a->n_t_byte[counter_id] == a->n_t_byte_not_last) {
+            // The last read.
+            a->n_i_byte[counter_id] += a->n_t_byte[counter_id];
+            a->n_t_byte[counter_id] = 0;
+            return a->n_counter;
+        }
+    } else {
+        if (a->n_t_byte[counter_id] == a->n_t_byte_last) {
+            // The last read.
+            a->n_i_byte[counter_id] += a->n_t_byte[counter_id];
+            a->n_t_byte[counter_id] = 0;
+            return a->n_counter;
         }
     }
-    
     return counter_id;
 }
 
@@ -699,7 +821,7 @@ static void *counter(void *t)
     int s = ALDER_STATUS_SUCCESS;
     alder_kmer_thread2_t *a = (alder_kmer_thread2_t*)t;
     assert(a != NULL);
-    alder_log("counter(%d)[%llu]: START", counter_id, a->i_ni);
+    alder_log2("counter(%d)[%llu]: START", counter_id, a->i_ni);
     
     /* Numbers for decoding kmers. */
     alder_encode_number_t *m = alder_encode_number_create_for_kmer(a->k);
@@ -713,12 +835,12 @@ static void *counter(void *t)
     size_t ib = m2->b / 8;
     size_t jb = m2->b % 8;
     
-    size_t debug_counter = 0;
+//    size_t debug_counter = 0;
     
     /* Let's read inputs, and skip writing table files. */
-    size_t c_inbuffer = a->n_subbuf;
     size_t c_table = a->n_ht;
     uint64_t i_np = a->n_np;
+    int is_last_read = 0;
     while (1) {
         
         ///////////////////////////////////////////////////////////////////////
@@ -729,7 +851,7 @@ static void *counter(void *t)
         }
         
         /* Check if this is the final. */
-        if (a->n_blockByReader[a->n_np-1] == a->n_blockByCounter[a->n_np-1]) {
+        if (a->n_blockByReader[a->n_np] == a->n_blockByCounter[a->n_np]) {
             /* Exit! */
             break;
         }
@@ -737,29 +859,29 @@ static void *counter(void *t)
         ///////////////////////////////////////////////////////////////////////
         // Reader
         ///////////////////////////////////////////////////////////////////////
-        c_inbuffer = read_parfile(a, counter_id);
-        if (c_inbuffer == a->n_subbuf) {
-            /* Exit! */
-            //            assert(a->n_blockByReader[a->n_np-1] == a->n_blockByCounter[a->n_np-1]);
+        // Block if this is the last thread.
+        while (is_last_read == 1 && a->main_i_np == i_np) {
+//            sleep(1);
+            asm("");
+        }
+        if (is_last_read == 1 && a->main_i_np == a->n_np) {
             break;
+        }
+        int w_counter = read_parfile(a, counter_id, is_last_read);
+        if (w_counter == a->n_counter) {
+            is_last_read = 1;
+        } else {
+            is_last_read = 0;
         }
         
         ///////////////////////////////////////////////////////////////////////
         // Counter
         ///////////////////////////////////////////////////////////////////////
-        assert(c_inbuffer < a->n_subbuf);
-        assert(c_inbuffer == counter_id);
         assert(c_table == a->n_ht);
         
         /* setup of inbuf */
-        uint8_t *inbuf = a->inbuf + c_inbuffer * a->size_subinbuf;
+        uint8_t *inbuf = a->inbuf + counter_id * a->size_subinbuf;
         i_np = to_uint64(inbuf,ALDER_KMER_COUNTER2_INBUFFER_I_NP);
-        
-        // Block if this is the last thread.
-        while (a->main_i_np < i_np) {
-            sleep(1);
-        }
-        
         size_t lenbuf = to_size(inbuf,ALDER_KMER_COUNTER2_INBUFFER_LENGTH);
         uint8_t *inbuf_body = inbuf + ALDER_KMER_COUNTER2_INBUFFER_BODY;
         if (lenbuf > 0) {
@@ -774,9 +896,11 @@ static void *counter(void *t)
         assert(lenbuf % m2->b == 0);
         uint64_t n_kmer = lenbuf / m2->b;
         size_t x = 0;
+        
         for (uint64_t i_kmer = 0; i_kmer < n_kmer; i_kmer++) {
+            a->n_i_kmer[counter_id]++;
             
-            debug_counter++;
+//            debug_counter++;
             
             /*****************************************************************/
             /*                         OPTIMIZATION                          */
@@ -800,7 +924,6 @@ static void *counter(void *t)
             s = alder_hashtable_mcas_increment(c_ht, m->n, res_key,
                                                a->isMultithreaded);
             
-            
             if (s != ALDER_STATUS_SUCCESS) {
                 alder_loge(ALDER_ERR, "Fatal - table is full!");
                 assert(0);
@@ -814,6 +937,7 @@ static void *counter(void *t)
             
             if (a->n_blockByCounter[i_np] == a->n_blockByReader[i_np]) {
                 // No code.
+                a->n_blockByCounter[a->n_np] += a->n_blockByCounter[i_np];
             } else {
                 // Not the last bock, so won't write to a table file.
                 c_table = a->n_ht;
@@ -821,12 +945,19 @@ static void *counter(void *t)
         } else {
             c_table = a->n_ht;
         }
+        if (is_last_read == 1) {
+            a->reader_lenbuf[counter_id] = 0;
+        }
         
+        /* When parfile is zero... */
+        if (a->n_blockByReader[i_np] == 0 && counter_id == 0) {
+            a->main_i_np++;
+        }
     }
     XFREE(res_key);
     alder_encode_number_destroy(m);
     alder_encode_number2_destroy(m2);
-    alder_log("counter(%d)[%llu]: END", counter_id, a->i_ni);
+    alder_log2("counter(%d)[%llu]: END", counter_id, a->i_ni);
     
     //    printf("debug counter: %zu\n",debug_counter++);
     pthread_exit(NULL);

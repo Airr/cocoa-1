@@ -32,6 +32,8 @@
 
 __BEGIN_DECLS
 
+void alder_progress_start(int n_frequency);
+void alder_progress_frequency(int n_frequency);
 int alder_progress_step(unsigned long cstep, unsigned long tstep, int tostderr);
 int alder_progress_end(int tostderr);
 

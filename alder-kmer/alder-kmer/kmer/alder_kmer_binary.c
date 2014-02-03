@@ -28,24 +28,12 @@
 #include <pthread.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <zlib.h>
-#include "bzlib.h"
 #include "alder_logger.h"
 #include "alder_file.h"
 #include "alder_cmacro.h"
-#include "libdivide.h"
-#include "bstrmore.h"
-#include "alder_fasta.h"
-#include "alder_fastq.h"
-#include "alder_fileseq_type.h"
-#include "alder_fileseq_chunk.h"
-#include "bstrmore.h"
-#include "alder_encode.h"
-#include "alder_encode_number.h"
 #include "alder_fileseq_streamer.h"
 #include "alder_progress.h"
 #include "alder_dna.h"
-
 #include "alder_kmer_binary.h"
 
 typedef int (*binary_t)(
@@ -103,14 +91,8 @@ alder_kmer_binary(void *ptr, size_t size, size_t subsize,
                   const char *outfile)
 {
     binary_t binary;
-    
-    if (version == 2) {
-        binary = &alder_kmer_binary3;
-    } else if (version == 3) {
-        binary = &alder_kmer_binary3;
-    } else {
-        binary = &alder_kmer_binary5;
-    }
+    assert(version == 2);
+    binary = &alder_kmer_binary3;
     int s = (*binary)(ptr, size, subsize,
                       n_kmer, n_dna, n_seq,
                       totalfilesize,

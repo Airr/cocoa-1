@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#  alder_kmer_test_count.sh
+#  alder_kmer_simple.sh
 #  alder-kmer
 #
 #  Created by Sang Chul Choi on 12/30/13.
@@ -23,19 +23,18 @@ version=$9
 # Check arguments.
 if [ $# -lt 2 ]; then
 echo "kmersize maxkmer are required arguments."
-echo "alder_kmer_count.sh kmersize maxkmer duplicate format compress disk memory nthread version"
+echo "alder_kmer_simple.sh kmersize maxkmer duplicate format compress disk memory nthread version"
 echo "kmersize  : number between 1-64"
-echo "maxkmer   : number (1000-)"
-echo "duplicate : number (1-)"
+echo "maxkmer   : number (10000)"
+echo "duplicate : number (1)"
 echo "format    : fq or fa"
 echo "compress  : [no|gz|bz2]"
-echo "disk      : number (default:1000MB)"
-echo "memory    : number (default:100MB)"
-echo "nthread   : number (default:1)"
+echo "disk      : number (default: 100 MB)"
+echo "memory    : number (default: 10 MB)"
+echo "nthread   : number (default: 1)"
 echo "version   : 1,2,3,4,5,7 (default:7)"
 echo "e.g.,"
-echo "$ ./alder_kmer_test_count.sh 25 50000 65535 fq no 10000 1000 1 7"
-echo "About 9GB"
+echo "$ ./alder_kmer_test_count.sh 25 50000 1 fq no 100 10 1 7"
 echo -n "Do you want to run it with default options [y] and press [ENTER]: "
 read response
 if [ "$response" == "y" ]; then
@@ -47,7 +46,7 @@ fi
 fi
 
 if [ -z "$3" ]; then
-  duplicate=65535
+  duplicate=1
 fi
 
 if [ -z "$4" ]; then
@@ -55,15 +54,15 @@ if [ -z "$4" ]; then
 fi
 
 if [ -z "$5" ]; then
-  compress=""
+  compress="no"
 fi
 
 if [ -z "$6" ]; then
-  disk=10000
+  disk=100
 fi
 
 if [ -z "$7" ]; then
-  memory=1000
+  memory=10
 fi
 
 if [ -z "$8" ]; then
@@ -73,9 +72,6 @@ fi
 if [ -z "$9" ]; then
   version=7
 fi
-
-
-hashtablesize=$(echo $maxkmer/0.7 | bc)
 
 echo "*** START ***"
 echo "*** Simulation Setup ***"
@@ -88,11 +84,8 @@ echo "Disk:                    $disk (MB)"
 echo "Memory:                  $memory (MB)"
 echo "Number of threads:       $nthread"
 echo "Version:                 $version"
-echo "Hash table size:         $hashtablesize"
 
-###############################################################################
 # Functions
-###############################################################################
 
 echoerr() { echo "$@" 1>&2; }
 
@@ -160,85 +153,135 @@ elif [ "$compress" == "bz2" ]; then
 else
   zip=""
 fi
-echo "  created file: outfile-00.$format$zip"
+echo "  created file: outfile.$format$zip"
 
 ###############################################################################
-# Sequence to Table or (Counting...)
+# Check the number of kmers in the sequence file.
+###############################################################################
+
+###############################################################################
+# Sequence to kmers
 ###############################################################################
 measure_start_time
-echo "counting ..."
-command="./alder-kmer count -k $kmersize --select-version=$version --progress --disk=$disk --memory=$memory --nthread=$nthread --log outfile.$format$zip"
+echo "creating a binary file... "
+command="./alder-kmer list -k $kmersize --select-version=$version outfile.$format$zip --outfile=outfile"
 run_command
 if [ $? -ne 0 ]; then
   echo "Crash!"
-  touch "crash-count-$kmersize"
+  touch "crash-list-$kmersize"
   exit
 fi
+echo "  done!"
+echo "  created file: outfile.lst"
+measure_end_time
+cut -f 1 outfile.lst|sort|uniq -c|awk 'BEGIN{OFS=FS=" "} {tmp=$1;$1=$2;$2=tmp;print}' > outfile.lst.1
+
+###############################################################################
+# Sequence to Binary
+###############################################################################
+measure_start_time
+echo "creating a binary file... "
+command="./alder-kmer binary --select-version=$version --progress outfile.$format$zip"
+run_command
+if [ $? -ne 0 ]; then
+  echo "Crash!"
+  touch "crash-binary-$kmersize"
+  exit
+fi
+echo "  done!"
+echo "  created file: outfile.bin"
+measure_end_time
+
+###############################################################################
+# Binary to Sequence
+###############################################################################
+measure_start_time
+echo "creating a sequence file... "
+command="./alder-kmer uncompress outfile.bin -o outfile"
+run_command
+if [ $? -ne 0 ]; then
+  echo "Crash!"
+  touch "crash-kmer-$kmersize"
+  exit
+fi
+echo "  done!"
+echo "  created file: outfile.seq"
+measure_end_time
+
+echo "NR % 4 == 2' outfile.fq > outfile.seq.2"
+awk 'NR % 4 == 2' outfile.fq > outfile.seq.2
+echo "  created file: outfile.seq.2"
+
+echo -n "comparing outfile.seq and outfile.seq.2 ... "
+if ! diff -q outfile.seq outfile.seq.2 > /dev/null; then
+  echoerr "Fail: K=$kmersize, format=$format Test failed because somethings are different."
+  touch "error-binary-kmer-$kmersize"
+  exit
+fi
+
+###############################################################################
+# Sequence to Partition (Encoded Kmer)
+###############################################################################
+measure_start_time
+echo "partitioning the binary file... "
+command="./alder-kmer partition -k $kmersize --select-version=$version --nthread=$nthread --disk=$disk --memory=$memory outfile.bin"
+run_command
+if [ $? -ne 0 ]; then
+  echo "Crash!"
+  touch "crash-partition-$kmersize"
+  exit
+fi
+echo "done!"
+echo "  created file: outfile-0-0.par"
+measure_end_time
+
+###############################################################################
+# Partition to Decoded Kmer
+###############################################################################
+echo "decoding outfile_0-0.par ... "
+command="./alder-kmer decode -k $kmersize --select-version=$version outfile-0-0.par --outfile=outfile"
+run_command
+if [ $? -ne 0 ]; then
+  echo "Crash!"
+  touch "crash-decode-$kmersize"
+  exit
+fi
+echo "done!"
+echo "  created file: outfile.dec"
+cut -f 1 outfile.dec|sort|uniq -c|awk 'BEGIN{OFS=FS=" "} {tmp=$1;$1=$2;$2=tmp;print}' > outfile.2
+echo "  created file: outfile.2"
+
+###############################################################################
+# Partition to Table
+###############################################################################
+measure_start_time
+echo "creating kmers using table command ... "
+command="./alder-kmer table -k $kmersize --select-version=$version --nthread=$nthread --parfile=outfile"
+run_command
+if [ $? -ne 0 ]; then
+  echo "Crash!"
+  touch "crash-table-$kmersize"
+  exit
+fi
+echo "done!"
 echo "  created file: outfile.tbl"
 measure_end_time
 
 ###############################################################################
-# Table to Report
+# Report/Dump
 ###############################################################################
-echo "reporting the table ..."
-echo "./alder-kmer report outfile.tbl > outfile.1"
-./alder-kmer report outfile.tbl > outfile.1
-if [ $? -ne 0 ]; then
-  echo "Crash!"
-  touch "crash-report-$kmersize"
-  exit
-fi
-
-###############################################################################
-# Check number of kmers
-###############################################################################
-echo -n "checking number of kmers... "
-lines=$(wc -l < outfile.1)
-if [ $lines -ne $maxkmer ]; then
-  echoerr "K=$kmersize, format=$format Test failed because maxkmer is not $maxkmer."
-  touch "error1-$kmersize"
-  exit
-fi
-echo "Passed!"
-
-###############################################################################
-# Check occurences
-###############################################################################
-echo -n "checking the count of kmers... "
-nuniquekmer=$(cut -f 3 outfile.1|uniq|wc -l)
-if [ $nuniquekmer -ne 1 ]; then
-  echoerr "Multiple kmers with different counts."
-  touch "error2-$kmersize"
-  exit
-fi
-if [ $(cut -f 3 outfile.1|uniq) != "$duplicate" ]; then
-  echoerr "K=$kmersize, format=$format Test failed because $duplicate duplicates are different."
-  touch "error3-$kmersize"
-  exit
-fi
-echo "Passed!"
-exit
-
-###############################################################################
-# Compare the sequence data and table file
-###############################################################################
-
-echo "comparing sequence data and table file... "
-if [ "$format" == "fq" ]; then
 measure_start_time
-echo "./alder-kmer list outfile.fq -k $kmersize | ./alder-kmer match --tabfile=outfile.tbl"
-./alder-kmer list outfile.fq -k $kmersize | ./alder-kmer match --tabfile=outfile.tbl
-#./alder-kmer match --tabfile=outfile.tbl outfile.lst
-if [ $? -ne 0 ]; then
-  echo "Crash!"
-  touch "crash-match-$kmersize"
+echo "$ ./alder-kmer report outfile.tbl |cut -f1,3|sort -k 1|expand -t 1 > outfile.1"
+./alder-kmer report outfile.tbl |cut -f1,3|sort -k 1|expand -t 1 > outfile.1
+echo "  created file: outfile.1"
+measure_end_time
+
+echo -n "comparing outfile.1 and outfile.2 ... "
+if ! diff -q outfile.1 outfile.2 > /dev/null; then
+  echoerr "Fail: K=$kmersize, format=$format Test failed because somethings are different."
+  touch "error-$kmersize"
   exit
 fi
-echo "Passed!"
-measure_end_time
-fi
-
-touch FINISH
-
+echo "Pass!"
 echo "*** END ***"
 echo ""

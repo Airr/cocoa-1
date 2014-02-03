@@ -36,7 +36,10 @@
 
 __BEGIN_DECLS
 
-int alder_kmer_simulate(const char *outfile,
+int alder_kmer_simulate(long version,
+                        unsigned int outfile_given,
+                        int with_parfile_flag,
+                        const char *outfile,
                         const char *outdir,
                         alder_format_type_t format,
                         int number_file,
@@ -44,23 +47,9 @@ int alder_kmer_simulate(const char *outfile,
                         int number_partition,
                         int kmer_size,
                         int sequence_length,
-                        int hashtable_maxcount,
-                        int hashtable_size);
-
-int alder_kmer_simulate_woHashtable(long version,
-                                    unsigned int outfile_given,
-                                    int with_parfile_flag,
-                                    const char *outfile,
-                                    const char *outdir,
-                                    alder_format_type_t format,
-                                    int number_file,
-                                    int number_iteration,
-                                    int number_partition,
-                                    int kmer_size,
-                                    int sequence_length,
-                                    size_t maxkmer,
-                                    int progress_flag,
-                                    int progressToError_flag);
+                        size_t maxkmer,
+                        int progress_flag,
+                        int progressToError_flag);
 
 __END_DECLS
 

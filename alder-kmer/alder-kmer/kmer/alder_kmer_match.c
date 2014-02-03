@@ -51,10 +51,9 @@ alder_kmer_match(int progress_flag,
     /* File input using file descriptor. */
     uint8_t *buf = malloc(sizeof(*buf) * BUFFER_SIZE);
     ALDER_RETURN_ERROR_IF_NULL(buf, ALDER_STATUS_ERROR);
-
     
     /* File input using file descriptor. */
-	int fildes = -1;
+    int fildes = -1;
     if (infile->qty == 0) {
         fildes = 0;
     } else {
@@ -74,10 +73,10 @@ alder_kmer_match(int progress_flag,
         fpout = fopen(bdata(bfn), "w");
         if (fpout == NULL) {
             if (fildes > 0) {
-                XFREE(buf);
                 close(fildes);
-                return ALDER_STATUS_ERROR;
             }
+            XFREE(buf);
+            return ALDER_STATUS_ERROR;
         }
     } else {
         fpout = stdout;
@@ -95,23 +94,21 @@ alder_kmer_match(int progress_flag,
     if (s != ALDER_STATUS_SUCCESS) {
         fprintf(stderr, "Error - failed to open a table file %s: %s\n",
                 tabfile, strerror(errno));
+        XFREE(buf);
         return ALDER_STATUS_ERROR;
     }
     assert(n_nhs != NULL);
-    int flag_nh64 = 0;
-    if (nh <= UINT32_MAX) {
-        flag_nh64 = 0;
-    } else {
-        flag_nh64 = 1;
-    }
-    
-    
+//    int flag_nh64 = 0;
+//    if (nh <= UINT32_MAX) {
+//        flag_nh64 = 0;
+//    } else {
+//        flag_nh64 = 1;
+//    }
     
     /* Parsing input stream. */
     int lines = 0;
-//	size_t n_kmer = 0;
-	size_t bytes_read;
-	size_t len_remaining = 0;
+    size_t bytes_read;
+    size_t len_remaining = 0;
     uint8_t *sbuf = buf;
     while((bytes_read = read(fildes, sbuf, BUFFER_SIZE - len_remaining))) {
         if (bytes_read == (size_t)-1) {
@@ -120,24 +117,24 @@ alder_kmer_match(int progress_flag,
         }
         if (!bytes_read)
             break;
-		
-		sbuf = buf;
-		
-		
+        
+        sbuf = buf;
+        
         for (uint8_t *p = buf;
              (p = (uint8_t*) memchr(p, '\n', (size_t)((buf + bytes_read + len_remaining) - p)));
              p++) {
             *p = '\0';
-			
-			///////////////////////////////////////////////////////////////////////////////////////////
-			// sbuf: a point to a string.
-//			char c = (char)*sbuf;
-//            fprintf(fpout, "[%zu] %s\n", ++n_kmer, sbuf);
+            
+            ///////////////////////////////////////////////////////////////////
+            // sbuf: a point to a string.
+            //            char c = (char)*sbuf;
+            //            fprintf(fpout, "[%zu] %s\n", ++n_kmer, sbuf);
             s = alder_hashtable_mcas_find(fildes_tab, (char*)sbuf, K, nh, ni, np, tnh, n_nhs);
             if (s == ALDER_YES) {
                 // Found!
             } else {
                 status = ALDER_STATUS_ERROR;
+                fprintf(stderr, "Fatal: %s is not found in the table.", sbuf);
                 goto cleanup;
                 // Not found!
                 // Fatal!
@@ -145,35 +142,31 @@ alder_kmer_match(int progress_flag,
                 assert(0);
                 abort();
             }
-            
-			// END
-			///////////////////////////////////////////////////////////////////////////////////////////
-			
+            // END
+            ///////////////////////////////////////////////////////////////////
             *p = '\n';
-			uint8_t *ebuf = buf + bytes_read + len_remaining;
-			if (ebuf > p) {
-				sbuf = p + 1;
-			}
+            uint8_t *ebuf = buf + bytes_read + len_remaining;
+            if (ebuf > p) {
+                sbuf = p + 1;
+            }
             ++lines;
         }
-		len_remaining += (size_t)((buf + bytes_read) - sbuf);
-		if (len_remaining > 0) {
-			memmove(buf, sbuf,len_remaining);			
-		}
-		sbuf = buf + len_remaining;
+        len_remaining += (size_t)((buf + bytes_read) - sbuf);
+        if (len_remaining > 0) {
+            memmove(buf, sbuf,len_remaining);
+        }
+        sbuf = buf + len_remaining;
     }
-
+    
 cleanup:
     close(fildes_tab);
     XFREE(n_nhs);
-    
     if (infile->qty > 0) {
         close(fildes);
     }
     if (outfile_given) {
         XFCLOSE(fpout);
     }
-    
     return status;
 }
 

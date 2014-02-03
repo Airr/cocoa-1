@@ -102,7 +102,7 @@ static void alder_kmer_cmdline_parser_print_detailed_help (alder_kmer_option_t *
         40,41,7,78,79,80,81,9,11,92,93,13,14,34,35,   // partition
         45,46,7,13,14,                                // kmer/decode
         48,49,7,15,11,13,14,                          // table
-        51,52,7,37,13,14,                             // list
+        51,52,7,13,14,                                // list
         54,55,57,13,14,                               // match
         58,59,13,14,                                  // binary
         61,62,13,14,                                  // uncompress
@@ -189,12 +189,11 @@ static void alder_kmer_cmdline_parser_print_query_help (alder_kmer_option_t *o)
 
 static void alder_kmer_cmdline_parser_print_simulate_help (alder_kmer_option_t *o)
 {
-    printf("Usage: alder-kmer simulate [-kINT|-mINT|--kmer|--mer-len=INT]\n"
-           "         [-ofilename|--outfile=STRING] [--outdir=DIRECTORY]\n"
-           "         [--maxkmer=INT] [--format=STRING] [--ni=INT] [--np=INT] [--nf=INT]\n"
-           "         [--with-parfile] [--seqlen=INT] [--seed=INT] [FILES]...\n");
+    printf("Usage: alder-kmer simulate [-kINT|--kmer=INT] [--maxkmer=INT] [--nf=INT]\n"
+           "         [--seqlen=INT] [--format=STRING] [--with-parfile] [--ni=INT] [--np=INT]\n"
+           "         [--seed=INT] [-ofilename|--outfile=STRING] [--outdir=DIRECTORY]\n");
    
-    int a[14] = {29,30,7,78,32,33,34,35,36,37,38,88,13,14};
+    int a[13] = {29,30,7,32,36,37,33,88,34,35,38,13,14};
     for (int i = 0; i < sizeof(a)/sizeof(a[0]); i++) {
         printf("%s\n", gengetopt_args_info_detailed_help[a[i]]);
     }   
@@ -202,11 +201,11 @@ static void alder_kmer_cmdline_parser_print_simulate_help (alder_kmer_option_t *
 
 static void alder_kmer_cmdline_parser_print_partition_help (alder_kmer_option_t *o)
 {
-    printf("Usage: alder-kmer partition [-kINT|-mINT|--kmer|--mer-len=INT]\n"
+    printf("Usage: alder-kmer partition [-kINT|--kmer=INT]\n"
            "         [--ni=INT] [--np=INT] [-tINT|--nthread|--threads=INT]\n"
            "         [--disk=INT] [--memory=INT] [--load-disk=REAL] [--load-memory=REAL]\n"
            "         [--use-fileseq] [--binfile=STRING] [-ofilename|--outfile=STRING]\n"
-           "         [--outdir=DIRECTORY] [FILES]...\n");
+           "         [--outdir=DIRECTORY] [FILE]\n");
     
     printf("%s\n", gengetopt_args_info_detailed_help[40]);
     printf("%s\n", gengetopt_args_info_detailed_help[41]);
@@ -264,9 +263,9 @@ static void alder_kmer_cmdline_parser_print_table_help (alder_kmer_option_t *o)
 static void alder_kmer_cmdline_parser_print_list_help (alder_kmer_option_t *o)
 {
     printf("Usage: alder-kmer list [-kINT|--kmer=INT] [-ofilename|--outfile=filename]\n"
-           "         [--outdir=directory] [--seqlen=INT] [FILE]\n");
+           "         [--outdir=directory] [FILE]\n");
     
-    int a[6] = {51,52,7,37,13,14};
+    int a[6] = {51,52,7,13,14};
     for (int i = 0; i < sizeof(a)/sizeof(a[0]); i++) {
         printf("%s\n", gengetopt_args_info_detailed_help[a[i]]);
     }
@@ -308,9 +307,9 @@ static void alder_kmer_cmdline_parser_print_uncompress_help (alder_kmer_option_t
 static void alder_kmer_cmdline_parser_print_inspect_help (alder_kmer_option_t *o)
 {
     printf("Usage: alder-kmer inspect [-ofilename|--outfile=filename]\n"
-           "         [--outdir=directory] [FILE]\n");
+           "         [--outdir=directory]\n");
     
-    int a[4] = {64,659,13,14};
+    int a[4] = {64,65,13,14};
     for (int i = 0; i < sizeof(a)/sizeof(a[0]); i++) {
         printf("%s\n", gengetopt_args_info_detailed_help[a[i]]);
     }
@@ -345,16 +344,6 @@ int alder_kmer_option_init(alder_kmer_option_t *o,
                 MAXKMER);
         fprintf(stderr, "Suggestion: use values less than or equal to %d.\n",
                 MAXKMER);
-        status = 1;
-        return status;
-    }
-    if (a->seqlen_arg < a->kmer_arg) {
-        fprintf(stderr,
-                "Error: sequence length must be greater than or equal to "
-                "kmer length; seqlen=%ld, kmer=%ld\n",
-                a->seqlen_arg, a->kmer_arg);
-        fprintf(stderr, "Suggestion: use --seqlen or --kmer to let sequence "
-                "length be greater, or kmer size be smaller.\n");
         status = 1;
         return status;
     }
@@ -399,12 +388,15 @@ int alder_kmer_option_init(alder_kmer_option_t *o,
             case 5:
                 a->select_version_arg = 2;
                 break;
+            case 7:
+                a->select_version_arg = 7;
+                break;
             default:
                 a->select_version_arg = 0;
                 break;
         }
     }
-    assert(2 <= a->select_version_arg && a->select_version_arg <= 6);
+    assert(2 <= a->select_version_arg && a->select_version_arg <= 7);
     if (strcmp(a->outdir_arg,".")) {
         int s = alder_file_mkdir(a->outdir_arg);
         if (s != ALDER_STATUS_SUCCESS) {
@@ -456,20 +448,30 @@ int alder_kmer_option_init(alder_kmer_option_t *o,
     /* Initialize the help message. */
     alder_kmer_cmdline_parser_print_help_init(o,a);
     if (argc == 1) {
-        printf("Usage: alder-kmer [command] -h\n");
-        printf("Available commands: count, dump, query, simulate, partition, kmer,\n"
-               "                    table, list, binary, uncompress, and inspect.\n");
+        fprintf(stderr, "Usage: alder-kmer [command] -h\n");
+        fprintf(stderr,
+                "commands: count, dump, query, simulate, list, binary, uncompress,\n"
+                "          partition, kmer, table, match, and inspect.\n");
         status = 1;
         return status;
-    } else if (a->inputs_num == 0 && a->help_given) {
-        alder_kmer_cmdline_parser_print_help (o);
+    } else if (a->inputs_num == 0) {
+        if (a->help_given) {
+            alder_kmer_cmdline_parser_print_help (o);
+            status = 1;
+            return status;
+        } else if (a->detailed_help_given) {
+            alder_kmer_cmdline_parser_print_detailed_help(o);
+        } else {
+            fprintf(stderr, "Error: the first argument must be a command.\n");
+            fprintf(stderr, "Suggestion: use --help to find available commands.\n");
+        }
         status = 1;
         return status;
-    } else if (a->inputs_num == 0 && a->detailed_help_given) {
-        alder_kmer_cmdline_parser_print_detailed_help(o);
-        status = 1;
-        return status;
-    } 
+    }
+    /* Turn off log if I use the STDIN. */
+    if (a->inputs_num < 2) {
+        a->log_given = 0;
+    }
     
     /* Command check */
     size_t inputs_num_start = 1;
@@ -489,6 +491,8 @@ int alder_kmer_option_init(alder_kmer_option_t *o,
     if (!strcmp(a->inputs[0], "count") || *a->inputs[0] == 'c') {
         a->count_flag = 1;
     } else if (!strcmp(a->inputs[0], "kmer") || *a->inputs[0] == 'k') {
+        a->decode_flag = 1;
+    } else if (!strcmp(a->inputs[0], "decode")) {
         a->decode_flag = 1;
     } else if (!strcmp(a->inputs[0], "report") || *a->inputs[0] == 'r') {
         a->report_flag = 1;
@@ -595,6 +599,7 @@ int alder_kmer_option_init(alder_kmer_option_t *o,
         return status;
     }
     
+    
     if (a->binfile_given) {
         o->infile = bstrVectorCreate((int)(a->nthread_arg));
         for (int i = 0; i < a->nthread_arg; i++) {
@@ -604,7 +609,7 @@ int alder_kmer_option_init(alder_kmer_option_t *o,
         assert(o->infile->qty <= o->infile->mlen);
     } else if (a->parfile_given) {
         int n_infile = 0;
-        if (a->select_version_arg == 2) {
+        if (a->select_version_arg == 2 || a->select_version_arg == 7) {
             n_infile = (int)(a->ni_arg * a->np_arg);
             o->infile = bstrVectorCreate(n_infile);
             for (int i = 0; i < (int)a->ni_arg; i++) {
@@ -645,6 +650,19 @@ int alder_kmer_option_init(alder_kmer_option_t *o,
         }
     }
     
+    if (a->partition_flag == 1 && a->nthread_given == 0) {
+        a->nthread_arg = 1;
+    }
+    if (a->simulate_flag == 1 && a->seqlen_arg < a->kmer_arg) {
+        fprintf(stderr,
+                "Error: sequence length must be greater than or equal to "
+                "kmer length; seqlen=%ld, kmer=%ld\n",
+                a->seqlen_arg, a->kmer_arg);
+        fprintf(stderr, "Suggestion: use --seqlen or --kmer to let sequence "
+                "length be greater, or kmer size be smaller.\n");
+        status = 1;
+        return status;
+    }
     
     return status;
 }

@@ -1,5 +1,5 @@
 /**
- * This file, alder_kmer_encode5.h, is part of alder-kmer.
+ * This file, alder_kmer_encode7.h, is part of alder-kmer.
  *
  * Copyright 2014 by Sang Chul Choi
  *
@@ -17,8 +17,8 @@
  * along with alder-kmer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef alder_kmer_alder_kmer_encode5_h
-#define alder_kmer_alder_kmer_encode5_h
+#ifndef alder_kmer_alder_kmer_encode7_h
+#define alder_kmer_alder_kmer_encode7_h
 
 #include <stdint.h>
 #include "bstrlib.h"
@@ -36,11 +36,11 @@
 
 __BEGIN_DECLS
 
-typedef struct alder_kmer_encoder5_struct alder_kmer_encoder5_t;
+typedef struct alder_kmer_encode7_struct alder_kmer_encode7_t;
 
 /* Readwriter thread accesses this type.
  */
-struct alder_kmer_encoder5_struct {
+struct alder_kmer_encode7_struct {
     /* info */
     int k;                     /* k - kmer size                              */
     int b;                     /* bytes for a kmer                           */
@@ -49,32 +49,33 @@ struct alder_kmer_encoder5_struct {
     uint64_t i_ni;             /* iteration index                            */
     int n_encoder;             /* n_encoder - number of encoder threads      */
     
+    /* lock */
+    int *lock_write;           /* write locks                                */
+    
     /* reader */
     size_t reader_lenbuf;
     size_t reader_lenbuf2;
-    uint8_t reader_type_infile;
     int reader_i_infile;
     
     /* buffer */
     size_t size_fixedoutbuffer;/* buffer size for output                     */
-    //    size_t n_subbuf;           /* number of divided buffers in inbuf         */
+    size_t size_fixedinbuffer; /* input buffer size                          */
     size_t size_subinbuf;      /* size of each divided buffer                */
     size_t size_inbuf;         /* size_inbuf - size of the inbuf             */
-    size_t size_inbuf2;        /* size_inbuf2 - size of the inbuf2           */
     size_t size_outbuf;        /* size_outbuf - size of the output buffer    */
-    size_t size_suboutbuf;     /* per thread: size of each sub out buffer    */
+    size_t size_suboutbuf;     /* size of each sub out buffer                */
+    size_t maxsize_suboutbuf;  /* maximum size of sub out buffer             */
+    int is_full;               /* flag for full outbuffer                    */
     size_t size_suboutbuf2;    /* per partition: size of each sub out buffer */
+    size_t n_kmer_suboutbuf;   /* number of kmers in suboutbuf               */
     uint8_t *inbuf;            /* [size_inbuf] inbuf - input buffer          */
-    uint8_t *inbuf2;           /* [size_inbuf2] inbuf2 - input buffer        */
     uint8_t *outbuf;           /* [size_outbuf] outbuf - output buff         */
-    int *encoder_remaining_outbuf;
     /* body size */
     size_t size_suboutbuf2_body;
     
     /* file */
     struct bstrList *infile;   /* (not own) input files                      */
     void *fx;                  /* fx - input file pointer                    */
-    int type_infile;           /* type of input file                         */
     FILE **fpout;              /* n_np: fpout - output file pointers         */
     bstring dout;              /* output directory                           */
     
@@ -84,21 +85,20 @@ struct alder_kmer_encoder5_struct {
     int progressToError_flag;
     
     /* stat */
+    uint64_t *n_i_byte;        /* [n_encoder] number of bytes sent           */
+    uint64_t *n_i_kmer;        /* [n_encoder] number of kmers                */
     uint64_t n_byte;           /* number of bytes sent                       */
     uint64_t n_kmer;           /* number of Kmers written to an out file     */
-    uint64_t n_letter;         /* number of DNA letters processed            */
-    
-    /* flag */
-    int status;                /* status of encoder's buffers                */
-    int flag;                  /* status for readwriter                      */
+    uint64_t n_total_kmer;     /* total number of kmers need to processed    */
+    uint64_t n_current_kmer;   /* current number of kmers processed          */
 };
 
-//void alder_kmer_encoder5_lock_reader(alder_kmer_encoder5_t *a, int encoder_id);
-//void alder_kmer_encoder5_unlock_reader(alder_kmer_encoder5_t *a, int encoder_id);
-//void alder_kmer_encoder5_lock_writer(alder_kmer_encoder5_t *a, int part_id);
-//void alder_kmer_encoder5_unlock_writer(alder_kmer_encoder5_t *a, int part_id);
+//void alder_kmer_encode7_lock_reader(alder_kmer_encode7_t *a, int encoder_id);
+//void alder_kmer_encode7_unlock_reader(alder_kmer_encode7_t *a, int encoder_id);
+//void alder_kmer_encode7_lock_writer(alder_kmer_encode7_t *a, int part_id);
+//void alder_kmer_encode7_unlock_writer(alder_kmer_encode7_t *a, int part_id);
 
 __END_DECLS
 
 
-#endif /* alder_kmer_alder_kmer_encode5_h */
+#endif /* alder_kmer_alder_kmer_encode7_h */

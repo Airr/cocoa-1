@@ -75,7 +75,6 @@ struct alder_kmer_thread2_struct {
     /* buffer */
     size_t size_subinbuf;        /* size of each divided buffer              */
     size_t size_inbuf;           /* size_inbuf - size of the input buffer    */
-    size_t n_subbuf;             /* number of divided buffers in inbuf       */
     uint8_t *inbuf;              /* inbuf - input buffer                     */
     int *n_blockByReader;        /* [n_np] input buffer blocks               */
     int *n_blockByCounter;       /* [n_np] input buffer blocks               */
@@ -96,10 +95,15 @@ struct alder_kmer_thread2_struct {
     /* stat */
     uint64_t n_t_byte_not_last;/* number of bytes for encoders not last      */
     uint64_t n_t_byte_last;    /* number of bytes for the last encoders      */
-    size_t *n_i_byte;
-    size_t n_byte;
-    size_t n_kmer;
-    size_t n_hash;
+    size_t *n_t_byte;          /* number of bytes for each turn of partition */
+    size_t *n_i_byte;          /* number of bytes in each iteration          */
+    size_t *n_i_kmer;          /* number of kmer in each iteration           */
+    size_t n_byte;             /* number of bytes ?                          */
+    size_t n_kmer;             /* number of kmers counted                    */
+    size_t n_hash;             /* number of hash elements                    */
+    size_t n_total_kmer;       /* total number of kmers to be processed      */
+    size_t n_current_kmer;     /* number of kmers processed so far           */
+    
     size_t totalFilesize;      /* total file size                            */
     int progress_flag;         /* flag for progress bar                      */
     int progressToError_flag;  /* flag for progress bar                      */

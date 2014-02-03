@@ -1194,16 +1194,25 @@ alder_hashtable_mcas_load(const char *fn, int isSummary)
     } else {
         flag_nh64 = 1;
     }
+#if defined(PRINT_TABLE_ID)
+    size_t prev_pos = INT32_MAX;
+    int i_table = 0;
+#endif
     for (uint64_t i_s = 0; i_s < tnh; i_s++) {
         // Read each element: key and value.
         alder_hashtable_mcas_nextFromFile(fildes, key, &value, &pos, flag_nh64);
+#if defined(PRINT_TABLE_ID)
+        if (prev_pos > pos) {
+            fprintf(stdout, "Table: %d\n", i_table++);
+        }
+        prev_pos = pos;
+#endif
         // Print key and value.
         alder_encode_number_print_in_DNA(stdout, key);
         fprintf(stdout, "\t");
         alder_encode_number_print_in_revDNA(stdout, key);
         fprintf(stdout, "\t%d", value);
         fprintf(stdout, "\t%zu\n", pos);
-        
     }
     alder_encode_number_destroy(key);
     

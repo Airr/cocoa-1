@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#  alder_kmer_test_table2.sh
+#  alder_kmer_test_simple.sh
 #  alder-kmer
 #
 #  Created by Sang Chul Choi on 1/10/14.
@@ -23,40 +23,47 @@ version=$9
 # Check arguments.
 if [ $# -lt 2 ]; then
 echo "kmersize maxkmer are required arguments."
-echo "alder_kmer_table2.sh kmersize maxkmer duplicate format compress disk memory nthread version"
+echo "alder_kmer_multiple.sh kmersize maxkmer duplicate format compress disk memory nthread version"
 echo "kmersize  : number between 1-64"
 echo "maxkmer   : number (1000-)"
-echo "duplicate : number (1-)"
+echo "duplicate : number (1-65535)"
 echo "format    : fq or fa"
 echo "compress  : [no|gz|bz2]"
-echo "disk      : number (100-)"
-echo "memory    : number (100-)"
-echo "nthread   : number (1-)"
-echo "version   : 1 or 2"
+echo "disk      : number (default: 100 MB)"
+echo "memory    : number (default: 10 MB)"
+echo "nthread   : number (default: 1)"
+echo "version   : 1,2,3,4,5,7 (default:7)"
 echo "e.g.,"
-echo "$ ./alder_kmer_test_table2.sh 25 50000 65535 fq no 10000 1000 1 2"
+echo "$ ./alder_kmer_test_count.sh 25 50000 1 fq no 10000 1000 1 7"
 echo "About 9GB"
-exit
+echo -n "Do you want to run it with default options [y] and press [ENTER]: "
+read response
+if [ "$response" == "y" ]; then
+  kmersize=25
+  maxkmer=50000
+else
+  exit
+fi
 fi
 
 if [ -z "$3" ]; then
-  duplicate=65535
+  duplicate=1
 fi
 
 if [ -z "$4" ]; then
-  format=fa
+  format=fq
 fi
 
 if [ -z "$5" ]; then
-  compress=""
+  compress="no"
 fi
 
 if [ -z "$6" ]; then
-  disk=1000
+  disk=100
 fi
 
 if [ -z "$7" ]; then
-  memory=1
+  memory=10
 fi
 
 if [ -z "$8" ]; then
@@ -64,11 +71,8 @@ if [ -z "$8" ]; then
 fi
 
 if [ -z "$9" ]; then
-  version=3
+  version=7
 fi
-
-
-hashtablesize=$(echo $maxkmer/0.7 | bc)
 
 echo "*** START ***"
 echo "*** Simulation Setup ***"
@@ -81,7 +85,6 @@ echo "Disk:                    $disk (MB)"
 echo "Memory:                  $memory (MB)"
 echo "Number of threads:       $nthread"
 echo "Version:                 $version"
-echo "Hash table size:         $hashtablesize"
 
 ###############################################################################
 # Functions
@@ -116,13 +119,6 @@ measure_end_time() {
 # Main
 ###############################################################################
 
-# Options:
-# K
-# maxkmer
-# memory
-# disk
-# nthread
-
 ###############################################################################
 # Sequence Generation
 ###############################################################################
@@ -131,8 +127,7 @@ echo "simulating a kmer count data ..."
 command="./alder-kmer simulate -k $kmersize --select-version=$version --seed=1 --format=$format --maxkmer=$maxkmer"
 run_command
 if [ $? -ne 0 ]; then
-  echo "Multiple occurences of some kmer! Try to increase the kmer size >$kmersize!"
-  exit
+  echo "Multiple occurences of some kmer! You could increase the kmer size >$kmersize!"
 fi
 
 seqfilesize=$(stat outfile-00.$format | cut -d" " -f 8)
@@ -145,11 +140,87 @@ seqfilesize=$(stat outfile.$format | cut -d" " -f 8)
 echo "File outfile.$format size after x$duplicate: $((seqfilesize / 10**6)) MB."
 
 ###############################################################################
-# Sequence to Partition (Encoded Kmer)
+# Sequence to Binary
+###############################################################################
+measure_start_time
+echo "creating a binary file... "
+command="./alder-kmer binary --select-version=$version --progress outfile.$format$zip"
+run_command
+if [ $? -ne 0 ]; then
+  echo "Crash!"
+  touch "crash-binary-$kmersize"
+  exit
+fi
+echo "  done!"
+echo "  created file: outfile.bin"
+measure_end_time
+
+###############################################################################
+# Binary to a simple-form sequence file
+###############################################################################
+measure_start_time
+echo "uncompress ..."
+command="./alder-kmer uncompress --select-version=$version --progress --log outfile.bin"
+./alder-kmer uncompress --select-version=$version --progress --log outfile.bin > outfile.unc
+# run_command
+if [ $? -ne 0 ]; then
+  echo "Crash!"
+  touch "crash-uncompress-$kmersize"
+  exit
+fi
+echo "  created file: outfile.unc"
+measure_end_time
+
+###############################################################################
+# Using Awk to convert the binary to a simple-form sequence file
+###############################################################################
+measure_start_time
+echo "using awk ..."
+echo "awk 'NR % 4 == 2' outfile.fq > outfile.seq"
+awk 'NR % 4 == 2' outfile.fq > outfile.seq
+#run_command
+if [ $? -ne 0 ]; then
+  echo "Crash!"
+  touch "crash-uncompress-$kmersize"
+  exit
+fi
+echo "  created file: outfile.seq"
+measure_end_time
+
+A=$(md5 outfile.unc | cut -d" " -f 4)
+B=$(md5 outfile.seq | cut -d" " -f 4)
+
+if [ "$A" == "$B" ]; then
+  echo "Pass!"
+else
+  echo "Crash!"
+  touch "crash-binary-uncompress-$kmersize"
+  exit
+fi
+
+
+###############################################################################
+# Binary to Partition (Encoded Kmer)
 ###############################################################################
 measure_start_time
 echo "partitioning the sequence file... "
-command="./alder-kmer partition -k $kmersize --select-version=$version --progress --disk=$disk --memory=$memory --nthread=$nthread outfile.$format$zip"
+command="./alder-kmer partition -k $kmersize --select-version=$version --progress --disk=$disk --memory=$memory --log --nthread=$nthread outfile.$format$zip"
+run_command
+if [ $? -ne 0 ]; then
+  echo "Crash!"
+  touch "crash-binary-$kmersize"
+  exit
+fi
+echo "  done!"
+echo "  created file: outfile-0-0.par"
+measure_end_time
+
+###############################################################################
+# Check kmers in the partition
+###############################################################################
+measure_start_time
+echo "partitioning the sequence file... "
+command="./alder-kmer kmer -k $kmersize *.par -o outfile --select-version=$version"
 run_command
 if [ $? -ne 0 ]; then
   echo "Crash!"

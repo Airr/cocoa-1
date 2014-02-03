@@ -25,6 +25,34 @@
 #include "alder_kmer_encode.h"
 #include "alder_kmer_partition.h"
 
+/**
+ *  This function converts a binary file to partition files.
+ *
+ *  @param version              version
+ *  @param K                    K
+ *  @param D                    disk space in megabyte
+ *  @param M                    memory in megabyte
+ *  @param min_M_table          min memory for a table
+ *  @param max_M_table          max memory for a table
+ *  @param F                    max number of open fi
+ *  @param sizeInbuffer         size input buffer
+ *  @param sizeOutbuffer        size output buffer
+ *  @param n_ni                 ni
+ *  @param n_np                 np
+ *  @param n_nh                 nh
+ *  @param n_nt                 nt
+ *  @param progress_flag        progress
+ *  @param progressToError_flag progrsss stderr
+ *  @param use_seqfile          use seq file = no (default)
+ *  @param binfile              binfile
+ *  @param binfile_given        binfile given
+ *  @param infile               infile
+ *  @param outfile_given        outfile given
+ *  @param outdir               outdir
+ *  @param outfile              outfile
+ *
+ *  @return SUCCESS or FAIL
+ */
 int
 alder_kmer_partition(long version,
                      int K, long D, long M,
@@ -46,24 +74,29 @@ alder_kmer_partition(long version,
                      const char *outfile)
 {
     int s = ALDER_STATUS_SUCCESS;
+    encode_t encode;
     
     size_t n_byte = 0;
+    size_t n_kmer = 0;
     size_t S_filesize = 0;
     sizeInbuffer = 1 << 16;
     sizeOutbuffer = 1 << 20;
-    
-    if (version == 2) {
-        //
-        s = alder_kmer_encode2(n_nt, 0, K, D, M, sizeInbuffer, sizeOutbuffer,
-                               n_ni, n_np, S_filesize, &n_byte,
-                               progress_flag, progressToError_flag,
-                               binfile_given, infile, outdir, outfile);
-    } else if (version == 3) {
-        s = alder_kmer_encode3(n_nt, 0, K, D, M, sizeInbuffer, sizeOutbuffer,
-                               n_ni, n_np, S_filesize, &n_byte,
+    size_t n_total_kmer = 100; // FIXME: total kmer should be known.
+    size_t n_current_kmer = 0;
+    assert(version == 2 || version == 7);
+    for (int i_ni = 0; i_ni < n_ni; i_ni++) {
+        if (version == 2) {
+            encode = &alder_kmer_encode2;
+        } else {
+            encode = &alder_kmer_encode7;
+        }
+        s = (*encode)(n_nt, i_ni, K, D, M, sizeInbuffer, sizeOutbuffer,
+                               n_ni, n_np, S_filesize, &n_byte, &n_kmer,
+                               n_total_kmer, &n_current_kmer,
                                progress_flag, progressToError_flag,
                                binfile_given, infile, outdir, outfile);
     }
+    
     return s;
 }
 

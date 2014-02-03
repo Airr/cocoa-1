@@ -67,18 +67,6 @@ alder_kmer_binary3(void *ptr, size_t size, size_t subsize,
                    struct bstrList *infile, const char *outdir,
                    const char *outfile);
 
-int
-alder_kmer_binary5(void *ptr, size_t size, size_t subsize,
-                   uint64_t *n_kmer, uint64_t *n_dna, uint64_t *n_seq,
-                   size_t *totalfilesize,
-                   size_t *n_byte,
-                   long version,
-                   int K, long D, long M, long min_M_table, long max_M_table,
-                   long nsplit,
-                   int progress_flag,
-                   int progressToError_flag,
-                   struct bstrList *infile, const char *outdir,
-                   const char *outfile);
 
 __END_DECLS
 

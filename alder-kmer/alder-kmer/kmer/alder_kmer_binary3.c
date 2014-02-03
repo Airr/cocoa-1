@@ -40,29 +40,18 @@ static uint8_t dna2byte[4][4] = {
     {0xC0,0x30,0x0C,0x03}
 };
 
-static FILE * open_outfile_i(const char *outfile, const char *outdir, int idx)
-{
-    /* Open an output file. */
-    bstring bfpar = bformat("%s/%s-%d.bin", outdir, outfile, idx);
-    if (bfpar == NULL) {
-        return NULL;
-    }
-    FILE *fpout = fopen(bdata(bfpar), "wb");
-    if (fpout == NULL) {
-        bdestroy(bfpar);
-        return NULL;
-    }
-    bdestroy(bfpar);
-    return fpout;
-}
-
+/**
+ *  This function opens a file; outdir/outfile.bin.
+ *
+ *  @param outfile outfile name
+ *  @param outdir  outdir name
+ *
+ *  @return FILE pointer if successful, otherwise NULL
+ */
 static FILE * open_outfile(const char *outfile, const char *outdir)
 {
-    /* Open an output file. */
     bstring bfpar = bformat("%s/%s.bin", outdir, outfile);
-    if (bfpar == NULL) {
-        return NULL;
-    }
+    ALDER_RETURN_NULL_IF_NULL(bfpar);
     FILE *fpout = fopen(bdata(bfpar), "wb");
     if (fpout == NULL) {
         bdestroy(bfpar);
@@ -71,7 +60,6 @@ static FILE * open_outfile(const char *outfile, const char *outdir)
     bdestroy(bfpar);
     return fpout;
 }
-
 
 /**
  *  This function writes the outbuf to file.
@@ -119,31 +107,14 @@ void write_to_binary2(size_t size_outbuf, size_t *opos_e_len_p, uint16_t e_len,
 
 
 /**
- *  This function reads a set of sequence data to to write it to a binary file. 
- *  totalfilesize > 0 and n_byte = 0
- *
- *  @param ptr                  memory
- *  @param total_size           memory size
- *  @param subsize              block size
- *  @param n_kmer               number of kmer in the data
- *  @param n_dna                number of dna in the data
- *  @param n_seq                number of sequences
- *  @param totalfilesize        binary file size if full
- *  @param n_byte               bytes in the memory if not full
- *  @param version              version
- *  @param K                    kmer size
- *  @param D                    disk space
- *  @param M                    memory
- *  @param min_M_table          minimum memory for a partition table
- *  @param max_M_table          maximum memory for a partition table
- *  @param n_nt                 threads
- *  @param progress_flag        progress
- *  @param progressToError_flag progress to stderr
- *  @param infile               infile
- *  @param outdir               output directory
- *  @param outfile              outfile name
- *
- *  @return SUCCESS or FAIL
+ *  See alder_kmer_binary.c for alder_kmer_binary function.
+ * 
+ *  K is not used yet. It will be used in making a binary file for FASTA.
+ *  D is not used; it could be used to check disk space.
+ *  M is not used (loading to memory version).
+ *  min_M_table, max_M_table are not used either (loading to memory version).
+ *  nsplit is not used.
+ *  
  */
 int
 alder_kmer_binary3(void *ptr, size_t total_size, size_t subsize,
@@ -158,18 +129,25 @@ alder_kmer_binary3(void *ptr, size_t total_size, size_t subsize,
                    struct bstrList *infile, const char *outdir,
                    const char *outfile)
 {
-    alder_log("Binary command version: %ld", version);
+    int width = ALDER_LOG_TEXTWIDTH;
+    alder_log("*** Kmer binary setup ***");
+    if (infile->qty > 0) {
+        size_t total_file_size = 0;
+        alder_totalfile_size(infile, &total_file_size);
+        alder_log("%*s %zu (B)", width, "Total file size:", total_file_size);
+    }
+    
     FILE **fpout = NULL;
     *n_kmer = 0;
     *n_dna = 0;
     *n_seq = 0;
     *n_byte = 0;
     
-    assert(version == 2 || version == 3);
+    assert(version == 2 || version == 7);
     assert(ptr == NULL);
     assert(total_size == 0);
     assert(nsplit > 0);
-    if (version == 2) {
+    if (version == 2 || version == 7) {
         nsplit = 1;
     }
     fpout = malloc(sizeof(*fpout) * nsplit);
@@ -177,16 +155,7 @@ alder_kmer_binary3(void *ptr, size_t total_size, size_t subsize,
         return ALDER_STATUS_ERROR;
     }
     memset(fpout, 0, sizeof(*fpout) * nsplit);
-    if (version == 2) {
-        fpout[0] = open_outfile(outfile, outdir);
-    } else {
-        for (int i = 0; i < nsplit; i++) {
-            fpout[i] = open_outfile_i(outfile, outdir, i);
-            if (fpout[i] == NULL) {
-                return ALDER_STATUS_ERROR;
-            }
-        }
-    }
+    fpout[0] = open_outfile(outfile, outdir);
     
     /* Open kstream for tokens. */
     alder_kseq_sequenceiterator_t *fiter = alder_kseq_sequenceiterator_create();
@@ -311,11 +280,7 @@ alder_kmer_binary3(void *ptr, size_t total_size, size_t subsize,
     *totalfilesize = 0;
     for (int i = 0; i < nsplit; i++) {
         bstring bfpar;
-        if (version == 2) {
-            bfpar = bformat("%s/%s.bin", outdir, outfile);
-        } else {
-            bfpar = bformat("%s/%s-%d.bin", outdir, outfile, i);
-        }
+        bfpar = bformat("%s/%s.bin", outdir, outfile);
         if (bfpar == NULL) {
             XFREE(outbuf);
             XFREE(spareOutbuf);

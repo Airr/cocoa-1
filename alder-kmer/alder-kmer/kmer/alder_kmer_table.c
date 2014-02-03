@@ -83,7 +83,7 @@ alder_kmer_count_withPartition_init(size_t *_S_filesize,
     *_S_filesize = totalFilesize;
     
     int width = ALDER_LOG_TEXTWIDTH;
-    alder_log("*** Kmer counting setup ***");
+    alder_log("*** Kmer count setup ***");
     alder_log("%*s %d", width, "Kmer size:", K);
     alder_log("%*s N/A", width, "Disk space (MB):");
     alder_log("%*s N/A", width, "Memory space (MB):");
@@ -130,12 +130,14 @@ filename_partition(const char *parfile, int i_ni, int i_np)
  *
  *  @return table size if successful, otherwise 0
  */
-size_t compute_nh_firstparfile(long version , const char *parfile, int n_thread, int K)
+size_t compute_nh_firstparfile(long version, const char *parfile, int n_thread, int K)
 {
     /* */
     size_t N_nh = 0;
     size_t size_parfile = 0;
-    if (version == 2) {
+    if (version == 1) {
+        alder_file_size(parfile, &size_parfile);
+    } else if (version == 2) {
         bstring bpar = filename_partition(parfile, 0, 0);
         alder_file_size(bdata(bpar), &size_parfile);
         bdestroy(bpar);
@@ -188,7 +190,10 @@ alder_kmer_table(long version,
     size_t S_filesize;
     size_t n_hash = 0;
     size_t n_byte = 0;
-    
+    size_t n_total_kmer = 100;
+    size_t n_current_kmer = 1;
+    size_t n_kmer_counted = 0;
+    struct bstrList *cinfile = NULL;
 
     alder_kmer_estimate_buffer_size(&sizeInbuffer, &sizeOutbuffer,
                                     outfile, outdir);
@@ -200,9 +205,17 @@ alder_kmer_table(long version,
     if (parfile_given == 1) {
         N_ni = n_ni;
         N_np = n_np;
-        N_nh = compute_nh_firstparfile(version, parfile, n_thread, K);
+        N_nh = compute_nh_firstparfile(2, parfile, n_thread, K);
         if (N_nh == 0) {
             return ALDER_STATUS_ERROR;
+        }
+    }
+    if (infile->qty > 0) {
+        N_ni = 1;
+        N_np = infile->qty;
+        N_nh = 0;
+        for (int i = 0; i < infile->qty; i++) {
+            N_nh += compute_nh_firstparfile(1, bdata(infile->entry[i]), n_thread, K);
         }
     }
     
@@ -215,17 +228,11 @@ alder_kmer_table(long version,
     }
     alder_log("*** Kmer count using partition files ***");
     // Count and save: runs on nt-many threads.
+    assert(version == 2 || version == 7);
     if (version == 2) {
         count = &alder_kmer_count_iteration2;
-    } else if (version == 3) {
-        count = &alder_kmer_count_iteration3;
-    } else if (version == 4 || version == 5) {
-        count = &alder_kmer_count_iteration4;
     } else {
-        fprintf(stderr, "No alder_kmer_count_iteration4 for version > 5\n");
-        count = NULL;
-        assert(0);
-        abort();
+        count = &alder_kmer_thread7;
     }
     for (int i_ni = 0; i_ni < n_ni; i_ni++) {
         (*count)(fpout,
@@ -240,13 +247,16 @@ alder_kmer_table(long version,
                  N_nh,
                  S_filesize,
                  &n_byte,
+                 &n_kmer_counted,
                  &n_hash,
+                 n_total_kmer,
+                 &n_current_kmer,
                  progress_flag,
                  progressToError_flag,
                  nopack_flag,
                  NULL,
                  0,
-                 infile,
+                 cinfile,
                  outdir,
                  outfile);
     }

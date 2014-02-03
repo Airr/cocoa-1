@@ -53,12 +53,11 @@ uint64_t alder_hash_code00(uint64_t key)
  */
 uint64_t alder_hash_code01(uint64_t *n, int s)
 {
-//    uint64_t x = alder_hash_code00(n[0]);
-//    for (int i = 1; i < s; i++) {
-//        x += (i * alder_hash_code00(n[i]));
-//    }
-//    return x;
-    return alder_hash_code00(n[0]) * s * (s+1) / 2;
+    uint64_t x = alder_hash_code00(n[0]);
+    for (int i = 1; i < s; i++) {
+        x ^= alder_hash_code00(n[i]);
+    }
+    return x;
 }
 
 

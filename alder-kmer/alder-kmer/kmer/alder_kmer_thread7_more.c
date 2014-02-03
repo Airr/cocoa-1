@@ -1,5 +1,5 @@
 /**
- * This file, alder_kmer_thread3_more.c, is part of alder-kmer.
+ * This file, alder_kmer_thread7_more.c, is part of alder-kmer.
  *
  * Copyright 2014 by Sang Chul Choi
  *
@@ -21,9 +21,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include "alder_cmacro.h"
-#include "alder_kmer_thread3.h"
-
-
+#include "alder_kmer_thread7.h"
 
 /**
  *  This function increases the count of blocks by 1 atomically.
@@ -33,7 +31,7 @@
  *
  *  @return void
  */
-void alder_kmer_counter3_increment_n_block(alder_kmer_thread3_t *a, uint64_t i_np)
+void alder_kmer_thread7_increment_n_block(alder_kmer_thread7_t *a, uint64_t i_np)
 {
     int oval = a->n_blockByCounter[i_np];
     int cval = oval + 1;
