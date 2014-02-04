@@ -1,7 +1,7 @@
 /**
  * This file, alder_kmer_encode7.h, is part of alder-kmer.
  *
- * Copyright 2014 by Sang Chul Choi
+ * Copyright 2013,2014 by Sang Chul Choi
  *
  * alder-kmer is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -52,26 +52,19 @@ struct alder_kmer_encode7_struct {
     /* lock */
     int *lock_write;           /* write locks                                */
     
-    /* reader */
-    size_t reader_lenbuf;
-    size_t reader_lenbuf2;
-    int reader_i_infile;
-    
     /* buffer */
-    size_t size_fixedoutbuffer;/* buffer size for output                     */
-    size_t size_fixedinbuffer; /* input buffer size                          */
+    size_t size_fixedinbuffer; /* input buffer size - binary block size      */
     size_t size_subinbuf;      /* size of each divided buffer                */
     size_t size_inbuf;         /* size_inbuf - size of the inbuf             */
+    uint8_t *inbuf;            /* [size_inbuf] inbuf - input buffer          */
+    
+    size_t size_fixedoutbuffer;/* buffer size for output                     */
     size_t size_outbuf;        /* size_outbuf - size of the output buffer    */
     size_t size_suboutbuf;     /* size of each sub out buffer                */
-    size_t maxsize_suboutbuf;  /* maximum size of sub out buffer             */
-    int is_full;               /* flag for full outbuffer                    */
     size_t size_suboutbuf2;    /* per partition: size of each sub out buffer */
+    size_t size_suboutbuf3;    /* per partition: size of each sub out buffer */
     size_t n_kmer_suboutbuf;   /* number of kmers in suboutbuf               */
-    uint8_t *inbuf;            /* [size_inbuf] inbuf - input buffer          */
     uint8_t *outbuf;           /* [size_outbuf] outbuf - output buff         */
-    /* body size */
-    size_t size_suboutbuf2_body;
     
     /* file */
     struct bstrList *infile;   /* (not own) input files                      */
@@ -80,7 +73,6 @@ struct alder_kmer_encode7_struct {
     bstring dout;              /* output directory                           */
     
     /* progress */
-    size_t totalFilesize;      /* total file size                            */
     int progress_flag;
     int progressToError_flag;
     
@@ -92,11 +84,6 @@ struct alder_kmer_encode7_struct {
     uint64_t n_total_kmer;     /* total number of kmers need to processed    */
     uint64_t n_current_kmer;   /* current number of kmers processed          */
 };
-
-//void alder_kmer_encode7_lock_reader(alder_kmer_encode7_t *a, int encoder_id);
-//void alder_kmer_encode7_unlock_reader(alder_kmer_encode7_t *a, int encoder_id);
-//void alder_kmer_encode7_lock_writer(alder_kmer_encode7_t *a, int part_id);
-//void alder_kmer_encode7_unlock_writer(alder_kmer_encode7_t *a, int part_id);
 
 __END_DECLS
 

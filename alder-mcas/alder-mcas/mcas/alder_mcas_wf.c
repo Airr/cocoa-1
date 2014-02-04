@@ -140,7 +140,6 @@ void mcas_init(int threads){
 //	printf("Threads: %d\n", nThreads);
 	pthread_mutex_init(&dumplock, NULL);
 	fout_cas=fopen("CASRes.txt", "w");
-	
 #endif
 }
 int attach_mcas_thread(){

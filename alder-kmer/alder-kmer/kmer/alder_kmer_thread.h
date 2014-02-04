@@ -1,7 +1,7 @@
 /**
  * This file, alder_kmer_thread.h, is part of alder-kmer.
  *
- * Copyright 2013 by Sang Chul Choi
+ * Copyright 2013,2014 by Sang Chul Choi
  *
  * alder-kmer is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,31 +37,6 @@
 __BEGIN_DECLS
 
 #pragma mark count
-
-int alder_kmer_count_iteration2(FILE *fpout,
-                                int n_thread,
-                                int i_ni,
-                                int kmer_size,
-                                long memory_available,
-                                long sizeInbuffer,
-                                long sizeOutbuffer,
-                                uint64_t n_ni,
-                                uint64_t n_np,
-                                size_t n_nh,
-                                size_t totalfilesize,
-                                size_t *n_byte,
-                                size_t *n_kmer,
-                                size_t *n_hash,
-                                size_t n_total_kmer,
-                                size_t *n_current_kmer,
-                                int progress_flag,
-                                int progressToError_flag,
-                                int nopack_flag,
-                                uint8_t *inbuf,
-                                size_t size_data,
-                                struct bstrList *infile,
-                                const char *outdir,
-                                const char *outfile);
 
 int alder_kmer_thread7(FILE *fpout,
                        int n_thread,

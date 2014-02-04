@@ -75,7 +75,7 @@ if [ -z "$9" ]; then
 fi
 
 
-hashtablesize=$(echo $maxkmer/0.7 | bc)
+# hashtablesize=$(echo $maxkmer/0.7 | bc)
 
 echo "*** START ***"
 echo "*** Simulation Setup ***"
@@ -88,7 +88,7 @@ echo "Disk:                    $disk (MB)"
 echo "Memory:                  $memory (MB)"
 echo "Number of threads:       $nthread"
 echo "Version:                 $version"
-echo "Hash table size:         $hashtablesize"
+# echo "Hash table size:         $hashtablesize"
 
 ###############################################################################
 # Functions
@@ -127,7 +127,7 @@ measure_end_time() {
 # Sequence Generation
 ###############################################################################
 touch START
-echo "simulating a kmer count data ..."
+echo "[1] creating a sequence file ..."
 
 command="./alder-kmer simulate -k $kmersize --seqlen=500 --select-version=$version --seed=1 --format=$format --maxkmer=$maxkmer --outfile=outfile"
 run_command
@@ -139,7 +139,7 @@ fi
 seqfilesize=$(stat outfile-00.$format | cut -d" " -f 8)
 echo "File outfile-00.$format size: $((seqfilesize / 10**3)) KB."
 
-echo "bumping up ..."
+echo "  bumping up ..."
 multiply_file outfile-00.$format outfile.$format $duplicate
 
 seqfilesize=$(stat outfile.$format | cut -d" " -f 8)
@@ -160,13 +160,13 @@ elif [ "$compress" == "bz2" ]; then
 else
   zip=""
 fi
-echo "  created file: outfile-00.$format$zip"
+echo "  created file: outfile.$format$zip"
 
 ###############################################################################
 # Sequence to Table or (Counting...)
 ###############################################################################
 measure_start_time
-echo "counting ..."
+echo "[2] counting kmers in the sequence data ..."
 command="./alder-kmer count -k $kmersize --select-version=$version --progress --disk=$disk --memory=$memory --nthread=$nthread --log outfile.$format$zip"
 run_command
 if [ $? -ne 0 ]; then
@@ -180,7 +180,7 @@ measure_end_time
 ###############################################################################
 # Table to Report
 ###############################################################################
-echo "reporting the table ..."
+echo "[3] reporting the resulting table ..."
 echo "./alder-kmer report outfile.tbl > outfile.1"
 ./alder-kmer report outfile.tbl > outfile.1
 if [ $? -ne 0 ]; then
@@ -192,7 +192,7 @@ fi
 ###############################################################################
 # Check number of kmers
 ###############################################################################
-echo -n "checking number of kmers... "
+echo -n "[4] checking number of kmers ........................................"
 lines=$(wc -l < outfile.1)
 if [ $lines -ne $maxkmer ]; then
   echoerr "K=$kmersize, format=$format Test failed because maxkmer is not $maxkmer."
@@ -204,7 +204,7 @@ echo "Passed!"
 ###############################################################################
 # Check occurences
 ###############################################################################
-echo -n "checking the count of kmers... "
+echo -n "[5] checking the count of kmers ....................................."
 nuniquekmer=$(cut -f 3 outfile.1|uniq|wc -l)
 if [ $nuniquekmer -ne 1 ]; then
   echoerr "Multiple kmers with different counts."
@@ -217,7 +217,17 @@ if [ $(cut -f 3 outfile.1|uniq) != "$duplicate" ]; then
   exit
 fi
 echo "Passed!"
+
+touch FINISH
+echo "*** END ***"
+echo ""
+
 exit
+
+
+
+
+
 
 ###############################################################################
 # Compare the sequence data and table file
@@ -237,8 +247,3 @@ fi
 echo "Passed!"
 measure_end_time
 fi
-
-touch FINISH
-
-echo "*** END ***"
-echo ""

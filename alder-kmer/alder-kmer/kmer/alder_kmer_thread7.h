@@ -1,7 +1,7 @@
 /**
  * This file, alder_kmer_thread7.h, is part of alder-kmer.
  *
- * Copyright 2014 by Sang Chul Choi
+ * Copyright 2013,2014 by Sang Chul Choi
  *
  * alder-kmer is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,13 +37,8 @@
 
 __BEGIN_DECLS
 
-#pragma mark struct
+typedef struct alder_kmer_thread7_struct alder_kmer_thread7_t;
 
-typedef struct alder_kmer_thread7_struct
-alder_kmer_thread7_t;
-
-/* Readwriter thread accesses this type.
- */
 struct alder_kmer_thread7_struct {
     /* info */
     int k;                       /* k - kmer size                            */
@@ -71,12 +66,11 @@ struct alder_kmer_thread7_struct {
     /* outbuf: hash table */
     size_t n_ht;                 /* number of hash tables                    */
     size_t main_i_np;            /* main partition index                     */
-    size_t main_table;           /* main table                               */
     alder_hashtable_mcas_t **ht; /* (per partition) hash table               */
     
     /* file */
     struct bstrList *infile;     /* (not own) input partition file names     */
-    FILE *fpout;                 /* (not own) count table output file pointer*/
+    FILE *fpout;                 /* (not own) count table file pointer       */
     bstring boutfile;            /* outfile name                             */
     bstring boutdir;             /* out directory                            */
     FILE *fpin;                  /* partition input file pointer             */
@@ -91,13 +85,11 @@ struct alder_kmer_thread7_struct {
     size_t n_total_kmer;       /* total number of kmers to be processed      */
     size_t n_current_kmer;     /* number of kmers processed so far           */
     
-    size_t totalFilesize;      /* total file size                            */
     int progress_flag;         /* flag for progress bar                      */
     int progressToError_flag;  /* flag for progress bar                      */
     
     /* flag */
     bool isMultithreaded;      /* are there other counters?                  */
-    int status;                /* status of counter's buffers                */
 };
 
 void alder_kmer_thread7_increment_n_block(alder_kmer_thread7_t *a, uint64_t i_np);

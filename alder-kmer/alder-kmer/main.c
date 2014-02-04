@@ -61,7 +61,8 @@ int main(int argc, char * argv[])
         alder_logger_initialize(args_info.log_arg, LOG_SILENT);
         alder_logger_error_initialize(LOG_BASIC);
     }
-//    alder_log("START: %s", ctime(&start));
+    ///////////////////////////////////////////////////////////////////////////
+    // Timing:
     alder_log("START: %.*s", (int)(strlen(ctime(&start))-1), ctime(&start));
     
     ///////////////////////////////////////////////////////////////////////////
@@ -271,9 +272,9 @@ int main(int argc, char * argv[])
     ///////////////////////////////////////////////////////////////////////////
     // Timing:
     time_t end = time(NULL);
-    alder_log("END: %s", ctime(&end));
+    alder_log("END: %.*s", (int)(strlen(ctime(&end))-1), ctime(&end));
     double run_time = difftime(end, start);
-    alder_log("END: %.f (s) = %.f (m) = %.f (h)", run_time, run_time/60, run_time/3600);
+    alder_log("RUN TIME: %.f (s) = %.f (m) = %.f (h)", run_time, run_time/60, run_time/3600);
     
     ///////////////////////////////////////////////////////////////////////////
     // Cleanup!

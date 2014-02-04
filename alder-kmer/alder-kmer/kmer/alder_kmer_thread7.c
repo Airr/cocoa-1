@@ -1,7 +1,7 @@
 /**
  * This file, alder_kmer_thread7.c, is part of alder-kmer.
  *
- * Copyright 2014 by Sang Chul Choi
+ * Copyright 2013,2014 by Sang Chul Choi
  *
  * alder-kmer is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,53 +49,26 @@
  *         by the number of threads. Th size of buffer after this header is
  *         fixed at BUFSIZE + b, where b is the number of bytes for a kmer.
  *         The last byte is not used because I'd save only b-1 bytes.
- *
- *  Reader
- *  ------
- *  The reader thread:
- *  1. opens a par file.
- *  2. computes the number of buffer blocks in the par file (n_blockByReader)
- *  3. selects an empty input buffer.
- *  4. reads a block of input buffer.
- *  5. releases the input buffer full or empty.
- *  6. closes the par file.
- *  7. finishes all of the input buffers.
- *
- *  Writer
- *  ------
- *  1. selects a finished main table.
- *  2. writes the table to the output file.
- *  3. releases the empty table.
- *  4. increments the main partition index.
- *  5. checks if all of the tables are empty, when all of blocks are done.
- *
- *  Counter
- *  -------
- *  1. Variables for decoding kmers: m, m2, res_key, ib, jb.
- *  2. Write a table file if needed; or when c_table is 0 or 1.
- *  3. Exit if I reach the final block.
- *  4. Read an input buffer.
- *  5. Exit if no input buffer available.
- *
- *  2. First, it attempts to choose an input buffer from the main partition.
- *  3. Second, if the firty attempt failed, it would choose one from secondary.
- *  4. Use n_blockByReader and n_blockByCounter to check the final buffer.
  */
 
 static int counter_id_counter = 0;
 
 #define ALDER_KMER_THREAD7_NO_READ              2
 
-#define ALDER_KMER_THREAD7_INBUFFER_I_NP        1
-#define ALDER_KMER_THREAD7_INBUFFER_LENGTH      9
-#define ALDER_KMER_THREAD7_INBUFFER_BODY        17
+#define INBUFFER_I_NP        1
+#define INBUFFER_LENGTH      9
+#define INBUFFER_BODY        17
 
 
 static void *counter(void *t);
 
 /**
  *  This function creates a bstring of a partition file name.
- *  The caller is responsible for freeing the bstring.
+ *  The caller is responsible for freeing the bstring. The infile can be NULL.
+ *  When partition files are created, the infile partition names need to be
+ *  created. This is usually the case the whole procedure is done by count
+ *  command. If infile is not NULL, the list of partition files is considered
+ *  a list of partition files.
  *
  *  @param o    counter
  *  @param i_np partition index
@@ -142,32 +115,79 @@ compute_number_block(alder_kmer_thread7_t *o, uint64_t i_np)
     /* Compute the number of buffer blocks in the file. */
     size_t file_size = 0;
     alder_file_size(bdata(bfpar), &file_size);
-    o->n_blockByReader[i_np] = (int)ALDER_BYTESIZE_KMER(file_size,o->size_readbuffer);
+    o->n_blockByReader[i_np] = (int)ALDER_BYTESIZE_KMER(file_size,
+                                                        o->size_readbuffer);
     bdestroy(bfpar);
     return ALDER_STATUS_SUCCESS;
 }
 
-
+/**
+ *  This function frees the memory allocated for the following variables.
+ *  1. next_inbuf
+ *  2. inbuf
+ *  3. n_blockByReader
+ *  4. n_blockByCounter
+ *  5. ht
+ *  6. boutfile
+ *  7. boutdir
+ *  8. fpin
+ *  9. n_t_byte
+ * 10. n_i_byte
+ * 11. n_i_kmer
+ *
+ *  @param o counter
+ */
 static void
 alder_kmer_thread7_destroy(alder_kmer_thread7_t *o)
 {
     if (o != NULL) {
         /* o->infile is not owned. */
+        XFREE(o->n_i_kmer);
+        XFREE(o->n_i_byte);
+        XFREE(o->n_t_byte);
         XFCLOSE(o->fpin);
-        for (size_t i = 0; i < o->n_ht; i++) {
-            alder_hashtable_mcas_destroy(o->ht[i]);
-        }
-        XFREE(o->ht);
-        XFREE(o->inbuf);
-        XFREE(o->next_inbuf);
-        XFREE(o->n_blockByReader);
-        XFREE(o->n_blockByCounter);
         bdestroy(o->boutdir);
         bdestroy(o->boutfile);
+        if (o->ht != NULL) {
+            for (size_t i = 0; i < o->n_ht; i++) {
+                alder_hashtable_mcas_destroy(o->ht[i]);
+            }
+            XFREE(o->ht);
+        }
+        XFREE(o->n_blockByCounter);
+        XFREE(o->n_blockByReader);
+        XFREE(o->inbuf);
+        XFREE(o->next_inbuf);
         XFREE(o);
     }
 }
 
+/**
+ *  This function creates a counter.
+ *
+ *  @param fpout                table file for write
+ *  @param n_counter            number of counter threads
+ *  @param i_ni                 iteration index
+ *  @param kmer_size            K
+ *  @param memory_available     M
+ *  @param sizeInbuffer         inbuffer size
+ *  @param sizeOutbuffer        outbuffer size
+ *  @param n_ni                 number of iterations
+ *  @param n_np                 number of partitions
+ *  @param n_nh                 number of hash elements in a table
+ *  @param totalfilesize        [not used]
+ *  @param n_byte               number of bytes to process
+ *  @param n_total_kmer         total number of kmers to process
+ *  @param n_current_kmer       current number of kmers
+ *  @param progress_flag        progress
+ *  @param progressToError_flag progress to stderr
+ *  @param nopack_flag          [not used]
+ *  @param infile               infile
+ *  @param outdir               out directory
+ *  @param outfile              out file name
+ *
+ *  @return counter
+ */
 static alder_kmer_thread7_t *
 alder_kmer_thread7_create(FILE *fpout,
                           int n_counter,
@@ -190,18 +210,21 @@ alder_kmer_thread7_create(FILE *fpout,
                           const char *outdir,
                           const char *outfile)
 {
-    alder_log5("Creating alder_kmer_thread7_t...");
+    alder_log5("Creating a counter ...");
     alder_kmer_thread7_t *o = malloc(sizeof(*o));
     if (o == NULL) {
-        alder_loge(ALDER_ERR_MEMORY, "cannot create alder_kmer_thread7_t");
+        alder_loge(ALDER_ERR_MEMORY, "cannot create a counter");
         return NULL;
     }
     memset(o, 0, sizeof(*o));
     
-    /* init */
-    int b_kmer = alder_encode_number2_bytesize(kmer_size);
-    o->size_readbuffer = sizeInbuffer / b_kmer * b_kmer;
+    /* Adjust the size of read and write buffers. */
+//    int b_kmer = alder_encode_number2_bytesize(kmer_size);
+//    o->size_readbuffer = sizeInbuffer / b_kmer * b_kmer;
+    o->size_readbuffer = sizeInbuffer;
     o->size_writebuffer = sizeOutbuffer;
+    
+    /* init */
     o->k = kmer_size;
     o->b = alder_encode_number2_bytesize(kmer_size);
     o->i_ni = i_ni;
@@ -209,17 +232,16 @@ alder_kmer_thread7_create(FILE *fpout,
     o->n_np = n_np;
     o->n_counter = n_counter;
     o->next_lenbuf = 0;
+    o->next_inbuf = NULL;
     o->reader_lenbuf = 0;
     o->reader_i_parfile = 0;
-    //    o->size_inbuf = (size_t)(memory_available << 19);
-    o->size_subinbuf = ALDER_KMER_THREAD7_INBUFFER_BODY + o->size_readbuffer + o->b;
+    o->size_subinbuf = INBUFFER_BODY + o->size_readbuffer + o->b;
     o->size_inbuf = o->size_subinbuf * n_counter;
     o->inbuf = NULL;
     o->n_blockByReader = NULL;
     o->n_blockByCounter = NULL;
     o->n_ht = 1;
     o->main_i_np = 0;
-    o->main_table = 0;
     o->ht = NULL;
     o->infile = infile;
     o->fpout = fpout;
@@ -229,43 +251,40 @@ alder_kmer_thread7_create(FILE *fpout,
     o->n_t_byte = NULL;
     o->n_i_byte = NULL;
     o->n_i_kmer = NULL;
-    o->n_byte = n_byte;
+    o->n_byte = 0;
     o->n_kmer = 0;
     o->n_hash = 0;
-    o->totalFilesize = totalfilesize;
     o->progress_flag = progress_flag;
     o->progressToError_flag = progressToError_flag;
     o->isMultithreaded = (n_counter > 1);
-    o->status = 0;
     
     /* memory */
+    o->next_inbuf = malloc(sizeof(*o->next_inbuf) * o->b);
+    o->inbuf = malloc(sizeof(*o->inbuf) * o->size_inbuf);
+    o->n_blockByReader = malloc(sizeof(*o->n_blockByReader) * (n_np+1));
+    o->n_blockByCounter = malloc(sizeof(*o->n_blockByCounter) * (n_np+1));
+    o->ht = malloc(sizeof(*o->ht) * o->n_ht);
     o->boutfile = bfromcstr(outfile);
     o->boutdir = bfromcstr(outdir);
     o->n_t_byte = malloc(sizeof(*o->n_t_byte) * n_counter);
     o->n_i_byte = malloc(sizeof(*o->n_i_byte) * n_counter);
     o->n_i_kmer = malloc(sizeof(*o->n_i_kmer) * n_counter);
-    o->n_blockByReader = malloc(sizeof(*o->n_blockByReader) * (n_np+1));
-    o->n_blockByCounter = malloc(sizeof(*o->n_blockByCounter) * (n_np+1));
-    o->inbuf = malloc(sizeof(*o->inbuf) * o->size_inbuf); /* bigmem */
-    o->next_inbuf = malloc(sizeof(*o->inbuf) * o->b); /* bigmem */
-    o->ht = malloc(sizeof(*o->ht) * o->n_ht);
-    if (o->boutfile == NULL || o->boutdir == NULL ||
-        o->n_i_kmer == NULL || o->n_i_byte == NULL || o->n_t_byte == NULL ||
+    if (o->inbuf == NULL || o->next_inbuf == NULL ||
         o->n_blockByReader == NULL || o->n_blockByCounter == NULL ||
-        o->inbuf == NULL || o->next_inbuf == NULL || o->ht == NULL) {
+        o->ht == NULL || o->boutfile == NULL || o->boutdir == NULL ||
+        o->n_i_kmer == NULL || o->n_i_byte == NULL || o->n_t_byte == NULL) {
         alder_kmer_thread7_destroy(o);
         return NULL;
     }
+    memset(o->next_inbuf, 0,sizeof(*o->next_inbuf) * o->b);
+    memset(o->inbuf, 0, sizeof(*o->inbuf) * o->size_inbuf);
+    memset(o->n_blockByReader, 0, sizeof(*o->n_blockByReader) * (n_np+1));
+    memset(o->n_blockByCounter, 0, sizeof(*o->n_blockByCounter) * (n_np+1));
+    memset(o->ht, 0, sizeof(*o->ht) * o->n_ht);
     memset(o->n_t_byte, 0, sizeof(*o->n_t_byte) * n_counter);
     memset(o->n_i_byte, 0, sizeof(*o->n_i_byte) * n_counter);
     memset(o->n_i_kmer, 0, sizeof(*o->n_i_kmer) * n_counter);
-    memset(o->n_blockByReader, 0, sizeof(*o->n_blockByReader) * (n_np+1));
-    memset(o->n_blockByCounter, 0, sizeof(*o->n_blockByCounter) * (n_np+1));
-    memset(o->inbuf,0,sizeof(*o->inbuf) * o->size_inbuf);
-    memset(o->next_inbuf,0,sizeof(*o->next_inbuf) * o->b);
-    memset(o->ht,0,sizeof(*o->ht) * o->n_ht);
     assert(o->fpin == NULL);
-    
     for (size_t i = 0; i < o->n_ht; i++) {
         o->ht[i] = alder_hashtable_mcas_create(kmer_size, n_nh); /* bigmem */
         o->ht[i]->i_np = i;
@@ -288,6 +307,13 @@ alder_kmer_thread7_create(FILE *fpout,
 
 #pragma mark local
 
+/**
+ *  This function closes a partition file.
+ *
+ *  @param o counter
+ *
+ *  @return SUCCESS
+ */
 static int close_parfile (alder_kmer_thread7_t *o)
 {
     assert(o != NULL);
@@ -352,7 +378,7 @@ static pthread_mutex_t mutex_read;
  *  @param progress_flag        progress
  *  @param progressToError_flag progress to std err
  *  @param nopack_flag          no pack
- *  @param infile               input files
+ *  @param infile               NULL when counting
  *  @param outdir               output directory
  *  @param outfile              output file name
  *
@@ -389,43 +415,43 @@ int alder_kmer_thread7(FILE *fpout,
     if (n_counter > 1 && kmer_size > 31) {
         mcas_init(n_counter);
     }
-    int n_thread = n_counter + 0;
     
-    alder_kmer_thread7_t *data = alder_kmer_thread7_create(fpout,
-                                                           n_counter,
-                                                           i_ni,
-                                                           kmer_size,
-                                                           memory_available,
-                                                           sizeInbuffer,
-                                                           sizeOutbuffer,
-                                                           n_ni,
-                                                           n_np,
-                                                           n_nh,
-                                                           totalfilesize,
-                                                           *n_byte,
-                                                           n_total_kmer,
-                                                           *n_current_kmer,
-                                                           progress_flag,
-                                                           progressToError_flag,
-                                                           nopack_flag,
-                                                           infile,
-                                                           outdir,
-                                                           outfile);
+    alder_kmer_thread7_t *data =
+    alder_kmer_thread7_create(fpout,
+                              n_counter,
+                              i_ni,
+                              kmer_size,
+                              memory_available,
+                              sizeInbuffer,
+                              sizeOutbuffer,
+                              n_ni,
+                              n_np,
+                              n_nh,
+                              totalfilesize,
+                              *n_byte,
+                              n_total_kmer,
+                              *n_current_kmer,
+                              progress_flag,
+                              progressToError_flag,
+                              nopack_flag,
+                              infile,
+                              outdir,
+                              outfile);
     if (data == NULL) {
         alder_loge(ALDER_ERR_MEMORY, "failed to creat counter threads.");
         return ALDER_STATUS_ERROR;
     }
     alder_log5("creating %d threads: one for reader, and one for writer",
-               n_thread);
+               n_counter);
     
-    pthread_t *threads = malloc(sizeof(*threads)*n_thread);
+    pthread_t *threads = malloc(sizeof(*threads)*n_counter);
     if (data == NULL || threads == NULL) {
         alder_loge(ALDER_ERR_MEMORY, "cannot create threads for counting");
         XFREE(threads);
         alder_kmer_thread7_destroy(data);
         return ALDER_STATUS_ERROR;
     }
-    memset(threads,0,sizeof(*threads)*n_thread);
+    memset(threads,0,sizeof(*threads)*n_counter);
     
     pthread_attr_t attr;
     s += pthread_attr_init(&attr);
@@ -433,7 +459,7 @@ int alder_kmer_thread7(FILE *fpout,
     s += pthread_mutex_init(&mutex_write, NULL);
     s += pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
     for (int i = 0; i < n_counter; i++) {
-        s += pthread_create(&threads[i+0], &attr, counter, (void *)data);
+        s += pthread_create(&threads[i], &attr, counter, (void *)data);
     }
     if (s != 0) {
         alder_loge(ALDER_ERR_THREAD, "cannot create threads - %s",
@@ -443,7 +469,7 @@ int alder_kmer_thread7(FILE *fpout,
     
     /* Wait for all threads to complete */
     alder_log3("main(): waiting for all threads to complete...");
-    for (int i = 0; i < n_thread; i++) {
+    for (int i = 0; i < n_counter; i++) {
         s += pthread_join(threads[i], NULL);
         if (s != 0) {
             alder_loge(ALDER_ERR_THREAD, "cannot join threads - %s",
@@ -459,7 +485,7 @@ cleanup:
     pthread_mutex_destroy(&mutex_write);
     XFREE(threads);
     
-    data->n_byte  = 0;
+    data->n_byte = 0;
     for (int i = 0; i < n_counter; i++) {
         data->n_byte += data->n_i_byte[i];
     }
@@ -471,11 +497,11 @@ cleanup:
     alder_log2("counter()[%d) Bytes: %zu", i_ni, data->n_byte);
     *n_byte += data->n_byte;
     *n_kmer += data->n_kmer;
-    *n_hash = data->n_hash;
+    *n_hash += data->n_hash;
     *n_current_kmer += data->n_kmer;
     
     alder_kmer_thread7_destroy(data);
-    alder_log5("Counting Kmers has been finished with %d threads.", n_thread);
+    alder_log5("Counting Kmers has been finished with %d threads.", n_counter);
     return 0;
 }
 
@@ -494,11 +520,11 @@ assign_counter_id()
     while (cval != oval) {
         oval = counter_id_counter;
         cval = oval + 1;
-        cval = __sync_val_compare_and_swap(&counter_id_counter, (int)oval, (int)cval);
+        cval = __sync_val_compare_and_swap(&counter_id_counter,
+                                           (int)oval, (int)cval);
     }
     return oval;
 }
-
 
 #pragma mark thread
 
@@ -589,7 +615,7 @@ read_parfile(alder_kmer_thread7_t *a, int counter_id)
     /* Read a block of input buffer. */
     ssize_t lenbuf = 0;
     uint8_t *inbuf = a->inbuf + counter_id * a->size_subinbuf;
-    uint8_t *inbuf_body = inbuf + ALDER_KMER_THREAD7_INBUFFER_BODY;
+    uint8_t *inbuf_body = inbuf + INBUFFER_BODY;
     size_t cur_next_lenbuf = a->next_lenbuf;
     if (a->next_lenbuf > 0) {
         memcpy(inbuf_body, a->next_inbuf, a->next_lenbuf);
@@ -615,8 +641,8 @@ read_parfile(alder_kmer_thread7_t *a, int counter_id)
     }
     assert(a->reader_i_parfile <= a->n_np);
     
-    to_uint64(inbuf,ALDER_KMER_THREAD7_INBUFFER_I_NP) = a->reader_i_parfile - 1;
-    to_size(inbuf,ALDER_KMER_THREAD7_INBUFFER_LENGTH) = a->reader_lenbuf;
+    to_uint64(inbuf,INBUFFER_I_NP) = a->reader_i_parfile - 1;
+    to_size(inbuf,INBUFFER_LENGTH) = a->reader_lenbuf;
     assert(a->reader_lenbuf % a->b == 0);
     
     /* Progress */
@@ -653,7 +679,9 @@ static void *counter(void *t)
     size_t ib = m2->b / 8;
     size_t jb = m2->b % 8;
     
+#if !defined(NDEBUG)
     size_t debug_counter = 0;
+#endif
     
     /* Let's read inputs, and skip writing table files. */
     size_t c_table = 1;
@@ -693,12 +721,11 @@ static void *counter(void *t)
         
         /* setup of inbuf */
         uint8_t *inbuf = a->inbuf + counter_id * a->size_subinbuf;
-        i_np = to_uint64(inbuf,ALDER_KMER_THREAD7_INBUFFER_I_NP);
-        size_t lenbuf = to_size(inbuf,ALDER_KMER_THREAD7_INBUFFER_LENGTH);
-        uint8_t *inbuf_body = inbuf + ALDER_KMER_THREAD7_INBUFFER_BODY;
+        i_np = to_uint64(inbuf,INBUFFER_I_NP);
+        size_t lenbuf = to_size(inbuf,INBUFFER_LENGTH);
+        uint8_t *inbuf_body = inbuf + INBUFFER_BODY;
         
         while (a->main_i_np < i_np) {
-//            sleep(1);
             asm("");
         }
         if (lenbuf > 0) {
@@ -717,7 +744,9 @@ static void *counter(void *t)
         for (uint64_t i_kmer = 0; i_kmer < n_kmer; i_kmer++) {
             a->n_i_kmer[counter_id]++;
             
+#if !defined(NDEBUG)
             debug_counter++;
+#endif
             
             /*****************************************************************/
             /*                         OPTIMIZATION                          */
@@ -772,9 +801,7 @@ static void *counter(void *t)
     XFREE(res_key);
     alder_encode_number_destroy(m);
     alder_encode_number2_destroy(m2);
-    alder_log("counter(%d): END", counter_id);
-    
-    printf("debug counter: %zu\n",debug_counter++);
+    alder_log2("counter(%d)[%llu]: END", counter_id, a->i_ni);
     pthread_exit(NULL);
 }
 

@@ -1,7 +1,7 @@
 /**
  * This file, alder_kmer_encode.h, is part of alder-kmer.
  *
- * Copyright 2013 by Sang Chul Choi
+ * Copyright 2013,2014 by Sang Chul Choi
  *
  * alder-kmer is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,38 +35,6 @@
 
 
 __BEGIN_DECLS
-
-enum {
-    ALDER_KMER_ENCODE_INBUFFER_EMPTY,
-    ALDER_KMER_ENCODE_INBUFFER_FULL,
-    ALDER_KMER_ENCODE_MORE_OUTBUF,
-    ALDER_KMER_ENCODE_FINAL_OUTBUF,
-    ALDER_KMER_ENCODE_EXIT,
-    ALDER_KMER_ENCODE_CANNOT_EXIT,
-    ALDER_KMER_ENCODE_CAN_EXIT
-};
-
-int
-alder_kmer_encode2(int n_thread,
-                   int i_iteration,
-                   int kmer_size,
-                   long disk_space,
-                   long memory_available,
-                   long sizeInbuffer,
-                   long sizeOutbuffer,
-                   uint64_t n_iteration,
-                   uint64_t n_partition,
-                   size_t totalfilesize,
-                   size_t *n_byte,
-                   size_t *n_kmer,
-                   size_t n_total_kmer,
-                   size_t *n_current_kmer,
-                   int progress_flag,
-                   int progressToError_flag,
-                   unsigned int binfile_given,
-                   struct bstrList *infile,
-                   const char *outdir,
-                   const char *outfile);
 
 int
 alder_kmer_encode7(int n_thread,

@@ -51,24 +51,23 @@ const char *outfile);
 
 /**
  *  This function converts a set of sequence data to a binary file before
- *  starting the procedure of counting Kmers. Data can be loaded on the memory
- *  or can be created in a file.
+ *  encoding Kmers.
  *
- *  @param ptr                  memory for the binary data
- *  @param size                 size of the memory, ptr
- *  @param subsize              block size of the binary data
+ *  @param ptr                  [not used] memory for the binary data
+ *  @param size                 [not used] size of the memory, ptr
+ *  @param subsize              block size of the binary data (inbuf size)
  *  @param n_kmer               [return] total number of kmer in the input
  *  @param n_dna                [return] total number of valid DNA characters
  *  @param n_seq                [return] total number of sequences
  *  @param totalfilesize        [return] size of a file if the file is created
  *  @param n_byte               [return] size of data if ptr is filled
- *  @param version              ?
- *  @param K                    kmer size
- *  @param D                    disk space
- *  @param M                    memory available
- *  @param min_M_table          min memory for a table
- *  @param max_M_table          max memory for a table
- *  @param nsplit               number of splits of a binary file
+ *  @param version              version 7
+ *  @param K                    kmer size (not used in FASTQ but in FASTA)
+ *  @param D                    [not used] disk space
+ *  @param M                    [not used] memory available
+ *  @param min_M_table          [not used] min memory for a table
+ *  @param max_M_table          [not used] max memory for a table
+ *  @param nsplit               [not used] number of splits of a binary file
  *  @param progress_flag        progress
  *  @param progressToError_flag progress to stderr
  *  @param infile               infile
@@ -91,7 +90,7 @@ alder_kmer_binary(void *ptr, size_t size, size_t subsize,
                   const char *outfile)
 {
     binary_t binary;
-    assert(version == 2);
+    assert(version == 7);
     binary = &alder_kmer_binary3;
     int s = (*binary)(ptr, size, subsize,
                       n_kmer, n_dna, n_seq,

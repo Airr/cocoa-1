@@ -102,11 +102,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_binary3.c"
-            timestampString = "412899107.583803"
+            timestampString = "413163190.106126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "536"
-            endingLineNumber = "536">
+            startingLineNumber = "540"
+            endingLineNumber = "540">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -116,11 +116,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_binary3.c"
-            timestampString = "412899107.583803"
+            timestampString = "413163190.106126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "589"
-            endingLineNumber = "589">
+            startingLineNumber = "593"
+            endingLineNumber = "593">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -130,11 +130,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_binary3.c"
-            timestampString = "412899107.583803"
+            timestampString = "413163190.106126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "604"
-            endingLineNumber = "604">
+            startingLineNumber = "608"
+            endingLineNumber = "608">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -400,11 +400,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/alder_kmer_option.c"
-            timestampString = "413024253.829329"
+            timestampString = "413163190.106126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "433"
-            endingLineNumber = "433"
+            startingLineNumber = "429"
+            endingLineNumber = "429"
             landmarkName = "alder_kmer_option_init()"
             landmarkType = "7">
          </BreakpointContent>
@@ -432,11 +432,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_count.c"
-            timestampString = "413091322.306376"
+            timestampString = "413163190.106126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "250"
-            endingLineNumber = "250"
+            startingLineNumber = "195"
+            endingLineNumber = "195"
             landmarkName = "alder_kmer_count_init6()"
             landmarkType = "7">
          </BreakpointContent>
@@ -485,7 +485,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "175"
             endingLineNumber = "175"
-            landmarkName = "alder_kmer_uncompress2()"
+            landmarkName = "alder_kmer_uncompress()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -575,28 +575,12 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "alder-kmer/kmer/alder_kmer_count.c"
-            timestampString = "413091322.306376"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119"
-            landmarkName = "alder_kmer_count_init6()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "alder-kmer/main.c"
-            timestampString = "412897261.017129"
+            timestampString = "413163190.106126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "232"
-            endingLineNumber = "232"
+            startingLineNumber = "233"
+            endingLineNumber = "233"
             landmarkName = "main()"
             landmarkType = "7">
          </BreakpointContent>
@@ -622,11 +606,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/alder_kmer_option.c"
-            timestampString = "413091277.713767"
+            timestampString = "413163190.106126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "593"
-            endingLineNumber = "593"
+            startingLineNumber = "589"
+            endingLineNumber = "589"
             landmarkName = "alder_kmer_option_init()"
             landmarkType = "7">
          </BreakpointContent>
@@ -760,11 +744,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/main.c"
-            timestampString = "412897261.017129"
+            timestampString = "413163190.106126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "185"
-            endingLineNumber = "185"
+            startingLineNumber = "186"
+            endingLineNumber = "186"
             landmarkName = "main()"
             landmarkType = "7">
          </BreakpointContent>
@@ -776,11 +760,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_decode.c"
-            timestampString = "412930265.409569"
+            timestampString = "413163190.106126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "135"
-            endingLineNumber = "135"
+            startingLineNumber = "141"
+            endingLineNumber = "141"
             landmarkName = "alder_kmer_decode()"
             landmarkType = "7">
             <Locations>
@@ -791,11 +775,11 @@
                   symbolName = "alder_kmer_decode"
                   moduleName = "alder-kmer"
                   urlString = "file:///Users/goshng/Dropbox/Documents/Projects/cocoa/alder-kmer/alder-kmer/kmer/alder_kmer_decode.c"
-                  timestampString = "413146471.913817"
+                  timestampString = "413168386.066499"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "135"
-                  endingLineNumber = "135"
+                  startingLineNumber = "141"
+                  endingLineNumber = "141"
                   offsetFromSymbolStart = "1638">
                </Location>
                <Location
@@ -805,11 +789,11 @@
                   symbolName = "alder_kmer_decode"
                   moduleName = "alder-kmer"
                   urlString = "file:///Users/goshng/Dropbox/Documents/Projects/cocoa/alder-kmer/alder-kmer/kmer/alder_kmer_decode.c"
-                  timestampString = "413146471.914285"
+                  timestampString = "413168386.066781"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "135"
-                  endingLineNumber = "135"
+                  startingLineNumber = "141"
+                  endingLineNumber = "141"
                   offsetFromSymbolStart = "2060">
                </Location>
             </Locations>
@@ -1058,11 +1042,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/main.c"
-            timestampString = "412897261.017129"
+            timestampString = "413163190.106126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
             landmarkName = "main()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1074,11 +1058,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_count.c"
-            timestampString = "413091322.306376"
+            timestampString = "413163190.106126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "449"
-            endingLineNumber = "449"
+            startingLineNumber = "394"
+            endingLineNumber = "394"
             landmarkName = "alder_kmer_count()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1090,11 +1074,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_count.c"
-            timestampString = "413091322.306376"
+            timestampString = "413163190.106126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "98"
-            endingLineNumber = "98"
+            startingLineNumber = "112"
+            endingLineNumber = "112"
             landmarkName = "alder_kmer_count_init6()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1106,27 +1090,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_count.c"
-            timestampString = "413091322.306376"
+            timestampString = "413163190.106126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "158"
-            endingLineNumber = "158"
-            landmarkName = "alder_kmer_count_init6()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "alder-kmer/kmer/alder_kmer_count.c"
-            timestampString = "413091322.306376"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "190"
-            endingLineNumber = "190"
+            startingLineNumber = "135"
+            endingLineNumber = "135"
             landmarkName = "alder_kmer_count_init6()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1154,11 +1122,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_count.c"
-            timestampString = "413091322.306376"
+            timestampString = "413163190.106126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "541"
-            endingLineNumber = "541"
+            startingLineNumber = "470"
+            endingLineNumber = "470"
             landmarkName = "alder_kmer_count()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1618,11 +1586,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/main.c"
-            timestampString = "412897257.497662"
+            timestampString = "413163190.106126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "65"
-            endingLineNumber = "65"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
             landmarkName = "main()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1634,11 +1602,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/main.c"
-            timestampString = "412903178.746783"
+            timestampString = "413163190.106126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "157"
-            endingLineNumber = "157"
+            startingLineNumber = "158"
+            endingLineNumber = "158"
             landmarkName = "main()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1699,11 +1667,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/alder_kmer_option.c"
-            timestampString = "413024253.829329"
+            timestampString = "413163190.106126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "490"
-            endingLineNumber = "490"
+            startingLineNumber = "486"
+            endingLineNumber = "486"
             landmarkName = "alder_kmer_option_init()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1747,11 +1715,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/alder_kmer_option.c"
-            timestampString = "412912291.476032"
+            timestampString = "413163190.106126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "331"
-            endingLineNumber = "331"
+            startingLineNumber = "327"
+            endingLineNumber = "327"
             landmarkName = "alder_kmer_option_init()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1827,11 +1795,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_encode7.c"
-            timestampString = "413033392.573371"
+            timestampString = "413163190.106126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "196"
-            endingLineNumber = "196"
+            startingLineNumber = "215"
+            endingLineNumber = "215"
             landmarkName = "alder_kmer_encode7_create()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1843,11 +1811,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_encode7.c"
-            timestampString = "413143624.561666"
+            timestampString = "413168385.983244"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "274"
-            endingLineNumber = "274"
+            startingLineNumber = "257"
+            endingLineNumber = "257"
             landmarkName = "alder_kmer_encode7_create()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1859,11 +1827,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_encode7.c"
-            timestampString = "413146402.18513"
+            timestampString = "413168385.983244"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "869"
-            endingLineNumber = "869"
+            startingLineNumber = "827"
+            endingLineNumber = "827"
             landmarkName = "encoder()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1875,11 +1843,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_encode7.c"
-            timestampString = "413146402.18513"
+            timestampString = "413168385.983244"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "871"
-            endingLineNumber = "871"
+            startingLineNumber = "774"
+            endingLineNumber = "774"
             landmarkName = "encoder()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1891,28 +1859,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alder-kmer/kmer/alder_kmer_encode7.c"
-            timestampString = "413146402.18513"
+            timestampString = "413166035.764844"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "807"
-            endingLineNumber = "807"
-            landmarkName = "encoder()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "alder-kmer/kmer/alder_kmer_encode7.c"
-            timestampString = "413146402.18513"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "818"
-            endingLineNumber = "818"
-            landmarkName = "encoder()"
+            startingLineNumber = "236"
+            endingLineNumber = "236"
+            landmarkName = "alder_kmer_encode7_create()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

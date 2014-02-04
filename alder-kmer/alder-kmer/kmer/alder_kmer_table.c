@@ -1,7 +1,7 @@
 /**
  * This file, alder_kmer_table.c, is part of alder-kmer.
  *
- * Copyright 2014 by Sang Chul Choi
+ * Copyright 2013,2014 by Sang Chul Choi
  *
  * alder-kmer is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -228,12 +228,8 @@ alder_kmer_table(long version,
     }
     alder_log("*** Kmer count using partition files ***");
     // Count and save: runs on nt-many threads.
-    assert(version == 2 || version == 7);
-    if (version == 2) {
-        count = &alder_kmer_count_iteration2;
-    } else {
-        count = &alder_kmer_thread7;
-    }
+    assert(version == 7);
+    count = &alder_kmer_thread7;
     for (int i_ni = 0; i_ni < n_ni; i_ni++) {
         (*count)(fpout,
                  n_thread,

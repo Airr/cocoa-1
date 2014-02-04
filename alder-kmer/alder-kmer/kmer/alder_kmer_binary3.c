@@ -17,6 +17,14 @@
  * along with alder-kmer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ *  This version of binary function is made for parsing FASTQ files. It does
+ *  not cover FASTA files. To encode FASTQ files in a binary file, the size
+ *  of a kmer must be considered because long sequences cannot fit to a block
+ *  in a binary file. I will leave this until I need to do that. So, the binary
+ *  function is done for now; Feb 3rd 2014.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -41,7 +49,7 @@ static uint8_t dna2byte[4][4] = {
 };
 
 /**
- *  This function opens a file; outdir/outfile.bin.
+ *  This function opens a file to write; outdir/outfile.bin.
  *
  *  @param outfile outfile name
  *  @param outdir  outdir name
@@ -105,7 +113,6 @@ void write_to_binary2(size_t size_outbuf, size_t *opos_e_len_p, uint16_t e_len,
     *opos_e_len_p = ALDER_KMER_BINARY_READBLOCK_BODY;
 }
 
-
 /**
  *  See alder_kmer_binary.c for alder_kmer_binary function.
  * 
@@ -114,20 +121,18 @@ void write_to_binary2(size_t size_outbuf, size_t *opos_e_len_p, uint16_t e_len,
  *  M is not used (loading to memory version).
  *  min_M_table, max_M_table are not used either (loading to memory version).
  *  nsplit is not used.
- *  
  */
 int
-alder_kmer_binary3(void *ptr, size_t total_size, size_t subsize,
+alder_kmer_binary3(void *ptr, size_t total_size,
+                   size_t subsize,
                    uint64_t *n_kmer, uint64_t *n_dna, uint64_t *n_seq,
-                   size_t *totalfilesize,
-                   size_t *n_byte,
+                   size_t *totalfilesize, size_t *n_byte,
                    long version,
                    int K, long D, long M, long min_M_table, long max_M_table,
                    long nsplit,
-                   int progress_flag,
-                   int progressToError_flag,
-                   struct bstrList *infile, const char *outdir,
-                   const char *outfile)
+                   int progress_flag, int progressToError_flag,
+                   struct bstrList *infile,
+                   const char *outdir, const char *outfile)
 {
     int width = ALDER_LOG_TEXTWIDTH;
     alder_log("*** Kmer binary setup ***");
@@ -172,7 +177,6 @@ alder_kmer_binary3(void *ptr, size_t total_size, size_t subsize,
     /**
      *  outbuf: 4B [lock], 4B [FSTQ], 8B [block length]
      */
-//    uint8_t *outbuf = ptr;
     uint8_t *outbuf = malloc(size_outbuf + sizeof(e_len) + 1);
     memset(outbuf, 0, size_outbuf + sizeof(e_len) + 1);
     memcpy(outbuf + ALDER_KMER_BINARY_READBLOCK_TYPE, "FSTQ", 4);

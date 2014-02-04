@@ -94,8 +94,8 @@ static void alder_kmer_cmdline_parser_print_detailed_help (alder_kmer_option_t *
     printf("%s\n", bdata(o->help->entry[1]));
     printf("%s\n", bdata(o->help->entry[2]));
     
-    int b[92] = {
-        9,11,89,90,13,14,34,35,15,16,17,18,           // count
+    int b[90] = {
+        9,11,13,14,34,35,15,16,17,18,           // count
         19,20,23,24,85,86,80,81,13,14,                // dump
         25,26,28,57,13,14,                            // query
         29,30,7,78,32,33,34,35,36,37,38,88,13,14,     // simulate
@@ -131,29 +131,25 @@ alder_kmer_cmdline_parser_print_count_help (alder_kmer_option_t *o,
 {
     printf("Usage: alder-kmer count [-kINT|-mINT|--kmer|--mer-len=INT]\n"
            "         [-tINT|--nthread=INT] [--disk=INT] [--memory=INT]\n"
-           "         [--load-disk=REAL] [--load-memory=REAL] [-C|--canonical]\n"
-           "         [-L|--lower-count=INT] [-U|--upper-count=INT]\n"
-           "         [--min-table-memory=INT] [--max-table-memory=INT]\n"
-           "         [--no-partition] [--no-count] [--no-delete]\n"
            "         [-ofilename|--outfile=filename] [--outdir=directory]\n"
-           "         [--nh=INT] [--ni=INT] [--np=INT] [FILES]...\n");
+           "         [-C|--canonical] [-L|--lower-count=INT] [-U|--upper-count=INT]\n"
+           "         [--load-disk=REAL] [--load-memory=REAL]\n"
+           "         [--nh=INT] [--ni=INT] [--np=INT]\n"
+           "         [--no-partition] [--no-count] [--no-delete] [FILES]...\n");
     
     printf("%s\n", gengetopt_args_info_detailed_help[4]);
     printf("%s\n", gengetopt_args_info_detailed_help[5]);
     printf("%s\n", gengetopt_args_info_detailed_help[7]);
-    printf("%s\n", gengetopt_args_info_detailed_help[78]);
+    printf("%s\n", bdata(o->help->entry[2]));
+    printf("%s\n", bdata(o->help->entry[0]));
+    printf("%s\n", bdata(o->help->entry[1]));
+    printf("%s\n", gengetopt_args_info_detailed_help[13]);
+    printf("%s\n", gengetopt_args_info_detailed_help[14]);
     printf("%s\n", gengetopt_args_info_detailed_help[79]);
     printf("%s\n", gengetopt_args_info_detailed_help[80]);
     printf("%s\n", gengetopt_args_info_detailed_help[81]);
-    printf("%s\n", bdata(o->help->entry[0]));
     printf("%s\n", gengetopt_args_info_detailed_help[9]);
-    printf("%s\n", bdata(o->help->entry[1]));
     printf("%s\n", gengetopt_args_info_detailed_help[11]);
-    printf("%s\n", bdata(o->help->entry[2]));
-    printf("%s\n", gengetopt_args_info_detailed_help[89]);
-    printf("%s\n", gengetopt_args_info_detailed_help[90]);
-    printf("%s\n", gengetopt_args_info_detailed_help[13]);
-    printf("%s\n", gengetopt_args_info_detailed_help[14]);
     printf("%s\n", gengetopt_args_info_detailed_help[34]);
     printf("%s\n", gengetopt_args_info_detailed_help[35]);
     printf("%s\n", gengetopt_args_info_detailed_help[15]);

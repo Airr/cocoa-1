@@ -1,7 +1,7 @@
 /**
  * This file, alder_kmer_partition.c, is part of alder-kmer.
  *
- * Copyright 2014 by Sang Chul Choi
+ * Copyright 2013,2014 by Sang Chul Choi
  *
  * alder-kmer is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -83,13 +83,9 @@ alder_kmer_partition(long version,
     sizeOutbuffer = 1 << 20;
     size_t n_total_kmer = 100; // FIXME: total kmer should be known.
     size_t n_current_kmer = 0;
-    assert(version == 2 || version == 7);
+    assert(version == 7);
     for (int i_ni = 0; i_ni < n_ni; i_ni++) {
-        if (version == 2) {
-            encode = &alder_kmer_encode2;
-        } else {
-            encode = &alder_kmer_encode7;
-        }
+        encode = &alder_kmer_encode7;
         s = (*encode)(n_nt, i_ni, K, D, M, sizeInbuffer, sizeOutbuffer,
                                n_ni, n_np, S_filesize, &n_byte, &n_kmer,
                                n_total_kmer, &n_current_kmer,

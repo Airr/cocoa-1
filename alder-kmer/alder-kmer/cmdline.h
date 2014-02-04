@@ -48,9 +48,9 @@ struct gengetopt_args_info
   const char *full_help_help; /**< @brief Print help with documents help description.  */
   int count_flag;	/**< @brief Count k-mer data (default=off).  */
   const char *count_help; /**< @brief Count k-mer data help description.  */
-  long kmer_arg;	/**< @brief k-mer size (default='1').  */
-  char * kmer_orig;	/**< @brief k-mer size original value given at command line.  */
-  const char *kmer_help; /**< @brief k-mer size help description.  */
+  long kmer_arg;	/**< @brief k-mer size (same: -m/--mer-len) (default='1').  */
+  char * kmer_orig;	/**< @brief k-mer size (same: -m/--mer-len) original value given at command line.  */
+  const char *kmer_help; /**< @brief k-mer size (same: -m/--mer-len) help description.  */
   long disk_arg;	/**< @brief maximum disk space (default='10').  */
   char * disk_orig;	/**< @brief maximum disk space original value given at command line.  */
   const char *disk_help; /**< @brief maximum disk space help description.  */

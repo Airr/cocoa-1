@@ -1,7 +1,7 @@
 /**
  * This file, alder_kmer_decode.c, is part of alder-kmer.
  *
- * Copyright 2013 by Sang Chul Choi
+ * Copyright 2013,2014 by Sang Chul Choi
  *
  * alder-kmer is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,6 +15,12 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with alder-kmer.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/**
+ *  This file contains a function to extract kmers in sequence format from 
+ *  partition files. A partition file contain kmers encoded in bytes. It could
+ *  be useful to see the encoded content for debugging. 
  */
 
 #include <stdio.h>

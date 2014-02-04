@@ -1,7 +1,7 @@
 /**
  * This file, alder_kmer_encode7.c, is part of alder-kmer.
  *
- * Copyright 2014 by Sang Chul Choi
+ * Copyright 2013,2014 by Sang Chul Choi
  *
  * alder-kmer is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,6 +15,12 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with alder-kmer.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/**
+ *  This file contains a function to encode a binary file to partition files.
+ *  The binary file contains blocks of a fixed size, and this encoder should
+ *  read them by blocks. The block size is currently 2^16 bytes.
  */
 
 #include <assert.h>
@@ -50,12 +56,6 @@
 #include "alder_kmer_encode7.h"
 
 /**
- *  The state of buffer
- *  -------------------
- *
- *  Buffer states by encoder
- *  ------------------------
- *
  *  Structure of buffers
  *  --------------------
  *  inbuf: There are [n_subbuf]-many sub buffers. The main inbuf does not have
@@ -70,42 +70,22 @@
  *          buffer is again divided by the number of partitions. This sub of
  *          the sub buffer has length value (8B).
  *          1
- *
- *  Variables
- *  ---------
- *  c_inbuffer and c_outbuffer are indices for sub buffers. The size of each
- *  sub buffer is denoted by size_subinbuf and size_suboutbuf.
  */
 
 static int encoder_id_counter = 0;
 static int encoder_full_counter = 0;
 static int encoder_exit_counter = 0;
 
-#define ALDER_KMER_SECONDARY_BUFFER_SIZE        1000
-#define ALDER_KMER_ENCODE7_OUTBUFFER_HEADER     1
-#define ALDER_KMER_ENCODE7_OUTSUBBUFFER_HEADER  8
-
-//
-#define ALDER_KMER_ENCODE7_OUTBUFFER_BODY       8
-
-#define ALDER_KMER_ENCODE7_OUTBUFFER_A          0
-#define ALDER_KMER_ENCODE7_OUTBUFFER_B          8
-#define ALDER_KMER_ENCODE7_OUTBUFFER_C          16
-
-#define ALDER_KMER_ENCODE7_INBUFFER_TYPE_INFILE 1
-#define ALDER_KMER_ENCODE7_INBUFFER_CURRENT     2
-#define ALDER_KMER_ENCODE7_INBUFFER_LENGTH      10
-#define ALDER_KMER_ENCODE7_INBUFFER_BODY        18
-#define ALDER_KMER_ENCODE7_FILETYPE_FASTA       1
-#define ALDER_KMER_ENCODE7_FILETYPE_FASTQ       2
-#define ALDER_KMER_ENCODE7_FILETYPE_SEQ         3
-#define ALDER_KMER_ENCODE7_FILETYPE_BINARY      4
-
+#define SECONDARY_INBUFFER_SIZE 1000
+#define INBUFFER_TYPE_INFILE    1
+#define INBUFFER_CURRENT        2
+#define INBUFFER_LENGTH         10
+#define INBUFFER_BODY           18
 
 static void *encoder(void *t);
 
 /**
- *  This function closes a partition file.
+ *  This function closes a binary file.
  *
  *  @param o        encoder
  *
@@ -122,7 +102,7 @@ static int close_infile (alder_kmer_encode7_t *o)
 }
 
 /**
- *  This function opens a partition file.
+ *  This function opens a binary file.
  *
  *  @param o        encoder
  *  @param i_infile input file index
@@ -148,11 +128,28 @@ static int open_infile (alder_kmer_encode7_t *o)
     return ALDER_STATUS_SUCCESS;
 }
 
+/**
+ *  This function frees the memory used by an encoder.
+ *
+ *  Free these variables:
+ *  1. lock_write
+ *  2. inbuf
+ *  3. outbuf
+ *  4. fx
+ *  5. fpout
+ *  6. dout
+ *  7. n_i_byte
+ *  8. n_i_kmer
+ *
+ *  @param o encoder
+ */
 static void
 alder_kmer_encode7_destroy (alder_kmer_encode7_t *o)
 {
     if (o != NULL) {
-        close_infile(o);
+        XFREE(o->n_i_kmer);
+        XFREE(o->n_i_byte);
+        bdestroy(o->dout);
         if (o->fpout != NULL) {
             for (int j = 0; j < o->n_np; j++) {
                 XFCLOSE(o->fpout[j]);
@@ -160,16 +157,38 @@ alder_kmer_encode7_destroy (alder_kmer_encode7_t *o)
             }
             XFREE(o->fpout);
         }
-        XFREE(o->lock_write);
-        XFREE(o->n_i_byte);
-        XFREE(o->n_i_kmer);
+        close_infile(o);
         XFREE(o->outbuf);
         XFREE(o->inbuf);
-        bdestroy(o->dout);
+        XFREE(o->lock_write);
         XFREE(o);
     }
 }
 
+/**
+ *  This function creates an encoder.
+ *
+ *  @param n_encoder            number of encoder threads
+ *  @param i_iteration          iteration index
+ *  @param kmer_size            K
+ *  @param disk_space           D
+ *  @param memory_available     M
+ *  @param sizeInbuffer         inbuf size
+ *  @param sizeOutbuffer        outbuf size
+ *  @param n_iteration          n_ni
+ *  @param n_partition          n_np
+ *  @param totalfilesize        ?
+ *  @param n_byte               ?
+ *  @param n_total_kmer         total number of kmers to process
+ *  @param n_current_kmer       current number of kmers
+ *  @param progress_flag        progress
+ *  @param progressToError_flag progress to stderr
+ *  @param infile               infile
+ *  @param outdir               out directory
+ *  @param outfile              out file
+ *
+ *  @return encoder
+ */
 static alder_kmer_encode7_t *
 alder_kmer_encode7_create(int n_encoder,
                            int i_iteration,
@@ -191,11 +210,11 @@ alder_kmer_encode7_create(int n_encoder,
                            const char *outfile)
 {
     int s = 0;
-    alder_log5("Creating fileseq_kmer_thread_readwriter...");
+    alder_log5("Creating an encoder ...");
     
     alder_kmer_encode7_t *o = malloc(sizeof(*o));
     if (o == NULL) {
-        alder_loge(ALDER_ERR_MEMORY, "cannot create fileseq_kmer_thread_readwriter");
+        alder_loge(ALDER_ERR_MEMORY, "failed to create an encoder data");
         return NULL;
     }
     memset(o, 0, sizeof(*o));
@@ -210,104 +229,63 @@ alder_kmer_encode7_create(int n_encoder,
     o->n_np = n_partition;
     o->i_ni = i_iteration;
     o->n_encoder = n_encoder;
-    o->reader_lenbuf = 0;
-    o->reader_lenbuf2 = 0;
-    o->reader_i_infile = 0;
-    o->n_encoder = n_encoder;
-    o->size_subinbuf = ALDER_KMER_ENCODE7_INBUFFER_BODY + sizeInbuffer + ALDER_KMER_SECONDARY_BUFFER_SIZE;
+    /* in buffer */
+    o->size_subinbuf = INBUFFER_BODY + sizeInbuffer + SECONDARY_INBUFFER_SIZE;
     o->size_inbuf = o->size_subinbuf * o->n_encoder;
-    o->is_full = 0;
-    
-    /* outbuf */
-    // outbuf = n_encoder x suboutbuf = n_encoder x [n_partition x suboutbuf2]
-    // suboutbuf2 = [b1 + fixed_buffer + b2].
-    // The first b1 is for buffers that I would have to take from other encoder.
-    // The second b2 is for preventing buffer overflow.
-    // So, here is a scenario:
-    // 1. Fill content from pos [b] of suboutbuf2.
-    // 2. Stop if the size is fixedbuffer or greater than that.
-    // 3. Find the encoder that previously wrote content to the same partition.
-    // 4. Copy the previously remained b to b1, and write the fixed buffer.
-    // 5. The remaining part could be larger than b.
-    // 6. If so, copy the kmer to the position at fixed_buffer_size, and
-    //    the other part that does not fit to a kmer to the start of buffer.
-    // This might be a little complicated, so let's have an example.
-    // This is an imaginary buffer.
-    //
-    //  s.  A     B     F         C
-    //  X: [aaa] [bbb] [fffffff] [ccc]
-    //
-    //  0: [000] [000] [0000000] [000] : initial
-    //  1: [000] [000] [1110000] [000] : fill
-    //  2: [000] [000] [1111110] [000] : fill
-    //  3: [000] [000] [1111111] [110] : fill and overflow
-    //  4: [000] [000] [xxxxxxx] [zz0] : write x's in B and F (B is empty).
-    //  5: [0zz] [000] [0000000] [000] : save z's to A (mark encoder)
-    //  6: [011] [000] [1110000] [000] : fill
-    //  7: [011] [000] [1111110] [000] : fill
-    //  8: [011] [000] [1111111] [110] : fill and overflow
-    //  9: [000] [011] [1111111] [110] : move A to B (need to find which encoder)
-    // 10: [000] [0xx] [xxxxx11] [110] : write x's in B and F
-    // 11: [000] [0xx] [xxxxxzy] [yy0] : move y's to F
-    // 12: [00z] [000] [yyy0000] [000] : save z's to A
-    // 13: [001] [000] [yyy1110] [000] : fill
-    //
+    /* out buffer */
     size_t size_outbuf = (size_t)memory_available << 20;
-    size_t size_suboutbuf = size_outbuf / n_partition;
-    size_t size_suboutbuf2 = size_suboutbuf - sizeof(uint64_t);
-    o->n_kmer_suboutbuf = size_suboutbuf2 / o->b;
-    o->size_suboutbuf2 = o->n_kmer_suboutbuf * o->b;
-    o->size_suboutbuf = o->size_suboutbuf2 + sizeof(uint64_t);
-    o->size_outbuf = o->size_suboutbuf * n_partition;
-    o->maxsize_suboutbuf = o->size_suboutbuf2 - n_encoder * o->b;
+    size_t size_suboutbuf = size_outbuf / n_encoder;
+    size_t size_suboutbuf2 = size_suboutbuf / n_partition;
+    size_t size_suboutbuf3 = size_suboutbuf2 - sizeof(uint64_t);
+    o->n_kmer_suboutbuf = size_suboutbuf3 / o->b;
+    o->size_suboutbuf3 = o->n_kmer_suboutbuf * o->b;
+    o->size_suboutbuf2 = o->size_suboutbuf3 + sizeof(uint64_t);
+    o->size_suboutbuf = o->size_suboutbuf2 * n_partition;
+    o->size_outbuf = o->size_suboutbuf * n_encoder;
     int width = ALDER_LOG_TEXTWIDTH;
-    alder_log("*** Kmer encode setup ***");
-    alder_log("%*s %d", width, "Version:", 7);
-    alder_log("%*s %zu (KB)", width, "inbuf:", o->size_inbuf >> 10);
-    alder_log("%*s %ld (MB)", width, "Memory space:", memory_available);
-    alder_log("%*s %llu", width, "Number of partitions:", n_partition);
-    alder_log("%*s %zu (MB)", width, "outbuf:", o->size_outbuf >> 20);
-    alder_log("%*s %zu (MB)", width, "suboutbuf:", o->size_suboutbuf >> 20);
-    alder_log("%*s %zu", width, "n_kmer_subutbuf:", o->n_kmer_suboutbuf);
-    
+    alder_log2("*** Kmer encode setup ***");
+    alder_log2("%*s %d", width, "Version:", 7);
+    alder_log2("%*s %zu (KB)", width, "inbuf:", o->size_inbuf >> 10);
+    alder_log2("%*s %ld (MB)", width, "Memory space:", memory_available);
+    alder_log2("%*s %llu", width, "Number of partitions:", n_partition);
+    alder_log2("%*s %zu (MB)", width, "outbuf:", o->size_outbuf >> 20);
+    alder_log2("%*s %zu (MB)", width, "suboutbuf:", o->size_suboutbuf >> 20);
+    alder_log2("%*s %zu (MB)", width, "suboutbuf2:", o->size_suboutbuf2 >> 20);
+    alder_log2("%*s %zu (B)", width, "suboutbuf3:", o->size_suboutbuf3);
+    alder_log2("%*s %zu", width, "n_kmer_subutbuf:", o->n_kmer_suboutbuf);
     o->lock_write = NULL;
     o->inbuf = NULL;
     o->outbuf = NULL;
-    o->infile = infile;
     o->fx = NULL;
     o->fpout = NULL;
     o->dout = NULL;
-    o->totalFilesize = totalfilesize;
+    o->n_i_byte = NULL;
+    o->n_i_kmer = NULL;
+    o->infile = infile;
     o->progress_flag = progress_flag;
     o->progressToError_flag = progressToError_flag;
     o->n_byte = 0;
-    o->n_i_byte = NULL;
-    o->n_i_kmer = NULL;
     o->n_kmer = 0;
     o->n_total_kmer = n_total_kmer;
     o->n_current_kmer = n_current_kmer;
     
     /* Memory */
-    o->dout = bfromcstr(outdir);
     o->lock_write = malloc(sizeof(*o->lock_write) * n_encoder);
+    o->inbuf = malloc(sizeof(*o->inbuf) * o->size_inbuf);
+    o->outbuf = malloc(sizeof(*o->outbuf) * o->size_outbuf); /* bigmem */
+    o->dout = bfromcstr(outdir);
     o->n_i_byte = malloc(sizeof(*o->n_i_byte) * n_encoder);
     o->n_i_kmer = malloc(sizeof(*o->n_i_kmer) * n_encoder);
-    o->inbuf = malloc(sizeof(*o->inbuf) * o->size_inbuf);    /* bigmem */
-    o->outbuf = malloc(sizeof(*o->outbuf) * o->size_outbuf); /* bigmem */
-    if (o->dout == NULL ||
-        o->lock_write == NULL ||
-        o->n_i_byte == NULL ||
-        o->n_i_kmer == NULL ||
-        o->inbuf == NULL ||
-        o->outbuf == NULL) {
+    if (o->lock_write == NULL || o->inbuf == NULL || o->outbuf == NULL ||
+        o->dout == NULL || o->n_i_byte == NULL || o->n_i_kmer == NULL ) {
         alder_kmer_encode7_destroy(o);
         return NULL;
     }
     memset(o->lock_write, 0, sizeof(*o->lock_write) * n_encoder);
-    memset(o->n_i_byte, 0, sizeof(*o->n_i_byte) * n_encoder);
-    memset(o->n_i_kmer, 0, sizeof(*o->n_i_kmer) * n_encoder);
     memset(o->inbuf, 0, sizeof(*o->inbuf) * o->size_inbuf);
     memset(o->outbuf, 0, sizeof(*o->outbuf) * o->size_outbuf);
+    memset(o->n_i_byte, 0, sizeof(*o->n_i_byte) * n_encoder);
+    memset(o->n_i_kmer, 0, sizeof(*o->n_i_kmer) * n_encoder);
     
     /* Create n_partition files in directory dout. */
     s = alder_file_mkdir(outdir);
@@ -317,10 +295,8 @@ alder_kmer_encode7_create(int n_encoder,
                    outdir);
         return NULL;
     }
-    
     /* Open input file: a binary file */
     open_infile(o);
-    
     /* Open output files: partition files */
     o->fpout = malloc(sizeof(*o->fpout) * n_partition);
     if (o->fpout == NULL) {
@@ -337,7 +313,6 @@ alder_kmer_encode7_create(int n_encoder,
             return NULL;
         }
         o->fpout[i] = fopen(bdata(bfpar), "wb");
-        //        int fd = fileno(o->fpout[i]);
         if (o->fpout[i] == NULL) {
             alder_loge(ALDER_ERR_FILE, "failed to make a file: %s - %s",
                        bdata(bfpar), strerror(errno));
@@ -354,8 +329,8 @@ alder_kmer_encode7_create(int n_encoder,
 
 #pragma mark main
 
-static pthread_mutex_t mutex_write;
 static pthread_mutex_t mutex_read;
+static pthread_mutex_t mutex_write;
 
 /**
  *  This function is the main function.
@@ -370,9 +345,13 @@ static pthread_mutex_t mutex_read;
  *  @param n_iteration          iterations
  *  @param n_partition          partitions
  *  @param totalfilesize        file size
- *  @param n_byte               return bytes
+ *  @param n_byte               [return] bytes
+ *  @param n_kmer               [return] kmer 
+ *  @param n_total_kmer         total kmer for displaying progress
+ *  @param n_current_kmer       current kmer for displaying progress
  *  @param progress_flag        progress
  *  @param progressToError_flag progress std err
+ *  @param binfile_given        ?
  *  @param infile               input files
  *  @param outdir               out directory
  *  @param outfile              out file name
@@ -443,10 +422,10 @@ alder_kmer_encode7(int n_encoder,
     s += pthread_mutex_init(&mutex_write, NULL);
     s += pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
     for (int i = 0; i < n_encoder; i++) {
-        s += pthread_create(&threads[i+0], &attr, encoder, (void *)data);
+        s += pthread_create(&threads[i], &attr, encoder, (void *)data);
     }
     if (s != 0) {
-        alder_loge(ALDER_ERR_THREAD, "cannot create threads - %s",
+        alder_loge(ALDER_ERR_THREAD, "failed to create threads - %s",
                    strerror(errno));
         goto cleanup;
     }
@@ -455,7 +434,7 @@ alder_kmer_encode7(int n_encoder,
     for (int i = 0; i < n_encoder; i++) {
         s += pthread_join(threads[i], NULL);
         if (s != 0) {
-            alder_loge(ALDER_ERR_THREAD, "cannot join threads - %s",
+            alder_loge(ALDER_ERR_THREAD, "failed to join threads - %s",
                        strerror(errno));
             goto cleanup;
         }
@@ -486,6 +465,11 @@ cleanup:
 
 #pragma mark buffer
 
+/**
+ *  This function assigns an index to an encoder.
+ *
+ *  @return assigned encoder index
+ */
 static int
 assign_encoder_id()
 {
@@ -494,7 +478,8 @@ assign_encoder_id()
     while (cval != oval) {
         oval = encoder_id_counter;
         cval = oval + 1;
-        cval = __sync_val_compare_and_swap(&encoder_id_counter, (int)oval, (int)cval);
+        cval = __sync_val_compare_and_swap(&encoder_id_counter,
+                                           (int)oval, (int)cval);
     }
     return oval;
 }
@@ -518,11 +503,19 @@ add_encoder_to_full(alder_kmer_encode7_t *a)
         } else {
             cval = oval + 1;
         }
-        cval = __sync_val_compare_and_swap(&encoder_full_counter, (int)oval, (int)cval);
+        cval = __sync_val_compare_and_swap(&encoder_full_counter,
+                                           (int)oval, (int)cval);
     }
     return oval + 1;
 }
 
+/**
+ *  This function lets the last encoder thread write the remaining partitions.
+ *  If the returned value is equal to the number of encoders, then that thread
+ *  is selected to write partition files.
+ *
+ *  @return encoder id
+ */
 static int
 add_encoder_to_exit()
 {
@@ -531,7 +524,8 @@ add_encoder_to_exit()
     while (cval != oval) {
         oval = encoder_exit_counter;
         cval = oval + 1;
-        cval = __sync_val_compare_and_swap(&encoder_exit_counter, (int)oval, (int)cval);
+        cval = __sync_val_compare_and_swap(&encoder_exit_counter,
+                                           (int)oval, (int)cval);
     }
     return oval + 1;
 }
@@ -544,9 +538,13 @@ add_encoder_to_exit()
 static size_t write_to_partition_file(alder_kmer_encode7_t *a,
                                       int encoder_id)
 {
+    pthread_mutex_lock(&mutex_write);
+    
     for (int i_np = 0; i_np < a->n_np; i_np++) {
-        size_t x = a->size_suboutbuf * i_np;
+        size_t x = (a->size_suboutbuf * encoder_id +
+                    a->size_suboutbuf2 * i_np);
         size_t n = to_size(a->outbuf, x);
+        
         uint8_t *outbuf = a->outbuf + x + sizeof(size_t);
         
         ssize_t left_to_write = (ssize_t)n;
@@ -577,7 +575,7 @@ static size_t write_to_partition_file(alder_kmer_encode7_t *a,
                             a->progressToError_flag);
     }
     
-    a->is_full = 0;
+    pthread_mutex_unlock(&mutex_write);
     return 0;
 }
 
@@ -595,7 +593,7 @@ read_from_sequence_file(alder_kmer_encode7_t *a, int encoder_id)
     int s;
     
     uint8_t *inbuf = a->inbuf + encoder_id * a->size_subinbuf;
-    uint8_t *inbuf_body = inbuf + ALDER_KMER_ENCODE7_INBUFFER_BODY;
+    uint8_t *inbuf_body = inbuf + INBUFFER_BODY;
     
     pthread_mutex_lock(&mutex_read);
     ssize_t len = read((int)((intptr_t)a->fx), inbuf_body,
@@ -603,9 +601,9 @@ read_from_sequence_file(alder_kmer_encode7_t *a, int encoder_id)
     pthread_mutex_unlock(&mutex_read);
     
     assert(len == 0 || len == a->size_fixedinbuffer);
-    inbuf[ALDER_KMER_ENCODE7_INBUFFER_TYPE_INFILE] = 0;
-    to_size(inbuf, ALDER_KMER_ENCODE7_INBUFFER_CURRENT) = (size_t)0;
-    to_size(inbuf, ALDER_KMER_ENCODE7_INBUFFER_LENGTH) = (size_t)len;
+    inbuf[INBUFFER_TYPE_INFILE] = 0;
+    to_size(inbuf, INBUFFER_CURRENT) = (size_t)0;
+    to_size(inbuf, INBUFFER_LENGTH) = (size_t)len;
     
     /* Progress */
     a->n_i_byte[encoder_id] += len;
@@ -630,7 +628,7 @@ static void *encoder(void *t)
     int encoder_id = assign_encoder_id();
     alder_kmer_encode7_t *a = (alder_kmer_encode7_t*)t;
     assert(a != NULL);
-    alder_log("encoder(%d)[%d]: START", encoder_id, a->i_ni);
+    alder_log2("encoder(%d)[%d]: START", encoder_id, a->i_ni);
     
     alder_encode_number2_t * s1 = NULL;
     alder_encode_number2_t * s2 = NULL;
@@ -649,7 +647,6 @@ static void *encoder(void *t)
     size_t c_inbuffer = a->n_encoder;
     size_t c_outbuffer = encoder_id;
     
-    /* Setup of outbuf */
     while (1) {
         
         ///////////////////////////////////////////////////////////////////////
@@ -658,16 +655,7 @@ static void *encoder(void *t)
         if (c_outbuffer == a->n_encoder) {
             write_to_partition_file(a, encoder_id);
             c_outbuffer = encoder_id;
-            for (int i = 0; i < a->n_encoder; i++) {
-                a->lock_write[i] = 2;
-            }
         }
-        while (a->lock_write[encoder_id] != 0) {
-            if (a->lock_write[encoder_id] == 2) {
-                a->lock_write[encoder_id] = 0;
-            }
-        }
-        assert(a->lock_write[encoder_id] == 0);
         
         ///////////////////////////////////////////////////////////////////////
         // Reader
@@ -687,10 +675,9 @@ static void *encoder(void *t)
         
         /* setup of inbuf */
         uint8_t *inbuf = a->inbuf + encoder_id * a->size_subinbuf;
-        size_t curbuf = to_size(inbuf,ALDER_KMER_ENCODE7_INBUFFER_CURRENT);
-        size_t lenbuf = to_size(inbuf,ALDER_KMER_ENCODE7_INBUFFER_LENGTH);
-        uint8_t *inbuf_body = inbuf + ALDER_KMER_ENCODE7_INBUFFER_BODY;
-        /* setup of outbuf */
+        size_t curbuf = to_size(inbuf,INBUFFER_CURRENT);
+        size_t lenbuf = to_size(inbuf,INBUFFER_LENGTH);
+        uint8_t *inbuf_body = inbuf + INBUFFER_BODY;
         
         int token;
         if (curbuf == 0) {
@@ -755,19 +742,10 @@ static void *encoder(void *t)
             
             /* 6. Save a chosen one in the output buffers. */
             if (i_ni == a->i_ni) {
-                /* Find the position to encode a kmer. */
-                size_t pos_lock = a->size_suboutbuf * i_np;
-                uint64_t oval = 0;
-                uint64_t cval = 1;
-                while (cval != oval) {
-                    oval = to_uint64(a->outbuf, pos_lock);
-                    cval = oval + a->b;
-                    cval = __sync_val_compare_and_swap((uint64_t*)(a->outbuf + pos_lock),
-                                                       (uint64_t)oval,
-                                                       (uint64_t)cval);
-                }
-                
-                size_t x = a->size_suboutbuf * i_np + 8 + cval;
+                size_t pos_count = (a->size_suboutbuf * encoder_id +
+                                    a->size_suboutbuf2 * i_np);
+                uint64_t oval = to_uint64(a->outbuf, pos_count);
+                size_t x = (pos_count + 8 + oval);
                 uint64_t *outbuf_uint64 = (uint64_t*)(a->outbuf + x);
                 for (size_t i = 0; i < ib; i++) {
                     outbuf_uint64[i] = ss->n[i].key64;
@@ -776,13 +754,13 @@ static void *encoder(void *t)
                 for (size_t j = 0; j < jb; j++) {
                     a->outbuf[x++] = ss->n[ib].key8[j];
                 }
+                to_uint64(a->outbuf, pos_count) = oval + a->b;
                 
                 a->n_i_kmer[encoder_id]++;
                 
-                if (a->maxsize_suboutbuf <= cval) {
-                    c_outbuffer = add_encoder_to_full(a);
-                    a->lock_write[encoder_id] = 1;
-                    a->is_full = 1;
+                assert(a->size_suboutbuf3 >= oval + a->b);
+                if (a->size_suboutbuf3 <= oval + a->b) {
+                    c_outbuffer = a->n_encoder;
                     break;
                 }
             }
@@ -796,20 +774,13 @@ static void *encoder(void *t)
         } else {
             // partial inbuf
             // Save the current buffer position for later use.
-            to_size(inbuf,ALDER_KMER_ENCODE7_INBUFFER_CURRENT) = curbuf;
+            to_size(inbuf,INBUFFER_CURRENT) = curbuf;
             alder_log2("encoder(%d): inbuf is not yet empty.",
                        encoder_id);
         }
         if (c_outbuffer < a->n_encoder) {
-            // partial outbuf
-            if (a->lock_write[encoder_id] == 0) {
-                alder_log2("encoder(%d): outbuf is not yet full, more space.",
-                           encoder_id);
-            } else {
-                // full outbuf, but will wait for the writing thread to finish
-                alder_log2("encoder(%d): outbuf is full, and wait...",
-                           encoder_id);
-            }
+            alder_log2("encoder(%d): outbuf is not yet full.",
+                       encoder_id);
         } else {
             // full outbuf
             assert(c_outbuffer == a->n_encoder);
@@ -817,15 +788,12 @@ static void *encoder(void *t)
         }
     }
     /* Flush any remaining output buffer. */
-    c_outbuffer = add_encoder_to_exit();
-    if (c_outbuffer == a->n_encoder) {
-        write_to_partition_file(a, encoder_id);
-    }
+    write_to_partition_file(a, encoder_id);
     
     alder_kmer_binary_buffer_destroy(bs);
     alder_encode_number2_destroy(s1);
     alder_encode_number2_destroy(s2);
-    alder_log("encoder(%d)[%d]: END", encoder_id, a->i_ni);
+    alder_log2("encoder(%d)[%d]: END", encoder_id, a->i_ni);
     pthread_exit(NULL);
 }
 

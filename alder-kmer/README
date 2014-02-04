@@ -2,11 +2,9 @@ At this point, Feb 29 2014, I failed to make a point of using CAS in DSK's metho
 
 # TODO
 
-Sequential reads could be better than distributed reads.
-Use only version 2.
-Use gzip.
-Streamline the code using version 3.
-
+Allow the memory of a table to be larger than 4GB.
+Use only version 7.
+Streamline the code using version 7.
 Delete a parfile when its reading is done by all of the threads.
 
 # Introduction
@@ -15,17 +13,14 @@ combining methods of Rizk et al. (2013), and Marcais and Kingsford (2011).
 The point of the paper is the usage of multi-word CAS in counting k-mer.
 2. I will introduce a method of counting k-mer upto 32 by
 methods of Rizk et al. (2013), and Marcais and Kingsford (2011).
-The point of the paper is the usage of CAS n counting k-mer by loading a whole
+The point of the paper is the usage of CAS in counting k-mer by loading a whole
 data into a memory.
-
-
-binary might not work yet.
 
 # Versions
 
 The first three versions are not of use any more, and they are retired. Instead, I've replaced version 3 with another one, which could have been version 7.
 
-Ver7. Back to sequential reads with CAS in partitioning stage.
+Ver7. Back to sequential reads
 binary3
 encoder7 (~encoder5)
 thread7 (~thread4)
@@ -37,13 +32,10 @@ binary2 (just modify binary3)
 encode2 = separate infile (~encode3), writing one parfile (~encode5), but read from multiple points in a binfile I wll start from encode5 and get some part of codes from encode3.
 thread2 = separate parfile (~thread3), writing one table (~thread3), but read from multiple points in a parfile.
 
-
-
 Ver3. Split the binary file, partition files, and runs with multiple threads.
 alder_kmer_encode5 -> alder_kmer_encode3
 alder_kmer_count_iteration4 -> alder_kmer_count_iteration3
 binary3, encode3, thread3
-
 
 Ver4. Fixed-size input and output buffers.
 encode4, thread4
@@ -58,7 +50,6 @@ binary5, thread5
 Enough memory, and disk space does not matter as long as a resulting table can fit to the disk space
 
 Use inspect to determine which version can be used.
-
 
 ## To change the command line options.
 See alder_kmer_option.c and alder-kmer.ggo.

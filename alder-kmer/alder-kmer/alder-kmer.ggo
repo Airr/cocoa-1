@@ -10,9 +10,9 @@ option "detailed-help" - "Print help, including all details" flag off
 option "full-help" - "Print help with documents" flag off
 
 section "count"
-sectiondesc="The input files must be sequence files: fasta, or fastq. With no input files, but with STDIN, version 2 or 3 runs are allowed because the number of kmers cannot be estimated without input files. In version 2 or 3, the first stage of generating a binary file would do the computation of total number of kmers, and STDIN can be used. With STDIN, version 2 or 3 is used. With input files, one of the three versions is used. By default, the table file would be written to STDOUT unless --outfile is specified. A table file is accompanied by its table header .tbh file. The numbers of iterations and partitions are determined by the available disk space, memory, and input sequence data (see Rizk et al. 2013 using --cite option). The program attempts to compute the available disk space and memory at the time the program runs. This help message shows the available disk space and memory below. Those values can be changed whenever the program runs, and they can be different from the ones below. You could specify disk space or available memory, and adjust the usage of disk space and memory using load options: --load-disk and --load-memory. You can also specify the number of iterations and partitions --ni and --np, these will override values that otherwise would be determined by disk space and input sequence data; this is not recommended for real data, but for command `simulate'. Output file name prefix can be changed using --outfile, and so can their location with --outdir. In version 6, the given total memory is filled with input data, and the memory left-over is used for a partition table. If the minimum memory for a partition table is not met, the version 6 is reduced to version 5. Because too large table may failed to be loaded onto the memory space in other computers, the maximum memory for a partition table can be set as well."
+sectiondesc="The input files must be sequence files: fasta, or fastq. With no input files, but with STDIN from other program, the first stage of generating a binary file would do the computation of total number of kmers. With input files, the table file would be written to STDOUT unless --outfile is specified. A table file is accompanied by its table header .tbh file. The numbers of iterations and partitions are determined by the available disk space, memory, and input sequence data (see Rizk et al. 2013 using --cite option). The program attempts to compute the available disk space and memory at the time the program runs. This help message shows the available disk space and memory below. Those values can be changed whenever the program runs, and they can be different from the ones below. You could specify disk space or available memory, and adjust the usage of disk space and memory using load options: --load-disk and --load-memory. You can also specify the number of iterations and partitions --ni and --np, these will override values that otherwise would be determined by disk space and input sequence data; this is not recommended for real data, but for command `simulate'. Output file name prefix can be changed using --outfile, and so can their location with --outdir. In version 6, the given total memory is filled with input data, and the memory left-over is used for a partition table. If the minimum memory for a partition table is not met, the version 6 is reduced to version 5. Because too large table may failed to be loaded onto the memory space in other computers, the maximum memory for a partition table can be set as well."
 option "count" - "Count k-mer data" flag off
-option "kmer" k "k-mer size" long typestr="INT" default="1" optional
+option "kmer" k "k-mer size (same: -m/--mer-len)" long typestr="INT" default="1" optional
 option "disk" - "maximum disk space" long typestr="N MB" default="10" optional
 option "load-disk" - "fraction of disk" double typestr="0 < x < 1" default="1.0" optional
 option "memory" - "maximum memory" long typestr="N MB" default="10" optional
@@ -238,15 +238,13 @@ M: memory required
 
 1. Count command test (.fa/.fq -> .tbl)
 K=15..200,T=1,N=1000,F=65535,D=100,M=10
-for K in {15..200}; do ./alder_kmer_test_count.sh $K 1000 65535 fq no 100 10 1; done
+for K in {15..200}; do ./count $K 1000 65535 fq no 100 10 1; done
 K=15..200,T=2
-for K in {15..200}; do ./alder_kmer_test_count.sh $K 1000 65535 fq no 100 10 2; done
-HERE
+for K in {15..200}; do ./count $K 1000 65535 fq no 100 10 2; done
 K=15..200,T=4
-for K in {15..200}; do ./alder_kmer_test_count.sh $K 1000 65535 fq no 100 10 4; done
-TRY the single again
-K=15..200,T=1
-for K in {15..63}; do ./alder_kmer_test_count.sh $K 1000 65535 fq no 100 10 1; done
+for K in {15..200}; do ./count $K 1000 65535 fq no 100 10 4; done
+HERE
+
 
 1. Binary command test
 

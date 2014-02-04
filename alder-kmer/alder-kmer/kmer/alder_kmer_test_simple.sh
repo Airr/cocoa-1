@@ -285,3 +285,5 @@ fi
 echo "Pass!"
 echo "*** END ***"
 echo ""
+touch FINISH
+
