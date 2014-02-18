@@ -103,15 +103,6 @@ alder_kmer_count_withPartition_init(size_t *_S_filesize,
 }
 
 static bstring
-filename_partition_with_thread(const char *parfile, int i_ni, int i_np, int counter_id)
-{
-    /* File name setup */
-    bstring bfpar = bformat("%s-%llu-%llu-%d.par", parfile, i_ni, i_np, counter_id);
-    if (bfpar == NULL) return NULL;
-    return bfpar;
-}
-
-static bstring
 filename_partition(const char *parfile, int i_ni, int i_np)
 {
     /* File name setup */
@@ -141,17 +132,6 @@ size_t compute_nh_firstparfile(long version, const char *parfile, int n_thread, 
         bstring bpar = filename_partition(parfile, 0, 0);
         alder_file_size(bdata(bpar), &size_parfile);
         bdestroy(bpar);
-    } else {
-        for (int i = 0; i < n_thread; i++) {
-            bstring bpar = filename_partition_with_thread(parfile, 0, 0, i);
-            if (bpar == NULL) {
-                return 0;
-            }
-            size_t size_one_parfile = 0;
-            alder_file_size(bdata(bpar), &size_one_parfile);
-            bdestroy(bpar);
-            size_parfile += size_one_parfile;
-        }
     }
     int b = alder_encode_number2_bytesize(K);
     N_nh = (size_t)((double)size_parfile / (double)b / ALDER_HASHTABLE_LOAD);
@@ -173,7 +153,8 @@ alder_kmer_table(long version,
                  int n_thread,
                  int progress_flag,
                  int progressToError_flag,
-                 int nopack_flag,
+                 int lower_count,
+                 int upper_count,
                  const char *parfile,
                  unsigned int parfile_given,
                  struct bstrList *infile,
@@ -218,6 +199,9 @@ alder_kmer_table(long version,
             N_nh += compute_nh_firstparfile(1, bdata(infile->entry[i]), n_thread, K);
         }
     }
+    if (n_nh > 0) {
+        N_nh = n_nh;
+    }
     
     FILE *fpout = NULL;
     s = open_table_file(version, &fpout, outfile_given, outfile, outdir,
@@ -241,7 +225,8 @@ alder_kmer_table(long version,
                  N_ni,
                  N_np,
                  N_nh,
-                 S_filesize,
+                 lower_count,
+                 upper_count,
                  &n_byte,
                  &n_kmer_counted,
                  &n_hash,
@@ -249,7 +234,7 @@ alder_kmer_table(long version,
                  &n_current_kmer,
                  progress_flag,
                  progressToError_flag,
-                 nopack_flag,
+                 0,
                  NULL,
                  0,
                  cinfile,

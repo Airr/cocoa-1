@@ -20,7 +20,6 @@
 		D01236C3183D8D4C00F92C84 /* alder_wordtable_positionvaluelist.c in Sources */ = {isa = PBXBuildFile; fileRef = D01236C2183D8D4C00F92C84 /* alder_wordtable_positionvaluelist.c */; };
 		D01236C6183DAE1400F92C84 /* alder_wordtable_kfmaggregator.c in Sources */ = {isa = PBXBuildFile; fileRef = D01236C5183DAE1400F92C84 /* alder_wordtable_kfmaggregator.c */; };
 		D01236EF183EC08E00F92C84 /* alder_fileseq.c in Sources */ = {isa = PBXBuildFile; fileRef = D01236E4183EC08E00F92C84 /* alder_fileseq.c */; };
-		D01236F0183EC08E00F92C84 /* alder_fileseq_kmer.c in Sources */ = {isa = PBXBuildFile; fileRef = D01236E6183EC08E00F92C84 /* alder_fileseq_kmer.c */; };
 		D01236F1183EC08E00F92C84 /* alder_fileseq_streamer.c in Sources */ = {isa = PBXBuildFile; fileRef = D01236E9183EC08E00F92C84 /* alder_fileseq_streamer.c */; };
 		D01236F2183EC08E00F92C84 /* alder_fileseq_token.c in Sources */ = {isa = PBXBuildFile; fileRef = D01236EB183EC08E00F92C84 /* alder_fileseq_token.c */; };
 		D01236F3183EC08E00F92C84 /* alder_fileseq_type.c in Sources */ = {isa = PBXBuildFile; fileRef = D01236ED183EC08E00F92C84 /* alder_fileseq_type.c */; };
@@ -60,8 +59,6 @@
 		D012377A183EC11600F92C84 /* alder_encode_number.c in Sources */ = {isa = PBXBuildFile; fileRef = D0123773183EC11600F92C84 /* alder_encode_number.c */; };
 		D012377B183EC11600F92C84 /* alder_encode_pack.c in Sources */ = {isa = PBXBuildFile; fileRef = D0123776183EC11600F92C84 /* alder_encode_pack.c */; };
 		D012377F183EC11E00F92C84 /* alder_hash.c in Sources */ = {isa = PBXBuildFile; fileRef = D012377D183EC11E00F92C84 /* alder_hash.c */; };
-		D0123794183EC13000F92C84 /* alder_gsl.c in Sources */ = {isa = PBXBuildFile; fileRef = D0123781183EC13000F92C84 /* alder_gsl.c */; };
-		D0123795183EC13000F92C84 /* alder_vector.c in Sources */ = {isa = PBXBuildFile; fileRef = D0123783183EC13000F92C84 /* alder_vector.c */; };
 		D0123796183EC13000F92C84 /* alder_vector_interval.c in Sources */ = {isa = PBXBuildFile; fileRef = D0123785183EC13000F92C84 /* alder_vector_interval.c */; };
 		D0123797183EC13000F92C84 /* alder_vector_pair.c in Sources */ = {isa = PBXBuildFile; fileRef = D0123787183EC13000F92C84 /* alder_vector_pair.c */; };
 		D0123798183EC13000F92C84 /* alder_vector_palign.c in Sources */ = {isa = PBXBuildFile; fileRef = D0123789183EC13000F92C84 /* alder_vector_palign.c */; };
@@ -78,11 +75,24 @@
 		D0321C6D1851471500C6F241 /* alder_fileseq_sample.c in Sources */ = {isa = PBXBuildFile; fileRef = D0321C6C1851471500C6F241 /* alder_fileseq_sample.c */; };
 		D0321E251856630900C6F241 /* alder_fileseq_sequenceiterator.c in Sources */ = {isa = PBXBuildFile; fileRef = D0321E231856630900C6F241 /* alder_fileseq_sequenceiterator.c */; };
 		D0321E431856B6F500C6F241 /* alder_fastq_sequenceiterator.c in Sources */ = {isa = PBXBuildFile; fileRef = D0321E411856B6F500C6F241 /* alder_fastq_sequenceiterator.c */; };
-		D03220321857162C00C6F241 /* alder_token.c in Sources */ = {isa = PBXBuildFile; fileRef = D032202E1857162C00C6F241 /* alder_token.c */; };
 		D03220331857162C00C6F241 /* alder_token_dna.c in Sources */ = {isa = PBXBuildFile; fileRef = D03220301857162C00C6F241 /* alder_token_dna.c */; };
 		D03220391857163900C6F241 /* alder_kseq.c in Sources */ = {isa = PBXBuildFile; fileRef = D03220351857163900C6F241 /* alder_kseq.c */; };
 		D032203A1857163900C6F241 /* alder_kseq_sequenceiterator.c in Sources */ = {isa = PBXBuildFile; fileRef = D03220371857163900C6F241 /* alder_kseq_sequenceiterator.c */; };
 		D0322183185BD38500C6F241 /* alder_wordtable_io.c in Sources */ = {isa = PBXBuildFile; fileRef = D0322182185BD38500C6F241 /* alder_wordtable_io.c */; };
+		D04CC98B18A16E41000A82B2 /* alder_progress.c in Sources */ = {isa = PBXBuildFile; fileRef = D04CC98918A16E41000A82B2 /* alder_progress.c */; };
+		D04CC99418A16E5D000A82B2 /* alder_file_format.c in Sources */ = {isa = PBXBuildFile; fileRef = D04CC98C18A16E5D000A82B2 /* alder_file_format.c */; };
+		D04CC99518A16E5D000A82B2 /* alder_file_io.c in Sources */ = {isa = PBXBuildFile; fileRef = D04CC98E18A16E5D000A82B2 /* alder_file_io.c */; };
+		D04CC99618A16E5D000A82B2 /* alder_file_isbzip2.c in Sources */ = {isa = PBXBuildFile; fileRef = D04CC99018A16E5D000A82B2 /* alder_file_isbzip2.c */; };
+		D04CC99718A16E5D000A82B2 /* alder_file_islz4.c in Sources */ = {isa = PBXBuildFile; fileRef = D04CC99218A16E5D000A82B2 /* alder_file_islz4.c */; };
+		D04CC99B18A16EBD000A82B2 /* alder_dna.c in Sources */ = {isa = PBXBuildFile; fileRef = D04CC99918A16EBD000A82B2 /* alder_dna.c */; };
+		D04CC9A818A16ECF000A82B2 /* alder_bzip2.c in Sources */ = {isa = PBXBuildFile; fileRef = D04CC99D18A16ECF000A82B2 /* alder_bzip2.c */; };
+		D04CC9A918A16ECF000A82B2 /* blocksort.c in Sources */ = {isa = PBXBuildFile; fileRef = D04CC99F18A16ECF000A82B2 /* blocksort.c */; };
+		D04CC9AA18A16ECF000A82B2 /* bzlib.c in Sources */ = {isa = PBXBuildFile; fileRef = D04CC9A018A16ECF000A82B2 /* bzlib.c */; };
+		D04CC9AB18A16ECF000A82B2 /* compress.c in Sources */ = {isa = PBXBuildFile; fileRef = D04CC9A318A16ECF000A82B2 /* compress.c */; };
+		D04CC9AC18A16ECF000A82B2 /* crctable.c in Sources */ = {isa = PBXBuildFile; fileRef = D04CC9A418A16ECF000A82B2 /* crctable.c */; };
+		D04CC9AD18A16ECF000A82B2 /* decompress.c in Sources */ = {isa = PBXBuildFile; fileRef = D04CC9A518A16ECF000A82B2 /* decompress.c */; };
+		D04CC9AE18A16ECF000A82B2 /* huffman.c in Sources */ = {isa = PBXBuildFile; fileRef = D04CC9A618A16ECF000A82B2 /* huffman.c */; };
+		D04CC9AF18A16ECF000A82B2 /* randtable.c in Sources */ = {isa = PBXBuildFile; fileRef = D04CC9A718A16ECF000A82B2 /* randtable.c */; };
 		D0C7AB43183EF20F003E66A9 /* alder_wordtable_tokenset.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C7AB42183EF20F003E66A9 /* alder_wordtable_tokenset.c */; };
 		D0CDFCDB183BE6E80072840F /* alder_wordtable_cite.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CDFCDA183BE6E80072840F /* alder_wordtable_cite.c */; };
 		D0CDFCDE183BE6E80072840F /* alder_wordtable_option.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CDFCDD183BE6E80072840F /* alder_wordtable_option.c */; };
@@ -102,14 +112,12 @@
 		D0CDFD52183BE76D0072840F /* alder_file_exist.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CDFD26183BE76D0072840F /* alder_file_exist.c */; };
 		D0CDFD53183BE76D0072840F /* alder_file_firstline.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CDFD28183BE76D0072840F /* alder_file_firstline.c */; };
 		D0CDFD54183BE76D0072840F /* alder_file_getcwd.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CDFD2A183BE76D0072840F /* alder_file_getcwd.c */; };
-		D0CDFD55183BE76D0072840F /* alder_file_info.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CDFD2C183BE76D0072840F /* alder_file_info.c */; };
 		D0CDFD56183BE76D0072840F /* alder_file_isbinary.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CDFD2E183BE76D0072840F /* alder_file_isbinary.c */; };
 		D0CDFD57183BE76D0072840F /* alder_file_isfasta.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CDFD30183BE76D0072840F /* alder_file_isfasta.c */; };
 		D0CDFD58183BE76D0072840F /* alder_file_isfastq.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CDFD32183BE76D0072840F /* alder_file_isfastq.c */; };
 		D0CDFD59183BE76D0072840F /* alder_file_isfile.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CDFD34183BE76D0072840F /* alder_file_isfile.c */; };
 		D0CDFD5A183BE76D0072840F /* alder_file_isgzip.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CDFD36183BE76D0072840F /* alder_file_isgzip.c */; };
 		D0CDFD5B183BE76D0072840F /* alder_file_isstdin.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CDFD38183BE76D0072840F /* alder_file_isstdin.c */; };
-		D0CDFD5C183BE76D0072840F /* alder_file_makedtemp.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CDFD3A183BE76D0072840F /* alder_file_makedtemp.c */; };
 		D0CDFD5D183BE76D0072840F /* alder_file_mkdir.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CDFD3C183BE76D0072840F /* alder_file_mkdir.c */; };
 		D0CDFD5E183BE76D0072840F /* alder_file_numline.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CDFD3E183BE76D0072840F /* alder_file_numline.c */; };
 		D0CDFD5F183BE76D0072840F /* alder_file_rm.c in Sources */ = {isa = PBXBuildFile; fileRef = D0CDFD40183BE76D0072840F /* alder_file_rm.c */; };
@@ -192,8 +200,6 @@
 		D01236C7183DAE2800F92C84 /* alder_wordtable_kfmaggregator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_wordtable_kfmaggregator.h; sourceTree = "<group>"; };
 		D01236E4183EC08E00F92C84 /* alder_fileseq.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_fileseq.c; sourceTree = "<group>"; };
 		D01236E5183EC08E00F92C84 /* alder_fileseq.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_fileseq.h; sourceTree = "<group>"; };
-		D01236E6183EC08E00F92C84 /* alder_fileseq_kmer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_fileseq_kmer.c; sourceTree = "<group>"; };
-		D01236E7183EC08E00F92C84 /* alder_fileseq_kmer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_fileseq_kmer.h; sourceTree = "<group>"; };
 		D01236E8183EC08E00F92C84 /* alder_fileseq_kmer.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = alder_fileseq_kmer.pdf; sourceTree = "<group>"; };
 		D01236E9183EC08E00F92C84 /* alder_fileseq_streamer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_fileseq_streamer.c; sourceTree = "<group>"; };
 		D01236EA183EC08E00F92C84 /* alder_fileseq_streamer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_fileseq_streamer.h; sourceTree = "<group>"; };
@@ -294,9 +300,7 @@
 		D0123777183EC11600F92C84 /* alder_encode_pack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_encode_pack.h; sourceTree = "<group>"; };
 		D012377D183EC11E00F92C84 /* alder_hash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_hash.c; sourceTree = "<group>"; };
 		D012377E183EC11E00F92C84 /* alder_hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_hash.h; sourceTree = "<group>"; };
-		D0123781183EC13000F92C84 /* alder_gsl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_gsl.c; sourceTree = "<group>"; };
 		D0123782183EC13000F92C84 /* alder_gsl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_gsl.h; sourceTree = "<group>"; };
-		D0123783183EC13000F92C84 /* alder_vector.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_vector.c; sourceTree = "<group>"; };
 		D0123784183EC13000F92C84 /* alder_vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_vector.h; sourceTree = "<group>"; };
 		D0123785183EC13000F92C84 /* alder_vector_interval.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_vector_interval.c; sourceTree = "<group>"; };
 		D0123786183EC13000F92C84 /* alder_vector_interval.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_vector_interval.h; sourceTree = "<group>"; };
@@ -328,8 +332,6 @@
 		D0321E241856630900C6F241 /* alder_fileseq_sequenceiterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_fileseq_sequenceiterator.h; sourceTree = "<group>"; };
 		D0321E411856B6F500C6F241 /* alder_fastq_sequenceiterator.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_fastq_sequenceiterator.c; sourceTree = "<group>"; };
 		D0321E421856B6F500C6F241 /* alder_fastq_sequenceiterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_fastq_sequenceiterator.h; sourceTree = "<group>"; };
-		D032202E1857162C00C6F241 /* alder_token.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_token.c; sourceTree = "<group>"; };
-		D032202F1857162C00C6F241 /* alder_token.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_token.h; sourceTree = "<group>"; };
 		D03220301857162C00C6F241 /* alder_token_dna.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_token_dna.c; sourceTree = "<group>"; };
 		D03220311857162C00C6F241 /* alder_token_dna.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_token_dna.h; sourceTree = "<group>"; };
 		D03220351857163900C6F241 /* alder_kseq.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_kseq.c; sourceTree = "<group>"; };
@@ -338,6 +340,29 @@
 		D03220381857163900C6F241 /* alder_kseq_sequenceiterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_kseq_sequenceiterator.h; sourceTree = "<group>"; };
 		D0322182185BD38500C6F241 /* alder_wordtable_io.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_wordtable_io.c; sourceTree = "<group>"; };
 		D0322184185BD38D00C6F241 /* alder_wordtable_io.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_wordtable_io.h; sourceTree = "<group>"; };
+		D04CC98918A16E41000A82B2 /* alder_progress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_progress.c; sourceTree = "<group>"; };
+		D04CC98A18A16E41000A82B2 /* alder_progress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_progress.h; sourceTree = "<group>"; };
+		D04CC98C18A16E5D000A82B2 /* alder_file_format.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_format.c; sourceTree = "<group>"; };
+		D04CC98D18A16E5D000A82B2 /* alder_file_format.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_format.h; sourceTree = "<group>"; };
+		D04CC98E18A16E5D000A82B2 /* alder_file_io.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_io.c; sourceTree = "<group>"; };
+		D04CC98F18A16E5D000A82B2 /* alder_file_io.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_io.h; sourceTree = "<group>"; };
+		D04CC99018A16E5D000A82B2 /* alder_file_isbzip2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_isbzip2.c; sourceTree = "<group>"; };
+		D04CC99118A16E5D000A82B2 /* alder_file_isbzip2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_isbzip2.h; sourceTree = "<group>"; };
+		D04CC99218A16E5D000A82B2 /* alder_file_islz4.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_islz4.c; sourceTree = "<group>"; };
+		D04CC99318A16E5D000A82B2 /* alder_file_islz4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_islz4.h; sourceTree = "<group>"; };
+		D04CC99918A16EBD000A82B2 /* alder_dna.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_dna.c; sourceTree = "<group>"; };
+		D04CC99A18A16EBD000A82B2 /* alder_dna.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_dna.h; sourceTree = "<group>"; };
+		D04CC99D18A16ECF000A82B2 /* alder_bzip2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_bzip2.c; sourceTree = "<group>"; };
+		D04CC99E18A16ECF000A82B2 /* alder_bzip2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_bzip2.h; sourceTree = "<group>"; };
+		D04CC99F18A16ECF000A82B2 /* blocksort.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = blocksort.c; sourceTree = "<group>"; };
+		D04CC9A018A16ECF000A82B2 /* bzlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bzlib.c; sourceTree = "<group>"; };
+		D04CC9A118A16ECF000A82B2 /* bzlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bzlib.h; sourceTree = "<group>"; };
+		D04CC9A218A16ECF000A82B2 /* bzlib_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bzlib_private.h; sourceTree = "<group>"; };
+		D04CC9A318A16ECF000A82B2 /* compress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = compress.c; sourceTree = "<group>"; };
+		D04CC9A418A16ECF000A82B2 /* crctable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = crctable.c; sourceTree = "<group>"; };
+		D04CC9A518A16ECF000A82B2 /* decompress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = decompress.c; sourceTree = "<group>"; };
+		D04CC9A618A16ECF000A82B2 /* huffman.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = huffman.c; sourceTree = "<group>"; };
+		D04CC9A718A16ECF000A82B2 /* randtable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = randtable.c; sourceTree = "<group>"; };
 		D0C7AB42183EF20F003E66A9 /* alder_wordtable_tokenset.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_wordtable_tokenset.c; sourceTree = "<group>"; };
 		D0C7AB44183EF218003E66A9 /* alder_wordtable_tokenset.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_wordtable_tokenset.h; sourceTree = "<group>"; };
 		D0CDFCD7183BE6E80072840F /* alder-wordtable */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "alder-wordtable"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -400,8 +425,6 @@
 		D0CDFD29183BE76D0072840F /* alder_file_firstline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_firstline.h; sourceTree = "<group>"; };
 		D0CDFD2A183BE76D0072840F /* alder_file_getcwd.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_getcwd.c; sourceTree = "<group>"; };
 		D0CDFD2B183BE76D0072840F /* alder_file_getcwd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_getcwd.h; sourceTree = "<group>"; };
-		D0CDFD2C183BE76D0072840F /* alder_file_info.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_info.c; sourceTree = "<group>"; };
-		D0CDFD2D183BE76D0072840F /* alder_file_info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_info.h; sourceTree = "<group>"; };
 		D0CDFD2E183BE76D0072840F /* alder_file_isbinary.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_isbinary.c; sourceTree = "<group>"; };
 		D0CDFD2F183BE76D0072840F /* alder_file_isbinary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_isbinary.h; sourceTree = "<group>"; };
 		D0CDFD30183BE76D0072840F /* alder_file_isfasta.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_isfasta.c; sourceTree = "<group>"; };
@@ -414,8 +437,6 @@
 		D0CDFD37183BE76D0072840F /* alder_file_isgzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_isgzip.h; sourceTree = "<group>"; };
 		D0CDFD38183BE76D0072840F /* alder_file_isstdin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_isstdin.c; sourceTree = "<group>"; };
 		D0CDFD39183BE76D0072840F /* alder_file_isstdin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_isstdin.h; sourceTree = "<group>"; };
-		D0CDFD3A183BE76D0072840F /* alder_file_makedtemp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_makedtemp.c; sourceTree = "<group>"; };
-		D0CDFD3B183BE76D0072840F /* alder_file_makedtemp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_makedtemp.h; sourceTree = "<group>"; };
 		D0CDFD3C183BE76D0072840F /* alder_file_mkdir.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_mkdir.c; sourceTree = "<group>"; };
 		D0CDFD3D183BE76D0072840F /* alder_file_mkdir.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_mkdir.h; sourceTree = "<group>"; };
 		D0CDFD3E183BE76D0072840F /* alder_file_numline.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_numline.c; sourceTree = "<group>"; };
@@ -459,8 +480,6 @@
 			children = (
 				D01236E4183EC08E00F92C84 /* alder_fileseq.c */,
 				D01236E5183EC08E00F92C84 /* alder_fileseq.h */,
-				D01236E6183EC08E00F92C84 /* alder_fileseq_kmer.c */,
-				D01236E7183EC08E00F92C84 /* alder_fileseq_kmer.h */,
 				D01236E8183EC08E00F92C84 /* alder_fileseq_kmer.pdf */,
 				D0321C6C1851471500C6F241 /* alder_fileseq_sample.c */,
 				D0321C6E1851471B00C6F241 /* alder_fileseq_sample.h */,
@@ -633,9 +652,7 @@
 		D0123780183EC13000F92C84 /* vector */ = {
 			isa = PBXGroup;
 			children = (
-				D0123781183EC13000F92C84 /* alder_gsl.c */,
 				D0123782183EC13000F92C84 /* alder_gsl.h */,
-				D0123783183EC13000F92C84 /* alder_vector.c */,
 				D0123784183EC13000F92C84 /* alder_vector.h */,
 				D0123785183EC13000F92C84 /* alder_vector_interval.c */,
 				D0123786183EC13000F92C84 /* alder_vector_interval.h */,
@@ -672,8 +689,6 @@
 		D032202D1857162C00C6F241 /* token */ = {
 			isa = PBXGroup;
 			children = (
-				D032202E1857162C00C6F241 /* alder_token.c */,
-				D032202F1857162C00C6F241 /* alder_token.h */,
 				D03220301857162C00C6F241 /* alder_token_dna.c */,
 				D03220311857162C00C6F241 /* alder_token_dna.h */,
 			);
@@ -691,6 +706,45 @@
 			);
 			name = kseq;
 			path = "../../alder-kseq/alder-kseq/kseq";
+			sourceTree = "<group>";
+		};
+		D04CC98818A16E41000A82B2 /* progress */ = {
+			isa = PBXGroup;
+			children = (
+				D04CC98918A16E41000A82B2 /* alder_progress.c */,
+				D04CC98A18A16E41000A82B2 /* alder_progress.h */,
+			);
+			name = progress;
+			path = "../../alder-progress/alder-progress/progress";
+			sourceTree = "<group>";
+		};
+		D04CC99818A16EBD000A82B2 /* dna */ = {
+			isa = PBXGroup;
+			children = (
+				D04CC99918A16EBD000A82B2 /* alder_dna.c */,
+				D04CC99A18A16EBD000A82B2 /* alder_dna.h */,
+			);
+			name = dna;
+			path = "../../alder-dna/alder-dna/dna";
+			sourceTree = "<group>";
+		};
+		D04CC99C18A16ECF000A82B2 /* bzip2 */ = {
+			isa = PBXGroup;
+			children = (
+				D04CC99D18A16ECF000A82B2 /* alder_bzip2.c */,
+				D04CC99E18A16ECF000A82B2 /* alder_bzip2.h */,
+				D04CC99F18A16ECF000A82B2 /* blocksort.c */,
+				D04CC9A018A16ECF000A82B2 /* bzlib.c */,
+				D04CC9A118A16ECF000A82B2 /* bzlib.h */,
+				D04CC9A218A16ECF000A82B2 /* bzlib_private.h */,
+				D04CC9A318A16ECF000A82B2 /* compress.c */,
+				D04CC9A418A16ECF000A82B2 /* crctable.c */,
+				D04CC9A518A16ECF000A82B2 /* decompress.c */,
+				D04CC9A618A16ECF000A82B2 /* huffman.c */,
+				D04CC9A718A16ECF000A82B2 /* randtable.c */,
+			);
+			name = bzip2;
+			path = "../../alder-bzip2/alder-bzip2/bzip2";
 			sourceTree = "<group>";
 		};
 		D0CDFCCE183BE6E80072840F = {
@@ -713,28 +767,31 @@
 		D0CDFCD9183BE6E80072840F /* alder-wordtable */ = {
 			isa = PBXGroup;
 			children = (
-				D03220341857163900C6F241 /* kseq */,
-				D032202D1857162C00C6F241 /* token */,
-				D0321C621850026E00C6F241 /* graph */,
-				D0123780183EC13000F92C84 /* vector */,
-				D012377C183EC11E00F92C84 /* hash */,
-				D012376E183EC11600F92C84 /* encode */,
-				D012372C183EC10700F92C84 /* logger */,
-				D0123725183EC0FB00F92C84 /* seq */,
-				D0123702183EC0E400F92C84 /* fastq */,
-				D01236F5183EC0D900F92C84 /* fasta */,
-				D01236E3183EC08E00F92C84 /* fileseq */,
-				D0CDFD1B183BE76D0072840F /* file */,
-				D0CDFD06183BE7610072840F /* cmacro */,
-				D0CDFCF3183BE7580072840F /* bstrlib */,
-				D0CDFCEF183BE7480072840F /* wordtable */,
+				D0CDFCE3183BE6E80072840F /* alder-wordtable.ggo */,
+				D0CDFCE7183BE6E90072840F /* alder_wordtable.1 */,
 				D0CDFCDA183BE6E80072840F /* alder_wordtable_cite.c */,
 				D0CDFCDC183BE6E80072840F /* alder_wordtable_cite.h */,
 				D0CDFCDD183BE6E80072840F /* alder_wordtable_option.c */,
 				D0CDFCDF183BE6E80072840F /* alder_wordtable_option.h */,
-				D0CDFCE3183BE6E80072840F /* alder-wordtable.ggo */,
+				D0CDFCF3183BE7580072840F /* bstrlib */,
+				D04CC99C18A16ECF000A82B2 /* bzip2 */,
+				D0CDFD06183BE7610072840F /* cmacro */,
+				D04CC99818A16EBD000A82B2 /* dna */,
+				D012376E183EC11600F92C84 /* encode */,
+				D01236F5183EC0D900F92C84 /* fasta */,
+				D0123702183EC0E400F92C84 /* fastq */,
+				D0CDFD1B183BE76D0072840F /* file */,
+				D01236E3183EC08E00F92C84 /* fileseq */,
+				D0321C621850026E00C6F241 /* graph */,
+				D012377C183EC11E00F92C84 /* hash */,
+				D03220341857163900C6F241 /* kseq */,
+				D012372C183EC10700F92C84 /* logger */,
 				D0CDFCE5183BE6E90072840F /* main.c */,
-				D0CDFCE7183BE6E90072840F /* alder_wordtable.1 */,
+				D04CC98818A16E41000A82B2 /* progress */,
+				D0123725183EC0FB00F92C84 /* seq */,
+				D032202D1857162C00C6F241 /* token */,
+				D0123780183EC13000F92C84 /* vector */,
+				D0CDFCEF183BE7480072840F /* wordtable */,
 			);
 			path = "alder-wordtable";
 			sourceTree = "<group>";
@@ -855,12 +912,16 @@
 				D0CDFD27183BE76D0072840F /* alder_file_exist.h */,
 				D0CDFD28183BE76D0072840F /* alder_file_firstline.c */,
 				D0CDFD29183BE76D0072840F /* alder_file_firstline.h */,
+				D04CC98C18A16E5D000A82B2 /* alder_file_format.c */,
+				D04CC98D18A16E5D000A82B2 /* alder_file_format.h */,
 				D0CDFD2A183BE76D0072840F /* alder_file_getcwd.c */,
 				D0CDFD2B183BE76D0072840F /* alder_file_getcwd.h */,
-				D0CDFD2C183BE76D0072840F /* alder_file_info.c */,
-				D0CDFD2D183BE76D0072840F /* alder_file_info.h */,
+				D04CC98E18A16E5D000A82B2 /* alder_file_io.c */,
+				D04CC98F18A16E5D000A82B2 /* alder_file_io.h */,
 				D0CDFD2E183BE76D0072840F /* alder_file_isbinary.c */,
 				D0CDFD2F183BE76D0072840F /* alder_file_isbinary.h */,
+				D04CC99018A16E5D000A82B2 /* alder_file_isbzip2.c */,
+				D04CC99118A16E5D000A82B2 /* alder_file_isbzip2.h */,
 				D0CDFD30183BE76D0072840F /* alder_file_isfasta.c */,
 				D0CDFD31183BE76D0072840F /* alder_file_isfasta.h */,
 				D0CDFD32183BE76D0072840F /* alder_file_isfastq.c */,
@@ -869,10 +930,10 @@
 				D0CDFD35183BE76D0072840F /* alder_file_isfile.h */,
 				D0CDFD36183BE76D0072840F /* alder_file_isgzip.c */,
 				D0CDFD37183BE76D0072840F /* alder_file_isgzip.h */,
+				D04CC99218A16E5D000A82B2 /* alder_file_islz4.c */,
+				D04CC99318A16E5D000A82B2 /* alder_file_islz4.h */,
 				D0CDFD38183BE76D0072840F /* alder_file_isstdin.c */,
 				D0CDFD39183BE76D0072840F /* alder_file_isstdin.h */,
-				D0CDFD3A183BE76D0072840F /* alder_file_makedtemp.c */,
-				D0CDFD3B183BE76D0072840F /* alder_file_makedtemp.h */,
 				D0CDFD3C183BE76D0072840F /* alder_file_mkdir.c */,
 				D0CDFD3D183BE76D0072840F /* alder_file_mkdir.h */,
 				D0CDFD3E183BE76D0072840F /* alder_file_numline.c */,
@@ -962,9 +1023,7 @@
 				D00577C4183F12C1008CF4FE /* alder_wordtable_compute.c in Sources */,
 				D012372B183EC0FB00F92C84 /* alder_seq_streamer.c in Sources */,
 				D0EFD7BB184488B60042B8D2 /* alder_wordtable_bigbitarray.c in Sources */,
-				D0123795183EC13000F92C84 /* alder_vector.c in Sources */,
 				D0123765183EC10700F92C84 /* log_record.c in Sources */,
-				D03220321857162C00C6F241 /* alder_token.c in Sources */,
 				D01236EF183EC08E00F92C84 /* alder_fileseq.c in Sources */,
 				D012377F183EC11E00F92C84 /* alder_hash.c in Sources */,
 				D01236C0183D8BF500F92C84 /* alder_wordtable_positionlist.c in Sources */,
@@ -983,26 +1042,30 @@
 				D0CDFD5D183BE76D0072840F /* alder_file_mkdir.c in Sources */,
 				D012376D183EC10700F92C84 /* timestamp.c in Sources */,
 				D01236F2183EC08E00F92C84 /* alder_fileseq_token.c in Sources */,
-				D0123794183EC13000F92C84 /* alder_gsl.c in Sources */,
 				D0CDFCE6183BE6E90072840F /* main.c in Sources */,
 				D0123764183EC10700F92C84 /* flf_logtrace.c in Sources */,
 				D01236B1183D2EFA00F92C84 /* alder_wordtable_kfmindex.c in Sources */,
 				D0322183185BD38500C6F241 /* alder_wordtable_io.c in Sources */,
 				D032203A1857163900C6F241 /* alder_kseq_sequenceiterator.c in Sources */,
 				D0123760183EC10700F92C84 /* err_record.c in Sources */,
+				D04CC9AA18A16ECF000A82B2 /* bzlib.c in Sources */,
 				D0123769183EC10700F92C84 /* nflf_logerror.c in Sources */,
 				D01236F3183EC08E00F92C84 /* alder_fileseq_type.c in Sources */,
 				D0CDFD5E183BE76D0072840F /* alder_file_numline.c in Sources */,
 				D012371C183EC0E400F92C84 /* alder_fastq_concat.c in Sources */,
 				D012376C183EC10700F92C84 /* ringbuffer.c in Sources */,
+				D04CC9A818A16ECF000A82B2 /* alder_bzip2.c in Sources */,
+				D04CC99B18A16EBD000A82B2 /* alder_dna.c in Sources */,
 				D0CDFD51183BE76D0072840F /* alder_file_creatable.c in Sources */,
+				D04CC9A918A16ECF000A82B2 /* blocksort.c in Sources */,
 				D012376B183EC10700F92C84 /* printout.c in Sources */,
+				D04CC98B18A16E41000A82B2 /* alder_progress.c in Sources */,
 				D01236C3183D8D4C00F92C84 /* alder_wordtable_positionvaluelist.c in Sources */,
 				D0123722183EC0E400F92C84 /* alder_fastq_ragel.c in Sources */,
 				D0321C671850026E00C6F241 /* alder_graph.c in Sources */,
 				D0321E251856630900C6F241 /* alder_fileseq_sequenceiterator.c in Sources */,
+				D04CC9AE18A16ECF000A82B2 /* huffman.c in Sources */,
 				D0123721183EC0E400F92C84 /* alder_fastq_pair.c in Sources */,
-				D01236F0183EC08E00F92C84 /* alder_fileseq_kmer.c in Sources */,
 				D0CDFD63183BE76D0072840F /* alder_file_whatformat.c in Sources */,
 				D0CDFCDE183BE6E80072840F /* alder_wordtable_option.c in Sources */,
 				D0CDFD66183BE7D30072840F /* alder_wordtable_bits.c in Sources */,
@@ -1013,6 +1076,7 @@
 				D028D5A4184C89DB003FE4A0 /* alder_wordtable_kfminterval.c in Sources */,
 				D012377A183EC11600F92C84 /* alder_encode_number.c in Sources */,
 				D01236B7183D334000F92C84 /* alder_wordtable_bitpackedlist.c in Sources */,
+				D04CC9AD18A16ECF000A82B2 /* decompress.c in Sources */,
 				D0CDFD04183BE7580072840F /* bstrlib.c in Sources */,
 				D01236F1183EC08E00F92C84 /* alder_fileseq_streamer.c in Sources */,
 				D01236BA183D4A7E00F92C84 /* alder_wordtable_bitpackedcumulativearray.c in Sources */,
@@ -1020,21 +1084,23 @@
 				D0CDFD05183BE7580072840F /* bstrmore.c in Sources */,
 				D0123724183EC0E400F92C84 /* alder_fastq_streamer.c in Sources */,
 				D0123798183EC13000F92C84 /* alder_vector_palign.c in Sources */,
-				D0CDFD55183BE76D0072840F /* alder_file_info.c in Sources */,
 				D012376A183EC10700F92C84 /* nflf_logtrace.c in Sources */,
 				D03220391857163900C6F241 /* alder_kseq.c in Sources */,
 				D0C7AB43183EF20F003E66A9 /* alder_wordtable_tokenset.c in Sources */,
 				D012375D183EC10700F92C84 /* alder_logger.c in Sources */,
 				D00577CE184139A9008CF4FE /* alder_wordtable_kfmmerger.c in Sources */,
 				D0321C6A185144F800C6F241 /* alder_seq_sample.c in Sources */,
+				D04CC99618A16E5D000A82B2 /* alder_file_isbzip2.c in Sources */,
 				D03220331857162C00C6F241 /* alder_token_dna.c in Sources */,
 				D0321C6D1851471500C6F241 /* alder_fileseq_sample.c in Sources */,
 				D0123768183EC10700F92C84 /* nflf_logarray.c in Sources */,
 				D0CDFD54183BE76D0072840F /* alder_file_getcwd.c in Sources */,
+				D04CC99718A16E5D000A82B2 /* alder_file_islz4.c in Sources */,
 				D01236FF183EC0D900F92C84 /* alder_fasta_kmer.c in Sources */,
 				D0CDFD52183BE76D0072840F /* alder_file_exist.c in Sources */,
 				D0123778183EC11600F92C84 /* alder_encode.c in Sources */,
 				D01236C6183DAE1400F92C84 /* alder_wordtable_kfmaggregator.c in Sources */,
+				D04CC99518A16E5D000A82B2 /* alder_file_io.c in Sources */,
 				D012379A183EC13000F92C84 /* gsl_vector_match.c in Sources */,
 				D0CDFD60183BE76D0072840F /* alder_file_sequencefilesize.c in Sources */,
 				D0321E431856B6F500C6F241 /* alder_fastq_sequenceiterator.c in Sources */,
@@ -1052,16 +1118,19 @@
 				D0123701183EC0D900F92C84 /* alder_fasta_token.c in Sources */,
 				D0CDFD56183BE76D0072840F /* alder_file_isbinary.c in Sources */,
 				D0123767183EC10700F92C84 /* nflf_log.c in Sources */,
+				D04CC9AC18A16ECF000A82B2 /* crctable.c in Sources */,
 				D0CDFCDB183BE6E80072840F /* alder_wordtable_cite.c in Sources */,
-				D0CDFD5C183BE76D0072840F /* alder_file_makedtemp.c in Sources */,
 				D0CDFD62183BE76D0072840F /* alder_file_sysctl.c in Sources */,
 				D0123763183EC10700F92C84 /* flf_logerror.c in Sources */,
 				D0CDFD6C183BFA900072840F /* alder_wordtable_inedgelist.c in Sources */,
 				D0123779183EC11600F92C84 /* alder_encode_kmer.c in Sources */,
+				D04CC9AF18A16ECF000A82B2 /* randtable.c in Sources */,
 				D012375F183EC10700F92C84 /* array_record.c in Sources */,
+				D04CC9AB18A16ECF000A82B2 /* compress.c in Sources */,
 				D0123720183EC0E400F92C84 /* alder_fastq_numbase.c in Sources */,
 				D0123700183EC0D900F92C84 /* alder_fasta_streamer.c in Sources */,
 				D012375E183EC10700F92C84 /* alder_logger_error.c in Sources */,
+				D04CC99418A16E5D000A82B2 /* alder_file_format.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

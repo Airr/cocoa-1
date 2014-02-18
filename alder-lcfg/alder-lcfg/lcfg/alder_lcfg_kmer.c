@@ -158,6 +158,18 @@ alder_lcfg_kmer_writeNp(const char *fn, uint64_t v)
 }
 
 int
+alder_lcfg_kmer_writeSizeValue(const char *fn, size_t v)
+{
+    return alder_lcfg_base_write_size_t(fn, "sv", v);
+}
+
+int
+alder_lcfg_kmer_writeSizeIndex(const char *fn, size_t v)
+{
+    return alder_lcfg_base_write_size_t(fn, "si", v);
+}
+
+int
 alder_lcfg_kmer_writeParfilesize(const char *fn, uint64_t v)
 {
     return alder_lcfg_base_write_uint64(fn, "parfilesize", v);

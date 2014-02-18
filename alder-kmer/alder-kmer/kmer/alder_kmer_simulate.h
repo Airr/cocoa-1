@@ -38,10 +38,10 @@ __BEGIN_DECLS
 
 int alder_kmer_simulate(long version,
                         unsigned int outfile_given,
-                        int with_parfile_flag,
                         const char *outfile,
                         const char *outdir,
                         alder_format_type_t format,
+                        int with_parfile_flag,
                         int number_file,
                         int number_iteration,
                         int number_partition,
@@ -50,6 +50,23 @@ int alder_kmer_simulate(long version,
                         size_t maxkmer,
                         int progress_flag,
                         int progressToError_flag);
+
+int alder_kmer_simulate2(long version,
+                         unsigned int outfile_given,
+                         const char *outfile,
+                         const char *outdir,
+                         alder_format_type_t format,
+                         int number_file,
+                         long seed,
+                         int error_rate,
+                         int error_initial,
+                         int error_iteration,
+                         int error_duplicate,
+                         int kmer_size,
+                         int sequence_length,
+                         size_t maxkmer,
+                         int progress_flag,
+                         int progressToError_flag);
 
 __END_DECLS
 

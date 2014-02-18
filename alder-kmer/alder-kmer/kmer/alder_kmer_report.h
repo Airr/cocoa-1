@@ -35,9 +35,15 @@
 
 __BEGIN_DECLS
 
-int alder_kmer_report(const char *fn,
+int alder_kmer_report(long version,
+                      const char *fn,
                       int isSummary,
                       const char *query);
+
+int alder_kmer_query(long version,
+                     const char *fn,
+                     int isSummary,
+                     const char *query);
 
 __END_DECLS
 

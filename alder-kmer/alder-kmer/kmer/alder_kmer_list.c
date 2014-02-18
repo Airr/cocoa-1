@@ -48,7 +48,7 @@
  */
 int
 alder_kmer_list(int K,
-                int progress_flag,
+                int with_index_flag,
                 struct bstrList *infile,
                 int outfile_given,
                 const char *outdir,
@@ -140,7 +140,11 @@ alder_kmer_list(int K,
                     
                     n_kmer++;
                     if (strspn((char*)kbuf, "ACGTacgt") == K) {
-                        fprintf(fpout, "%s\n", kbuf);
+                        if (with_index_flag == 1) {
+                            fprintf(fpout, "%04zu %s\n", n_kmer, kbuf);
+                        } else {
+                            fprintf(fpout, "%s\n", kbuf);
+                        }
                     }
                     sbuf[end_pos] = c;
                 }

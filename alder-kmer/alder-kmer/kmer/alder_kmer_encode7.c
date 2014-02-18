@@ -124,6 +124,7 @@ static int open_infile (alder_kmer_encode7_t *o)
         return ALDER_STATUS_ERROR;
     }
     o->fx = (void *)(intptr_t)fp;
+    fcntl(fp, F_RDAHEAD, 1);
     
     return ALDER_STATUS_SUCCESS;
 }
@@ -238,6 +239,10 @@ alder_kmer_encode7_create(int n_encoder,
     size_t size_suboutbuf2 = size_suboutbuf / n_partition;
     size_t size_suboutbuf3 = size_suboutbuf2 - sizeof(uint64_t);
     o->n_kmer_suboutbuf = size_suboutbuf3 / o->b;
+    if (o->n_kmer_suboutbuf == 0) {
+        alder_kmer_encode7_destroy(o);
+        return NULL;
+    }
     o->size_suboutbuf3 = o->n_kmer_suboutbuf * o->b;
     o->size_suboutbuf2 = o->size_suboutbuf3 + sizeof(uint64_t);
     o->size_suboutbuf = o->size_suboutbuf2 * n_partition;
@@ -482,52 +487,6 @@ assign_encoder_id()
                                            (int)oval, (int)cval);
     }
     return oval;
-}
-
-/**
- *  This function increases the full counter. If the returned value is equal to
- *  the number of encoders, then the thread is selected to write partition
- *  files.
- *
- *  @return number of encoders with outbuffer full.
- */
-static int
-add_encoder_to_full(alder_kmer_encode7_t *a)
-{
-    int oval = encoder_full_counter;
-    int cval = oval + 1;
-    while (cval != oval) {
-        oval = encoder_full_counter;
-        if (oval == a->n_encoder - 1) {
-            cval = 0;
-        } else {
-            cval = oval + 1;
-        }
-        cval = __sync_val_compare_and_swap(&encoder_full_counter,
-                                           (int)oval, (int)cval);
-    }
-    return oval + 1;
-}
-
-/**
- *  This function lets the last encoder thread write the remaining partitions.
- *  If the returned value is equal to the number of encoders, then that thread
- *  is selected to write partition files.
- *
- *  @return encoder id
- */
-static int
-add_encoder_to_exit()
-{
-    int oval = encoder_exit_counter;
-    int cval = oval + 1;
-    while (cval != oval) {
-        oval = encoder_exit_counter;
-        cval = oval + 1;
-        cval = __sync_val_compare_and_swap(&encoder_exit_counter,
-                                           (int)oval, (int)cval);
-    }
-    return oval + 1;
 }
 
 #pragma mark thread

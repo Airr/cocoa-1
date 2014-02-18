@@ -85,6 +85,23 @@ void write_config2(const char *outfile, const char *outdir, size_t n_hash)
     bdestroy(bfn);
 }
 
+static
+void write_config3(const char *outfile, const char *outdir, int K,
+                   uint64_t nh,
+                   size_t size_value, size_t size_index,
+                   uint64_t filesizePerIteration)
+{
+    // Config file.
+    bstring bfn = bformat("%s/%s.cfg", outdir, outfile);
+    alder_lcfg_kmer_openForWrite(bdata(bfn));
+    alder_lcfg_kmer_writeKmersize(bdata(bfn), K);
+    alder_lcfg_kmer_writeNh(bdata(bfn), nh);
+    alder_lcfg_kmer_writeSizeValue(bdata(bfn), size_value);
+    alder_lcfg_kmer_writeSizeIndex(bdata(bfn), size_index);
+    alder_lcfg_kmer_writeParfilesize(bdata(bfn), filesizePerIteration);
+    bdestroy(bfn);
+}
+
 /**
  *  This is used to set up for version 5.
  *
@@ -311,8 +328,8 @@ void alder_kmer_estimate_buffer_size(long *sizeInbuffer_p, long *sizeOutbuffer_p
  *                                  the number is estimated from input files.
  *  @param D                        disk space in MB
  *  @param M                        memory size in MB
- *  @param min_M_table              [not used] minimum memory for a table
- *  @param max_M_table              [not used] maximum memory for a table
+ *  @param lower_count              minimum number of occurences
+ *  @param upper_count              maximum number of occurences
  *  @param F                        maximum number of open files
  *  @param sizeInbuffer             input buffer size in partitioning step
  *  @param sizeOutbuffer            output buffer size in partitioning step
@@ -337,7 +354,7 @@ void alder_kmer_estimate_buffer_size(long *sizeInbuffer_p, long *sizeOutbuffer_p
 int
 alder_kmer_count(long version,
                  int K, long totalmaxkmer, long D, long M,
-                 long min_M_table, long max_M_table,
+                 int lower_count, int upper_count,
                  long F,
                  long sizeInbuffer, long sizeOutbuffer,
                  int n_ni, int n_np, int n_nh,
@@ -400,7 +417,7 @@ alder_kmer_count(long version,
     /* Create a binary file and compute n_kmer, n_dna, n_seq, bin_filesize. */
     s = alder_kmer_binary3(NULL, 0, sizeInbuffer,
                            &n_kmer, &n_dna, &n_seq, &bin_filesize, &size_data,
-                           version, K, D, M, min_M_table, max_M_table, n_nt,
+                           version, K, D, M, 0, 0, n_nt,
                            progress_flag, progressToError_flag,
                            infile, outdir, outfile);
     if (s != ALDER_STATUS_SUCCESS) {
@@ -414,7 +431,7 @@ alder_kmer_count(long version,
                                &bin_filesize, &flag_nh64,
                                &sizeInbuffer, &sizeOutbuffer,
                                K, n_kmer, D,
-                               M, min_M_table, max_M_table,
+                               M, 0, 0,
                                F,
                                n_ni, n_np, n_nh, n_nt,
                                progress_flag, progressToError_flag,
@@ -448,6 +465,7 @@ alder_kmer_count(long version,
     alder_log("*** Kmer count ***");
     for (int i = 0; i < N_ni; i++) {
         if (!no_partition_flag) {
+            alder_progress_frequency(10);
             unsigned int binfile_given = 0;
             // Encode kmer: runs on nt-many threads.
             alder_log3("encoding iteration %d ...", i);
@@ -480,7 +498,7 @@ alder_kmer_count(long version,
             time(&start);
             alder_progress_frequency(1);
             s = (*count)(fpout, n_nt, i, K, M, sizeInbuffer, sizeOutbuffer,
-                         N_ni, N_np, N_nh, S_filesize,
+                         N_ni, N_np, N_nh, lower_count, upper_count,
                          &n_byte, &n_kmer_counted, &n_hash,
                          n_total_kmer, &n_current_kmer,
                          progress_flag, progressToError_flag, only_init_flag,
@@ -528,6 +546,301 @@ alder_kmer_count(long version,
               run_time_binary, run_time_binary/60, run_time_binary/3600);
     alder_log("%*s %.f (s) = %.f (m) = %.1f (h)", width, "Time for encoding:",
               run_time_encode, run_time_encode/60, run_time_encode/3600);
+    alder_log("%*s %.f (s) = %.f (m) = %.1f (h)", width, "Time for counting:",
+              run_time_count, run_time_count/60, run_time_count/3600);
+    
+    alder_log5("Counting Kmers has been finished!");
+    return ALDER_STATUS_SUCCESS;
+}
+
+static int
+write_table_header(long version,
+                   FILE **fpout_p,
+                   unsigned int outfile_given,
+                   const char *outfile, const char *outdir, int K,
+                   size_t N_nh, uint64_t size_value, uint64_t size_index,
+                   int no_count_flag)
+{
+    ///////////////////////////////////////////////////////////////////////////
+    // Encode and count kmers.
+    int s;
+    bstring bht = bformat("%s/%s.tbh", outdir, outfile);
+    if (bht == NULL) return ALDER_STATUS_ERROR;
+    alder_log5("creating a hash count table (%s)", bdata(bht));
+    
+    *fpout_p = NULL;
+    if (!no_count_flag) {
+        *fpout_p = fopen(bdata(bht), "wb+");
+        if (*fpout_p == NULL) {
+            bdestroy(bht);
+            return ALDER_STATUS_ERROR;
+        }
+        // This is the place to write the header part of the hash count table.
+        s = alder_hashtable_mcas2_printHeaderToFD(fileno(*fpout_p),
+                                                  K,
+                                                  (uint64_t)N_nh,
+                                                  size_value, size_index);
+                            
+        ALDER_RETURN_ERROR_UNLESS_SUCCESSFUL(s, ALDER_STATUS_ERROR);
+    }
+    bdestroy(bht);
+    return ALDER_STATUS_SUCCESS;
+}
+
+/**
+ *  This function opens a file or uses STDOUT for a table.
+ *
+ *  @param fpout_p       file
+ *  @param outfile_given 0 (STDOUT), 1 (file)
+ *  @param outdir        output directory
+ *  @param outfile       outfile
+ *
+ *  @return SUCCESS or FAIL
+ */
+static int
+open_table(FILE **fpout_p,
+           unsigned int outfile_given,
+           const char *outdir, const char *outfile)
+{
+    if (outfile_given == 0) {
+        *fpout_p = stdout;
+    } else {
+        bstring bht = bformat("%s/%s.tbl", outdir, outfile);
+        if (bht == NULL) return ALDER_STATUS_ERROR;
+        *fpout_p = fopen(bdata(bht), "wb+");
+        if (*fpout_p == NULL) {
+            bdestroy(bht);
+            return ALDER_STATUS_ERROR;
+        }
+        bdestroy(bht);
+    }
+    return ALDER_STATUS_SUCCESS;
+}
+
+/**
+ *  This function determines size of value (byte), table element size (byte),
+ *  the number of elements in a table, input and output buffer sizes.
+ *
+ *  @param _size_value   size of value in byte
+ *  @param _size_index   size of index in byte
+ *  @param _N_nh         number of elements in a table
+ *  @param sizeInbuffer  buffer size for reading
+ *  @param sizeOutbuffer buffer size for writing
+ *  @param K             kmer size
+ *  @param M             memory in megabyte
+ *  @param lower_count   minimum value for count
+ *  @param upper_count   maximum value for count
+ *  @param n_nh          user specified number of elements in a table
+ *  @param n_nt          number of threads
+ *  @param infile        infile
+ *  @param outdir        outdirectory
+ *  @param outfile       outfile name
+ *
+ *  @return SUCCESS or FAIL
+ */
+static int
+alder_kmer_topkmer_init(uint64_t *_size_value, uint64_t *_size_index,
+                        size_t *N_nh, long *sizeInbuffer, long *sizeOutbuffer,
+                        int K, long M, long lower_count, int upper_count,
+                        int n_nh, int n_nt,
+                        struct bstrList *infile, const char *outdir,
+                        const char *outfile)
+{
+    /* Setup the size of buffers for reading and writing: sizeIn/Outbuffer.*/
+    alder_kmer_estimate_buffer_size(sizeInbuffer, sizeOutbuffer,
+                                    outfile, outdir);
+    assert(*sizeInbuffer == (1<<16) && *sizeOutbuffer == (1<<20));
+    
+    /* Setup nh and element size in bytes. */
+    size_t size_M_table = ((size_t)M << 20);
+    size_t size_element_table =
+    alder_hashtable_mcas2_element_sizeof_with_available_memory(K,
+                                                               size_M_table);
+    *N_nh = ((size_t)size_M_table) / size_element_table;
+    /* Override ni, np, nh with user-provided values. */
+    if (n_nh > 0) {
+        *N_nh = (size_t)n_nh;
+    }
+    if (*N_nh > (size_t)UINT32_MAX) {
+        alder_log("Hash table size is over UINT32: table index should be "
+                  "of 64-bit value.");
+    }
+    
+    /* Set index size: size_index. */
+    size_t size_key = ALDER_BYTESIZE_KMER(K,ALDER_NUMKMER_8BYTE) * sizeof(uint64_t);
+    size_t size_index = sizeof(uint32_t);
+    if (*N_nh <=  UINT32_MAX) {
+        size_index = sizeof(uint32_t);
+    } else {
+        size_index = sizeof(size_t);
+    }
+    /* Determine the byte-size of a count value. */
+    size_t size_value = sizeof(uint8_t);
+    if (upper_count <= UINT8_MAX) {
+        size_value = sizeof(uint8_t);
+    } else if (upper_count <= UINT16_MAX) {
+        size_value = sizeof(uint16_t);
+    } else if (upper_count <= UINT32_MAX) {
+        size_value = sizeof(uint32_t);
+    } else {
+        assert(0);
+    }
+    
+    /* PRINT SETUP */
+    int width = ALDER_LOG_TEXTWIDTH;
+    alder_log("*** Kmer count setup ***");
+    alder_log("%*s %d", width, "Kmer size:", K);
+    alder_log("%*s %ld (MB)", width, "Memory space:", M);
+    alder_log("%*s %d", width, "Number of threads:", n_nt);
+    for (int i = 0; i < infile->qty; i++) {
+        alder_log("%*s [%d] %s", width, "Input file:", i + 1, bdata(infile->entry[i]));
+    }
+    alder_log("%*s %zu", width, "Table size:", N_nh);
+    alder_log("%*s %zu", width, "Table key size:", size_key);
+    alder_log("%*s %zu", width, "Table value size:", size_value);
+    alder_log("%*s %zu", width, "Table index size:", size_index);
+    alder_log("%*s %s/%s.%s", width, "Count table file:",
+              outdir, outfile, ALDER_KMER_TABLE_EXTENSION);
+    
+    unsigned long disk_space = 0;
+    alder_file_availablediskspace(outdir, &disk_space);
+    alder_log("%*s %zu (KB)", width, "Inbuffer size:", *sizeInbuffer >> 10);
+    alder_log("%*s %zu (KB)", width, "Onbuffer size:", *sizeOutbuffer >> 10);
+    
+    *_size_value = size_value;
+    *_size_index = size_index;
+    write_config3(outfile, outdir, K, *N_nh, size_value, size_index, 0);
+    return ALDER_STATUS_SUCCESS;
+}
+
+/**
+ *  This function executes topkmer command.
+ *
+ *  @param version                  version (starting at 8)
+ *  @param K                        K
+ *  @param totalmaxkmer             0 (no input file), + (input files)
+ *  @param D                        [not used] disk space
+ *  @param M                        memory (will be used for a table)
+ *  @param lower_count              minimum count
+ *  @param upper_count              maximum count
+ *  @param F                        [not used] max number of files
+ *  @param sizeInbuffer             read buffer size
+ *  @param sizeOutbuffer            write buffer size
+ *  @param n_ni                     [not used]
+ *  @param n_np                     [not used]
+ *  @param n_nh                     number of element in a table
+ *  @param n_nt                     number of threads
+ *  @param progress_flag            progress
+ *  @param progressToError_flag     progress to stderr
+ *  @param format_flag              fq, fa, or seq
+ *  @param no_delete_partition_flag [not used]
+ *  @param no_partition_flag        [not used]
+ *  @param no_count_flag            [not used]
+ *  @param infile                   input file names
+ *  @param outfile_given            outfile given
+ *  @param outdir                   outdir
+ *  @param outfile                  outfile
+ *
+ *  @return SUCCESS or FAIL
+ */
+int
+alder_kmer_topkmer(long version,
+                   int K, long totalmaxkmer, long D, long M,
+                   int lower_count, int upper_count,
+                   long F,
+                   long sizeInbuffer, long sizeOutbuffer,
+                   int n_ni, int n_np, int n_nh,
+                   int n_nt,
+                   int progress_flag, int progressToError_flag,
+                   int format_flag,
+                   int no_delete_partition_flag,
+                   int no_partition_flag,
+                   int no_count_flag,
+                   struct bstrList *infile,
+                   unsigned int outfile_given,
+                   const char *outdir,
+                   const char *outfile)
+{
+    assert(version == 8);
+    int s = ALDER_STATUS_SUCCESS;
+    /* variables for timing each step */
+    time_t start;
+    time_t end;
+    double run_time_count = 0;
+    /* for selecting a version of encoding or counting */
+    count_t count;
+    uint64_t size_value = 0;
+    uint64_t size_index = 0;
+    size_t N_nh = 0;
+    size_t size_data = 0;
+    /* for stat */
+    size_t n_byte = 0;
+    size_t n_hash = 0;
+    size_t n_kmer_counted = 0;
+    size_t n_total_kmer = 0;
+    size_t n_current_kmer = 0;
+    FILE *fptbh = NULL;
+    FILE *fptbl = NULL;
+    
+    /* Timeing: START */
+    time(&start);
+    /* Initialize the topkmer run. */
+    s = alder_kmer_topkmer_init(&size_value, &size_index, &N_nh,
+                                &sizeInbuffer, &sizeOutbuffer,
+                                K, M, lower_count, upper_count, n_nh, n_nt,
+                                infile, outdir, outfile);
+    if (s != ALDER_STATUS_SUCCESS) {
+        alder_loge(ALDER_ERR, "failed to initialize topkmer run.",
+                   outdir, outfile);
+        return s;
+    }
+    /* Write the table header file. */
+    s = write_table_header(version, &fptbh, outfile_given, outfile, outdir,
+                           K, N_nh, size_value, size_index, no_count_flag);
+    if (s != ALDER_STATUS_SUCCESS) {
+        alder_loge(ALDER_ERR_FILE, "Failed to write a table header: %s/%s.tbh",
+                   outdir, outfile);
+        return ALDER_STATUS_ERROR;
+    }
+    /* Open the table. */
+    s = open_table(&fptbl, outfile_given, outdir, outfile);
+    if (s != ALDER_STATUS_SUCCESS) {
+        alder_loge(ALDER_ERR_FILE, "Failed to open a table: %s/%s.tbl",
+                   outdir, outfile);
+        return ALDER_STATUS_ERROR;
+    }
+    
+    /* Run the topkmer. */
+    alder_log("*** Kmer count ***");
+    count = &alder_kmer_thread8;
+    s = (*count)(fptbl, n_nt, 0, K, M, sizeInbuffer, sizeOutbuffer,
+                 size_value, size_index, N_nh, lower_count, upper_count,
+                 &n_byte, &n_kmer_counted, &n_hash,
+                 n_total_kmer, &n_current_kmer,
+                 progress_flag, progressToError_flag, format_flag,
+                 NULL, size_data, infile, outdir, outfile);
+    if (s != ALDER_STATUS_SUCCESS) {
+        alder_loge(ALDER_ERR, "Counter (iter %d) has failed: %i");
+        return ALDER_STATUS_ERROR;
+    }
+    alder_log2("Counted Kmers: %zu", n_kmer_counted);
+    
+    /* Finalize the topkmer run. */
+    s = alder_hashtable_mcas2_printPackToFD_count(n_hash, fileno(fptbh));
+    assert(s == ALDER_STATUS_SUCCESS);
+    XFCLOSE(fptbh);
+    if (outfile_given == 1) {
+        XFCLOSE(fptbl);
+    }
+    write_config2(outfile, outdir, n_hash);
+    if (progress_flag) {
+        alder_progress_end(progressToError_flag);
+    }
+    
+    /* Timeing: END */
+    time(&end);
+    run_time_count += difftime(end, start);
+    int width = ALDER_LOG_TEXTWIDTH;
     alder_log("%*s %.f (s) = %.f (m) = %.1f (h)", width, "Time for counting:",
               run_time_count, run_time_count/60, run_time_count/3600);
     

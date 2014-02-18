@@ -360,7 +360,7 @@
 		D0321DFF1854939300C6F241 /* alder_file_writable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_writable.c; sourceTree = "<group>"; };
 		D0321E001854939300C6F241 /* alder_file_writable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_file_writable.h; sourceTree = "<group>"; };
 		D0321E011854939300C6F241 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
-		D0321E1C1854942A00C6F241 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		D0321E1C1854942A00C6F241 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.sh; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -996,6 +996,7 @@
 				D0321C901854920F00C6F241 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

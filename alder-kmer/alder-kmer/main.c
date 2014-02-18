@@ -68,30 +68,40 @@ int main(int argc, char * argv[])
     ///////////////////////////////////////////////////////////////////////////
     // Count:
     if (args_info.count_flag) {
-        s = alder_kmer_count(args_info.select_version_arg,
-                             (int)args_info.kmer_arg,
-                             args_info.totalmaxkmer_arg,
-                             args_info.disk_arg,
-                             args_info.memory_arg,
-                             args_info.min_table_memory_arg,
-                             args_info.max_table_memory_arg,
-                             option.maxfile,
-                             args_info.inbuffer_arg,
-                             args_info.outbuffer_arg,
-                             (int)args_info.ni_arg,
-                             (int)args_info.np_arg,
-                             (int)args_info.nh_arg,
-                             (int)args_info.nthread_arg,
-                             args_info.progress_flag,
-                             args_info.progress_to_stderr_flag,
-                             args_info.only_init_flag,
-                             args_info.no_delete_flag,
-                             args_info.no_partition_flag,
-                             args_info.no_count_flag,
-                             option.infile,
-                             args_info.outfile_given,
-                             args_info.outdir_arg,
-                             args_info.outfile_arg);
+        PlantSeeds(args_info.seed_arg);
+        SelectStream(1);
+        command_count_t count;
+        if (args_info.dsk_flag == 0) {
+            count = &alder_kmer_topkmer;
+            args_info.only_init_flag = (int)option.format;
+        } else {
+            count = &alder_kmer_count;
+            args_info.select_version_arg = 7;
+        }
+        s = (*count)(args_info.select_version_arg,
+                     (int)args_info.kmer_arg,
+                     args_info.totalmaxkmer_arg,
+                     args_info.disk_arg,
+                     args_info.memory_arg,
+                     (int)args_info.lower_count_arg,
+                     (int)args_info.upper_count_arg,
+                     option.maxfile,
+                     args_info.inbuffer_arg,
+                     args_info.outbuffer_arg,
+                     (int)args_info.ni_arg,
+                     (int)args_info.np_arg,
+                     (int)args_info.nh_arg,
+                     (int)args_info.nthread_arg,
+                     args_info.progress_flag,
+                     args_info.progress_to_stderr_flag,
+                     args_info.only_init_flag,
+                     args_info.no_delete_flag,
+                     args_info.no_partition_flag,
+                     args_info.no_count_flag,
+                     option.infile,
+                     args_info.outfile_given,
+                     args_info.outdir_arg,
+                     args_info.outfile_arg);
     }
     
     ///////////////////////////////////////////////////////////////////////////
@@ -137,8 +147,8 @@ int main(int argc, char * argv[])
                              (int)args_info.nthread_arg,
                              args_info.progress_flag,
                              args_info.progress_to_stderr_flag,
-                             // args_info.no_pack_flag,
-                             0,
+                             (int)args_info.lower_count_arg,
+                             (int)args_info.upper_count_arg,
                              args_info.parfile_arg,
                              args_info.parfile_given,
                              option.infile,
@@ -151,14 +161,25 @@ int main(int argc, char * argv[])
     // Report/Dump:
     if (args_info.report_flag) {
         if (args_info.query_given) {
-            s = alder_kmer_report(bdata(option.infile->entry[0]),
+            s = alder_kmer_report(args_info.select_version_arg,
+                                  bdata(option.infile->entry[0]),
                                   args_info.summary_flag,
                                   args_info.sequence_arg);
         } else {
-            s = alder_kmer_report(bdata(option.infile->entry[0]),
+            s = alder_kmer_report(args_info.select_version_arg,
+                                  bdata(option.infile->entry[0]),
                                   args_info.summary_flag,
                                   NULL);
         }
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////
+    // Query:
+    if (args_info.query_flag) {
+        s = alder_kmer_query(args_info.select_version_arg,
+                             bdata(option.infile->entry[0]),
+                             args_info.summary_flag,
+                             args_info.sequence_arg);
     }
     
     ///////////////////////////////////////////////////////////////////////////
@@ -166,20 +187,39 @@ int main(int argc, char * argv[])
     if (args_info.simulate_flag) {
         PlantSeeds(args_info.seed_arg);
         SelectStream(1);
-        s = alder_kmer_simulate(args_info.select_version_arg,
-                                args_info.outfile_given,
-                                args_info.with_parfile_flag,
-                                args_info.outfile_arg,
-                                args_info.outdir_arg,
-                                option.format,
-                                (int)args_info.nf_arg,
-                                (int)args_info.ni_arg,
-                                (int)args_info.np_arg,
-                                (int)args_info.kmer_arg,
-                                (int)args_info.seqlen_arg,
-                                (size_t)args_info.maxkmer_arg,
-                                args_info.progress_flag,
-                                args_info.progress_to_stderr_flag);
+        if (args_info.error_rate_arg > 0) {
+            s = alder_kmer_simulate2(args_info.select_version_arg,
+                                     args_info.outfile_given,
+                                     args_info.outfile_arg,
+                                     args_info.outdir_arg,
+                                     option.format,
+                                     (int)args_info.nf_arg,
+                                     args_info.seed_arg,
+                                     (int)args_info.error_rate_arg,
+                                     (int)args_info.error_initial_arg,
+                                     (int)args_info.error_iteration_arg,
+                                     (int)args_info.error_duplicate_arg,
+                                     (int)args_info.kmer_arg,
+                                     (int)args_info.seqlen_arg,
+                                     (size_t)args_info.maxkmer_arg,
+                                     args_info.progress_flag,
+                                     args_info.progress_to_stderr_flag);
+        } else {
+            s = alder_kmer_simulate(args_info.select_version_arg,
+                                    args_info.outfile_given,
+                                    args_info.outfile_arg,
+                                    args_info.outdir_arg,
+                                    option.format,
+                                    args_info.with_parfile_flag,
+                                    (int)args_info.nf_arg,
+                                    (int)args_info.ni_arg,
+                                    (int)args_info.np_arg,
+                                    (int)args_info.kmer_arg,
+                                    (int)args_info.seqlen_arg,
+                                    (size_t)args_info.maxkmer_arg,
+                                    args_info.progress_flag,
+                                    args_info.progress_to_stderr_flag);
+        }
     }
     
     ///////////////////////////////////////////////////////////////////////////
@@ -197,7 +237,7 @@ int main(int argc, char * argv[])
     // List:
     if (args_info.list_flag) {
         s = alder_kmer_list((int)args_info.kmer_arg,
-                            args_info.progress_flag,
+                            args_info.with_index_flag,
                             option.infile,
                             args_info.outfile_given,
                             args_info.outdir_arg,
@@ -239,7 +279,7 @@ int main(int argc, char * argv[])
         }
         if (args_info.select_version_arg == 2 ||
             args_info.select_version_arg == 3) {
-            size_t subsize = 1 << 16;
+            size_t subsize = ALDER_KMER_BUFSIZE;
             s = alder_kmer_binary(NULL, 0, subsize,
                                   &n_kmer, &n_dna, &n_seq,
                                   &n_totalfilesize,
@@ -259,6 +299,16 @@ int main(int argc, char * argv[])
         } else {
             alder_loge(ALDER_ERR, "Only version 4 or 5 is implemented!");
         }
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////
+    // Assess:
+    if (args_info.assess_flag) {
+        alder_kmer_assess(args_info.upper_count_arg,
+                          args_info.tabfile_arg,
+                          option.infile,
+                          args_info.outdir_arg,
+                          args_info.outfile_arg);
     }
     
     ///////////////////////////////////////////////////////////////////////////

@@ -23,6 +23,7 @@
 #include "alder_cmacro.h"
 #include "alder_kmer_count.h"
 #include "alder_kmer_encode.h"
+#include "alder_kmer_common.h"
 #include "alder_kmer_partition.h"
 
 /**
@@ -79,7 +80,7 @@ alder_kmer_partition(long version,
     size_t n_byte = 0;
     size_t n_kmer = 0;
     size_t S_filesize = 0;
-    sizeInbuffer = 1 << 16;
+    sizeInbuffer = ALDER_KMER_BUFSIZE;
     sizeOutbuffer = 1 << 20;
     size_t n_total_kmer = 100; // FIXME: total kmer should be known.
     size_t n_current_kmer = 0;

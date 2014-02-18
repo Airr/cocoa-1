@@ -30,9 +30,8 @@
 #include "alder_progress.h"
 #include "alder_file_size.h"
 #include "alder_kmer_binary.h"
+#include "alder_kmer_common.h"
 #include "alder_kmer_uncompress.h"
-
-#define BUFSIZE (1 << 16)
 
 struct alder_kmer_binary_stream_struct {
     size_t len_buf;
@@ -77,7 +76,7 @@ void alder_kmer_binary_buffer_open(alder_kmer_binary_stream_t *bs_p,
                                    uint8_t *buffer,
                                    size_t len_buf)
 {
-    assert(len_buf == 0 || len_buf == BUFSIZE);
+    assert(len_buf == 0 || len_buf == ALDER_KMER_BUFSIZE);
     
     bs_p->len_buf = len_buf;
     bs_p->buf = buffer;
@@ -172,7 +171,8 @@ alder_kmer_uncompress(int progress_flag,
                       const char *outdir,
                       const char *outfile)
 {
-    size_t size_buf = 1 << 16;
+    size_t size_buf = ALDER_KMER_BUFSIZE;
+    
     uint8_t *buffer = malloc(size_buf);
     if (buffer == NULL) {
         alder_loge(ALDER_ERR_MEMORY, "failed to uncompress");

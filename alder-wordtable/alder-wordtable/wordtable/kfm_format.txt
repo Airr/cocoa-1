@@ -38,7 +38,7 @@
 
  The four-byte chunk type field contains the decimal values
  73, 72, 68, 82
- The IHDR chunk shall be the first chunk in the PNG datastream, containing:
+ The IHDR chunk shall be the first chunk in the KFM datastream, containing:
  KFM index order | 4 byte
  KFM index size  | 8 bytes
  KFM rho size    | 8 bytes

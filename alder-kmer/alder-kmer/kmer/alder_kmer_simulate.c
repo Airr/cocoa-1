@@ -254,10 +254,10 @@ reverse_complementary_0123(uint8_t *s, size_t n)
  */
 int alder_kmer_simulate(long version,
                         unsigned int outfile_given,
-                        int with_parfile_flag,
                         const char *outfile,
                         const char *outdir,
                         alder_format_type_t format,
+                        int with_parfile_flag,
                         int number_file,
                         int number_iteration,
                         int number_partition,
@@ -468,5 +468,216 @@ int alder_kmer_simulate(long version,
     alder_encode_number_destroy(s1);
     alder_kmer_simulate_partition_destroy(opart);
     alder_hashtable_mcas_destroy(ht);
+    return s;
+}
+
+void write_set_to_seqfile(FILE *fpseq, alder_format_type_t format,
+                          int sequence_length,
+                          uint8_t *random_kmer, int kmer_size, size_t maxkmer,
+                          int error_rate,
+                          int progress_flag, int progressToError_flag)
+{
+    
+    double y = (double)error_rate / 100.0;
+    
+    int i_seq = 0;
+    int i_sequence_length = 0;
+    size_t n_kmer = 0;
+    while (n_kmer < maxkmer) {
+        if (progress_flag == 1) {
+//            alder_progress_step((i * maxkmer) + n_kmer,
+//                                number_file * maxkmer,
+//                                progressToError_flag);
+        }
+        
+        // Start a new sequence by creating a kmer.
+        if (i_sequence_length == 0) {
+            i_seq++;
+            
+            /* Write the first k-1 letters. */
+            if (format == ALDER_FORMAT_FASTA) {
+                fprintf(fpseq, ">%d\n", i_seq);
+            } else if (format == ALDER_FORMAT_FASTQ) {
+                fprintf(fpseq, "@%d\n", i_seq);
+            }
+        }
+        
+        i_sequence_length++;
+        if (kmer_size <= i_sequence_length) {
+            n_kmer++;
+        }
+        
+        int b1 = (int)Equilikely(0,3);
+        double x = (double)rand() / (double)RAND_MAX;
+        
+        if (x < y) {
+//            int b2 = (int)Equilikely(0, 2);
+            int b2 = rand() % 3;
+            b1 = (b1 + b2 + 1) % 4;
+        }
+        fputc(alder_dna_int2char(b1), fpseq);
+        
+        // End the current sequence, and start a new sequence.
+        if (i_sequence_length == sequence_length) {
+            // Tail of the sequence
+            if (format == ALDER_FORMAT_FASTQ) {
+                fprintf(fpseq, "\n+\n");
+                for (int i_sequence_pos = 0;
+                     i_sequence_pos < i_sequence_length;
+                     i_sequence_pos++) {
+                    fputc('?', fpseq);
+                }
+            }
+            fputc('\n', fpseq);
+            i_sequence_length = 0;
+        } else {
+            // write the last letter to a file.
+            if (format == ALDER_FORMAT_FASTA && i_sequence_length % 60 == 0) {
+                fputc('\n', fpseq);
+            }
+        }
+    }
+    
+    // Tail of the sequence
+    if (i_sequence_length > 0) {
+        if (format == ALDER_FORMAT_FASTQ) {
+            fprintf(fpseq, "\n+\n");
+            for (int i_sequence_pos = 0;
+                 i_sequence_pos < i_sequence_length;
+                 i_sequence_pos++) {
+                fputc('?', fpseq);
+            }
+        }
+        fputc('\n', fpseq);
+    }
+}
+
+/**
+ *  This function generates a set of sequences with errors. A set of sequences
+ *  are generated first, and they are saved in a file with errors in DNAs. 
+ *  For the first n_iteration_random iterations, random data sets are
+ *  generated. After that point, a single data set is generated and errors
+ *  are introduced. A data set with errors can be repeated error_duplicate 
+ *  times. Error rate is per base. This would produce a data set with mostly
+ *  single instances in the front, and later kmers with multiple counts but
+ *  some of them are error_duplicate repeated as errors.
+ *
+ *  @param version              version
+ *  @param outfile_given        outfile_given
+ *  @param outfile              outfile name
+ *  @param outdir               outfile directory
+ *  @param format               format
+ *  @param error_iteartion      number of iteartions until introducing errors
+ *  @param number_file          number of files
+ *  @param error_rate           error rate in one iteration
+ *  @param error_duplicate      same error in multiple iterations
+ *  @param kmer_size            kmer size
+ *  @param sequence_length      sequence length
+ *  @param maxkmer              max kmer (determining the size of data)
+ *  @param progress_flag        progress
+ *  @param progressToError_flag progress to stderr
+ *
+ *  @return SUCCESS or FAIL
+ */
+int alder_kmer_simulate2(long version,
+                         unsigned int outfile_given,
+                         const char *outfile,
+                         const char *outdir,
+                         alder_format_type_t format,
+                         int number_file,
+                         long seed,
+                         int error_rate,
+                         int error_initial,
+                         int error_iteration,
+                         int error_duplicate,
+                         int kmer_size,
+                         int sequence_length,
+                         size_t maxkmer,
+                         int progress_flag,
+                         int progressToError_flag)
+{
+    int s = 0;
+    srand((unsigned int)seed);
+    
+    uint8_t *random_kmer = NULL;
+    random_kmer = malloc(sizeof(*random_kmer) * kmer_size);
+    if (random_kmer == NULL) {
+        return ALDER_STATUS_ERROR;
+    }
+    memset(random_kmer,0,sizeof(*random_kmer) * kmer_size);
+   
+//    int i_seq = 0;
+    if (outfile_given == 0 && number_file == 1) {
+        progress_flag = 0;
+    }
+    alder_progress_start(10000);
+    for (int i = 0; i < number_file; i++) {
+        
+        bstring bfilename;
+        if (format == ALDER_FORMAT_FASTA) {
+            bfilename = bformat("%s/%s-%02d.fa", outdir, outfile, i);
+        } else if (format == ALDER_FORMAT_FASTQ) {
+            bfilename = bformat("%s/%s-%02d.fq", outdir, outfile, i);
+        } else {
+            bfilename = bformat("%s/%s-%02d.seq", outdir, outfile, i);
+        }
+        
+        FILE *fpseq = NULL;
+        if (number_file == 1 && outfile_given == 0) {
+            fpseq = stdout;
+        } else {
+            fpseq = fopen(bdata(bfilename), "w");
+        }
+        
+        long seed_new;
+        if (seed == -1) {
+            seed_new = ((unsigned long) time((time_t *) NULL)) + i;
+        } else {
+            seed_new = seed + i;
+        }
+        
+        /* Main whlie-loop to create sequences */
+        PlantSeeds(seed_new);
+        for (int i_initial = 0; i_initial < error_initial; i_initial++) {
+            write_set_to_seqfile(fpseq, format, sequence_length,
+                                 random_kmer, kmer_size, maxkmer,
+                                 0,
+                                 progress_flag, progressToError_flag);
+        }
+    
+        int i_iteration = 0;
+        while (i_iteration < error_iteration) {
+            int x_duplicate = (int)Equilikely(1, error_duplicate);
+//            printf("x_duplicate: %d\n", x_duplicate);
+            if (i_iteration + x_duplicate < error_iteration) {
+                i_iteration += x_duplicate;
+            } else {
+                x_duplicate = error_iteration - i_iteration;
+                i_iteration += x_duplicate;
+            }
+            
+            for (int i_duplicate = 0; i_duplicate < x_duplicate; i_duplicate++) {
+                PlantSeeds(seed_new + 1);
+                srand((unsigned int)seed_new + i_iteration);
+                write_set_to_seqfile(fpseq, format, sequence_length,
+                                     random_kmer, kmer_size, maxkmer,
+                                     error_rate,
+                                     progress_flag, progressToError_flag);
+            }
+        }
+        
+        if (number_file == 1 && outfile_given == 0) {
+            // No code.
+        } else {
+            XFCLOSE(fpseq);
+        }
+        bdestroy(bfilename);
+    }
+    
+    if (progress_flag == 1) {
+//        alder_progress_end(progressToError_flag);
+    }
+
+    XFREE(random_kmer);
     return s;
 }

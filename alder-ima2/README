@@ -1,0 +1,8 @@
+# Note
+I have found out that ima2 went to C++ in someway. This would not be compiled because this is a C project. I justed changed the file names in ima2 directory from cpp to c (hpp to h). There are many compilation errors in this project.
+
+# Projects
+Find ima2 project for the successfully compiled C++ version of ima2.
+
+# Version
+ima2-8.27.12

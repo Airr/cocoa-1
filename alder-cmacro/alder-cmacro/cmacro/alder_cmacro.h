@@ -51,9 +51,11 @@ enum {
 #define ALDER_KMER_TABLE_EXTENSION "tbl"
 
 /* Hash Table */
-#define ALDER_HASHTABLE_LOAD 0.75
+#define ALDER_HASHTABLE_LOAD 0.70
 
 /* Numbers */
+#define ALDER_HASHTABLE_SIZE31        0x7FFFFFFF
+#define ALDER_HASHTABLE_SIZE16        0x00010000
 #define ALDER_HASHTABLE_MCAS_EMPTYKEY 4919131752989213764LLU
 #define ALDER_LOG_TEXTWIDTH -21
 #define BLOCKSIZE 256
@@ -116,8 +118,9 @@ typedef void alder_print_func (FILE *, const void *);
 #define ALDER_FILE_YES 1
 #define ALDER_FILE_NO  0
 
-#define ALDER_YES 1
-#define ALDER_NO  0
+#define ALDER_YES  1
+#define ALDER_NO   0
+#define ALDER_TWO  2
 #define ALDER_BUFSIZE_100 100
 #define ALDER_BUFSIZE_8MB (1LLU << 25)
 
@@ -126,6 +129,7 @@ typedef void alder_print_func (FILE *, const void *);
 #define to_uint64(buffer,n) (*(uint64_t*)(buffer + n))
 #define to_uint32(buffer,n) (*(uint32_t*)(buffer + n))
 #define to_uint16(buffer,n) (*(uint16_t*)(buffer + n))
+#define to_uint8(buffer,n) (*(uint8_t*)(buffer + n))
 #define to_size(buffer,n) (*(size_t*)(buffer + n))
 
 __END_DECLS

@@ -41,19 +41,19 @@ static void alder_kmer_cmdline_parser_print_help_init(alder_kmer_option_t *o,
         return;
     }
     sprintf(line,
-            "      --disk=INT               maximum disk space in MB\n"
-            "                               on [--outdir=%s] (default=`%ld')",
+            "      --disk=INT                maximum disk space in MB\n"
+            "                                on [--outdir=%s] (default=`%ld')",
             a->outdir_arg,
             a->disk_arg);
     bstrVectorAdd(o->help, line);
     
     sprintf(line,
-            "      --memory=INT             maximum memory in MB (default=`%ld')",
+            "      --memory=INT              maximum memory in MB (default=`%ld')",
             a->memory_arg);
     bstrVectorAdd(o->help, line);
     
     sprintf(line,
-            "  -t, --nthread=INT            number of threads  (default=`%ld')",
+            "  -t, --thread=INT              number of threads  (default=`%ld')",
             a->nthread_arg);
     bstrVectorAdd(o->help, line);
 }
@@ -86,19 +86,20 @@ static void alder_kmer_cmdline_parser_print_detailed_help (alder_kmer_option_t *
     printf("\n");
     printf("%s\n\n", gengetopt_args_info_description);
     
-    int a[15] = {0,1,2,68,69,71,72,74,4,5,7,78,79,80,81};
+    int a[6] = {0,1,2,68,69,70};
     for (int i = 0; i < sizeof(a)/sizeof(a[0]); i++) {
         printf("%s\n", gengetopt_args_info_detailed_help[a[i]]);
     }
-    printf("%s\n", bdata(o->help->entry[0]));
-    printf("%s\n", bdata(o->help->entry[1]));
+    printf("\nresource:\n");
     printf("%s\n", bdata(o->help->entry[2]));
+    printf("%s\n", bdata(o->help->entry[1]));
+    printf("%s\n", bdata(o->help->entry[0]));
     
-    int b[90] = {
-        9,11,13,14,34,35,15,16,17,18,           // count
-        19,20,23,24,85,86,80,81,13,14,                // dump
+    int b[101] = {
+        4,5,7,80,81,13,14,33,99,34,35,15,16,17,18,    // count
+        19,20,22,23,24,85,86,80,81,13,14,             // dump
         25,26,28,57,13,14,                            // query
-        29,30,7,78,32,33,34,35,36,37,38,88,13,14,     // simulate
+        29,30,7,32,36,96,95,97,98,37,33,38,13,14,     // simulate
         40,41,7,78,79,80,81,9,11,92,93,13,14,34,35,   // partition
         45,46,7,13,14,                                // kmer/decode
         48,49,7,15,11,13,14,                          // table
@@ -106,6 +107,7 @@ static void alder_kmer_cmdline_parser_print_detailed_help (alder_kmer_option_t *
         54,55,57,13,14,                               // match
         58,59,13,14,                                  // binary
         61,62,13,14,                                  // uncompress
+        100,101,57,81,13,14,                          // assess
         64,65,13,14                                   // inspect
     };
     
@@ -116,56 +118,58 @@ static void alder_kmer_cmdline_parser_print_detailed_help (alder_kmer_option_t *
 
 static void alder_kmer_cmdline_parser_print_examples_help (alder_kmer_option_t *o)
 {
-    printf("%s\n", gengetopt_args_info_detailed_help[100]);
+    printf("%s\n", gengetopt_args_info_detailed_help[108]);
 }
 
 
 static void alder_kmer_cmdline_parser_print_doc_help (alder_kmer_option_t *o)
 {
-    printf("%s\n", gengetopt_args_info_detailed_help[103]);
+    printf("%s\n", gengetopt_args_info_detailed_help[111]);
 }
 
 static void
 alder_kmer_cmdline_parser_print_count_help (alder_kmer_option_t *o,
                                             struct gengetopt_args_info *a)
 {
-    printf("Usage: alder-kmer count [-kINT|-mINT|--kmer|--mer-len=INT]\n"
-           "         [-tINT|--nthread=INT] [--disk=INT] [--memory=INT]\n"
-           "         [-ofilename|--outfile=filename] [--outdir=directory]\n"
-           "         [-C|--canonical] [-L|--lower-count=INT] [-U|--upper-count=INT]\n"
-           "         [--load-disk=REAL] [--load-memory=REAL]\n"
-           "         [--nh=INT] [--ni=INT] [--np=INT]\n"
+    printf("Usage: alder-kmer count [-kINT|-mINT|--kmer=INT|--mer-len=INT]\n"
+           "         [-LINT|--lower-count=INT] [-UINT|--upper-count=INT]\n"
+           "         [-oSTRING|--outfile=STRING] [--outdir=directory] [--format=STRING]\n"
+           "         [-tINT|--thread=INT] [--memory=INT] [--disk=INT]\n"
+           "         [--dsk] [--nh=INT] [--ni=INT] [--np=INT]\n"
            "         [--no-partition] [--no-count] [--no-delete] [FILES]...\n");
-    
+    /* Title */
     printf("%s\n", gengetopt_args_info_detailed_help[4]);
+    /* Description */
     printf("%s\n", gengetopt_args_info_detailed_help[5]);
+    /* kmer, L, and U */
     printf("%s\n", gengetopt_args_info_detailed_help[7]);
-    printf("%s\n", bdata(o->help->entry[2]));
-    printf("%s\n", bdata(o->help->entry[0]));
-    printf("%s\n", bdata(o->help->entry[1]));
-    printf("%s\n", gengetopt_args_info_detailed_help[13]);
-    printf("%s\n", gengetopt_args_info_detailed_help[14]);
-    printf("%s\n", gengetopt_args_info_detailed_help[79]);
     printf("%s\n", gengetopt_args_info_detailed_help[80]);
     printf("%s\n", gengetopt_args_info_detailed_help[81]);
-    printf("%s\n", gengetopt_args_info_detailed_help[9]);
-    printf("%s\n", gengetopt_args_info_detailed_help[11]);
+    /* outfile and outdir */
+    printf("%s\n", gengetopt_args_info_detailed_help[13]);
+    printf("%s\n", gengetopt_args_info_detailed_help[14]);
+    /* thread, memory, disk */
+    printf("%s\n", bdata(o->help->entry[2]));
+    printf("%s\n", bdata(o->help->entry[1]));
+    printf("%s\n", bdata(o->help->entry[0]));
+    /* file format for STDIN */
+    printf("%s\n", gengetopt_args_info_detailed_help[33]);
+    /* dsk-mode options account #336812-60019 */
+    printf("%s\n", gengetopt_args_info_detailed_help[99]);
     printf("%s\n", gengetopt_args_info_detailed_help[34]);
     printf("%s\n", gengetopt_args_info_detailed_help[35]);
     printf("%s\n", gengetopt_args_info_detailed_help[15]);
     printf("%s\n", gengetopt_args_info_detailed_help[16]);
     printf("%s\n", gengetopt_args_info_detailed_help[17]);
     printf("%s\n", gengetopt_args_info_detailed_help[18]);
-    
 }
 
 static void alder_kmer_cmdline_parser_print_report_help (alder_kmer_option_t *o)
 {
-    printf("Usage: alder-kmer dump [--fasta] [--no-tab]\n"
-           "         [-L|--lower-count=INT] [-U|--upper-count=INT]\n"
-           "         [FILE]\n");
+    printf("Usage: alder-kmer dump [--fasta] [--no-tab] [--with-reverse] [--with-index]\n"
+           "         [-L|--lower-count=INT] [-U|--upper-count=INT] [FILE]\n");
     
-    int a[10] = {19,20,23,24,85,86,80,81,13,14};
+    int a[11] = {19,20,22,23,24,85,86,80,81,13,14};
     for (int i = 0; i < sizeof(a)/sizeof(a[0]); i++) {
         printf("%s\n", gengetopt_args_info_detailed_help[a[i]]);
     }
@@ -174,8 +178,7 @@ static void alder_kmer_cmdline_parser_print_report_help (alder_kmer_option_t *o)
 static void alder_kmer_cmdline_parser_print_query_help (alder_kmer_option_t *o)
 {
     printf("Usage: alder-kmer query [--sequence=STRING] [--tabfile=FILENAME]\n"
-           "         [-ofilename|--outfile=filename]\n"
-           "         [--outdir=directory] [FILES]...\n");
+           "         [-oSTRING|--outfile=STRING] [--outdir=directory] [FILES]...\n");
     
     int a[6] = {25,26,28,57,13,14};
     for (int i = 0; i < sizeof(a)/sizeof(a[0]); i++) {
@@ -186,44 +189,38 @@ static void alder_kmer_cmdline_parser_print_query_help (alder_kmer_option_t *o)
 static void alder_kmer_cmdline_parser_print_simulate_help (alder_kmer_option_t *o)
 {
     printf("Usage: alder-kmer simulate [-kINT|--kmer=INT] [--maxkmer=INT] [--nf=INT]\n"
-           "         [--seqlen=INT] [--format=STRING] [--with-parfile] [--ni=INT] [--np=INT]\n"
-           "         [--seed=INT] [-ofilename|--outfile=STRING] [--outdir=DIRECTORY]\n");
-   
-    int a[13] = {29,30,7,32,36,37,33,88,34,35,38,13,14};
+           "         [--error-rate=INT] [--error-initial=INT] [--error-iteration=INT]\n"
+           "         [--error-duplicate=INT] [--seqlen=INT] [--format=STRING]\n"
+           "         [--seed=INT] [-oSTRING|--outfile=STRING] [--outdir=DIRECTORY]\n");
+    
+    int a[14] = {29,30,7,32,36,96,95,97,98,37,33,38,13,14};
     for (int i = 0; i < sizeof(a)/sizeof(a[0]); i++) {
         printf("%s\n", gengetopt_args_info_detailed_help[a[i]]);
-    }   
+    }
 }
 
 static void alder_kmer_cmdline_parser_print_partition_help (alder_kmer_option_t *o)
 {
     printf("Usage: alder-kmer partition [-kINT|--kmer=INT]\n"
            "         [--ni=INT] [--np=INT] [-tINT|--nthread|--threads=INT]\n"
-           "         [--disk=INT] [--memory=INT] [--load-disk=REAL] [--load-memory=REAL]\n"
-           "         [--use-fileseq] [--binfile=STRING] [-ofilename|--outfile=STRING]\n"
+           "         [--disk=INT] [--memory=INT] [-oSTRING|--outfile=STRING]\n"
            "         [--outdir=DIRECTORY] [FILE]\n");
     
     printf("%s\n", gengetopt_args_info_detailed_help[40]);
     printf("%s\n", gengetopt_args_info_detailed_help[41]);
     printf("%s\n", gengetopt_args_info_detailed_help[7]);
-    printf("%s\n", gengetopt_args_info_detailed_help[78]);
     printf("%s\n", gengetopt_args_info_detailed_help[34]);
     printf("%s\n", gengetopt_args_info_detailed_help[35]);
     printf("%s\n", bdata(o->help->entry[2]));
-    printf("%s\n", gengetopt_args_info_detailed_help[92]);
-    printf("%s\n", gengetopt_args_info_detailed_help[93]);
     printf("%s\n", gengetopt_args_info_detailed_help[13]);
     printf("%s\n", gengetopt_args_info_detailed_help[14]);
-    
     printf("%s\n", bdata(o->help->entry[0]));
-    printf("%s\n", gengetopt_args_info_detailed_help[9]);
     printf("%s\n", bdata(o->help->entry[1]));
-    printf("%s\n", gengetopt_args_info_detailed_help[11]);
 }
 
 static void alder_kmer_cmdline_parser_print_decode_help (alder_kmer_option_t *o)
 {
-    printf("Usage: alder-kmer kmer [-kINT|--kmer=INT] [-ofilename|--outfile=filename]\n"
+    printf("Usage: alder-kmer kmer [-kINT|--kmer=INT] [-oSTRING|--outfile=STRING]\n"
            "         [--outdir=directory] [FILES]...\n");
     
     int a[5] = {45,46,7,13,14};
@@ -235,10 +232,8 @@ static void alder_kmer_cmdline_parser_print_decode_help (alder_kmer_option_t *o)
 static void alder_kmer_cmdline_parser_print_table_help (alder_kmer_option_t *o)
 {
     printf("Usage: alder-kmer table [-kINT|--kmer=INT] [--nh=INT] [-mINT|--memory=INT]\n"
-           "         [--parfile=STRING] [--ni=INT] [--np=INT]]\n"
-           "         [-tINT|--nthread|--threads=INT]\n"
-           "         [--load-memory=REAL] [--outdir=directory]\n"
-           "         [-ofilename|--outfile=filename] [FILES]...\n");
+           "         [--parfile=STRING] [--ni=INT] [--np=INT]] [-tINT|--nthread=INT]\n"
+           "         [--outdir=directory] [-oSTRING|--outfile=STRING] [FILES]...\n");
     
     printf("%s\n", gengetopt_args_info_detailed_help[48]);
     printf("%s\n", gengetopt_args_info_detailed_help[49]);
@@ -249,7 +244,6 @@ static void alder_kmer_cmdline_parser_print_table_help (alder_kmer_option_t *o)
     
     printf("%s\n", gengetopt_args_info_detailed_help[15]);
     printf("%s\n", bdata(o->help->entry[1]));
-    printf("%s\n", gengetopt_args_info_detailed_help[11]);
     printf("%s\n", bdata(o->help->entry[2]));
     printf("%s\n", gengetopt_args_info_detailed_help[13]);
     printf("%s\n", gengetopt_args_info_detailed_help[14]);
@@ -258,10 +252,10 @@ static void alder_kmer_cmdline_parser_print_table_help (alder_kmer_option_t *o)
 
 static void alder_kmer_cmdline_parser_print_list_help (alder_kmer_option_t *o)
 {
-    printf("Usage: alder-kmer list [-kINT|--kmer=INT] [-ofilename|--outfile=filename]\n"
-           "         [--outdir=directory] [FILE]\n");
+    printf("Usage: alder-kmer list [-kINT|--kmer=INT] [--with-index]\n"
+           "         [-oSTRING|--outfile=STRING] [--outdir=directory] [FILE]\n");
     
-    int a[6] = {51,52,7,13,14};
+    int a[6] = {51,52,7,86,13,14};
     for (int i = 0; i < sizeof(a)/sizeof(a[0]); i++) {
         printf("%s\n", gengetopt_args_info_detailed_help[a[i]]);
     }
@@ -269,7 +263,7 @@ static void alder_kmer_cmdline_parser_print_list_help (alder_kmer_option_t *o)
 
 static void alder_kmer_cmdline_parser_print_match_help (alder_kmer_option_t *o)
 {
-    printf("Usage: alder-kmer match [--tabfile=filename] [-ofilename|--outfile=filename]\n"
+    printf("Usage: alder-kmer match [--tabfile=filename] [-oSTRING|--outfile=STRING]\n"
            "         [--outdir=directory] [FILES]...\n");
     
     int a[5] = {54,55,57,13,14};
@@ -280,10 +274,10 @@ static void alder_kmer_cmdline_parser_print_match_help (alder_kmer_option_t *o)
 
 static void alder_kmer_cmdline_parser_print_binary_help (alder_kmer_option_t *o)
 {
-    printf("Usage: alder-kmer binary [--nsplit=INT] [-ofilename|--outfile=filename]\n"
+    printf("Usage: alder-kmer binary [-oSTRING|--outfile=STRING]\n"
            "         [--outdir=directory] [FILES]...\n");
     
-    int a[5] = {58,59,91,13,14};
+    int a[4] = {58,59,13,14};
     for (int i = 0; i < sizeof(a)/sizeof(a[0]); i++) {
         printf("%s\n", gengetopt_args_info_detailed_help[a[i]]);
     }
@@ -291,7 +285,7 @@ static void alder_kmer_cmdline_parser_print_binary_help (alder_kmer_option_t *o)
 
 static void alder_kmer_cmdline_parser_print_uncompress_help (alder_kmer_option_t *o)
 {
-    printf("Usage: alder-kmer uncompress [-ofilename|--outfile=filename]\n"
+    printf("Usage: alder-kmer uncompress [-oSTRING|--outfile=STRING]\n"
            "         [--outdir=directory] [FILES]...\n");
     
     int a[4] = {61,62,13,14};
@@ -302,10 +296,21 @@ static void alder_kmer_cmdline_parser_print_uncompress_help (alder_kmer_option_t
 
 static void alder_kmer_cmdline_parser_print_inspect_help (alder_kmer_option_t *o)
 {
-    printf("Usage: alder-kmer inspect [-ofilename|--outfile=filename]\n"
+    printf("Usage: alder-kmer inspect [-oSTRING|--outfile=STRING]\n"
            "         [--outdir=directory]\n");
     
     int a[4] = {64,65,13,14};
+    for (int i = 0; i < sizeof(a)/sizeof(a[0]); i++) {
+        printf("%s\n", gengetopt_args_info_detailed_help[a[i]]);
+    }
+}
+
+static void alder_kmer_cmdline_parser_print_assess_help (alder_kmer_option_t *o)
+{
+    printf("Usage: alder-kmer assess [--tabfile=STRING] [-UINT|--upper-count=INT]\n"
+           "         [-oSTRING|--outfile=STRING] [--outdir=directory] [FILE]\n");
+    
+    int a[6] = {100,101,57,81,13,14};
     for (int i = 0; i < sizeof(a)/sizeof(a[0]); i++) {
         printf("%s\n", gengetopt_args_info_detailed_help[a[i]]);
     }
@@ -367,32 +372,36 @@ int alder_kmer_option_init(alder_kmer_option_t *o,
     if (a->mer_len_given) {
         a->kmer_arg = a->mer_len_arg;
     }
+    
     if (a->release_flag) {
-        switch (a->select_version_arg) {
-            case 1:
-                a->select_version_arg = 4;
-                break;
-            case 2:
-                a->select_version_arg = 5;
-                break;
-            case 3:
-                a->select_version_arg = 6;
-                break;
-            case 4:
-                a->select_version_arg = 3;
-                break;
-            case 5:
-                a->select_version_arg = 2;
-                break;
-            case 7:
-                a->select_version_arg = 7;
-                break;
-            default:
-                a->select_version_arg = 0;
-                break;
-        }
+//        switch (a->select_version_arg) {
+//            case 1:
+//                a->select_version_arg = 4;
+//                break;
+//            case 2:
+//                a->select_version_arg = 5;
+//                break;
+//            case 3:
+//                a->select_version_arg = 6;
+//                break;
+//            case 4:
+//                a->select_version_arg = 3;
+//                break;
+//            case 5:
+//                a->select_version_arg = 2;
+//                break;
+//            case 7:
+//                a->select_version_arg = 7;
+//                break;
+//            case 8:
+//                a->select_version_arg = 8;
+//                break;
+//            default:
+//                a->select_version_arg = 0;
+//                break;
+//        }
     }
-    assert(2 <= a->select_version_arg && a->select_version_arg <= 7);
+    assert(2 <= a->select_version_arg && a->select_version_arg <= 8);
     if (strcmp(a->outdir_arg,".")) {
         int s = alder_file_mkdir(a->outdir_arg);
         if (s != ALDER_STATUS_SUCCESS) {
@@ -447,7 +456,7 @@ int alder_kmer_option_init(alder_kmer_option_t *o,
         fprintf(stderr, "Usage: alder-kmer [command] -h\n");
         fprintf(stderr,
                 "commands: count, dump, query, simulate, list, binary, uncompress,\n"
-                "          partition, kmer, table, match, and inspect.\n");
+                "          partition, kmer, table, match, assess, and inspect.\n");
         status = 1;
         return status;
     } else if (a->inputs_num == 0) {
@@ -483,6 +492,7 @@ int alder_kmer_option_init(alder_kmer_option_t *o,
     a->binary_flag = 0;
     a->uncompress_flag = 0;
     a->inspect_flag = 0;
+    a->assess_flag = 0;
     a->examples_flag = 0;
     if (!strcmp(a->inputs[0], "count") || *a->inputs[0] == 'c') {
         a->count_flag = 1;
@@ -512,6 +522,8 @@ int alder_kmer_option_init(alder_kmer_option_t *o,
         a->uncompress_flag = 1;
     } else if (!strcmp(a->inputs[0], "inspect") || *a->inputs[0] == 'i') {
         a->inspect_flag = 1;
+    } else if (!strcmp(a->inputs[0], "assess") || *a->inputs[0] == 'a') {
+        a->assess_flag = 1;
     } else if (!strcmp(a->inputs[0], "examples") || *a->inputs[0] == 'e') {
         a->examples_flag = 1;
     } else {
@@ -589,6 +601,10 @@ int alder_kmer_option_init(alder_kmer_option_t *o,
         alder_kmer_cmdline_parser_print_inspect_help(o);
         status = 1;
         return status;
+    } else if (a->assess_flag && a->help_given) {
+        alder_kmer_cmdline_parser_print_assess_help(o);
+        status = 1;
+        return status;
     } else if (a->examples_flag) {
         alder_kmer_cmdline_parser_print_examples_help(o);
         status = 1;
@@ -637,12 +653,18 @@ int alder_kmer_option_init(alder_kmer_option_t *o,
         }
     }
     
-    for (size_t i = 0; i < o->infile->qty; i++) {
-        int isExist = alder_file_exist(bdata(o->infile->entry[i]));
-        if (isExist == 0) {
-            fprintf(stderr, "Error: no such file %s\n", bdata(o->infile->entry[i]));
-            status = 1;
-            return status;
+    if (o->infile->qty == 1) {
+        if (strcmp(bdata(o->infile->entry[0]), "-")) {
+            // STDIN is assumed.
+        }
+    } else {
+        for (size_t i = 0; i < o->infile->qty; i++) {
+            int isExist = alder_file_exist(bdata(o->infile->entry[i]));
+            if (isExist == 0) {
+                fprintf(stderr, "Error: no such file %s\n", bdata(o->infile->entry[i]));
+                status = 1;
+                return status;
+            }
         }
     }
     

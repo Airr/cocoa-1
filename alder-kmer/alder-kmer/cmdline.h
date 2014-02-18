@@ -72,7 +72,7 @@ struct gengetopt_args_info
   char * outdir_arg;	/**< @brief output directory (default='.').  */
   char * outdir_orig;	/**< @brief output directory original value given at command line.  */
   const char *outdir_help; /**< @brief output directory help description.  */
-  long nh_arg;	/**< @brief number of hash elements (default='10').  */
+  long nh_arg;	/**< @brief number of hash elements (default='0').  */
   char * nh_orig;	/**< @brief number of hash elements original value given at command line.  */
   const char *nh_help; /**< @brief number of hash elements help description.  */
   int no_partition_flag;	/**< @brief Skip partitioning sequence files. (default=off).  */
@@ -83,10 +83,10 @@ struct gengetopt_args_info
   const char *no_delete_help; /**< @brief Do not delete partition files; on with --no-count help description.  */
   int report_flag;	/**< @brief Report the count table (default=off).  */
   const char *report_help; /**< @brief Report the count table help description.  */
-  int summary_flag;	/**< @brief Display summary of the table (default=off).  */
-  const char *summary_help; /**< @brief Display summary of the table help description.  */
-  int fasta_flag;	/**< @brief fasta format: >count newline kmer (default=off).  */
-  const char *fasta_help; /**< @brief fasta format: >count newline kmer help description.  */
+  int summary_flag;	/**< @brief Display only summary of the table (default=off).  */
+  const char *summary_help; /**< @brief Display only summary of the table help description.  */
+  int fasta_flag;	/**< @brief kmers listted in fasta format (default=off).  */
+  const char *fasta_help; /**< @brief kmers listted in fasta format help description.  */
   int no_tab_flag;	/**< @brief Space separator (default=off).  */
   const char *no_tab_help; /**< @brief Space separator help description.  */
   int query_flag;	/**< @brief dummy (default=off).  */
@@ -99,9 +99,9 @@ struct gengetopt_args_info
   long maxkmer_arg;	/**< @brief number of kmers in a file (default='1000').  */
   char * maxkmer_orig;	/**< @brief number of kmers in a file original value given at command line.  */
   const char *maxkmer_help; /**< @brief number of kmers in a file help description.  */
-  enum enum_format format_arg;	/**< @brief generated sequence file format (default='fastq').  */
-  char * format_orig;	/**< @brief generated sequence file format original value given at command line.  */
-  const char *format_help; /**< @brief generated sequence file format help description.  */
+  enum enum_format format_arg;	/**< @brief sequence file format (default='fastq').  */
+  char * format_orig;	/**< @brief sequence file format original value given at command line.  */
+  const char *format_help; /**< @brief sequence file format help description.  */
   long ni_arg;	/**< @brief number of iterations (default='1').  */
   char * ni_orig;	/**< @brief number of iterations original value given at command line.  */
   const char *ni_help; /**< @brief number of iterations help description.  */
@@ -133,9 +133,9 @@ struct gengetopt_args_info
   const char *list_help; /**< @brief List kmers in a text file. Options: kmer, seqlen help description.  */
   int match_flag;	/**< @brief Compare a table file and input sequence data. (default=off).  */
   const char *match_help; /**< @brief Compare a table file and input sequence data. help description.  */
-  char * tabfile_arg;	/**< @brief a table file (default='outfile.tbl').  */
-  char * tabfile_orig;	/**< @brief a table file original value given at command line.  */
-  const char *tabfile_help; /**< @brief a table file help description.  */
+  char * tabfile_arg;	/**< @brief a table file name (default='outfile').  */
+  char * tabfile_orig;	/**< @brief a table file name original value given at command line.  */
+  const char *tabfile_help; /**< @brief a table file name help description.  */
   int binary_flag;	/**< @brief Create a binary file from sequence file. (default=off).  */
   const char *binary_help; /**< @brief Create a binary file from sequence file. help description.  */
   int uncompress_flag;	/**< @brief Create a simple form of a sequence file from an alder-kmer binary file. (default=off).  */
@@ -156,9 +156,9 @@ struct gengetopt_args_info
   long totalmaxkmer_arg;	/**< @brief Skip counting maximum number of kmers in data, and use this number (default='0').  */
   char * totalmaxkmer_orig;	/**< @brief Skip counting maximum number of kmers in data, and use this number original value given at command line.  */
   const char *totalmaxkmer_help; /**< @brief Skip counting maximum number of kmers in data, and use this number help description.  */
-  long select_version_arg;	/**< @brief Select a version of kmer counting: 0 for automatic selction, 1 for skipping binary file creation (dsk mode with a single iteration), 2 for binary file creation (dsk mode), 3 for loading a whole input data on the memory (msk or memory streaming kmer mode), 4 for splitting a binary file, 5 for distributed reading, and 7 for sequential read with CAS encoding. (default='7').  */
-  char * select_version_orig;	/**< @brief Select a version of kmer counting: 0 for automatic selction, 1 for skipping binary file creation (dsk mode with a single iteration), 2 for binary file creation (dsk mode), 3 for loading a whole input data on the memory (msk or memory streaming kmer mode), 4 for splitting a binary file, 5 for distributed reading, and 7 for sequential read with CAS encoding. original value given at command line.  */
-  const char *select_version_help; /**< @brief Select a version of kmer counting: 0 for automatic selction, 1 for skipping binary file creation (dsk mode with a single iteration), 2 for binary file creation (dsk mode), 3 for loading a whole input data on the memory (msk or memory streaming kmer mode), 4 for splitting a binary file, 5 for distributed reading, and 7 for sequential read with CAS encoding. help description.  */
+  long select_version_arg;	/**< @brief Select a version of kmer counting: 0 for automatic selction, 1 for skipping binary file creation (dsk mode with a single iteration), 2 for binary file creation (dsk mode), 3 for loading a whole input data on the memory (msk or memory streaming kmer mode), 4 for splitting a binary file, 5 for distributed reading, 7 for sequential read with CAS encoding, and 8 for space saving algorithm. (default='8').  */
+  char * select_version_orig;	/**< @brief Select a version of kmer counting: 0 for automatic selction, 1 for skipping binary file creation (dsk mode with a single iteration), 2 for binary file creation (dsk mode), 3 for loading a whole input data on the memory (msk or memory streaming kmer mode), 4 for splitting a binary file, 5 for distributed reading, 7 for sequential read with CAS encoding, and 8 for space saving algorithm. original value given at command line.  */
+  const char *select_version_help; /**< @brief Select a version of kmer counting: 0 for automatic selction, 1 for skipping binary file creation (dsk mode with a single iteration), 2 for binary file creation (dsk mode), 3 for loading a whole input data on the memory (msk or memory streaming kmer mode), 4 for splitting a binary file, 5 for distributed reading, 7 for sequential read with CAS encoding, and 8 for space saving algorithm. help description.  */
   char * bin_outdir_arg;	/**< @brief binary file output directory (default='.').  */
   char * bin_outdir_orig;	/**< @brief binary file output directory original value given at command line.  */
   const char *bin_outdir_help; /**< @brief binary file output directory help description.  */
@@ -213,6 +213,22 @@ struct gengetopt_args_info
   char * parfile_arg;	/**< @brief prefix of partition files (default='outfile').  */
   char * parfile_orig;	/**< @brief prefix of partition files original value given at command line.  */
   const char *parfile_help; /**< @brief prefix of partition files help description.  */
+  long error_initial_arg;	/**< @brief number of initial random sets (default='1').  */
+  char * error_initial_orig;	/**< @brief number of initial random sets original value given at command line.  */
+  const char *error_initial_help; /**< @brief number of initial random sets help description.  */
+  long error_rate_arg;	/**< @brief error rate in per cent (default='0').  */
+  char * error_rate_orig;	/**< @brief error rate in per cent original value given at command line.  */
+  const char *error_rate_help; /**< @brief error rate in per cent help description.  */
+  long error_iteration_arg;	/**< @brief number of sets with errors (default='1').  */
+  char * error_iteration_orig;	/**< @brief number of sets with errors original value given at command line.  */
+  const char *error_iteration_help; /**< @brief number of sets with errors help description.  */
+  long error_duplicate_arg;	/**< @brief max number of sets with the same errors (default='1').  */
+  char * error_duplicate_orig;	/**< @brief max number of sets with the same errors original value given at command line.  */
+  const char *error_duplicate_help; /**< @brief max number of sets with the same errors help description.  */
+  int dsk_flag;	/**< @brief Turn on DSK mode (default=off).  */
+  const char *dsk_help; /**< @brief Turn on DSK mode help description.  */
+  int assess_flag;	/**< @brief assess command (default=off).  */
+  const char *assess_help; /**< @brief assess command help description.  */
   int release_flag;	/**< @brief Release mode (default=on).  */
   const char *release_help; /**< @brief Release mode help description.  */
   int exit_flag;	/**< @brief dummy (default=off).  */
@@ -291,6 +307,12 @@ struct gengetopt_args_info
   unsigned int use_seqfile_given ;	/**< @brief Whether use-seqfile was given.  */
   unsigned int binfile_given ;	/**< @brief Whether binfile was given.  */
   unsigned int parfile_given ;	/**< @brief Whether parfile was given.  */
+  unsigned int error_initial_given ;	/**< @brief Whether error-initial was given.  */
+  unsigned int error_rate_given ;	/**< @brief Whether error-rate was given.  */
+  unsigned int error_iteration_given ;	/**< @brief Whether error-iteration was given.  */
+  unsigned int error_duplicate_given ;	/**< @brief Whether error-duplicate was given.  */
+  unsigned int dsk_given ;	/**< @brief Whether dsk was given.  */
+  unsigned int assess_given ;	/**< @brief Whether assess was given.  */
   unsigned int release_given ;	/**< @brief Whether release was given.  */
   unsigned int exit_given ;	/**< @brief Whether exit was given.  */
   unsigned int examples_given ;	/**< @brief Whether examples was given.  */

@@ -21,13 +21,37 @@
 #include "alder_hashtable_mcas.h"
 #include "alder_kmer_report.h"
 
-int alder_kmer_report(const char *fn,
+int alder_kmer_report(long version,
+                      const char *fn,
                       int isSummary,
                       const char *query)
 {
     int s = 0;
-    if (query == NULL) {
-        alder_hashtable_mcas_load(fn, isSummary);
+    if (version == 8) {
+        if (query == NULL) {
+            alder_hashtable_mcas2_load(fn, isSummary);
+        } else {
+            alder_hashtable_mcas2_query(fn, query);
+        }
+    } else {
+        if (query == NULL) {
+            alder_hashtable_mcas_load(fn, isSummary);
+        } else {
+            alder_hashtable_mcas_query(fn, query);
+        }
+    }
+    
+    return s;
+}
+
+int alder_kmer_query(long version,
+                     const char *fn,
+                     int isSummary,
+                     const char *query)
+{
+    int s = 0;
+    if (version == 8) {
+        alder_hashtable_mcas2_query(fn, query);
     } else {
         alder_hashtable_mcas_query(fn, query);
     }

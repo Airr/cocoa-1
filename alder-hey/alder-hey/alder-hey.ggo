@@ -1,0 +1,7 @@
+package "alder-hey"
+version "0.1"
+purpose "alder-hey does something ..."
+description "alder-hey does something more ..."
+option "cite" - "Print reference papers" optional hidden
+option "outfile" o "Output files" string typestr="file,..." multiple optional
+option "log" - "Log file" string typestr="file" default="alder-hey.log" optional argoptional

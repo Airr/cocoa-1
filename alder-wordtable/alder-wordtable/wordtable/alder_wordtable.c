@@ -1,7 +1,7 @@
 /**
  * This file, alder_wordtable.c, is part of alder-wordtable.
  *
- * Copyright 2013 by Sang Chul Choi
+ * Copyright 2013, 2014 by Sang Chul Choi
  *
  * alder-wordtable is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

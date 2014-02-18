@@ -52,8 +52,9 @@
  */
 
 static int counter_id_counter = 0;
+static int counter_full_counter = 0;
 
-#define ALDER_KMER_THREAD7_NO_READ              2
+#define NO_READ              2
 
 #define INBUFFER_I_NP        1
 #define INBUFFER_LENGTH      9
@@ -199,7 +200,7 @@ alder_kmer_thread7_create(FILE *fpout,
                           uint64_t n_ni,
                           uint64_t n_np,
                           size_t n_nh,
-                          size_t totalfilesize,
+                          int lower_count,
                           size_t n_byte,
                           size_t n_total_kmer,
                           size_t n_current_kmer,
@@ -289,6 +290,7 @@ alder_kmer_thread7_create(FILE *fpout,
         o->ht[i] = alder_hashtable_mcas_create(kmer_size, n_nh); /* bigmem */
         o->ht[i]->i_np = i;
         o->ht[i]->state = ALDER_HASHTABLE_MCAS_STATE_UNFINISHED;
+        o->ht[i]->min = lower_count;
     }
     
     /* Compute the number of input buffer blocks. */
@@ -343,7 +345,7 @@ open_parfile(alder_kmer_thread7_t *o, uint64_t i_np)
     alder_log2("reader(): openning a partition file %s", bdata(bfpar));
     o->fpin = fopen(bdata(bfpar), "rb");
     // fcntl(fileno(o->fpin), F_NOCACHE, 1);
-    // fcntl(fileno(o->fpin), F_RDAHEAD, 1);
+    fcntl(fileno(o->fpin), F_RDAHEAD, 1);
     if (o->fpin == NULL) {
         alder_loge(ALDER_ERR_FILE, "cannot open the input file %s - %s",
                    bdata(bfpar), strerror(errno));
@@ -357,7 +359,6 @@ open_parfile(alder_kmer_thread7_t *o, uint64_t i_np)
 
 #pragma mark main
 
-static pthread_mutex_t mutex_write;
 static pthread_mutex_t mutex_read;
 
 /**
@@ -394,7 +395,8 @@ int alder_kmer_thread7(FILE *fpout,
                        uint64_t n_ni,
                        uint64_t n_np,
                        size_t n_nh,
-                       size_t totalfilesize,
+                       int lower_count,
+                       int upper_count,
                        size_t *n_byte,
                        size_t *n_kmer,
                        size_t *n_hash,
@@ -411,6 +413,7 @@ int alder_kmer_thread7(FILE *fpout,
 {
     alder_log5("preparing counting Kmers with version 2...");
     counter_id_counter = 0;
+    counter_full_counter = 0;
     int s = 0;
     if (n_counter > 1 && kmer_size > 31) {
         mcas_init(n_counter);
@@ -427,7 +430,7 @@ int alder_kmer_thread7(FILE *fpout,
                               n_ni,
                               n_np,
                               n_nh,
-                              totalfilesize,
+                              lower_count,
                               *n_byte,
                               n_total_kmer,
                               *n_current_kmer,
@@ -456,7 +459,6 @@ int alder_kmer_thread7(FILE *fpout,
     pthread_attr_t attr;
     s += pthread_attr_init(&attr);
     s += pthread_mutex_init(&mutex_read, NULL);
-    s += pthread_mutex_init(&mutex_write, NULL);
     s += pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
     for (int i = 0; i < n_counter; i++) {
         s += pthread_create(&threads[i], &attr, counter, (void *)data);
@@ -482,7 +484,6 @@ cleanup:
     /* Cleanup */
     pthread_attr_destroy(&attr);
     pthread_mutex_destroy(&mutex_read);
-    pthread_mutex_destroy(&mutex_write);
     XFREE(threads);
     
     data->n_byte = 0;
@@ -608,7 +609,7 @@ read_parfile(alder_kmer_thread7_t *a, int counter_id)
         } else {
             // No more input file to read.
             pthread_mutex_unlock(&mutex_read);
-            return ALDER_KMER_THREAD7_NO_READ;
+            return NO_READ;
         }
     }
     
@@ -710,7 +711,7 @@ static void *counter(void *t)
         // Reader
         ///////////////////////////////////////////////////////////////////////
         s = read_parfile(a, counter_id);
-        if (s == ALDER_KMER_THREAD7_NO_READ) {
+        if (s == NO_READ) {
             break;
         }
         
@@ -793,10 +794,15 @@ static void *counter(void *t)
         }
         
         /* When parfile is zero... */
-        if (a->n_blockByReader[i_np] == 0 && counter_id == 0) {
-            a->main_i_np++;
+        if (a->n_blockByReader[i_np] == 0) { // && counter_id == 0) {
+            int oval = a->n_blockByReader[i_np];
+            int cval = oval + 1;
+            cval = __sync_val_compare_and_swap(a->n_blockByReader + i_np,
+                                               (int)oval, (int)cval);
+            if (a->n_blockByReader[i_np] == 1) {
+                a->main_i_np++;
+            }
         }
-        
     }
     XFREE(res_key);
     alder_encode_number_destroy(m);

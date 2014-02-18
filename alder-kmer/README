@@ -2,23 +2,38 @@ At this point, Feb 29 2014, I failed to make a point of using CAS in DSK's metho
 
 # TODO
 
-Allow the memory of a table to be larger than 4GB.
-Use only version 7.
-Streamline the code using version 7.
-Delete a parfile when its reading is done by all of the threads.
+Streamline the code using version 8.
+Use versions 7 and 8.
+Count overflow check, and prevent overflow in counting or max count should be max.
+Chain-based hash table
+
+# Chain-based and open-addressing hash tables
+
+1.chain-based hash table
+  - main array: each element is the root of a chain, and some of the elements
+                can be an non-root item
+  - aux array: each element is an non-root item in a chain
+  1.1 single-threaded 
+  1.2 multi-threaded
+  Field: ID, key, value/timestamp, prev/next, left/right
+
+2. open-addressing hash table  
+  2.1. only single-threaded
+  Field: ID, key, value/offset, left, right, timestamp
 
 # Introduction
 1. I will introduce a method for counting k-mer with arbitrary size of k by
-combining methods of Rizk et al. (2013), and Marcais and Kingsford (2011). 
-The point of the paper is the usage of multi-word CAS in counting k-mer.
-2. I will introduce a method of counting k-mer upto 32 by
-methods of Rizk et al. (2013), and Marcais and Kingsford (2011).
-The point of the paper is the usage of CAS in counting k-mer by loading a whole
-data into a memory.
+using space-saving algorithm.
 
-# Versions
+# Limitation
+1. Multi-threaded implementation
+
+# History of versions
 
 The first three versions are not of use any more, and they are retired. Instead, I've replaced version 3 with another one, which could have been version 7.
+
+Ver8. Space-saving algorithm
+thread8
 
 Ver7. Back to sequential reads
 binary3
@@ -51,13 +66,13 @@ Enough memory, and disk space does not matter as long as a resulting table can f
 
 Use inspect to determine which version can be used.
 
-## To change the command line options.
+# To change the command line options.
 See alder_kmer_option.c and alder-kmer.ggo.
 
-## To change the behavior of the program depending on command line options.
+# To change the behavior of the program depending on command line options.
 Use options in main.c.
 
-# Useful
+# Useful web sites
 Maximum number of open filehandles per process on OSX
 http://stackoverflow.com/questions/5377450/maximum-number-of-open-filehandles-per-process-on-osx-and-how-to-increase
 
@@ -70,27 +85,12 @@ http://www.harvestsoft.net/measure.htm
 Faster division:
 http://libdivide.com/documentation.html
 
-
-# Procedure
-1. Read a file in format of sequence only text file, fasta, fastq.
-2. Read k-mer one at a time, and count the number of k-mer.
-3. Report the count of k-mer.
-
 # Features
 
 Faster processing with less memory.
 
 1. U Hash Table for overflow, and reduce the size of value type 
    to 1 or 2 bytes, or even variable size.
-
-## bit-packed data
-Count numbers may be small or variable in size. They could be bit-packed as 
-well. Some of k-mers occur more often than others. Some of them occur extremely
-often, and many others occur only once.
-
-## Arbitrary k-mer with multi-word CAS
-
-## Effective use of CPU cores
 
 # Uses
 gzip for compression
@@ -100,10 +100,6 @@ Binary matrix multiplication - Am for f(m) the hash function.
 Random invertible matrix multiplication
 memory, cpu, hard drive stats.
 
-# Questions
-1. What if I know the distribution of keys? This may not make sense because
-   I would have the count data after counting was finished.
-
 # GCC function for CAS
 http://gcc.gnu.org/onlinedocs/gcc-4.3.5/gcc/Atomic-Builtins.html#Atomic-Builtins
 
@@ -111,7 +107,7 @@ http://gcc.gnu.org/onlinedocs/gcc-4.3.5/gcc/Atomic-Builtins.html#Atomic-Builtins
 To count A,C,G,T in a file
 grep -o . a-00.seq | sort | uniq -ic
 
-# Create Help Book
+# Create Help Book in mac
 1. Edit files in alderg-kmerHelp.
 2. Rename it by appending .help extension.
 3. Delete help book cache.

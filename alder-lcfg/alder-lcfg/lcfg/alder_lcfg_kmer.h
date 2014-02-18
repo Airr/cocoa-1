@@ -90,6 +90,12 @@ int
 alder_lcfg_kmer_writeNp(const char *fn, uint64_t v);
 
 int
+alder_lcfg_kmer_writeSizeValue(const char *fn, size_t v);
+
+int
+alder_lcfg_kmer_writeSizeIndex(const char *fn, size_t v);
+
+int
 alder_lcfg_kmer_writeParfilesize(const char *fn, uint64_t v);
 
 int

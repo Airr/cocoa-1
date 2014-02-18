@@ -1,3 +1,26 @@
+# Goal
+This is an implementation of color kfm; a combination of Rodland's kfm and 
+cortex's label. It may be too ambitious, but the goal is to infer evolutionary
+events from HTS data of multiple individuals. This could be an isolation model,
+or isolation-with-migration model when two populations are considered. It could
+infer parsimony trees from multiple populations. To this end, two more fields
+are added to the traditional kfm by Rodland; individual labels in one bit per
+individual or population, and coverage levels in one more more bits. Having 
+integer values for the number of kmers seems to be overkill if these values 
+could have been ordered factor or digitized. This could allow billion nodes
+in de Bruijn graph.
+
+# 40 chimpanzees
+I aim to analyze a HTS data set of 40 chimpanzees in 50GB RAM and 1TB SSD disk
+machine to infer evolutionary events of those 40 individuals; split events
+and migration.
+
+# kfm
+This goal suggests that the name of the project could be different from kfm.
+alder-im - it is too narrow.
+alder-tree - too broad
+alder-hey - could be one.
+
 # Roadmap
 Convert a set of sequence files to a kfm file.
 Use a kfm file to count kmer using alder-kmer.
@@ -7,4 +30,11 @@ with alder-debruijn.
 alder-denovo would use a de Bruijn method and others for assembling genomes or
 transcriptomes.
 
-# Features
+# Procedure
+
+1. Create an input file for kfm.
+population names
+individual names
+sequences from individuals
+
+2.

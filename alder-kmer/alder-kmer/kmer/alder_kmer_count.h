@@ -46,7 +46,8 @@ long sizeOutbuffer,
 uint64_t n_ni,
 uint64_t n_np,
 size_t n_nh,
-size_t totalfilesize,
+int lower_count,
+int upper_count,
 size_t *n_byte,
 size_t *n_kmer,
 size_t *n_hash,
@@ -82,10 +83,34 @@ struct bstrList *infile,
 const char *outdir,
 const char *outfile);
 
+
+typedef int (*command_count_t)
+(long version,
+int K, long totalmaxkmer, long D, long M,
+int lower_count, int upper_count,
+long F,
+long sizeInbuffer,
+long sizeOutbuffer,
+int n_ni, int n_np,
+int n_nh,
+int n_nt,
+int progress_flag,
+int progressToErro_flag,
+int nopack_flag,
+int no_delete_partition_flag,
+int no_partition_flag,
+int do_partition_flag,
+struct bstrList *infile,
+unsigned int outfile_given,
+const char *outdir,
+const char *outfile);
+
+
+
 int
 alder_kmer_count(long version,
                  int K, long totalmaxkmer, long D, long M,
-                 long min_M_table, long max_M_table,
+                 int lower_count, int upper_count,
                  long F,
                  long sizeInbuffer,
                  long sizeOutbuffer,
@@ -102,6 +127,27 @@ alder_kmer_count(long version,
                  unsigned int outfile_given,
                  const char *outdir,
                  const char *outfile);
+
+int
+alder_kmer_topkmer(long version,
+                   int K, long totalmaxkmer, long D, long M,
+                   int lower_count, int upper_count,
+                   long F,
+                   long sizeInbuffer,
+                   long sizeOutbuffer,
+                   int n_ni, int n_np,
+                   int n_nh,
+                   int n_nt,
+                   int progress_flag,
+                   int progressToErro_flag,
+                   int nopack_flag,
+                   int no_delete_partition_flag,
+                   int no_partition_flag,
+                   int do_partition_flag,
+                   struct bstrList *infile,
+                   unsigned int outfile_given,
+                   const char *outdir,
+                   const char *outfile);
 
 void alder_kmer_estimate_buffer_size(long *sizeInbuffer_p, long *sizeOutbuffer_p,
                                      const char *outfile, const char *outdir);
