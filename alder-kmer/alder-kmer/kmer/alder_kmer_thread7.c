@@ -288,8 +288,6 @@ alder_kmer_thread7_create(FILE *fpout,
     assert(o->fpin == NULL);
     for (size_t i = 0; i < o->n_ht; i++) {
         o->ht[i] = alder_hashtable_mcas_create(kmer_size, n_nh); /* bigmem */
-        o->ht[i]->i_np = i;
-        o->ht[i]->state = ALDER_HASHTABLE_MCAS_STATE_UNFINISHED;
         o->ht[i]->min = lower_count;
     }
     

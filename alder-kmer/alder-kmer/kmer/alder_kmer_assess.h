@@ -36,9 +36,10 @@
 
 __BEGIN_DECLS
 
-int alder_kmer_assess(long upper_count,
+int alder_kmer_assess(int upper_count,
                       const char *tabfile,
                       struct bstrList *infile,
+                      int outfile_given,
                       const char *outdir,
                       const char *outfile);
 

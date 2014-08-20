@@ -13,7 +13,6 @@
 		D08AFD3418189A2700D04508 /* alder-mcas.ggo in Sources */ = {isa = PBXBuildFile; fileRef = D08AFD3318189A2700D04508 /* alder-mcas.ggo */; };
 		D08AFD3618189A2700D04508 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = D08AFD3518189A2700D04508 /* main.c */; };
 		D08AFD3818189A2700D04508 /* alder_mcas.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = D08AFD3718189A2700D04508 /* alder_mcas.1 */; };
-		D08AFD4218189A8100D04508 /* alder_mcas.c in Sources */ = {isa = PBXBuildFile; fileRef = D08AFD4018189A8100D04508 /* alder_mcas.c */; };
 		D08AFD8418189A9500D04508 /* alder_file.c in Sources */ = {isa = PBXBuildFile; fileRef = D08AFD5918189A9500D04508 /* alder_file.c */; };
 		D08AFD8518189A9500D04508 /* alder_file_availablediskspace.c in Sources */ = {isa = PBXBuildFile; fileRef = D08AFD5B18189A9500D04508 /* alder_file_availablediskspace.c */; };
 		D08AFD8618189A9500D04508 /* alder_file_availablememory.c in Sources */ = {isa = PBXBuildFile; fileRef = D08AFD5D18189A9500D04508 /* alder_file_availablememory.c */; };
@@ -88,8 +87,6 @@
 		D08AFD3318189A2700D04508 /* alder-mcas.ggo */ = {isa = PBXFileReference; lastKnownFileType = text; path = "alder-mcas.ggo"; sourceTree = "<group>"; };
 		D08AFD3518189A2700D04508 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		D08AFD3718189A2700D04508 /* alder_mcas.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = alder_mcas.1; sourceTree = "<group>"; };
-		D08AFD4018189A8100D04508 /* alder_mcas.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_mcas.c; sourceTree = "<group>"; };
-		D08AFD4118189A8100D04508 /* alder_mcas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_mcas.h; sourceTree = "<group>"; };
 		D08AFD4418189A8900D04508 /* alder_cmacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_cmacro.h; sourceTree = "<group>"; };
 		D08AFD4518189A8900D04508 /* alder_node_function_item_int_source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_node_function_item_int_source.h; sourceTree = "<group>"; };
 		D08AFD4618189A8900D04508 /* alder_node_function_tuple2_source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alder_node_function_tuple2_source.h; sourceTree = "<group>"; };
@@ -236,8 +233,6 @@
 		D08AFD3F18189A8100D04508 /* mcas */ = {
 			isa = PBXGroup;
 			children = (
-				D08AFD4018189A8100D04508 /* alder_mcas.c */,
-				D08AFD4118189A8100D04508 /* alder_mcas.h */,
 				D0BC95461825CD48004650C1 /* alder_mcas_sundell.c */,
 				D0BC95481825CD4D004650C1 /* alder_mcas_sundell.h */,
 				D012369C183C812800F92C84 /* alder_mcas_wf.c */,
@@ -446,7 +441,6 @@
 				D0BC95651825CD8F004650C1 /* alder_atomic.c in Sources */,
 				D08AFDAA18189AA100D04508 /* bstrlib.c in Sources */,
 				D0BC95521825CD63004650C1 /* alder_type.c in Sources */,
-				D08AFD4218189A8100D04508 /* alder_mcas.c in Sources */,
 				D08AFD8418189A9500D04508 /* alder_file.c in Sources */,
 				D0BC95471825CD48004650C1 /* alder_mcas_sundell.c in Sources */,
 				D0BC95541825CD63004650C1 /* alder_type_sundell.c in Sources */,

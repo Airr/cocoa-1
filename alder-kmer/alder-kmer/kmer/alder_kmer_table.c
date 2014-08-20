@@ -212,7 +212,7 @@ alder_kmer_table(long version,
     }
     alder_log("*** Kmer count using partition files ***");
     // Count and save: runs on nt-many threads.
-    assert(version == 7);
+//    assert(version == 7);
     count = &alder_kmer_thread7;
     for (int i_ni = 0; i_ni < n_ni; i_ni++) {
         (*count)(fpout,

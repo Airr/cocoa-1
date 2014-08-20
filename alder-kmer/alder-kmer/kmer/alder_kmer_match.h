@@ -39,6 +39,7 @@ int
 alder_kmer_match(int progress_flag,
                  struct bstrList *infile,
                  const char *tabfile,
+                 int format_infile,
                  int outfile_given,
                  const char *outdir,
                  const char *outfile);

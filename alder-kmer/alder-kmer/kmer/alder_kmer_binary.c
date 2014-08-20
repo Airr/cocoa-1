@@ -90,7 +90,6 @@ alder_kmer_binary(void *ptr, size_t size, size_t subsize,
                   const char *outfile)
 {
     binary_t binary;
-    assert(version == 7);
     binary = &alder_kmer_binary3;
     int s = (*binary)(ptr, size, subsize,
                       n_kmer, n_dna, n_seq,

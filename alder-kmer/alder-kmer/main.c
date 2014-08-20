@@ -74,6 +74,7 @@ int main(int argc, char * argv[])
         if (args_info.dsk_flag == 0) {
             count = &alder_kmer_topkmer;
             args_info.only_init_flag = (int)option.format;
+            args_info.no_count_flag = args_info.save_all_flag;
         } else {
             count = &alder_kmer_count;
             args_info.select_version_arg = 7;
@@ -160,6 +161,9 @@ int main(int argc, char * argv[])
     ///////////////////////////////////////////////////////////////////////////
     // Report/Dump:
     if (args_info.report_flag) {
+        if (args_info.dsk_flag == 1) {
+            args_info.select_version_arg = 7;
+        }
         if (args_info.query_given) {
             s = alder_kmer_report(args_info.select_version_arg,
                                   bdata(option.infile->entry[0]),
@@ -250,6 +254,7 @@ int main(int argc, char * argv[])
         s = alder_kmer_match(args_info.progress_flag,
                              option.infile,
                              args_info.tabfile_arg,
+                             args_info.format_arg,
                              args_info.outfile_given,
                              args_info.outdir_arg,
                              args_info.outfile_arg);
@@ -266,6 +271,17 @@ int main(int argc, char * argv[])
     }
     
     ///////////////////////////////////////////////////////////////////////////
+    // View:
+    if (args_info.view_flag) {
+        alder_kmer_view((int)args_info.format_arg,
+                        option.infile,
+                        args_info.outfile_given,
+                        args_info.outdir_arg,
+                        args_info.outfile_arg,
+                        (int)args_info.kmer_arg);
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////
     // Binary:
     if (args_info.binary_flag) {
         size_t n_byte = 0;
@@ -273,40 +289,32 @@ int main(int argc, char * argv[])
         uint64_t n_dna = 0;
         uint64_t n_seq = 0;
         size_t n_totalfilesize = 0;
-        if (args_info.select_version_arg == 2 ||
-            args_info.select_version_arg == 7) {
-            args_info.select_version_arg = 2;
-        }
-        if (args_info.select_version_arg == 2 ||
-            args_info.select_version_arg == 3) {
-            size_t subsize = ALDER_KMER_BUFSIZE;
-            s = alder_kmer_binary(NULL, 0, subsize,
-                                  &n_kmer, &n_dna, &n_seq,
-                                  &n_totalfilesize,
-                                  &n_byte,
-                                  args_info.select_version_arg,
-                                  (int)args_info.kmer_arg,
-                                  args_info.disk_arg,
-                                  args_info.memory_arg,
-                                  args_info.min_table_memory_arg,
-                                  args_info.max_table_memory_arg,
-                                  (int)args_info.nsplit_arg,
-                                  args_info.progress_flag,
-                                  args_info.progress_to_stderr_flag,
-                                  option.infile,
-                                  args_info.outdir_arg,
-                                  args_info.outfile_arg);
-        } else {
-            alder_loge(ALDER_ERR, "Only version 4 or 5 is implemented!");
-        }
+        size_t subsize = ALDER_KMER_BUFSIZE;
+        s = alder_kmer_binary(NULL, 0, subsize,
+                              &n_kmer, &n_dna, &n_seq,
+                              &n_totalfilesize,
+                              &n_byte,
+                              args_info.select_version_arg,
+                              (int)args_info.kmer_arg,
+                              args_info.disk_arg,
+                              args_info.memory_arg,
+                              args_info.min_table_memory_arg,
+                              args_info.max_table_memory_arg,
+                              (int)args_info.nsplit_arg,
+                              args_info.progress_flag,
+                              args_info.progress_to_stderr_flag,
+                              option.infile,
+                              args_info.outdir_arg,
+                              args_info.outfile_arg);
     }
     
     ///////////////////////////////////////////////////////////////////////////
     // Assess:
     if (args_info.assess_flag) {
-        alder_kmer_assess(args_info.upper_count_arg,
+        alder_kmer_assess((int)args_info.upper_count_arg,
                           args_info.tabfile_arg,
                           option.infile,
+                          (int)args_info.outfile_given,
                           args_info.outdir_arg,
                           args_info.outfile_arg);
     }

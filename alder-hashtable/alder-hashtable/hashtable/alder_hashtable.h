@@ -20,6 +20,7 @@
 #define alder_hashtable_alder_hashtable_h
 
 #include "alder_hashtable_mcas.h"
+#include "alder_hashtable_mcas1.h"
 
 #undef __BEGIN_DECLS
 #undef __END_DECLS

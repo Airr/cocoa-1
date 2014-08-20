@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>8AC358EA-C87A-490B-8E7A-92E8D7496786</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Xfast</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>9E658ACBDDD6B81BD527AE5FAA470ABE867B1BFC</key>
+		<string>ssh://github.com/goshng/cocoa.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Xfast/Xfast.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>9E658ACBDDD6B81BD527AE5FAA470ABE867B1BFC</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/goshng/cocoa.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>9E658ACBDDD6B81BD527AE5FAA470ABE867B1BFC</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>9E658ACBDDD6B81BD527AE5FAA470ABE867B1BFC</string>
+			<key>IDESourceControlWCCName</key>
+			<string>cocoa</string>
+		</dict>
+	</array>
+</dict>
+</plist>

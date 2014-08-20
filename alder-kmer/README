@@ -1,11 +1,17 @@
+# WHERE I STAND
 At this point, Feb 29 2014, I failed to make a point of using CAS in DSK's method. It is not easy, but I'd have to move on. Before moving on, I will finalize the project.
 
+# Let's use alder-kmer in denovo assembly, this may be a slow solution, but I can change the code at my disposal.
+
 # TODO
+
+Use a single .tbl format for both dsk and topkmer mode.
 
 Streamline the code using version 8.
 Use versions 7 and 8.
 Count overflow check, and prevent overflow in counting or max count should be max.
-Chain-based hash table
+
+Chain-based hash table - NOT YET
 
 # Chain-based and open-addressing hash tables
 

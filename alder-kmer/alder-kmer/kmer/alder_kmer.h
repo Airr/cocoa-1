@@ -33,6 +33,7 @@
 #include "alder_kmer_inspect.h"
 #include "alder_kmer_table.h"
 #include "alder_kmer_assess.h"
+#include "alder_kmer_view.h"
 #include "alder_kmer_common.h"
 
 #undef __BEGIN_DECLS

@@ -84,7 +84,7 @@ alder_kmer_partition(long version,
     sizeOutbuffer = 1 << 20;
     size_t n_total_kmer = 100; // FIXME: total kmer should be known.
     size_t n_current_kmer = 0;
-    assert(version == 7);
+//    assert(version == 7);
     for (int i_ni = 0; i_ni < n_ni; i_ni++) {
         encode = &alder_kmer_encode7;
         s = (*encode)(n_nt, i_ni, K, D, M, sizeInbuffer, sizeOutbuffer,

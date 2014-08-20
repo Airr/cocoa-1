@@ -24,6 +24,7 @@
 		D091159217E02ECB00700BF2 /* alder_file_isfile.c in Sources */ = {isa = PBXBuildFile; fileRef = D091159117E02ECB00700BF2 /* alder_file_isfile.c */; };
 		D091159517E0311700700BF2 /* alder_file_isbinary.c in Sources */ = {isa = PBXBuildFile; fileRef = D091159417E0311600700BF2 /* alder_file_isbinary.c */; };
 		D09A6B3F181FAE0800234CF3 /* alder_file_rm.c in Sources */ = {isa = PBXBuildFile; fileRef = D09A6B3E181FAE0800234CF3 /* alder_file_rm.c */; };
+		D0A1541718B5893100A95B6F /* alder_file_open.c in Sources */ = {isa = PBXBuildFile; fileRef = D0A1541618B5893100A95B6F /* alder_file_open.c */; };
 		D0C5A3DA17D9699400C1E004 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C5A3D917D9699400C1E004 /* main.c */; };
 		D0C5A3DC17D9699400C1E004 /* alder_file.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = D0C5A3DB17D9699400C1E004 /* alder_file.1 */; };
 		D0C5A3E517D969F000C1E004 /* alder-file.ggo in Sources */ = {isa = PBXBuildFile; fileRef = D0C5A3E417D969E900C1E004 /* alder-file.ggo */; };
@@ -122,6 +123,8 @@
 		D091159617E0311E00700BF2 /* alder_file_isbinary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_file_isbinary.h; sourceTree = "<group>"; };
 		D09A6B3E181FAE0800234CF3 /* alder_file_rm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_rm.c; sourceTree = "<group>"; };
 		D09A6B40181FAE1500234CF3 /* alder_file_rm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_file_rm.h; sourceTree = "<group>"; };
+		D0A1541618B5893100A95B6F /* alder_file_open.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alder_file_open.c; sourceTree = "<group>"; };
+		D0A1541818B5893E00A95B6F /* alder_file_open.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alder_file_open.h; sourceTree = "<group>"; };
 		D0C5A3D617D9699400C1E004 /* alder-file */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "alder-file"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0C5A3D917D9699400C1E004 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		D0C5A3DB17D9699400C1E004 /* alder_file.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = alder_file.1; sourceTree = "<group>"; };
@@ -376,6 +379,8 @@
 				D0E8944F17DBF0E600E9E65E /* alder_file_writable.c */,
 				D0E8945117DBF0EF00E9E65E /* alder_file_writable.h */,
 				D0CAEC59180B513D00681CD0 /* CMakeLists.txt */,
+				D0A1541618B5893100A95B6F /* alder_file_open.c */,
+				D0A1541818B5893E00A95B6F /* alder_file_open.h */,
 			);
 			path = file;
 			sourceTree = "<group>";
@@ -449,6 +454,7 @@
 				D0E8945017DBF0E600E9E65E /* alder_file_writable.c in Sources */,
 				D0E8945317DC072900E9E65E /* alder_file_creatable.c in Sources */,
 				D07DA1CA187B6A7600637F89 /* alder_file_isbzip2.c in Sources */,
+				D0A1541718B5893100A95B6F /* alder_file_open.c in Sources */,
 				D0CAEC76180B665300681CD0 /* alder_file_sequencefilesize.c in Sources */,
 				D0E8946117DC101300E9E65E /* alder_file_exist.c in Sources */,
 				D0E8946217DC101300E9E65E /* alder_file_isgzip.c in Sources */,

@@ -558,8 +558,7 @@ write_table_header(long version,
                    FILE **fpout_p,
                    unsigned int outfile_given,
                    const char *outfile, const char *outdir, int K,
-                   size_t N_nh, uint64_t size_value, uint64_t size_index,
-                   int no_count_flag)
+                   size_t N_nh, uint64_t size_value, uint64_t size_index)
 {
     ///////////////////////////////////////////////////////////////////////////
     // Encode and count kmers.
@@ -568,21 +567,18 @@ write_table_header(long version,
     if (bht == NULL) return ALDER_STATUS_ERROR;
     alder_log5("creating a hash count table (%s)", bdata(bht));
     
-    *fpout_p = NULL;
-    if (!no_count_flag) {
-        *fpout_p = fopen(bdata(bht), "wb+");
-        if (*fpout_p == NULL) {
-            bdestroy(bht);
-            return ALDER_STATUS_ERROR;
-        }
-        // This is the place to write the header part of the hash count table.
-        s = alder_hashtable_mcas2_printHeaderToFD(fileno(*fpout_p),
-                                                  K,
-                                                  (uint64_t)N_nh,
-                                                  size_value, size_index);
-                            
-        ALDER_RETURN_ERROR_UNLESS_SUCCESSFUL(s, ALDER_STATUS_ERROR);
+    *fpout_p = fopen(bdata(bht), "wb+");
+    if (*fpout_p == NULL) {
+        bdestroy(bht);
+        return ALDER_STATUS_ERROR;
     }
+    // This is the place to write the header part of the hash count table.
+    s = alder_hashtable_mcas2_printHeaderToFD(fileno(*fpout_p),
+                                              K,
+                                              (uint64_t)N_nh,
+                                              size_value, size_index);
+    ALDER_RETURN_ERROR_UNLESS_SUCCESSFUL(s, ALDER_STATUS_ERROR);
+    
     bdestroy(bht);
     return ALDER_STATUS_SUCCESS;
 }
@@ -755,7 +751,7 @@ alder_kmer_topkmer(long version,
                    int format_flag,
                    int no_delete_partition_flag,
                    int no_partition_flag,
-                   int no_count_flag,
+                   int save_all_flag,
                    struct bstrList *infile,
                    unsigned int outfile_given,
                    const char *outdir,
@@ -796,7 +792,7 @@ alder_kmer_topkmer(long version,
     }
     /* Write the table header file. */
     s = write_table_header(version, &fptbh, outfile_given, outfile, outdir,
-                           K, N_nh, size_value, size_index, no_count_flag);
+                           K, N_nh, size_value, size_index);
     if (s != ALDER_STATUS_SUCCESS) {
         alder_loge(ALDER_ERR_FILE, "Failed to write a table header: %s/%s.tbh",
                    outdir, outfile);
@@ -813,7 +809,7 @@ alder_kmer_topkmer(long version,
     /* Run the topkmer. */
     alder_log("*** Kmer count ***");
     count = &alder_kmer_thread8;
-    s = (*count)(fptbl, n_nt, 0, K, M, sizeInbuffer, sizeOutbuffer,
+    s = (*count)(fptbl, n_nt, save_all_flag, K, M, sizeInbuffer, sizeOutbuffer,
                  size_value, size_index, N_nh, lower_count, upper_count,
                  &n_byte, &n_kmer_counted, &n_hash,
                  n_total_kmer, &n_current_kmer,

@@ -44,6 +44,7 @@
 #include "alder_file_format.h"
 #include "alder_file_isbzip2.h"
 #include "alder_file_islz4.h"
+#include "alder_file_open.h"
 
 #undef __BEGIN_DECLS
 #undef __END_DECLS

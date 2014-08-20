@@ -43,6 +43,9 @@
 #include "alder_hashtable.h"
 #include "alder_kmer_thread8.h"
 
+/* Turn on this flag to debug fine details. */
+//#define DEBUG_DETAIL
+
 /**
  *  Structure of buffers
  *  --------------------
@@ -83,65 +86,6 @@ static int dna_char2int[128] = {
 };
 
 static void *counter(void *t);
-
-/**
- *  This function creates a bstring of a partition file name.
- *  The caller is responsible for freeing the bstring. The infile can be NULL.
- *  When partition files are created, the infile partition names need to be
- *  created. This is usually the case the whole procedure is done by count
- *  command. If infile is not NULL, the list of partition files is considered
- *  a list of partition files.
- *
- *  @param o    counter
- *  @param i_np partition index
- *
- *  @return partition file name or NULL
- */
-//static bstring
-//filename_partition(alder_kmer_thread8_t *o, uint64_t i_np)
-//{
-//    /* File name setup */
-//    bstring bfpar = NULL;
-//    if (o->infile == NULL) {
-//        bfpar = bformat("%s/%s-%llu-%llu.par",
-//                        bdata(o->boutdir), bdata(o->boutfile),
-//                        o->i_ni, i_np);
-//        if (bfpar == NULL) return NULL;
-//    } else {
-//        bfpar = bstrcpy(o->infile->entry[i_np]);
-//        if (bfpar == NULL) return NULL;
-//    }
-//    return bfpar;
-//}
-
-/**
- *  This function computes the number of buffer blocks in a par file.
- *  This updates n_blockByReader, which denotes the number of input buffer
- *  blocks for a par file. This number is compared with one in n_blockByCounter
- *  to check whether I have reached a final input buffer block.
- *
- *  @param o    counter
- *  @param i_np partition index
- *
- *  @return SUCCESS or FAIL
- */
-//static int
-//compute_number_block(alder_kmer_thread8_t *o, uint64_t i_np)
-//{
-//    o->n_blockByReader[i_np] = 0;
-//    bstring bfpar = filename_partition(o, i_np);
-//    if (bfpar == NULL) {
-//        return ALDER_STATUS_ERROR;
-//    }
-//    
-//    /* Compute the number of buffer blocks in the file. */
-//    size_t file_size = 0;
-//    alder_file_size(bdata(bfpar), &file_size);
-//    o->n_blockByReader[i_np] = (int)ALDER_BYTESIZE_KMER(file_size,
-//                                                        o->size_readbuffer);
-//    bdestroy(bfpar);
-//    return ALDER_STATUS_SUCCESS;
-//}
 
 /**
  *  This function frees the memory allocated for the following variables.
@@ -206,6 +150,7 @@ alder_kmer_thread8_destroy(alder_kmer_thread8_t *o)
 static alder_kmer_thread8_t *
 alder_kmer_thread8_create(FILE *fpout,
                           int n_counter,
+                          int save_all_flag,
                           int kmer_size,
                           long memory_available,
                           long sizeInbuffer,
@@ -324,7 +269,10 @@ alder_kmer_thread8_create(FILE *fpout,
                                          n_nh,
                                          size_stride,
                                          lower_count,
-                                         upper_count); /* bigmem */
+                                         upper_count,
+                                         save_all_flag,
+                                         outdir,
+                                         outfile); /* bigmem */
     
     return o;
 }
@@ -359,7 +307,7 @@ static pthread_mutex_t mutex_read;
  */
 int alder_kmer_thread8(FILE *fpout,
                        int n_counter,
-                       int i_ni,
+                       int save_all_flag,
                        int kmer_size,
                        long memory_available,
                        long sizeInbuffer,
@@ -393,6 +341,7 @@ int alder_kmer_thread8(FILE *fpout,
     alder_kmer_thread8_t *data =
     alder_kmer_thread8_create(fpout,
                               n_counter,
+                              save_all_flag,
                               kmer_size,
                               memory_available,
                               sizeInbuffer,
@@ -463,8 +412,8 @@ cleanup:
     for (int i = 0; i < n_counter; i++) {
         data->n_kmer += data->n_i_kmer[i];
     }
-    alder_log2("counter()[%d] Kmers: %zu", i_ni, data->n_kmer);
-    alder_log2("counter()[%d) Bytes: %zu", i_ni, data->n_byte);
+    alder_log2("counter() Kmers: %zu", data->n_kmer);
+    alder_log2("counter() Bytes: %zu", data->n_byte);
     *n_byte += data->n_byte;
     *n_kmer += data->n_kmer;
     *n_hash += data->n_hash;
@@ -664,76 +613,6 @@ write_tabfile(alder_kmer_thread8_t *a)
     return s;
 }
 
-///**
-// *  This function reads a block of partition files.
-// *
-// *  @param a          counter
-// *  @param counter_id counter id
-// *
-// *  @return SUCCESS or FAIL or ALDER_KMER_THREAD7_NO_READ
-// */
-//static __attribute__ ((noinline)) int
-//read_parfile(alder_kmer_thread8_t *a, int counter_id)
-//{
-//    int s = ALDER_STATUS_SUCCESS;
-//    pthread_mutex_lock(&mutex_read);
-//    
-//    if (a->reader_lenbuf == 0) {
-//        if (a->reader_i_parfile > 0) {
-//            close_parfile(a);
-//        }
-//        if (a->reader_i_parfile < a->n_np) {
-//            s = open_parfile(a, a->reader_i_parfile);
-//            if (s != ALDER_STATUS_SUCCESS) {
-//                return s;
-//            }
-//            a->reader_i_parfile++;
-//        } else {
-//            // No more input file to read.
-//            pthread_mutex_unlock(&mutex_read);
-//            return NO_READ;
-//        }
-//    }
-//    
-//    /* Read a block of input buffer. */
-//    ssize_t lenbuf = 0;
-//    uint8_t *inbuf = a->inbuf + counter_id * a->size_subinbuf;
-//    uint8_t *inbuf_body = inbuf + INBUFFER_BODY;
-//    size_t cur_next_lenbuf = a->next_lenbuf;
-//    if (a->next_lenbuf > 0) {
-//        memcpy(inbuf_body, a->next_inbuf, a->next_lenbuf);
-//        inbuf_body += a->next_lenbuf;
-//    }
-//    lenbuf = read(fileno(a->fpin), inbuf_body, a->size_readbuffer);
-//    assert(lenbuf == 0 || lenbuf >= a->b);
-//    if (lenbuf > 0 && a->b > 1) {
-//        assert(cur_next_lenbuf + lenbuf >= a->b);
-//        a->next_lenbuf = (cur_next_lenbuf + lenbuf) % a->b;
-//        memcpy(a->next_inbuf, inbuf_body + lenbuf - a->next_lenbuf, a->next_lenbuf);
-//        a->reader_lenbuf = cur_next_lenbuf + lenbuf - a->next_lenbuf;
-//    } else if (lenbuf > 0 && a->b == 1) {
-//        a->next_lenbuf = 0;
-//        a->reader_lenbuf = lenbuf;
-//    } else if (lenbuf == 0) {
-//        assert(cur_next_lenbuf == 0);
-//        a->reader_lenbuf = lenbuf;
-//    } else {
-//        // Error in reading.
-//        assert(0);
-//        abort();
-//    }
-//    assert(a->reader_i_parfile <= a->n_np);
-//    
-//    to_uint64(inbuf,INBUFFER_I_NP) = a->reader_i_parfile - 1;
-//    to_size(inbuf,INBUFFER_LENGTH) = a->reader_lenbuf;
-//    assert(a->reader_lenbuf % a->b == 0);
-//    
-//    /* Progress */
-//    a->n_byte += lenbuf;
-//    
-//    pthread_mutex_unlock(&mutex_read);
-//    return ALDER_STATUS_SUCCESS;
-//}
 
 /**
  *  This function returns 0,1,2 depending on the type of an input file.
@@ -1010,7 +889,7 @@ static void *counter(void *t)
                                                          res_key,
                                                          &added_x,
                                                          a->isMultithreaded);
-#if !defined(NDEBUG)
+#if defined(DEBUG_DETAIL)
             alder_hashtable_mcas2_debug_print(c_ht,
                                               m->n,
                                               hash_ss,
@@ -1049,8 +928,8 @@ static void *counter(void *t)
     
     // All of the threads must wait here.
     // Use a counter to check if all of the threads reach here.
-#if !defined(NDEBUG)
-//    alder_hashtable_mcas2_printToFILE(c_ht, stdout);
+#if defined(DEBUG_DETAIL)
+    alder_hashtable_mcas2_printToFILE(c_ht, stdout);
 #endif
     alder_hashtable_mcas2_set_pointer_to_tail(c_ht);
     
@@ -1119,13 +998,19 @@ static void *counter(void *t)
             /* 6. Add the kmer to the table, and delete one if needed. */
             uint64_t added_x = c_ht->size;
             uint64_t removed_x = c_ht->size;
+#if !defined(NDEBUG)
+            debug_counter++;
+//            if (debug_counter == 21) {
+//                printf("Stop here!\n");
+//            }
+#endif
             s = alder_hashtable_mcas2_increment_spacesaving(c_ht, m->n,
                                                             hash_ss,
                                                             res_key, res_key2,
                                                             &added_x,
                                                             &removed_x,
                                                             a->isMultithreaded);
-#if !defined(NDEBUG)
+#if defined(DEBUG_DETAIL)
             alder_hashtable_mcas2_debug_print(c_ht,
                                               m->n,
                                               hash_ss,

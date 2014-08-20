@@ -34,7 +34,7 @@ extern "C" {
 #define MY_CMDLINE_PARSER_VERSION "0.1"
 #endif
 
-enum enum_format { format__NULL = -1, format_arg_fasta = 0, format_arg_fastq, format_arg_fa, format_arg_fq, format_arg_seq };
+enum enum_format { format__NULL = -1, format_arg_fasta = 0, format_arg_fastq, format_arg_fa, format_arg_fq, format_arg_seq, format_arg_kmc, format_arg_tbl, format_arg_tbh, format_arg_par, format_arg_bin };
 
 /** @brief Where the command line options are stored */
 struct gengetopt_args_info
@@ -85,8 +85,8 @@ struct gengetopt_args_info
   const char *report_help; /**< @brief Report the count table help description.  */
   int summary_flag;	/**< @brief Display only summary of the table (default=off).  */
   const char *summary_help; /**< @brief Display only summary of the table help description.  */
-  int fasta_flag;	/**< @brief kmers listted in fasta format (default=off).  */
-  const char *fasta_help; /**< @brief kmers listted in fasta format help description.  */
+  int fasta_flag;	/**< @brief in fasta format (default=off).  */
+  const char *fasta_help; /**< @brief in fasta format help description.  */
   int no_tab_flag;	/**< @brief Space separator (default=off).  */
   const char *no_tab_help; /**< @brief Space separator help description.  */
   int query_flag;	/**< @brief dummy (default=off).  */
@@ -99,9 +99,9 @@ struct gengetopt_args_info
   long maxkmer_arg;	/**< @brief number of kmers in a file (default='1000').  */
   char * maxkmer_orig;	/**< @brief number of kmers in a file original value given at command line.  */
   const char *maxkmer_help; /**< @brief number of kmers in a file help description.  */
-  enum enum_format format_arg;	/**< @brief sequence file format (default='fastq').  */
-  char * format_orig;	/**< @brief sequence file format original value given at command line.  */
-  const char *format_help; /**< @brief sequence file format help description.  */
+  enum enum_format format_arg;	/**< @brief file format (default='fastq').  */
+  char * format_orig;	/**< @brief file format original value given at command line.  */
+  const char *format_help; /**< @brief file format help description.  */
   long ni_arg;	/**< @brief number of iterations (default='1').  */
   char * ni_orig;	/**< @brief number of iterations original value given at command line.  */
   const char *ni_help; /**< @brief number of iterations help description.  */
@@ -229,6 +229,12 @@ struct gengetopt_args_info
   const char *dsk_help; /**< @brief Turn on DSK mode help description.  */
   int assess_flag;	/**< @brief assess command (default=off).  */
   const char *assess_help; /**< @brief assess command help description.  */
+  int save_all_flag;	/**< @brief Save deleted keys (default=off).  */
+  const char *save_all_help; /**< @brief Save deleted keys help description.  */
+  int view_flag;	/**< @brief view command (default=off).  */
+  const char *view_help; /**< @brief view command help description.  */
+  int fastq_flag;	/**< @brief in fastq format (default=off).  */
+  const char *fastq_help; /**< @brief in fastq format help description.  */
   int release_flag;	/**< @brief Release mode (default=on).  */
   const char *release_help; /**< @brief Release mode help description.  */
   int exit_flag;	/**< @brief dummy (default=off).  */
@@ -313,6 +319,9 @@ struct gengetopt_args_info
   unsigned int error_duplicate_given ;	/**< @brief Whether error-duplicate was given.  */
   unsigned int dsk_given ;	/**< @brief Whether dsk was given.  */
   unsigned int assess_given ;	/**< @brief Whether assess was given.  */
+  unsigned int save_all_given ;	/**< @brief Whether save-all was given.  */
+  unsigned int view_given ;	/**< @brief Whether view was given.  */
+  unsigned int fastq_given ;	/**< @brief Whether fastq was given.  */
   unsigned int release_given ;	/**< @brief Whether release was given.  */
   unsigned int exit_given ;	/**< @brief Whether exit was given.  */
   unsigned int examples_given ;	/**< @brief Whether examples was given.  */

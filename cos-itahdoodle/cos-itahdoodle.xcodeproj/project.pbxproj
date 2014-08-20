@@ -1,0 +1,453 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D0E1C34D19787C0A00164865 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0E1C34C19787C0A00164865 /* Foundation.framework */; };
+		D0E1C34F19787C0A00164865 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0E1C34E19787C0A00164865 /* CoreGraphics.framework */; };
+		D0E1C35119787C0A00164865 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0E1C35019787C0A00164865 /* UIKit.framework */; };
+		D0E1C35719787C0A00164865 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D0E1C35519787C0A00164865 /* InfoPlist.strings */; };
+		D0E1C35919787C0A00164865 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D0E1C35819787C0A00164865 /* main.m */; };
+		D0E1C35D19787C0A00164865 /* BNRAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D0E1C35C19787C0A00164865 /* BNRAppDelegate.m */; };
+		D0E1C35F19787C0A00164865 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0E1C35E19787C0A00164865 /* Images.xcassets */; };
+		D0E1C36619787C0B00164865 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0E1C36519787C0B00164865 /* XCTest.framework */; };
+		D0E1C36719787C0B00164865 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0E1C34C19787C0A00164865 /* Foundation.framework */; };
+		D0E1C36819787C0B00164865 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0E1C35019787C0A00164865 /* UIKit.framework */; };
+		D0E1C37019787C0B00164865 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D0E1C36E19787C0B00164865 /* InfoPlist.strings */; };
+		D0E1C37219787C0B00164865 /* cos_itahdoodleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D0E1C37119787C0B00164865 /* cos_itahdoodleTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D0E1C36919787C0B00164865 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D0E1C34119787C0A00164865 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D0E1C34819787C0A00164865;
+			remoteInfo = "cos-itahdoodle";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		D0E1C34919787C0A00164865 /* cos-itahdoodle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "cos-itahdoodle.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0E1C34C19787C0A00164865 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		D0E1C34E19787C0A00164865 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		D0E1C35019787C0A00164865 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		D0E1C35419787C0A00164865 /* cos-itahdoodle-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "cos-itahdoodle-Info.plist"; sourceTree = "<group>"; };
+		D0E1C35619787C0A00164865 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D0E1C35819787C0A00164865 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		D0E1C35A19787C0A00164865 /* cos-itahdoodle-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cos-itahdoodle-Prefix.pch"; sourceTree = "<group>"; };
+		D0E1C35B19787C0A00164865 /* BNRAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BNRAppDelegate.h; sourceTree = "<group>"; };
+		D0E1C35C19787C0A00164865 /* BNRAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BNRAppDelegate.m; sourceTree = "<group>"; };
+		D0E1C35E19787C0A00164865 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		D0E1C36419787C0B00164865 /* cos-itahdoodleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "cos-itahdoodleTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0E1C36519787C0B00164865 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		D0E1C36D19787C0B00164865 /* cos-itahdoodleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "cos-itahdoodleTests-Info.plist"; sourceTree = "<group>"; };
+		D0E1C36F19787C0B00164865 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D0E1C37119787C0B00164865 /* cos_itahdoodleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = cos_itahdoodleTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D0E1C34619787C0A00164865 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0E1C34F19787C0A00164865 /* CoreGraphics.framework in Frameworks */,
+				D0E1C35119787C0A00164865 /* UIKit.framework in Frameworks */,
+				D0E1C34D19787C0A00164865 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0E1C36119787C0B00164865 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0E1C36619787C0B00164865 /* XCTest.framework in Frameworks */,
+				D0E1C36819787C0B00164865 /* UIKit.framework in Frameworks */,
+				D0E1C36719787C0B00164865 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D0E1C34019787C0A00164865 = {
+			isa = PBXGroup;
+			children = (
+				D0E1C35219787C0A00164865 /* cos-itahdoodle */,
+				D0E1C36B19787C0B00164865 /* cos-itahdoodleTests */,
+				D0E1C34B19787C0A00164865 /* Frameworks */,
+				D0E1C34A19787C0A00164865 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D0E1C34A19787C0A00164865 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D0E1C34919787C0A00164865 /* cos-itahdoodle.app */,
+				D0E1C36419787C0B00164865 /* cos-itahdoodleTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D0E1C34B19787C0A00164865 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D0E1C34C19787C0A00164865 /* Foundation.framework */,
+				D0E1C34E19787C0A00164865 /* CoreGraphics.framework */,
+				D0E1C35019787C0A00164865 /* UIKit.framework */,
+				D0E1C36519787C0B00164865 /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D0E1C35219787C0A00164865 /* cos-itahdoodle */ = {
+			isa = PBXGroup;
+			children = (
+				D0E1C35B19787C0A00164865 /* BNRAppDelegate.h */,
+				D0E1C35C19787C0A00164865 /* BNRAppDelegate.m */,
+				D0E1C35E19787C0A00164865 /* Images.xcassets */,
+				D0E1C35319787C0A00164865 /* Supporting Files */,
+			);
+			path = "cos-itahdoodle";
+			sourceTree = "<group>";
+		};
+		D0E1C35319787C0A00164865 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D0E1C35419787C0A00164865 /* cos-itahdoodle-Info.plist */,
+				D0E1C35519787C0A00164865 /* InfoPlist.strings */,
+				D0E1C35819787C0A00164865 /* main.m */,
+				D0E1C35A19787C0A00164865 /* cos-itahdoodle-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D0E1C36B19787C0B00164865 /* cos-itahdoodleTests */ = {
+			isa = PBXGroup;
+			children = (
+				D0E1C37119787C0B00164865 /* cos_itahdoodleTests.m */,
+				D0E1C36C19787C0B00164865 /* Supporting Files */,
+			);
+			path = "cos-itahdoodleTests";
+			sourceTree = "<group>";
+		};
+		D0E1C36C19787C0B00164865 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D0E1C36D19787C0B00164865 /* cos-itahdoodleTests-Info.plist */,
+				D0E1C36E19787C0B00164865 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D0E1C34819787C0A00164865 /* cos-itahdoodle */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D0E1C37519787C0B00164865 /* Build configuration list for PBXNativeTarget "cos-itahdoodle" */;
+			buildPhases = (
+				D0E1C34519787C0A00164865 /* Sources */,
+				D0E1C34619787C0A00164865 /* Frameworks */,
+				D0E1C34719787C0A00164865 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "cos-itahdoodle";
+			productName = "cos-itahdoodle";
+			productReference = D0E1C34919787C0A00164865 /* cos-itahdoodle.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D0E1C36319787C0B00164865 /* cos-itahdoodleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D0E1C37819787C0B00164865 /* Build configuration list for PBXNativeTarget "cos-itahdoodleTests" */;
+			buildPhases = (
+				D0E1C36019787C0B00164865 /* Sources */,
+				D0E1C36119787C0B00164865 /* Frameworks */,
+				D0E1C36219787C0B00164865 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D0E1C36A19787C0B00164865 /* PBXTargetDependency */,
+			);
+			name = "cos-itahdoodleTests";
+			productName = "cos-itahdoodleTests";
+			productReference = D0E1C36419787C0B00164865 /* cos-itahdoodleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D0E1C34119787C0A00164865 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = BNR;
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = "Sang Chul Choi";
+				TargetAttributes = {
+					D0E1C36319787C0B00164865 = {
+						TestTargetID = D0E1C34819787C0A00164865;
+					};
+				};
+			};
+			buildConfigurationList = D0E1C34419787C0A00164865 /* Build configuration list for PBXProject "cos-itahdoodle" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = D0E1C34019787C0A00164865;
+			productRefGroup = D0E1C34A19787C0A00164865 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D0E1C34819787C0A00164865 /* cos-itahdoodle */,
+				D0E1C36319787C0B00164865 /* cos-itahdoodleTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D0E1C34719787C0A00164865 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0E1C35719787C0A00164865 /* InfoPlist.strings in Resources */,
+				D0E1C35F19787C0A00164865 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0E1C36219787C0B00164865 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0E1C37019787C0B00164865 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D0E1C34519787C0A00164865 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0E1C35919787C0A00164865 /* main.m in Sources */,
+				D0E1C35D19787C0A00164865 /* BNRAppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0E1C36019787C0B00164865 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0E1C37219787C0B00164865 /* cos_itahdoodleTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D0E1C36A19787C0B00164865 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D0E1C34819787C0A00164865 /* cos-itahdoodle */;
+			targetProxy = D0E1C36919787C0B00164865 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		D0E1C35519787C0A00164865 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D0E1C35619787C0A00164865 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		D0E1C36E19787C0B00164865 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D0E1C36F19787C0B00164865 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D0E1C37319787C0B00164865 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		D0E1C37419787C0B00164865 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D0E1C37619787C0B00164865 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "cos-itahdoodle/cos-itahdoodle-Prefix.pch";
+				INFOPLIST_FILE = "cos-itahdoodle/cos-itahdoodle-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		D0E1C37719787C0B00164865 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "cos-itahdoodle/cos-itahdoodle-Prefix.pch";
+				INFOPLIST_FILE = "cos-itahdoodle/cos-itahdoodle-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		D0E1C37919787C0B00164865 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/cos-itahdoodle.app/cos-itahdoodle";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "cos-itahdoodle/cos-itahdoodle-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "cos-itahdoodleTests/cos-itahdoodleTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		D0E1C37A19787C0B00164865 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/cos-itahdoodle.app/cos-itahdoodle";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "cos-itahdoodle/cos-itahdoodle-Prefix.pch";
+				INFOPLIST_FILE = "cos-itahdoodleTests/cos-itahdoodleTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D0E1C34419787C0A00164865 /* Build configuration list for PBXProject "cos-itahdoodle" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0E1C37319787C0B00164865 /* Debug */,
+				D0E1C37419787C0B00164865 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D0E1C37519787C0B00164865 /* Build configuration list for PBXNativeTarget "cos-itahdoodle" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0E1C37619787C0B00164865 /* Debug */,
+				D0E1C37719787C0B00164865 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		D0E1C37819787C0B00164865 /* Build configuration list for PBXNativeTarget "cos-itahdoodleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0E1C37919787C0B00164865 /* Debug */,
+				D0E1C37A19787C0B00164865 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D0E1C34119787C0A00164865 /* Project object */;
+}

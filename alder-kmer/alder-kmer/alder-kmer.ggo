@@ -1,9 +1,9 @@
 package "alder-kmer"
 version "0.1"
-purpose "alder-kmer counts kmers in a data set of FASTQ and FASTA sequence files."
+purpose "alder-kmer counts kmers in a data set of FASTQ sequence files."
 usage "alder-kmer [command] [OPTIONS]... [FILES]..."
 description
-"alder-kmer counts kmers exactly using DSK algorithm (Rizk et al. 2013) or approximately using a space-saving algorithm. It allows arbitrary size of kmers. The first argument of the alder-kmer is a command, which is one of the following strings: `count', `dump', `query', `simulate', `partition', `kmer', `table', `list', `match', `binary', `uncompress', `inspect', and `example'. Use option --help to see more options for each command; e.g., alder-kmer count --help. Options may require arguments. `INT' is a positive number unless stated otherwise. `STRING' is a string of characters. `FILENAME' and `DIRECTORY' are strings that could be found or created in the file system that you run alder-kmer on."
+"alder-kmer counts kmers exactly using DSK algorithm (Rizk et al. 2013) or approximately using Top-Kmer algorithm. The first argument of alder-kmer is a command: `count', `dump', or `query'. See options for each command; e.g., alder-kmer count --help or --full-help."
 
 option "help" h "Print help of the program, or a command: e.g., alder-kmer count -h" flag off
 option "detailed-help" - "Print help, including all details" flag off
@@ -30,7 +30,7 @@ section "dump"
 sectiondesc="This command takes a table file to report kmers and their occurences. Use command `count' to create a table input file. It prints k-mer sequence, its reverse complementary sequence (--with-reverse), the number of occurences, and the index of the sequence (--with-index) for each kmer."
 option "report" - "Report the count table" flag off
 option "summary" - "Display only summary of the table" flag off
-option "fasta" - "kmers listted in fasta format" flag off
+option "fasta" - "in fasta format" flag off
 option "no-tab" - "Space separator" flag off
 
 section "query"
@@ -42,7 +42,7 @@ section "simulate"
 sectiondesc="This command creates a sequence data set of FASTQ or FASTA files for testing alder-kmer. It runs with two modes. The two modes of simulation are for testing exact counting and approximate counting. By default, it creates sequence data with exact number of kmers. Use option --error-rate with positive numbers ranging from 1 to 100 to simulate data in the approximate counting mode."
 option "simulate" - "Simulate k-mer data" flag off
 option "maxkmer" - "number of kmers in a file" long typestr="INT < 10^8" default="1000" optional
-option "format" - "sequence file format" string typestr="STRING" default="fastq" values="fasta","fastq","fa","fq","seq" enum optional
+option "format" - "file format" string typestr="STRING" default="fastq" values="fasta","fastq","fa","fq","seq","kmc","tbl","tbh","par","bin" enum optional
 option "ni" - "number of iterations" long typestr="INT" default="1" optional
 option "np" - "number of partitions" long typestr="INT" default="1" optional
 option "nf" - "number of sequences files" long typestr="INT" default="1" optional
@@ -65,16 +65,16 @@ sectiondesc="This command converts partition files to a table file. Use the foll
 option "table" - "Partition file" flag off dependon="outfile"
 
 section "list"
-sectiondesc="This command lists kmer sequences in a fastq file. Kmer sequences should have the four letters of A, C, G, and T (a, c, g, or t). Any other characters are considered not a valid DNA letter. Invalid characters would end a sequence, and let the command restart a new sequence if there are more DNA letters that follow. Available options include kmer. It does not check the content of a FASTQ file, and may have side-effects if other formats are provided. It reads STDIN or a file. If option --outfile is used, a file with .lst extension is created instead of being sent to STDOUT"
+sectiondesc="This command lists kmer sequences in a fastq file. Kmer sequences should have the four letters of A, C, G, and T (a, c, g, or t). Any other characters are considered to be a invalid DNA letter. Invalid characters would end a sequence, and let the command restart a new sequence if there are more DNA letters that follow. Available options include kmer. It does not check the content of a FASTQ file, and may have side-effects if other formats are provided. It reads STDIN or a file. If option --outfile is used, a file with .lst extension is created instead of being sent to STDOUT"
 option "list" - "List kmers in a text file. Options: kmer, seqlen" flag off
 
 section "match"
-sectiondesc="NOT WORKING or BUGs - This command compares a table file and a set of input files. A set of sequence data can be given as either standard input or input files."
+sectiondesc="This command compares a table file with a set of input files or kmer count files. Input can be given as either standard input or input files."
 option "match" - "Compare a table file and input sequence data." flag off
 option "tabfile" - "a table file name" string typestr="STRING" default="outfile" optional
 
 section "binary"
-sectiondesc="This command converts sequence files to a alder-kmer binary file. Use command uncompress to decode a binary file."
+sectiondesc="This command converts FASTQ sequence files to a binary sequence file. Use command uncompress to decode a binary file."
 option "binary" - "Create a binary file from sequence file." flag off
 
 section "uncompress"
@@ -118,7 +118,7 @@ option "use-seqfile" - "Use FASTQ or FASTA" flag off
 option "binfile" - "prefix of binary files" string typestr="STRING" default="outfile" optional
 option "parfile" - "prefix of partition files" string typestr="STRING" default="outfile" optional
 option "error-initial" - "number of initial random sets" long typestr="INT" default="1" optional
-option "error-rate" - "error rate in per cent" long typestr="INT" default="0" optional
+option "error-rate" - "error rate in per cent" long typestr="INT (1..100)" default="0" optional
 option "error-iteration" - "number of sets with errors" long typestr="INT" default="1" optional
 option "error-duplicate" - "max number of sets with the same errors" long typestr="INT" default="1" optional
 option "dsk" - "Turn on DSK mode" flag off
@@ -127,6 +127,14 @@ section "assess"
 sectiondesc="This command assesses errors and accuracy of an approximated count table."
 option "assess" - "assess command" flag off
 
+option "save-all" - "Save deleted keys" flag off
+
+
+section "view"
+sectiondesc="This command converts binary files to human readable text."
+option "view" - "view command" flag off
+
+option "fastq" - "in fastq format" flag off
 option "release" - "Release mode" flag on
 
 section "exit"
@@ -149,6 +157,36 @@ BIN: A set of input sequence files is converted to a .bin file. A binary file te
 PAR: This is a binary file format for a partition. See Rizk et al. (2013) for details of partitions. A file of the format contains kmer sequences of the same kmer size. Commands `count'. `simulate', and `partition' can create partition files.
 
 DEC: This is a text file format of partition files. It simply prints one kmer per line.
+
+KMC: This is a binary file with kmers and their counts. Kmers may not be unique, which is different from a table file. An entry in the binary file consists of kmers in 64-bit value and count in 32-bit value. The `count' command with topkmer mode can create .kmc files with option --save-all. The `match' command takes .kmc files as input to compare them with a exactly counted table file.
+
+*** FILE CONVERSION ***
+
+Commands can convert input files to some output files.
+
+count   : FASTQ -> TABLE
+
+dump    : TABLE -> TXT
+
+query   : TABLE -> TXT
+
+view    : BIN, PAR, KMC -> TXT
+
+simulate: -> FASTQ, FASTA, SEQ
+
+list    : FASTQ -> TXT
+
+binary  : FASTQ -> BIN
+
+partition: BIN -> PAR
+
+table   : PAR -> TAB
+
+match   : TAB ->
+
+assess  : TAB ->
+
+inspect : ->
 
 *** COMMANDS ***
 
@@ -189,21 +227,27 @@ $ dump outfile.tbl
 
 This command creates FASTQ files for testing alder-kmer. Use commands `list' or `binary' to work with generated FASTQ files. There are no input files for `simulate' command. By default, a sequence data would be written to STDOUT if --nf option is given with 1 or a single sequence file is requested. Use option --outfile or --nf with 2 or greater to write to files. Use --kmer to specifiy the length of kmer sequences, and set the number of kmers using --maxkmer. Change the length of sequences using option --seqlen.
 
-The command can create FASTQ files with errors by using option --error-rate. If the argument of option --error-rate is positive between 1 and 100, options --error-iteration, and --error-initial specifies the number of sets of random sequences. A set of random sequences contains --maxkmer kmers. Use --error-duplicate to increase occurrences of some kmers. Options --error-initial, --error-iteration, --error-duplicate take effect only if option --error-rate is given with an argument of positive number.
+The command can create FASTQ files with errors by using option --error-rate. If the argument of option --error-rate is positive between 1 and 100, sets of sequences are printed. A set of sequences contains as many kmers as specified in option --maxkmer. Two kinds of sets of sequences are generated. The first kind of sequence set contains random sequences. The number of sets in the first kind is specified by option --error-initial. The second kind of sequence set are repeated as many time as specified by option --error-iteration. Options --error-initial and --error-iteration take effect only if option --error-rate is given with an argument of positive number.
+
+To generate a sequence file using `simulate' command, type in:
+$ simulate
+
+To generate a set of sequences with 30 kmers of size 5 at random, and another set of the same size of sequences twice with error rate 1%, type in:
+$ simulate --kmer=5 --maxkmer=30 --error-rate=1 --error-iteration=2 --error-initial=1
 
 The command `simulate' can only create a small-size data set because it would take too much time to generate a large data set. You could bump up a file using the following commands:
 
 $ for i in {1..10}; do echo outfile-00.fq; done | xargs cat > outfile.fq
 
-Although I have not tested options for creating .par files. You could turn on --with-parfile option to create partition files. Total number of parition files with .par extension is equal to ni x np where ni is given by option --ni and --np. This may not work because I have not tested it much.
+Use optoins --seed to reproduce the same data.
 
-To generate a sequence file using `simulate' command, type in:
-$ simulate
-The command runs with default options. See the secion `simulate' command above for detail or type in:
-$ simulate -h
-to learn options and default values of the command. The `simulate' command would create a sequence file.
+*** LIST ***
 
-$ simulate --kmer=5 --maxkmer=30 --error-rate=1 --seqlen=100 --seed=1 --error-iteration=5 --error-initial=30 --error-duplicate=2
+This command simply reads FASTQ sequence files, and prints one kmer sequence per line.
+
+To generate a FASTQ file with 10 kmers of size 1, and to list kmers in the FASTQ file, type in:
+$ simulate --maxkmer=10 > 1.fq
+$ list 1.fq
 
 *** BINARY ***
 
@@ -211,39 +255,81 @@ To create a binary file from a set of FASTQ files, type in:
 $ simulate -k 25 --maxkmer=1000000 --nf=10 --progress
 $ binary *.fq
 
-*** UNCOMPRESS ***
+*** VIEW ***
 
-To see the content of a binary file, type in:
-$ uncompress outfile.bin
+This command allows users to view the content of binary files. Use option --format to set the format of input files.
+
+
+To view binary files, use option `--format=bin' with bin input files. This command then converts alder-kmer binary sequence files to a simple form of sequence file. Without --outfile option, the output goes to STDOUT. With --outfile option, a file with extension of .seq is created. This could be use to compare a binary file from FASTQ files.
+
+$ simulate > file.fq
+$ binary file.fq
+$ view --format=bin outfile.bin > file-bin.seq
+$ awk 'NR % 4 == 2' file.fq > file.seq
+$ diff file.seq
+
+Use command-line tool `md5' to compare two files because files can be large.
+
+To view kmers in par files, use options `--format=par' with par input files. This command then converts a partition file to a kmer sequence file. Because partition files do not have a field of kmer size, set the kmer size to use this command. Use the following commands to convert the decoded kmers to a dumped table. Try to type in:
+
+$ simulate > file.fq
+$ binary file.fq
+$ partition outfile.bin
+$ view --format=par outfile-0-0.par > outfile.dec
+
+To tabulate the count C or T at the first column in outfile.dec, type in:
+$ cut -f 1 outfile.dec|sort|uniq -c|awk 'BEGIN{OFS=FS=\" \"} {tmp=$1;$1=$2;$2=tmp;print}'
 
 *** PARTITION ***
 
-Let us recover the same partition file, which is a part of command `count' using command `partition'.
-$ partition -k 25 outfile.bin
-Because this command is part of simulation, it uses more options in command `simulate' than those in `count'. The command would create a partition file: outfile-0-0.par. The partition file contains kmers in bytes, which can be decoded by using command `decode' or `kmer' with the partition file.
+To convert a binary file to partition files, type in:
 
-*** DECODE/KMER ***
-
-To convert a partition file to a text file, type in:
-$ kmer -k 25 outfile-0-0.par
-The `decode' command generates kmers in STDOUT.
+$ simulate > file.fq
+$ binary file.fq
+$ partition outfile.bin
 
 *** TABLE ***
 
-To create the report file from a partition file, type in:
-$ table -k 25 outfile-0-0.par
-This would create an output file named outfile.tbl. To display th content of the table file, type in:
-$ dump outfile.tbl
+To convert partition files to a table file, type to type in:
 
-*** LIST ***
+$ simulate > file.fq
+$ binary file.fq
+$ partition outfile.bin
+$ table outfile-0-0.par
 
-To list kmers in a FASTQ file, type in:
-$ list -k 25 outfile-0-0.fq
+You could compare the content of the partition file and the table file using the following commands:
+
+$ view --format=par outfile-0-0.par > outfile.dec
+$ cut -f 1 outfile.dec|sort|uniq -c|awk 'BEGIN{OFS=FS=\" \"} {tmp=$1;$1=$2;$2=tmp;print}'
+$ dump --dsk outfile.tbl
 
 *** MATCH ***
 
+This command compares an exactly counted table with an approximated counted file. This command can be used to check whether the exactly counted table contains all of the kmers in the sequence files. It is also used to check whether .kmc files contains all of the kmers in the exactly counted table.
+
+Use the following commands to create a FASTQ file, and count kmers using either dsk mode or topkmer mode:
+$ s -k 10 --maxkmer=2000000 --error-rate=1 --outfile=outfile --seed=1
+$ mv outfile-00.fq outfile.fq
+$ count -k 10 --dsk --memory=200 outfile.fq --outfile=dsk
+$ count --outfile=outfile -k 20 --nh=500 --nthread=1 outfile.fq --save-all
+$ match --tabfile=dsk.tbl --format=kmc outfile-deleted.kmc outfile-saved.kmc
+
+The final command `match' does not produce any output if the topkmer also counted all of the kmers correctly.
+
 To compare a table and a set of sequence files, type in:
 $ match --tabfile=outfile.tbl outfile-0-0.fq
+
+*** ASSESS ***
+
+This command compares an exactly counted table with an approximately counted one, and assesses errors and accuracy of the approximately counted table. Use option --tabfile with an exactly counted table file name. The input file is an approximately counted table. For each kmer in an exactly counted table, first check if the count value is greater than a given minimum value. If so, I compute (x - y)/x where x is the exact count, and y is the approximately counted value. I also increment the total number of kmers whose exact count is greater than a given minimum value. I choose a range of minimum values. A desirable tendency would be that errors decrease as the given minimum value increases.
+
+This command compares the exactly counted kmers and the approximately counted ones to assess the error rate in the approximately counted ones. After execute commands in the command match example, and type in:
+$ assess --tabfile=dsk.tbl outfile.tbl
+
+It prints the minimum count, error rate, and total number of kmers with count at least the minimum count:
+error [1]: 1.000 (524507)
+.
+error [10]: 0.999 (124780)
 
 *** INSPECT ***
 
@@ -254,10 +340,6 @@ $ inspect
 
 !!! NOT WORKING YET !!!
 $ query
-
-*** ASSESS ***
-
-This command compares an exactly counted table with an approximately counted one, and assesses errors and accuracy of the approximately counted table. Use option --tabfile with an exactly counted table file name. The input file is an approximately counted table. For each kmer in an exactly counted table, first check if the count value is greater than a given minimum value. If so, I compute (x - y)/x where x is the exact count, and y is the approximately counted value. I also increment the total number of kmers whose exact count is greater than a given minimum value. I choose a range of minimum values. A desirable tendency would be that errors decrease as the given minimum value increases.
 
 *** EXAMPLES ***
 
@@ -293,23 +375,23 @@ set the minimum or maximum values of counts,
 
 provide frequency of counts,
 
+*** TODO ***
+
 . Test of overflow of occurence (create a separate file of kmer of overflowed).
-.ofl file would contain encoded numbers just like .par file.
-
-
 ### End of Examples ###"
 option "examples" - "Shows example runs of alder-kmer" flag off
 
 section "document"
 sectiondesc="Title
+TopK algorithm in counting kmers in biological sequence data
 
 Abstract
+
+Use all of the available memory to count most frequent kmers.
+
 Counting K-mers in a nucleotide sequence data set is a basic step in further analyses of the data. Computing environments can be diverse from personal computers to high-end super computers. Diverse computing environments are equiped with different limiting factors in terms of disk space, available memory, and CPUs. Computing costs time and enerage. Efficient use of available resources is important. I could have saved time and spend the spare time on something else. Someone else could have used the resources for their use. If disk space is cheaper than memory in computing environments such as personal computers, using disk space would be beneficial. Disk space may not be available in some high-end super computing environments, but more computer memory could be available. I experiment with counting K-mers in different computing environments to address which resources are limiting factors.
 
 Introduction
-
-
-
 
 Limited factors.
 1. Disk space. Usually disk space is unlimited. In high-end computing facilities, disk space tends to be more expensive than memory or available CPUs. Reading and writing compressed files can be crucial in this disk space limited computing environment.
@@ -379,7 +461,6 @@ https://github.com/ctb/khmer
 de Bruijn graphs
 
 Compeau, P. E.; Pevzner, P. A. & Tesler, G. How to apply de Bruijn graphs to genome assembly Nature biotechnology, Nature Publishing Group, 2011, 29, 987-991
-
 ### End of Document ###"
 option "document" - "Shows the document for alder-kmer" flag off
 

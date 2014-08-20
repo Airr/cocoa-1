@@ -148,13 +148,11 @@ alder_kmer_binary3(void *ptr, size_t total_size,
     *n_seq = 0;
     *n_byte = 0;
     
-    assert(version == 2 || version == 7);
     assert(ptr == NULL);
     assert(total_size == 0);
     assert(nsplit > 0);
-    if (version == 2 || version == 7) {
-        nsplit = 1;
-    }
+    nsplit = 1;
+    
     fpout = malloc(sizeof(*fpout) * nsplit);
     if (fpout == NULL) {
         return ALDER_STATUS_ERROR;
