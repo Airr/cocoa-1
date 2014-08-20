@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6205" systemVersion="13D65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6205"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="SCCViewControllerText">
+            <connections>
+                <outlet property="_textView" destination="lqz-BU-WyF" id="1i4-A8-43b"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="274"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mo6-EQ-xwm">
+                    <rect key="frame" x="0.0" y="0.0" width="480" height="274"/>
+                    <clipView key="contentView" id="fhz-0r-3Nu">
+                        <rect key="frame" x="1" y="1" width="463" height="272"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="lqz-BU-WyF">
+                                <rect key="frame" x="0.0" y="0.0" width="463" height="272"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <size key="minSize" width="463" height="272"/>
+                                <size key="maxSize" width="480" height="10000000"/>
+                                <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <size key="minSize" width="463" height="272"/>
+                                <size key="maxSize" width="480" height="10000000"/>
+                                <connections>
+                                    <outlet property="delegate" destination="-2" id="jwg-6i-1mm"/>
+                                </connections>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </clipView>
+                    <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="CUy-KZ-WWo">
+                        <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </scroller>
+                    <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="YQZ-qc-OFE">
+                        <rect key="frame" x="464" y="1" width="15" height="272"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </scroller>
+                </scrollView>
+            </subviews>
+            <constraints>
+                <constraint firstItem="Mo6-EQ-xwm" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="4y6-3Y-Fbg"/>
+                <constraint firstItem="Mo6-EQ-xwm" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="58u-7p-R4s"/>
+                <constraint firstAttribute="bottom" secondItem="Mo6-EQ-xwm" secondAttribute="bottom" id="rud-is-6lW"/>
+                <constraint firstAttribute="trailing" secondItem="Mo6-EQ-xwm" secondAttribute="trailing" id="uIb-SN-pTc"/>
+            </constraints>
+        </customView>
+    </objects>
+</document>

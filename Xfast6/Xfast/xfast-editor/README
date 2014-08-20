@@ -1,0 +1,10 @@
+
+
+1. XfastGroupMember
+
+@interface XFSourceFile : NSObject <XfastGroupMember>
+  - This is the file reference.
+  
+@interface XFGroup : NSObject <XfastGroupMember>
+
+XfastSourceFileType.h

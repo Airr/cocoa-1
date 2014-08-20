@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>Command-Line Program</title>
+    <link href="../sty/task.css" rel="stylesheet" type="text/css" media="all"/>
+</head>
+
+<body id="apple-pd">
+    <a name="aboutvermontrecipespage"></a>
+    <div id="headerbox">
+        <div id="iconbox">
+            <img id="iconimg" src="../../media/beach_chair_256x256.png" alt="Vermont Recipes icon" width="32" height="32"/>
+        </div>
+        <div id="pagetitle">
+            <h1>Command-Line Program</h1>
+        </div>
+    </div>
+    <div id="introbox">
+                <div class="introprimtext">
+            <p class="introprimtextlongtext">
+Alder Kmer provides you with a simple user-interface to help you count Kmers in a sequence file. The steps includes:</p>
+            <div id="introauxlist">
+                <div class="introauxoption">
+                    <div class="introauxbullet"></div>
+                    <div class="introauxcontent">
+                        <ul id="introauxoptionbulletlongtext">
+                            <li>
+                            <p class="listparagraph">
+                                <p class="listparagraph">Load a sequence file.</p></p></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="introauxoption">
+                    <div class="introauxbullet"></div>
+                    <div class="introauxcontent">
+                        <ul id="introauxoptionbulletlongtext">
+                            <li>
+                            <p class="listparagraph">
+                                <p class="listparagraph">Adjust disk space, memory size, and CPU cores.</p></p></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="introauxoption">
+                    <div class="introauxbullet"></div>
+                    <div class="introauxcontent">
+                        <ul id="introauxoptionbulletlongtext">
+                            <li>
+                            <p class="listparagraph">
+                                <p class="listparagraph">Choose the size K or the length of fixed-length DNA sequences.</p></p></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="introauxoption">
+                    <div class="introauxbullet"></div>
+                    <div class="introauxcontent">
+                        <ul id="introauxoptionbulletlongtext">
+                            <li>
+                            <p class="listparagraph">
+                                <p class="listparagraph">Select a folder or a directory with a prefix for the output files.</p></p></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="introauxoption">
+                    <div class="introauxbullet"></div>
+                    <div class="introauxcontent">
+                        <ul id="introauxoptionbulletlongtext">
+                            <li>
+                            <p class="listparagraph">
+                                <p class="listparagraph">Start counting Kmers.</p></p></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="introauxoption">
+                    <div class="introauxbullet"></div>
+                    <div class="introauxcontent">
+                        <ul id="introauxoptionbulletlongtext">
+                            <li>
+                            <p class="listparagraph">
+                                <p class="listparagraph">Wait for the counting to finish. It could take a while.</p></p></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="introauxoption">
+                    <div class="introauxbullet"></div>
+                    <div class="introauxcontent">
+                        <ul id="introauxoptionbulletlongtext">
+                            <li>
+                            <p class="listparagraph">
+                                <p class="listparagraph">Search the count table for the frequency of a Kmer.</p></p></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="introprimtext">
+            <p class="introprimtextlongtext">
+The following is a screen-shot of Alder Kmer when it starts. 
+            </p>
+        </div>
+
+<div id="alder-kmer-new">
+    <img id="alder-kmer-new" src="../media/alder-kmer-new.png" alt="Alder Kmer New" width="492" height="460"/>
+</div>
+
+        <div class="introprimtext">
+            <p class="introprimtextlongtext">
+Let us following the detail of the procedure of running Alder Kmer. 
+            </p>
+        </div>
+
+        <div class="introprimtext">
+            <p class="introprimtextlongtext">
+Load a sequence file in FASTA or FASTQ format using Run>Load menu (COMMAND+L) or by clicking a button next the text input box of Input file. Pushing the button with an up-arrow, you would be invited to navigate the file system in your computer to choose a sequence file. As sequence files in counting Kmers tend to be huge, and they are often compressed, Alder Kmer can take gzipped FASTA or FASTQ sequence files. The size of the input file is shown just below the file name that you have selected. 
+            </p>
+        </div>
+        <div class="introprimtext">
+            <p class="introprimtextlongtext">
+Alder Kmer displays available disk space (in giga-byte), free memory (in mega-byte), and the total number of CPU cores. Use slide bars to adjust the size of disk space and memory that would be allocated to Alder Kmer. You can type in numbers instead. Note that the number in disk space is in giga-byte, and that of memory is in mega-byte. You can also change the number of CPU cores that Alder Kmer would use.
+            </p>
+        </div>
+        <div class="introprimtext">
+            <p class="introprimtextlongtext">
+Choose a length K of Kmer sequences. The length K may depends on the allocated disk space and the memory for Alder Kmer. Select an output directory and a prefix for the output files. You can use a button with an up-arrow to select a directory, or type in the directory name. Type in an output file name prefix.
+            </p>
+        </div>
+        <div class="introprimtext">
+            <p class="introprimtextlongtext">
+Now, you are ready to count Kmer sequences. Push the button named "Count" or Run>Count menu (COMMAND+K). The progress of a run is indicated in the lower left corner.
+            </p>
+        </div>
+        <div class="introprimtext">
+            <p class="introprimtextlongtext">
+After a run is done, the summary of the execution would be displayed. These include the maximum number of Kmers in the input file, the number of iterations over partition files, the partition files size, the counting table file name and size, and the number of unique Kmers in the counting table.
+            </p>
+        </div>        
+        <div class="introprimtext">
+            <p class="introprimtextlongtext">
+You may search the counting table for the number of a Kmer in the input sequence file. Type in a Kmer sequence, and push a button named "Search" or select Run>Search menu (COMMAND+F). 
+            </p>
+        </div>
+        
+        <div id="rule">
+            <hr/>
+        </div>
+        <div id="linkinternalbox">
+            <h3>Related Topics</h3>
+            <p class="linkinternal"><a href="help:anchor=recipespage bookID=com.quecheesoftware.vermontrecipes.help">Recipes <span class="linkarrow"></span></a></p>
+            <p class="linkinternal"><a href="help:anchor=chefsdiarypage bookID=com.quecheesoftware.vermontrecipes.help">Chef’s Diary <span class="linkarrow"></span></a></p>
+        </div>
+    </div>
+</body>
+
+</html>
+
+

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6205" systemVersion="13D65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6205"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="SCCTargetWindowController">
+            <connections>
+                <outlet property="myTargetView" destination="8uF-1U-bpt" id="TCv-IJ-ejv"/>
+                <outlet property="selectionField" destination="9cR-jA-qjy" id="I5a-qg-7Sn"/>
+                <outlet property="window" destination="KQo-D5-a2n" id="sEx-OK-Pt8"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="IconCollection" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="KQo-D5-a2n" userLabel="Icons">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="6" y="668" width="501" height="449"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1418"/>
+            <value key="minSize" type="size" width="501" height="336"/>
+            <view key="contentView" id="f0h-iu-dK4" userLabel="Content View">
+                <rect key="frame" x="0.0" y="0.0" width="501" height="449"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <box autoresizesSubviews="NO" verticalHuggingPriority="750" fixedFrame="YES" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="gW1-0z-Wur">
+                        <rect key="frame" x="0.0" y="427" width="501" height="5"/>
+                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <font key="titleFont" metaFont="system"/>
+                    </box>
+                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9cR-jA-qjy">
+                        <rect key="frame" x="4" y="433" width="492" height="14"/>
+                        <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" id="gkD-PI-8OZ">
+                            <font key="font" metaFont="smallSystem"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <binding destination="-2" name="value" keyPath="viewController.arrayController.selection.name" id="rkE-c5-lPK"/>
+                        </connections>
+                    </textField>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8uF-1U-bpt">
+                        <rect key="frame" x="0.0" y="112" width="502" height="318"/>
+                    </customView>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iSA-fF-ZCc">
+                        <rect key="frame" x="18" y="46" width="465" height="58"/>
+                        <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" title="Multiline Label" id="Jht-El-lHv">
+                            <font key="font" metaFont="smallSystem"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="S58-Ka-4tm">
+                        <rect key="frame" x="406" y="14" width="80" height="28"/>
+                        <buttonCell key="cell" type="push" title="Create" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="YBb-Gp-y89">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                            <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="create:" target="-2" id="x7L-1a-MD9"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CH5-bR-937">
+                        <rect key="frame" x="328" y="14" width="80" height="28"/>
+                        <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="n7L-gB-MT9">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                        </buttonCell>
+                        <connections>
+                            <action selector="cancel:" target="-2" id="VzF-14-SG6"/>
+                        </connections>
+                    </button>
+                </subviews>
+            </view>
+            <toolbar key="toolbar" implicitIdentifier="637B631B-4E3F-4C65-AD0B-B3DF00F40FE3" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconAndLabel" sizeMode="regular" id="ZuW-vr-cNr" userLabel="Toolbar">
+                <allowedToolbarItems>
+                    <toolbarItem implicitItemIdentifier="D41CFB93-7CE1-4316-9349-C2818CABFF35" label="Icon Ordering" paletteLabel="Icon Ordering" id="ds1-ej-w6b">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="158" height="20"/>
+                        <size key="maxSize" width="158" height="20"/>
+                        <segmentedControl key="view" verticalHuggingPriority="750" id="C2T-I2-gJZ">
+                            <rect key="frame" x="0.0" y="14" width="158" height="20"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <segmentedCell key="cell" controlSize="small" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="G3A-eH-koN">
+                                <font key="font" metaFont="smallSystem"/>
+                                <segments>
+                                    <segment label="Ascending" imageScaling="none"/>
+                                    <segment label="Descending" imageScaling="none" selected="YES" tag="1"/>
+                                </segments>
+                                <connections>
+                                    <binding destination="-2" name="selectedIndex" keyPath="viewController.sortingMode" id="vsZ-nt-aOI"/>
+                                </connections>
+                            </segmentedCell>
+                        </segmentedControl>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="si8-XB-fsV" userLabel="Toolbar Space Item (Space)"/>
+                    <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="eV9-1J-Rkv" userLabel="Toolbar Flexible Space Item (Flexible Space)"/>
+                    <toolbarItem implicitItemIdentifier="NSToolbarCustomizeToolbarItem" id="5CJ-nf-M5c" userLabel="Toolbar Item (Customize)"/>
+                    <toolbarItem implicitItemIdentifier="7BD8FC81-9795-4F54-9168-7A45F19413F5" label="Icon Search" paletteLabel="Icon Search" id="XBF-st-hcR">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="180" height="19"/>
+                        <size key="maxSize" width="180" height="19"/>
+                        <searchField key="view" verticalHuggingPriority="750" id="9sx-Uf-aMf">
+                            <rect key="frame" x="0.0" y="14" width="180" height="19"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <searchFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" bezelStyle="round" id="ED5-bK-a5t">
+                                <font key="font" metaFont="smallSystem"/>
+                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                <connections>
+                                    <binding destination="-2" name="predicate" keyPath="viewController.arrayController.filterPredicate" id="IZV-qN-Wc7">
+                                        <dictionary key="options">
+                                            <string key="NSDisplayName">predicate</string>
+                                            <string key="NSPredicateFormat">name contains[c] $value</string>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </searchFieldCell>
+                        </searchField>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="54DF4834-5C7E-44FB-92D6-A8FDD8AF43F7" label="" paletteLabel="" image="CF9811BF-579A-46A4-AE44-EE9191149B44" id="v9Q-34-A94">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="119" height="18"/>
+                        <size key="maxSize" width="119" height="18"/>
+                        <button key="view" id="W6J-3l-awd">
+                            <rect key="frame" x="0.0" y="14" width="119" height="18"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="bevel" title="Alternate Colors" bezelStyle="regularSquare" image="CF9811BF-579A-46A4-AE44-EE9191149B44" imagePosition="left" alignment="left" controlSize="small" state="on" inset="2" id="gxk-Xc-WD5">
+                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                <font key="font" metaFont="smallSystem"/>
+                            </buttonCell>
+                            <connections>
+                                <binding destination="-2" name="value" keyPath="viewController.alternateColors" id="ytq-JS-GMM"/>
+                            </connections>
+                        </button>
+                    </toolbarItem>
+                </allowedToolbarItems>
+                <defaultToolbarItems>
+                    <toolbarItem reference="ds1-ej-w6b"/>
+                    <toolbarItem reference="v9Q-34-A94"/>
+                    <toolbarItem reference="eV9-1J-Rkv"/>
+                    <toolbarItem reference="XBF-st-hcR"/>
+                </defaultToolbarItems>
+            </toolbar>
+            <connections>
+                <outlet property="delegate" destination="-2" id="ioL-Bz-6Of"/>
+            </connections>
+        </window>
+        <userDefaultsController representsSharedInstance="YES" id="pmn-Tk-vLz"/>
+    </objects>
+    <resources>
+        <image name="CF9811BF-579A-46A4-AE44-EE9191149B44" width="14" height="16">
+            <mutableData key="keyedArchiveRepresentation">
+YnBsaXN0MDDUAQIDBAUGW1xYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK8QFwcI
+ERYbHCc0NTY3ODk6O0JDRElMT1VYVSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNS
+ZXBzV05TQ29sb3KAFhIAwwAAgAKAFNISCRMVWk5TLm9iamVjdHOhFIADgBPSEgkXGqIYGYAEgAWAEhAA
+1h0eHwkgISIbIyQlJlZOU1NpemVfEA9OU0JpdHNQZXJTYW1wbGVfEBBOU0NvbG9yU3BhY2VOYW1lWk5T
+SGFzQWxwaGFfEBROU0NvcmVVSUltYWdlT3B0aW9uc4APgBCAEQmABtMoEgkpLjNXTlMua2V5c6QqKywt
+gAeACIAJgAqkLxgxMoALgASADIANgA5Uc2l6ZVV2YWx1ZVVzdGF0ZVZ3aWRnZXRVc21hbGxWbm9ybWFs
+WGNoZWNrYm940jw9Pj9aJGNsYXNzbmFtZVgkY2xhc3Nlc18QE05TTXV0YWJsZURpY3Rpb25hcnmjPkBB
+XE5TRGljdGlvbmFyeVhOU09iamVjdFh7MTQsIDE2fV8QGU5TQ2FsaWJyYXRlZFJHQkNvbG9yU3BhY2XS
+PD1FRl8QEE5TQ29yZVVJSW1hZ2VSZXCjR0hBXxAQTlNDb3JlVUlJbWFnZVJlcFpOU0ltYWdlUmVw0jw9
+SktXTlNBcnJheaJKQdI8PU1OXk5TTXV0YWJsZUFycmF5o01KQdNQUQlSU1RXTlNXaGl0ZVxOU0NvbG9y
+U3BhY2VEMCAwABADgBXSPD1WV1dOU0NvbG9yolZB0jw9WVpXTlNJbWFnZaJZQV8QD05TS2V5ZWRBcmNo
+aXZlctFdXlRyb290gAEACAARABoAIwAtADIANwBRAFcAYABnAHQAewCDAIUAigCMAI4AkwCeAKAAogCk
+AKkArACuALAAsgC0AMEAyADaAO0A+AEPAREBEwEVARYBGAEfAScBLAEuATABMgE0ATkBOwE9AT8BQQFD
+AUgBTgFUAVsBYQFoAXEBdgGBAYoBoAGkAbEBugHDAd8B5AH3AfsCDgIZAh4CJgIpAi4CPQJBAkgCUAJd
+AmICZAJmAmsCcwJ2AnsCgwKGApgCmwKgAAAAAAAAAgEAAAAAAAAAXwAAAAAAAAAAAAAAAAAAAqI
+</mutableData>
+        </image>
+    </resources>
+</document>
