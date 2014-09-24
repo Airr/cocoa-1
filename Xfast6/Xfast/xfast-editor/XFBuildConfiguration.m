@@ -42,33 +42,35 @@
             }
 
 
-            XFSourceFile* configurationFile = [project fileWithKey:[buildConfiguration objectForKey:@"baseConfigurationReference"]];
-            if (configurationFile)
-            {
-                NSString* path = configurationFile.path;
-
-                if (![[NSFileManager defaultManager] fileExistsAtPath:path])
-                {
-                    XFGroup* group = [project groupWithSourceFile:configurationFile];
-                    path = [[group pathRelativeToParent] stringByAppendingPathComponent:path];
-                }
-
-                if (![[NSFileManager defaultManager] fileExistsAtPath:path])
-                {
-                    path = [[[project filePath] stringByDeletingLastPathComponent] stringByAppendingPathComponent:path];
-                }
-
-                if (![[NSFileManager defaultManager] fileExistsAtPath:path])
-                {
-                    path = [[[project filePath] stringByDeletingLastPathComponent] stringByAppendingPathComponent:configurationFile.path];
-                }
-
-                if (![[NSFileManager defaultManager] fileExistsAtPath:path])
-                {
-                    [NSException raise:@"XFConfig not found" format:@"Unable to find XFConfig file at %@", path];
-                }
-
-            }
+            // I do not know what the following commented codes are.
+//            XFSourceFile* configurationFile = [project fileWithKey:[buildConfiguration objectForKey:@"baseConfigurationReference"]];
+//            if (configurationFile)
+//            {
+//                NSString* path = configurationFile.path;
+//
+//                if (![[NSFileManager defaultManager] fileExistsAtPath:path])
+//                {
+//                    XFGroup* group = [project groupWithSourceFile:configurationFile];
+//                    path = [[group pathRelativeToParent] stringByAppendingPathComponent:path];
+//                }
+//
+//                if (![[NSFileManager defaultManager] fileExistsAtPath:path])
+//                {
+//                    path = [[[project filePath] stringByDeletingLastPathComponent] stringByAppendingPathComponent:path];
+//                }
+//
+//                if (![[NSFileManager defaultManager] fileExistsAtPath:path])
+//                {
+//                    path = [[[project filePath] stringByDeletingLastPathComponent] stringByAppendingPathComponent:configurationFile.path];
+//                }
+//
+//                if (![[NSFileManager defaultManager] fileExistsAtPath:path])
+//                {
+//                    [NSException raise:@"XFConfig not found" format:@"Unable to find XFConfig file at %@", path];
+//                }
+//
+//            }
+            // I do not know what the following commented codes are.
 
             [configuration addBuildSettings:[buildConfiguration objectForKey:@"buildSettings"]];
         }
@@ -193,6 +195,18 @@
     project.objects[dupBuildConfigurationKey] = dupBuildConfiguration;
 
     return dupBuildConfigurationKey;
+}
+
+/**
+ *  Prints the content of the configuration.
+ */
+- (void)print
+{
+    NSLog(@" - Configuration Bgn - ");
+    for (id key in _buildSettings) {
+        NSLog(@"key=%@ value=%@", key, [_buildSettings objectForKey:key]);
+    }
+    NSLog(@" - Configuration End - ");
 }
 
 @end

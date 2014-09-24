@@ -45,5 +45,7 @@
 #define AuthorProperty @"author"
 #define CompanyProperty @"company"
 #define CopyrightProperty @"copyright"
+#define DatabaseDirectory @"DatabaseDirectory"
+#define UserName @"UserName"
 
 #endif

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>name</key>
+	<string>cat</string>
+	<key>operation</key>
+	<string>ManyToOne</string>
+	<key>description</key>
+	<string>The cat utility reads files sequentially, writing them to the standard output.</string>
+	<key>infiles</key>
+	<dict/>
+	<key>outfiles</key>
+	<dict>
+		<key>MAIN_OUTFILE</key>
+		<dict>
+			<key>description</key>
+			<string>The main output file of the cat command.</string>
+			<key>filename</key>
+			<string>file.cat</string>
+			<key>filetype</key>
+			<string>text</string>
+		</dict>
+	</dict>
+	<key>buildSettings</key>
+	<array>
+		<dict>
+			<key>name</key>
+			<string>NumberNonBlank</string>
+			<key>default</key>
+			<false/>
+			<key>description</key>
+			<string>Number the non-blank output lines, starting at 1.</string>
+			<key>short</key>
+			<string>b</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>DisplayNonPrintingCharacters</string>
+			<key>default</key>
+			<false/>
+			<key>description</key>
+			<string>Display non-printing characters (see the -v option), and display a dollar sign (`$&apos;) at the end of each line.</string>
+			<key>short</key>
+			<string>e</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Number</string>
+			<key>default</key>
+			<false/>
+			<key>description</key>
+			<string>Number the output lines, starting at 1.</string>
+			<key>short</key>
+			<string>n</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>SqueezeMultipleAdjacentEmptyLines</string>
+			<key>default</key>
+			<false/>
+			<key>description</key>
+			<string>Squeeze multiple adjacent empty lines, causing the output to be single spaced.</string>
+			<key>short</key>
+			<string>s</string>
+		</dict>
+	</array>
+</dict>
+</plist>

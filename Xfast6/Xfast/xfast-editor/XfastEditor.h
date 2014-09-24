@@ -22,4 +22,4 @@
 #import "XFTarget.h"
 #import "XFXibDefinition.h"
 #import "XFKeyBuilder.h"
-#import "XFTargetDefinition.h"
+#import "XFBuildConfiguration.h"

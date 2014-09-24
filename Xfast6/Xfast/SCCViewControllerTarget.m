@@ -121,65 +121,23 @@
     
     // now add named image templates
     [tempArray addObject: [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                           [NSImage imageNamed:NSImageNameIconViewTemplate], KEY_IMAGE,
+                           [NSImage imageNamed:@"fasta-512.png"], KEY_IMAGE,
                            @"fasta", KEY_NAME,
                            nil]];
     
     [tempArray addObject: [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                           [NSImage imageNamed:NSImageNameBluetoothTemplate], KEY_IMAGE,
+                           [NSImage imageNamed:@"fastq-512.png"], KEY_IMAGE,
                            @"fastq", KEY_NAME,
                            nil]];
+    [tempArray addObject: [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                           [NSImage imageNamed:@"wc-256.png"], KEY_IMAGE,
+                           @"wc", KEY_NAME,
+                           nil]];
+    [tempArray addObject: [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                           [NSImage imageNamed:@"cat-256.png"], KEY_IMAGE,
+                           @"cat", KEY_NAME,
+                           nil]];
     
-//    [tempArray addObject: [NSMutableDictionary dictionaryWithObjectsAndKeys:
-//                           [NSImage imageNamed:NSImageNameIChatTheaterTemplate], KEY_IMAGE,
-//                           NSImageNameIChatTheaterTemplate, KEY_NAME,
-//                           nil]];
-//    
-//    [tempArray addObject: [NSMutableDictionary dictionaryWithObjectsAndKeys:
-//                           [NSImage imageNamed:NSImageNameSlideshowTemplate], KEY_IMAGE,
-//                           NSImageNameSlideshowTemplate, KEY_NAME,
-//                           nil]];
-//    
-//    [tempArray addObject: [NSMutableDictionary dictionaryWithObjectsAndKeys:
-//                           [NSImage imageNamed:NSImageNameActionTemplate], KEY_IMAGE,
-//                           NSImageNameActionTemplate, KEY_NAME,
-//                           nil]];
-//    
-//    [tempArray addObject: [NSMutableDictionary dictionaryWithObjectsAndKeys:
-//                           [NSImage imageNamed:NSImageNameSmartBadgeTemplate], KEY_IMAGE,
-//                           NSImageNameSmartBadgeTemplate, KEY_NAME,
-//                           nil]];
-//    
-//    // Finder icon templates
-//    [tempArray addObject: [NSMutableDictionary dictionaryWithObjectsAndKeys:
-//                           [NSImage imageNamed:NSImageNameListViewTemplate], KEY_IMAGE,
-//                           NSImageNameListViewTemplate, KEY_NAME,
-//                           nil]];
-//    [tempArray addObject: [NSMutableDictionary dictionaryWithObjectsAndKeys:
-//                           [NSImage imageNamed:NSImageNameColumnViewTemplate], KEY_IMAGE,
-//                           NSImageNameColumnViewTemplate, KEY_NAME,
-//                           nil]];
-//    [tempArray addObject: [NSMutableDictionary dictionaryWithObjectsAndKeys:
-//                           [NSImage imageNamed:NSImageNameFlowViewTemplate], KEY_IMAGE,
-//                           NSImageNameFlowViewTemplate, KEY_NAME,
-//                           nil]];
-//    [tempArray addObject: [NSMutableDictionary dictionaryWithObjectsAndKeys:
-//                           [NSImage imageNamed:NSImageNamePathTemplate], KEY_IMAGE,
-//                           NSImageNamePathTemplate, KEY_NAME,
-//                           nil]];
-//    
-//    [tempArray addObject: [NSMutableDictionary dictionaryWithObjectsAndKeys:
-//                           [NSImage imageNamed:NSImageNameInvalidDataFreestandingTemplate], KEY_IMAGE,
-//                           NSImageNameInvalidDataFreestandingTemplate, KEY_NAME,
-//                           nil]];
-//    [tempArray addObject: [NSMutableDictionary dictionaryWithObjectsAndKeys:
-//                           [NSImage imageNamed:NSImageNameLockLockedTemplate], KEY_IMAGE,
-//                           NSImageNameLockLockedTemplate, KEY_NAME,
-//                           nil]];
-//    [tempArray addObject: [NSMutableDictionary dictionaryWithObjectsAndKeys:
-//                           [NSImage imageNamed:NSImageNameLockUnlockedTemplate], KEY_IMAGE,
-//                           NSImageNameLockUnlockedTemplate, KEY_NAME,
-//                           nil]];
     
     [self setImages:tempArray];
 

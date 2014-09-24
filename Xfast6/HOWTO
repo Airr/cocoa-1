@@ -1,0 +1,41 @@
+
+.Drag and drop
+NSOutlineViewDataSource
+- outlineView:acceptDrop:item:childIndex:
+- outlineView:writeItems:toPasteboard:
+
+
+.Add Xfast
+SCCProjectDocument
+- addXfastToProject:
+XFProject.m
+- objectProjectWithMainGroup:
+
+.Add Xfast's Target
+SCCContentOutlineViewController.m
+- addTargetAction
+- addTarget
+SCCProjectDocument
+- addTarget
+XFProject.m
+- addTarget
+
+.View change
+SCCProjectDocument.m
+- showContentOfXfast
+XFProject.m
+- asTreeData
+
+
+.Directory creation
+. Database when the program starts.
+SCCApplicationDelegate.m
+- applicationDidFinishLaunching
+. when an Xfast project created or open.
+SCCProjectDocument.m
+- readFromFileWrapper
+. when an Xfast file created.
+SCCProjectDocument.m
+- addTarget
+. when an Xfast target created.
+

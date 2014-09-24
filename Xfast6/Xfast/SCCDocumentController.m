@@ -12,72 +12,57 @@
 
 @implementation SCCDocumentController
 
-//- (NSString *)typeForContentsOfURL:(NSURL *)inAbsoluteURL error:(NSError **)outError
-//{
-//    NSLog(@"type - %@\n", inAbsoluteURL);
-////    return @"xfastproj";
-//    return @"SCCDocument";
-//}
 
 - (void)newDocument:(id)sender
 {
     NSSavePanel *panel = [NSSavePanel savePanel];
     
-    [panel setMessage:@"Please select a path where to create Xfast project."]; // Message inside modal window
+    [panel setMessage:@"Please select a path where to create Xfast project."];
     [panel setAllowsOtherFileTypes:YES];
     [panel setExtensionHidden:YES];
     [panel setCanCreateDirectories:YES];
-    [panel setTitle:@"New Xfast Project"]; // Window title
-    
+    [panel setTitle:@"New Xfast Project"];
     NSInteger result = [panel runModal];
     NSError *error = nil;
     
     if (result == NSOKButton) {
+        // Project base directory: /base
         NSString *projectBasePath = [[panel URL] path];
-        
-        NSString *projectName = [projectBasePath lastPathComponent];
+        // Take the name of the project: project
+        NSString *projectName     = [projectBasePath lastPathComponent];
+        // Project directory: /base/project
         NSString *projectMainPath = [projectBasePath stringByAppendingPathComponent:projectName];
-        NSString *projectXfastPath = [projectBasePath stringByAppendingPathComponent:@"xfastfolder"];
-        NSString *projectPath = [projectMainPath stringByAppendingPathExtension:@"xfastproj"];
+        // Project package path: /base/project.xfastproj
+        NSString *projectPath     = [projectMainPath stringByAppendingPathExtension:@"xfastproj"];
+        
         NSURL *projectURL = [NSURL fileURLWithPath:projectPath isDirectory:YES];
         
-        XCProject *project = [[XCProject alloc] initWithNewFilePath:projectBasePath];
-        XCGroup *group = [project rootGroup];
-        XCGroup *group1 = [group addGroupWithPath:projectName];
-        XCGroup *group11 = [group1 addGroupWithPath:@"Jobs"];
-        [group1 addGroupWithPath:@"Products"];
-        [project save];
-
-        /* Welcome xfast */
-        NSString *welcomePath = [projectPath stringByAppendingPathComponent:@"Welcome"];
-        XFProject *xfast = [XFProject projectWithNewFilePath:welcomePath
-                                               baseDirectory:projectXfastPath];
-        NSString *welcomeXfastPath = [welcomePath stringByAppendingPathComponent:@"Welcome.xfast/project.pbxproj"];
-        XFGroup *groupXfast = [xfast rootGroup];
-        XFGroup *groupXfast1 = [groupXfast addGroupWithPath:@"Welcome"];
-        [groupXfast1 addGroupWithPath:@"Targets"];
-        [groupXfast1 addGroupWithPath:@"Files"];
-        [xfast saveToPBXProj];
-        
-        
-        NSData *xfastData = [NSData dataWithContentsOfFile:welcomeXfastPath];
-        XCSourceFileDefinition* header = [[XCSourceFileDefinition alloc]
-                                          initWithName:@"Welcome.xfast"
-                                          data:xfastData
-                                          type:SourceCodeXfast];
-        [group11 addSourceFile:header];
+        // Creat and save a Xfast project.
+        XCProject *project    = [XCProject projectWithNewFilePath:projectBasePath];
+        XCGroup *rootGroup    = [project rootGroup];
+//        XCGroup *projectGroup = [rootGroup addGroupWithPath:[project name]];
+        [rootGroup addGroupWithAlias:[project name]];
+        [rootGroup addGroupWithAlias:@"Products"];
         [project save];
         
         [self openDocumentWithContentsOfURL:projectURL display:YES completionHandler:nil];
-        
-//        [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:projectURL
-//                                                                               display:YES
-//                                                                                 error:&error];
         
         if (error) {
             [NSApp presentError:error];
         }
     }
+}
+
+
+- (IBAction)aaaDocController
+{
+    NSLog(@"aaaDocController");
+    
+}
+
+- (IBAction)aaaDocController:(id)sender
+{
+    NSLog(@"aaaDocController: %@", sender);
 }
 
 @end

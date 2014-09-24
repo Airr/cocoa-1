@@ -1,0 +1,257 @@
+KSFileUtilities contains a variety of useful methods for handling URLs, paths and other aspects of file management. Here's a selection of them grouped by purpose:
+
+Query Parameters
+================
+
+It's common for URLs to split their query string up into a dictionary-like series of parameters. e.g.
+
+    http://en.wikipedia.org/w/index.php?title=Main_page&action=raw
+
+`KSURLQueryUtilities` has an easy solution for getting that into a more Cocoa-friendly form:
+
+    - (NSDictionary *)ks_queryParameters;
+
+There are also APIs for creating/deriving new URLs from a dictionary:
+
+    - (NSURL *)ks_URLWithQueryParameters:(NSDictionary *)parameters;
+    
+	+ (NSURL *)ks_URLWithScheme:(NSString *)scheme
+	                       host:(NSString *)host
+	                       path:(NSString *)path
+	            queryParameters:(NSDictionary *)parameters;
+
+KSURLFormatter
+==============
+
+An `NSFormatter` subclass for a variety of URL display and input tasks.
+
+- Non-complete URLs like `example` and `example.com` generate full `http://example.com/` URL
+- Host URLs have a slash appended to them. e.g. `http://example.com` is displayed/interpreted as `http://example.com/`
+- Convenience `+URLFromString:` method that takes care of unescaped characters
+
+`KSURLFormatter` can encode Internationalized Domain Names if it has a suitable backend. For Mac OS X projects, you can include `KSEncodeURLString.*` and link against `WebKit.framework` to get this for free. For other projects, supply your own by one of:
+
+* Call `+[KSURLFormatter setEncodeStringValueTransformer:]`
+* Call `+[NSValueTransformer setValueTransformer:forName:]` before `+encodeStringValueTransformer` is called
+* Name your custom class `KSEncodeURLString`
+
+Decoding is performed by IFUnicodeURL. Make sure you handle its licensing appropriately — see the Licensing section of this document for details.
+
+KSURLComponents
+===============
+
+A clone of `NSURLComponents` for Cocoa releases older than iOS 7.
+
+URL Normalization
+=================
+
+The KSURLNormalization category implements normalization as documented by [Wikipedia](http://en.wikipedia.org/wiki/URL_normalization).
+
+Relative Strings
+================
+
+`NSURL` is fully equipped to resolve relative strings against another URL, but sadly there's no API to go in the opposite direction. KSURLUtilities to the rescue!
+
+	- (NSString *)ks_stringRelativeToURL:(NSURL *)URL;
+	- (NSURL *)ks_URLRelativeToURL:(NSURL *)URL;
+
+How's this work? Well, everyone loves examples right?
+
+<table>
+	<tr><th>Receiver</th><th>relativeToURL:</th><th>Return Value</th></tr>
+	<tr><td>http://karelia.com/foo/bar/</td><td>http://karelia.com/</td><td>foo/bar/</td></tr>
+	<tr><td>http://karelia.com/foo/example.png</td><td>http://karelia.com/</td><td>foo/example.png</td></tr>
+	<tr><td>http://karelia.com/foo/bar/</td><td>http://example.com/</td><td>http://karelia.com/foo/bar/</td></tr>
+	<tr><td>http://karelia.com/</td><td>http://karelia.com/foo/bar/</td><td>../../</td></tr>
+	<tr><td>http://karelia.com/baz/index.xml</td><td>http://karelia.com/foo/bar/</td><td>../../baz/index.xml</td></tr>
+</table>
+
+Relative Paths
+--------------
+
+KSPathUtilities has an equivalent for operating on path strings: `-ks_pathRelativeToDirectory:`
+
+Subpaths
+========
+
+To test if one URL/path contains another:
+
+	- [NSURL ks_isSubpathOfURL:]
+	- [NSString ks_isSubpathOfPath:]
+
+Host
+====
+
+Nothing fancy here, just a few additions to the built-in `-[NSURL host]` method.
+
+	- (NSURL *)ks_hostURL;
+	
+Strips a URL down to nothing but its scheme and host. e.g. `http://karelia.com/foo/bar/` becomes `http://karelia.com/`
+
+	- (NSArray *)ks_domains;
+	
+Splits the host up into its domains. e.g. `http://www.karelia.com` gives `(www, karelia, com)`
+
+URL Paths
+=========
+
+Mac OS X 10.6 gave us a bunch of new URL methods like `-URLByDeletingLastPathComponent`. If you wanted access to this behaviour before, it necessitated much tedious mucking about with `NSString` path methods, or using `CFURL` functions. KSURLUtilities gives simple Cocoa APIs for all these tasks on 10.5 and earlier:
+
+	- (NSString *)ks_lastPathComponent;
+	- (NSString *)ks_pathExtension;
+	- (NSURL *)ks_URLByAppendingPathExtension:(NSString *)pathExtension;
+	- (NSURL *)ks_URLByDeletingLastPathComponent;
+	- (NSURL *)ks_URLByDeletingPathExtension;
+	- (BOOL)ks_hasDirectoryPath;
+	- (NSURL *)ks_URLByAppendingPathComponent:(NSString *)pathComponent isDirectory:(BOOL)isDirectory;
+
+Incrementing a Path
+===================
+
+On occasion there is a need to try to find the best available filename/path for a task. e.g. Choosing a filename that won't conflict with ay existing file. To simplify this, `-[NSString ks_stringByIncrementingPath:]` is offered. Given the path `example.png`, it will cycle through like so:
+
+	example.png
+	example-2.png
+	example-3.png
+	example-4.png
+	…
+
+More information on the implementation and use of this method is on [Mike's blog](http://www.mikeabdullah.net/incrementing-paths.html)
+
+KSFilePromise
+=============
+
+Simplifies handling file promises from drag & drop in a document-based application. KSFilePromise instances are created from `NSDraggingInfo`, and take responsibility for management of the received file.
+
+KSWebLocation
+=============
+
+A simple class that represents a URL, optionally with a title attached. Features:
+
+- Handles Web Location files (e.g. those created by dragging a URL from Safari)
+- `NSCoding`
+- `NSCopying`
+
+You can pull in the `WebKit.framework`-dependent KSWebLocationPasteboardAdditions too, to (unsurprisingly) gain support for reading and writing Web Locations from/to the pasteboard.
+
+Other file/URL utilities
+========================
+
+- [PRHDataURL](https://github.com/boredzo/PRHDataURL)
+
+License
+=======
+
+Copyright © 2005-2013 Karelia Software
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+### IFUnicodeURL
+
+If using KSURLFormatter, it relies upon IFUnicodeURL which has the following license:
+
+Copyright 2010 Iconfactory, Inc. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are
+permitted provided that the following conditions are met:
+
+   1. Redistributions of source code must retain the above copyright notice, this list of
+      conditions and the following disclaimer.
+
+   2. Redistributions in binary form must reproduce the above copyright notice, this list
+      of conditions and the following disclaimer in the documentation and/or other materials
+      provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY Iconfactory, Inc. ``AS IS'' AND ANY EXPRESS OR IMPLIED
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL Iconfactory, Inc. OR
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+The views and conclusions contained in the software and documentation are those of the
+authors and should not be interpreted as representing official policies, either expressed
+or implied, of Iconfactory, Inc.
+
+### IDN SDK
+
+And IFUnicodeURL in turn relies upon VeriSign's IDN SDK:
+
+/*************************************************************************/
+/*                                                                       */
+/* VeriSign XCode (encode/decode) IDN Library                            */
+/*                                                                       */
+/* A library for encoding / decoding of domain strings.                  */
+/*                                                                       */
+/* (c) VeriSign Inc., 2003, All rights reserved                          */
+/*                                                                       */
+/*************************************************************************/
+
+/*************************************************************************/
+/*                                                                       */
+/* Copyright (c) 2003, VeriSign Inc.                                     */
+/* All rights reserved.                                                  */
+/*                                                                       */
+/* Redistribution and use in source and binary forms, with or            */
+/* without modification, are permitted provided that the following       */
+/* conditions are met:                                                   */
+/*                                                                       */
+/*  1) Redistributions of source code must retain the above copyright    */
+/*     notice, this list of conditions and the following disclaimer.     */
+/*                                                                       */
+/*  2) Redistributions in binary form must reproduce the above copyright */
+/*     notice, this list of conditions and the following disclaimer in   */
+/*     the documentation and/or other materials provided with the        */
+/*     distribution.                                                     */
+/*                                                                       */
+/*  3) Neither the name of the VeriSign Inc. nor the names of its        */
+/*     contributors may be used to endorse or promote products derived   */
+/*     from this software without specific prior written permission.     */
+/*                                                                       */
+/* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS   */
+/* "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT     */
+/* LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS     */
+/* FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE        */
+/* COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,   */
+/* INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,  */
+/* BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS */
+/* OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED    */
+/* AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT           */
+/* LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN     */
+/* ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE       */
+/* POSSIBILITY OF SUCH DAMAGE.                                           */
+/*                                                                       */
+/* This software is licensed under the BSD open source license. For more */
+/* information visit www.opensource.org.                                 */
+/*                                                                       */
+/*************************************************************************/
+
+/*************************************************************************/
+/*                                                                       */
+/* Authors:                                                              */
+/*                                                                       */
+/*  John Colosi (VeriSign)                                               */
+/*  Lihui Zhang (VeriSign)                                               */
+/*  Srikanth Veeramachaneni (VeriSign)                                   */
+/*  Jim Mathies (VeriSign)                                               */
+/*                                                                       */
+/*************************************************************************/

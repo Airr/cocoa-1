@@ -10,4 +10,6 @@
 
 @interface SCCDocument : NSDocument
 
+
+
 @end

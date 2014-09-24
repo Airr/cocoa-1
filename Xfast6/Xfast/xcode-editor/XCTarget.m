@@ -126,21 +126,26 @@
 
 - (void)addMember:(XCSourceFile*)member
 {
-    [member becomeBuildFile];
-    NSDictionary* target = [[_project objects] objectForKey:_key];
+    [self addMember:member target:nil];
+}
 
+- (void)addMember:(XCSourceFile*)member target:(NSString *)aTarget
+{
+    [member becomeBuildFileWithTarget:aTarget];
+    NSDictionary* target = [[_project objects] objectForKey:_key];
+    
     for (NSString* buildPhaseKey in [target objectForKey:@"buildPhases"])
     {
         NSMutableDictionary* buildPhase = [[_project objects] objectForKey:buildPhaseKey];
         if ([[buildPhase valueForKey:@"isa"] asMemberType] == [member buildPhase])
         {
-
+            
             NSMutableArray* files = [buildPhase objectForKey:@"files"];
             if (![files containsObject:[member buildFileKey]])
             {
                 [files addObject:[member buildFileKey]];
             }
-
+            
             [buildPhase setObject:files forKey:@"files"];
         }
     }

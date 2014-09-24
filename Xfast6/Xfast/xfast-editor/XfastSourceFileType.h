@@ -10,7 +10,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 
-
+/**
+ Xfast Source File Type
+ */
 typedef enum
 {
     XFFileTypeNil,             // Unknown filetype 

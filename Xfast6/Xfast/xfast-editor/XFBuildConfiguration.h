@@ -51,4 +51,6 @@
 + (NSString*)duplicatedBuildConfigurationListWithKey:(NSString*)buildConfigurationListKey inProject:(XFProject*)project
     withBuildConfigurationVisitor:(void (^)(NSMutableDictionary*))buildConfigurationVisitor;
 
+- (void)print;
+
 @end

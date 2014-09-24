@@ -13,7 +13,13 @@
 
 @implementation XCKeyBuilder
 
-/* ================================================= Class Methods ================================================== */
+/**
+ *  Creates a key with a string.
+ *
+ *  @param name Path string.
+ *
+ *  @return XCKeyBuilder
+ */
 + (XCKeyBuilder*)forItemNamed:(NSString*)name
 {
     NSData* data = [name dataUsingEncoding:NSUTF8StringEncoding];
@@ -21,6 +27,11 @@
 
 }
 
+/**
+ *  Creates a unique key.
+ *
+ *  @return XCKeyBuilder
+ */
 + (XCKeyBuilder*)createUnique
 {
     CFUUIDRef theUUID = CFUUIDCreate(NULL);

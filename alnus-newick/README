@@ -1,0 +1,306 @@
+# Author: Sang Chul Choi
+
+# Date: Monday 09/15/2014
+
+-------------------------------------------------------------------------------
+# Summary
+
+This is README for the command, alnus-newick. The contents inclued:
+e-mail content to Reed Cartwright, abstract of the program, description of
+tree draw (not how it is drawn), usages of the program, LL(1) parser prodution
+rules, references tha I used during my writing the code, and the Newick tree
+format.
+
+Use the following commands to test alnus-newick.
+
+$ clang++ --std=c++11 main.cpp -o alnus-newick
+$ ./alnus-newick -t > file.tre
+$ ./alnus-newick file.tre
+$ ./alnus-newick -g 10 > random.tre
+$ ./alnus-newick -o random.out random.tre > random.out2
+$ diff random.out random.tre
+$ ./alnus-newick -g 5 -p 2 -e 1.0 -l 2.0 > random2.tre
+$ ./alnus-newick
+
+
+
+-------------------------------------------------------------------------------
+# Contents
+  - To Reed
+  - Abstract
+  - Draw trees
+  - Usages
+  - Production rules
+  - References
+  - Newick tree format
+
+
+
+-------------------------------------------------------------------------------
+# To Reed
+
+Dear Reed,
+
+Sorry for keeping you waiting.
+
+Attached is a zipped file with a source file with a Newick tree parser in C++, README file of the source file, and a shell script. Please, unzip the file and find the three files.
+
+README   : README describes the Newick parser in detail.
+main.cpp : the C++ source file
+run.sh   : The script contains the commands you could try to check whether the program works as expected.
+
+
+I am able to compile it with the following command.
+
+$ clang++ --std=c++11 main.cpp -o alnus-newick
+
+The version clang++ is Apple LLVM version 5.1 (clang-503.0.40).
+
+$ clang++ --version
+Apple LLVM version 5.1 (clang-503.0.40) (based on LLVM 3.4svn)
+Target: x86_64-apple-darwin13.2.0
+Thread model: posix
+
+The source file contains all of the code although I usually divide a source into multiple source and header files. I hope that this will make it easier for me to write a code that can be examined.
+
+You can test the program by typing in:
+
+$ ./alnun-newick
+
+It waits for a user input in the format of the Newick tree string. The program responds to either the semi-colon or errors upon the ENTER key. It displays the user input and a text-based drawing if a parsing of the input succeeds. If it happens to errors, it shows one of possible errors with the user input.
+
+It can take an input file and displays the Newick trees from the input file. For example, the following couple of commands generates and parses a test file. The first file, file.tre, contains Newick tree strings, some of which disobey the Newick tree format. The second file, file.out, contains the parsed Newick tree strings and their text-based drawing.
+
+$ ./alnus-newick -t > file.tre
+$ ./alnun-newick file.tre > file.out
+
+It can generate random trees, which cand be used for testing many trees. The following three commands generates a Newick tree file with 10 tree strings, parses the tree file, and makes sure that the input Newick tree file and the recovered tree file are identical.
+
+$ ./alnus-newick -g 10 > random.tre
+$ ./alnus-newick -o random.out random.tre > random.out2
+$ diff random.out random.tre
+
+The random generation of trees can be configured with three more parameters: -p, -e, and -l. The '-p' option allows for adjusting the mean number of children, and the '-e' option the rate of branching events. The '-p' uses Poisson distribution, and the '-e' Exponential distribution. A tree grows from the root until the length to the root reaches a threshold, which is specified by the '-l' option.
+
+$ ./alnus-newick -g 5 -p 2 -e 1.0 -l 2.0 > random2.tre
+
+The program can take mulitple files.
+
+$ ./alnus-newick *.tre > multiple.out
+
+The README contains more about the source code such as description of tree draw and LL(1) parser prodution rules. Please, refer to the README for a little detail.
+
+Thank you for considering me as a candidate for a position in your lab. Please, let me know if you have questions.
+
+Thank you,
+
+SangChul
+
+
+
+-------------------------------------------------------------------------------
+# Abstract
+
+The command-line alnus-newick parses an input stream for Newick trees, and
+prints out the input string and the parsed trees to the output stream.
+If it finds errors in the input stream, it reports possible problems.
+
+
+
+-------------------------------------------------------------------------------
+# Draw trees
+
+The minimum tree is a connected by two nodes; the root node and the leaf node.
+This tree is denoted by a Newick tree string "(Leaf)Root;" The command draw the
+minimum tree like this. The tree contains two branches, each of which ends with
+the two labels: Root and Leaf. Because the length of each branch is unspecified,
+the default value is given and the branches wiggle.
+
+                         \~~~~~~~~~~~~~~~~~~~~~~~~ Leaf
+~~~~~~~~~~~~~~~~~~~~~~~~~ Root
+
+A tree with the same topology can be drawn with lengths specified. The branches
+are depicted with dashes, which means that lengths are given.
+
+(Leaf:0.1)Root:0.01;
+
+    \-------------------------------------------- Leaf
+---- Root
+
+
+
+-------------------------------------------------------------------------------
+# Usages
+
+$ alnus-newick
+
+This parses the standard input stream, and prints out the parsed tree to the
+standard output.
+
+alnus-newick version 1.0
+For help, type alnus-newick -h
+Please, type a string in Newick Tree format and ENTER key.
+Push Control and D at the same time to quit.
+(A);
+Input: [(A);]
+          |---------|0.400000
+                         \~~~~~~~~~~~~~~~~~~~~~~~~ A
+~~~~~~~~~~~~~~~~~~~~~~~~~+
+
+$ alnus-newick -t > file.tre
+
+This prints out a list of Newick tree strings.
+
+$ alnus-newick -g 1
+
+This creats a Newick tree string at random.
+
+$ alnus-newick -g 10
+
+This command creates 10 Newick tree strings.
+
+$ alnus-newick -g 5 -p 2 -e 1.0 -l 2.0 > random.tre
+
+This command creates 5 Newick tree strings using Poisson distribution for the
+number of children (mean 2), exponential distribution for the rate of branching
+event (mean 1.0), and the constraint of threshold of length to the root from
+external branches.
+
+$ alnus-newick -o random.out random.tre
+
+This command parses the randomly generated trees, and prints out the trees.
+It also creates file random.out, which contains the Newick tree strings that
+are created by the parser. The two files, random.tre and random.out, should
+be identical.
+
+$ alnus-newick -o file.out
+
+This command waits for the standard input. Users type in Newick tree strings,
+which the command parses to print out the input and the tree. It also creates
+the output file called file.out with the Newick tree strings without spaces.
+
+
+
+-------------------------------------------------------------------------------
+# Production rules
+
+tree            := descendants [ label ] [ ':' length ] ';'
+descendants     := '(' subtree { ',' subtree } ')'
+subtree         := descendants [ label ] [ ':' length ] | label [ ':' length ]
+label           := unquoted_label | quoted_label
+unquoted_label  := character { character }
+quoted_label    := '\'' { space } any_character { any_character } { space } '\''
+length          := signed_number | unsigned_number
+signed_number   := [ '+' | '-' ] unsigned_number
+unsigned_number := leading_number [ exponent ]
+leading_number  := digit { digit } [ '.' ] { digit } | '.' digit { digit }
+exponent        := [ 'e' | 'E' ] [ '+' | '-' '] digit { digit }
+any_character   := digit | alphabet | printable | space | '\'\''
+character       := digit | alphabet | printable
+digit           := '0' | '1' | ... | '9'
+printable       := '!' | '"' | '#' | '$' | '%' | '&' | '*' | '+' | '-' | '.' |
+                   '/' | '<' | '=' | '>' | '?' | '@' | '\' | '^' | '_' | '`' |
+                   '{' | '|' | '}' | '~'
+alphabet        := 'A' | ... | 'Z' | 'a' | ... | 'z'
+space           := ' ' | '\t' | '\n'
+
+
+
+-------------------------------------------------------------------------------
+# Reference
+
+- Newick tree string format:
+http://evolution.genetics.washington.edu/phylip/newick_doc.html
+
+- C++ reference site
+http://www.cplusplus.com
+
+- Ideas about a parser
+http://stackoverflow.com/questions/13853774/infix-calculator-expression-parser
+
+- Extended Backus–Naur Form
+http://en.wikipedia.org/wiki/Extended_Backus–Naur_Form
+
+- Convert int to string
+http://stackoverflow.com/questions/5590381/easiest-way-to-convert-int-to-string-in-c
+
+- Range of integers
+http://stackoverflow.com/questions/7185437/is-there-a-range-class-in-c11-for-use-with-range-based-for-loops
+
+- Error code
+http://stackoverflow.com/questions/3975313/translate-error-codes-to-string-to-display
+
+
+
+-------------------------------------------------------------------------------
+# Newick tree format
+
+Thursday, August 30, 1990
+
+
+Gary Olsen's Interpretation of the "Newick's 8:45" Tree Format Standard
+
+(Here is the reason for the Newick name)
+
+Conventions:
+Items in { } may appear zero or more times.
+Items in [ ] are optional, they may appear once or not at all.
+All other punctuation marks (colon, semicolon, parentheses, comma and
+single quote) are required parts of the format.
+
+
+tree ==> descendant_list [ root_label ] [ : branch_length ] ;
+
+descendant_list ==> ( subtree { , subtree } )
+
+subtree ==> descendant_list [internal_node_label] [: branch_length]
+==> leaf_label [: branch_length]
+
+root_label ==> label
+internal_node_label ==> label
+leaf_label ==> label
+
+label ==> unquoted_label
+==> quoted_label
+
+unquoted_label ==> string_of_printing_characters
+quoted_label ==> ' string_of_printing_characters '
+
+branch_length ==> signed_number
+==> unsigned_number
+
+
+Notes:
+Unquoted labels may not contain blanks, parentheses, square brackets,
+single_quotes, colons, semicolons, or commas.
+Underscore characters in unquoted labels are converted to blanks.
+Single quote characters in a quoted label are represented by two single
+quotes.
+Blanks or tabs may appear anywhere except within unquoted labels or
+branch_lengths.
+Newlines may appear anywhere except within labels or branch_lengths.
+Comments are enclosed in square brackets and may appear anywhere
+newlines are permitted.
+
+
+Other notes:
+PAUP (David Swofford) allows nesting of comments.
+TreeAlign (Jotun Hein) writes a root node branch length (with a value of
+0.0).
+PHYLIP (Joseph Felsenstein) requires that an unrooted tree begin with a
+trifurcation; it will not "uproot" a rooted tree.
+
+
+Example:
+
+(((One:0.2,Two:0.3):0.3,(Three:0.5,Four:0.3):0.2):0.3,Five:0.7):0.0;
+
++-+ One
++--+
+|  +--+ Two
++--+
+|  | +----+ Three
+|  +-+
+|    +--+ Four
++
++------+ Five

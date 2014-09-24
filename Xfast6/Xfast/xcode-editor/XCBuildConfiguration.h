@@ -17,15 +17,19 @@
 {
 @private
     __weak XCProject* _project;
-    NSString* _key;
 
     NSMutableDictionary* _buildSettings;
     NSMutableDictionary* _xcconfigSettings;
 }
 
+@property (copy) NSString *key;
 @property(nonatomic, readonly) NSDictionary* specifiedBuildSettings;
 
 + (NSDictionary*)buildConfigurationsFromArray:(NSArray*)array inProject:(XCProject*)project;
+
+- (instancetype)initWithProject:(XCProject*)project
+                            key:(NSString*)key
+                           name:(NSString*)aName;
 
 - (instancetype)initWithProject:(XCProject*)project key:(NSString*)key;
 
@@ -37,5 +41,7 @@
 
 + (NSString*)duplicatedBuildConfigurationListWithKey:(NSString*)buildConfigurationListKey inProject:(XCProject*)project
     withBuildConfigurationVisitor:(void (^)(NSMutableDictionary*))buildConfigurationVisitor;
+
+- (NSDictionary*)asDictionary;
 
 @end

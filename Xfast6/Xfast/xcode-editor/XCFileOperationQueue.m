@@ -30,7 +30,6 @@
 
 @implementation XCFileOperationQueue
 
-/* ====================================================================================================================================== */
 #pragma mark - Initialization & Destruction
 
 - (id)initWithBaseDirectory:(NSString*)baseDirectory
@@ -47,7 +46,6 @@
     return self;
 }
 
-/* ====================================================================================================================================== */
 #pragma mark - Interface Methods
 
 - (BOOL)fileWithName:(NSString*)name existsInProjectDirectory:(NSString*)directory

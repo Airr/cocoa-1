@@ -55,6 +55,9 @@
                                                                 <binding destination="99k-hc-hl7" name="value" keyPath="objectValue.title" id="uxF-XY-qbH"/>
                                                             </connections>
                                                         </textFieldCell>
+                                                        <connections>
+                                                            <binding destination="99k-hc-hl7" name="value" keyPath="objectValue" id="Agq-hC-rPO"/>
+                                                        </connections>
                                                     </textField>
                                                 </subviews>
                                                 <connections>
@@ -93,7 +96,7 @@
         </customView>
         <treeController childrenKeyPath="children" id="lbc-RN-uf1">
             <connections>
-                <binding destination="-2" name="contentArray" keyPath="configurations" id="m3v-GR-ZU8"/>
+                <binding destination="-2" name="contentArray" keyPath="configurations" id="PJA-7o-wOh"/>
             </connections>
         </treeController>
     </objects>

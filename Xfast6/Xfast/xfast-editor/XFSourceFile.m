@@ -10,7 +10,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 
-
+#import <Cocoa/Cocoa.h>
 #import "XFSourceFile.h"
 #import "XFProject.h"
 #import "XFKeyBuilder.h"
@@ -18,7 +18,7 @@
 
 @implementation XFSourceFile
 
-@synthesize type = _type;
+@synthesize sourceType = _sourceType;
 @synthesize key = _key;
 @synthesize sourceTree = _sourceTree;
 
@@ -39,9 +39,32 @@
                                             path:path];
 }
 
++ (XFSourceFile*)sourceFileWithProject:(XFProject*)xfproject
+                                   key:(NSString*)key
+                            sourceType:(XfastSourceFileType)sourceType
+                                  name:(NSString*)name
+                            sourceTree:(NSString*)tree
+                                  path:(NSString*)path
+                                  user:(NSString *)user
+                               project:(NSString *)project
+                                 xfast:(NSString *)xfast
+                                  type:(NSString *)type
+{
+    return [[XFSourceFile alloc] initWithProject:xfproject
+                                             key:key
+                                      sourceType:sourceType
+                                            name:name
+                                      sourceTree:tree
+                                            path:path
+                                            user:user
+                                         project:project
+                                           xfast:xfast
+                                            type:type];
+}
+
 #pragma mark - Initialization & Destruction
 
-- (id)initWithProject:(XFProject*)project
+- (id)initWithProject:(XFProject*)xfproject
                   key:(NSString*)key
                  type:(XfastSourceFileType)type
                  name:(NSString*)name
@@ -52,12 +75,42 @@
     self = [super init];
     if (self)
     {
-        _project = project;
+        _xfproject = xfproject;
         _key = [key copy];
-        _type = type;
+        _sourceType = type;
         _name = [name copy];
         _sourceTree = [tree copy];
         _path = [path copy];
+    }
+    return self;
+}
+
+- (id)initWithProject:(XFProject*)xfproject
+                  key:(NSString*)key
+           sourceType:(XfastSourceFileType)sourceType
+                 name:(NSString*)name
+
+           sourceTree:(NSString*)tree
+                 path:(NSString *)path
+                 user:(NSString *)user
+              project:(NSString *)project
+                xfast:(NSString *)xfast
+                 type:(NSString *)type
+{
+
+    self = [super init];
+    if (self)
+    {
+        _xfproject = xfproject;
+        _key = [key copy];
+        _sourceType = sourceType;
+        _name = [name copy];
+        _sourceTree = [tree copy];
+        _path = [path copy];
+        [self setUser:user];
+        [self setProject:project];
+        [self setXfast:xfast];
+        [self setType:type];
     }
     return self;
 }
@@ -67,13 +120,13 @@
 // Goes to the entry for this object in the project and sets a value for one of the keys, such as name, path, etc.
 - (void)setValue:(id)val forProjectItemPropertyWithKey:(NSString*)key
 {
-    NSMutableDictionary* obj = [[[_project objects] objectForKey:_key] mutableCopy];
+    NSMutableDictionary* obj = [[[_xfproject objects] objectForKey:_key] mutableCopy];
     if (nil == obj)
     {
         [NSException raise:@"Project item not found" format:@"Project item with key %@ not found.", _key];
     }
     [obj setValue:val forKey:key];
-    [[_project objects] setValue:obj forKey:_key];
+    [[_xfproject objects] setValue:obj forKey:_key];
 }
 
 
@@ -113,7 +166,7 @@
     {
         id __unused old = _isBuildFile;
         _isBuildFile = [[NSNumber numberWithBool:NO] copy];
-        [[_project objects] enumerateKeysAndObjectsUsingBlock:^(NSString* key,
+        [[_xfproject objects] enumerateKeysAndObjectsUsingBlock:^(NSString* key,
                                                                 NSDictionary* obj,
                                                                 BOOL* stop)
         {
@@ -138,43 +191,45 @@
  */
 - (BOOL)canBecomeBuildFile
 {
-    return (_type == XFSourceCodeObjC
-            || _type == XFSourceCodeObjCPlusPlus
-            || _type == XFSourceCodeCPlusPlus
-            || _type == XFXibFile
-            || _type == XFFramework
-            || _type == XFImageResourcePNG
-            || _type == XFHTML
-            || _type == XFTEXT
-            || _type == XFBundle
-            || _type == XFArchive);
+    return YES;
+//    return (_sourceType == XFSourceCodeObjC
+//            || _type == XFSourceCodeObjCPlusPlus
+//            || _type == XFSourceCodeCPlusPlus
+//            || _type == XFXibFile
+//            || _type == XFFramework
+//            || _type == XFImageResourcePNG
+//            || _type == XFHTML
+//            || _type == XFTEXT
+//            || _type == XFBundle
+//            || _type == XFArchive);
 }
 
 
 - (XcodeMemberType)buildPhase
 {
-    if (_type == XFSourceCodeObjC || _type == XFSourceCodeObjCPlusPlus
-        || _type == XFSourceCodeCPlusPlus || _type == XFXibFile
-        || _type == XFTEXT)
-    {
-        return XFPBXSourcesBuildPhaseType;
-    }
-    else if (_type == XFFramework || _type == XFArchive)
-    {
-        return XFPBXFrameworksBuildPhaseType;
-    }
-    else if (_type == XFImageResourcePNG || _type == XFHTML || _type == XFBundle)
-    {
-        return XFPBXResourcesBuildPhaseType;
-    }
-    return XFPBXNilType;
+    return XFPBXSourcesBuildPhaseType;
+//    if (_type == XFSourceCodeObjC || _type == XFSourceCodeObjCPlusPlus
+//        || _type == XFSourceCodeCPlusPlus || _type == XFXibFile
+//        || _type == XFTEXT)
+//    {
+//        return XFPBXSourcesBuildPhaseType;
+//    }
+//    else if (_type == XFFramework || _type == XFArchive)
+//    {
+//        return XFPBXFrameworksBuildPhaseType;
+//    }
+//    else if (_type == XFImageResourcePNG || _type == XFHTML || _type == XFBundle)
+//    {
+//        return XFPBXResourcesBuildPhaseType;
+//    }
+//    return XFPBXNilType;
 }
 
 - (NSString*)buildFileKey
 {
     if (_buildFileKey == nil)
     {
-        [[_project objects] enumerateKeysAndObjectsUsingBlock:
+        [[_xfproject objects] enumerateKeysAndObjectsUsingBlock:
          ^(NSString* key, NSDictionary* obj, BOOL* stop)
         {
             if ([[obj valueForKey:@"isa"] asMemberType] == XFPBXBuildFileType)
@@ -206,22 +261,41 @@
             [sourceBuildFile setObject:[NSString stringFromMemberType:XFPBXBuildFileType] forKey:@"isa"];
             [sourceBuildFile setObject:_key forKey:@"fileRef"];
             NSString* buildFileKey = [[XFKeyBuilder forItemNamed:[_name stringByAppendingString:@".buildFile"]] build];
-            [[_project objects] setObject:sourceBuildFile forKey:buildFileKey];
+            [[_xfproject objects] setObject:sourceBuildFile forKey:buildFileKey];
         }
-        else if (_type == XFFramework)
+        else if (_sourceType == XFFramework)
         {
             [NSException raise:NSInvalidArgumentException format:@"Add framework to target not implemented yet."];
         }
         else
         {
             [NSException raise:NSInvalidArgumentException format:@"Project file of type %@ can't become a build file.",
-                                                                 NSStringFromXFSourceFileType(_type)];
+                                                                 NSStringFromXFSourceFileType(_sourceType)];
         }
 
     }
 }
 
-/* ====================================================================================================================================== */
+/**
+ *  Makes the source file a build file that can be part of a target.
+ */
+- (void)makeBuildFile
+{
+    if (![self isBuildFile])
+    {
+        NSMutableDictionary* sourceBuildFile = [NSMutableDictionary dictionary];
+        [sourceBuildFile setObject:[NSString stringFromMemberType:XFPBXBuildFileType] forKey:@"isa"];
+        [sourceBuildFile setObject:_key forKey:@"fileRef"];
+        NSString *buildFileKey = [[XFKeyBuilder createUnique] build];
+        
+//        
+//        NSString *path = [self absolutePath];
+//        NSString* buildFileKey = [[XFKeyBuilder forItemNamed:[path stringByAppendingString:@".buildFile"]] build];
+
+        [[_xfproject objects] setObject:sourceBuildFile forKey:buildFileKey];
+    }
+}
+
 #pragma mark - Protocol Methods
 
 - (XcodeMemberType)groupMemberType
@@ -241,27 +315,46 @@
 
 - (NSString*)pathRelativeToProjectRoot
 {
-    NSString* parentPath = [[_project groupForGroupMemberWithKey:_key] pathRelativeToProjectRoot];
+    NSString* parentPath = [[_xfproject groupForGroupMemberWithKey:_key] pathRelativeToProjectRoot];
     NSString* result = [parentPath stringByAppendingPathComponent:_name];
     return result;
 }
+
+
 
 /**
  * Returns the full path to the file.
  */
 - (NSString *)absolutePath
 {
+    // 1. database file
+    
+    
+    // 2. xfast file
+    
+    // 3. absolute path file
+    
+    // Others.
+    
     // 1. Find the file reference.
-    NSDictionary *fileReference = [[_project objects] objectForKey:_key];
-    if (fileReference) {
-        if ([(NSString *)[fileReference valueForKey:@"sourceTree"] compare:@"<absolute>"] == NSOrderedSame) {
-            return [fileReference valueForKey:@"path"];
-        } else {
-            return nil;
-        }
-    } else {
-        return nil;
-    }
+    
+    return [_xfproject pathToFile:[self path]
+                         withUser:[self user]
+                      withProject:[self project]
+                        withXfast:[self xfast]
+                       withSource:[self sourceTree]];
+//    
+//    
+//    NSDictionary *fileReference = [[_xfproject objects] objectForKey:_key];
+//    if (fileReference) {
+//        if ([(NSString *)[fileReference valueForKey:@"sourceTree"] compare:@"<absolute>"] == NSOrderedSame) {
+//            return [fileReference valueForKey:@"path"];
+//        } else {
+//            return nil;
+//        }
+//    } else {
+//        return nil;
+//    }
 }
 
 /* ====================================================================================================================================== */
@@ -272,6 +365,23 @@
     return [NSString stringWithFormat:@"Project file: key=%@, name=%@, fullPath=%@", _key, _name, [self pathRelativeToProjectRoot]];
 }
 
+/**
+ *  Prints the content of a file.
+ */
+- (void)print
+{
+    NSLog(@" - file Bgn - ");
+    NSLog(@" path   : %@", [self path]);
+    NSLog(@" key    : %@", [self key]);
+    NSLog(@" source : %@", [self sourceTree]);
+    NSLog(@" user   : %@", [self user]);
+    NSLog(@" project: %@", [self project]);
+    NSLog(@" xfast  : %@", [self xfast]);
+    NSLog(@" type   : %@", [self type]);
+    
+    NSLog(@" - file End - ");
+    
+}
 
 @end
 

@@ -10,6 +10,7 @@
 #import "SCCViewControllerText.h"
 #import "SCCViewControllerModule.h"
 #import "SCCViewControllerSettings.h"
+#import "SCCViewControllerBuildSettings.h"
 #import "XcodeEditor.h"
 #import "XfastEditor.h"
 #import "SCCWelcomeOperation.h"
@@ -275,10 +276,23 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
                     [view setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
                     [_editorView addSubview:view];
                 }
-            } else {
+            } else if (NO) {
                 
                 // create a textview
                 SCCViewControllerText *viewControllerText = [[SCCViewControllerText alloc] initWithFilePath:filePath];
+                
+                if (viewControllerText != nil)
+                {
+                    _editorViewController = viewControllerText;
+                    NSView *view = [_editorViewController view];
+                    view.frame = _editorView.bounds;
+                    [view setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+                    [_editorView addSubview:view];
+                }
+            } else {
+                
+                // create a textview
+                SCCViewControllerBuildSettings *viewControllerText = [[SCCViewControllerBuildSettings alloc] initWithFilePath:filePath];
                 
                 if (viewControllerText != nil)
                 {
@@ -608,8 +622,11 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
     /* Welcome xfast */
     NSString *xfastFilename = [NSString stringWithFormat:@"%@.xfast", xfastName];
     NSString *xfastPath = [projectPath stringByAppendingPathComponent:xfastName];
-    XFProject *xfast = [XFProject projectWithNewFilePath:xfastPath
-                                           baseDirectory:projectXfastPath];
+    
+    assert(0);
+    XFProject *xfast = [XFProject projectWithNewFilePath:xfastPath withTemplate:projectXfastPath];
+//                                           baseDirectory:projectXfastPath];
+    
     NSString *xfastPBXProj = [NSString stringWithFormat:@"%@.xfast/project.pbxproj", xfastName];
     NSString *xfastGroupPath = [xfastPath stringByAppendingPathComponent:xfastPBXProj];
     XFGroup *groupXfast = [xfast rootGroup];

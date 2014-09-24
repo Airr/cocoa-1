@@ -58,6 +58,8 @@
 
 - (void)addMember:(XCSourceFile*)member;
 
+- (void)addMember:(XCSourceFile*)member target:(NSString *)aTarget;
+
 - (void)removeMemberWithKey:(NSString*)key;
 
 - (void)removeMembersWithKeys:(NSArray*)keys;

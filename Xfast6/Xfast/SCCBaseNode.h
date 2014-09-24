@@ -7,6 +7,7 @@
 @property (strong) NSImage *nodeIcon;
 @property (strong) NSMutableArray *children;
 @property (strong) NSString *urlString;
+@property (strong) NSString *key;
 @property (assign) BOOL isLeaf;
 
 - (id)initLeaf;

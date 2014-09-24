@@ -527,7 +527,7 @@
             <connections>
                 <outlet property="delegate" destination="-2" id="0bl-1N-x8E"/>
             </connections>
-            <point key="canvasLocation" x="-2226.5" y="417"/>
+            <point key="canvasLocation" x="-2071.5" y="384"/>
         </window>
     </objects>
     <resources>

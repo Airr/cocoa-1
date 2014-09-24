@@ -32,6 +32,8 @@
     NSString* _defaultConfigurationName;
 
 @private
+    NSMutableArray *_sourceMembers;
+    NSMutableArray *_outputMembers;
     NSMutableArray* _members;
     NSMutableArray* _resources;
     NSMutableDictionary* _configurations;
@@ -41,6 +43,8 @@
 @property(nonatomic, strong) NSString* name;
 @property(nonatomic, strong) NSString* productName;
 @property(nonatomic, strong, readonly) NSString* productReference;
+
+
 
 + (XFTarget*)targetWithProject:(XFProject*)project key:(NSString*)key name:(NSString*)name productName:(NSString*)productName
     productReference:(NSString*)productReference;
@@ -68,5 +72,66 @@
 
 - (instancetype)duplicateWithTargetName:(NSString*)targetName productName:(NSString*)productName;
 
+#pragma mark - XFast
+
+- (void)addSourceMember:(XFSourceFile*)member;
+- (void)addOutputMember:(XFSourceFile*)member;
+
+- (NSArray *)sourceMembers;
+
+- (NSArray *)outputMembers;
+
+
+- (BOOL)existSourceMemberWithKey:(NSString*)key;
+
+- (BOOL)existOutputMemberWithKey:(NSString*)key;
+
+- (void)removeSourceMemberWithKey:(NSString*)key;
+
+- (void)removeSourceMemberWithName:(NSString*)name;
+
+- (void)removeAllSourceMembers;
+
+- (void)removeOutputMemberWithKey:(NSString*)key;
+
+- (void)removeOutputMemberWithName:(NSString*)name;
+
+- (void)removeAllOutputMembers;
+
+- (void)removeAll;
+
+#pragma mark - Update OutputBuildFiles
+
+- (void)updateOutputBuildFiles;
+
+
+- (void)print;
+
+
+- (NSArray *)arrayOfOutfiles;
+
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

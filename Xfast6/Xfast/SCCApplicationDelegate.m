@@ -42,6 +42,8 @@ static NSDictionary *defaultValues() {
                 @"", AuthorProperty,
                 @"", CompanyProperty,
                 @"", CopyrightProperty,
+                @"/tmp/Xfast", DatabaseDirectory,
+                @"user", UserName,
                 [NSNumber numberWithBool:NO], UseXHTMLDocType,
                 [NSNumber numberWithBool:NO], UseTransitionalDocType,
                 [NSNumber numberWithBool:YES], UseEmbeddedCSS,
@@ -65,12 +67,23 @@ static NSDictionary *defaultValues() {
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
     NSLog(@"Started app");
+    
+    // Creates a user database directory: /path/to/database/user
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    
+    NSString *databaseDirectory = [[NSUserDefaults standardUserDefaults] stringForKey:DatabaseDirectory];
+    NSString *userName = [[NSUserDefaults standardUserDefaults] stringForKey:UserName];
+    NSString *userDatabaseDirectory = [NSString stringWithFormat:@"%@/%@",
+                                       databaseDirectory, userName];
+    
+    [fileManager createDirectoryAtPath:userDatabaseDirectory
+           withIntermediateDirectories:YES
+                            attributes:nil
+                                 error:nil];
+    
 }
 
-//- (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender
-//{
-//    return NO;
-//}
+
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender
 {
     NSArray* urls = [[NSDocumentController sharedDocumentController] recentDocumentURLs];
@@ -85,5 +98,6 @@ static NSDictionary *defaultValues() {
     
     return YES;
 }
+
 
 @end

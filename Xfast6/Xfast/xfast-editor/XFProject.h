@@ -30,26 +30,64 @@ NSString* const XFProjectNotFoundException;
 
     NSString* _filePath;
     NSMutableDictionary* _dataStore;
-    NSMutableArray* _targets;
-
+    
     NSMutableDictionary* _groups;
+    
+    // cached
+    NSMutableArray* _targets;
     NSMutableDictionary* _configurations;
+    NSString* _rootObjectKey;
 
     NSString* _defaultConfigurationName;
-    NSString* _rootObjectKey;
 }
+
+
+// DatabaseDirectory/Username/Project/Xfast/Target/output
+// DatabaseDirectory/Username/Project/Xfast
+
+//@property (copy) NSString *databaseDirectory;
+
+//@property (copy) NSString *userName;
+
+//@property NSString *xcprojectFilename;
+
+//@property (copy) NSString *projectDirectory;
+
+- (void)setDatabaseDirectory:(NSString *)aDatabaseDirectory;
+- (NSString *)databaseDirectory;
+- (void)setProjectDirectory:(NSString *)aProjectDirectory;
+- (NSString *)projectDirectory;
+- (void)setUserName:(NSString *)aUserName;
+- (NSString *)userName;
+
+- (NSString *)xcprojectFilename;
+
+
+// Use _filePath to find the Xfast name.
+
 
 @property (nonatomic,copy) NSString *currentTargetKey;
 
 @property(nonatomic, strong, readonly) XFFileOperationQueue* fileOperationQueue;
 
+
+
+
+
+
 #pragma mark Inits
 
-+ (XFProject*)projectWithNewFilePath:(NSString*)filePath
-                       baseDirectory:(NSString *)dirPath;
++ (XFProject*)projectWithNewFilePath:(NSString*)filePath withTemplate:(NSString *)templatePath;
 
-+ (XFProject*)projectWithFilePath:(NSString*)filePath
-                    baseDirectory:(NSString *)dirPath;
+//+ (XFProject*)projectWithNewFilePath:(NSString*)filePath;
+
++ (XFProject*)projectWithFilePath:(NSString*)filePath;
+
+//+ (XFProject*)projectWithNewFilePath:(NSString*)filePath
+//                       baseDirectory:(NSString *)dirPath;
+
+//+ (XFProject*)projectWithFilePath:(NSString*)filePath
+//                    baseDirectory:(NSString *)dirPath;
 
 - (id)initWithNewFilePath:(NSString*)filePath
             baseDirectory:(NSString *)dirPath;
@@ -64,11 +102,115 @@ NSString* const XFProjectNotFoundException;
 
 - (NSString *)name;
 
+#pragma mark - File Reference
+
+- (BOOL)removeTarget:(NSString *)aName;
+
+- (void)addFileOfType:(NSString *)type withXfastPath:(NSString *)path withKey:(NSString *)key;
+
+- (void)addFileOfType:(NSString *)type withDataPath:(NSString *)path withKey:(NSString *)key;
+
+- (void)addFileOfType:(NSString *)type withAbsolutePath:(NSString *)path withKey:(NSString *)key;
+
+- (void)addFileOfType:(NSString *)type withXfastPath:(NSString *)path;
+
+- (void)addFileOfType:(NSString *)type withDataPath:(NSString *)path;
+
+- (void)addFileOfType:(NSString *)type withAbsolutePath:(NSString *)path;
+
+
+- (void)addOutFileOfType:(NSString *)type withXfastPath:(NSString *)path withKey:(NSString *)key;
+
+- (void)addOutFileOfType:(NSString *)type withDataPath:(NSString *)path withKey:(NSString *)key;
+
+- (void)addOutFileOfType:(NSString *)type withAbsolutePath:(NSString *)path withKey:(NSString *)key;
+
+- (void)addOutFileOfType:(NSString *)type withXfastPath:(NSString *)path;
+
+- (void)addOutFileOfType:(NSString *)type withDataPath:(NSString *)path;
+
+- (void)addOutFileOfType:(NSString *)type withAbsolutePath:(NSString *)path;
+
+- (NSString *)addFileOfType:(NSString *)type
+                   withPath:(NSString *)path
+                   withUser:(NSString *)user
+                withProject:(NSString *)project
+                  withXfast:(NSString *)xfast
+                 withSource:(NSString *)source
+             withMemberType:(XcodeMemberType)member
+                    withKey:(NSString *)key;
+
+
+- (NSString *)addSourceBuildPhaseWithEmptyFiles;
+
+- (NSString *)addSourceBuildPhaseWithFiles:(NSArray *)files;
+
+- (NSString *)addSourceBuildPhaseWithFiles:(NSArray *)files withKey:(NSString *)key;
+
+- (NSString *)addOutputBuildPhaseWithEmptyFiles;
+
+- (NSString *)addOutputBuildPhaseWithFiles:(NSArray *)files;
+
+- (NSString *)addOutputBuildPhaseWithFiles:(NSArray *)files withKey:(NSString *)key;
+
+- (NSString *)addBuildConfiguration;
+
+- (NSString *)addBuildConfigurationWithEmptyBuildSettingsWithName:(NSString *)name
+                                                          withKey:(NSString *)key;
+
+- (NSString *)addBuildConfiguration:(NSMutableDictionary *)buildSettings
+                           withName:(NSString *)name
+                            withKey:(NSString *)key;
+
+- (NSString *)addConfigurationList:(NSMutableArray *)buildConf;
+
+- (NSString *)addConfigurationList:(NSMutableArray *)buildConf
+                           withKey:(NSString *)key;
+
+
+- (NSString *)addTargetReference:(NSString *)name
+                    withConfList:(NSString *)confList
+                  withBuildPhase:(NSMutableArray *)buildPhase;
+
+- (NSString *)addTargetReference:(NSString *)name
+                    withConfList:(NSString *)confList
+                  withBuildPhase:(NSMutableArray *)buildPhase
+                         withKey:(NSString *)key;
 #pragma mark Files
 /**
 * Returns all file resources in the project, as an array of `XFSourceFile` objects.
 */
 - (NSArray*)files;
+
+- (NSArray*)outfiles;
+
+- (NSString *)pathToFile:(NSString *)path
+                withUser:(NSString *)user
+             withProject:(NSString *)project
+               withXfast:(NSString *)xfast
+              withSource:(NSString *)source;
+
+- (XFSourceFile *)dataFileWithPath:(NSString *)path
+                          withUser:(NSString *)user
+                       withProject:(NSString *)project
+                         withXfast:(NSString *)xfast;
+
+- (XFSourceFile *)dataOutfileWithPath:(NSString *)path
+                             withUser:(NSString *)user
+                          withProject:(NSString *)project
+                            withXfast:(NSString *)xfast;
+
+- (XFSourceFile *)xfastFileWithPath:(NSString *)path
+                        withProject:(NSString *)project
+                          withXfast:(NSString *)xfast;
+
+- (XFSourceFile *)xfastOutfileWithPath:(NSString *)path
+                           withProject:(NSString *)project
+                             withXfast:(NSString *)xfast;
+
+- (XFSourceFile *)absoluteFileWithPath:(NSString *)path;
+
+- (XFSourceFile *)absoluteOutfileWithPath:(NSString *)path;
 
 /**
 * Returns the project file with the specified key, or nil.
@@ -80,6 +222,9 @@ NSString* const XFProjectNotFoundException;
 * which one is returned is undefined.
 */
 - (XFSourceFile*)fileWithName:(NSString*)name;
+
+
+- (XFSourceFile*)fileWithPath:(NSString*)path;
 
 /**
 * Returns all header files in the project, as an array of `XFSourceFile` objects.
@@ -106,8 +251,11 @@ NSString* const XFProjectNotFoundException;
 - (NSString*)filePath;
 
 
-/* ====================================================================================================================================== */
 #pragma mark Groups
+
+- (NSMutableArray *)asTreeData;
+
+
 /**
 * Lists the groups in an xcode project, returning an array of `XFGroup` objects.
 */
@@ -149,11 +297,15 @@ NSString* const XFProjectNotFoundException;
 
 #pragma mark Targets
 
+- (BOOL)addTargetOperationOfManyToOne:(NSString *)aName;
+
 - (XFTarget*)currentTarget;
 
 - (XFTarget*)targetWithKey:(NSString*)key;
 
-- (void)addTarget:(XFTarget *)target;
+//- (void)addTarget:(XFTarget *)target;
+
+- (BOOL)addTarget:(NSString *)aName;
 
 /**
 * Lists the targets in an xcode project, returning an array of `XFTarget` objects.
@@ -176,7 +328,12 @@ NSString* const XFProjectNotFoundException;
 
 - (XFBuildConfiguration*)defaultConfiguration;
 
-/* ====================================================================================================================================== */
+- (NSMutableDictionary *)defaultBuildsettings;
+
+- (NSMutableDictionary *)buildsettingsOfTargetWithKey:(NSString *)key;
+
+- (NSString *)textWithKey:(NSString *)key;
+- (NSString *)pathWithKey:(NSString *)key;
 #pragma mark Saving
 /**
 * Saves a project after editing.
@@ -188,7 +345,6 @@ NSString* const XFProjectNotFoundException;
  */
 - (void)saveToPBXProj;
 
-/* ====================================================================================================================================== */
 /**
 * Raw project data.
 */
@@ -197,5 +353,16 @@ NSString* const XFProjectNotFoundException;
 - (NSMutableDictionary*)dataStore;
 
 - (void)dropCache;
+
+
+- (XfastSourceFileType)fileTypeWithKey:(NSString *)key;
+
+- (NSString *)type;
+
+- (NSString *)operation;
+
+- (NSString *)pathToDatabaseForXfast;
+
+- (void)print;
 
 @end

@@ -12,21 +12,27 @@
 				<string>xfastproj</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string></string>
+			<string>flip_flops</string>
 			<key>CFBundleTypeName</key>
-			<string>DocumentType</string>
+			<string>Xfast Project</string>
 			<key>CFBundleTypeOSTypes</key>
 			<array>
 				<string>????</string>
 			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>LSTypeIsPackage</key>
+			<integer>1</integer>
 			<key>NSDocumentClass</key>
-			<string>SCCDocument</string>
+			<string>SCCProjectDocument</string>
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
+	<key>CFBundleHelpBookFolder</key>
+	<string>Xfast.help</string>
+	<key>CFBundleHelpBookName</key>
+	<string>edu.uaf.iab.Xfast.help</string>
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>
@@ -51,9 +57,5 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
-	<key>CFBundleHelpBookFolder</key>
-	<string>Xfast.help</string>
-	<key>CFBundleHelpBookName</key>
-	<string>edu.uaf.iab.Xfast.help</string>
 </dict>
 </plist>

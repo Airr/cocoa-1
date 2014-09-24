@@ -10,11 +10,13 @@
 #import "SCCViewControllerTarget.h"
 
 @interface SCCTargetWindowController : NSWindowController
+<NSTextFieldDelegate>
 {
     SCCViewControllerTarget *viewController;
 }
 
-@property NSString *xfastName;
+@property NSString *xfastType;
+@property (weak) IBOutlet NSTextField *xfastName;
 
 - (IBAction)create:(id)sender;
 - (IBAction)cancel:(id)sender;

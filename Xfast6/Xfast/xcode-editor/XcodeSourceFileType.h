@@ -27,6 +27,7 @@ typedef enum
     Archive,                 // .a files
     HTML,                    // HTML file 
     TEXT,                    // Some text file 
+    XcodeTarget,             // .target
     XcodeProject             // .xcodeproj
 } XcodeSourceFileType;
 

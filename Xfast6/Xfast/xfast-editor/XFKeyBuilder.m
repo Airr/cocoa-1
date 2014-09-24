@@ -44,7 +44,7 @@
 /* ================================================ Interface Methods =============================================== */
 - (NSString*)build
 {
-    NSInteger byteLength = sizeof(HashValueMD5Hash);
+    NSInteger byteLength = sizeof(XFHashValueMD5Hash);
     NSMutableString* stringValue = [NSMutableString stringWithCapacity:byteLength * 2];
     NSInteger i;
     for (i = 0; i < byteLength; i++)

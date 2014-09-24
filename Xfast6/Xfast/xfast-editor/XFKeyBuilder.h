@@ -18,7 +18,7 @@
 typedef struct
 {
     char value[CC_MD5_DIGEST_LENGTH];
-} HashValueMD5Hash;
+} XFHashValueMD5Hash;
 
 
 @interface XFKeyBuilder : NSObject

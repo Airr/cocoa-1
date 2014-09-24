@@ -18,9 +18,14 @@
 #import "XCSourceFile.h"
 #import "OCLogTemplate.h"
 
+@interface XCBuildConfiguration ()
+
+@property (copy) NSString *name;
+
+@end
+
 @implementation XCBuildConfiguration
 
-/* ====================================================================================================================================== */
 #pragma mark - Class Methods
 
 + (NSDictionary*)buildConfigurationsFromArray:(NSArray*)array inProject:(XCProject*)project
@@ -101,21 +106,28 @@
     return dupBuildConfigurationListKey;
 }
 
-/* ====================================================================================================================================== */
 #pragma mark - Initialization & Destruction
 
-- (instancetype)initWithProject:(XCProject*)project key:(NSString*)key
+- (instancetype)initWithProject:(XCProject*)project
+                            key:(NSString*)key
+                           name:(NSString*)aName
 {
     self = [super init];
     if (self)
     {
         _project = project;
         _key = [key copy];
-
+        _name = [aName copy];
+        
         _buildSettings = [[NSMutableDictionary alloc] init];
         _xcconfigSettings = [[NSMutableDictionary alloc] init];
     }
     return self;
+}
+
+- (instancetype)initWithProject:(XCProject*)project key:(NSString*)key
+{
+    return [self initWithProject:project key:key name:nil];
 }
 
 - (id)init
@@ -124,7 +136,6 @@
 }
 
 
-/* ====================================================================================================================================== */
 #pragma mark - Interface Methods
 
 - (NSDictionary*)specifiedBuildSettings
@@ -132,26 +143,37 @@
     return [_buildSettings copy];
 }
 
+/**
+ *  Replaces the build setting in the configuration.
+ *
+ *  @param buildSettings Build setting.
+ */
 - (void)addBuildSettings:(NSDictionary*)buildSettings
 {
     [_xcconfigSettings removeObjectsForKeys:[buildSettings allKeys]];
     [_buildSettings addEntriesFromDictionary:buildSettings];
 }
 
+/**
+ *  Adds or replaces a setting in the configuration.
+ *
+ *  @param setting Setting value. Types of a value can be string, or array.
+ *  @param key     Setting key.
+ */
 - (void)addOrReplaceSetting:(id <NSCopying>)setting forKey:(NSString*)key
 {
     NSDictionary* settings = [NSDictionary dictionaryWithObject:setting forKey:key];
     [self addBuildSettings:settings];
-
+    
     LogDebug(@"$$$$$$$$$$$ before: %@", [_project.objects objectForKey:_key]);
-
+    
     NSMutableDictionary* dict = [[[_project objects] objectForKey:_key] mutableCopy];
     [dict setValue:_buildSettings forKey:@"buildSettings"];
     [_project.objects setValue:dict forKey:_key];
-
+    
     LogDebug(@"The settings: %@", [_project.objects objectForKey:_key]);
-
-    }
+    
+}
 
 
 - (id <NSCopying>)valueForKey:(NSString*)key
@@ -162,6 +184,21 @@
         value = [_xcconfigSettings objectForKey:key];
     }
     return value;
+}
+
+/**
+ *  Returns the build configuration as a dictionary.
+ *
+ *  @return Dictionary of the build configuration.
+ */
+- (NSMutableDictionary*)asDictionary
+{
+    NSMutableDictionary* configurationData = [NSMutableDictionary dictionary];
+    [configurationData setObject:[NSString stringFromMemberType:XCBuildConfigurationType] forKey:@"isa"];
+    [configurationData setObject:[self name] forKey:@"name"];
+    [configurationData setObject:_buildSettings forKey:@"buildSettings"];
+
+    return configurationData;
 }
 
 /* ====================================================================================================================================== */

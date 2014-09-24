@@ -4,7 +4,7 @@
 
 @implementation SCCBaseNode
 
-@synthesize nodeTitle, children, isLeaf, urlString, nodeIcon;
+@synthesize nodeTitle, children, isLeaf, urlString, key, nodeIcon;
 
 // -------------------------------------------------------------------------------
 //	init
@@ -300,16 +300,16 @@
 	self = [self init];
     if (self)
     {
-        NSString *key;
-        for (key in [self mutableKeys])
+        NSString *aKey;
+        for (aKey in [self mutableKeys])
         {
-            if ([key isEqualToString:@"children"])
+            if ([aKey isEqualToString:@"children"])
             {
                 if ([[dictionary objectForKey:@"isLeaf"] boolValue])
                     [self setChildren:[NSMutableArray arrayWithObject:self]];
                 else
                 {
-                    NSArray *dictChildren = [dictionary objectForKey:key];
+                    NSArray *dictChildren = [dictionary objectForKey:aKey];
                     NSMutableArray *newChildren = [NSMutableArray array];
                     
                     for (id node in dictChildren)
@@ -322,7 +322,7 @@
             }
             else
             {
-                [self setValue:[dictionary objectForKey:key] forKey:key];
+                [self setValue:[dictionary objectForKey:aKey] forKey:aKey];
             }
         }
     }
@@ -336,10 +336,10 @@
 {
 	NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
 
-	for (NSString *key in [self mutableKeys])
+	for (NSString *aKey in [self mutableKeys])
     {
 		// convert all children to dictionaries
-		if ([key isEqualToString:@"children"])
+		if ([aKey isEqualToString:@"children"])
 		{
 			if (!self.isLeaf)
 			{
@@ -349,12 +349,12 @@
 					[dictChildren addObject:[node dictionaryRepresentation]];
 				}
 				
-				[dictionary setObject:dictChildren forKey:key];
+				[dictionary setObject:dictChildren forKey:aKey];
 			}
 		}
-		else if ([self valueForKey:key])
+		else if ([self valueForKey:aKey])
 		{
-			[dictionary setObject:[self valueForKey:key] forKey:key];
+			[dictionary setObject:[self valueForKey:aKey] forKey:aKey];
 		}
 	}
 	return dictionary;
@@ -368,8 +368,8 @@
 	self = [self init];
 	if (self)
     {
-        for (NSString *key in [self mutableKeys])
-            [self setValue:[coder decodeObjectForKey:key] forKey:key];
+        for (NSString *akey in [self mutableKeys])
+            [self setValue:[coder decodeObjectForKey:akey] forKey:akey];
 	}
 	return self;
 }
@@ -379,9 +379,9 @@
 // -------------------------------------------------------------------------------
 - (void)encodeWithCoder:(NSCoder *)coder
 {
-    for (NSString *key in [self mutableKeys])
+    for (NSString *akey in [self mutableKeys])
     {
-		[coder encodeObject:[self valueForKey:key] forKey:key];
+		[coder encodeObject:[self valueForKey:akey] forKey:akey];
     }
 }
 
@@ -392,8 +392,8 @@
 {
 	id newNode = [[[self class] allocWithZone:zone] init];
 	
-	for (NSString *key in [self mutableKeys])
-		[newNode setValue:[self valueForKey:key] forKey:key];
+	for (NSString *akey in [self mutableKeys])
+		[newNode setValue:[self valueForKey:akey] forKey:akey];
 	
 	return newNode;
 }
@@ -403,12 +403,12 @@
 //
 //	Override this for any non-object values
 // -------------------------------------------------------------------------------
-- (void)setNilValueForKey:(NSString *)key
+- (void)setNilValueForKey:(NSString *)aKey
 {
-	if ([key isEqualToString:@"isLeaf"])
+	if ([aKey isEqualToString:@"isLeaf"])
 		isLeaf = NO;
 	else
-		[super setNilValueForKey:key];
+		[super setNilValueForKey:aKey];
 }
 
 @end

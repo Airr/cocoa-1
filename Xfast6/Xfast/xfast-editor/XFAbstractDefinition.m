@@ -17,8 +17,6 @@
 
 @synthesize fileOperationType = _fileOperationType;
 
-
-/* ====================================================================================================================================== */
 #pragma mark - Initialization & Destruction
 
 - (id)init

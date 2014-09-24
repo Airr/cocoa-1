@@ -10,11 +10,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 
-
+#import <Cocoa/Cocoa.h>
 #import "XCSourceFile.h"
 #import "XCProject.h"
 #import "XCKeyBuilder.h"
 #import "XCGroup.h"
+#import "NSString+RelativePath.h"
 
 @implementation XCSourceFile
 
@@ -22,20 +23,30 @@
 @synthesize key = _key;
 @synthesize sourceTree = _sourceTree;
 
-/* ====================================================================================================================================== */
 #pragma mark - Class Methods
 
-+ (XCSourceFile*)sourceFileWithProject:(XCProject*)project key:(NSString*)key type:(XcodeSourceFileType)type name:(NSString*)name
-    sourceTree:(NSString*)_tree path:(NSString*)path
++ (XCSourceFile*)sourceFileWithProject:(XCProject*)project
+                                   key:(NSString*)key
+                                  type:(XcodeSourceFileType)type
+                                  name:(NSString*)name
+                            sourceTree:(NSString*)_tree path:(NSString*)path
 {
-    return [[XCSourceFile alloc] initWithProject:project key:key type:type name:name sourceTree:_tree path:path];
+    return [[XCSourceFile alloc] initWithProject:project
+                                             key:key
+                                            type:type
+                                            name:name
+                                      sourceTree:_tree
+                                            path:path];
 }
 
 
-/* ====================================================================================================================================== */
 #pragma mark - Initialization & Destruction
 
-- (id)initWithProject:(XCProject*)project key:(NSString*)key type:(XcodeSourceFileType)type name:(NSString*)name sourceTree:(NSString*)tree
+- (id)initWithProject:(XCProject*)project
+                  key:(NSString*)key
+                 type:(XcodeSourceFileType)type
+                 name:(NSString*)name
+           sourceTree:(NSString*)tree
     path:(NSString*)path
 {
 
@@ -120,14 +131,28 @@
 
 - (BOOL)canBecomeBuildFile
 {
-    return _type == SourceCodeObjC || _type == SourceCodeObjCPlusPlus || _type == SourceCodeCPlusPlus || _type == XibFile || _type ==
-        Framework || _type == ImageResourcePNG || _type == HTML || _type == Bundle || _type == Archive;
+    return (_type == SourceCodeObjC ||
+            _type == SourceCodeXfast ||
+            _type == TEXT ||
+            _type == SourceCodeObjCPlusPlus ||
+            _type == SourceCodeCPlusPlus ||
+            _type == XibFile ||
+            _type == Framework ||
+            _type == ImageResourcePNG ||
+            _type == HTML ||
+            _type == Bundle ||
+            _type == Archive);
 }
 
 
 - (XcodeMemberType)buildPhase
 {
-    if (_type == SourceCodeObjC || _type == SourceCodeObjCPlusPlus || _type == SourceCodeCPlusPlus || _type == XibFile)
+    if (_type == SourceCodeObjC ||
+        _type == SourceCodeXfast ||
+        _type == TEXT ||
+        _type == SourceCodeObjCPlusPlus ||
+        _type == SourceCodeCPlusPlus ||
+        _type == XibFile)
     {
         return PBXSourcesBuildPhaseType;
     }
@@ -168,6 +193,11 @@
 
 - (void)becomeBuildFile
 {
+    [self becomeBuildFileWithTarget:nil];
+}
+
+- (void)becomeBuildFileWithTarget:(NSString *)aTarget
+{
     if (![self isBuildFile])
     {
         if ([self canBecomeBuildFile])
@@ -175,6 +205,9 @@
             NSMutableDictionary* sourceBuildFile = [NSMutableDictionary dictionary];
             [sourceBuildFile setObject:[NSString stringFromMemberType:PBXBuildFileType] forKey:@"isa"];
             [sourceBuildFile setObject:_key forKey:@"fileRef"];
+            if (aTarget) {
+                [sourceBuildFile setObject:aTarget forKey:@"target"];
+            }
             NSString* buildFileKey = [[XCKeyBuilder forItemNamed:[_name stringByAppendingString:@".buildFile"]] build];
             [[_project objects] setObject:sourceBuildFile forKey:buildFileKey];
         }
@@ -185,13 +218,12 @@
         else
         {
             [NSException raise:NSInvalidArgumentException format:@"Project file of type %@ can't become a build file.",
-                                                                 NSStringFromXCSourceFileType(_type)];
+             NSStringFromXCSourceFileType(_type)];
         }
-
+        
     }
 }
 
-/* ====================================================================================================================================== */
 #pragma mark - Protocol Methods
 
 - (NSImage*)displayImage
@@ -212,11 +244,16 @@
 - (NSString*)pathRelativeToProjectRoot
 {
     NSString* parentPath = [[_project groupForGroupMemberWithKey:_key] pathRelativeToProjectRoot];
-    NSString* result = [parentPath stringByAppendingPathComponent:_name];
-    return result;
+    if (_path != nil) {
+        NSString *result = [parentPath stringByAppendingPathComponent:_path];
+        
+        return [result resolveParentPath];
+    } else {
+        NSString* result = [parentPath stringByAppendingPathComponent:_name];
+        return [result resolveParentPath];
+    }
 }
 
-/* ====================================================================================================================================== */
 #pragma mark - Utility Methods
 
 - (NSString*)description

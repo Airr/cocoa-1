@@ -24,7 +24,7 @@
 {
 
 @private
-    XFProject* _project;
+    XFProject* _xfproject;
 
     NSNumber* _isBuildFile;
     NSString* _buildFileKey;
@@ -32,20 +32,49 @@
     NSString* _sourceTree;
     NSString* _key;
     NSString* _path;
-    XfastSourceFileType _type;
+    XfastSourceFileType _sourceType;
 }
 
-@property(nonatomic, readonly) XfastSourceFileType type;
+
+@property(nonatomic, readonly) XfastSourceFileType sourceType;
 @property(nonatomic, strong, readonly) NSString* key;
 @property(nonatomic, strong) NSString* name;
 @property(nonatomic, strong, readonly) NSString* sourceTree;
 @property(nonatomic, strong) NSString* path;
+
+@property(nonatomic, copy) NSString* user;
+@property(nonatomic, copy) NSString* project;
+@property(nonatomic, copy) NSString* xfast;
+@property(nonatomic, copy) NSString *type;
 
 + (XFSourceFile*)sourceFileWithProject:(XFProject*)project key:(NSString*)key type:(XfastSourceFileType)type name:(NSString*)name
     sourceTree:(NSString*)tree path:(NSString*)path;
 
 - (id)initWithProject:(XFProject*)project key:(NSString*)key type:(XfastSourceFileType)type name:(NSString*)name sourceTree:(NSString*)tree
     path:(NSString*)path;
+
++ (XFSourceFile*)sourceFileWithProject:(XFProject*)xfproject
+                                   key:(NSString*)key
+                            sourceType:(XfastSourceFileType)sourceType
+                                  name:(NSString*)name
+                            sourceTree:(NSString*)tree
+                                  path:(NSString*)path
+                                  user:(NSString *)user
+                               project:(NSString *)project
+                                 xfast:(NSString *)xfast
+                                  type:(NSString *)type;
+
+
+- (id)initWithProject:(XFProject*)xfproject
+                  key:(NSString*)key
+           sourceType:(XfastSourceFileType)sourceType
+                 name:(NSString*)name
+           sourceTree:(NSString*)tree
+                 path:(NSString *)path
+                 user:(NSString *)user
+              project:(NSString *)project
+                xfast:(NSString *)xfast
+                 type:(NSString *)type;
 
 /**
 * If yes, indicates the file is able to be included for compilation in an `XFTarget`.
@@ -62,5 +91,9 @@
 * Adds this file to the project as an `xcode_BuildFile`, ready to be included in targets.
 */
 - (void)becomeBuildFile;
+
+- (void)makeBuildFile;
+
+- (void)print;
 
 @end

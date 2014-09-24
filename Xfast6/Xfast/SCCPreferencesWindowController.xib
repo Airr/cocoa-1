@@ -32,22 +32,76 @@
                         <rect key="frame" x="13" y="35" width="417" height="523"/>
                         <font key="font" metaFont="system"/>
                         <tabViewItems>
+                            <tabViewItem label="Directory" identifier="" id="7Zh-Zd-t2D">
+                                <view key="view" ambiguous="YES" id="0xV-QU-zk5">
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A3A-Ja-pZl">
+                                            <rect key="frame" x="17" y="-14" width="219" height="14"/>
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Data Base Directory" id="kqY-yu-gCR">
+                                                <font key="font" metaFont="smallSystemBold"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wZE-Qc-lkW">
+                                            <rect key="frame" x="15" y="-63" width="219" height="14"/>
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="User Name" id="rer-TM-IIB">
+                                                <font key="font" metaFont="smallSystemBold"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PSi-Qt-45J">
+                                            <rect key="frame" x="19" y="-41" width="366" height="19"/>
+                                            <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" placeholderString="/path/to/dir" drawsBackground="YES" id="QXo-Zk-Z1j">
+                                                <font key="font" metaFont="smallSystem"/>
+                                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <connections>
+                                                <binding destination="IHU-jg-9rT" name="value" keyPath="values.DatabaseDirectory" id="Vd2-It-wPe">
+                                                    <dictionary key="options">
+                                                        <bool key="NSContinuouslyUpdatesValue" value="YES"/>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </textField>
+                                        <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TLp-Xk-KjT">
+                                            <rect key="frame" x="19" y="-90" width="366" height="19"/>
+                                            <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" placeholderString="Your User Name" drawsBackground="YES" id="5GV-qo-qgw">
+                                                <font key="font" metaFont="smallSystem"/>
+                                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <connections>
+                                                <binding destination="IHU-jg-9rT" name="value" keyPath="values.UserName" id="r0J-I8-csY">
+                                                    <dictionary key="options">
+                                                        <bool key="NSContinuouslyUpdatesValue" value="YES"/>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </textField>
+                                    </subviews>
+                                </view>
+                            </tabViewItem>
                             <tabViewItem label="New Document" identifier="" id="x3Z-NG-bF7">
-                                <view key="view" ambiguous="YES" id="EBW-xx-ZuE">
+                                <view key="view" id="EBW-xx-ZuE">
+                                    <rect key="frame" x="10" y="33" width="397" height="477"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <button toolTip="Select to make text wrap to document margins rather than window boundaries." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OOT-M4-xPs">
-                                            <rect key="frame" x="180" y="-55" width="102" height="18"/>
+                                            <rect key="frame" x="180" y="422" width="102" height="18"/>
                                             <buttonCell key="cell" type="check" title="Wrap to page" imagePosition="left" alignment="left" controlSize="small" inset="2" id="pjK-FB-Jzp">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="smallSystem"/>
                                             </buttonCell>
                                         </button>
                                         <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6tc-S9-PKf">
-                                            <rect key="frame" x="19" y="-79" width="99" height="42"/>
+                                            <rect key="frame" x="19" y="398" width="99" height="42"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <size key="cellSize" width="99" height="21"/>
-                                            <buttonCell key="prototype" type="bevel" title="Radio" image="7778B9D4-9184-478E-997C-514E52641C9F" imagePosition="left" alignment="left" alternateImage="7C46C673-EB11-42AA-9284-6E269583741A" inset="2" id="fyd-tu-Wdv">
+                                            <buttonCell key="prototype" type="bevel" title="Radio" image="3306EA3F-406E-43BA-A755-5CBD11C2DCF5" imagePosition="left" alignment="left" alternateImage="FFFAC555-C19C-4E87-8F7A-12BA4C53CDC0" inset="2" id="fyd-tu-Wdv">
                                                 <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -65,7 +119,7 @@
                                             </cells>
                                         </matrix>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zl3-Uc-vZY">
-                                            <rect key="frame" x="17" y="-123" width="47" height="16"/>
+                                            <rect key="frame" x="17" y="354" width="47" height="16"/>
                                             <textFieldCell key="cell" alignment="left" title="Width:" id="0yH-4j-3yY">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -73,7 +127,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5tQ-mX-PWd">
-                                            <rect key="frame" x="69" y="-123" width="39" height="19"/>
+                                            <rect key="frame" x="69" y="354" width="39" height="19"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="NQh-ah-d8w">
                                                 <numberFormatter key="formatter" formatterBehavior="custom10_4" allowsFloats="NO" usesGroupingSeparator="NO" groupingSize="0" minimumIntegerDigits="0" maximumIntegerDigits="42" id="UbP-sp-VP0">
                                                     <nil key="negativeInfinitySymbol"/>
@@ -91,7 +145,7 @@
                                             </connections>
                                         </textField>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gsp-U3-olj">
-                                            <rect key="frame" x="113" y="-123" width="75" height="16"/>
+                                            <rect key="frame" x="113" y="354" width="75" height="16"/>
                                             <textFieldCell key="cell" alignment="left" title="characters" id="gYj-pJ-AW0">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -99,7 +153,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2eu-ej-ORS">
-                                            <rect key="frame" x="69" y="-145" width="39" height="19"/>
+                                            <rect key="frame" x="69" y="332" width="39" height="19"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="9lC-DI-fjf">
                                                 <numberFormatter key="formatter" formatterBehavior="custom10_4" allowsFloats="NO" usesGroupingSeparator="NO" groupingSize="0" minimumIntegerDigits="0" maximumIntegerDigits="42" id="fPe-Rl-J3x">
                                                     <nil key="negativeInfinitySymbol"/>
@@ -116,7 +170,7 @@
                                             </connections>
                                         </textField>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="60s-bg-Fg7">
-                                            <rect key="frame" x="113" y="-145" width="74" height="16"/>
+                                            <rect key="frame" x="113" y="332" width="74" height="16"/>
                                             <textFieldCell key="cell" alignment="left" title="lines" id="msY-eE-XuK">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -124,7 +178,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="S0C-iQ-wrq">
-                                            <rect key="frame" x="17" y="-146" width="47" height="17"/>
+                                            <rect key="frame" x="17" y="331" width="47" height="17"/>
                                             <textFieldCell key="cell" alignment="left" title="Height:" id="2eR-H0-hK2">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -132,7 +186,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9np-4p-CA0">
-                                            <rect key="frame" x="17" y="-197" width="89" height="17"/>
+                                            <rect key="frame" x="17" y="280" width="89" height="17"/>
                                             <textFieldCell key="cell" alignment="left" title="Plain text font:" id="Lfu-ij-Aeu">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -140,7 +194,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7B6-Hg-rbD">
-                                            <rect key="frame" x="180" y="-218" width="198" height="17"/>
+                                            <rect key="frame" x="180" y="259" width="198" height="17"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" alignment="left" title="Font name" id="VWf-6Z-778">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -151,21 +205,21 @@
                                             </connections>
                                         </textField>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v3o-hS-WeP">
-                                            <rect key="frame" x="104" y="-202" width="77" height="28"/>
+                                            <rect key="frame" x="104" y="275" width="77" height="28"/>
                                             <buttonCell key="cell" type="push" title="Change..." bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="Xhq-4W-ySO">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="smallSystem"/>
                                             </buttonCell>
                                         </button>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VAZ-DZ-ljf">
-                                            <rect key="frame" x="104" y="-223" width="77" height="28"/>
+                                            <rect key="frame" x="104" y="254" width="77" height="28"/>
                                             <buttonCell key="cell" type="push" title="Change..." bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="Tp1-ez-Xu5">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="smallSystem"/>
                                             </buttonCell>
                                         </button>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Hu-jY-bbD">
-                                            <rect key="frame" x="180" y="-197" width="198" height="17"/>
+                                            <rect key="frame" x="180" y="280" width="198" height="17"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" alignment="left" title="Font name" id="COJ-KD-3P8">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -176,7 +230,7 @@
                                             </connections>
                                         </textField>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ID4-M7-Uxy">
-                                            <rect key="frame" x="17" y="-218" width="89" height="17"/>
+                                            <rect key="frame" x="17" y="259" width="89" height="17"/>
                                             <textFieldCell key="cell" alignment="left" title="Rich text font:" id="5qe-Y1-UB9">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -184,7 +238,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hq7-NG-Hkb">
-                                            <rect key="frame" x="96" y="-306" width="287" height="19"/>
+                                            <rect key="frame" x="96" y="171" width="287" height="19"/>
                                             <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="vqG-aG-wI7">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -195,7 +249,7 @@
                                             </connections>
                                         </textField>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vi7-Uk-TAI">
-                                            <rect key="frame" x="17" y="-304" width="66" height="14"/>
+                                            <rect key="frame" x="17" y="173" width="66" height="14"/>
                                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Author:" id="fnV-N6-cwf">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -203,7 +257,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fyX-bq-xnh">
-                                            <rect key="frame" x="96" y="-328" width="287" height="19"/>
+                                            <rect key="frame" x="96" y="149" width="287" height="19"/>
                                             <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="vVf-4b-vHP">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -214,7 +268,7 @@
                                             </connections>
                                         </textField>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o6f-Em-0H6">
-                                            <rect key="frame" x="17" y="-328" width="80" height="16"/>
+                                            <rect key="frame" x="17" y="149" width="80" height="16"/>
                                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Organization:" id="Sfp-i8-4AR">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -222,7 +276,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2PQ-4M-03w">
-                                            <rect key="frame" x="96" y="-350" width="287" height="19"/>
+                                            <rect key="frame" x="96" y="127" width="287" height="19"/>
                                             <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="dzq-Dq-4mG">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -233,7 +287,7 @@
                                             </connections>
                                         </textField>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7a7-UI-LEM">
-                                            <rect key="frame" x="17" y="-348" width="66" height="14"/>
+                                            <rect key="frame" x="17" y="129" width="66" height="14"/>
                                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Copyright:" id="mhH-hn-Eso">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -241,21 +295,21 @@
                                             </textFieldCell>
                                         </textField>
                                         <button toolTip="Press Command-R to view or hide the ruler in an open document." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ArU-M5-DVW">
-                                            <rect key="frame" x="17" y="-457" width="195" height="18"/>
+                                            <rect key="frame" x="17" y="20" width="195" height="18"/>
                                             <buttonCell key="cell" type="check" title="Show ruler" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="hvK-IF-kZz">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="smallSystem"/>
                                             </buttonCell>
                                         </button>
                                         <button toolTip="Choose Edit > Spelling to change this option for individual documents." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GFw-sV-jey">
-                                            <rect key="frame" x="17" y="-397" width="195" height="18"/>
+                                            <rect key="frame" x="17" y="80" width="195" height="18"/>
                                             <buttonCell key="cell" type="check" title="Check spelling as you type " bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="TPO-Gr-PWe">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="smallSystem"/>
                                             </buttonCell>
                                         </button>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NJ8-pM-Djc">
-                                            <rect key="frame" x="17" y="-14" width="219" height="14"/>
+                                            <rect key="frame" x="17" y="463" width="219" height="14"/>
                                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Format" id="O2I-3r-KxF">
                                                 <font key="font" metaFont="smallSystemBold"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -263,7 +317,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q62-9I-kzI">
-                                            <rect key="frame" x="17" y="-100" width="134" height="14"/>
+                                            <rect key="frame" x="17" y="377" width="134" height="14"/>
                                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Window Size" id="bEs-ce-fIj">
                                                 <font key="font" metaFont="smallSystemBold"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -271,7 +325,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8SZ-l1-QTQ">
-                                            <rect key="frame" x="17" y="-173" width="134" height="14"/>
+                                            <rect key="frame" x="17" y="304" width="134" height="14"/>
                                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Font" id="B5m-ef-qUN">
                                                 <font key="font" metaFont="smallSystemBold"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -279,7 +333,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bdj-fJ-joH">
-                                            <rect key="frame" x="17" y="-244" width="134" height="14"/>
+                                            <rect key="frame" x="17" y="233" width="134" height="14"/>
                                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Properties" id="cFM-pO-aVa">
                                                 <font key="font" metaFont="smallSystemBold"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -287,7 +341,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SaS-S2-hSW">
-                                            <rect key="frame" x="17" y="-375" width="134" height="14"/>
+                                            <rect key="frame" x="17" y="102" width="134" height="14"/>
                                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Options" id="HBl-jn-NaX">
                                                 <font key="font" metaFont="smallSystemBold"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -295,7 +349,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fi7-QM-IjQ">
-                                            <rect key="frame" x="17" y="-36" width="361" height="18"/>
+                                            <rect key="frame" x="17" y="441" width="361" height="18"/>
                                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Use the Format menu to choose settings for individual documents." id="gs3-Ga-EjO">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -303,7 +357,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Dm-FS-ItZ">
-                                            <rect key="frame" x="17" y="-279" width="369" height="30"/>
+                                            <rect key="frame" x="17" y="198" width="369" height="30"/>
                                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" id="avS-gp-yUB">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <string key="title">Document properties can only be used in rich text files. Choose 
@@ -313,56 +367,56 @@ File &gt; Show Properties to change settings for individual documents.</string>
                                             </textFieldCell>
                                         </textField>
                                         <button toolTip="Choose Edit > Spelling to change this option for individual documents." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tYA-uG-T00">
-                                            <rect key="frame" x="17" y="-417" width="195" height="18"/>
+                                            <rect key="frame" x="17" y="60" width="195" height="18"/>
                                             <buttonCell key="cell" type="check" title="Check grammar with spelling " bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="heB-Ut-jGb">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="smallSystem"/>
                                             </buttonCell>
                                         </button>
                                         <button toolTip="Choose Edit > Spelling to change this option for individual documents." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WZp-hS-mLT">
-                                            <rect key="frame" x="17" y="-437" width="195" height="18"/>
+                                            <rect key="frame" x="17" y="40" width="195" height="18"/>
                                             <buttonCell key="cell" type="check" title="Correct spelling automatically" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="qle-hi-SMA">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="smallSystem"/>
                                             </buttonCell>
                                         </button>
                                         <button toolTip="Choose Edit > Substitutions to change this option for individual documents." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Om-a1-gEZ">
-                                            <rect key="frame" x="250" y="-417" width="135" height="18"/>
+                                            <rect key="frame" x="250" y="60" width="135" height="18"/>
                                             <buttonCell key="cell" type="check" title="Smart quotes" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="BJL-Q9-5uz">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="smallSystem"/>
                                             </buttonCell>
                                         </button>
                                         <button toolTip="Choose Edit > Substitutions to change this option for individual documents." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="K9d-HI-O64">
-                                            <rect key="frame" x="250" y="-437" width="135" height="18"/>
+                                            <rect key="frame" x="250" y="40" width="135" height="18"/>
                                             <buttonCell key="cell" type="check" title="Smart dashes" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="S8g-Gi-ovq">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="smallSystem"/>
                                             </buttonCell>
                                         </button>
                                         <button toolTip="Choose Edit > Substitutions to change this option for individual documents." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y5Z-4i-RW4">
-                                            <rect key="frame" x="250" y="-457" width="135" height="18"/>
+                                            <rect key="frame" x="250" y="20" width="135" height="18"/>
                                             <buttonCell key="cell" type="check" title="Smart links" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="L4Y-Dh-2aQ">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="smallSystem"/>
                                             </buttonCell>
                                         </button>
                                         <button toolTip="Choose Edit > Substitutions to change this option for individual documents." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QwH-bl-DyR">
-                                            <rect key="frame" x="250" y="-477" width="135" height="18"/>
+                                            <rect key="frame" x="250" y="0.0" width="135" height="18"/>
                                             <buttonCell key="cell" type="check" title="Text replacement" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="MPM-5t-4FR">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="smallSystem"/>
                                             </buttonCell>
                                         </button>
                                         <button toolTip="Choose Edit > Substitutions to change this option for individual documents." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Df-dr-uzQ">
-                                            <rect key="frame" x="17" y="-477" width="195" height="18"/>
+                                            <rect key="frame" x="17" y="0.0" width="195" height="18"/>
                                             <buttonCell key="cell" type="check" title="Data detectors" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="chs-X5-cZ3">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="smallSystem"/>
                                             </buttonCell>
                                         </button>
                                         <button toolTip="Choose Edit > Substitutions to change this option for individual documents." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vM7-Jy-xnP">
-                                            <rect key="frame" x="250" y="-397" width="135" height="18"/>
+                                            <rect key="frame" x="250" y="80" width="135" height="18"/>
                                             <buttonCell key="cell" type="check" title="Smart copy/paste" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="08O-5W-f3b">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="smallSystem"/>
@@ -525,11 +579,12 @@ File &gt; Show Properties to change settings for individual documents.</string>
             <connections>
                 <outlet property="delegate" destination="-2" id="pfh-t1-n8B"/>
             </connections>
+            <point key="canvasLocation" x="17.5" y="-130"/>
         </window>
         <userDefaultsController representsSharedInstance="YES" id="IHU-jg-9rT"/>
     </objects>
     <resources>
-        <image name="7778B9D4-9184-478E-997C-514E52641C9F" width="21" height="21">
+        <image name="3306EA3F-406E-43BA-A755-5CBD11C2DCF5" width="21" height="21">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -598,7 +653,7 @@ qwCtALIAtQC3ALkAuwC9AMIA2QDbAN0Nsw24DcMNzA3fDeMN9g4BDgoODw4XDhoOHw4uDjIOOQ5BDk4O
 Uw5VDlcOXA5kDmcObA50DncOiQ6MDpEAAAAAAAACAQAAAAAAAABCAAAAAAAAAAAAAAAAAAAOkw
 </mutableData>
         </image>
-        <image name="7C46C673-EB11-42AA-9284-6E269583741A" width="21" height="21">
+        <image name="FFFAC555-C19C-4E87-8F7A-12BA4C53CDC0" width="21" height="21">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

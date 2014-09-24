@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6205" systemVersion="13D65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6205"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="SCCContentSelectorBarViewController">
+            <connections>
+                <outlet property="general" destination="SuR-1P-iaf" id="wLA-7j-knP"/>
+                <outlet property="settings" destination="fn7-yY-9qE" id="pvL-n6-X6U"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="-1" width="427" height="64"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="3Ra-wA-jxn" userLabel="Outline">
+                    <rect key="frame" x="5" y="44" width="20" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="20" id="QrT-fF-9xb"/>
+                        <constraint firstAttribute="height" constant="20" id="y0f-KU-7eO"/>
+                    </constraints>
+                    <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="map-default-128" imagePosition="overlaps" alignment="center" alternateImage="map-128" state="on" imageScaling="proportionallyDown" inset="2" id="KVa-sQ-UBn">
+                        <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="showOutline:" target="-2" id="QAS-Vg-HUo"/>
+                    </connections>
+                </button>
+                <button misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SuR-1P-iaf">
+                    <rect key="frame" x="53" y="44" width="55" height="21"/>
+                    <buttonCell key="cell" type="smallSquare" title="General" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="jbq-Vn-WBF">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="smallSystem"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="showGeneral:" target="-2" id="K1R-Jg-vUO"/>
+                    </connections>
+                </button>
+                <button misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fn7-yY-9qE">
+                    <rect key="frame" x="116" y="44" width="55" height="21"/>
+                    <buttonCell key="cell" type="smallSquare" title="Settings" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="mHe-tQ-G3F">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="smallSystem"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="showSettings:" target="-2" id="u7z-B5-BSO"/>
+                    </connections>
+                </button>
+                <box autoresizesSubviews="NO" verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="xtr-bv-58b">
+                    <rect key="frame" x="0.0" y="38" width="427" height="5"/>
+                    <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                    <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <font key="titleFont" metaFont="system"/>
+                </box>
+            </subviews>
+            <constraints>
+                <constraint firstItem="3Ra-wA-jxn" firstAttribute="top" secondItem="fn7-yY-9qE" secondAttribute="top" id="0DU-Dx-JS0"/>
+                <constraint firstItem="SuR-1P-iaf" firstAttribute="leading" secondItem="3Ra-wA-jxn" secondAttribute="trailing" constant="30" id="7Fs-Yy-fcn"/>
+                <constraint firstItem="3Ra-wA-jxn" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="Gi6-7P-yHZ"/>
+                <constraint firstItem="fn7-yY-9qE" firstAttribute="leading" secondItem="SuR-1P-iaf" secondAttribute="trailing" constant="20" id="HwD-5H-lbf"/>
+                <constraint firstItem="xtr-bv-58b" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="23" id="WgG-Uz-hDe"/>
+                <constraint firstItem="3Ra-wA-jxn" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="5" id="dau-hr-zgg"/>
+                <constraint firstItem="fn7-yY-9qE" firstAttribute="leading" secondItem="SuR-1P-iaf" secondAttribute="trailing" constant="20" id="dlz-pe-b3v"/>
+                <constraint firstItem="SuR-1P-iaf" firstAttribute="leading" secondItem="3Ra-wA-jxn" secondAttribute="trailing" constant="30" id="plJ-bx-Z4y"/>
+                <constraint firstItem="3Ra-wA-jxn" firstAttribute="top" secondItem="SuR-1P-iaf" secondAttribute="top" id="tM8-6H-5C9"/>
+                <constraint firstAttribute="trailing" secondItem="xtr-bv-58b" secondAttribute="trailing" id="u8s-9N-HOC"/>
+                <constraint firstItem="xtr-bv-58b" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="yt3-eh-ZtM"/>
+            </constraints>
+            <point key="canvasLocation" x="-451.5" y="-119"/>
+        </customView>
+    </objects>
+    <resources>
+        <image name="map-128" width="40.069564819335938" height="40.069564819335938"/>
+        <image name="map-default-128" width="40.069564819335938" height="40.069564819335938"/>
+    </resources>
+</document>

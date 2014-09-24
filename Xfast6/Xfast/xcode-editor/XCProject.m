@@ -16,30 +16,20 @@
 #import "XCTarget.h"
 #import "XCFileOperationQueue.h"
 #import "XCBuildConfiguration.h"
+#import "XCConfigurationList.h"
+#import "XCSourceFileDefinition.h"
 #import "XCKeyBuilder.h"
 
 @interface XCProject ()
 
-- (NSString *)stringObjectsWithDictionary:(NSDictionary *)data rootKey:(NSString *)key;
-
-- (NSDictionary *)objectsWithRootKey:(NSString *)rootKey;
-
-- (NSDictionary *)objectProjectWithMainGroup:(NSString *)groupKey
-                      buildConfigurationList:(NSString *)buildKey;
-
-- (NSDictionary *)objectBuildConfiguration;
-
-- (NSDictionary *)objectConfigurationListWithConfigurations:(NSArray *)keys;
-
-- (NSDictionary *)objectGroup;
-
-- (NSDictionary *)objectSourceBuildPhaseWithFiles:(NSArray *)files;
-
-- (NSDictionary *)objectTargetWithBuildConfigurationList:(NSString *)buildKey
-                                             buildPhases:(NSArray *)phases;
-
 @end
 
+/**
+ *  XCProject is originally developed by JASPER BLUES. This class is used
+ * to manage the Xfast project.
+ *
+ * @see XFProject
+ */
 @implementation XCProject
 
 
@@ -49,132 +39,320 @@
 
 + (XCProject*)projectWithNewFilePath:(NSString*)filePath
 {
-    return [[XCProject alloc] initWithNewFilePath:filePath];
+    return [[XCProject alloc] initWithFilePath:filePath create:YES];
 }
 
+/**
+ *  Creates a project instance. The file path must exist.
+ *
+ *  @param filePath path
+ *
+ *  @return XCProject
+ */
 + (XCProject*)projectWithFilePath:(NSString*)filePath
 {
     return [[XCProject alloc] initWithFilePath:filePath];
 }
 
+/**
+ *  Returns a file path of the first one relative to to the
+ * second.
+ *
+ *  @param path1 The first file path
+ *  @param path2 The second file path
+ *
+ *  @return The relative file path. It returns nil if the last components are 
+ * different. Two paths must be absolute paths, or relative paths. It returns
+ * nil if one path is absolute, and the other is relative.
+ *
+ *  @code
+ *  path1: 0/1/2/3/file
+ *  path2: 0/1/file
+ *  -> 2/3/file
+ *  @endcode
+ *
+ *  @code
+ *  path1: 1/1/2/3/file
+ *  path2: 0/1/file
+ *  -> ../../1/1/2/3/file
+ *  @endcode
+ *
+ */
++ (NSString *)relativePath:(NSString *)path1 relativeTo:(NSString *)path2
+{
+    NSString *filename = [path1 lastPathComponent];
+    NSString *filename2 = [path2 lastPathComponent];
+    if ([filename compare:filename2] != NSOrderedSame) {
+        return nil;
+    }
+    NSArray *a1 = [[path1 stringByDeletingLastPathComponent] pathComponents];
+    NSArray *a2 = [[path2 stringByDeletingLastPathComponent] pathComponents];
+    NSString *first1 = [a1 firstObject];
+    NSString *first2 = [a2 firstObject];
+    if ([first1 compare:@"/"] == NSOrderedSame ||
+        [first2 compare:@"/"] == NSOrderedSame) {
+        if ([first1 compare:first2] != NSOrderedSame) {
+            return nil;
+        }
+    }
+    
+    NSUInteger i = 0;
+    while (i < [a1 count] && i < [a2 count] &&
+           [[a1 objectAtIndex:i] compare:[a2 objectAtIndex:i]] == NSOrderedSame) {
+        i++;
+    }
+    NSMutableString *s = [NSMutableString stringWithCapacity:10];
+    NSUInteger j = [a2 count] - i;
+    
+    NSMutableArray *dots = [NSMutableArray arrayWithCapacity:j];
+    for (NSUInteger k = 0; k < j; k++) {
+        [dots setObject:@".." atIndexedSubscript:k];
+    }
+    NSString *dotsString = [NSString pathWithComponents:dots];
+    
+    NSRange r11 = NSMakeRange(i, [a1 count] - i);
+    NSArray *a11 = [a1 subarrayWithRange:r11];
+    NSString *suffixPath = [NSString pathWithComponents:a11];
+    NSString *relativePath = [dotsString stringByAppendingPathComponent:suffixPath];
+    NSString *relativeFilepath = [relativePath stringByAppendingPathComponent:filename];
+    return relativeFilepath;
+}
+
+/**
+ *  Returns a directory of the first one relative to to the second.
+ *
+ *  @param path1 The first directory
+ *  @param path2 The second directory
+ *
+ *  @return The relative directory.
+ * Two paths must be absolute paths, or relative paths. It returns
+ * nil if one path is absolute, and the other is relative.
+ *
+ *  @code
+ *  path1: 0/1/2/3
+ *  path2: 0/1
+ *  -> 2/3
+ *  @endcode
+ *
+ *  @code
+ *  path1: 1/1/2/3
+ *  path2: 0/1
+ *  -> ../../1/1/2/3
+ *  @endcode
+ *
+ */
++ (NSString *)relativeDir:(NSString *)path1 relativeTo:(NSString *)path2
+{
+    NSArray *a1 = [path1 pathComponents];
+    NSArray *a2 = [path2 pathComponents];
+    NSString *first1 = [a1 firstObject];
+    NSString *first2 = [a2 firstObject];
+    if ([first1 compare:@"/"] == NSOrderedSame ||
+        [first2 compare:@"/"] == NSOrderedSame) {
+        if ([first1 compare:first2] != NSOrderedSame) {
+            return nil;
+        }
+    }
+    
+    NSUInteger i = 0;
+    while (i < [a1 count] && i < [a2 count] &&
+           [[a1 objectAtIndex:i] compare:[a2 objectAtIndex:i]] == NSOrderedSame) {
+        i++;
+    }
+    NSMutableString *s = [NSMutableString stringWithCapacity:10];
+    NSUInteger j = [a2 count] - i;
+    
+    NSMutableArray *dots = [NSMutableArray arrayWithCapacity:j];
+    for (NSUInteger k = 0; k < j; k++) {
+        [dots setObject:@".." atIndexedSubscript:k];
+    }
+    NSString *dotsString = [NSString pathWithComponents:dots];
+    
+    NSRange r11 = NSMakeRange(i, [a1 count] - i);
+    NSArray *a11 = [a1 subarrayWithRange:r11];
+    NSString *suffixPath = [NSString pathWithComponents:a11];
+    NSString *relativePath = [dotsString stringByAppendingPathComponent:suffixPath];
+    return relativePath;
+}
+
+
 #pragma mark - Initialization & Destruction
 
-- (id)initWithNewFilePath:(NSString*)filePath
+/**
+ *  Creates folders at the filePath directory.
+ *
+ *  @param filePath The base directory.
+ *
+ *  @return The project path: if the base directory is @b /path/to/project,
+ * it returns @b /path/to/project/project.xfastproj
+ */
+- (NSString *)createBaseFolders:(NSString *)filePath
 {
-    if ((self = [super init]))
+     NSFileManager* fileManager = [NSFileManager defaultManager];
+    // 1. Create directories
+    NSString *projectName = [filePath lastPathComponent];
+    NSString *projectMainPath = [filePath stringByAppendingPathComponent:projectName];
+//    NSString *projectXfastPath = [filePath stringByAppendingPathComponent:@"xfastfolder"];
+    NSString *projectPath = [projectMainPath stringByAppendingPathExtension:@"xfastproj"];
+    [fileManager createDirectoryAtPath:projectMainPath
+           withIntermediateDirectories:YES
+                            attributes:nil
+                                 error:nil];
+//    [fileManager createDirectoryAtPath:projectXfastPath
+//           withIntermediateDirectories:YES
+//                            attributes:nil
+//                                 error:nil];
+    [fileManager createDirectoryAtPath:projectPath
+           withIntermediateDirectories:YES
+                            attributes:nil
+                                 error:nil];
+    return projectPath;
+}
+
+
+/**
+ *  Creates a new project instance with the specified path. It returns nil, if
+ * the path exists or the specified directory cannot be created.
+ *
+ *  If the filePath is @b /path/to/last, the last component, @b last, becomes 
+ * the project name. Three folders are created in the filePath:
+ * 
+ * - Main path: @b /path/to/last/last
+ *
+ * - Xfast path: @b /path/to/last/xfastfolder
+ *
+ * - Project file path: @b /path/to/last/last.xfastproj
+ *
+ *  @param filePath A path string identifying the XCProject directory to create.
+ *         You must specify a full path. This parameter must not be nil.
+ *
+ *  @return XCProject
+ */
+- (id)initWithFilePath:(NSString*)filePath create:(BOOL)needToCreate
+{
+    self = [super init];
+    if (self)
     {
-        NSFileManager* fileManager = [NSFileManager defaultManager];
-//        if ([fileManager fileExistsAtPath:filePath]) {
-//            return nil;
-//        }
-        if (![fileManager createDirectoryAtPath:filePath withIntermediateDirectories:YES attributes:nil error:nil])
-        {
-//            [NSException raise:NSInvalidArgumentException format:@"Error: Create folder failed %@", filePath];
+        // 1. Check folder
+        NSMutableString *projectPath = [NSMutableString stringWithString:@""];
+        
+        if (needToCreate) {
+            NSFileManager* fileManager = [NSFileManager defaultManager];
+            if ([fileManager fileExistsAtPath:filePath]) {
+                NSLog(@"should return nil;");
+            }
+            // 2. Create folder
+            [projectPath appendString:[self createBaseFolders:filePath]];
+        } else {
+            [projectPath appendString:filePath];
         }
         
-        NSString *projectName = [filePath lastPathComponent];
-        NSString *projectMainPath = [filePath stringByAppendingPathComponent:projectName];
-        NSString *projectXfastPath = [filePath stringByAppendingPathComponent:@"xfastfolder"];
-        NSString *projectPath = [projectMainPath stringByAppendingPathExtension:@"xfastproj"];
-        [fileManager createDirectoryAtPath:projectMainPath
-               withIntermediateDirectories:YES
-                                attributes:nil
-                                     error:nil];
-        [fileManager createDirectoryAtPath:projectXfastPath
-               withIntermediateDirectories:YES
-                                attributes:nil
-                                     error:nil];
-        [fileManager createDirectoryAtPath:projectPath
-               withIntermediateDirectories:YES
-                                attributes:nil
-                                     error:nil];
-        
-        NSMutableDictionary *data = [NSMutableDictionary dictionary];
-        [data setObject:@"1" forKey:@"archiveVersion"];
-        [data setObject:@"46" forKey:@"objectVersion"];
-        NSString* rootObjectKey = [[XCKeyBuilder forItemNamed:projectPath] build];
-        [data setObject:rootObjectKey forKey:@"rootObject"];
-        [data setObject:[self objectsWithRootKey:rootObjectKey]
-                 forKey:@"objects"];
-        
-        NSString *projectFilePath = [projectPath stringByAppendingPathComponent:@"project.pbxproj"];
-        [self writeWithDictionary:data ToFile:projectFilePath];
-
-        
+        // 3. Set object members
         _filePath = [projectPath copy];
-        _dataStore = [[NSMutableDictionary alloc]
-                      initWithContentsOfFile:projectFilePath];
         
-        
-        if (!_dataStore)
-        {
-            [NSException raise:XCProjectNotFoundException format:@"Project file not found at file path %@", _filePath];
+        if (needToCreate) {
+            _dataStore = [self createData];
+        } else {
+            _dataStore = [[NSMutableDictionary alloc]
+                          initWithContentsOfFile:[_filePath stringByAppendingPathComponent:@"project.pbxproj"]];
+            
+            if (!_dataStore)
+            {
+                [NSException raise:XCProjectNotFoundException format:@"Project file not found at file path %@", _filePath];
+            }
         }
-
         _fileOperationQueue = [[XCFileOperationQueue alloc] initWithBaseDirectory:[_filePath stringByDeletingLastPathComponent]];
 
     }
     return self;
 }
 
+/**
+ *  Creates a new project editor instance with the specified Project.xcodeproj
+ * file.
+ *
+ *  The file path must be of the form of @b /path/to/last/last.xfastproj.
+ *
+ *  @param filePath A path to the xfastproj folder. The path must be a project
+ * folder, not a base folder.
+ *
+ *  @return XCProject
+ * 
+ *  @sa initWithNewFilePath:
+ */
 - (id)initWithFilePath:(NSString*)filePath
 {
-    if ((self = [super init]))
-    {
-        _filePath = [filePath copy];
-        _dataStore = [[NSMutableDictionary alloc]
-                      initWithContentsOfFile:[_filePath stringByAppendingPathComponent:@"project.pbxproj"]];
-
-        if (!_dataStore)
-        {
-            [NSException raise:XCProjectNotFoundException format:@"Project file not found at file path %@", _filePath];
-        }
-
-        _fileOperationQueue = [[XCFileOperationQueue alloc] initWithBaseDirectory:[_filePath stringByDeletingLastPathComponent]];
-
-    }
-    return self;
+    return [self initWithFilePath:filePath create:NO];
+//    if ((self = [super init]))
+//    {
+//        _filePath = [filePath copy];
+//        _dataStore = [[NSMutableDictionary alloc]
+//                      initWithContentsOfFile:[_filePath stringByAppendingPathComponent:@"project.pbxproj"]];
+//
+//        if (!_dataStore)
+//        {
+//            [NSException raise:XCProjectNotFoundException format:@"Project file not found at file path %@", _filePath];
+//        }
+//
+//        _fileOperationQueue = [[XCFileOperationQueue alloc] initWithBaseDirectory:[_filePath stringByDeletingLastPathComponent]];
+//
+//    }
+//    return self;
 }
 
 #pragma mark - Interface Methods
 
-#pragma mark Streams
+- (NSString *)memberFilePath:(NSString *)key
+{
+    XCSourceFile *file = [self fileWithKey:key];
+    return nil;
+}
+
+- (XcodeMemberType)memberTypeWithKey:(NSString*)key
+{
+    NSDictionary* obj = [[self objects] valueForKey:key];
+    if (obj == nil) {
+        return PBXNilType;
+    } else {
+        return [[obj valueForKey:@"isa"] asMemberType];
+    }
+}
+
+
+#pragma mark - Streams
+
 
 - (BOOL)writeWithDictionary:(NSDictionary *)data ToFile:(NSString *)path
 {
     NSMutableString *contentProjectFile = [NSMutableString stringWithCapacity:1000];
     
-    [contentProjectFile appendFormat:@"// !$*UTF8*$!\n"];
-    [contentProjectFile appendFormat:@"{\n"];
-    
-    [contentProjectFile appendFormat:@"\tarchiveVersion = %@;\n",
-     [data objectForKey:@"archiveVersion"]];
-    
-    [contentProjectFile appendFormat:@"\tclasses = {\n"];
-    [contentProjectFile appendFormat:@"\t};\n"];
-    
-    [contentProjectFile appendFormat:@"\tobjectVersion = %@;\n",
-     [data objectForKey:@"objectVersion"]];
-    
-    [contentProjectFile appendFormat:@"\tobjects = {\n"];
-    [contentProjectFile appendFormat:@"\n"];
-    
     NSString *objects = [self stringObjectsWithDictionary:[data objectForKey:@"objects"]
-                                            rootKey:[data objectForKey:@"rootObject"]];
-    [contentProjectFile appendString:objects];
+                                                  rootKey:[data objectForKey:@"rootObject"]];
     
-    [contentProjectFile appendFormat:@"\t};\n"];
-    
-    [contentProjectFile appendFormat:@"\trootObject = %@;\n",
-     [data objectForKey:@"rootObject"]];
-    
-    [contentProjectFile appendFormat:@"}\n"];
+    [contentProjectFile appendFormat:
+     @"// !$*UTF8*$!\n"
+     @"{\n"
+     @"\tarchiveVersion = %@;\n"
+     @"\tclasses = {\n"
+     @"\t};\n"
+     @"\tobjectVersion = %@;\n"
+     @"\trootObject = %@;\n"
+     @"\tobjects = {\n"
+     @"%@"
+     @"\t};\n"
+     @"}\n",
+     [data objectForKey:@"archiveVersion"],
+     [data objectForKey:@"objectVersion"],
+     [data objectForKey:@"rootObject"],
+     objects
+     ];
     
     [contentProjectFile writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:nil];
     return YES;
 }
 
-- (NSString *)stringObjectsWithDictionary:(NSDictionary *)data rootKey:(NSString *)key
+- (NSString *)stringObjectsWithDictionary:(NSDictionary *)data
+                                  rootKey:(NSString *)key
 {
     NSMutableString *content = [NSMutableString stringWithCapacity:1000];
     
@@ -298,58 +476,68 @@
     }];
     [content appendFormat:@"/* End PBXNativeTarget section */\n\n"];
    
-    
     return content;
 }
 
-- (NSDictionary *)objectsWithRootKey:(NSString *)rootKey
+#pragma mark - Create Data
+
+/**
+ *  Creates a dictionary for a new data.
+ *
+ *  @return Dictionary.
+ */
+- (NSMutableDictionary *)createData
 {
+    NSMutableDictionary *data = [NSMutableDictionary dictionary];
+    [data setObject:@"1" forKey:@"archiveVersion"];
+    [data setObject:@"1" forKey:@"objectVersion"];
+    NSString* rootObjectKey = [[XCKeyBuilder createUnique] build];
+    [data setObject:rootObjectKey forKey:@"rootObject"];
+    [data setObject:[self objectsWithRootKey:rootObjectKey] forKey:@"objects"];
+    return data;
+}
+
+/**
+ *  Creates the list of objects for the new data.
+ *
+ *  @param rootKey Root key.
+ *
+ *  @return List of objects
+ */
+- (NSMutableDictionary *)objectsWithRootKey:(NSString *)rootKey
+{
+    // 1. Configuration
+    NSMutableDictionary *buildConfiguration = [self objectBuildConfiguration];
+    NSString *buildConfigurationKey = [[XCKeyBuilder createUnique] build];
     
-    NSDictionary *buildConfiguration = [self objectBuildConfiguration];
-    NSString *buildConfigurationPath = [rootKey stringByAppendingString:@"buildConfiguration"];
-    NSString *buildConfigurationKey = [[XCKeyBuilder forItemNamed:buildConfigurationPath] build];
-    
+    // 2. Configuration list.
     NSArray *buildConfigurations = [NSArray arrayWithObjects:
                                     buildConfigurationKey,
                                     nil];
-    NSDictionary *configurationList = [self objectConfigurationListWithConfigurations:buildConfigurations];
-    NSString *configurationListPath = [rootKey stringByAppendingString:@"configurationList"];
-    NSString *configurationListKey = [[XCKeyBuilder forItemNamed:configurationListPath] build];
+    NSMutableDictionary *configurationList = [self objectConfigurationListWithConfigurations:buildConfigurations];
+    NSString *configurationListKey = [[XCKeyBuilder createUnique] build];
     
-    NSDictionary *group = [self objectGroup];
-    NSString *groupPath = [rootKey stringByAppendingString:@"group"];
-    NSString *groupKey = [[XCKeyBuilder forItemNamed:groupPath] build];
+    // 3. Group
+    NSMutableDictionary *group = [self objectGroup];
+    NSString *groupKey = [[XCKeyBuilder createUnique] build];
     
-    NSDictionary *project = [self objectProjectWithMainGroup:groupKey
-                                      buildConfigurationList:configurationListKey];
+    // 4. Project
+    NSMutableDictionary *project = [self objectProjectWithMainGroup:groupKey
+                                             buildConfigurationList:configurationListKey];
     
-    NSDictionary *sourceBuildPhase = [self objectSourceBuildPhaseWithFiles:nil];
-    NSString *sourceBuildPhasePath = [rootKey stringByAppendingString:@"sourceBuildPhase"];
-    NSString *sourceBuildPhaseKey = [[XCKeyBuilder forItemNamed:sourceBuildPhasePath] build];
-    
-    NSArray *buildPhases = [NSArray arrayWithObjects:
-                            sourceBuildPhaseKey,
-                            nil];
-    NSDictionary *target = [self objectTargetWithBuildConfigurationList:configurationListKey
-                                                            buildPhases:buildPhases];
-    NSString *targetPath = [rootKey stringByAppendingString:@"target"];
-    NSString *targetKey = [[XCKeyBuilder forItemNamed:targetPath] build];
-    
-    NSDictionary *objects = [NSDictionary dictionaryWithObjectsAndKeys:
-                             project, rootKey,
-                             buildConfiguration, buildConfigurationKey,
-                             configurationList, configurationListKey,
-                             group, groupKey,
-                             sourceBuildPhase, sourceBuildPhaseKey,
-                             target, targetKey,
-                             nil];
+    NSMutableDictionary *objects = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                    project, rootKey,
+                                    buildConfiguration, buildConfigurationKey,
+                                    configurationList, configurationListKey,
+                                    group, groupKey,
+                                    nil];
     return objects;
 }
 
-- (NSDictionary *)objectProjectWithMainGroup:(NSString *)groupKey
+- (NSMutableDictionary *)objectProjectWithMainGroup:(NSString *)groupKey
                       buildConfigurationList:(NSString *)buildKey
 {
-    NSDictionary *project = [NSDictionary dictionaryWithObjectsAndKeys:
+    NSMutableDictionary *project = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                              @"PBXProject", @"isa",
                              @"Xfast 1.0", @"compatibilityVersion",
                              groupKey, @"mainGroup",
@@ -361,16 +549,16 @@
     return project;
 }
 
-- (NSDictionary *)objectBuildConfiguration
+- (NSMutableDictionary *)objectBuildConfiguration
 {
-    NSDictionary *buildSettings = [NSDictionary dictionaryWithObjectsAndKeys:
+    NSMutableDictionary *buildSettings = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                    @"NO", @"ALWAYS_SEARCH_USER_PATHS",
                                    @"\"gnu++0x\"", @"CLANG_CXX_LANGUAGE_STANDARD",
                                    @"\"lxbc++\"", @"CLANG_CXX_LIBRARY",
                                    @"10.9", @"MACOSX_DEPLOYMENT_TARGET",
                                    @"macosx", @"SDKROOT",
                                    nil];
-    NSDictionary *buildConfiguration = [NSDictionary dictionaryWithObjectsAndKeys:
+    NSMutableDictionary *buildConfiguration = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                         @"XCBuildConfiguration", @"isa",
                                         buildSettings, @"buildSettings",
                                         @"Release", @"name",
@@ -378,21 +566,28 @@
     return buildConfiguration;
 }
 
-- (NSDictionary *)objectConfigurationListWithConfigurations:(NSArray *)keys
+/**
+ *  Creates a default configuration list.
+ *
+ *  @param keys Build configuration keys.
+ *
+ *  @return Configuration list.
+ */
+- (NSMutableDictionary *)objectConfigurationListWithConfigurations:(NSArray *)keys
 {
-    NSDictionary *configurationList = [NSDictionary dictionaryWithObjectsAndKeys:
-                                       @"XCConfigurationList", @"isa",
-                                       @0, @"defaultConfigurationIsVisible",
-                                       @"Release", @"defaultConfigurationName",
-                                       keys, @"buildConfigurations",
-                                       nil];
+    NSMutableDictionary *configurationList = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                              @"XCConfigurationList", @"isa",
+                                              //                                       @0, @"defaultConfigurationIsVisible",
+                                              @"Release", @"defaultConfigurationName",
+                                              keys, @"buildConfigurations",
+                                              nil];
     return configurationList;
 }
 
-- (NSDictionary *)objectGroup
+- (NSMutableDictionary *)objectGroup
 {
     NSArray *children = [NSArray array];
-    NSDictionary *group = [NSDictionary dictionaryWithObjectsAndKeys:
+    NSMutableDictionary *group = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                            @"PBXGroup", @"isa",
                            children, @"children",
                            @"\"<group>\"", @"sourceTree",
@@ -400,20 +595,31 @@
     return group;
 }
 
-- (NSDictionary *)objectSourceBuildPhaseWithFiles:(NSArray *)files
+- (NSMutableDictionary *)objectGroupWithKeys:(NSArray *)children
+                                    withName:(NSString *)name
 {
-    NSDictionary *sourceBuildPhase = [NSDictionary dictionaryWithObjectsAndKeys:
+    NSMutableDictionary *group = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                  @"PBXGroup", @"isa",
+                                  children, @"children",
+                                  name, @"name",
+                                  @"<group>", @"sourceTree", // for saving
+                                  nil];
+    return group;
+}
+
+- (NSMutableDictionary *)objectSourceBuildPhaseWithFiles:(NSArray *)files
+{
+    NSMutableDictionary *sourceBuildPhase = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                       @"PBXSourcesBuildPhase", @"isa",
-                                      @0, @"runOnlyForDeploymentPostprocessing",
                                       files, @"files",
                                       nil];
     return sourceBuildPhase;
 }
 
-- (NSDictionary *)objectTargetWithBuildConfigurationList:(NSString *)buildKey
+- (NSMutableDictionary *)objectTargetWithBuildConfigurationList:(NSString *)buildKey
                                              buildPhases:(NSArray *)phases
 {
-    NSDictionary *target = [NSDictionary dictionaryWithObjectsAndKeys:
+    NSMutableDictionary *target = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                             @"PBXNativeTarget", @"isa",
                             buildKey, @"buildConfigurationList",
                             phases, @"buildPhases",
@@ -422,6 +628,39 @@
 }
 
 
+
+#pragma mark - Xfast Files
+
+- (void)addXfastToProject:(NSString *)type withName:(NSString *)name withKey:(NSString *)key
+{
+    NSDictionary* reference = [self makeXfastFileReferenceWithPath:name
+                                                              name:name
+                                                         xfastType:type
+                                                              type:SourceCodeXfast];
+    [[self objects] setObject:reference forKey:key];
+}
+
+- (NSDictionary*)makeXfastFileReferenceWithPath:(NSString*)path
+                                           name:(NSString*)name
+                                      xfastType:(NSString *)xfastType
+                                           type:(XcodeSourceFileType)type
+{
+    NSMutableDictionary* reference = [NSMutableDictionary dictionary];
+    [reference setObject:[NSString stringFromMemberType:PBXFileReferenceType] forKey:@"isa"];
+    [reference setObject:@"4" forKey:@"fileEncoding"];
+    [reference setObject:xfastType forKey:@"xfastType"];
+    [reference setObject:NSStringFromXCSourceFileType(type) forKey:@"lastKnownFileType"];
+    if (name != nil)
+    {
+        [reference setObject:[name lastPathComponent] forKey:@"name"];
+    }
+    if (path != nil)
+    {
+        [reference setObject:path forKey:@"path"];
+    }
+    [reference setObject:@"<group>" forKey:@"sourceTree"];
+    return reference;
+}
 
 #pragma mark Files
 
@@ -434,9 +673,14 @@
         {
             XcodeSourceFileType fileType = XCSourceFileTypeFromStringRepresentation([obj valueForKey:@"lastKnownFileType"]);
             NSString* path = [obj valueForKey:@"path"];
+            NSString* name = [obj valueForKey:@"name"];
             NSString* sourceTree = [obj valueForKey:@"sourceTree"];
-            [results addObject:[XCSourceFile sourceFileWithProject:self key:key type:fileType name:path
-                sourceTree:(sourceTree ? sourceTree : @"<group>") path:nil]];
+            [results addObject:[XCSourceFile sourceFileWithProject:self
+                                                               key:key
+                                                              type:fileType
+                                                              name:name
+                                                        sourceTree:(sourceTree ? sourceTree : @"<group>")
+                                                              path:path]];
         }
     }];
     return results;
@@ -445,8 +689,9 @@
 - (XCSourceFile*)fileWithKey:(NSString*)key
 {
     NSDictionary* obj = [[self objects] valueForKey:key];
-    if (obj && ([[obj valueForKey:@"isa"] asMemberType] == PBXFileReferenceType || [[obj valueForKey:@"isa"] asMemberType] ==
-        PBXReferenceProxyType))
+    if (obj &&
+        ([[obj valueForKey:@"isa"] asMemberType] == PBXFileReferenceType ||
+         [[obj valueForKey:@"isa"] asMemberType] == PBXReferenceProxyType))
     {
         XcodeSourceFileType fileType = XCSourceFileTypeFromStringRepresentation([obj valueForKey:@"lastKnownFileType"]);
 
@@ -457,7 +702,11 @@
         {
             name = [obj valueForKey:@"path"];
         }
-        return [XCSourceFile sourceFileWithProject:self key:key type:fileType name:name sourceTree:(sourceTree ? sourceTree : @"<group>")
+        return [XCSourceFile sourceFileWithProject:self
+                                               key:key
+                                              type:fileType
+                                              name:name
+                                        sourceTree:(sourceTree ? sourceTree : @"<group>")
             path:[obj valueForKey:@"path"]];
     }
     return nil;
@@ -508,8 +757,43 @@
     return _filePath;
 }
 
-/* ====================================================================================================================================== */
 #pragma mark Groups
+
+/**
+ *  Removes all of the groups and leaves the main group empty.
+ */
+- (void)removeAllGroup
+{
+    for (XCGroup *group in [self groups]) {
+        [[self objects] removeObjectForKey:[group key]];
+    }
+//    NSString *mainGroupKey = [self mainGroupKey];
+//    NSMutableDictionary *group = [self objectGroup];
+//    [[self objects] setObject:group forKey:mainGroupKey];
+//    [self save];
+}
+
+
+
+- (void)printTree
+{
+    [[self rootGroup] printTree];
+    
+}
+
+- (NSMutableArray *)asTreeData
+{
+    NSMutableArray *mainLeavesOfTree = [[self rootGroup] asTreeData];
+    NSMutableArray *tree = [NSMutableArray array];
+    NSMutableDictionary *item = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                 [self name], @"group",
+                                 [self rootObjectKey], @"key",
+                                 mainLeavesOfTree, @"entries",
+                                 [self name], @"path",
+                                 nil];
+    [tree addObject:item];
+    return tree;
+}
 
 - (NSArray*)groups
 {
@@ -518,7 +802,8 @@
     [[_dataStore objectForKey:@"objects"] enumerateKeysAndObjectsUsingBlock:^(NSString* key, NSDictionary* obj, BOOL* stop)
     {
 
-        if ([[obj valueForKey:@"isa"] asMemberType] == PBXGroupType || [[obj valueForKeyPath:@"isa"] asMemberType] == PBXVariantGroupType)
+        if ([[obj valueForKey:@"isa"] asMemberType] == PBXGroupType ||
+            [[obj valueForKeyPath:@"isa"] asMemberType] == PBXVariantGroupType)
         {
             [results addObject:[self groupWithKey:key]];
         }
@@ -568,7 +853,9 @@
     }
 
     NSDictionary* obj = [[self objects] objectForKey:key];
-    if (obj && ([[obj valueForKey:@"isa"] asMemberType] == PBXGroupType || [[obj valueForKey:@"isa"] asMemberType] == PBXVariantGroupType))
+    if (obj &&
+        ([[obj valueForKey:@"isa"] asMemberType] == PBXGroupType ||
+         [[obj valueForKey:@"isa"] asMemberType] == PBXVariantGroupType))
     {
 
         NSString* name = [obj valueForKey:@"name"];
@@ -595,6 +882,7 @@
     return nil;
 }
 
+
 - (XCGroup*)groupWithSourceFile:(XCSourceFile*)sourceFile
 {
     for (XCGroup* group in [self groups])
@@ -610,7 +898,8 @@
     return nil;
 }
 
-//TODO: This could fail if the path attribute on a given group is more than one directory. Start with candidates and
+//TODO: This could fail if the path
+//attribute on a given group is more than one directory. Start with candidates and
 //TODO: search backwards.
 - (XCGroup*)groupWithPathFromRoot:(NSString*)path
 {
@@ -631,9 +920,53 @@
     return currentGroup;
 }
 
+#pragma mark - SourceBuildPhase
 
-/* ====================================================================================================================================== */
-#pragma mark targets
+/**
+ *  Adds an empty source build phase.
+ *
+ *  @return SourceBuildPhase key
+ */
+- (NSString *)addSourceBuildPhase
+{
+    return nil;
+}
+
+#pragma mark - Targets
+
+- (NSString *)name
+{
+    return [[_filePath lastPathComponent] stringByDeletingPathExtension];
+}
+/**
+ *  Add a targe.
+ *
+ *  @param aTarget The target.
+ *
+ *  @return YES if I added it, otherwise NO.
+ */
+- (BOOL)addTarget:(NSString *)aName
+{
+    NSString *groupFilePath = [[self name] stringByAppendingPathComponent:@"Products"];
+    XCGroup *groupXfast = [self groupWithPathFromRoot:groupFilePath];
+    
+    XCSourceFileDefinition *sourceDefinition =
+    [XCSourceFileDefinition sourceDefinitionWithName:aName
+                                                data:nil
+                                                type:XcodeTarget];
+    [sourceDefinition setFileOperationType:XCFileOperationTypeReferenceOnly];
+    [groupXfast addTarget:sourceDefinition];
+    
+    
+    return YES;
+}
+
+- (BOOL)addXCTarget:(XCTarget *)aTarget
+{
+    [self targets];
+    [_targets addObject:aTarget];
+    return YES;
+}
 
 - (NSArray*)targets
 {
@@ -645,8 +978,11 @@
             if ([[obj valueForKey:@"isa"] asMemberType] == PBXNativeTargetType)
             {
                 XCTarget* target =
-                    [XCTarget targetWithProject:self key:key name:[obj valueForKey:@"name"] productName:[obj valueForKey:@"productName"]
-                        productReference:[obj valueForKey:@"productReference"]];
+                    [XCTarget targetWithProject:self
+                                            key:key
+                                           name:[obj valueForKey:@"name"]
+                                    productName:[obj valueForKey:@"productName"]
+                               productReference:[obj valueForKey:@"productReference"]];
                 [_targets addObject:target];
             }
         }];
@@ -666,13 +1002,31 @@
     return nil;
 }
 
+
+/**
+ *  Performs file operations and then writes the project file.
+ */
 - (void)save
 {
     [_fileOperationQueue commitFileOperations];
-    [_dataStore writeToFile:[_filePath stringByAppendingPathComponent:@"project.pbxproj"] atomically:YES];
-
+    [self saveOnlyProjectFile];
     NSLog(@"Saved project");
 }
+
+
+/**
+ *  Writes the project file.
+ */
+- (void)saveOnlyProjectFile
+{
+    [[_dataStore description] writeToFile:[_filePath stringByAppendingPathComponent:@"project.pbxproj"]
+                               atomically:YES
+                                 encoding:NSUTF8StringEncoding error:nil];
+//    [self writeWithDictionary:_dataStore
+//                       ToFile:[_filePath stringByAppendingPathComponent:@"project.pbxproj"]];
+//    [_dataStore writeToFile:[_filePath stringByAppendingPathComponent:@"project.pbxproj"] atomically:YES];
+}
+
 
 - (NSMutableDictionary*)objects
 {
@@ -690,6 +1044,36 @@
     _configurations = nil;
     _rootObjectKey = nil;
 }
+
+- (void)setObject:(id)anObject
+{
+    [self setObject:anObject forKey:[anObject key]];
+}
+
+- (void)setObject:(id)anObject forKey:(id<NSCopying>)aKey
+{
+    [[self objects] setObject:[anObject asDictionary] forKey:aKey];
+}
+
+#pragma mark - Configuration List
+
+/**
+ *  Adds a new configuration list.
+ *
+ *  @return YES
+ */
+- (BOOL)addConfigurationList
+{
+    NSString *key = [[XCKeyBuilder createUnique] build];
+    XCConfigurationList *list = [[XCConfigurationList alloc] initWithProject:self
+                                                                         key:key];
+    [[self objects] setObject:[list asDictionary]
+                       forKey:[list key]];
+    return YES;
+}
+
+#pragma mark - Configurations
+
 
 
 - (NSDictionary*)configurations
@@ -718,7 +1102,27 @@
     return [[self configurations] objectForKey:_defaultConfigurationName];
 }
 
-/* ====================================================================================================================================== */
+/**
+ *  Adds a new build configuration.
+ *
+ *  @param aBuildConfiguration The build configuration to add.
+ *
+ *  @return YES if I added the build configuration, otherwise NO.
+ */
+- (BOOL)addBuildConfiguration:(XCBuildConfiguration *)aBuildConfiguration
+{
+    [[self objects] setObject:[aBuildConfiguration asDictionary]
+                       forKey:[aBuildConfiguration key]];
+    NSString* buildConfigurationRootSectionKey =
+    [[[self objects] objectForKey:[self rootObjectKey]] objectForKey:@"buildConfigurationList"];
+    
+    NSDictionary* buildConfigurationDictionary = [[self objects] objectForKey:buildConfigurationRootSectionKey];
+    NSMutableArray *buildConfigurationKeys = [buildConfigurationDictionary objectForKey:@"buildConfigurations"];
+    [buildConfigurationKeys addObject:[aBuildConfiguration key]];
+    
+    return YES;
+}
+
 #pragma mark Private
 
 - (NSString*)rootObjectKey
@@ -729,6 +1133,13 @@
     }
 
     return _rootObjectKey;
+}
+
+- (NSString *)mainGroupKey
+{
+    NSString *rootKey = [self rootObjectKey];
+    NSMutableDictionary *rootObject = [[self objects] objectForKey:rootKey];
+    return [rootObject objectForKey:@"mainGroup"];
 }
 
 - (NSArray*)projectFilesOfType:(XcodeSourceFileType)projectFileType

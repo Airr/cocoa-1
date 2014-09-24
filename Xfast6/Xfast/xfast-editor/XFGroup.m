@@ -10,7 +10,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 
-
+#import <Cocoa/Cocoa.h>
 #import "XFFrameworkDefinition.h"
 #import "XFTarget.h"
 #import "XFFileOperationQueue.h"

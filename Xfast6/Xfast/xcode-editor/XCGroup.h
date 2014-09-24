@@ -37,28 +37,27 @@
 
 @private
     NSString* _pathRelativeToProjectRoot;
-    NSMutableArray* _children;
-    NSMutableArray* _members;
+    NSMutableArray* _children; // An array of key strings
+    NSMutableArray* _members;  // An array of groups
 
     XCFileOperationQueue* _fileOperationQueue; // weak
     XCProject* _project;
 
 }
 
-
 /**
  * The alias of the group, which can be used to give the group a name other than the last path component.
  *
  * See: [XcodeGroupMember displayName]
  */
-@property(nonatomic, strong, readonly) NSString* alias;
+@property(nonatomic, strong) NSString* alias;
 
 /**
  * The path of the group relative to the group's parent.
  *
  * See: [XcodeGroupMember displayName]
 */
-@property(nonatomic, strong, readonly) NSString* pathRelativeToParent;
+@property(nonatomic, strong) NSString* pathRelativeToParent;
 
 /**
  * The group's unique key.
@@ -69,6 +68,7 @@
  * An array containing the groups members as `XcodeGroupMember` types.
 */
 @property(nonatomic, strong, readonly) NSMutableArray* children;
+
 
 
 #pragma mark Initializers
@@ -110,10 +110,17 @@
 */
 - (XCGroup*)addGroupWithPath:(NSString*)path;
 
+- (XCGroup*)addGroupWithAlias:(NSString*)anAlias;
+
 /**
 * Adds a framework to the group, making it a member of the specified targets.
 */
 - (void)addFramework:(XCFrameworkDefinition*)framework toTargets:(NSArray*)targets;
+
+
+- (void)addTarget:(XCSourceFileDefinition*)sourceFileDefinition;
+
+- (void)addFile:(XCSourceFileDefinition*)sourceFileDefinition;
 
 /**
 * Adds a source file of arbitrary type - image resource, header, etc.
@@ -144,10 +151,19 @@
 */
 - (void)addSubProject:(XCSubProjectDefinition*)projectDefinition toTargets:(NSArray*)targets;
 
+#pragma mark - Moving children
+
+- (void)deleteGroupMemberWithKey:(NSString*)key;
+
+- (void)insertGroupMemberWithKey:(NSString *)aKey;
+
+#pragma mark - Removing children
+
 - (void)removeSubProject:(XCSubProjectDefinition*)projectDefinition;
 
 - (void)removeSubProject:(XCSubProjectDefinition*)projectDefinition fromTargets:(NSArray*)targets;
 
+- (void)removeAll;
 
 #pragma mark Locating children
 /**
@@ -174,5 +190,13 @@
 - (id <XcodeGroupMember>)memberWithDisplayName:(NSString*)name;
 
 //- (NSString*)displayImage;
+
+- (void)printTree;
+
+
+- (NSMutableArray *)asTreeData;
+
+
+- (void)flagPathRelativeToProjectRootAsDirty;
 
 @end

@@ -86,4 +86,9 @@ NSString *TextFileName = @"project.pbxproj";
         [self addWindowController:windowController];
     }
 }
+
+- (void)calledByView
+{
+    NSLog(@"called by a wiew");
+}
 @end
